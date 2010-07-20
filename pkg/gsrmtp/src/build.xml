@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
-<project name="mutossGUI" default="make_local">
+<project name="mutossGUI" default="build">
 	
 	<dirname property="content.root" file="${ant.file}"/>
 	
@@ -46,7 +46,7 @@
 			</javac>
 	</target>
 	
-	<target name="make_local" depends="clean, compile">				
+	<target name="build" depends="clean, compile">				
 		
 		<copy todir="${output.dir}">
 		    <fileset dir="${content.root}/src/java-src">
