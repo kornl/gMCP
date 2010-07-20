@@ -36,9 +36,6 @@ http://www.meduniwien.ac.at/fwf_adaptive/papers/bretz_2009_22.pdf
 \author{
 Kornelius Rohmeyer <rohmeyer@small-projects.de>
 }
-\note{
-%%  ~~further notes~~
-}
 
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 

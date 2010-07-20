@@ -1,2 +1,3 @@
+import(graph)
 exportClasses(graphSRMTP)
 export(srmtp)

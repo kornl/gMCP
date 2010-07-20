@@ -3,14 +3,14 @@
 	
 	<dirname property="content.root" file="${ant.file}"/>
 	
-	<property name="jar.dir" location="${content.root}/inst/java"/>
+	<property name="jar.dir" location="${content.root}/../inst/java"/>
 	<property name="output.dir" location="${content.root}/classes"/>
+	<!-- If you want to set another jdk for compilation, uncomment these lines and add executable="${jdk.bin}/javac" in the javac task. 
 	<property name="jdk.home" value="/usr/lib/jvm/java-6-openjdk"/>
-	<property name="jdk.bin" value="${jdk.home}/bin"/>	
+	<property name="jdk.bin" value="${jdk.home}/bin"/>	 -->
 	
 	<target name="clean" description="cleanup all">
-			<delete dir="${output.dir}"/>
-			<mkdir dir="${output.dir}"/>			
+			<delete dir="${output.dir}"/>					
 	</target>
 	
 	<!-- Compiler options -->
@@ -21,13 +21,13 @@
 	<property name="compiler.max.memory" value="128m"/>
 	
 	<path id="sourcepath">
-	        <dirset dir="${content.root}/src">
-	            <include name="src"/>
+	        <dirset dir="${content.root}/java-src">
+	            <include name="*"/>
 	        </dirset>
 	</path>
 
 	<path id="libraries.classpath">
-	        <fileset dir="${content.root}/inst/java">
+	        <fileset dir="${content.root}/../inst/java">
 	        	<include name="*.jar"/>	        		        	
 	        </fileset>
 	</path> 
@@ -37,8 +37,9 @@
 	</path>
 	
 	<target name="compile">
-			<javac srcdir="src" destdir="${output.dir}" debug="${compiler.debug}" nowarn="${compiler.generate.no.warnings}"
-	                memorymaximumsize="${compiler.max.memory}" fork="true" executable="${jdk.bin}/javac">
+			<mkdir dir="${output.dir}"/>	
+			<javac srcdir="java-src" destdir="${output.dir}" debug="${compiler.debug}" nowarn="${compiler.generate.no.warnings}"
+	                memorymaximumsize="${compiler.max.memory}" fork="true">
 				<compilerarg line="${compiler.args}"/>
 				<classpath refid="complete.classpath"/>
 				<src refid="sourcepath"/>				
@@ -48,7 +49,7 @@
 	<target name="make_local" depends="clean, compile">				
 		
 		<copy todir="${output.dir}">
-		    <fileset dir="${content.root}/src/src">
+		    <fileset dir="${content.root}/src/java-src">
 		      	<include name="**/*.jpg"/>
 		    	<include name="**/*.png"/>
 		    	<include name="**/*.properties"/>
