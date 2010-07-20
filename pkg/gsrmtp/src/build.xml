@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<project name="mutossGUI" default="make_local">
+	
+	<dirname property="content.root" file="${ant.file}"/>
+	
+	<property name="jar.dir" location="${content.root}/inst/java"/>
+	<property name="output.dir" location="${content.root}/classes"/>
+	<property name="jdk.home" value="/usr/lib/jvm/java-6-openjdk"/>
+	<property name="jdk.bin" value="${jdk.home}/bin"/>	
+	
+	<target name="clean" description="cleanup all">
+			<delete dir="${output.dir}"/>
+			<mkdir dir="${output.dir}"/>			
+	</target>
+	
+	<!-- Compiler options -->
+
+	<property name="compiler.debug" value="on"/>
+	<property name="compiler.generate.no.warnings" value="off"/>
+	<property name="compiler.args" value=""/>
+	<property name="compiler.max.memory" value="128m"/>
+	
+	<path id="sourcepath">
+	        <dirset dir="${content.root}/src">
+	            <include name="src"/>
+	        </dirset>
+	</path>
+
+	<path id="libraries.classpath">
+	        <fileset dir="${content.root}/inst/java">
+	        	<include name="*.jar"/>	        		        	
+	        </fileset>
+	</path> 
+	
+	<path id="complete.classpath">
+		 <path refid="libraries.classpath"/>
+	</path>
+	
+	<target name="compile">
+			<javac srcdir="src" destdir="${output.dir}" debug="${compiler.debug}" nowarn="${compiler.generate.no.warnings}"
+	                memorymaximumsize="${compiler.max.memory}" fork="true" executable="${jdk.bin}/javac">
+				<compilerarg line="${compiler.args}"/>
+				<classpath refid="complete.classpath"/>
+				<src refid="sourcepath"/>				
+			</javac>
+	</target>
+	
+	<target name="make_local" depends="clean, compile">				
+		
+		<copy todir="${output.dir}">
+		    <fileset dir="${content.root}/src/src">
+		      	<include name="**/*.jpg"/>
+		    	<include name="**/*.png"/>
+		    	<include name="**/*.properties"/>
+		    </fileset>
+		</copy>
+		
+		<jar destfile="${jar.dir}/gsrmtp.jar">
+			<fileset dir="${output.dir}"/>		
+		</jar>
+		
+	</target>
+		
+	<target name="javadoc">
+		<javadoc access="private" author="true" destdir="doc/javadoc" nodeprecated="false" nodeprecatedlist="false" noindex="false" nonavbar="false" notree="false" packagenames="org.mutoss,org.mutoss.gui,org.mutoss.gui.graph" source="1.5" sourcepath="src" splitindex="true" use="true" version="true"/>
+	</target>
+	
+</project>
