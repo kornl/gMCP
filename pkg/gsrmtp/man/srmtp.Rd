@@ -1,5 +1,5 @@
-\name{gsrmtp}
-\alias{gsrmtp}
+\name{srmtp}
+\alias{srmtp}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
 A graphical approach to sequentially rejective multiple test procedures
@@ -8,7 +8,7 @@ A graphical approach to sequentially rejective multiple test procedures
 %%  ~~ A concise (1-5 lines) description of what the function does. ~~
 }
 \usage{
-gsrmtp(x)
+srmtp(x)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{

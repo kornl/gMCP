@@ -1,3 +1,4 @@
-gsrmtp <-
-function(x) {x}
+srmtp <- function(x) {
+		
+}
 
