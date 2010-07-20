@@ -31,13 +31,11 @@ A graphical approach to sequentially rejective multiple test procedures.
 Statistics in Medicine 2009 vol. 28 issue 4 page 586-604. 
 http://www.meduniwien.ac.at/fwf_adaptive/papers/bretz_2009_22.pdf
 }
-%%~~ Optionally other standard keywords, one per line, from file KEYWORDS in ~~
-%%~~ the R documentation directory ~~
 \keyword{ package }
+\keyword{ htest }
 \seealso{
-%%~~ Optional links to other man pages, e.g. ~~
-%%~~ \code{\link[<pkg>:<pkg>-package]{<pkg>}} ~~
+\code{\link[mutoss:Mutoss]{Mutoss}}
 }
 \examples{
-%%~~ simple examples of the most important functions ~~
+srmtp()
 }

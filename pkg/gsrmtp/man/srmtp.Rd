@@ -1,30 +1,31 @@
 \name{srmtp}
 \alias{srmtp}
-%- Also NEED an '\alias' for EACH other topic documented here.
+
 \title{
-A graphical approach to sequentially rejective multiple test procedures
+	A graphical approach to sequentially rejective multiple test procedures
 }
 \description{
-%%  ~~ A concise (1-5 lines) description of what the function does. ~~
+	Performs a sequentially rejective multiple test procedure on a graph given unadjusted p-values.
 }
 \usage{
-srmtp(x)
+	srmtp(graph, pvalues)
 }
-%- maybe also 'usage' for other objects documented here.
+
 \arguments{
-  \item{x}{
-%%     ~~Describe \code{x} here~~
-}
+  \item{graph}{
+	A graph of class \code{\link{graphSRMTP}}.
+  }
+  \item{pvalues}{
+  	A numeric vector specifying the p-values for the sequentially rejective MTP.
+  }
 }
 \details{
-%%  ~~ If necessary, more details than the description above ~~
+	For details see the given references.
 }
 \value{
-%%  ~Describe the value returned
-%%  If it is a LIST, use
-%%  \item{comp1 }{Description of 'comp1'}
-%%  \item{comp2 }{Description of 'comp2'}
-%% ...
+An object of class \code{glht}, more specifically a list with elements
+\item{comp1 }{Description of 'comp1'}
+\item{comp2 }{Description of 'comp2'}
 }
 \references{
 Frank Bretz, Willi Maurer, Werner Brannath, Martin Posch:
@@ -42,17 +43,12 @@ Kornelius Rohmeyer <rohmeyer@small-projects.de>
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
 \seealso{
-%% ~~objects to See Also as \code{\link{help}}, ~~~
+\code{\link{graphSRMTP}}
 }
 \examples{
-##---- Should be DIRECTLY executable !! ----
-##-- ==>  Define data, use random,
-##--	or do  help(data=index)  for the standard data sets.
 
-## The function is currently defined as
-function(x) {x}
+srmtp()
+
 }
-% Add one or more standard keywords, see file 'KEYWORDS' in the
-% R documentation directory.
-\keyword{ ~kwd1 }
-\keyword{ ~kwd2 }% __ONLY ONE__ keyword per line
+\keyword{ htest }
+

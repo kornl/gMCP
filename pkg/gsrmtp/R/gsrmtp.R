@@ -1,4 +1,0 @@
-srmtp <- function(x) {
-		
-}
-
