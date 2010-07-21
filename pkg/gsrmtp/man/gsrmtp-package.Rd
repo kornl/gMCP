@@ -13,7 +13,7 @@ This package provides functions and a graphical user interface for graphical des
 Package: \tab gsrmtp\cr
 Type: \tab Package\cr
 Version: \tab 0.1\cr
-Date: \tab 2010-02-23\cr
+Date: \tab 2010-07-21\cr
 License: \tab GPL (>= 2)\cr
 LazyLoad: \tab yes\cr
 }
@@ -29,7 +29,7 @@ Maintainer: Kornelius Rohmeyer <rohmeyer@small-projects.de>
 Frank Bretz, Willi Maurer, Werner Brannath, Martin Posch:
 A graphical approach to sequentially rejective multiple test procedures.
 Statistics in Medicine 2009 vol. 28 issue 4 page 586-604. 
-http://www.meduniwien.ac.at/fwf_adaptive/papers/bretz_2009_22.pdf
+\url{http://www.meduniwien.ac.at/fwf_adaptive/papers/bretz_2009_22.pdf}
 }
 \keyword{ package }
 \keyword{ graphs }
