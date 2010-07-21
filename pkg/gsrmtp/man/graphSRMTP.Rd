@@ -27,3 +27,4 @@
 \seealso{
 \code{\link[graph:graphNEL-class]{graphNEL}}
 }
+\keyword{ graphs }

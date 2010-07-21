@@ -32,6 +32,7 @@ Statistics in Medicine 2009 vol. 28 issue 4 page 586-604.
 http://www.meduniwien.ac.at/fwf_adaptive/papers/bretz_2009_22.pdf
 }
 \keyword{ package }
+\keyword{ graphs }
 \keyword{ htest }
 \seealso{
 \code{\link[mutoss:Mutoss]{Mutoss}}

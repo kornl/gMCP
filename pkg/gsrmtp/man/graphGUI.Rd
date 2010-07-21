@@ -32,4 +32,5 @@ Kornelius Rohmeyer <rohmeyer@small-projects.de>
 
 }
 \keyword{ misc }
+\keyword{ graphs }
 

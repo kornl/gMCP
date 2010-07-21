@@ -39,4 +39,5 @@ createBonferroniHolmGraph(5)
 
 }
 \keyword{ misc }
+\keyword{ graphs }
 

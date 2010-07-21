@@ -48,4 +48,5 @@ srmtp()
 
 }
 \keyword{ htest }
+\keyword{ graphs }
 
