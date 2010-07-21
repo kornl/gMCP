@@ -16,9 +16,12 @@ setMethod("initialize", "graphSRMTP",
 		})
 
 checkValidAlpha <- function(alpha) {
-	if(any(0 > alpha | alpha > 1) | !(all.equal(sum(alpha), 1)==TRUE)) {
-		stop("invalid alpha: alphas must be between 0 and 1 and sum up to 1")
+	if(any(0 > alpha | alpha > 1)) {
+		stop("invalid alpha: alphas must be between 0 and 1")
 	}
+	if(sum(alpha) >= 1) {
+		stop("invalid alpha: the sum of all alphas must be less than 1")
+	}	
 }
 
 
