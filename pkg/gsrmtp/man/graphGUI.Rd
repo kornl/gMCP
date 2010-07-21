@@ -8,7 +8,7 @@
 	Starts a graphical user interface for the creation of SRMTP graphs.
 }
 \usage{
-	graphGUI(createdGraph="createdGraph")
+	graphGUI(graph="createdGraph")
 }
 
 \arguments{
