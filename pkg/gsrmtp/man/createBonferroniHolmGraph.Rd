@@ -35,7 +35,15 @@ Kornelius Rohmeyer <rohmeyer@small-projects.de>
 
 \examples{
 
-createBonferroniHolmGraph(5)
+g <- createBonferroniHolmGraph(5)
+
+\dontrun{
+# If Rgraphviz is installed, we can take a look at the graph:
+library(Rgraphviz)
+renderGraph(layoutGraph(g))
+}
+
+srmtp(g, pvalues=c(0.1, 0.2, 0.4, 0.4, 0.7))
 
 }
 \keyword{ misc }

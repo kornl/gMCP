@@ -1,0 +1,24 @@
+The installation of gsrmtp via install.packages("gsrmtp") should be unproblematic.
+
+However some of the packages gsrmtp depends on or suggests can be tricky to install on non-windows machines.
+
+rJava:
+======
+
+Follow the instructions of rJava.
+Most likely you will have to run the command "R CMD javareconf" with root permissions to let R find your java compiler and headers.
+
+Rgraphviz:
+==========
+
+For visualization the method renderGraph from package Rgraphviz can be used, which uses the graphviz library.
+Therefore you need to install the libraries and headers necessary to link graphviz library routines into the Rgraphviz package.
+For example on Debian/Ubuntu you need to install the package libgraphviz-dev beforehand:
+
+sudo apt-get install libgraphviz-dev
+
+To install Rgraphviz, start R and enter:
+
+source("http://bioconductor.org/biocLite.R")
+biocLite("Rgraphviz")
+
