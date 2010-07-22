@@ -1,14 +1,9 @@
 package org.mutoss.gui.graph;
 
 import java.awt.Color;
-import java.rmi.RemoteException;
 import java.util.Vector;
 
 import javax.swing.JLabel;
-import org.af.jhlir.call.RNumeric;
-
-import org.af.commons.errorhandling.ErrorHandler;
-import org.af.jhlir.call.RLegalName;
 
 public class MGraphListe extends NetzListe {
 	

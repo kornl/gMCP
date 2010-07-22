@@ -19,7 +19,6 @@ import org.af.statguitoolkit.io.datasets.FileDescriptorCSV;
 import org.netbeans.spi.wizard.Wizard;
 import org.netbeans.spi.wizard.WizardPanelNavResult;
 
-
 import com.jgoodies.forms.layout.CellConstraints;
 import com.jgoodies.forms.layout.FormLayout;
 
