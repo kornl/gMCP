@@ -23,7 +23,7 @@
 	The function itself returns NULL. But with the GUI a graph can be created or edited that is available in R under the specified variable name.
 }
 \author{
-Kornelius Rohmeyer <rohmeyer@small-projects.de>
+Kornelius Rohmeyer \email{rohmeyer@small-projects.de}
 }
 
 \examples{

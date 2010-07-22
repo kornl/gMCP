@@ -23,7 +23,7 @@
     \item{\code{renderInfo}:}{A \code{list} of graph rendering information.}
   }
 }
-\author{Kornelius Rohmeyer <rohmeyer@small-projects.de>}
+\author{Kornelius Rohmeyer \email{rohmeyer@small-projects.de}}
 \seealso{
 \code{\link[graph:graphNEL-class]{graphNEL}}
 }

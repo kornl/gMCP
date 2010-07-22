@@ -30,7 +30,7 @@ Bonferroni, C. E.: Il calcolo delle assicurazioni su gruppi di teste. In Studi i
 Bonferroni, C. E.: Teoria statistica delle classi e calcolo delle probabilita. Pubblicazioni del R Istituto Superiore di Scienze Economiche e Commerciali di Firenze 8, 3-62, 1936.
 }
 \author{
-Kornelius Rohmeyer <rohmeyer@small-projects.de>
+Kornelius Rohmeyer \email{rohmeyer@small-projects.de}
 }
 
 \examples{
