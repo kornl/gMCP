@@ -1,4 +1,4 @@
-package af.statguitoolkit.graph;
+package org.mutoss.gui.graph;
 
 import java.awt.Font;
 import java.awt.Graphics;
@@ -9,8 +9,6 @@ import java.awt.geom.Rectangle2D;
 import org.af.commons.images.GraphDrawHelper;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-
-import af.statguitoolkit.AbstractControl;
 
 public class Edge {
 
@@ -126,7 +124,7 @@ public class Edge {
 
 	public void setW(Double w) {
 		this.w = w;
-		((AbstractGraphControl)(AbstractControl.getInstance())).getDataTable().getModel().setValueAt(w, vs.nl.knoten.indexOf(von), vs.nl.knoten.indexOf(nach));
+		//TODO: ((AbstractGraphControl)(AbstractControl.getInstance())).getDataTable().getModel().setValueAt(w, vs.nl.knoten.indexOf(von), vs.nl.knoten.indexOf(nach));
 		vs.nl.repaint();
 	}
 

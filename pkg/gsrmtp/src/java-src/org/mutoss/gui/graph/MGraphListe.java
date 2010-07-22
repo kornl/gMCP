@@ -1,4 +1,4 @@
-package af.statguitoolkit.graph;
+package org.mutoss.gui.graph;
 
 import java.awt.Color;
 import java.rmi.RemoteException;
@@ -21,7 +21,8 @@ public class MGraphListe extends NetzListe {
 	}
 	
 	public void addDefaultNode(int x, int y) {
-		knoten.add(new Node(knoten.size() + 1, "HA_" + (knoten.size() + 1), x, y, vs));		
+		knoten.add(new Node(knoten.size() + 1, "HA_" + (knoten.size() + 1), x, y, vs));	
+		/*
 		try {
 			control.getDataTable().getModel().addRow(control.getDataFrame().getRowCount(), RLegalName.makeRLegalNameUnchecked("HA_" + knoten.size()));
 			for (int i=0;i<control.getDataFrame().getColumnCount();i++) { 
@@ -32,6 +33,7 @@ public class MGraphListe extends NetzListe {
 		} catch (RemoteException e) {
 			ErrorHandler.getInstance().makeErrDialog(e.getMessage(), e);
 		}
+		*/
 	}
 	
 	public void addEdge(Node von, Node nach) {
@@ -44,7 +46,7 @@ public class MGraphListe extends NetzListe {
 		}
 		super.addEdge(von, nach, Double.NaN);
 		edges.lastElement().curve = curve;
-		control.getDataTable().getModel().setValueAt(Double.NaN, knoten.indexOf(von), knoten.indexOf(nach));
+		//TODO control.getDataTable().getModel().setValueAt(Double.NaN, knoten.indexOf(von), knoten.indexOf(nach));
 		revalidate();
 		repaint();
 	}
@@ -81,7 +83,7 @@ public class MGraphListe extends NetzListe {
 			}
 		}
 		edges.remove(edge);
-		control.getDataTable().getModel().setValueAt(0, knoten.indexOf(edge.von), knoten.indexOf(edge.nach));
+		//TODO control.getDataTable().getModel().setValueAt(0, knoten.indexOf(edge.von), knoten.indexOf(edge.nach));
 		revalidate();
 		repaint();
 	}

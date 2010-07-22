@@ -1,4 +1,4 @@
-package af.statguitoolkit.graph;
+package org.mutoss.gui.graph;
 
 import java.awt.Component;
 import java.awt.event.MouseEvent;
@@ -10,8 +10,8 @@ import javax.swing.JTable;
 import javax.swing.table.TableCellEditor;
 
 import org.af.jhlir.call.RVectorFactor;
+import org.af.statguitoolkit.gui.datatable.CellValue;
 
-import af.statguitoolkit.gui.datatable.CellValue;
 
 public class CellEditorE  extends AbstractCellEditor implements TableCellEditor {
     private DefaultCellEditor ed;

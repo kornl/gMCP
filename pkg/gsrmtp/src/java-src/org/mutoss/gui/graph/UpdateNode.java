@@ -1,16 +1,15 @@
-package af.statguitoolkit.graph;
+package org.mutoss.gui.graph;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 
 import org.af.commons.widgets.validate.RealTextField;
 import org.af.commons.widgets.validate.ValidationException;
-
-import af.statguitoolkit.AbstractControl;
 
 import com.jgoodies.forms.layout.CellConstraints;
 import com.jgoodies.forms.layout.FormLayout;
@@ -22,7 +21,7 @@ public class UpdateNode extends JDialog implements ActionListener {
 	Node node;
 	
 	public UpdateNode(Node node) {
-		super(AbstractControl.getInstance().getMainFrame(), "Updating Node "+node.name);
+		super((JFrame)null, "Updating Node "+node.name);
 		this.node = node;
 		String cols = "5dlu, fill:pref:grow, 5dlu, fill:pref:grow, 5dlu";
         String rows = "5dlu, pref, 5dlu, pref, 5dlu";

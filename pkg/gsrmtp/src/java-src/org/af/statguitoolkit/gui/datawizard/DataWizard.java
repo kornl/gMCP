@@ -1,10 +1,10 @@
 package org.af.statguitoolkit.gui.datawizard;
 
+import org.af.statguitoolkit.io.datasets.DataFrameDescriptor;
 import org.netbeans.spi.wizard.Wizard;
 import org.netbeans.spi.wizard.WizardBranchController;
 import org.netbeans.spi.wizard.WizardPage;
 
-import af.statguitoolkit.io.datasets.DataFrameDescriptor;
 
 /**
  * 

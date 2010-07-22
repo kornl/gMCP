@@ -1,4 +1,4 @@
-package af.statguitoolkit.graph;
+package org.mutoss.gui.graph;
 
 import java.io.File;
 import java.io.FileWriter;

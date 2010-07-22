@@ -1,14 +1,13 @@
-package af.statguitoolkit.graph;
+package org.mutoss.gui.graph;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
-
-import af.statguitoolkit.AbstractControl;
 
 import com.jgoodies.forms.layout.CellConstraints;
 import com.jgoodies.forms.layout.FormLayout;
@@ -20,7 +19,7 @@ public class UpdateEdge extends JDialog implements ActionListener {
 	Edge edge;
 	
 	public UpdateEdge(Edge edge) {
-		super(AbstractControl.getInstance().getMainFrame(), "Updating Edge from node "+edge.von.name+" to "+edge.nach.name);
+		super((JFrame)null, "Updating Edge from node "+edge.von.name+" to "+edge.nach.name);
 		this.edge = edge;
 		String cols = "5dlu, fill:pref:grow, 5dlu, fill:pref:grow, 5dlu";
         String rows = "5dlu, pref, 5dlu, pref, 5dlu";

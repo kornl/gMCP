@@ -1,4 +1,4 @@
-package af.statguitoolkit.graph;
+package org.mutoss.gui.graph;
 
 import java.awt.Color;
 import java.awt.Component;
@@ -7,11 +7,11 @@ import javax.swing.JLabel;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
 
+import org.af.statguitoolkit.gui.datatable.CellValue;
+import org.af.statguitoolkit.gui.datatable.DataTableModel;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import af.statguitoolkit.gui.datatable.CellValue;
-import af.statguitoolkit.gui.datatable.DataTableModel;
 
 public class EpsilonTableCellRenderer extends DefaultTableCellRenderer {
 	

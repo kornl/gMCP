@@ -20,13 +20,13 @@ import javax.swing.event.ListSelectionListener;
 
 import org.af.commons.Localizer;
 import org.af.commons.widgets.lists.MyListModel;
+import org.af.statguitoolkit.io.datasets.RDataFrameDescriptor;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.netbeans.spi.wizard.Wizard;
 import org.netbeans.spi.wizard.WizardPage;
 import org.netbeans.spi.wizard.WizardPanelNavResult;
 
-import af.statguitoolkit.io.datasets.RDataFrameDescriptor;
 
 import com.jgoodies.forms.layout.CellConstraints;
 import com.jgoodies.forms.layout.FormLayout;

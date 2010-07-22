@@ -1,4 +1,4 @@
-package af.statguitoolkit.graph;
+package org.mutoss.gui.graph;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
@@ -17,9 +17,7 @@ import javax.swing.JScrollPane;
 import org.af.commons.errorhandling.ErrorHandler;
 import org.af.commons.widgets.DesktopPaneBG;
 
-import af.statguitoolkit.gui.docking.ViewSGTK;
-
-public class GraphView extends ViewSGTK implements ActionListener {
+public class GraphView extends JPanel implements ActionListener {
 
 	JLabel statusBar;
 	public NetzListe nl;
@@ -29,15 +27,13 @@ public class GraphView extends ViewSGTK implements ActionListener {
 	public static final String STATUSBAR_DEFAULT = "Place new nodes and edges or start the test procedure";
 
 	public GraphView(AbstractGraphControl abstractGraphControl) {
-		super("Graph");
+		//super("Graph");
 		this.control = abstractGraphControl;
-        JPanel panel = new JPanel();
-		panel.setLayout(new BorderLayout());
-		panel.add("North", getNorthPanel());		
+		setLayout(new BorderLayout());
+		add("North", getNorthPanel());		
 		nl = new MGraphListe(statusBar, vs, abstractGraphControl);
 		JScrollPane sPane = new JScrollPane(nl);
-		panel.add("Center", sPane);
-        setComponent(panel);
+		add("Center", sPane);
     }
 	
 	JButton buttonNewVertex;

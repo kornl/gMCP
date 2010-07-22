@@ -1,4 +1,4 @@
-package af.statguitoolkit.graph;
+package org.mutoss.gui.graph;
 
 import javax.swing.DefaultCellEditor;
 import javax.swing.JTextField;

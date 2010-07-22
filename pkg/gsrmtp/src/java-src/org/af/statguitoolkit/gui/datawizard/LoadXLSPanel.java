@@ -15,12 +15,12 @@ import javax.swing.border.TitledBorder;
 
 import org.af.commons.Localizer;
 import org.af.commons.widgets.lists.MyJComboBox;
+import org.af.statguitoolkit.io.datasets.FileDescriptorXLS;
+import org.af.statguitoolkit.io.datasets.RFileFormatException;
+import org.af.statguitoolkit.io.datasets.XLSToolkit;
 import org.netbeans.spi.wizard.Wizard;
 import org.netbeans.spi.wizard.WizardPanelNavResult;
 
-import af.statguitoolkit.io.datasets.FileDescriptorXLS;
-import af.statguitoolkit.io.datasets.RFileFormatException;
-import af.statguitoolkit.io.datasets.XLSToolkit;
 
 import com.jgoodies.forms.layout.CellConstraints;
 import com.jgoodies.forms.layout.FormLayout;

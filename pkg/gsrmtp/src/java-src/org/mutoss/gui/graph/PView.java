@@ -1,4 +1,4 @@
-package af.statguitoolkit.graph;
+package org.mutoss.gui.graph;
 
 import java.awt.Color;
 import java.awt.Component;
@@ -10,12 +10,10 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
-import af.statguitoolkit.gui.docking.ViewSGTK;
-
 import com.jgoodies.forms.layout.CellConstraints;
 import com.jgoodies.forms.layout.FormLayout;
 
-public class PView extends ViewSGTK implements ActionListener {
+public class PView extends JPanel implements ActionListener {
 
 	JLabel statusBar;
 
@@ -26,10 +24,10 @@ public class PView extends ViewSGTK implements ActionListener {
 	JLabel label = new JLabel("Total α: "+0);
 
 	public PView(AbstractGraphControl abstractGraphControl) {
-		super("p-Values");
+		//super("p-Values");
 		this.control = abstractGraphControl;        
 
-		setComponent(new JScrollPane(panel));
+		add(new JScrollPane(panel));
     }
 	
 	public void addPPanel(Node node) {

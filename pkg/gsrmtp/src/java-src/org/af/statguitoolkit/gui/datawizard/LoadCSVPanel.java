@@ -14,11 +14,11 @@ import javax.swing.border.TitledBorder;
 
 import org.af.commons.Localizer;
 import org.af.commons.widgets.WidgetFactory;
+import org.af.statguitoolkit.io.datasets.FileDescriptor;
+import org.af.statguitoolkit.io.datasets.FileDescriptorCSV;
 import org.netbeans.spi.wizard.Wizard;
 import org.netbeans.spi.wizard.WizardPanelNavResult;
 
-import af.statguitoolkit.io.datasets.FileDescriptor;
-import af.statguitoolkit.io.datasets.FileDescriptorCSV;
 
 import com.jgoodies.forms.layout.CellConstraints;
 import com.jgoodies.forms.layout.FormLayout;
