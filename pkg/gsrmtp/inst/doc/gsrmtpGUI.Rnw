@@ -4,9 +4,9 @@
 \usepackage{Sweave}
 \begin{document}
 
-% \VignetteIndexEntry{mutossDeveloper}
+% \VignetteIndexEntry{A Graphical Approach to Sequentially Rejective Multiple Test Procedures}
 
-\title{MuToss Developer Guide - A Tutorial for Developing new Functions for MuToss.}
+\title{gsrmtp - an R package for a graphical approach to sequentially rejective multiple test procedures}
 \author{Kornelius Rohmeyer}
 
 \maketitle
@@ -15,43 +15,16 @@
 
 \section{Introduction}
 
-\section{Writing a function for the MuToss-GUI}
+\section{Creating the graph}
 
 \begin{verbatim}
-bonferroni <- function(pValues, alpha) {
-	adjPValues=sapply(pValues*length(pValues),function(x){min(x,1)})
-	if (missing(alpha)) {
-		return(list(adjPValues=adjPValues))
-	}
-	return(list(adjPValues=adjPValues,rejected=adjPValues<=alpha))
-}
+g <- createBonferroniHolmGraph(5)
+
+# If Rgraphviz is installed, we can take a look at the graph:
+library(Rgraphviz)
+renderGraph(layoutGraph(g))
+
+srmtp(g, pvalues=c(0.1, 0.2, 0.4, 0.4, 0.7))
 \end{verbatim}
-
-Keywords
-
-
-\tiny
-\begin{verbatim}
-mutoss.bonferroni <- function() { return(new(Class="MutossMethod",
-		label="Bonferroni correction",
-		errorControl="FWER",
-		callFunction="bonferroni",
-		output=c("adjPValues", "rejected"),
-		info="<h2>Bonferroni correction</h2>
-<p>This simple method applies Boole's inequality to assure the FWER &alpha; 
-by performing <i>n</i> tests each to the niveau <i>&alpha;/n</i>.</p>
-<h3>Reference:</h3>
-<ul>
-<li>Bonferroni, C. E. \"<i>Il calcolo delle assicurazioni su gruppi di teste.</i>\" 
-In Studi in Onore del Professore Salvatore Ortu Carboni. Rome: Italy, pp. 13-60, 1935.</li>
-<li>Bonferroni, C. E. \"<i>Teoria statistica delle classi e calcolo delle probabilità.</i>\" 
-Pubblicazioni del R Istituto Superiore di Scienze Economiche e Commerciali di Firenze 8, 3-62, 1936.</li>
-</ul>",
-		parameters=list(pValues=list(type="numeric"), alpha=list(type="numeric", optional=TRUE))
-)) }
-\end{verbatim}
-
- 
-
 
 \end{document}
