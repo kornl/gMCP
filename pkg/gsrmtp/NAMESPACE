@@ -1,6 +1,8 @@
 import(graph)
 import(rJava)
+importFrom(graphics, plot)
 exportClasses(graphSRMTP)
+exportMethods(plot, print)
 export(srmtp)
 export(createBonferroniHolmGraph)
 export(graphGUI)

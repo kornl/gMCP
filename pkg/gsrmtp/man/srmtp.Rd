@@ -23,7 +23,7 @@
 	For details see the given references.
 }
 \value{
-An object of class \code{glht}, more specifically a list with elements
+An object of class \code{srmtpResult}, more specifically a list with elements
 \item{comp1 }{Description of 'comp1'}
 \item{comp2 }{Description of 'comp2'}
 }
@@ -31,7 +31,7 @@ An object of class \code{glht}, more specifically a list with elements
 Frank Bretz, Willi Maurer, Werner Brannath, Martin Posch:
 A graphical approach to sequentially rejective multiple test procedures.
 Statistics in Medicine 2009 vol. 28 issue 4 page 586-604. 
-http://www.meduniwien.ac.at/fwf_adaptive/papers/bretz_2009_22.pdf
+\url{http://www.meduniwien.ac.at/fwf_adaptive/papers/bretz_2009_22.pdf}
 }
 \author{
 Kornelius Rohmeyer \email{rohmeyer@small-projects.de}
@@ -44,7 +44,10 @@ Kornelius Rohmeyer \email{rohmeyer@small-projects.de}
 }
 \examples{
 
-srmtp()
+g <- createBonferroniHolmGraph(5)
+
+srmtp(g, pvalues=c(0.1, 0.2, 0.4, 0.4, 0.7))
+
 
 }
 \keyword{ htest }

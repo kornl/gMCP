@@ -17,6 +17,12 @@ test.graphSRMTP <- function() {
 	checkException(new("graphSRMTP", nodes=V, edgeL=edL, alpha=c(-1,1,1)))
 	checkException(new("graphSRMTP", nodes=V, edgeL=edL, alpha=c(0.5,0.5,0.5)))
 	
+	bhG5 <- createBonferroniHolmGraph(5)
+	
+	checkEquals(getAlpha(bhG5),
+			structure(list(H1 = 0.01, H2 = 0.01, H3 = 0.01, H4 = 0.01, H5 = 0.01),
+					.Names = c("H1", "H2", "H3", "H4", "H5")))
+	
 }
 
 test.bonferroniHolm <- function() {

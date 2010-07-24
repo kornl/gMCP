@@ -1,7 +1,7 @@
 ## Graph representation in GSRMTP 
 setClass("graphSRMTP",
 		contains="graphNEL",
-		representation(alpha="numeric"),
+		#representation(alpha="numeric"),
 		validity=function(object) validGraph(object))
 
 setMethod("initialize", "graphSRMTP",
@@ -10,10 +10,18 @@ setMethod("initialize", "graphSRMTP",
 			if (length(alpha)) {			
 				checkValidAlpha(alpha)
 			}
-			.Object@alpha <- alpha
+			defaultProps <- list(alpha=0, rejected="false")
+			nodeAttrData <- new("attrData", defaults=defaultProps)
+			attrDataItem(nodeAttrData, x=nodes, attr="alpha") <- alpha
+			.Object@nodeData <- nodeAttrData
+			#.Object@alpha <- alpha
 			validObject(.Object)
 			return(.Object)
 		})
+
+getAlpha <- function(graph) {
+	return(nodeData(graph, nodes(graph), "alpha"))
+}
 
 checkValidAlpha <- function(alpha) {
 	if(any(0 > alpha | alpha > 1)) {
@@ -24,7 +32,15 @@ checkValidAlpha <- function(alpha) {
 	}	
 }
 
+setMethod("print", "graphSRMTP",
+		function(x, ...) {
+			callNextMethod(x, ...)
+			cat(paste("alpha=",sum(getAlpha(x)),"\n", sep=""))			
+		})
 
-
+setMethod("plot", "graphSRMTP",
+		function(x, y, ...) {
+			# TODO Show visualization of graph			
+		})
 
 
