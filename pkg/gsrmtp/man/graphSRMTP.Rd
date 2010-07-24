@@ -9,7 +9,7 @@
 \section{Slots}{
   Only slot alpha is new in class graphSRMTP. The remaining slots are inherited from \code{\link[graph:graphNEL-class]{graphNEL}} and \code{\link[graph:graph-class]{graph}}
   \describe{
-    \item{\code{alpha}:}{A numeric for the initial allocation of the significance level alpha to the individual hypotheses.}
+    %\item{\code{alpha}:}{A numeric for the initial allocation of the significance level alpha to the individual hypotheses.}
     \item{\code{nodes}:}{Object of class \code{vector}}
     \item{\code{edgeL}:}{Object of class \code{list}. The \code{edgeL}
       must be the same length as \code{nodes}. The elements of this

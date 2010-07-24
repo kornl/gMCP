@@ -1,4 +1,7 @@
 srmtp <- function(graph, pvalues) {
+	if (is.null(names(pvalues))) {
+		names(pvalues) <- nodes(graph)
+	}
 	for (node in nodes(graph)) {
 		if (canBeRejected(graph, node, pvalues)) {
 			for (to in edges(graph)[[node]]) {
@@ -9,8 +12,6 @@ srmtp <- function(graph, pvalues) {
 	return(graph)
 }
 
-canBeRejected <- function(graph, node, pvalues) {
-	return(node=="H1")
-	# TODO
-	return(TRUE);
+canBeRejected <- function(graph, node, pvalues) {	
+	return(getAlpha(graph)[[node]]>pvalues[[node]] | (all.equal(getAlpha(graph)[[node]],pvalues[[node]])==TRUE));
 }
