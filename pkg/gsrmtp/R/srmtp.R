@@ -27,19 +27,41 @@ srmtp <- function(graph, pvalues, verbose=FALSE) {
 			if (all(TRUE == all.equal(edgesOut, rep(0, length(edgesOut))))) {
 				if (verbose) cat("Alpha is passed via epsilon-edges.\n")
 			} else {
-				if (verbose) cat("Alpha is passed via epsilon-edges.\n")
-				
+				if (verbose) cat("Alpha is passed via non-epsilon-edges.\n")
 				
 				# New weights are calculated
 				for (to in names(edgesOut)) {
+					nodeData(graph, to, "alpha") <- nodeData(graph, to, "alpha")[[to]] + edgesOut[to] * nodeData(graph, node, "alpha")[[node]] 
+					
+					for (from in names(edgesIn)) {
+						edgeData(graph,from,to,"weight") <-
+								(getWeight(graph,from,to)+getWeight(graph,from,node)*getWeight(graph,node,to))/
+								(1-getWeight(graph,from,node)*getWeight(graph,node,from))
+					}
+					
+					
+				}
+				for (to in names(edgesOut)) {
 					graph <- removeEdge(node, to, graph)
 				}
+				for (from in names(edgesIn)) {
+					graph <- removeEdge(from, node, graph)
+				}
+				nodeData(graph, node, "alpha") <- 0
 			}
 		}
 	}	
 	return(graph)
 }
 
+getWeight <- function(graph, from, to) {
+	weight <- try(edgeData(g2,from,to,"weight"))
+	if (class(weight)=="try-error") {
+		return(0)
+	}
+	return(weight[[1]])
+} 
+
 canBeRejected <- function(graph, node, pvalues) {	
-	return(getAlpha(graph)[[node]]>pvalues[[node]] | (all.equal(getAlpha(graph)[[node]],pvalues[[node]])==TRUE));
+	return(getAlpha(graph)[[node]]>pvalues[[node]] | (all.equal(getAlpha(graph)[[node]],pvalues[[node]])[1]==TRUE));
 }

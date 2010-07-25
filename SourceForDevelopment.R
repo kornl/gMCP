@@ -8,3 +8,6 @@ for (file in dir(path ="pkg/gsrmtp/R")) {
 
 g <- createBonferroniHolmGraph(5)
 graph <- createBonferroniHolmGraph(3)
+pvalues <- c(0,0,0)
+names(pvalues) <- nodes(graph)
+verbose <- TRUE

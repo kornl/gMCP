@@ -20,7 +20,9 @@ setMethod("initialize", "graphSRMTP",
 		})
 
 getAlpha <- function(graph) {
-	return(nodeData(graph, nodes(graph), "alpha"))
+	alpha <- unlist(nodeData(graph, nodes(graph), "alpha"))
+	names(alpha) <- nodes(graph)
+	return(alpha)
 }
 
 checkValidAlpha <- function(alpha) {
