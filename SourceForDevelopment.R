@@ -7,3 +7,4 @@ for (file in dir(path ="pkg/gsrmtp/R")) {
 }
 
 g <- createBonferroniHolmGraph(5)
+graph <- createBonferroniHolmGraph(3)
