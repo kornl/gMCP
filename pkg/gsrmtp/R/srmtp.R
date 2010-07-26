@@ -34,13 +34,16 @@ srmtp <- function(graph, pvalues, verbose=FALSE) {
 					nodeData(graph, to, "alpha") <- nodeData(graph, to, "alpha")[[to]] + edgesOut[to] * nodeData(graph, node, "alpha")[[node]] 
 					
 					for (from in names(edgesIn)) {
-						edgeData(graph,from,to,"weight") <-
+						if (from != to) {
+							edgeData(graph,from,to,"weight") <-
 								(getWeight(graph,from,to)+getWeight(graph,from,node)*getWeight(graph,node,to))/
 								(1-getWeight(graph,from,node)*getWeight(graph,node,from))
+						}
 					}
 					
 					
 				}
+				if (verbose) cat("Removing edges.")
 				for (to in names(edgesOut)) {
 					graph <- removeEdge(node, to, graph)
 				}
@@ -55,7 +58,7 @@ srmtp <- function(graph, pvalues, verbose=FALSE) {
 }
 
 getWeight <- function(graph, from, to) {
-	weight <- try(edgeData(g2,from,to,"weight"))
+	weight <- try(edgeData(graph,from,to,"weight"))
 	if (class(weight)=="try-error") {
 		return(0)
 	}
