@@ -21,8 +21,8 @@ test.graphSRMTP <- function() {
 	bhG5 <- createBonferroniHolmGraph(5)
 	
 	checkEquals(gsrmtp:::getAlpha(bhG5),
-			structure(list(H1 = 0.01, H2 = 0.01, H3 = 0.01, H4 = 0.01, H5 = 0.01),
-					.Names = c("H1", "H2", "H3", "H4", "H5")))
+				structure(c(0.01, 0.01, 0.01, 0.01, 0.01),
+						.Names = c("H1", "H2", "H3", "H4", "H5")))
 	
 	checkEquals(edgeWeights(bhG5)[["H1"]],
 			structure(c(0.25, 0.25, 0.25, 0.25),
@@ -49,6 +49,8 @@ test.srmtp <- function() {
 	checkTrue(gsrmtp:::canBeRejected(bhG3, "H1", pvalues)) 
 	checkTrue(gsrmtp:::canBeRejected(bhG3, "H2", pvalues)) 
 	checkTrue(!gsrmtp:::canBeRejected(bhG3, "H3", pvalues)) 
+	checkException(srmtp(bhG3, 0))
+	checkException(srmtp(bhG3, rep(0,6)))
 }
 
 

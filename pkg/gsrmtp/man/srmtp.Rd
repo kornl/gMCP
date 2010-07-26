@@ -8,7 +8,7 @@
 	Performs a sequentially rejective multiple test procedure on a graph given unadjusted p-values.
 }
 \usage{
-	srmtp(graph, pvalues)
+	srmtp(graph, pvalues, verbose=FALSE)
 }
 
 \arguments{
@@ -17,7 +17,9 @@
   }
   \item{pvalues}{
   	A numeric vector specifying the p-values for the sequentially rejective MTP.
-  }
+  } 
+  \item{verbose}{logical scalar.  If \code{TRUE} verbose output is generated during
+          sequentially rejection steps.}  
 }
 \details{
 	For details see the given references.

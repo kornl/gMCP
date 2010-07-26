@@ -1,3 +1,17 @@
+setClass("srmtpResult",		
+		representation(graphs="list"))
+
+setMethod("print", "srmtpResult",
+		function(x, ...) {
+		
+		})
+
+setMethod("plot", "srmtpResult",
+		function(x, y, ...) {
+			# TODO Show visualization of graph			
+		})
+
+
 ## Graph representation in GSRMTP 
 setClass("graphSRMTP",
 		contains="graphNEL",
@@ -10,7 +24,7 @@ setMethod("initialize", "graphSRMTP",
 			if (length(alpha)) {			
 				checkValidAlpha(alpha)
 			}
-			defaultProps <- list(alpha=0, rejected="false")
+			defaultProps <- list(alpha=0, rejected=FALSE)
 			nodeAttrData <- new("attrData", defaults=defaultProps)
 			attrDataItem(nodeAttrData, x=nodes, attr="alpha") <- alpha
 			.Object@nodeData <- nodeAttrData
@@ -31,13 +45,13 @@ checkValidAlpha <- function(alpha) {
 	}
 	if(sum(alpha) >= 1) {
 		stop("invalid alpha: the sum of all alphas must be less than 1")
-	}	
+	}
 }
 
 setMethod("print", "graphSRMTP",
 		function(x, ...) {
 			callNextMethod(x, ...)
-			cat(paste("alpha=",sum(getAlpha(x)),"\n", sep=""))			
+			cat(paste("alpha=",paste(getAlpha(x),collapse="+"),"=",sum(getAlpha(x)),"\n", sep=""))			
 		})
 
 setMethod("plot", "graphSRMTP",

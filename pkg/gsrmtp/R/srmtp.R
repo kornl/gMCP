@@ -1,60 +1,73 @@
 srmtp <- function(graph, pvalues, verbose=FALSE) {
+	if (length(pvalues)!=length(nodes(graph))) {
+		stop("Length of pvalues must equal number of nodes.")
+	}
 	if (is.null(names(pvalues))) {
 		names(pvalues) <- nodes(graph)
 	}
-	for (node in nodes(graph)) {
-		if (verbose) cat(paste("Investigating node \"",node,"\".\n",sep=""))
-		if (canBeRejected(graph, node, pvalues)) {
-			if (verbose) cat(paste("Node \"",node,"\" can be rejected.\n",sep=""))
-			edgesIn <- c()			
-			for (node2 in nodes(graph)) {
-				i <- which(names(edgeWeights(graph, node2)[[node2]])==node)
-				if (length(i)>0) {
-					edge <- edgeWeights(graph, node2)[[1]][i]
-					names(edge) <- node2
-					edgesIn <- c(edgesIn, edge)
-				}
-			}
-						
-			edgesOut <- edgeWeights(graph, node)[[node]]
-			if (verbose) cat(paste("There are ",length(edgesIn)," incoming and ",length(edgesOut)," outgoing edges.\n",sep=""))
-			
-			print("edgesIn:")
-			print(edgesIn)
-			print("edgesOut:")
-			print(edgesOut)
-			
-			if (all(TRUE == all.equal(edgesOut, rep(0, length(edgesOut))))) {
-				if (verbose) cat("Alpha is passed via epsilon-edges.\n")
-			} else {
-				if (verbose) cat("Alpha is passed via non-epsilon-edges.\n")
-				
-				# New weights are calculated
-				for (to in names(edgesOut)) {
-					nodeData(graph, to, "alpha") <- nodeData(graph, to, "alpha")[[to]] + edgesOut[to] * nodeData(graph, node, "alpha")[[node]] 
-					
-					for (from in names(edgesIn)) {
-						if (from != to) {
-							edgeData(graph,from,to,"weight") <-
-								(getWeight(graph,from,to)+getWeight(graph,from,node)*getWeight(graph,node,to))/
-								(1-getWeight(graph,from,node)*getWeight(graph,node,from))
-						}
-					}
-					
-					
-				}
-				if (verbose) cat("Removing edges.")
-				for (to in names(edgesOut)) {
-					graph <- removeEdge(node, to, graph)
-				}
-				for (from in names(edgesIn)) {
-					graph <- removeEdge(from, node, graph)
-				}
-				nodeData(graph, node, "alpha") <- 0
+	sequence <- list()
+	while(!is.null(node <- getRejectableNode(graph, pvalues))) {
+		if (verbose) cat(paste("Node \"",node,"\" can be rejected.\n",sep=""))
+		edgesIn <- c()			
+		for (node2 in nodes(graph)) {
+			i <- which(names(edgeWeights(graph, node2)[[node2]])==node)
+			if (length(i)>0) {
+				edge <- edgeWeights(graph, node2)[[1]][i]
+				names(edge) <- node2
+				edgesIn <- c(edgesIn, edge)
 			}
 		}
+		
+		edgesOut <- edgeWeights(graph, node)[[node]]
+		if (verbose) cat(paste("There are ",length(edgesIn)," incoming and ",length(edgesOut)," outgoing edges.\n",sep=""))
+		
+		print("edgesIn:")
+		print(edgesIn)
+		print("edgesOut:")
+		print(edgesOut)
+		
+		if (all(TRUE == all.equal(edgesOut, rep(0, length(edgesOut))))) {
+			if (verbose) cat("Alpha is passed via epsilon-edges.\n")
+		} else {
+			if (verbose) cat("Alpha is passed via non-epsilon-edges.\n")
+			
+			# New weights are calculated
+			for (to in names(edgesOut)) {
+				nodeData(graph, to, "alpha") <- nodeData(graph, to, "alpha")[[to]] + edgesOut[to] * nodeData(graph, node, "alpha")[[node]] 
+				
+				for (from in names(edgesIn)) {
+					if (from != to) {
+						edgeData(graph,from,to,"weight") <-
+								(getWeight(graph,from,to)+getWeight(graph,from,node)*getWeight(graph,node,to))/
+								(1-getWeight(graph,from,node)*getWeight(graph,node,from))
+					}
+				}
+				
+				
+			}
+		}
+		if (verbose) cat("Removing edges.")
+		for (to in names(edgesOut)) {
+			graph <- removeEdge(node, to, graph)
+		}
+		for (from in names(edgesIn)) {
+			graph <- removeEdge(from, node, graph)
+		}
+		nodeData(graph, node, "alpha") <- 0
+		nodeData(graph, node, "rejected") <- TRUE
+		sequence <- c(sequence, graph)
 	}	
-	return(graph)
+	return(sequence)
+}
+
+getRejectableNode <- function(graph, pvalues) {
+	 x <- getAlpha(graph)/pvalues
+	 x[pvalues==0] <- 1
+	 x[unlist(nodeData(graph, nodes(graph), "rejected"))] <- NaN
+	 i <- which.min(x)
+	 if (length(i)==0) return(NULL)
+	 if (x[i]<1 | all.equal(unname(x[i]),1)[1]==TRUE) {return(nodes(graph)[i])}
+	 return(NULL)	 
 }
 
 getWeight <- function(graph, from, to) {

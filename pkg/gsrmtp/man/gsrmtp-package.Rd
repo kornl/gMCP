@@ -59,9 +59,9 @@ We use the following Java libraries:
 \keyword{ package }
 \keyword{ graphs }
 \keyword{ htest }
-\seealso{
-\code{\link[mutoss:Mutoss]{Mutoss}}
-}
+%\seealso{
+%\code{\link[mutoss:Mutoss]{Mutoss}}
+%}
 \examples{
 g5 <- createBonferroniHolmGraph(5)
 \dontrun{graphGUI("g5")}
