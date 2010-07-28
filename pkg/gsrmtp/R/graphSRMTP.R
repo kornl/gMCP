@@ -51,7 +51,7 @@ checkValidAlpha <- function(alpha) {
 setMethod("print", "graphSRMTP",
 		function(x, ...) {
 			callNextMethod(x, ...)
-			cat(paste("alpha=",paste(getAlpha(x),collapse="+"),"=",sum(getAlpha(x)),"\n", sep=""))			
+			cat(paste("alpha=",paste(format(getAlpha(x), digits=4 ,drop0trailing=TRUE),collapse="+"),"=",sum(getAlpha(x)),"\n", sep=""))			
 		})
 
 setMethod("plot", "graphSRMTP",
