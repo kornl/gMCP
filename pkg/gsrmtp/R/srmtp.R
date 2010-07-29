@@ -5,7 +5,7 @@ srmtp <- function(graph, pvalues, verbose=FALSE) {
 	if (is.null(names(pvalues))) {
 		names(pvalues) <- nodes(graph)
 	}
-	sequence <- list()
+	sequence <- list(graph)
 	while(!is.null(node <- getRejectableNode(graph, pvalues))) {
 		if (verbose) cat(paste("Node \"",node,"\" can be rejected.\n",sep=""))
 		edgesIn <- c()			
@@ -37,9 +37,13 @@ srmtp <- function(graph, pvalues, verbose=FALSE) {
 				
 				for (from in names(edgesIn)) {
 					if (from != to) {
-						edgeData(graph,from,to,"weight") <-
-								(getWeight(graph,from,to)+getWeight(graph,from,node)*getWeight(graph,node,to))/
-								(1-getWeight(graph,from,node)*getWeight(graph,node,from))
+						w <- (getWeight(graph,from,to)+getWeight(graph,from,node)*getWeight(graph,node,to))/
+							(1-getWeight(graph,from,node)*getWeight(graph,node,from))
+						if (to %in% edges(graph)[[from]]) {
+							edgeData(graph,from,to,"weight") <- w
+						} else {
+							graph <- addEdge(from, to, graph, w)
+						}								
 					}
 				}
 				
@@ -57,21 +61,21 @@ srmtp <- function(graph, pvalues, verbose=FALSE) {
 		nodeData(graph, node, "rejected") <- TRUE
 		sequence <- c(sequence, graph)
 	}	
-	return(sequence)
+	return(new("srmtpResult", graphs=sequence, pvalues=pvalues))
 }
 
 getRejectableNode <- function(graph, pvalues) {
 	 x <- getAlpha(graph)/pvalues
 	 x[pvalues==0] <- 1
 	 x[unlist(nodeData(graph, nodes(graph), "rejected"))] <- NaN
-	 i <- which.min(x)
+	 i <- which.max(x)
 	 if (length(i)==0) return(NULL)
-	 if (x[i]<1 | all.equal(unname(x[i]),1)[1]==TRUE) {return(nodes(graph)[i])}
+	 if (x[i]>1 | all.equal(unname(x[i]),1)[1]==TRUE) {return(nodes(graph)[i])}
 	 return(NULL)	 
 }
 
 getWeight <- function(graph, from, to) {
-	weight <- try(edgeData(graph,from,to,"weight"))
+	weight <- try(edgeData(graph,from,to,"weight"), silent = TRUE)
 	if (class(weight)=="try-error") {
 		return(0)
 	}
