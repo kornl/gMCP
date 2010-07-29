@@ -9,3 +9,19 @@ createBonferroniHolmGraph <- function(n, alpha=0.05) {
 	BonferroniHolmGraph <- new("graphSRMTP", nodes=hnodes, edgeL=edges, alpha=alpha)
 	return(BonferroniHolmGraph)
 }
+
+createGraphFromBretzEtAl <- function() {
+	alpha=0.05
+	alpha <- rep(c(alpha/3,0), each=3)
+	hnodes <- paste("H", rep(1:3, 2), rep(1:2, each=3), sep="")
+	edges <- vector("list", length=6)
+	edges[[1]] <- list(edges=c("H21","H12"), weights=rep(1/2, 2))
+	edges[[2]] <- list(edges=c("H11","H31","H22"), weights=rep(1/3, 3))
+	edges[[3]] <- list(edges=c("H21","H32"), weights=rep(1/2, 2))
+	edges[[4]] <- list(edges="H21", weights=1)
+	edges[[5]] <- list(edges=c("H11","H31"), weights=rep(1/2, 2))
+	edges[[6]] <- list(edges="H21", weights=1)
+	names(edges)<-hnodes
+	graph <- new("graphSRMTP", nodes=hnodes, edgeL=edges, alpha=alpha)
+	return(graph)
+}
