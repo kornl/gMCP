@@ -9,6 +9,7 @@
 \section{Slots}{
   \describe{
     \item{\code{graphs}:}{Object of class \code{list}. }        
+    \item{\code{pvalues}:}{The \code{numeric} vector of pvalues. }    
   }
 }
 \author{Kornelius Rohmeyer \email{rohmeyer@small-projects.de}}
