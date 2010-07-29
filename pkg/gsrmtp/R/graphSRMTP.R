@@ -1,5 +1,7 @@
 setClass("srmtpResult",		
-		representation(graphs="list"))
+		representation(graphs="list",
+				pvalues="numeric")
+)
 
 setMethod("print", "srmtpResult",
 		function(x, ...) {
@@ -51,8 +53,24 @@ checkValidAlpha <- function(alpha) {
 setMethod("print", "graphSRMTP",
 		function(x, ...) {
 			callNextMethod(x, ...)
-			cat(paste("alpha=",paste(format(getAlpha(x), digits=4 ,drop0trailing=TRUE),collapse="+"),"=",sum(getAlpha(x)),"\n", sep=""))			
+			#for (node in nodes(x)) {
+			#	cat(paste(node, " (",ifelse(unlist(nodeData(x, node, "rejected")),"rejected","not rejected"),", alpha=",format(unlist(nodeData(x, node, "alpha")), digits=4 ,drop0trailing=TRUE),")\n", sep=""))	
+			#}
+			#cat(paste("alpha=",paste(format(getAlpha(x), digits=4 ,drop0trailing=TRUE),collapse="+"),"=",sum(getAlpha(x)),"\n", sep=""))			
 		})
+
+setMethod("show", "graphSRMTP",
+				function(object) {
+					callNextMethod(object)
+					for (node in nodes(object)) {
+						cat(paste(node, " (",ifelse(unlist(nodeData(object, node, "rejected")),"rejected","not rejected"),", alpha=",format(unlist(nodeData(object, node, "alpha")), digits=4 ,drop0trailing=TRUE),")\n", sep=""))	
+					}
+					cat("Edges:\n")
+					cat(paste(paste(names(edges(object))," -",unlist(edgeWeights(object)),"-> ",unlist(edges(object)),sep=""),collapse="\n"))
+					cat(paste("\nalpha=",paste(format(getAlpha(object), digits=4 ,drop0trailing=TRUE),collapse="+"),"=",sum(getAlpha(object)),"\n", sep=""))		
+				}
+		)
+
 
 setMethod("plot", "graphSRMTP",
 		function(x, y, ...) {
