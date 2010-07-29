@@ -21,34 +21,29 @@ srmtp <- function(graph, pvalues, verbose=FALSE) {
 		edgesOut <- edgeWeights(graph, node)[[node]]
 		if (verbose) cat(paste("There are ",length(edgesIn)," incoming and ",length(edgesOut)," outgoing edges.\n",sep=""))
 		
-		print("edgesIn:")
-		print(edgesIn)
-		print("edgesOut:")
-		print(edgesOut)
-		
 		if (all(TRUE == all.equal(edgesOut, rep(0, length(edgesOut))))) {
 			if (verbose) cat("Alpha is passed via epsilon-edges.\n")
 		} else {
 			if (verbose) cat("Alpha is passed via non-epsilon-edges.\n")
-			
+			graph2 <- graph
 			# New weights are calculated
-			for (to in names(edgesOut)) {
-				nodeData(graph, to, "alpha") <- nodeData(graph, to, "alpha")[[to]] + edgesOut[to] * nodeData(graph, node, "alpha")[[node]] 
-				
-				for (from in names(edgesIn)) {
+			for (to in nodes(graph)[nodes(graph)!=node]) {				
+				nodeData(graph2, to, "alpha") <- nodeData(graph, to, "alpha")[[to]] + getWeight(graph,node,to) * nodeData(graph, node, "alpha")[[node]]				
+				for (from in nodes(graph)[nodes(graph)!=node]) {
 					if (from != to) {
 						w <- (getWeight(graph,from,to)+getWeight(graph,from,node)*getWeight(graph,node,to))/
 							(1-getWeight(graph,from,node)*getWeight(graph,node,from))
 						if (to %in% edges(graph)[[from]]) {
-							edgeData(graph,from,to,"weight") <- w
+							edgeData(graph2,from,to,"weight") <- w
 						} else {
-							graph <- addEdge(from, to, graph, w)
+							if (!is.nan(w) & w>0) {
+								graph2 <- addEdge(from, to, graph2, w)
+							}
 						}								
 					}
-				}
-				
-				
+				}								
 			}
+			graph <- graph2
 		}
 		if (verbose) cat("Removing edges.")
 		for (to in names(edgesOut)) {

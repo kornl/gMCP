@@ -30,8 +30,7 @@ test.graphSRMTP <- function() {
 	
 }
 
-test.bonferroniHolm <- function() {
-	
+test.bonferroniHolm <- function() {	
 	bhG3 <- createBonferroniHolmGraph(3, alpha=0.6)
 	checkEquals(edges(bhG3), structure(list(H1 = c("H2", "H3"), 
 							               H2 = c("H1", "H3"), 
@@ -39,7 +38,8 @@ test.bonferroniHolm <- function() {
 								   .Names = c("H1", "H2", "H3")))
 				   
 	result <- srmtp(bhG3, pvalues=c(0.1, 0.3, 0.7))
-		
+	checkEquals(gsrmtp:::getRejected(result@graphs[[3]]),
+			structure(c(TRUE, TRUE, FALSE), .Names = c("H1", "H2", "H3")))
 }
 
 test.srmtp <- function() {
@@ -60,8 +60,21 @@ test.srmtpBretzEtAl <- function() {
 	last <- result@graphs[[4]]	
 	checkEquals(unname(unlist(nodeData(last, nodes(last), "rejected"))),
 			c(FALSE, TRUE, TRUE, FALSE, FALSE, TRUE))
-	#checkEquals(unlist(edges(last)),
-	#)
+	checkEquals(edges(last), structure(list(H11 = c("H12", "H22"), 
+							H21 = character(0), 
+							H31 = character(0), 
+							H12 = c("H11", "H22"), 
+							H22 = "H11", 
+							H32 = character(0)), 
+					.Names = c("H11", "H21", "H31", "H12", "H22", "H32")))
+	checkEquals(edgeWeights(last), structure(list(
+							H11 = structure(c(0.666666666666667, 0.333333333333333), .Names = c("H12", "H22")), 
+							H21 = numeric(0), 
+							H31 = numeric(0), 
+							H12 = structure(c(0.5, 0.5), .Names = c("H11", "H22")), 
+							H22 = structure(1, .Names = "H11"), 
+							H32 = numeric(0)), 
+					.Names = c("H11", "H21", "H31", "H12", "H22", "H32")))
 }
 
 
