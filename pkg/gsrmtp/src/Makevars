@@ -1,8 +1,0 @@
-.PHONY: all
-
-clean:
-	ant clean
-
-all: clean
-	ant build
-
