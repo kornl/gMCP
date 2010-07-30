@@ -1,2 +1,4 @@
 - package mutoss is not available on CRAN
-- 
+- In af.statguitoolkit.graph.UpdateEdge:
+setW -> ((AbstractGraphControl)(AbstractControl.getInstance())).getNL().addEdge(edge.von, edge.nach, w);
+setW with w=0 is bad, since it does not delete the edge.
