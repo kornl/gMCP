@@ -1,0 +1,38 @@
+\documentclass{article}
+\usepackage{gastex}
+
+% Does not work with pdflatex.
+% Downloaded froom http://www.lsv.ens-cachan.fr/~gastin/gastex/gastex.html
+
+\begin{document}
+
+% Edges
+
+\begin{center}
+\begin{picture}(120,60)(-32,-14)
+\put(-32,-14){\framebox(120,60){}}
+  \node(A)(10,0){}\node(B)(40,0){}
+  \drawedge(A,B){straight}
+  \drawedge[curvedepth=8](A,B){positive curve depth}
+  \drawedge[curvedepth=-8,ELside=r](A,B){negative curve depth}
+  \drawloop[loopangle=180](A){180}
+  \drawloop[loopangle=0](B){0}
+
+  \node(A)(-15,30){}\node(B)(15,30){}
+  \drawqbedge(A,-15,50,B){qbedge}
+  \drawbcedge(A,-20,10,B,20,10){bcedge}
+  \drawloop[loopangle=210](A){210}
+  \drawloop[loopangle=90,loopCW=n,ELside=r](B){90}
+
+  \node(A)(40,30){}\node(B)(70,30){}
+  \drawbpedge[ELpos=30,ELdist=0](A,45,20,B,225,20){bpedge}
+  \drawbpedge[ELpos=30,ELside=r](A,210,30,B,-30,30){30}
+  \drawbpedge[ELpos=70,ELside=r](A,210,30,B,-30,30){70}
+  \drawloop[loopdiam=5,loopangle=120,ELpos=60](A){larger}
+  \drawloop[loopdiam=10,loopangle=30,ELpos=30](B){smaller}
+\end{picture}
+\end{center}
+
+
+
+\end{document} 
