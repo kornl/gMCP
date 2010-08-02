@@ -2,3 +2,11 @@
 - In af.statguitoolkit.graph.UpdateEdge:
 setW -> ((AbstractGraphControl)(AbstractControl.getInstance())).getNL().addEdge(edge.von, edge.nach, w);
 setW with w=0 is bad, since it does not delete the edge.
+- highlight is cool - but how can I tell r-forge or CRAN to use it?
+
+- CITATION file?
+
+- When all the testing is done, upload the ‘.tar.gz’ file, using ‘anonymous’ as log-in name and
+your e-mail address as password, to ftp://CRAN.R-project.org/incoming/ (note: use ‘ftp’15
+and not ‘sftp’ to connect to this server) and send a message to CRAN@R-project.org about it.
+The CRAN maintainers will run these tests before putting a submission in the main archive.
