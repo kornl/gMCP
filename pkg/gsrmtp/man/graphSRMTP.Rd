@@ -6,8 +6,7 @@
 \alias{plot,graphSRMTP-method}
 \title{Class graphSRMTP}
 \description{A graphSRMTP object describes a sequentially rejective multiple test procedure.}
-\section{Slots}{
-  Only slot alpha is new in class graphSRMTP. The remaining slots are inherited from \code{\link[graph:graphNEL-class]{graphNEL}} and \code{\link[graph:graph-class]{graph}}
+\section{Slots}{  
   \describe{
     %\item{\code{alpha}:}{A numeric for the initial allocation of the significance level alpha to the individual hypotheses.}
     \item{\code{nodes}:}{Object of class \code{vector}}
