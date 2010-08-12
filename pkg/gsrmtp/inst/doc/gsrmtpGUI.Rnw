@@ -5,6 +5,11 @@
 \usepackage{graphicx}
 \usepackage{tikz}
 \usetikzlibrary{snakes,arrows,shapes}
+\usepackage[margin=0.9in]{geometry}
+\usepackage[numbers]{natbib}
+\usepackage{url}
+\usepackage{hyperref}
+\bibliographystyle{plainnat}
 \begin{document}
 
 % \VignetteIndexEntry{A Graphical Approach to Sequentially Rejective Multiple Test Procedures}
@@ -26,9 +31,15 @@ options(width=120)
 
 \section{Introduction}
 
+This package provides functions and supporting graphical user interfaces for sequentially rejective multiple test procedures.
+
 \section{Creating the graph}
 
+In the first step a graph that describes the \cite{bretz2009graphical}
+
 \subsection{Using R}
+
+We build upon the package \texttt{graph} \cite{graph}.
 
 \scriptsize
 <<echo=TRUE>>=
@@ -61,13 +72,15 @@ nodeRenderInfo(graph) <- list(nodeX=nodeX, nodeY=nodeY)
 @
 \normalsize
 
-Let's take a look at the graph in \LaTeX rendered with TikZ:
+Let's take a look at the graph in {\LaTeX} rendered with TikZ \cite{TikZ}:
 
+\scriptsize
 <<echo=TRUE>>=
 
-graph2latex(graph)
+cat(graph2latex(graph))
 
 @
+\normalsize
 
 <<echo=FALSE,results=tex>>=
 
@@ -77,27 +90,29 @@ cat(graph2latex(graph))
 
 \subsection{Using the GUI}
 
-\begin{verbatim}
-g <- createBonferroniHolmGraph(5)
+\scriptsize
+\begin{Schunk}
+\begin{Sinput}
+> graphGUI(graph)
+\end{Sinput}
+\end{Schunk}
+\normalsize
 
-# If Rgraphviz is installed, we can take a look at the graph:
-library(Rgraphviz)
-renderGraph(layoutGraph(g))
-
-srmtp(g, pvalues=c(0.1, 0.2, 0.4, 0.4, 0.7))
-\end{verbatim}
+\includegraphics{GraphCreation.png}
 
 \section{The sequentially rejective MTP}
 
 \scriptsize
 <<echo=TRUE>>=
 
-graph <- gsrmtp:::createGraphFromBretzEtAl()
+graph <- createGraphFromBretzEtAl()
 pvalues <- c(0.1, 0.008, 0.005, 0.15, 0.04, 0.006)
 result <- srmtp(graph, pvalues)
 print(result)
 
 @
 \normalsize
+
+\bibliography{literatur}
 
 \end{document}

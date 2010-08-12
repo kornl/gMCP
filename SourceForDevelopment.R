@@ -7,7 +7,8 @@ for (file in dir(path ="pkg/gsrmtp/R")) {
 }
 
 g <- createBonferroniHolmGraph(5)
-graph <- createBonferroniHolmGraph(3)
-pvalues <- c(0,0,0)
+graph <- createGraphFromBretzEtAl()
+pvalues <- c(0.1, 0.008, 0.005, 0.15, 0.04, 0.006)
 names(pvalues) <- nodes(graph)
 verbose <- TRUE
+result <- srmtp(graph, pvalues)
