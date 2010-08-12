@@ -54,7 +54,7 @@ test.srmtp <- function() {
 }
 
 test.srmtpBretzEtAl <- function() {
-	graph <- gsrmtp:::createGraphFromBretzEtAl()
+	graph <- createGraphFromBretzEtAl()
 	pvalues <- c(0.1, 0.008, 0.005, 0.15, 0.04, 0.006)
 	result <- srmtp(graph, pvalues)
 	last <- result@graphs[[4]]	

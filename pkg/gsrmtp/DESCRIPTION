@@ -6,7 +6,7 @@ Date: 2010-02-23
 Author: Kornelius Rohmeyer
 Maintainer: Kornelius Rohmeyer <rohmeyer@small-projects.de>
 Description: This package provides functions and a graphical user interface for graphical described sequentially rejective multiple test procedures.
-Depends: R (>= 2.8.0), graph, rJava (>= 0.8-0), JavaGD (>= 0.5-2), methods
+Depends: R (>= 2.8.0), graph, rJava (>= 0.7-0), JavaGD (>= 0.5-2), methods
 Suggests: RUnit
 SystemRequirements: Java (>= 5.0) 
 License: GPL (>= 2)
