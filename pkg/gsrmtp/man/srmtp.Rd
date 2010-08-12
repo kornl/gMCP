@@ -48,7 +48,7 @@ Kornelius Rohmeyer \email{rohmeyer@small-projects.de}
 
 g <- createBonferroniHolmGraph(5)
 
-srmtp(g, pvalues=c(0.1, 0.2, 0.4, 0.4, 0.7))
+srmtp(g, pvalues=c(0.01, 0.02, 0.04, 0.04, 0.7))
 
 
 }

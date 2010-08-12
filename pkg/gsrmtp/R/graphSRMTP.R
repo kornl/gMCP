@@ -35,9 +35,12 @@ setMethod("initialize", "graphSRMTP",
 			return(.Object)
 		})
 
-getAlpha <- function(graph) {
+getAlpha <- function(graph, node) {
 	alpha <- unlist(nodeData(graph, nodes(graph), "alpha"))
 	names(alpha) <- nodes(graph)
+	if (!missing(node)) {
+		return(alpha[node])
+	}
 	return(alpha)
 }
 
