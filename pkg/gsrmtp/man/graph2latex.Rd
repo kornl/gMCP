@@ -8,7 +8,7 @@
 	Creates LaTeX code that represents the given graph.
 }
 \usage{
-	graph2latex(graph, package="TikZ")
+	graph2latex(graph, package="TikZ", scale=1)
 }
 
 \arguments{
@@ -19,6 +19,9 @@
   	A character string specifying the LaTeX package that should be used.
   	Up to now only \code{TikZ} is available.
   }   
+  \item{scale}{
+  	A numeric scalar specifying a possible scaling of the graph.
+  }
 }
 \details{
 	For details see the given references.
