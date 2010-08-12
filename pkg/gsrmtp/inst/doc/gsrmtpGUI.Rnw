@@ -3,6 +3,8 @@
 \usepackage{url}
 \usepackage{Sweave}
 \usepackage{graphicx}
+\usepackage{tikz}
+\usetikzlibrary{snakes,arrows,shapes}
 \begin{document}
 
 % \VignetteIndexEntry{A Graphical Approach to Sequentially Rejective Multiple Test Procedures}
@@ -69,7 +71,7 @@ graph2latex(graph)
 
 <<echo=FALSE,results=tex>>=
 
-graph2latex(graph)
+cat(graph2latex(graph))
 
 @
 
