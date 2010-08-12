@@ -47,6 +47,11 @@ getRejected <- function(graph) {
 	return(rejected)
 }
 
+isRejected <- function(graph, node) {
+	rejected <- getRejected(graph)
+	return(rejected[node])
+}
+
 checkValidAlpha <- function(alpha) {
 	if(any(0 > alpha | alpha > 1)) {
 		stop("invalid alpha: alphas must be between 0 and 1")
