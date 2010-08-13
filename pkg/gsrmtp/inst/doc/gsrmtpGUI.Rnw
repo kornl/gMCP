@@ -82,11 +82,15 @@ cat(graph2latex(graph))
 @
 \normalsize
 
+\begin{figure}[h!]
+  \centering   
 <<echo=FALSE,results=tex>>=
 
 cat(graph2latex(graph))
 
 @
+  \caption{Graph from test procedure}
+\end{figure}
 
 \subsection{Using the GUI}
 
@@ -98,7 +102,11 @@ cat(graph2latex(graph))
 \end{Schunk}
 \normalsize
 
-\includegraphics{GraphCreation.png}
+\begin{figure}[h!]
+  \centering    
+  \includegraphics[width=0.5\textwidth]{GraphCreation.png}      
+  \caption{The graphical user interface of the package gsrmtp.}
+\end{figure}
 
 \section{The sequentially rejective MTP}
 
@@ -112,6 +120,26 @@ print(result)
 
 @
 \normalsize
+
+We can take a look at the last graph:
+
+\scriptsize
+<<echo=TRUE>>=
+
+cat(graph2latex(result@graphs[[4]]))
+
+@
+\normalsize
+
+\begin{figure}[h!]
+  \centering   
+<<echo=FALSE,results=tex>>=
+
+cat(graph2latex(result@graphs[[4]]))
+
+@
+  \caption{Graph from test procedure}
+\end{figure}
 
 \bibliography{literatur}
 

@@ -14,9 +14,9 @@ graph2latex <- function(graph, package="TikZ", scale=1) {
 		if (length(edgeL)!=0) {
 			for (i in 1:length(edgeL)) {
 				weight <- try(edgeData(graph, names(edgeL[i]), node,"weight"), silent = TRUE)
-				to <- ifelse(class(weight)=="try-error", "auto", "bend left")			
+				to <- ifelse(class(weight)=="try-error", "auto", "bend left=15")			
 				weight <- ifelse(edgeL[i]==0, "\\epsilon", format(edgeL[i], digits=3 ,drop0trailing=TRUE))
-				edgeLine <- paste("\\draw [->] (",node,") to[",to,"] node[fill=blue!20] {",weight,"} (",names(edgeL[i]),");",sep="")
+				edgeLine <- paste("\\draw [->,line width=1pt] (",node,") to[",to,"] node[fill=blue!20] {",weight,"} (",names(edgeL[i]),");",sep="")
 				tikz <- paste(tikz, edgeLine,sep="\n")
 			}
 		}
