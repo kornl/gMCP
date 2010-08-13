@@ -5,7 +5,7 @@ graph2latex <- function(graph, package="TikZ", scale=1) {
 		x <- nodeRenderInfo(graph)$nodeX[node]*20*scale
 		y <- nodeRenderInfo(graph)$nodeY[node]*20*scale
 		alpha <- format(getAlpha(graph,node), digits=3 ,drop0trailing=TRUE)
-		nodeLine <- paste("\\node (",node,") at (",x,"bp,",y,"bp) [draw,circle,fill=",nodeColor,"] {$",node,"$ \\nodepart{lower} $",alpha,"$};",sep="")
+		nodeLine <- paste("\\node (",node,") at (",x,"bp,",y,"bp) [draw,circle split,fill=",nodeColor,"] {$",node,"$ \\nodepart{lower} $",alpha,"$};",sep="")
 		tikz <- paste(tikz, nodeLine,sep="\n")			
 	}
 	# A second loop for the edges is necessary:
@@ -16,7 +16,7 @@ graph2latex <- function(graph, package="TikZ", scale=1) {
 				weight <- try(edgeData(graph, names(edgeL[i]), node,"weight"), silent = TRUE)
 				to <- ifelse(class(weight)=="try-error", "auto", "bend left=15")			
 				weight <- ifelse(edgeL[i]==0, "\\epsilon", format(edgeL[i], digits=3 ,drop0trailing=TRUE))
-				edgeLine <- paste("\\draw [->,line width=1pt] (",node,") to[",to,"] node[fill=blue!20] {",weight,"} (",names(edgeL[i]),");",sep="")
+				edgeLine <- paste("\\draw [->,line width=1pt] (",node,") to[",to,"] node[near start,above,fill=blue!20] {",weight,"} (",names(edgeL[i]),");",sep="")
 				tikz <- paste(tikz, edgeLine,sep="\n")
 			}
 		}
