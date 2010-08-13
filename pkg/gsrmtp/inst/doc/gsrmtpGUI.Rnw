@@ -11,6 +11,8 @@
 \usepackage{listings}
 \usepackage[numbers]{natbib}
 \bibliographystyle{plainnat}
+\setlength{\parindent}{0mm}
+\setlength{\parskip}{1mm}
 \begin{document}
 
 % \VignetteIndexEntry{A Graphical Approach to Sequentially Rejective Multiple Test Procedures}
@@ -55,9 +57,11 @@ edges[["H22"]] <- list(edges=c("H11","H31"), weights=c(1/2, 1/2))
 edges[["H32"]] <- list(edges="H21", weights=1)
 graph <- new("graphSRMTP", nodes=hnodes, edgeL=edges, alpha=alpha)
 nodeX <- c(H11=10, H21=20, H31=30, H12=10, H22=20, H32=30)
-nodeY <- c(H11=10, H21=20, H31=10, H12=20, H22=10, H32=20)
+nodeY <- c(H11=10, H21=10, H31=10, H12=20, H22=20, H32=20)
 nodeRenderInfo(graph) <- list(nodeX=nodeX, nodeY=nodeY)	
 cat(graph2latex(graph))
+createGsrmtpReport <- function(...) {invisible(NULL)}
+graphGUI <- function(...) {invisible(NULL)}
 
 @
   \caption{\label{exampleGraphBretz} Example graph from \cite{bretzEtAl2009power} that we will create in this vignette.}
@@ -104,7 +108,7 @@ Since we also want to visualize the graph, we use the method \texttt{nodeRenderI
 <<echo=TRUE>>=
 
 nodeX <- c(H11=10, H21=20, H31=30, H12=10, H22=20, H32=30)
-nodeY <- c(H11=10, H21=20, H31=10, H12=20, H22=10, H32=20)
+nodeY <- c(H11=10, H21=10, H31=10, H12=20, H22=20, H32=20)
 nodeRenderInfo(graph) <- list(nodeX=nodeX, nodeY=nodeY)	
 
 @
@@ -126,11 +130,11 @@ cat(graph2latex(graph))
 \subsection{Using the GUI}
 
 \scriptsize
-\begin{Schunk}
-\begin{Sinput}
-> graphGUI("graph")
-\end{Sinput}
-\end{Schunk}
+<<echo=TRUE>>=
+
+graphGUI("graph")
+
+@
 \normalsize
 
 \begin{figure}[ht]
@@ -155,7 +159,7 @@ print(result)
 @
 \normalsize
 
-We can take a look at the last graph:
+We can take a look at the last graph (see figure \ref{finalstate}):
 
 \scriptsize
 <<echo=TRUE>>=
@@ -172,10 +176,18 @@ cat(graph2latex(result@graphs[[4]]))
 cat(graph2latex(result@graphs[[4]]))
 
 @
-  \caption{Final graph from the test procedure after rejection of $H_{21}$, $H_{31}$ and $H_{32}$.}
+  \caption{\label{finalstate}Final graph from the test procedure after rejection of $H_{21}$, $H_{31}$ and $H_{32}$.}
 \end{figure}
 
+The command \texttt{createGsrmtpReport} can generate a full report: 
 
+\scriptsize
+<<echo=TRUE>>=
+
+createGsrmtpReport(result, "Report.tex")
+
+@
+\normalsize
 
 \bibliography{literatur}
 
