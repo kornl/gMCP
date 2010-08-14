@@ -32,7 +32,7 @@ srmtp <- function(graph, pvalues, verbose=FALSE) {
 				for (from in nodes(graph)[nodes(graph)!=node]) {
 					if (from != to) {
 						w <- (getWeight(graph,from,to)+getWeight(graph,from,node)*getWeight(graph,node,to))/
-							(1-getWeight(graph,from,node)*getWeight(graph,node,from))
+								(1-getWeight(graph,from,node)*getWeight(graph,node,from))
 						if (to %in% edges(graph)[[from]]) {
 							edgeData(graph2,from,to,"weight") <- w
 						} else {
@@ -60,13 +60,13 @@ srmtp <- function(graph, pvalues, verbose=FALSE) {
 }
 
 getRejectableNode <- function(graph, pvalues) {
-	 x <- getAlpha(graph)/pvalues
-	 x[pvalues==0] <- 1
-	 x[unlist(nodeData(graph, nodes(graph), "rejected"))] <- NaN
-	 i <- which.max(x)
-	 if (length(i)==0) return(NULL)
-	 if (x[i]>1 | all.equal(unname(x[i]),1)[1]==TRUE) {return(nodes(graph)[i])}
-	 return(NULL)	 
+	x <- getAlpha(graph)/pvalues
+	x[pvalues==0] <- 1
+	x[unlist(nodeData(graph, nodes(graph), "rejected"))] <- NaN
+	i <- which.max(x)
+	if (length(i)==0) return(NULL)
+	if (x[i]>1 | all.equal(unname(x[i]),1)[1]==TRUE) {return(nodes(graph)[i])}
+	return(NULL)	 
 }
 
 getWeight <- function(graph, from, to) {

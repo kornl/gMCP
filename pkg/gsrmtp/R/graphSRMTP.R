@@ -58,20 +58,20 @@ setMethod("print", "graphSRMTP",
 		})
 
 setMethod("show", "graphSRMTP",
-				function(object) {
-					callNextMethod(object)
-					cat(paste("Overall alpha: ",sum(getAlpha(object)),"\n", sep=""))
-					for (node in nodes(object)) {
-						cat(paste(node, " (",ifelse(unlist(nodeData(object, node, "rejected")),"rejected","not rejected"),", alpha=",format(unlist(nodeData(object, node, "alpha")), digits=4 ,drop0trailing=TRUE),")\n", sep=""))	
-					}
-					cat("Edges:\n")
-					cat(paste(paste(rep(names(edges(object)), unlist(lapply(edges(object),length))),
-											" -(",format(unlist(edgeWeights(object)), digits=4 ,drop0trailing=TRUE),")-> ",
-											unlist(edges(object)),sep=""),collapse="\n"))
-					#cat(paste("\nalpha=",paste(format(getAlpha(object), digits=4 ,drop0trailing=TRUE),collapse="+"),"=",sum(getAlpha(object)),"\n", sep=""))
-					cat("\n")
-				}
-		)
+		function(object) {
+			callNextMethod(object)
+			cat(paste("Overall alpha: ",sum(getAlpha(object)),"\n", sep=""))
+			for (node in nodes(object)) {
+				cat(paste(node, " (",ifelse(unlist(nodeData(object, node, "rejected")),"rejected","not rejected"),", alpha=",format(unlist(nodeData(object, node, "alpha")), digits=4 ,drop0trailing=TRUE),")\n", sep=""))	
+			}
+			cat("Edges:\n")
+			cat(paste(paste(rep(names(edges(object)), unlist(lapply(edges(object),length))),
+									" -(",format(unlist(edgeWeights(object)), digits=4 ,drop0trailing=TRUE),")-> ",
+									unlist(edges(object)),sep=""),collapse="\n"))
+			#cat(paste("\nalpha=",paste(format(getAlpha(object), digits=4 ,drop0trailing=TRUE),collapse="+"),"=",sum(getAlpha(object)),"\n", sep=""))
+			cat("\n")
+		}
+)
 
 
 setMethod("plot", "graphSRMTP",
