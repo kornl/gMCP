@@ -17,7 +17,9 @@
 
 % \VignetteIndexEntry{A Graphical Approach to Sequentially Rejective Multiple Test Procedures}
 
-\title{gsrmtp - an R package for a graphical approach to sequentially rejective multiple test procedures}
+\title{gsrmtp - an R package for a graphical approach to sequentially
+  rejective multiple test procedures} 
+
 \author{Kornelius Rohmeyer}
 
 \maketitle
@@ -40,7 +42,8 @@ At all steps either graphical user interfaces or the R Console, S4 objects and m
 
 \section{Creating the graph}
 
-In the first step a graph that describes the multiple test procedures must be created.
+In the first step a graph that describes the multiple test procedures
+must be created.
 
 \begin{figure}[ht]
   \centering   
@@ -57,7 +60,7 @@ edges[["H22"]] <- list(edges=c("H11","H31"), weights=c(1/2, 1/2))
 edges[["H32"]] <- list(edges="H21", weights=1)
 graph <- new("graphSRMTP", nodes=hnodes, edgeL=edges, alpha=alpha)
 nodeX <- c(H11=10, H21=20, H31=30, H12=10, H22=20, H32=30)
-nodeY <- c(H11=10, H21=10, H31=10, H12=20, H22=20, H32=20)
+nodeY <- c(H11=20, H21=20, H31=20, H12=10, H22=10, H32=10)
 nodeRenderInfo(graph) <- list(nodeX=nodeX, nodeY=nodeY)	
 cat(graph2latex(graph))
 createGsrmtpReport <- function(...) {invisible(NULL)}
@@ -69,11 +72,16 @@ graphGUI <- function(...) {invisible(NULL)}
 
 \subsection{Using R}
 
-We build upon the package \texttt{graph} \cite{graph}, more precisely we declare a new class \texttt{graphSRMTP} that is a subclass of \texttt{graphNEL}.
-The \texttt{initialize} method of this subclass differs only in an extra argument \texttt{alpha}, the initial allocation of the significance level alpha to the individual hypotheses.
-Declaration of the nodes and edges is inherited from class \texttt{graphNEL}.
+We build upon the package \texttt{graph} \cite{graph}, more precisely
+we declare a new class \texttt{graphSRMTP} that is a subclass of
+\texttt{graphNEL}.  The \texttt{initialize} method of this subclass
+differs only in an extra argument \texttt{alpha}, the initial
+allocation of the significance level alpha to the individual
+hypotheses.  Declaration of the nodes and edges is inherited from
+class \texttt{graphNEL}.
 
-As an example we now create the graph from \cite{bretzEtAl2009power} that you can see in figure \ref{exampleGraphBretz}.
+As an example we now create the graph from \cite{bretzEtAl2009power}
+that you can see in figure \ref{exampleGraphBretz}.
 
 \scriptsize
 <<echo=TRUE>>=
@@ -102,19 +110,23 @@ print(graph)
 @
 \normalsize
 
-Since we also want to visualize the graph, we use the method \texttt{nodeRenderInfo} from package \texttt{graph} to set appropriate x- and y-coordinates in the renderInfo.
+Since we also want to visualize the graph, we use the method
+\texttt{nodeRenderInfo} from package \texttt{graph} to set appropriate
+x- and y-coordinates in the renderInfo.
 
 \scriptsize
 <<echo=TRUE>>=
 
 nodeX <- c(H11=10, H21=20, H31=30, H12=10, H22=20, H32=30)
-nodeY <- c(H11=10, H21=10, H31=10, H12=20, H22=20, H32=20)
+nodeY <- c(H11=20, H21=20, H31=20, H12=10, H22=10, H32=10)
 nodeRenderInfo(graph) <- list(nodeX=nodeX, nodeY=nodeY)	
 
 @
 \normalsize
 
-Let's take a look at the graph in {\LaTeX} rendered with TikZ \cite{TikZ} (you can see the compiled result in figure \ref{exampleGraphBretz}):
+Let's take a look at the graph in {\LaTeX} rendered with TikZ
+\cite{TikZ} (you can see the compiled result in figure
+\ref{exampleGraphBretz}):
 
 \scriptsize
 %\lstset{language=[LaTeX]TeX}
@@ -128,6 +140,11 @@ cat(graph2latex(graph))
 \normalsize
 
 \subsection{Using the GUI}
+
+The following command starts a graphical user interface for the
+creation of SRMTP graphs.  Its only argument is the variable name for
+the graph, given as a character string, under which the created
+\texttt{graphSRMTP} object will be available from the R command line.
 
 \scriptsize
 <<echo=TRUE>>=
@@ -143,10 +160,17 @@ graphGUI("graph")
   \caption{The graphical user interface of the package gsrmtp.}
 \end{figure}
 
+The GUI also allows you to update existing graphs.
+
 \section{The sequentially rejective MTP}
 
-For a full description of the sequentially rejective multiple testing procedure take a look at \cite{bretzEtAl2009graphical}.
-You can either specify each rejection step yourself or simply use the method \texttt{srmtp}:
+For a full description of the sequentially rejective multiple testing
+procedure take a look at \cite{bretzEtAl2009graphical}. 
+
+\subsection{Using R}
+
+You can either specify each rejection step yourself or simply use the 
+method \texttt{srmtp}:
 
 \scriptsize
 <<echo=TRUE>>=
@@ -179,7 +203,7 @@ cat(graph2latex(result@graphs[[4]]))
   \caption{\label{finalstate}Final graph from the test procedure after rejection of $H_{21}$, $H_{31}$ and $H_{32}$.}
 \end{figure}
 
-The command \texttt{createGsrmtpReport} can generate a full report: 
+The command \texttt{createGsrmtpReport} can generate a full report:
 
 \scriptsize
 <<echo=TRUE>>=
@@ -188,6 +212,8 @@ createGsrmtpReport(result, "Report.tex")
 
 @
 \normalsize
+
+\subsection{Using the GUI}
 
 \bibliography{literatur}
 
