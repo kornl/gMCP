@@ -1,5 +1,6 @@
 graph2latex <- function(graph, package="TikZ", scale=1) {	
-	tikz <- "\\begin{tikzpicture}"
+	tikz <- "\\begin{tikzpicture}[scale=0.7]"
+	#tikz <- paste(tikz, "\\tikzset{help lines/.style=very thin}", paste="\n")	
 	for (node in nodes(graph)) {
 		nodeColor <- ifelse(isRejected(graph, node),"red!80", "green!80")
 		x <- nodeRenderInfo(graph)$nodeX[node]*20*scale
