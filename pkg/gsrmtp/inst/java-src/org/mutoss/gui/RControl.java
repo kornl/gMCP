@@ -6,8 +6,8 @@ import org.af.commons.logging.ApplicationLog;
 import org.af.commons.logging.LoggingSystem;
 import org.af.jhlir.backends.rengine.RCallServicesREngine;
 import org.rosuda.JRI.Rengine;
-import org.rosuda.REngine.JRI.JRIEngine;
 import org.rosuda.REngine.REngineException;
+import org.rosuda.REngine.JRI.JRIEngine;
 
 public class RControl {
 
@@ -31,7 +31,7 @@ public class RControl {
 	protected RControl() {
 		if (!LoggingSystem.alreadyInitiated()) {
 			LoggingSystem.init(
-					"/commons-logging.properties",
+					"/org/mutoss/gui/commons-logging.properties",
 					false,
 					true,
 					new ApplicationLog());
