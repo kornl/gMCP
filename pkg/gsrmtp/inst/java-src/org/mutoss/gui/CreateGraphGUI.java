@@ -15,7 +15,7 @@ public class CreateGraphGUI extends JFrame implements WindowListener {
 	GraphSRMTP graph;
 	
 	public CreateGraphGUI(String graph) {
-		super("MuToss GUI");
+		super("Creating and modifying graphs");
 		RControl.getR();
 		this.graph = new GraphSRMTP(graph);
 		setIconImage((new ImageIcon(getClass().getResource("/org/mutoss/gui/graph/images/rjavaicon64.png"))).getImage());
@@ -26,6 +26,7 @@ public class CreateGraphGUI extends JFrame implements WindowListener {
 				screenSize.width  - inset*2,
 				screenSize.height - inset*2);
 		addWindowListener(this);
+		
 		setVisible(true);
 	}
 	
