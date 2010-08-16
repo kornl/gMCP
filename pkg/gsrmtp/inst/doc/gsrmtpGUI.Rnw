@@ -215,6 +215,41 @@ createGsrmtpReport(result, "Report.tex")
 
 \subsection{Using the GUI}
 
+\section{Important TikZ commands for optimizing the reports}
+A clear automatic placement of edges and weight labels without overlapping is a very difficult task 
+and for complicated graphs the \texttt{gsrmtp} package will often fail to accomplish this.
+There is the possibilty to adjust the edges and labels in the GUI, but since the {\LaTeX} graph layout is not (yet) exactly the same,
+there is perhaps the need for adjusting the graphs in the TikZ code.
+The TikZ program is very useful and we recommend it for many purposes,
+but perhaps you don't have the time to read the 560 pages manual \cite{TikZ},
+so here is a short overview of the most important commands for this kind of graphs.
+
+Let's start with this graph in figure \ref{uglygraph}:
+
+\scriptsize
+\lstset{language=[LaTeX]TeX}
+\begin{lstlisting}
+\begin{tikzpicture}
+\node (H11) at (200bp,200bp) [draw,circle split,fill=green!80] {$H11$ \nodepart{lower} $0.0333$};
+...
+\draw [->,line width=1pt] (H11) to[bend left=15] node[near start,above,fill=blue!20] {0.667} (H12);
+...
+\end{tikzpicture}
+\end{lstlisting}
+\normalsize
+
+\begin{figure}[ht]
+  \centering   
+<<echo=FALSE,results=tex>>=
+
+cat(graph2latex(result@graphs[[3]]))
+
+@
+  \caption{\label{uglygraph}Graph from \texttt{graph2latex} that does not look optimal.}
+\end{figure}
+
+Scaling - label positions - labels - degree - ...
+
 \bibliography{literatur}
 
 \end{document}
