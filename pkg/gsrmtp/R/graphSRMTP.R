@@ -19,14 +19,17 @@ setMethod("initialize", "graphSRMTP",
 			return(.Object)
 		})
 
-getAlpha <- function(graph, node) {
-	alpha <- unlist(nodeData(graph, nodes(graph), "alpha"))
-	names(alpha) <- nodes(graph)
-	if (!missing(node)) {
-		return(alpha[node])
-	}
-	return(alpha)
-}
+setGeneric("getAlpha", function(graph, node) standardGeneric("getAlpha"))
+
+setMethod("getAlpha", c("graphSRMTP"),
+		function(graph, node) {
+			alpha <- unlist(nodeData(graph, nodes(graph), "alpha"))
+			names(alpha) <- nodes(graph)
+			if (!missing(node)) {
+				return(alpha[node])
+			}
+			return(alpha)
+		})
 
 getRejected <- function(graph) {
 	rejected <- unlist(nodeData(graph, nodes(graph), "rejected"))

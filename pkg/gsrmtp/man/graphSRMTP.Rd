@@ -4,6 +4,8 @@
 \alias{graphSRMTP}
 \alias{print,graphSRMTP-method}
 \alias{plot,graphSRMTP-method}
+\alias{getAlpha}
+\alias{getAlpha,graphSRMTP-method}
 \title{Class graphSRMTP}
 \description{A graphSRMTP object describes a sequentially rejective multiple test procedure.}
 \section{Slots}{  
@@ -22,6 +24,15 @@
       indicates whether edges are \code{"directed"} or
       \code{"undirected"}}
     \item{\code{renderInfo}:}{A \code{list} of graph rendering information.}
+  }
+}
+\section{Extends}{
+Class \code{"graphNEL"}, directly.
+}
+\section{Methods}{
+  \describe{
+    \item{getAlpha}{\code{signature(object = "graphSRMTP")}: A method for
+      getting the allocation of the significance level alpha.}
   }
 }
 \author{Kornelius Rohmeyer \email{rohmeyer@small-projects.de}}
