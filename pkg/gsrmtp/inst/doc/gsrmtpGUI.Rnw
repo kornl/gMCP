@@ -229,7 +229,7 @@ Let's start with this graph in figure \ref{uglygraph}:
 \scriptsize
 \lstset{language=[LaTeX]TeX}
 \begin{lstlisting}
-\begin{tikzpicture}
+\begin{tikzpicture}[scale=0.7]
 \node (H11) at (200bp,200bp) [draw,circle split,fill=green!80] {$H11$ \nodepart{lower} $0.0333$};
 ...
 \draw [->,line width=1pt] (H11) to[bend left=15] node[near start,above,fill=blue!20] {0.667} (H12);
@@ -242,15 +242,40 @@ Let's start with this graph in figure \ref{uglygraph}:
   \centering   
 <<echo=FALSE,results=tex>>=
 
-cat(graph2latex(result@graphs[[3]]))
+cat(graph2latex(result@graphs[[3]], pvalues=pvalues))
 
 @
   \caption{\label{uglygraph}Graph from \texttt{graph2latex} that does not look optimal.}
 \end{figure}
 
-Scaling - label positions - labels - degree - ...
+You can scale the TikZ graphic by changing the \texttt{[scale=0.7]}
+option.  By default \texttt{graph2latex} scales down all TikZ graphic
+to 70\% and has an optional parameter \texttt{scale}.
 
+For an explanation what \texttt{green!80} means and how you can
+specify other colors, please take a look at the xcolor manual
+\cite{xcolor}.
 
+You can choose between the following label positions \texttt{above,
+  below, right, left, above right, above left, below right}, and
+\texttt{below left}.  In addition these positions can take an optional
+dimension argument, so that for example \texttt{below=1pt} can be used
+to place a label below and additionally shift it 1pt downwards.
+
+You can change the position where the edge weight label is placed to
+\texttt{at start, very near start, near start, midway, near end, very
+  near end} and \texttt{at end} or simply use something like
+\texttt{pos=0.5}.  If you add an argument \texttt{sloped}, the text
+label will be rotated so that a parallel line to the base line becomes
+a tangent to the edge.
+
+Often it is useful to reduce the bending angle in \texttt{[bend
+    left=15]} below 15. You could also specify and change
+\texttt{out=15} and \texttt{in=165} separately.
+
+A powerful feature is the use of styles, since this will effect all
+objects of a given class. But for this please take a look directly at
+the TikZ manual \cite{TikZ}.
 
 \bibliography{literatur}
 

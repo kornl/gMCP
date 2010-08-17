@@ -1,4 +1,4 @@
-graph2latex <- function(graph, package="TikZ", scale=1) {	
+graph2latex <- function(graph, package="TikZ", scale=0.7, pvalues) {	
 	tikz <- paste("\\begin{tikzpicture}[scale=",scale,"]", sep="")
 	#tikz <- paste(tikz, "\\tikzset{help lines/.style=very thin}", paste="\n")	
 	for (node in nodes(graph)) {
@@ -6,7 +6,14 @@ graph2latex <- function(graph, package="TikZ", scale=1) {
 		x <- nodeRenderInfo(graph)$nodeX[node]*20*scale
 		y <- nodeRenderInfo(graph)$nodeY[node]*20*scale
 		alpha <- format(getAlpha(graph,node), digits=3 ,drop0trailing=TRUE)
-		nodeLine <- paste("\\node (",node,") at (",x,"bp,",y,"bp) [draw,circle split,fill=",nodeColor,"] {$",node,"$ \\nodepart{lower} $",alpha,"$};",sep="")
+		double <- ""
+		if (!missing(pvalues)) {
+			if (is.null(names(pvalues))) {
+				names(pvalues) <- nodes(graph)
+			}
+			if (canBeRejected(graph, node, pvalues)) { double <- "double," }
+		}		
+		nodeLine <- paste("\\node (",node,") at (",x,"bp,",y,"bp) [draw,circle split,",double,"fill=",nodeColor,"] {$",node,"$ \\nodepart{lower} $",alpha,"$};",sep="")
 		tikz <- paste(tikz, nodeLine,sep="\n")			
 	}
 	# A second loop for the edges is necessary:
@@ -33,7 +40,7 @@ createGsrmtpReport <- function(srmtpResult, file="", ...) {
 	report <- paste(report, "\\begin{document}", sep="\n")
 	for(i in 1:length(srmtpResult@graphs)) {
 		report <- paste(report, paste("\\subsection*{Graph in Step ",i,"}", sep=""), sep="\n")
-		report <- paste(report, graph2latex(srmtpResult@graphs[[i]], ...), sep="\n")
+		report <- paste(report, graph2latex(srmtpResult@graphs[[i]], ..., pvalues=srmtpResult@pvalues), sep="\n")
 	}
 	report <- paste(report, "\\end{document}", sep="\n")
 	cat(report, file=file)

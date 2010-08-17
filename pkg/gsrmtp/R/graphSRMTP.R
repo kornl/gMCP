@@ -51,6 +51,11 @@ checkValidAlpha <- function(alpha) {
 	}
 }
 
+
+canBeRejected <- function(graph, node, pvalues) {	
+	return(getAlpha(graph)[[node]]>pvalues[[node]] | (all.equal(getAlpha(graph)[[node]],pvalues[[node]])[1]==TRUE));
+}
+
 setMethod("print", "graphSRMTP",
 		function(x, ...) {
 			callNextMethod(x, ...)

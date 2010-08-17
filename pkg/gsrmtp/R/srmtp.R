@@ -76,7 +76,3 @@ getWeight <- function(graph, from, to) {
 	}
 	return(weight[[1]])
 } 
-
-canBeRejected <- function(graph, node, pvalues) {	
-	return(getAlpha(graph)[[node]]>pvalues[[node]] | (all.equal(getAlpha(graph)[[node]],pvalues[[node]])[1]==TRUE));
-}

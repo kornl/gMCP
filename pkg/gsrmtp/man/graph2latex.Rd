@@ -8,7 +8,7 @@
 	Creates LaTeX code that represents the given graph.
 }
 \usage{
-	graph2latex(graph, package="TikZ", scale=1)
+	graph2latex(graph, package="TikZ", scale=0.7, pvalues)
 }
 
 \arguments{
@@ -22,6 +22,9 @@
   \item{scale}{
   	A numeric scalar specifying a possible scaling of the graph.
   }
+  \item{pvalues}{
+  	If the optional numeric argument pvalues is given, nodes that can be rejected, will be marked. 
+  }
 }
 \details{
 	For details see the given references.
@@ -30,7 +33,7 @@
 	A character string that contains LaTeX code representing the given graph.
 }
 \references{
-	The Tik Z and PGF Packages Manual for version 2.00,
+	The TikZ and PGF Packages Manual for version 2.00,
 	Till Tantau,
 	\url{http://www.ctan.org/tex-archive/graphics/pgf/base/doc/generic/pgf/pgfmanual.pdf}
 }
