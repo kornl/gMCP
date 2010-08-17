@@ -250,6 +250,8 @@ cat(graph2latex(result@graphs[[3]]))
 
 Scaling - label positions - labels - degree - ...
 
+
+
 \bibliography{literatur}
 
 \end{document}

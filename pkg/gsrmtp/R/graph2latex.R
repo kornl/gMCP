@@ -1,5 +1,5 @@
 graph2latex <- function(graph, package="TikZ", scale=1) {	
-	tikz <- "\\begin{tikzpicture}[scale=0.7]"
+	tikz <- paste("\\begin{tikzpicture}[scale=",scale,"]", sep="")
 	#tikz <- paste(tikz, "\\tikzset{help lines/.style=very thin}", paste="\n")	
 	for (node in nodes(graph)) {
 		nodeColor <- ifelse(isRejected(graph, node),"red!80", "green!80")
@@ -26,14 +26,14 @@ graph2latex <- function(graph, package="TikZ", scale=1) {
 	return(tikz)
 }
 
-createGsrmtpReport <- function(srmtpResult, file="", package="TikZ") {
+createGsrmtpReport <- function(srmtpResult, file="", ...) {
 	report <- "\\documentclass[11pt]{article}"
 	report <- paste(report, "\\usepackage{tikz}", sep="\n")
 	report <- paste(report, "\\usetikzlibrary{snakes,arrows,shapes}", sep="\n")
 	report <- paste(report, "\\begin{document}", sep="\n")
 	for(i in 1:length(srmtpResult@graphs)) {
 		report <- paste(report, paste("\\subsection*{Graph in Step ",i,"}", sep=""), sep="\n")
-		report <- paste(report, graph2latex(srmtpResult@graphs[[i]]), sep="\n")
+		report <- paste(report, graph2latex(srmtpResult@graphs[[i]], ...), sep="\n")
 	}
 	report <- paste(report, "\\end{document}", sep="\n")
 	cat(report, file=file)

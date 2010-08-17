@@ -8,7 +8,7 @@
 	Creates a LaTeX file with a GRSMTP Report.
 }
 \usage{
-	createGsrmtpReport(srmtpResult, file, package="TikZ")
+	createGsrmtpReport(srmtpResult, file, ...)
 }
 
 \arguments{
@@ -21,9 +21,8 @@
     If it is \code{"|cmd"}, the output is piped to the command given
     by \code{cmd}, by opening a pipe connection.
   }
-  \item{package}{
-  	A character string specifying the LaTeX package that should be used.
-  	Up to now only \code{TikZ} is available.
+  \item{...}{
+  	Arguments to be passed to method \code{\link{graph2latex}} like \code{package} and \code{scale}.
   }   
 }
 \details{
