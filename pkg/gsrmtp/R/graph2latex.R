@@ -2,7 +2,7 @@ graph2latex <- function(graph, package="TikZ", scale=1) {
 	tikz <- paste("\\begin{tikzpicture}[scale=",scale,"]", sep="")
 	#tikz <- paste(tikz, "\\tikzset{help lines/.style=very thin}", paste="\n")	
 	for (node in nodes(graph)) {
-		nodeColor <- ifelse(isRejected(graph, node),"red!80", "green!80")
+		nodeColor <- ifelse(getRejected(graph, node),"red!80", "green!80")
 		x <- nodeRenderInfo(graph)$nodeX[node]*20*scale
 		y <- nodeRenderInfo(graph)$nodeY[node]*20*scale
 		alpha <- format(getAlpha(graph,node), digits=3 ,drop0trailing=TRUE)

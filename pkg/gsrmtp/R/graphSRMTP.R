@@ -31,16 +31,16 @@ setMethod("getAlpha", c("graphSRMTP"),
 			return(alpha)
 		})
 
-getRejected <- function(graph) {
-	rejected <- unlist(nodeData(graph, nodes(graph), "rejected"))
-	names(rejected) <- nodes(graph)
-	return(rejected)
-}
+setGeneric("getRejected", function(graph, node) standardGeneric("getRejected"))
 
-isRejected <- function(graph, node) {
-	rejected <- getRejected(graph)
-	return(rejected[node])
-}
+setMethod("getRejected", c("graphSRMTP"), function(graph, node) {
+			rejected <- unlist(nodeData(graph, nodes(graph), "rejected"))
+			names(rejected) <- nodes(graph)
+			if (!missing(node)) {
+				return(rejected[node])
+			}
+			return(rejected)
+		})
 
 checkValidAlpha <- function(alpha) {
 	if(any(0 > alpha | alpha > 1)) {

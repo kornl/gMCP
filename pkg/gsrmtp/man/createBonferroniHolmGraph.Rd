@@ -6,7 +6,10 @@
 	Functions that create different example graphs
 }
 \description{ 
-	Functions that creates example graphs, e.g. graphs that represents a Bonferroni-Holm adjustment
+	Functions that creates example graphs, e.g. graphs that represents a Bonferroni-Holm adjustment.
+	
+	We are providing functions and not the resulting graphs directly because this way you have additional examples:
+	You can look at the function body with \code{\link{body}} and see how the graph is built.
 }
 \usage{
 	createBonferroniHolmGraph(n, alpha=0.05)
