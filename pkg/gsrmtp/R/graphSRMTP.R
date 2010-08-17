@@ -67,7 +67,8 @@ setMethod("print", "graphSRMTP",
 
 setMethod("show", "graphSRMTP",
 		function(object) {
-			callNextMethod(object)
+			#callNextMethod(object)
+			cat("A graphSRMTP graph\n")
 			cat(paste("Overall alpha: ",sum(getAlpha(object)),"\n", sep=""))
 			for (node in nodes(object)) {
 				cat(paste(node, " (",ifelse(unlist(nodeData(object, node, "rejected")),"rejected","not rejected"),", alpha=",format(unlist(nodeData(object, node, "alpha")), digits=4 ,drop0trailing=TRUE),")\n", sep=""))	

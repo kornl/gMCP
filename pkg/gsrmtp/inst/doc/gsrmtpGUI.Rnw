@@ -62,7 +62,8 @@ graph <- new("graphSRMTP", nodes=hnodes, edgeL=edges, alpha=alpha)
 nodeX <- c(H11=10, H21=20, H31=30, H12=10, H22=20, H32=30)
 nodeY <- c(H11=20, H21=20, H31=20, H12=10, H22=10, H32=10)
 nodeRenderInfo(graph) <- list(nodeX=nodeX, nodeY=nodeY)	
-cat(graph2latex(graph))
+cat(graph2latex(graph, scale=0.7, fontsize="tiny"))
+
 createGsrmtpReport <- function(...) {invisible(NULL)}
 graphGUI <- function(...) {invisible(NULL)}
 
@@ -197,7 +198,7 @@ cat(graph2latex(result@graphs[[4]]))
   \centering   
 <<echo=FALSE,results=tex>>=
 
-cat(graph2latex(result@graphs[[4]]))
+cat(graph2latex(result@graphs[[4]], scale=0.7, fontsize="tiny"))
 
 @
   \caption{\label{finalstate}Final graph from the test procedure after rejection of $H_{21}$, $H_{31}$ and $H_{32}$.}
@@ -242,7 +243,7 @@ Let's start with this graph in figure \ref{uglygraph}:
   \centering   
 <<echo=FALSE,results=tex>>=
 
-cat(graph2latex(result@graphs[[3]], pvalues=pvalues))
+cat(graph2latex(result@graphs[[3]], pvalues=pvalues, scale=0.7, fontsize="tiny"))
 
 @
   \caption{\label{uglygraph}Graph from \texttt{graph2latex} that does not look optimal.}
@@ -276,6 +277,8 @@ Often it is useful to reduce the bending angle in \texttt{[bend
 A powerful feature is the use of styles, since this will effect all
 objects of a given class. But for this please take a look directly at
 the TikZ manual \cite{TikZ}.
+
+\newpage
 
 \bibliography{literatur}
 

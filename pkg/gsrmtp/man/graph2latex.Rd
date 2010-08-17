@@ -8,7 +8,9 @@
 	Creates LaTeX code that represents the given graph.
 }
 \usage{
-	graph2latex(graph, package="TikZ", scale=0.7, pvalues)
+	graph2latex(graph, package="TikZ", scale=1, pvalues,
+	fontsize=c("tiny","scriptsize", "footnotesize", "small",
+		"normalsize", "large", "Large", "LARGE", "huge", "Huge"))
 }
 
 \arguments{
@@ -20,11 +22,16 @@
   	Up to now only \code{TikZ} is available.
   }   
   \item{scale}{
-  	A numeric scalar specifying a possible scaling of the graph.
+  	A numeric scalar specifying a possible scaling of the graph. Note that this does not effect the fontsize of the graph.
   }
   \item{pvalues}{
   	If the optional numeric argument pvalues is given, nodes that can be rejected, will be marked. 
   }
+  \item{fontsize}{
+  	An optional character vector specifying the fontsize for the graph, must be one of \code{"tiny"}, \code{"scriptsize"}, 
+  	\code{"footnotesize"}, \code{"small"}, \code{"normalsize"}, \code{"large"}, \code{"Large"}, \code{"LARGE"}, 
+  	\code{"huge"} or \code{"Huge"}.
+  }  
 }
 \details{
 	For details see the given references.
