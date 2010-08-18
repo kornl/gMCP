@@ -11,12 +11,16 @@ import java.util.Vector;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 /**
  * Diese Klasse (extends JPanel) stellt einen Graphen graphisch dar.
  */
 
 public class NetzListe extends JPanel implements MouseMotionListener, MouseListener {
 
+	private static final Log logger = LogFactory.getLog(NetzListe.class);
 	RunnableAlgorithm algo;
 	int drag = -1;
 	Node firstVertex;
@@ -45,6 +49,7 @@ public class NetzListe extends JPanel implements MouseMotionListener, MouseListe
 	public NetzListe(JLabel statusBar, VS vs) {
 		this.statusBar = statusBar;
 		this.vs = vs;
+		vs.setNL(this);
 		addMouseMotionListener(this);
 		addMouseListener(this);
 		Font f = statusBar.getFont();
@@ -204,6 +209,7 @@ public class NetzListe extends JPanel implements MouseMotionListener, MouseListe
 	}
 	
 	public void mousePressed(MouseEvent e) {
+		logger.debug("MousePressed at ("+e.getX()+","+ e.getY()+").");
 		if (vs.newVertex) {
 			addDefaultNode((int)(e.getX() / vs.getZoom())	- Node.r, 
 						(int) (e.getY() / vs.getZoom()) - Node.r);

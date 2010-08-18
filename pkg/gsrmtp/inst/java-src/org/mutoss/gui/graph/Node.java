@@ -56,6 +56,18 @@ public class Node {
 		this.vs = vs;
 		degree = 0;
 	}
+	
+	static int count = 1;
+
+	public Node(String name, int x, int y, VS vs) {
+		this.nr = count;
+		count++;
+		this.name = name;
+		this.x = x;
+		this.y = y;
+		this.vs = vs;
+		degree = 0;
+	}
 
 	/**
 	 * Gibt den Knoten auf g aus.

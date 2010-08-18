@@ -7,8 +7,11 @@ import java.awt.event.WindowListener;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 
 import org.af.statguitoolkit.graph.GraphSRMTP;
+import org.mutoss.gui.graph.NetzListe;
+import org.mutoss.gui.graph.VS;
 
 public class CreateGraphGUI extends JFrame implements WindowListener {
 	
@@ -17,7 +20,6 @@ public class CreateGraphGUI extends JFrame implements WindowListener {
 	public CreateGraphGUI(String graph) {
 		super("Creating and modifying graphs");
 		RControl.getR();
-		this.graph = new GraphSRMTP(graph);
 		setIconImage((new ImageIcon(getClass().getResource("/org/mutoss/gui/graph/images/rjavaicon64.png"))).getImage());
 		// Fenster in der Mitte des Bildschirms platzieren mit inset = 50 Pixeln Rand.
 		int inset = 50;
@@ -27,9 +29,24 @@ public class CreateGraphGUI extends JFrame implements WindowListener {
 				screenSize.height - inset*2);
 		addWindowListener(this);
 		
+		makeContent();
+		this.graph = new GraphSRMTP(graph, vs);
+		
 		setVisible(true);
 	}
 	
+	JLabel statusbar = new JLabel(); 
+	VS vs = new VS();
+	NetzListe nl;
+	
+	private void makeContent() {
+		nl = new NetzListe(statusbar, vs);		
+		this.getContentPane().add(nl);
+		
+		
+		
+	}
+
 	public static void main(String[] args) {
 		new CreateGraphGUI("graph");
 	}
