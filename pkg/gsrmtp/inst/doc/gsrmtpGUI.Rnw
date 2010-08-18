@@ -114,7 +114,7 @@ print(graph)
 Since we also want to visualize the graph, we use the method
 \texttt{nodeRenderInfo} from package \texttt{graph} to set appropriate
 x- and y-coordinates in the renderInfo.
-(We are compatible to the renderInfo from package Rgraphviz - see e.g. \texttt{Rgraphviz:::layoutGraphviz}.)
+(We are compatible to the renderInfo usage from package Rgraphviz - see e.g. \texttt{Rgraphviz:::layoutGraphviz}.)
 
 \scriptsize
 <<echo=TRUE>>=
@@ -126,7 +126,7 @@ nodeRenderInfo(graph) <- list(nodeX=nodeX, nodeY=nodeY)
 @
 \normalsize
 
-72 bp (big points) are 1 inch.
+Coordinates are interpretated as pixels in the GUI or 2 big points in {\LaTeX} (72 bp = 1 inch).
 
 Let's take a look at the graph in {\LaTeX} rendered with TikZ
 \cite{TikZ} (you can see the compiled result in figure
