@@ -24,8 +24,8 @@ createGraphFromBretzEtAl <- function() {
 	names(edges)<-hnodes
 	graph <- new("graphSRMTP", nodes=hnodes, edgeL=edges, alpha=alpha)
 	# Layout see Rgraphviz:::layoutGraphviz
-	nodeX <- rep(c(10,20,30),2)
-	nodeY <- rep(c(10,20),each=3)
+	nodeX <- rep(c(100, 200, 300), 2)
+	nodeY <- rep(c(100, 200), each=3)
 	names(nodeX) <- hnodes
 	names(nodeY) <- hnodes
 	nodeRenderInfo(graph) <- list(nodeX=nodeX, nodeY=nodeY)	
