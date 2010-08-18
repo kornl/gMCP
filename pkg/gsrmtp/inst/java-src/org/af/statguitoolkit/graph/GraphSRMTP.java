@@ -6,6 +6,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.mutoss.gui.RControl;
 import org.mutoss.gui.graph.Edge;
+import org.mutoss.gui.graph.NetzListe;
 import org.mutoss.gui.graph.Node;
 import org.mutoss.gui.graph.VS;
 
@@ -17,9 +18,10 @@ public class GraphSRMTP {
 	
 	public Vector<Edge> kanten = new Vector<Edge>();
 	public Vector<Node> knoten = new Vector<Node>();
+	NetzListe nl;
 	
 	public GraphSRMTP(String name, VS vs) {
-		this.name = name;		 
+		this.name = name;		
 		if ( RControl.getR().eval("exists(\""+name+"\")").asRLogical().getData()[0] ) {
 			String[] nodes = RControl.getR().eval("nodes("+name+")").asRChar().getData();
 			double[] alpha = RControl.getR().eval("getAlpha("+name+")").asRNumeric().getData();
@@ -28,9 +30,14 @@ public class GraphSRMTP {
 			for (int i=0; i<nodes.length; i++) {
 				logger.debug("Adding node "+nodes[i]+" at ("+x[i]+","+y[i]+").");
 				knoten.add(new Node(nodes[i], (int) x[i], (int) y[i], vs));
-			}
+			}			
 		}
-		
+		this.nl = vs.nl;
+		for (Node k : knoten) {
+			nl.addNode(k);
+		}
 	}
+	
+	
 
 }

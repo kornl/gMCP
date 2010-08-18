@@ -7,7 +7,7 @@ public class VS {
 	public boolean directed = true;
 	public boolean shownr = false;
 	
-	NetzListe nl = null;
+	public NetzListe nl = null;
 	
 	public void setNL(NetzListe nl) {
 		this.nl = nl;

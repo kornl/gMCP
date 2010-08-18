@@ -113,6 +113,12 @@ public class NetzListe extends JPanel implements MouseMotionListener, MouseListe
 		calculateSize();
 	}
 
+	
+	public void addNode(Node node) {
+		knoten.add(node);
+		knoten.lastElement().fix = false;		
+		calculateSize();
+	}
 	/**
 	 * Berechnet die benötigte Größe um alle Knoten anzuzeigen und setzt sie.
 	 */
