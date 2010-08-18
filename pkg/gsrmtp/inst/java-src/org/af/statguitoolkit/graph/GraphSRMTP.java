@@ -2,6 +2,7 @@ package org.af.statguitoolkit.graph;
 
 import java.util.Vector;
 
+import org.af.jhlir.call.RList;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.mutoss.gui.RControl;
@@ -30,12 +31,34 @@ public class GraphSRMTP {
 			for (int i=0; i<nodes.length; i++) {
 				logger.debug("Adding node "+nodes[i]+" at ("+x[i]+","+y[i]+").");
 				knoten.add(new Node(nodes[i], (int) x[i], (int) y[i], alpha[i], vs));
-			}			
-		}
+			}
+			// Edges:
+			RList edgeL = RControl.getR().eval("gsrmtp:::getEdges("+name+")").asRList();
+			String[] from = edgeL.get(0).asRChar().getData();
+			String[] to = edgeL.get(1).asRChar().getData();
+			double[] weight = edgeL.get(2).asRNumeric().getData();
+			for (int i=0; i<from.length; i++) {
+				kanten.add(new Edge(getNode(from[i]), getNode(to[i]), weight[i], vs));
+			}
+		}		
 		this.nl = vs.nl;
 		for (Node k : knoten) {
 			nl.addNode(k);
+		}		
+		for (Edge e : kanten) {
+			nl.addEdge(e);
 		}
+		nl.revalidate();
+		nl.repaint();
+	}
+
+	private Node getNode(String name) {
+		for (Node node : knoten) {
+			if (node.name.equals(name)) {
+				return node;
+			}
+		}
+		return null;
 	}
 	
 	

@@ -35,6 +35,10 @@ public class CreateGraphGUI extends JFrame implements WindowListener {
 		setVisible(true);
 	}
 	
+	public static void startGUI(String graph) {
+		new CreateGraphGUI(graph);
+	}
+	
 	JLabel statusbar = new JLabel(); 
 	VS vs = new VS();
 	NetzListe nl;

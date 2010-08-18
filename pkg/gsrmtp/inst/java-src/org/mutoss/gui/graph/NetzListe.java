@@ -96,6 +96,10 @@ public class NetzListe extends JPanel implements MouseMotionListener, MouseListe
 		revalidate();
 		repaint();
 	}
+	
+	public void addEdge(Edge e) {
+		edges.add(e);
+	}
 
 	/**
 	 * Fügt Knoten hinzu und ruft calculateSize auf.
