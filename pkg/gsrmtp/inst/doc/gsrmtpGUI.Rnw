@@ -81,7 +81,7 @@ allocation of the significance level alpha to the individual
 hypotheses.  Declaration of the nodes and edges is inherited from
 class \texttt{graphNEL}.
 
-As an example we now create the graph from \cite{bretzEtAl2009power}
+As an example we now create the graph from Bretz et al. \cite{bretzEtAl2009power}
 that you can see in figure \ref{exampleGraphBretz}.
 
 \scriptsize
@@ -169,7 +169,7 @@ The GUI also allows you to update existing graphs.
 \section{The sequentially rejective MTP}
 
 For a full description of the sequentially rejective multiple testing
-procedure take a look at \cite{bretzEtAl2009graphical}. 
+procedure take a look at Bretz et al. \cite{bretzEtAl2009graphical}. 
 
 \subsection{Using R}
 
