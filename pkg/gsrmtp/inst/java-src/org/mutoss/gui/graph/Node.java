@@ -32,7 +32,7 @@ public class Node {
 	boolean drag = false;
 	VS vs;
 	int degree;
-	public double w;
+	public double alpha;
 	private Color color = Color.WHITE;
 
 	public static int r = 25;
@@ -59,13 +59,14 @@ public class Node {
 	
 	static int count = 1;
 
-	public Node(String name, int x, int y, VS vs) {
+	public Node(String name, int x, int y, double alpha, VS vs) {
 		this.nr = count;
 		count++;
 		this.name = name;
 		this.x = x;
 		this.y = y;
 		this.vs = vs;
+		this.alpha = alpha;
 		degree = 0;
 	}
 
@@ -173,7 +174,7 @@ public class Node {
 	}
 
 	public void setW(double w, NodeListener me) {
-		this.w = w;	
+		this.alpha = w;	
 		for (NodeListener l : listener) {
 			if (me!=l) {
 				l.updated(this);
@@ -183,7 +184,7 @@ public class Node {
 	}
 
 	public double getW() {
-		return w;
+		return alpha;
 	}
 
 	public void setColor(Color color) {

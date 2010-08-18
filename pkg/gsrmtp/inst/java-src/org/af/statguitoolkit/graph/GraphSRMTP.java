@@ -29,7 +29,7 @@ public class GraphSRMTP {
 			double[] y = RControl.getR().eval("getY("+name+")").asRNumeric().getData();
 			for (int i=0; i<nodes.length; i++) {
 				logger.debug("Adding node "+nodes[i]+" at ("+x[i]+","+y[i]+").");
-				knoten.add(new Node(nodes[i], (int) x[i], (int) y[i], vs));
+				knoten.add(new Node(nodes[i], (int) x[i], (int) y[i], alpha[i], vs));
 			}			
 		}
 		this.nl = vs.nl;

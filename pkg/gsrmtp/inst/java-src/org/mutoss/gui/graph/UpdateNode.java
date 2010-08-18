@@ -33,7 +33,7 @@ public class UpdateNode extends JDialog implements ActionListener {
         getContentPane().add(new JLabel("α for node "+node.name), cc.xy(2, 2));
 
         tf = new RealTextField("α for node", 0d,1d, true, false);
-        tf.setText(""+node.w);
+        tf.setText(""+node.alpha);
         getContentPane().add(tf, cc.xy(4, 2));
 
         jb.addActionListener(this);

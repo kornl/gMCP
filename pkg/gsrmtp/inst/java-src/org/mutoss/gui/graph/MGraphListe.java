@@ -93,7 +93,7 @@ public class MGraphListe extends NetzListe {
 				removeEdge(e);
 			}
 			if (e.von == node && !e.w.toString().equals("NaN")) {
-				e.nach.w = e.nach.w + node.w * e.w;				
+				e.nach.alpha = e.nach.alpha + node.alpha * e.w;				
 				removeEdge(e);
 				eps = false;
 			} 
@@ -106,14 +106,14 @@ public class MGraphListe extends NetzListe {
 				Edge e = edges.get(i);
 				if (e.von == node && e.w.toString().equals("NaN")) {
 					if (eps) {
-						e.nach.w = e.nach.w + node.w / epsilon;					
+						e.nach.alpha = e.nach.alpha + node.alpha / epsilon;					
 					}
 					removeEdge(e);
 				} 
 			}
 		}
 		if (hasChildren) {
-			node.w = 0; 
+			node.alpha = 0; 
 		}
 		node.setColor(Color.MAGENTA);
 		revalidate();
