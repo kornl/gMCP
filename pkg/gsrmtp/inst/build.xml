@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
-<project name="mutossGUI" default="build">
+<project name="gsrmtpGUI" default="build">
 	
 	<dirname property="content.root" file="${ant.file}"/>
 	
@@ -38,7 +38,7 @@
 	
 	<target name="compile">
 			<mkdir dir="${output.dir}"/>	
-			<javac srcdir="java-src" destdir="${output.dir}" debug="${compiler.debug}" nowarn="${compiler.generate.no.warnings}"
+			<javac srcdir="${content.root}/java-src" destdir="${output.dir}" debug="${compiler.debug}" nowarn="${compiler.generate.no.warnings}"
 	                memorymaximumsize="${compiler.max.memory}" fork="true">
 				<compilerarg line="${compiler.args}"/>
 				<classpath refid="complete.classpath"/>
@@ -49,7 +49,7 @@
 	<target name="build" depends="clean, compile">				
 		
 		<copy todir="${output.dir}">
-		    <fileset dir="${content.root}/src/java-src">
+		    <fileset dir="${content.root}/java-src">
 		      	<include name="**/*.jpg"/>
 		    	<include name="**/*.png"/>
 		    	<include name="**/*.properties"/>
