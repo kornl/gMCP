@@ -42,15 +42,27 @@ setMethod("getRejected", c("graphSRMTP"), function(graph, node) {
 			return(rejected)
 		})
 
-checkValidAlpha <- function(alpha) {
-	if(any(0 > alpha | alpha > 1)) {
-		stop("invalid alpha: alphas must be between 0 and 1")
-	}
-	if(sum(alpha) >= 1) {
-		stop("invalid alpha: the sum of all alphas must be less than 1")
-	}
-}
+setGeneric("getX", function(graph, node) standardGeneric("getX"))
 
+setMethod("getX", c("graphSRMTP"), function(graph, node) {
+			x <- nodeRenderInfo(graph)$nodeX
+			names(x) <- nodes(graph)
+			if (!missing(node)) {
+				return(x[node])
+			}
+			return(x)
+		})
+
+setGeneric("getY", function(graph, node) standardGeneric("getY"))
+
+setMethod("getY", c("graphSRMTP"), function(graph, node) {
+			y <- nodeRenderInfo(graph)$nodeY
+			names(y) <- nodes(graph)
+			if (!missing(node)) {
+				return(y[node])
+			}
+			return(y)
+		})
 
 canBeRejected <- function(graph, node, pvalues) {	
 	return(getAlpha(graph)[[node]]>pvalues[[node]] | (all.equal(getAlpha(graph)[[node]],pvalues[[node]])[1]==TRUE));

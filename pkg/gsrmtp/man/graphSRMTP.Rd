@@ -8,6 +8,10 @@
 \alias{getAlpha,graphSRMTP-method}
 \alias{getRejected}
 \alias{getRejected,graphSRMTP-method}
+\alias{getX}
+\alias{getX,graphSRMTP-method}
+\alias{getY}
+\alias{getY,graphSRMTP-method}
 \title{Class graphSRMTP}
 \description{A graphSRMTP object describes a sequentially rejective multiple test procedure.}
 \section{Slots}{  
@@ -39,6 +43,12 @@ Class \code{"graphNEL"}, directly.
     \item{getRejected}{\code{signature(object = "graphSRMTP")}: A method for
       getting the information whether the hypotheses are marked in the graph as already rejected.
       If a second optional argument \code{node} is specified, only for these nodes the boolean vector will be returned.}
+    \item{getX}{\code{signature(object = "graphSRMTP")}: A method for
+      getting the x coordinates of the graph.
+      If a second optional argument \code{node} is specified, only for these nodes the x coordinates will be returned.}
+    \item{getY}{\code{signature(object = "graphSRMTP")}: A method for
+      getting the y coordinates of the graph
+      If a second optional argument \code{node} is specified, only for these nodes the x coordinates will be returned.}
   }
 }
 \author{Kornelius Rohmeyer \email{rohmeyer@small-projects.de}}

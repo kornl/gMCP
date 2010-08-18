@@ -3,6 +3,7 @@
 setW -> ((AbstractGraphControl)(AbstractControl.getInstance())).getNL().addEdge(edge.von, edge.nach, w);
 setW with w=0 is bad, since it does not delete the edge.
 - highlight is cool - but how can I tell r-forge or CRAN to use it?
+See also http://comments.gmane.org/gmane.comp.lang.r.general/200179
 
 - CITATION file?
 
