@@ -369,4 +369,9 @@ public class NetzListe extends JPanel implements MouseMotionListener, MouseListe
 		return null;
 	}
 
+	public void saveGraph(String string) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

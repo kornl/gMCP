@@ -4,15 +4,12 @@ import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 
 import org.af.statguitoolkit.graph.GraphSRMTP;
-import org.apache.commons.logging.Log;
 import org.mutoss.gui.graph.AbstractGraphControl;
 import org.mutoss.gui.graph.GraphView;
 

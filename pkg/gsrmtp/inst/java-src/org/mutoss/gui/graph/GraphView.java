@@ -16,6 +16,7 @@ import javax.swing.JScrollPane;
 
 import org.af.commons.errorhandling.ErrorHandler;
 import org.af.commons.widgets.DesktopPaneBG;
+import org.mutoss.gui.RControl;
 
 public class GraphView extends JPanel implements ActionListener {
 
@@ -42,6 +43,7 @@ public class GraphView extends JPanel implements ActionListener {
 	JButton buttonZoomIn;
 	JButton buttonLatex;
 	JButton buttonPhysics;
+	JButton buttonSave;
 	
 	public JPanel getNorthPanel() {
 		JPanel panel = new JPanel();
@@ -95,6 +97,12 @@ public class GraphView extends JPanel implements ActionListener {
 			toolPanel.add(buttonPhysics);
 			buttonPhysics.addActionListener(this);
 			buttonPhysics.setToolTipText("physics");
+			buttonSave = new JButton(
+					new ImageIcon(ImageIO.read(DesktopPaneBG.class
+											.getResource("/org/mutoss/gui/graph/images/save.png"))));
+			toolPanel.add(buttonSave);
+			buttonSave.addActionListener(this);
+			buttonSave.setToolTipText("save");
 		} catch (IOException e) {
 			ErrorHandler.getInstance().makeErrDialog(e.getMessage(), e);
 		}
@@ -122,6 +130,8 @@ public class GraphView extends JPanel implements ActionListener {
 			getNL().statusBar.setText("Click on the graph panel to place the node.");
 		} else if (e.getSource().equals(buttonPhysics)) {
 			getNL().changePhysics();
+		} else if (e.getSource().equals(buttonSave)) {
+			getNL().saveGraph("graph");
 		}
 		
 	}
