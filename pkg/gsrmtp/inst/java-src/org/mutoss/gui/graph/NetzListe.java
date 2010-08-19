@@ -13,6 +13,7 @@ import javax.swing.JPanel;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.mutoss.gui.RControl;
 
 
 /**
@@ -370,7 +371,23 @@ public class NetzListe extends JPanel implements MouseMotionListener, MouseListe
 	}
 
 	public void saveGraph(String string) {
-		// TODO Auto-generated method stub
+		String alpha = "";
+		String nodes = "";
+		String x = "";
+		String y = "";
+		RControl.getR().evalVoid("alpha <- c("+alpha+")");
+		RControl.getR().evalVoid("hnodes <- c("+nodes+")");
+		RControl.getR().evalVoid("edges <- vector(\"list\", length="+knoten.size()+")");
+		for (Node n : knoten) {
+			RControl.getR().evalVoid("edges[[1]] <- list(edges=c(\"H21\",\"H12\"), weights=rep(1/2, 2))");
+		}		
+		RControl.getR().evalVoid("names(edges)<-hnodes");
+		RControl.getR().evalVoid("graph <- new(\"graphSRMTP\", nodes=hnodes, edgeL=edges, alpha=alpha)");		
+		RControl.getR().evalVoid("nodeX <- c("+x+")");
+		RControl.getR().evalVoid("nodeY <- c("+y+")");
+		RControl.getR().evalVoid("names(nodeX) <- hnodes");
+		RControl.getR().evalVoid("names(nodeY) <- hnodes");
+		RControl.getR().evalVoid("nodeRenderInfo(graph) <- list(nodeX=nodeX, nodeY=nodeY)");	
 		
 	}
 

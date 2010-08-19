@@ -13,6 +13,7 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JTextField;
 
 import org.af.commons.errorhandling.ErrorHandler;
 import org.af.commons.widgets.DesktopPaneBG;
@@ -44,6 +45,7 @@ public class GraphView extends JPanel implements ActionListener {
 	JButton buttonLatex;
 	JButton buttonPhysics;
 	JButton buttonSave;
+	JTextField jtSaveName;
 	
 	public JPanel getNorthPanel() {
 		JPanel panel = new JPanel();
@@ -103,6 +105,9 @@ public class GraphView extends JPanel implements ActionListener {
 			toolPanel.add(buttonSave);
 			buttonSave.addActionListener(this);
 			buttonSave.setToolTipText("save");
+			jtSaveName = new JTextField(control.getName(), 24);
+			toolPanel.add(new JLabel("Variablename to save to: "));
+			toolPanel.add(jtSaveName);
 		} catch (IOException e) {
 			ErrorHandler.getInstance().makeErrDialog(e.getMessage(), e);
 		}

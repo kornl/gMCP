@@ -18,9 +18,10 @@ public class CreateGraphGUI extends JFrame implements WindowListener {
 	GraphSRMTP graph;
 	
 	public CreateGraphGUI(String graph) {
-		super("Creating and modifying graphs");
+		super("Creating and modifying graphs");		
 		RControl.getR();
 		setIconImage((new ImageIcon(getClass().getResource("/org/mutoss/gui/graph/images/rjavaicon64.png"))).getImage());
+		agc = new AbstractGraphControl(graph);
 		// Fenster in der Mitte des Bildschirms platzieren mit inset = 50 Pixeln Rand.
 		int inset = 50;
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
@@ -41,7 +42,7 @@ public class CreateGraphGUI extends JFrame implements WindowListener {
 	
 	JLabel statusbar = new JLabel(); 
 	GraphView gv;
-	AbstractGraphControl agc = new AbstractGraphControl();
+	AbstractGraphControl agc;
 	
 	private void makeContent() {
 		gv = new GraphView(agc);				

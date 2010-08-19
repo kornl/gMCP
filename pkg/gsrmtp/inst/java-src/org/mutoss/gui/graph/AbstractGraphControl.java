@@ -7,7 +7,12 @@ public class AbstractGraphControl  {
 	
 	private static final Log logger = LogFactory.getLog(AbstractGraphControl.class);
 	
-
+	String name;
+	
+	public AbstractGraphControl(String name) {
+		this.name = name;
+	}
+	
 	public NetzListe getNL() {
 		return null;
 	}
@@ -28,6 +33,10 @@ public class AbstractGraphControl  {
 	public Object getDataFrame() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	public String getName() {		
+		return name;
 	}
 
 }
