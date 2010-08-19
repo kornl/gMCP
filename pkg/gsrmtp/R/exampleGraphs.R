@@ -9,12 +9,13 @@ createBonferroniHolmGraph <- function(n, alpha=0.05) {
 	BonferroniHolmGraph <- new("graphSRMTP", nodes=hnodes, edgeL=edges, alpha=alpha)
 	nodeX <- 100+(0:(n-1))*200
 	nodeY <- rep(100, n)
+	names(nodeX) <- hnodes
+	names(nodeY) <- hnodes
 	nodeRenderInfo(BonferroniHolmGraph) <- list(nodeX=nodeX, nodeY=nodeY)	
 	return(BonferroniHolmGraph)
 }
 
-createGraphFromBretzEtAl <- function() {
-	alpha=0.05
+createGraphFromBretzEtAl <- function(alpha=0.05) {	
 	alpha <- rep(c(alpha/3,0), each=3)
 	hnodes <- paste("H", rep(1:3, 2), rep(1:2, each=3), sep="")
 	edges <- vector("list", length=6)

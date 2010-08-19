@@ -13,7 +13,7 @@
 }
 \usage{
 	createBonferroniHolmGraph(n, alpha=0.05)
-	createGraphFromBretzEtAl()
+	createGraphFromBretzEtAl(alpha=0.05)
 }
 
 \arguments{
