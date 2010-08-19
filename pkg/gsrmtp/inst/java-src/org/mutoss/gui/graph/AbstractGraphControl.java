@@ -3,7 +3,7 @@ package org.mutoss.gui.graph;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-public abstract class AbstractGraphControl  {
+public class AbstractGraphControl  {
 	
 	private static final Log logger = LogFactory.getLog(AbstractGraphControl.class);
 	

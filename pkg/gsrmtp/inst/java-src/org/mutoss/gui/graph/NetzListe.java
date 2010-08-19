@@ -14,6 +14,7 @@ import javax.swing.JPanel;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+
 /**
  * Diese Klasse (extends JPanel) stellt einen Graphen graphisch dar.
  */
@@ -67,7 +68,7 @@ public class NetzListe extends JPanel implements MouseMotionListener, MouseListe
 	 */
 
 	public void addEdge(Node von, Node nach) {
-		addEdge(von,nach,1d);
+		addEdge(von,nach,1d);		
 	}
 
 	/**
@@ -98,6 +99,12 @@ public class NetzListe extends JPanel implements MouseMotionListener, MouseListe
 	}
 	
 	public void addEdge(Edge e) {
+		for (Edge e2 : edges) {
+			if (e2.von == e.nach && e2.nach == e.von) {
+				e.curve = true;
+				e2.curve = true;
+			}
+		}
 		edges.add(e);
 	}
 

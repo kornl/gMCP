@@ -40,7 +40,6 @@ public class GraphView extends JPanel implements ActionListener {
 	JButton buttonNewEdge;
 	JButton buttonZoomOut;
 	JButton buttonZoomIn;
-	JButton buttonPrint;
 	JButton buttonLatex;
 	JButton buttonPhysics;
 	
@@ -62,43 +61,37 @@ public class GraphView extends JPanel implements ActionListener {
 					.setAlignment(FlowLayout.LEFT);
 			buttonNewVertex = new JButton(
 					new ImageIcon(ImageIO.read(DesktopPaneBG.class
-											.getResource("/af/statguitoolkit/images/vertex.png"))));
+											.getResource("/org/mutoss/gui/graph/images/vertex.png"))));
 			toolPanel.add(buttonNewVertex);
 			buttonNewVertex.addActionListener(this);
 			buttonNewVertex.setToolTipText("new vertex");
 			buttonNewEdge = new JButton(
 					new ImageIcon(ImageIO.read(DesktopPaneBG.class
-											.getResource("/af/statguitoolkit/images/edge.png"))));
+											.getResource("/org/mutoss/gui/graph/images/edge.png"))));
 			toolPanel.add(buttonNewEdge);
 			buttonNewEdge.addActionListener(this);
 			buttonNewEdge.setToolTipText("new edge");
 			buttonZoomOut = new JButton(
 					new ImageIcon(ImageIO.read(DesktopPaneBG.class
-											.getResource("/af/statguitoolkit/images/zoom_out.png"))));
+											.getResource("/org/mutoss/gui/graph/images/zoom_out.png"))));
 			toolPanel.add(buttonZoomOut);
 			buttonZoomOut.addActionListener(this);
 			buttonZoomOut.setToolTipText("zoom out");
 			buttonZoomIn = new JButton(
 					new ImageIcon(ImageIO.read(DesktopPaneBG.class
-											.getResource("/af/statguitoolkit/images/zoom_in.png"))));
+											.getResource("/org/mutoss/gui/graph/images/zoom_in.png"))));
 			toolPanel.add(buttonZoomIn);
 			buttonZoomIn.addActionListener(this);
 			buttonZoomIn.setToolTipText("zoom in");
-			buttonPrint = new JButton(
-					new ImageIcon(ImageIO.read(DesktopPaneBG.class
-											.getResource("/af/statguitoolkit/images/print.png"))));
-			toolPanel.add(buttonPrint);
-			buttonPrint.addActionListener(this);
-			buttonPrint.setToolTipText("print graph");
 			buttonLatex = new JButton(
 					new ImageIcon(ImageIO.read(DesktopPaneBG.class
-											.getResource("/af/statguitoolkit/images/latex.png"))));
+											.getResource("/org/mutoss/gui/graph/images/latex.png"))));
 			toolPanel.add(buttonLatex);
 			buttonLatex.addActionListener(new ActionExportToLatex(this, nl, vs));
 			buttonLatex.setToolTipText("export to LaTeX");
 			buttonPhysics = new JButton(
 					new ImageIcon(ImageIO.read(DesktopPaneBG.class
-											.getResource("/af/statguitoolkit/images/smiley.png"))));
+											.getResource("/org/mutoss/gui/graph/images/smiley.png"))));
 			toolPanel.add(buttonPhysics);
 			buttonPhysics.addActionListener(this);
 			buttonPhysics.setToolTipText("physics");
@@ -129,10 +122,12 @@ public class GraphView extends JPanel implements ActionListener {
 			getNL().statusBar.setText("Click on the graph panel to place the node.");
 		} else if (e.getSource().equals(buttonPhysics)) {
 			getNL().changePhysics();
-		} else if (e.getSource().equals(buttonPrint)) {
-			PrintGraph.print(getNL());
 		}
 		
+	}
+
+	public VS getVS() {		
+		return vs;
 	}
 
 }

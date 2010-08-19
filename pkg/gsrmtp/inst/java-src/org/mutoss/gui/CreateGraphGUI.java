@@ -10,6 +10,8 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 
 import org.af.statguitoolkit.graph.GraphSRMTP;
+import org.mutoss.gui.graph.AbstractGraphControl;
+import org.mutoss.gui.graph.GraphView;
 import org.mutoss.gui.graph.NetzListe;
 import org.mutoss.gui.graph.VS;
 
@@ -30,7 +32,7 @@ public class CreateGraphGUI extends JFrame implements WindowListener {
 		addWindowListener(this);
 		
 		makeContent();
-		this.graph = new GraphSRMTP(graph, vs);
+		this.graph = new GraphSRMTP(graph, gv.getVS());
 		
 		setVisible(true);
 	}
@@ -40,12 +42,12 @@ public class CreateGraphGUI extends JFrame implements WindowListener {
 	}
 	
 	JLabel statusbar = new JLabel(); 
-	VS vs = new VS();
-	NetzListe nl;
+	GraphView gv;
+	AbstractGraphControl agc = new AbstractGraphControl();
 	
 	private void makeContent() {
-		nl = new NetzListe(statusbar, vs);		
-		this.getContentPane().add(nl);
+		gv = new GraphView(agc);				
+		this.getContentPane().add(gv);
 		
 		
 		
