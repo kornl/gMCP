@@ -23,7 +23,7 @@
   }   
   \item{scale}{
   	A numeric scalar specifying a possible scaling of the graph. Note that this does not effect the fontsize of the graph.
-  	(Coordinates are interpreted in 2 big points - 72 bp = 1 inch).
+  	(Coordinates are interpreted in big points - 72 bp = 1 inch).
   }
   \item{pvalues}{
   	If the optional numeric argument pvalues is given, nodes that can be rejected, will be marked. 

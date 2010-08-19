@@ -59,8 +59,8 @@ edges[["H12"]] <- list(edges="H21", weights=1)
 edges[["H22"]] <- list(edges=c("H11","H31"), weights=c(1/2, 1/2))
 edges[["H32"]] <- list(edges="H21", weights=1)
 graph <- new("graphSRMTP", nodes=hnodes, edgeL=edges, alpha=alpha)
-nodeX <- c(H11=100, H21=200, H31=300, H12=100, H22=200, H32=300)
-nodeY <- c(H11=200, H21=200, H31=200, H12=100, H22=100, H32=100)
+nodeX <- c(H11=100, H21=300, H31=500, H12=100, H22=300, H32=500)
+nodeY <- c(H11=300, H21=300, H31=300, H12=100, H22=100, H32=100)
 nodeRenderInfo(graph) <- list(nodeX=nodeX, nodeY=nodeY)	
 cat(graph2latex(graph, scale=0.7, fontsize="tiny"))
 
@@ -119,14 +119,14 @@ x- and y-coordinates in the renderInfo.
 \scriptsize
 <<echo=TRUE>>=
 
-nodeX <- c(H11=100, H21=200, H31=300, H12=100, H22=200, H32=300)
-nodeY <- c(H11=200, H21=200, H31=200, H12=100, H22=100, H32=100)
+nodeX <- c(H11=100, H21=300, H31=500, H12=100, H22=300, H32=500)
+nodeY <- c(H11=300, H21=300, H31=300, H12=100, H22=100, H32=100)
 nodeRenderInfo(graph) <- list(nodeX=nodeX, nodeY=nodeY)	
 
 @
 \normalsize
 
-Coordinates are interpretated as pixels in the GUI or 2 big points in {\LaTeX} (72 bp = 1 inch).
+Coordinates are interpretated as pixels in the GUI or big points in {\LaTeX} (72 bp = 1 inch).
 
 Let's take a look at the graph in {\LaTeX} rendered with TikZ
 \cite{TikZ} (you can see the compiled result in figure
