@@ -7,6 +7,9 @@ createBonferroniHolmGraph <- function(n, alpha=0.05) {
 	}
 	names(edges)<-hnodes
 	BonferroniHolmGraph <- new("graphSRMTP", nodes=hnodes, edgeL=edges, alpha=alpha)
+	nodeX <- 100+(0:(n-1))*200
+	nodeY <- rep(100, n)
+	nodeRenderInfo(BonferroniHolmGraph) <- list(nodeX=nodeX, nodeY=nodeY)	
 	return(BonferroniHolmGraph)
 }
 
@@ -24,8 +27,8 @@ createGraphFromBretzEtAl <- function() {
 	names(edges)<-hnodes
 	graph <- new("graphSRMTP", nodes=hnodes, edgeL=edges, alpha=alpha)
 	# Layout see Rgraphviz:::layoutGraphviz
-	nodeX <- rep(c(100, 200, 300), 2)
-	nodeY <- rep(c(100, 200), each=3)
+	nodeX <- rep(c(100, 300, 500), 2)
+	nodeY <- rep(c(100, 300), each=3)
 	names(nodeX) <- hnodes
 	names(nodeY) <- hnodes
 	nodeRenderInfo(graph) <- list(nodeX=nodeX, nodeY=nodeY)	
