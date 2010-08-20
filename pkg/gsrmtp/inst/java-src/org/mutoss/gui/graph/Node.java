@@ -31,7 +31,6 @@ public class Node {
 	boolean fix = false;
 	boolean drag = false;
 	VS vs;
-	int degree;
 	public double alpha;
 	private Color color = Color.WHITE;
 
@@ -54,7 +53,6 @@ public class Node {
 		this.x = x;
 		this.y = y;
 		this.vs = vs;
-		degree = 0;
 	}
 	
 	static int count = 1;
@@ -67,7 +65,6 @@ public class Node {
 		this.y = y;
 		this.vs = vs;
 		this.alpha = alpha;
-		degree = 0;
 	}
 
 	/**
@@ -119,10 +116,6 @@ public class Node {
 						(float) ((x + r) * vs.getZoom() - rc.getWidth() / 2), 
 						(float) ((y + r) * vs.getZoom() - rc.getHeight() / 2));
 			}
-			rc = g2d.getFont().getStringBounds("" + degree, frc);
-			g2d.drawString("" + degree,
-					(float) ((x + r * 0.6) * vs.getZoom() - rc.getWidth() / 2),
-					(float) ((y + 1.5 * r) * vs.getZoom()));
 			// rc = g2d.getFont().getStringBounds("" + (start+dauer), frc);
 			// g2d.drawString(""+(start+dauer), (float)
 			// ((x+1.4*r)*vs.getZoom()-rc.getWidth()/2), (float)

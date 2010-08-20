@@ -124,7 +124,6 @@ public class Edge {
 
 	public void setW(Double w) {
 		this.w = w;
-		//TODO: ((AbstractGraphControl)(AbstractControl.getInstance())).getDataTable().getModel().setValueAt(w, vs.nl.knoten.indexOf(von), vs.nl.knoten.indexOf(nach));
 		vs.nl.repaint();
 	}
 

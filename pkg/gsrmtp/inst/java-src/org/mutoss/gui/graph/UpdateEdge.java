@@ -17,10 +17,12 @@ public class UpdateEdge extends JDialog implements ActionListener {
 	JTextField tf;
 	JButton jb = new JButton("Update Edge");
 	Edge edge;
+	NetzListe netzListe;
 	
-	public UpdateEdge(Edge edge) {
+	public UpdateEdge(Edge edge, NetzListe netzListe) {
 		super((JFrame)null, "Updating Edge from node "+edge.von.name+" to "+edge.nach.name);
 		this.edge = edge;
+		this.netzListe = netzListe;
 		String cols = "5dlu, fill:pref:grow, 5dlu, fill:pref:grow, 5dlu";
         String rows = "5dlu, pref, 5dlu, pref, 5dlu";
         
@@ -34,6 +36,7 @@ public class UpdateEdge extends JDialog implements ActionListener {
         String text = ""+edge.w;
         if (text.equals("NaN")) text = "ε";
         tf = new JTextField(text);
+        tf.addActionListener(this);
         getContentPane().add(tf, cc.xy(4, 2));
 
         jb.addActionListener(this);
@@ -51,7 +54,12 @@ public class UpdateEdge extends JDialog implements ActionListener {
 		} catch (NumberFormatException ve) {
 			w = Double.NaN;
 		}
-		edge.setW(w);
+		if (w==0) {
+			netzListe.removeEdge(edge);
+		} else {
+			edge.setW(w);
+		}
+		netzListe.repaint();
 		dispose();		
 	}
 }

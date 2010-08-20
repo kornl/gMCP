@@ -19,10 +19,12 @@ public class UpdateNode extends JDialog implements ActionListener {
 	RealTextField tf;
 	JButton jb = new JButton("Update Node");
 	Node node;
+	NetzListe netzListe;
 	
-	public UpdateNode(Node node) {
+	public UpdateNode(Node node, NetzListe netzListe) {
 		super((JFrame)null, "Updating Node "+node.name);
 		this.node = node;
+		this.netzListe = netzListe;
 		String cols = "5dlu, fill:pref:grow, 5dlu, fill:pref:grow, 5dlu";
         String rows = "5dlu, pref, 5dlu, pref, 5dlu";
         
@@ -34,6 +36,7 @@ public class UpdateNode extends JDialog implements ActionListener {
 
         tf = new RealTextField("α for node", 0d,1d, true, false);
         tf.setText(""+node.alpha);
+        tf.addActionListener(this);
         getContentPane().add(tf, cc.xy(4, 2));
 
         jb.addActionListener(this);
@@ -49,7 +52,8 @@ public class UpdateNode extends JDialog implements ActionListener {
 		try {
 			w = tf.getValidatedValue();
 		} catch (ValidationException ve) {}
-		node.setW(w, null);		
+		node.setW(w, null);	
+		netzListe.repaint();
 		dispose();		
 	}
 }

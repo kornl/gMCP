@@ -100,9 +100,6 @@ public class NetzListe extends JPanel implements MouseMotionListener, MouseListe
 		}
 		if (w!=0) {
 			edges.add(new Edge(von, nach, w, vs));			
-		} else {
-			von.degree--; 
-			nach.degree--;	
 		}
 		edges.lastElement().curve = curve;
 	}
@@ -273,12 +270,12 @@ public class NetzListe extends JPanel implements MouseMotionListener, MouseListe
 		if (e.getClickCount() == 2) {
 			for (int i = 0; i < knoten.size(); i++) {
 				if (knoten.get(i).inYou(e.getX(), e.getY())) {
-					new UpdateNode(knoten.get(i));
+					new UpdateNode(knoten.get(i), this);
 				}
 			}
 			for (int i = 0; i < edges.size(); i++) {
 				if (edges.get(i).inYou(e.getX(), e.getY())) {
-					new UpdateEdge(edges.get(i));
+					new UpdateEdge(edges.get(i), this);
 				}
 			}
 		/*	for (int i = 0; i < knoten.size(); i++) {
@@ -336,6 +333,8 @@ public class NetzListe extends JPanel implements MouseMotionListener, MouseListe
 
 	public void refresh() {
 		calculateSize();
+		revalidate();
+		repaint();
 	}
 
 	/**
