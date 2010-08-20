@@ -165,6 +165,8 @@ graphGUI("graph")
 \end{figure}
 
 The GUI also allows you to update existing graphs.
+Please note that the GUI is not yet functional for the 0.1 release of gsrmtp.
+For release 0.2 a fully functional GUI is targeted.
 
 \section{The sequentially rejective MTP}
 
