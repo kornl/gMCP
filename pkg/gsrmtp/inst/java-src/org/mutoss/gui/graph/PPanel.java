@@ -80,7 +80,7 @@ public class PPanel implements ActionListener, KeyListener, NodeListener {
 	}
 
 	private void updateGraph() {
-		((MGraphListe)(node.vs.nl)).acceptNode(node);
+		node.vs.nl.acceptNode(node);
 		pview.recalculate();
 	}
 

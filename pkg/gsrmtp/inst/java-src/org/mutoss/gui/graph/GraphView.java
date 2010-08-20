@@ -33,7 +33,7 @@ public class GraphView extends JPanel implements ActionListener {
 		this.control = abstractGraphControl;
 		setLayout(new BorderLayout());
 		add("North", getNorthPanel());		
-		nl = new MGraphListe(statusBar, vs, abstractGraphControl);
+		nl = new NetzListe(statusBar, vs, abstractGraphControl);
 		JScrollPane sPane = new JScrollPane(nl);
 		add("Center", sPane);
     }

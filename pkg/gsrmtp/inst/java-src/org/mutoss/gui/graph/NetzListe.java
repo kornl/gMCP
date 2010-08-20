@@ -1,5 +1,6 @@
 package org.mutoss.gui.graph;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
@@ -26,6 +27,7 @@ public class NetzListe extends JPanel implements MouseMotionListener, MouseListe
 	RunnableAlgorithm algo;
 	int drag = -1;
 	Node firstVertex;
+	AbstractGraphControl control;
 
 	boolean firstVertexSelected = false;
 	public Vector<Edge> edges = new Vector<Edge>();
@@ -48,15 +50,15 @@ public class NetzListe extends JPanel implements MouseMotionListener, MouseListe
 	 *            VS Viewer Setting Objekt
 	 */
 
-	public NetzListe(JLabel statusBar, VS vs) {
+	public NetzListe(JLabel statusBar, VS vs,  AbstractGraphControl abstractGraphControl) {
 		this.statusBar = statusBar;
 		this.vs = vs;
+		this.control = abstractGraphControl;
 		vs.setNL(this);
 		addMouseMotionListener(this);
 		addMouseListener(this);
 		Font f = statusBar.getFont();
 		statusBar.setFont(f.deriveFont(f.getStyle() ^ Font.BOLD));
-
 	}
 
 	/**
@@ -83,7 +85,14 @@ public class NetzListe extends JPanel implements MouseMotionListener, MouseListe
 	 *            Gewicht der Kante
 	 */
 	
-	public void addEdge(Node von, Node nach, Double w) {
+	public void addEdge(Node von, Node nach, Double w) {		
+		boolean curve = false;
+		for (Edge e : edges) {
+			if (e.von == nach && e.nach == von) {
+				e.curve = true;
+				curve = true;
+			}
+		}		
 		for (int i = edges.size()-1; i >= 0; i--) {
 			if (edges.get(i).von == von && edges.get(i).nach == nach) {
 				edges.remove(i);
@@ -95,8 +104,7 @@ public class NetzListe extends JPanel implements MouseMotionListener, MouseListe
 			von.degree--; 
 			nach.degree--;	
 		}
-		revalidate();
-		repaint();
+		edges.lastElement().curve = curve;
 	}
 	
 	public void addEdge(Edge e) {
@@ -147,8 +155,6 @@ public class NetzListe extends JPanel implements MouseMotionListener, MouseListe
 		setPreferredSize(new Dimension(
 				(int) ((maxX + 2 * Node.getRadius() + 10) * vs.getZoom()),
 				(int) ((maxY + 2 * Node.getRadius() + 10) * vs.getZoom())));
-		revalidate();
-		repaint();
 	}
 
 	public void changePhysics() {
@@ -217,14 +223,7 @@ public class NetzListe extends JPanel implements MouseMotionListener, MouseListe
 	 *            Eingetretenes MouseEvent
 	 */
 
-	public void mouseMoved(MouseEvent e) {
-			/* for (int i = 0; i < knoten.size(); i++) {
-				if (knoten.get(i).inYou(e.getX(), e.getY())) {
-					statusBar.setText("Nr:" + knoten.get(i).nr + " Beschreibung:"
-							+ knoten.get(i).name);
-				}
-			}*/
-	}
+	public void mouseMoved(MouseEvent e) {}
 	
 	public void mousePressed(MouseEvent e) {
 		logger.debug("MousePressed at ("+e.getX()+","+ e.getY()+").");
@@ -293,7 +292,7 @@ public class NetzListe extends JPanel implements MouseMotionListener, MouseListe
 	}
 
 	public void addDefaultNode(int x, int y) {
-		knoten.add(new Node(knoten.size() + 1, "" + (knoten.size() + 1), x, y, vs));		
+		knoten.add(new Node(knoten.size() + 1, "HA_" + (knoten.size() + 1), x, y, vs));		
 	}
 
 	/**
@@ -370,6 +369,99 @@ public class NetzListe extends JPanel implements MouseMotionListener, MouseListe
 		return null;
 	}
 
+	
+
+	public void acceptNode(Node node) {
+		int epsilon = 0; 
+		boolean eps = true;
+		boolean hasChildren = updateEdges(node);
+		for (int i=edges.size()-1; i>=0; i--) {
+			Edge e = edges.get(i);
+			if (e.nach == node) {				
+				removeEdge(e);
+			}
+			if (e.von == node && !e.w.toString().equals("NaN")) {
+				e.nach.alpha = e.nach.alpha + node.alpha * e.w;				
+				removeEdge(e);
+				eps = false;
+			} 
+			if (e.von == node && e.w.toString().equals("NaN")) {
+				epsilon++;
+			}
+		}
+		if (epsilon>0) {
+			for (int i=edges.size()-1; i>=0; i--) {
+				Edge e = edges.get(i);
+				if (e.von == node && e.w.toString().equals("NaN")) {
+					if (eps) {
+						e.nach.alpha = e.nach.alpha + node.alpha / epsilon;					
+					}
+					removeEdge(e);
+				} 
+			}
+		}
+		if (hasChildren) {
+			node.alpha = 0; 
+		}
+		node.setColor(Color.MAGENTA);
+		revalidate();
+		repaint();
+	}
+
+	private boolean updateEdges(Node node) {
+		Vector<Node> epsChildren = new Vector<Node>();
+		Vector<Node> realChildren = new Vector<Node>();
+		Vector<Node> allChildren = new Vector<Node>();
+		for (Edge e : edges) {
+			if (node == e.von) {
+				if (e.w.toString().equals("NaN")) {
+					epsChildren.add(e.nach);
+				} else {
+					realChildren.add(e.nach);
+				}		
+				allChildren.add(e.nach);
+			}
+		}		
+		Vector<Edge> all = new Vector<Edge>();
+		all.addAll(edges);
+		for (Edge e : all) {			
+			if (e.nach == node) {				
+				if (e.w.toString().equals("NaN")) { 
+					for (Node nach : allChildren) {
+						if (findEdge(e.von,nach)==null) {
+							if (e.von!=nach) { addEdge(e.von, nach); }
+						}
+					}
+				} else { 
+					for (Node nach : epsChildren) {
+						if (findEdge(e.von,nach)==null) {
+							if (e.von!=nach) { addEdge(e.von, nach); }
+						}
+					}
+					for (Node nach : realChildren) {						
+						Double glk = (findEdge(e.von,nach)==null)?0:findEdge(e.von,nach).w;
+						Double glj = e.w;
+						Double gjk = findEdge(node,nach).w;
+						Double gjl = (findEdge(node,e.von)==null)?0:findEdge(node,e.von).w;
+						if (e.von!=nach) { addEdge(e.von, nach, (glk+glj*gjk)/(1-glj*gjl)); }						
+					}					
+				}				
+			}
+		}		
+		return allChildren.size()!=0;
+	}
+
+	public void reset() {
+		edges.removeAllElements();
+    	knoten.removeAllElements();
+		statusBar.setText(GraphView.STATUSBAR_DEFAULT);
+		firstVertexSelected = false;
+		vs.newVertex = false;
+		vs.newEdge = false;
+		vs.zoom = 1.00;
+	}
+	
+
 	public void saveGraph(String string) {
 		String alpha = "";
 		String nodes = "";
@@ -390,5 +482,23 @@ public class NetzListe extends JPanel implements MouseMotionListener, MouseListe
 		RControl.getR().evalVoid("nodeRenderInfo(graph) <- list(nodeX=nodeX, nodeY=nodeY)");	
 		
 	}
-
+	
+	public Edge findEdge(Node von, Node nach) {
+		for (Edge e : edges) {
+			if (von == e.von && nach == e.nach) {
+				return e;
+			}
+		}
+		return null;
+	}
+	
+	
+	public void removeEdge(Edge edge) {
+		for (Edge e : edges) {
+			if (e.von == edge.nach && e.nach == edge.von) {
+				e.curve = false;				
+			}
+		}
+		edges.remove(edge);		
+	}
 }
