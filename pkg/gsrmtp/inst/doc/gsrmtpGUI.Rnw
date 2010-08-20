@@ -235,7 +235,7 @@ Let's start with this graph in figure \ref{uglygraph}:
 \scriptsize
 \lstset{language=[LaTeX]TeX}
 \begin{lstlisting}
-\begin{tikzpicture}[scale=0.7]
+\begin{tikzpicture}[scale=1]
 \node (H11) at (200bp,200bp) [draw,circle split,fill=green!80] {$H11$ \nodepart{lower} $0.0333$};
 ...
 \draw [->,line width=1pt] (H11) to[bend left=15] node[near start,above,fill=blue!20] {0.667} (H12);
@@ -254,9 +254,9 @@ cat(graph2latex(result@graphs[[3]], pvalues=pvalues, scale=0.7, fontsize="tiny")
   \caption{\label{uglygraph}Graph from \texttt{graph2latex} that does not look optimal.}
 \end{figure}
 
-You can scale the TikZ graphic by changing the \texttt{[scale=0.7]}
-option.  By default \texttt{graph2latex} scales down all TikZ graphic
-to 70\% and has an optional parameter \texttt{scale}.
+You can scale the TikZ graphic by changing the \texttt{[scale=1]}
+option.  By default \texttt{graph2latex} doesn't scale TikZ graphics,
+but has an optional parameter \texttt{scale}.
 
 For an explanation what \texttt{green!80} means and how you can
 specify other colors, please take a look at the xcolor manual
