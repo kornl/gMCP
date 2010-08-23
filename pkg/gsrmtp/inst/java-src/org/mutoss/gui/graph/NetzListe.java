@@ -28,7 +28,7 @@ public class NetzListe extends JPanel implements MouseMotionListener, MouseListe
 	int drag = -1;
 	Node firstVertex;
 	AbstractGraphControl control;
-
+	
 	boolean firstVertexSelected = false;
 	public Vector<Edge> edges = new Vector<Edge>();
 	public Vector<Node> knoten = new Vector<Node>();
@@ -461,7 +461,9 @@ public class NetzListe extends JPanel implements MouseMotionListener, MouseListe
 	}
 	
 
-	public void saveGraph(String string) {
+	public void saveGraph(String graphName) {
+		graphName = RControl.getR().eval("make.names(\""+graphName+"\")").asRChar().getData()[0];
+		
 		String alpha = "";
 		String nodes = "";
 		String x = "";
@@ -486,13 +488,15 @@ public class NetzListe extends JPanel implements MouseMotionListener, MouseListe
 			String weights = "";
 			for (Edge e : edges) {				
 				if (e.von == n) {
-					edgeL += "\""+n.getName()+"\",";
+					edgeL += "\""+e.nach.getName()+"\",";
 					weights += e.w +",";
 				}
 			}
-			edgeL = edgeL.substring(0, edgeL.length()-1);
-			weights = weights.substring(0, weights.length()-1);
-			RControl.getR().evalVoid("edges[["+(i+1)+"]] <- list(edges=c("+edgeL+"), weights=c("+weights+"))");
+			if (edgeL.length()!=0) {
+				edgeL = edgeL.substring(0, edgeL.length()-1);
+				weights = weights.substring(0, weights.length()-1);			
+				RControl.getR().evalVoid("edges[["+(i+1)+"]] <- list(edges=c("+edgeL+"), weights=c("+weights+"))");
+			}
 		}		
 		RControl.getR().evalVoid("names(edges)<-hnodes");
 		RControl.getR().evalVoid("graph <- new(\"graphSRMTP\", nodes=hnodes, edgeL=edges, alpha=alpha)");		
@@ -522,4 +526,5 @@ public class NetzListe extends JPanel implements MouseMotionListener, MouseListe
 		}
 		edges.remove(edge);		
 	}
+	
 }

@@ -135,8 +135,8 @@ public class GraphView extends JPanel implements ActionListener {
 			getNL().statusBar.setText("Click on the graph panel to place the node.");
 		} else if (e.getSource().equals(buttonPhysics)) {
 			getNL().changePhysics();
-		} else if (e.getSource().equals(buttonSave)) {
-			getNL().saveGraph("graph");
+		} else if (e.getSource().equals(buttonSave)) {			
+			getNL().saveGraph(jtSaveName.getText());
 		}
 		
 	}

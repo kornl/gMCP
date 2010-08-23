@@ -8,12 +8,15 @@
 	Starts a graphical user interface for the creation of SRMTP graphs.
 }
 \usage{
-	graphGUI(graph="createdGraph")
+	graphGUI(graph="createdGraph", debug=FALSE)
 }
 
 \arguments{
   \item{graph}{
 	Variable name for the graph, given as a character string.
+  }
+  \item{debug}{
+	Logical. If \code{TRUE} debug output is printed to the R console.
   }
 }
 \details{

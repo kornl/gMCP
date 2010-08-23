@@ -21,27 +21,27 @@ public class RControl {
 
 	protected static RControl rc = null;
 
-	public static RControl getRControl() {
+	public static RControl getRControl(boolean debug) {
 		if (rc==null) {
-			rc = new RControl(); 
+			rc = new RControl(debug); 
 		}
 		return rc;
 	}
 
 	public static RCallServicesREngine getR() {
-		getRControl();
+		getRControl(true);
 		return rcs;
 	}
 
 	protected static RCallServicesREngine rcs = null;
 	public static DebugTextConsole console = null;
 
-	protected RControl() {
+	protected RControl(boolean debug) {
 		if (!LoggingSystem.alreadyInitiated()) {
 			LoggingSystem.init(
 					"/org/mutoss/gui/commons-logging.properties",
-					System.getProperty("eclipse") == null,
-					System.getProperty("eclipse") != null,
+					System.getProperty("eclipse") == null && !debug,
+					System.getProperty("eclipse") != null || debug,
 					new ApplicationLog());
 			ErrorHandler.init("rohmeyer@small-projects.de", "http://www.algorithm-forge.com/report/bugreport.php", true, true, ErrorDialog.class);
 

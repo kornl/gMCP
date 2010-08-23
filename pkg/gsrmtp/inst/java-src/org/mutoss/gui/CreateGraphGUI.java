@@ -17,9 +17,9 @@ public class CreateGraphGUI extends JFrame implements WindowListener {
 	
 	GraphSRMTP graph;
 	
-	public CreateGraphGUI(String graph) {
+	public CreateGraphGUI(String graph, boolean debug) {
 		super("Creating and modifying graphs");		
-		RControl.getR();
+		RControl.getRControl(debug);
 		setIconImage((new ImageIcon(getClass().getResource("/org/mutoss/gui/graph/images/rjavaicon64.png"))).getImage());
 		agc = new AbstractGraphControl(graph);
 		// Fenster in der Mitte des Bildschirms platzieren mit inset = 50 Pixeln Rand.
@@ -36,8 +36,8 @@ public class CreateGraphGUI extends JFrame implements WindowListener {
 		setVisible(true);
 	}
 	
-	public static void startGUI(String graph) {
-		new CreateGraphGUI(graph);
+	public static void startGUI(String graph, boolean debug) {
+		new CreateGraphGUI(graph, debug);
 	}
 	
 	JLabel statusbar = new JLabel(); 
@@ -53,7 +53,7 @@ public class CreateGraphGUI extends JFrame implements WindowListener {
 	}
 
 	public static void main(String[] args) {
-		new CreateGraphGUI("graph");
+		new CreateGraphGUI("graph", true);
 	}
 
 	@Override
