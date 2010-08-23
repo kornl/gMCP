@@ -52,7 +52,7 @@ public class UpdateNode extends JDialog implements ActionListener {
 		try {
 			w = tf.getValidatedValue();
 		} catch (ValidationException ve) {}
-		node.setW(w, null);	
+		node.setAlpha(w, null);	
 		netzListe.repaint();
 		dispose();		
 	}

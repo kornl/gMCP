@@ -34,7 +34,7 @@ public class CellEditorEps extends DefaultCellEditor {
         } catch (NumberFormatException e) {
         	oldVal = Double.NaN;
         }    
-        agc.updateEdge(row, col, (Double)oldVal);
+        agc.getNL().addEdge(agc.getNL().knoten.get(row), agc.getNL().knoten.get(col), (Double)oldVal);
     	return oldVal;
     }
 

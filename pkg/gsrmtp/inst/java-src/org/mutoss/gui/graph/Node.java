@@ -143,7 +143,7 @@ public class Node {
 	}
 
 	private String getWS() {
-		String w = ""+getW();		
+		String w = ""+getAlpha();		
 		return w.substring(0, Math.min(5,w.length()));
 	}
 
@@ -166,7 +166,7 @@ public class Node {
 	public void mouseRelease(MouseEvent e) {
 	}
 
-	public void setW(double w, NodeListener me) {
+	public void setAlpha(double w, NodeListener me) {
 		this.alpha = w;	
 		for (NodeListener l : listener) {
 			if (me!=l) {
@@ -176,7 +176,7 @@ public class Node {
 		vs.nl.repaint();
 	}
 
-	public double getW() {
+	public double getAlpha() {
 		return alpha;
 	}
 
@@ -193,4 +193,16 @@ public class Node {
 		listener.add(l);		
 	}
 
+	public String getName() {		
+		return name;
+	}
+
+	public long getX() {		
+		return x;
+	}
+
+	public long getY() {		
+		return y;
+	}
+	
 }

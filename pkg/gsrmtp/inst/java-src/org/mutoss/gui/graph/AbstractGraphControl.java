@@ -17,24 +17,6 @@ public class AbstractGraphControl  {
 		return null;
 	}
 	
-	
-	public void updateEdge(int from, int to, Double w) {
-		logger.info("Adding Edge from "+from+" to "+to+" with weight "+w+".");
-		getNL().addEdge(getNL().knoten.get(from), getNL().knoten.get(to), w);
-	}
-
-
-	public Object getDataTable() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-
-	public Object getDataFrame() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
 	public String getName() {		
 		return name;
 	}

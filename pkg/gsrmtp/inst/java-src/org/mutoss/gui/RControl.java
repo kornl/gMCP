@@ -40,8 +40,8 @@ public class RControl {
 		if (!LoggingSystem.alreadyInitiated()) {
 			LoggingSystem.init(
 					"/org/mutoss/gui/commons-logging.properties",
-					true,
-					false,
+					System.getProperty("eclipse") == null,
+					System.getProperty("eclipse") != null,
 					new ApplicationLog());
 			ErrorHandler.init("rohmeyer@small-projects.de", "http://www.algorithm-forge.com/report/bugreport.php", true, true, ErrorDialog.class);
 

@@ -466,11 +466,33 @@ public class NetzListe extends JPanel implements MouseMotionListener, MouseListe
 		String nodes = "";
 		String x = "";
 		String y = "";
+		for (Node n : knoten) {
+			alpha += n.getAlpha() +",";
+			nodes += "\""+n.getName() +"\","; 
+			x += n.getX() + ",";
+			y += n.getY() + ",";
+		}
+		alpha = alpha.substring(0, alpha.length()-1);
+		nodes = nodes.substring(0, nodes.length()-1);
+		x = x.substring(0, x.length()-1);
+		y = y.substring(0, y.length()-1);
+		
 		RControl.getR().evalVoid("alpha <- c("+alpha+")");
 		RControl.getR().evalVoid("hnodes <- c("+nodes+")");
 		RControl.getR().evalVoid("edges <- vector(\"list\", length="+knoten.size()+")");
-		for (Node n : knoten) {
-			RControl.getR().evalVoid("edges[[1]] <- list(edges=c(\"H21\",\"H12\"), weights=rep(1/2, 2))");
+		for (int i=0; i<knoten.size(); i++) {
+			Node n = knoten.get(i);
+			String edgeL = "";
+			String weights = "";
+			for (Edge e : edges) {				
+				if (e.von == n) {
+					edgeL += "\""+n.getName()+"\",";
+					weights += e.w +",";
+				}
+			}
+			edgeL = edgeL.substring(0, edgeL.length()-1);
+			weights = weights.substring(0, weights.length()-1);
+			RControl.getR().evalVoid("edges[["+(i+1)+"]] <- list(edges=c("+edgeL+"), weights=c("+weights+"))");
 		}		
 		RControl.getR().evalVoid("names(edges)<-hnodes");
 		RControl.getR().evalVoid("graph <- new(\"graphSRMTP\", nodes=hnodes, edgeL=edges, alpha=alpha)");		

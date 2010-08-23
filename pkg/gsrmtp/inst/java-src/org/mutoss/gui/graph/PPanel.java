@@ -44,7 +44,7 @@ public class PPanel implements ActionListener, KeyListener, NodeListener {
 	public PPanel(Node node, PView pview) {
 		node.addNodeListener(this);
 		this.name = node.name;
-		this.w = node.getW();
+		this.w = node.getAlpha();
 		this.node = node;
 		this.pview = pview;
         
@@ -102,7 +102,7 @@ public class PPanel implements ActionListener, KeyListener, NodeListener {
 		} catch (NumberFormatException nfe) {		
 			wTF.setBackground(Color.RED);
 		}
-		node.setW(w, this);
+		node.setAlpha(w, this);
 		//logger.info("P: "+p+", W: "+w);
 		if (p<=w) {
 			node.setColor(new Color(50, 255, 50));
@@ -119,7 +119,7 @@ public class PPanel implements ActionListener, KeyListener, NodeListener {
 	public void update() {
 		if (!rejected) {
 			this.name = node.name;
-			this.w = node.getW();
+			this.w = node.getAlpha();
 			wTF.setText(""+w);		
 			pTF.setText(""+p);	
 			keyTyped(null);
@@ -128,7 +128,7 @@ public class PPanel implements ActionListener, KeyListener, NodeListener {
 
 	public void updated(Node node) {
 		this.name = node.name;
-		this.w = node.getW();
+		this.w = node.getAlpha();
 		wTF.setText(""+w);		
 		pTF.setText(""+p);	
 		pview.updateLabels();
