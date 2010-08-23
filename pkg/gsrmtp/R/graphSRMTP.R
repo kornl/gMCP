@@ -153,7 +153,7 @@ setMethod("plot", "graphSRMTP",
 			# TODO Show visualization of graph			
 		})
 
-setGeneric("simConfint", function(object, pvalues, confintF, ...) standardGeneric("simConfint"))
+setGeneric("simConfint", function(object, pvalues, confintF) standardGeneric("simConfint"))
 
 setMethod("simConfint", c("graphSRMTP"), function(object, pvalues, confintF) {			
 			result <- srmtp(object, pvalues)

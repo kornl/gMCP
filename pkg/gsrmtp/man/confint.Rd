@@ -9,7 +9,7 @@
 	Calculates simultaneous confidence intervals for sequentially rejective multiple test procedures.
 }
 \usage{
-	simConfint(object, pvalues, confintF, ...)
+	simConfint(object, pvalues, confintF)
 }
 
 \arguments{
