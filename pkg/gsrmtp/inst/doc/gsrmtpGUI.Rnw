@@ -162,13 +162,11 @@ graphGUI("graph")
 
 \begin{figure}[ht]
   \centering    
-  \includegraphics[width=0.5\textwidth]{GraphCreation.png}      
+  \includegraphics[width=0.8\textwidth]{CreatingGraphs.png}      
   \caption{The graphical user interface of the package gsrmtp.}
 \end{figure}
 
 The GUI also allows you to update existing graphs.
-Please note that the GUI is not yet functional for the 0.1 release of gsrmtp.
-For release 0.2 a fully functional GUI is targeted.
 
 \section{The sequentially rejective MTP}
 

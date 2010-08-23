@@ -9,4 +9,5 @@ See also http://comments.gmane.org/gmane.comp.lang.r.general/200179
 - We have the same Generics as Rgraphviz:
 library(Rgraphviz)
 getX(new("xyPoint", x=150, y=30))
-This causes trouble.
+This causes trouble
+- matrix2graph function
