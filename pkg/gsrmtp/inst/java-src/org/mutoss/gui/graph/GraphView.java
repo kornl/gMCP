@@ -17,7 +17,6 @@ import javax.swing.JTextField;
 
 import org.af.commons.errorhandling.ErrorHandler;
 import org.af.commons.widgets.DesktopPaneBG;
-import org.mutoss.gui.RControl;
 
 public class GraphView extends JPanel implements ActionListener {
 
