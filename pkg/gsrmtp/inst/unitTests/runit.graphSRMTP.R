@@ -53,6 +53,12 @@ test.srmtp <- function() {
 	checkException(srmtp(bhG3, rep(0,6)))
 }
 
+test.adjPValues <- function() {
+	adjPValues <- adjPValues(createBonferroniHolmGraph(3), c(0.02,0.055,0.012))@adjPValues
+	checkEquals(adjPValues, 
+			structure(c(0.04, 0.055, 0.036), .Names = c("H1", "H2", "H3")))
+}
+
 test.srmtpBretzEtAl <- function() {
 	graph <- createGraphFromBretzEtAl()
 	pvalues <- c(0.1, 0.008, 0.005, 0.15, 0.04, 0.006)

@@ -66,6 +66,7 @@ cat(graph2latex(graph, scale=0.7, fontsize="tiny"))
 
 createGsrmtpReport <- function(...) {invisible(NULL)}
 graphGUI <- function(...) {invisible(NULL)}
+options(digits=4)
 
 @
   \caption{\label{exampleGraphBretz} Example graph from \cite{bretzEtAl2009power} that we will create in this vignette.}
@@ -115,6 +116,7 @@ Since we also want to visualize the graph, we use the method
 \texttt{nodeRenderInfo} from package \texttt{graph} to set appropriate
 x- and y-coordinates in the renderInfo.
 (We are compatible to the renderInfo usage from package Rgraphviz - see e.g. \texttt{Rgraphviz:::layoutGraphviz}.)
+
 
 \scriptsize
 <<echo=TRUE>>=
@@ -215,6 +217,23 @@ The command \texttt{createGsrmtpReport} can generate a full report:
 <<echo=TRUE>>=
 
 createGsrmtpReport(result, "Report.tex")
+
+@
+\normalsize
+
+Also adjusted p-values and simultaneous confidence intervals can be computed.
+
+Let's assume the tests for hypotheses $H1:\;\theta_1=0$, $H2:\;\theta_2=0$ and $H3:\;\theta_3=0$ are three t-tests with degree of freedom 9.
+The estimates are $\Sexpr{format(qt(0.02/2,df=9)*1.2/sqrt(10))}$, $\Sexpr{format(qt(0.055/2,df=9)*0.8/sqrt(10))}$ and $\Sexpr{format(qt(0.012/2,df=9)*1.7/sqrt(10))}$, 
+the sample standard deviations $1.2$, $0.8$ and $1.7$ the t-statistics $\Sexpr{format(qt(0.02/2,df=9))}$, $\Sexpr{format(qt(0.055/2,df=9))}$ and $\Sexpr{format(qt(0.012/2,df=9))}$ and the corresponding p-values $p_1=0.02$, $p_2=0.055$ and $p_3=0.012$.
+We want to adjust for multiple testing by using the Bonferroni-Holm-Procedure. TODO: This is not finished and nonsense so far!
+
+\scriptsize
+<<echo=TRUE>>=
+
+adjPValues(createBonferroniHolmGraph(3), c(0.02,0.055,0.012))@adjPValues
+
+simConfint(createBonferroniHolmGraph(3), c(0.02,0.055,0.012), function(node, alpha) {return(qnorm(alpha/2)*c(-1,1))})
 
 @
 \normalsize

@@ -1,5 +1,6 @@
 \name{srmtp}
 \alias{srmtp}
+\alias{adjPValues}
 
 \title{
 	A graphical approach to sequentially rejective multiple test procedures
@@ -9,6 +10,7 @@
 }
 \usage{
 	srmtp(graph, pvalues, verbose=FALSE)
+	adjPValues(graph, pvalues, verbose=FALSE)
 }
 
 \arguments{
@@ -26,8 +28,9 @@
 }
 \value{
 An object of class \code{srmtpResult}, more specifically a list with elements
-\item{comp1 }{Description of 'comp1'}
-\item{comp2 }{Description of 'comp2'}
+\item{graphs }{ list of graphs}				
+\item{pvalues }{ p-values}
+\item{adjPValues }{ adjusted p-values}
 }
 \references{
 Frank Bretz, Willi Maurer, Werner Brannath, Martin Posch:

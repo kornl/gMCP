@@ -8,55 +8,88 @@ srmtp <- function(graph, pvalues, verbose=FALSE) {
 	sequence <- list(graph)
 	while(!is.null(node <- getRejectableNode(graph, pvalues))) {
 		if (verbose) cat(paste("Node \"",node,"\" can be rejected.\n",sep=""))
-		edgesIn <- c()			
-		for (node2 in nodes(graph)) {
-			i <- which(names(edgeWeights(graph, node2)[[node2]])==node)
-			if (length(i)>0) {
-				edge <- edgeWeights(graph, node2)[[1]][i]
-				names(edge) <- node2
-				edgesIn <- c(edgesIn, edge)
-			}
-		}
-		
-		edgesOut <- edgeWeights(graph, node)[[node]]
-		if (verbose) cat(paste("There are ",length(edgesIn)," incoming and ",length(edgesOut)," outgoing edges.\n",sep=""))
-		
-		if (all(TRUE == all.equal(edgesOut, rep(0, length(edgesOut))))) {
-			if (verbose) cat("Alpha is passed via epsilon-edges.\n")
-		} else {
-			if (verbose) cat("Alpha is passed via non-epsilon-edges.\n")
-			graph2 <- graph
-			# New weights are calculated
-			for (to in nodes(graph)[nodes(graph)!=node]) {				
-				nodeData(graph2, to, "alpha") <- nodeData(graph, to, "alpha")[[to]] + getWeight(graph,node,to) * nodeData(graph, node, "alpha")[[node]]				
-				for (from in nodes(graph)[nodes(graph)!=node]) {
-					if (from != to) {
-						w <- (getWeight(graph,from,to)+getWeight(graph,from,node)*getWeight(graph,node,to))/
-								(1-getWeight(graph,from,node)*getWeight(graph,node,from))
-						if (to %in% edges(graph)[[from]]) {
-							edgeData(graph2,from,to,"weight") <- w
-						} else {
-							if (!is.nan(w) & w>0) {
-								graph2 <- addEdge(from, to, graph2, w)
-							}
-						}								
-					}
-				}								
-			}
-			graph <- graph2
-		}
-		if (verbose) cat("Removing edges.")
-		for (to in names(edgesOut)) {
-			graph <- removeEdge(node, to, graph)
-		}
-		for (from in names(edgesIn)) {
-			graph <- removeEdge(from, node, graph)
-		}
-		nodeData(graph, node, "alpha") <- 0
-		nodeData(graph, node, "rejected") <- TRUE
+		graph <- updateGraph(graph, node, verbose)
 		sequence <- c(sequence, graph)
 	}	
 	return(new("srmtpResult", graphs=sequence, pvalues=pvalues))
+}
+
+
+adjPValues <- function(graph, pvalues, verbose=FALSE) {
+	if (length(pvalues)!=length(nodes(graph))) {
+		stop("Length of pvalues must equal number of nodes.")
+	}
+	if (is.null(names(pvalues))) {
+		names(pvalues) <- nodes(graph)
+	}
+	nodeData(graph, nodes(graph), "alpha") <- getAlpha(graph)/sum(getAlpha(graph))
+	adjPValues <- rep(0, length(nodes(graph)))
+	names(adjPValues) <- nodes(graph)	
+	J <- nodes(graph)
+	names(J) <- nodes(graph)
+	sequence <- list(graph)
+	pmax <- 0
+	while(length(J) >= 1) {
+		j <- which.min(pvalues[J]/getAlpha(graph)[J])
+		node <- J[j]
+		adjPValues[node] <- max(pvalues[node]/getAlpha(graph)[node], pmax)
+		pmax <- adjPValues[node]
+		if (verbose) cat(paste("We will update the graph with node \"",node,"\".\n",sep=""))
+		graph <- updateGraph(graph, node, verbose)
+		J <- J[J!=node]
+		sequence <- c(sequence, graph)
+	}	
+	return(new("srmtpResult", graphs=sequence, pvalues=pvalues, adjPValues=adjPValues))
+}
+
+updateGraph <- function(graph, node, verbose=FALSE) {
+	edgesIn <- c()			
+	for (node2 in nodes(graph)) {
+		i <- which(names(edgeWeights(graph, node2)[[node2]])==node)
+		if (length(i)>0) {
+			edge <- edgeWeights(graph, node2)[[1]][i]
+			names(edge) <- node2
+			edgesIn <- c(edgesIn, edge)
+		}
+	}
+	
+	edgesOut <- edgeWeights(graph, node)[[node]]
+	if (verbose) cat(paste("There are ",length(edgesIn)," incoming and ",length(edgesOut)," outgoing edges.\n",sep=""))
+	
+	if (all(TRUE == all.equal(edgesOut, rep(0, length(edgesOut))))) {
+		if (verbose) cat("Alpha is passed via epsilon-edges.\n")
+	} else {
+		if (verbose) cat("Alpha is passed via non-epsilon-edges.\n")
+		graph2 <- graph
+		# New weights are calculated
+		for (to in nodes(graph)[nodes(graph)!=node]) {				
+			nodeData(graph2, to, "alpha") <- nodeData(graph, to, "alpha")[[to]] + getWeight(graph,node,to) * nodeData(graph, node, "alpha")[[node]]				
+			for (from in nodes(graph)[nodes(graph)!=node]) {
+				if (from != to) {
+					w <- (getWeight(graph,from,to)+getWeight(graph,from,node)*getWeight(graph,node,to))/
+							(1-getWeight(graph,from,node)*getWeight(graph,node,from))
+					if (to %in% edges(graph)[[from]]) {
+						edgeData(graph2,from,to,"weight") <- w
+					} else {
+						if (!is.nan(w) & w>0) {
+							graph2 <- addEdge(from, to, graph2, w)
+						}
+					}								
+				}
+			}								
+		}
+		graph <- graph2
+	}
+	if (verbose) cat("Removing edges.\n")
+	for (to in names(edgesOut)) {
+		graph <- removeEdge(node, to, graph)
+	}
+	for (from in names(edgesIn)) {
+		graph <- removeEdge(from, node, graph)
+	}
+	nodeData(graph, node, "alpha") <- 0
+	nodeData(graph, node, "rejected") <- TRUE	
+	return(graph)
 }
 
 getRejectableNode <- function(graph, pvalues) {
