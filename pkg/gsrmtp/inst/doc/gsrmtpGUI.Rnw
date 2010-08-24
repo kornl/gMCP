@@ -115,7 +115,7 @@ print(graph)
 Since we also want to visualize the graph, we use the method
 \texttt{nodeRenderInfo} from package \texttt{graph} to set appropriate
 x- and y-coordinates in the renderInfo.
-(We are compatible to the renderInfo usage from package Rgraphviz - see e.g. \texttt{Rgraphviz:::layoutGraphviz}.)
+(We are compatible to the renderInfo usage from package Rgraphviz \cite{Rgraphviz}.)
 
 
 \scriptsize
