@@ -44,7 +44,7 @@ test.bonferroniHolm <- function() {
 
 test.srmtp <- function() {
 	bhG3 <- createBonferroniHolmGraph(3, alpha=0.6)
-	pvalues=c(0.1, 0.2, 0.3)
+	pvalues <- c(0.1, 0.2, 0.3)
 	names(pvalues) <- nodes(bhG3)
 	checkTrue(gsrmtp:::canBeRejected(bhG3, "H1", pvalues)) 
 	checkTrue(gsrmtp:::canBeRejected(bhG3, "H2", pvalues)) 
@@ -83,4 +83,10 @@ test.srmtpBretzEtAl <- function() {
 					.Names = c("H11", "H21", "H31", "H12", "H22", "H32")))
 }
 
-
+test.only.no.error <- function() {
+	graph <- createBonferroniHolmGraph(3, alpha=0.6)
+	pvalues <- c(0.1, 0.2, 0.3)
+	graph2latex(graph)
+	createGsrmtpReport(graph)
+	createGsrmtpReport(srmtp(graph, pvalues))
+}
