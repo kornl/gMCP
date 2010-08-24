@@ -38,15 +38,27 @@ graph2latex <- function(graph, package="TikZ", scale=1, pvalues,
 	return(tikz)
 }
 
-createGsrmtpReport <- function(srmtpResult, file="", ...) {
+createGsrmtpReport <- function(object, file="", ...) {
+	report <- LaTeXHeader()
+	if (class(object)=="srmtpResult") {
+		for(i in 1:length(srmtpResult@graphs)) {
+			report <- paste(report, paste("\\subsection*{Graph in Step ",i,"}", sep=""), sep="\n")
+			report <- paste(report, graph2latex(srmtpResult@graphs[[i]], ..., pvalues=srmtpResult@pvalues), sep="\n")
+		}
+	} else if (class(object)=="graphSRMTP") {		
+		report <- paste(report, "\\subsection*{Graph for SRMTP}", sep="\n")
+		report <- paste(report, graph2latex(srmtpResult, ...), sep="\n")
+	} else {
+		stop("object has to be of class srmtpResult or graphSRMTP.")
+	} 
+	report <- paste(report, "\\end{document}", sep="\n")
+	cat(report, file=file)
+}
+
+LaTeXHeader <- function() {
 	report <- "\\documentclass[11pt]{article}"
 	report <- paste(report, "\\usepackage{tikz}", sep="\n")
 	report <- paste(report, "\\usetikzlibrary{snakes,arrows,shapes}", sep="\n")
 	report <- paste(report, "\\begin{document}", sep="\n")
-	for(i in 1:length(srmtpResult@graphs)) {
-		report <- paste(report, paste("\\subsection*{Graph in Step ",i,"}", sep=""), sep="\n")
-		report <- paste(report, graph2latex(srmtpResult@graphs[[i]], ..., pvalues=srmtpResult@pvalues), sep="\n")
-	}
-	report <- paste(report, "\\end{document}", sep="\n")
-	cat(report, file=file)
+	return(report)
 }

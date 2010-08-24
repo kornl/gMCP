@@ -8,14 +8,15 @@
 	Creates a LaTeX file with a GRSMTP Report.
 }
 \usage{
-	createGsrmtpReport(srmtpResult, file, ...)
+	createGsrmtpReport(object, file, ...)
 }
 
 \arguments{
-  \item{srmtpResult}{
-	A graph of class \code{\link{srmtpResult}}.
+  \item{object}{
+	A graph of class \code{\link{graphSRMTP}} or an object of class \code{\link{srmtpResult}}.
   }
-  \item{file}{ A connection, or a character string naming the file to print
+  \item{file}{ 
+  	A connection, or a character string naming the file to print
     to.  If \code{""} (the default), the report is printed to the standard
     output connection, the console unless redirected by \code{sink}.
     If it is \code{"|cmd"}, the output is piped to the command given

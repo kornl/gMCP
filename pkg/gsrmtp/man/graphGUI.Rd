@@ -14,6 +14,8 @@
 \arguments{
   \item{graph}{
 	Variable name for the graph, given as a character string.
+	If it is not a syntactically valid name,
+	\code{\link{make.names}} is called to change it to a valid one.
   }
   \item{debug}{
 	Logical. If \code{TRUE} debug output is printed to the R console.
@@ -26,12 +28,14 @@
 	The function itself returns NULL. But with the GUI a graph can be created or edited that is available in R under the specified variable name.
 }
 \author{
-Kornelius Rohmeyer \email{rohmeyer@small-projects.de}
+	Kornelius Rohmeyer \email{rohmeyer@small-projects.de}
 }
 
 \examples{
 
-\dontrun{graphGUI()}
+\dontrun{
+graphGUI()
+}
 
 }
 \keyword{ misc }

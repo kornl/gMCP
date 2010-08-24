@@ -15,3 +15,4 @@ This causes trouble
 - JTextfield disappears if window is shrinked.
 - Give user message that graph is saved.
 - Löschen von Knoten
+- Check on Windows whether "\" work in ActionExportToLatex or have to be modified.
