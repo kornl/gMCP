@@ -11,3 +11,7 @@ library(Rgraphviz)
 getX(new("xyPoint", x=150, y=30))
 This causes trouble
 - matrix2graph function
+- Confidence intervals are unfinished
+- JTextfield disappears if window is shrinked.
+- Give user message that graph is saved.
+- Löschen von Knoten
