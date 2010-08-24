@@ -128,7 +128,7 @@ nodeRenderInfo(graph) <- list(nodeX=nodeX, nodeY=nodeY)
 @
 \normalsize
 
-Coordinates are interpretated as pixels in the GUI or big points in {\LaTeX} (72 bp = 1 inch).
+Coordinates are interpretated as pixels in the GUI and big points in {\LaTeX} (72 bp = 1 inch).
 
 Let's take a look at the graph in {\LaTeX} rendered with TikZ
 \cite{TikZ} (you can see the compiled result in figure
@@ -147,9 +147,13 @@ cat(graph2latex(graph))
 
 \subsection{Using the GUI}
 
-The following command starts a graphical user interface for the
-creation of SRMTP graphs.  Its only argument is the variable name for
-the graph, given as a character string, under which the created
+The creation of \texttt{graphSRMTP} objects is very straight forward,
+but still takes some time and typos may occur.
+More convenient for the average user is the use of the graphical user interface for creating
+and editing SRMTP graphs that the \texttt{gsrmtp} package includes.
+
+It is called by the command \texttt{graphGUI(graph)} and takes as argument a variable name,
+given as a character string, of the graph to edit or under which a newly created
 \texttt{graphSRMTP} object will be available from the R command line.
 
 \scriptsize
@@ -189,15 +193,8 @@ print(result)
 @
 \normalsize
 
-We can take a look at the last graph (see figure \ref{finalstate}):
-
-\scriptsize
-<<echo=TRUE>>=
-
-cat(graph2latex(result@graphs[[4]]))
-
-@
-\normalsize
+We can create a TikZ graphic from the last graph with 
+\texttt{graph2latex(result@graphs[[4]])} that is shown in figure \ref{finalstate}.
 
 \begin{figure}[ht]
   \centering   
@@ -209,7 +206,7 @@ cat(graph2latex(result@graphs[[4]], scale=0.7, fontsize="tiny"))
   \caption{\label{finalstate}Final graph from the test procedure after rejection of $H_{21}$, $H_{31}$ and $H_{32}$.}
 \end{figure}
 
-The command \texttt{createGsrmtpReport} can generate a full report:
+The command \texttt{createGsrmtpReport} generates a full report of the testing procedure:
 
 \scriptsize
 <<echo=TRUE>>=
@@ -218,6 +215,8 @@ createGsrmtpReport(result, "Report.tex")
 
 @
 \normalsize
+
+\subsubsection{Adjusted p-values and simultaneous confidence intervals}
 
 Also adjusted p-values and simultaneous confidence intervals can be computed.
 
@@ -237,6 +236,17 @@ simConfint(createBonferroniHolmGraph(3), c(0.02,0.055,0.012), function(node, alp
 \normalsize
 
 \subsection{Using the GUI}
+
+For version 0.1 this is not yet implemented, but it's a goal for gsrmtp 0.2.
+You can see some of the features planed for the package \texttt{gsrmtp} in figure \ref{fullGUI}
+that exist as prototypes but are not yet publicly available.
+
+\begin{figure}[ht]
+  \centering    
+  \includegraphics[width=0.8\textwidth]{FullFeaturedGUI.png}      
+  \caption{\label{fullGUI} A preview of the full-featured graphical user interface.}
+\end{figure}
+
 
 \section{Important TikZ commands for optimizing the reports}
 A clear automatic placement of edges and weight labels without overlapping is a very difficult task 
