@@ -152,7 +152,7 @@ but still takes some time and typos may occur.
 More convenient for the average user is the use of the graphical user interface for creating
 and editing SRMTP graphs that the \texttt{gsrmtp} package includes.
 
-It is called by the command \texttt{graphGUI(graph)} and takes as argument a variable name,
+It is called by the command \texttt{graphGUI()} and takes as optional argument a variable name,
 given as a character string, of the graph to edit or under which a newly created
 \texttt{graphSRMTP} object will be available from the R command line.
 
@@ -166,11 +166,27 @@ graphGUI("graph")
 
 \begin{figure}[ht]
   \centering    
-  \includegraphics[width=0.8\textwidth]{CreatingGraphs.png}      
+  \includegraphics[width=0.8\textwidth]{pictures/CreatingGraphs.png}      
   \caption{The graphical user interface of the package gsrmtp.}
 \end{figure}
 
-The GUI also allows you to update existing graphs.
+Let's take a look at the icon panel:
+
+\includegraphics[width=0.5cm]{pictures/vertex.png} This button lets you add a new node to the graph.
+After pressing the button click somewhere on the graph panel and a new node will appear at this place.
+
+\includegraphics[width=0.5cm]{pictures/edge.png} This button lets you add a new edge between two nodes.
+After pressing the button click on the node the edge should start and after that on the node the edge should end.
+
+\includegraphics[width=0.5cm]{pictures/zoom_in.png} \includegraphics[width=0.5cm]{pictures/zoom_out.png}
+For really big graphs the ability to zoom in and out is usefull.
+
+\includegraphics[width=0.5cm]{pictures/latex.png} This button exports the graph as an {\LaTeX} TikZ picture.
+
+%\includegraphics[width=0.5cm]{pictures/smiley.png} What this button does is up to to speculation. ;)
+
+\includegraphics[width=0.5cm]{pictures/save.png} This button exports the graph back to R under the variable name
+in the adjacent text field.  
 
 \section{The sequentially rejective MTP}
 
@@ -243,7 +259,7 @@ that exist as prototypes but are not yet publicly available.
 
 \begin{figure}[ht]
   \centering    
-  \includegraphics[width=0.8\textwidth]{FullFeaturedGUI.png}      
+  \includegraphics[width=0.8\textwidth]{pictures/FullFeaturedGUI.png}      
   \caption{\label{fullGUI} A preview of the full-featured graphical user interface.}
 \end{figure}
 
