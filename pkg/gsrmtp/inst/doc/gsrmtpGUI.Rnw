@@ -231,22 +231,44 @@ createGsrmtpReport(result, "Report.tex")
 
 @
 \normalsize
+<<echo=FALSE,results=hide>>=
+
+pval <- c(0.02,0.055,0.012)
+
+df <- 9
+# Sample Standard Deviations:
+s <- c(1.2, 0.8, 1.7)
+# Statistics:
+st <- qt(pval/2,df=df, lower.tail=FALSE)
+# Estimates:
+est <- st*s/sqrt(10)
+
+@
+
 
 \subsubsection{Adjusted p-values and simultaneous confidence intervals}
 
 Also adjusted p-values and simultaneous confidence intervals can be computed.
 
 Let's assume the tests for hypotheses $H1:\;\theta_1=0$, $H2:\;\theta_2=0$ and $H3:\;\theta_3=0$ are three t-tests with degree of freedom 9.
-The estimates are $\Sexpr{format(qt(0.02/2,df=9)*1.2/sqrt(10))}$, $\Sexpr{format(qt(0.055/2,df=9)*0.8/sqrt(10))}$ and $\Sexpr{format(qt(0.012/2,df=9)*1.7/sqrt(10))}$, 
-the sample standard deviations $1.2$, $0.8$ and $1.7$ the t-statistics $\Sexpr{format(qt(0.02/2,df=9))}$, $\Sexpr{format(qt(0.055/2,df=9))}$ and $\Sexpr{format(qt(0.012/2,df=9))}$ and the corresponding p-values $p_1=0.02$, $p_2=0.055$ and $p_3=0.012$.
-We want to adjust for multiple testing by using the Bonferroni-Holm-Procedure. TODO: This is not finished and nonsense so far!
+The estimates are $\hat\theta_1=\Sexpr{format(est[1])}$, $\hat\theta_2=\Sexpr{format(est[2])}$ and $\hat\theta_3=\Sexpr{format(est[3])}$, 
+the sample standard deviations $s_1=1.2$, $s_2=0.8$ and $s_3=1.7$ the t-statistics $\Sexpr{format(st[1])}$, $\Sexpr{format(st[2])}$ and $\Sexpr{format(st[3])}$ and the corresponding p-values $p_1=0.02$, $p_2=0.055$ and $p_3=0.012$.
+We want to adjust for multiple testing by using the Bonferroni-Holm-Procedure.
 
 \scriptsize
-<<echo=TRUE>>=
-
+<<echo=TRUE, keep.source=TRUE>>=
 adjPValues(createBonferroniHolmGraph(3), c(0.02,0.055,0.012))@adjPValues
 
-simConfint(createBonferroniHolmGraph(3), c(0.02,0.055,0.012), function(node, alpha) {return(qnorm(alpha/2)*c(-1,1))})
+# Estimates:
+est <- c("H1"=0.9101444, "H2"=0.4485153, "H3"=1.4568271)
+# Sample standard deviations:
+ssd <- c("H1"=1.2, "H2"=0.8, "H3"=1.7)
+
+simConfint(createBonferroniHolmGraph(3),
+		pvalues  = c(0.02,0.055,0.012), 
+		confintF = function(node, alpha) {
+			est[node]+c(-1,1)*qt(1-alpha/2,df=9)*ssd[node]/sqrt(10)
+		})
 
 @
 \normalsize
