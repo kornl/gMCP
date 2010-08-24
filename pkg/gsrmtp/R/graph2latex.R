@@ -41,13 +41,13 @@ graph2latex <- function(graph, package="TikZ", scale=1, pvalues,
 createGsrmtpReport <- function(object, file="", ...) {
 	report <- LaTeXHeader()
 	if (class(object)=="srmtpResult") {
-		for(i in 1:length(srmtpResult@graphs)) {
+		for(i in 1:length(object@graphs)) {
 			report <- paste(report, paste("\\subsection*{Graph in Step ",i,"}", sep=""), sep="\n")
-			report <- paste(report, graph2latex(srmtpResult@graphs[[i]], ..., pvalues=srmtpResult@pvalues), sep="\n")
+			report <- paste(report, graph2latex(object@graphs[[i]], ..., pvalues=object@pvalues), sep="\n")
 		}
 	} else if (class(object)=="graphSRMTP") {		
 		report <- paste(report, "\\subsection*{Graph for SRMTP}", sep="\n")
-		report <- paste(report, graph2latex(srmtpResult, ...), sep="\n")
+		report <- paste(report, graph2latex(object, ...), sep="\n")
 	} else {
 		stop("object has to be of class srmtpResult or graphSRMTP.")
 	} 

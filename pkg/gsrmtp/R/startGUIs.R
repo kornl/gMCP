@@ -6,5 +6,5 @@ graphGUI <- function(graph="createdGraph", debug=FALSE) {
 		graph <- make.names(deparse( stack.fun[[1]][[2]] ))
 		warning(paste("We guess you wanted to use graphGUI(\"",graph,"\")",sep=""))		
 	}
-	invisible(.jnew("org/mutoss/gui/CreateGraphGUI", graph, debug))	
+	invisible(.jnew("org/mutoss/gui/CreateGraphGUI", make.names(graph), debug))	
 }

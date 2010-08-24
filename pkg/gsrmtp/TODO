@@ -16,3 +16,4 @@ This causes trouble
 - Give user message that graph is saved.
 - Löschen von Knoten
 - Check on Windows whether "\" work in ActionExportToLatex or have to be modified.
+- Look at print method for SRMTPResult

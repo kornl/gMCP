@@ -10,6 +10,7 @@ import java.awt.event.MouseMotionListener;
 import java.util.Vector;
 
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import org.apache.commons.logging.Log;
@@ -461,7 +462,7 @@ public class NetzListe extends JPanel implements MouseMotionListener, MouseListe
 	}
 	
 
-	public void saveGraph(String graphName) {
+	public void saveGraph(String graphName, boolean verbose) {
 		graphName = RControl.getR().eval("make.names(\""+graphName+"\")").asRChar().getData()[0];
 		
 		String alpha = "";
@@ -479,9 +480,10 @@ public class NetzListe extends JPanel implements MouseMotionListener, MouseListe
 		x = x.substring(0, x.length()-1);
 		y = y.substring(0, y.length()-1);
 		
-		RControl.getR().evalVoid("alpha <- c("+alpha+")");
-		RControl.getR().evalVoid("hnodes <- c("+nodes+")");
-		RControl.getR().evalVoid("edges <- vector(\"list\", length="+knoten.size()+")");
+		RControl.getR().evalVoid(".gsrmtVar <- list()");
+		RControl.getR().evalVoid(".gsrmtVar$alpha <- c("+alpha+")");
+		RControl.getR().evalVoid(".gsrmtVar$hnodes <- c("+nodes+")");
+		RControl.getR().evalVoid(".gsrmtVar$edges <- vector(\"list\", length="+knoten.size()+")");
 		for (int i=0; i<knoten.size(); i++) {
 			Node n = knoten.get(i);
 			String edgeL = "";
@@ -495,17 +497,17 @@ public class NetzListe extends JPanel implements MouseMotionListener, MouseListe
 			if (edgeL.length()!=0) {
 				edgeL = edgeL.substring(0, edgeL.length()-1);
 				weights = weights.substring(0, weights.length()-1);			
-				RControl.getR().evalVoid("edges[["+(i+1)+"]] <- list(edges=c("+edgeL+"), weights=c("+weights+"))");
+				RControl.getR().evalVoid(".gsrmtVar$edges[["+(i+1)+"]] <- list(edges=c("+edgeL+"), weights=c("+weights+"))");
 			}
 		}		
-		RControl.getR().evalVoid("names(edges)<-hnodes");
-		RControl.getR().evalVoid("graph <- new(\"graphSRMTP\", nodes=hnodes, edgeL=edges, alpha=alpha)");		
-		RControl.getR().evalVoid("nodeX <- c("+x+")");
-		RControl.getR().evalVoid("nodeY <- c("+y+")");
-		RControl.getR().evalVoid("names(nodeX) <- hnodes");
-		RControl.getR().evalVoid("names(nodeY) <- hnodes");
-		RControl.getR().evalVoid("nodeRenderInfo(graph) <- list(nodeX=nodeX, nodeY=nodeY)");	
-		
+		RControl.getR().evalVoid("names(.gsrmtVar$edges)<-.gsrmtVar$hnodes");
+		RControl.getR().evalVoid(graphName+" <- new(\"graphSRMTP\", nodes=.gsrmtVar$hnodes, edgeL=.gsrmtVar$edges, alpha=.gsrmtVar$alpha)");		
+		RControl.getR().evalVoid(".gsrmtVar$nodeX <- c("+x+")");
+		RControl.getR().evalVoid(".gsrmtVar$nodeY <- c("+y+")");
+		RControl.getR().evalVoid("names(.gsrmtVar$nodeX) <- .gsrmtVar$hnodes");
+		RControl.getR().evalVoid("names(.gsrmtVar$nodeY) <- .gsrmtVar$hnodes");
+		RControl.getR().evalVoid("nodeRenderInfo("+graphName+") <- list(nodeX=.gsrmtVar$nodeX, nodeY=.gsrmtVar$nodeY)");	
+		if (verbose) { JOptionPane.showMessageDialog(null, "The graph as been exported to R under ther variable name: "+graphName, "Saved as \""+graphName+"\"", JOptionPane.INFORMATION_MESSAGE); }
 	}
 	
 	public Edge findEdge(Node von, Node nach) {

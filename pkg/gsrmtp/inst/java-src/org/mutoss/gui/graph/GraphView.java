@@ -30,9 +30,10 @@ public class GraphView extends JPanel implements ActionListener {
 	public GraphView(AbstractGraphControl abstractGraphControl) {
 		//super("Graph");
 		this.control = abstractGraphControl;
+		statusBar = new JLabel(STATUSBAR_DEFAULT);
+		nl = new NetzListe(statusBar, vs, abstractGraphControl);
 		setLayout(new BorderLayout());
 		add("North", getNorthPanel());		
-		nl = new NetzListe(statusBar, vs, abstractGraphControl);
 		JScrollPane sPane = new JScrollPane(nl);
 		add("Center", sPane);
     }
@@ -49,8 +50,7 @@ public class GraphView extends JPanel implements ActionListener {
 	public JPanel getNorthPanel() {
 		JPanel panel = new JPanel();
 		panel.setLayout(new BorderLayout());
-		panel.add("North", getToolBar());
-		statusBar = new JLabel(STATUSBAR_DEFAULT);
+		panel.add("North", getToolBar());		
 		panel.add("South", statusBar);
 		return panel;
 	}
@@ -135,7 +135,7 @@ public class GraphView extends JPanel implements ActionListener {
 		} else if (e.getSource().equals(buttonPhysics)) {
 			getNL().changePhysics();
 		} else if (e.getSource().equals(buttonSave)) {			
-			getNL().saveGraph(jtSaveName.getText());
+			getNL().saveGraph(jtSaveName.getText(), true);
 		}
 		
 	}
