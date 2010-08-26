@@ -17,3 +17,4 @@ This causes trouble
 - Löschen von Knoten
 - Check on Windows whether "\" work in ActionExportToLatex or have to be modified.
 - Look at print method for SRMTPResult
+- Cleanup Config

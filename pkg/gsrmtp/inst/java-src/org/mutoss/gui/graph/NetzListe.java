@@ -7,6 +7,7 @@ import java.awt.Graphics;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+import java.awt.image.BufferedImage;
 import java.util.Vector;
 
 import javax.swing.JLabel;
@@ -16,6 +17,8 @@ import javax.swing.JPanel;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.mutoss.gui.RControl;
+
+import af.statguitoolkit.config.Configuration;
 
 
 /**
@@ -145,10 +148,10 @@ public class NetzListe extends JPanel implements MouseMotionListener, MouseListe
 		long maxX = 0;
 		long maxY = 0;
 		for (int i = 0; i < knoten.size(); i++) {
-			if (knoten.get(i).x > maxX)
-				maxX = knoten.get(i).x;
-			if (knoten.get(i).y > maxY)
-				maxY = knoten.get(i).y;
+			if (knoten.get(i).getX() > maxX)
+				maxX = knoten.get(i).getX();
+			if (knoten.get(i).getY() > maxY)
+				maxY = knoten.get(i).getY();
 		}
 		setPreferredSize(new Dimension(
 				(int) ((maxX + 2 * Node.getRadius() + 10) * vs.getZoom()),
@@ -202,10 +205,8 @@ public class NetzListe extends JPanel implements MouseMotionListener, MouseListe
 	public void mouseClicked(MouseEvent e) {}
 	public void mouseDragged(MouseEvent e) {
 		if (drag==-1) return;
-		knoten.get(drag).x = (int) ((e.getX() - Node.getRadius() * vs.getZoom()) / (double) vs
-				.getZoom());
-		knoten.get(drag).y = (int) ((e.getY() - Node.getRadius() * vs.getZoom()) / (double) vs
-				.getZoom());
+		knoten.get(drag).setX((int) ((e.getX() - Node.getRadius() * vs.getZoom()) / (double) vs.getZoom()));
+		knoten.get(drag).setY((int) ((e.getY() - Node.getRadius() * vs.getZoom()) / (double) vs.getZoom()));
 		calculateSize();
 		// vs.frameViewer.refresh();
 		repaint();
@@ -303,8 +304,8 @@ public class NetzListe extends JPanel implements MouseMotionListener, MouseListe
 
 	public void mouseReleased(MouseEvent e) {
 		if (drag != -1) {
-			knoten.get(drag).x = (int) ((e.getX() - Node.getRadius() * vs.getZoom()) / (double) vs.getZoom());
-			knoten.get(drag).y = (int) ((e.getY() - Node.getRadius() * vs.getZoom()) / (double) vs.getZoom());
+			knoten.get(drag).setX( (int) ((e.getX() - Node.getRadius() * vs.getZoom()) / (double) vs.getZoom()));
+			knoten.get(drag).setY( (int) ((e.getY() - Node.getRadius() * vs.getZoom()) / (double) vs.getZoom()));
 			calculateSize();
 			knoten.get(drag).drag = false;
 			drag = -1;
@@ -320,6 +321,16 @@ public class NetzListe extends JPanel implements MouseMotionListener, MouseListe
 
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
+		int grid = Configuration.getInstance().getGeneralConfig().getGridSize();
+		g.setColor(Color.LIGHT_GRAY);
+		if (grid>1) {
+			for(int x=(-Node.r/grid)*grid; x < getWidth(); x += grid) {				
+				g.drawLine(x+Node.r, 0, x+Node.r, getHeight());	
+			}
+			for(int y=(-Node.r/grid)*grid; y < getHeight(); y += grid) {
+				g.drawLine(0, y+Node.r, getWidth(), y+Node.r);
+			}
+		}
 		for (Node node : knoten) {
 			node.paintYou(g);
 		}
@@ -349,8 +360,8 @@ public class NetzListe extends JPanel implements MouseMotionListener, MouseListe
 		case 0:
 			for (int i = 0; i < knoten.size(); i++) {
 				int w = (int) (Math.sqrt(knoten.size())) + 1;
-				knoten.get(i).x = 3 + (d * (i % w));
-				knoten.get(i).y = 3 + (d * (i / w));
+				knoten.get(i).setX( 3 + (d * (i % w)));
+				knoten.get(i).setY( 3 + (d * (i / w)));
 			}
 			break;
 		case 1:
@@ -527,6 +538,28 @@ public class NetzListe extends JPanel implements MouseMotionListener, MouseListe
 			}
 		}
 		edges.remove(edge);		
+	}
+	
+	public BufferedImage getImage() {
+		long maxX = 0;
+		long maxY = 0;
+		for (int i = 0; i < knoten.size(); i++) {
+			if (knoten.get(i).getX() > maxX)
+				maxX = knoten.get(i).getX();
+			if (knoten.get(i).getY() > maxY)
+				maxY = knoten.get(i).getY();
+		}		
+		BufferedImage img = new BufferedImage((int) ((maxX + 2 * Node.getRadius() + 10) * vs.getZoom())
+				, (int) ((maxY + 2 * Node.getRadius() + 10) * vs.getZoom()), BufferedImage.TYPE_INT_ARGB);
+		Graphics g = img.createGraphics();
+		for (Node node : knoten) {
+			node.paintYou(g);
+		}
+		for (Edge edge : edges) {
+			edge.paintYou(g);			
+		}
+		return img;
+
 	}
 	
 }

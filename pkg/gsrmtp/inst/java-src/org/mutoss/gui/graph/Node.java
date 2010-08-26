@@ -11,6 +11,8 @@ import java.awt.geom.Line2D;
 import java.awt.geom.Rectangle2D;
 import java.util.Vector;
 
+import af.statguitoolkit.config.Configuration;
+
 
 /**
  * 
@@ -25,8 +27,8 @@ public class Node {
 	
 	public Vector<NodeListener> listener = new Vector<NodeListener>(); 
 	public long nr;
-	public long x;
-	public long y;
+	long x;
+	long y;
 	public String name;
 	boolean fix = false;
 	boolean drag = false;
@@ -50,8 +52,8 @@ public class Node {
 	public Node(int nr, String name, int x, int y, VS vs) {
 		this.nr = nr;
 		this.name = name;
-		this.x = x;
-		this.y = y;
+		setX(x);
+		setY(y);
 		this.vs = vs;
 	}
 	
@@ -61,10 +63,30 @@ public class Node {
 		this.nr = count;
 		count++;
 		this.name = name;
-		this.x = x;
-		this.y = y;
+		setX(x);
+		setY(y);		
 		this.vs = vs;
 		this.alpha = alpha;
+	}
+	
+	public long getX() {
+		return x;
+	}
+
+	public void setX(long x) {
+		int grid = Configuration.getInstance().getGeneralConfig().getGridSize();
+		x = ((x+ (int)(0.5*grid)) / grid)*grid;
+		this.x = x;
+	}
+
+	public long getY() {
+		return y;
+	}
+
+	public void setY(long y) {
+		int grid = Configuration.getInstance().getGeneralConfig().getGridSize();
+		y = ((y+ (int)(0.5*grid)) / grid)*grid;
+		this.y = y;
 	}
 
 	/**
@@ -195,14 +217,6 @@ public class Node {
 
 	public String getName() {		
 		return name;
-	}
-
-	public long getX() {		
-		return x;
-	}
-
-	public long getY() {		
-		return y;
 	}
 	
 }
