@@ -6,11 +6,11 @@ getEdges <- function(graph){
 		edgeL <- edgeWeights(graph)[[node]]	
 		if (length(edgeL)!=0) {
 			for (i in 1:length(edgeL)) {
-				weight <- try(edgeData(graph, names(edgeL[i]), node,"weight"), silent = TRUE)							
+				weight <- try(edgeData(graph, names(edgeL[i]), node, "weight"), silent = TRUE)							
 				weight <- ifelse(edgeL[i]==0, NaN, edgeL[i])
 				fromL <- c(fromL, node)
 				toL <- c(toL, names(edgeL[i]))
-				weightL <- c(weight, weightL)
+				weightL <- c(weightL, weight)
 			}
 		}
 	}
