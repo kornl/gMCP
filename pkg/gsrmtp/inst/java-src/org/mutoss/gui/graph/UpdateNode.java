@@ -7,6 +7,7 @@ import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JTextField;
 
 import org.af.commons.widgets.validate.RealTextField;
 import org.af.commons.widgets.validate.ValidationException;
@@ -17,7 +18,9 @@ import com.jgoodies.forms.layout.FormLayout;
 public class UpdateNode extends JDialog implements ActionListener {
 	
 	RealTextField tf;
+	JTextField tfname;
 	JButton jb = new JButton("Update Node");
+	JButton jbDeleteNode = new JButton("Delete Node");
 	Node node;
 	NetzListe netzListe;
 	
@@ -32,15 +35,29 @@ public class UpdateNode extends JDialog implements ActionListener {
         getContentPane().setLayout(layout);
         CellConstraints cc = new CellConstraints();
 		
-        getContentPane().add(new JLabel("α for node "+node.name), cc.xy(2, 2));
+        int row = 2;
+        
+        getContentPane().add(new JLabel("α for node "+node.name), cc.xy(2, row));
 
         tf = new RealTextField("α for node", 0d,1d, true, false);
-        tf.setText(""+node.alpha);
-        tf.addActionListener(this);
-        getContentPane().add(tf, cc.xy(4, 2));
+        tf.setText(""+node.getAlpha());
+        getContentPane().add(tf, cc.xy(4, row));
 
+        row += 2;
+        
+        getContentPane().add(new JLabel("New name"), cc.xy(2, row));
+
+        tfname = new JTextField();
+        tfname.setText(node.getName());
+        getContentPane().add(tfname, cc.xy(4, row));
+
+        row += 2;
+        
+        jbDeleteNode.addActionListener(this);
+        getContentPane().add(jbDeleteNode, cc.xy(2, row));
+                
         jb.addActionListener(this);
-        getContentPane().add(jb, cc.xy(4, 4));
+        getContentPane().add(jb, cc.xy(4, row));
         
         pack();
         this.setLocation(300, 300);
@@ -48,6 +65,11 @@ public class UpdateNode extends JDialog implements ActionListener {
 	}
 
 	public void actionPerformed(ActionEvent e) {
+		if (e.getSource().equals(jbDeleteNode)) {
+			netzListe.removeNode(node);
+			dispose();		
+			return;
+		}	
 		Double w = 0d;		
 		try {
 			w = tf.getValidatedValue();

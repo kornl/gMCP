@@ -562,4 +562,15 @@ public class NetzListe extends JPanel implements MouseMotionListener, MouseListe
 
 	}
 	
+	public void removeNode(Node node) {
+		for (int i=edges.size()-1; i>=0; i--) {
+			Edge e = edges.get(i);
+			if (e.von==node || e.nach==node) {
+				edges.remove(e);
+			}
+		}
+		knoten.remove(node);
+		repaint();
+	}
+	
 }

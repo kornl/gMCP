@@ -8,7 +8,7 @@
 	Starts a graphical user interface for the creation of SRMTP graphs.
 }
 \usage{
-	graphGUI(graph="createdGraph", debug=FALSE)
+	graphGUI(graph="createdGraph", grid=1, debug=FALSE)
 }
 
 \arguments{
@@ -16,6 +16,9 @@
 	Variable name for the graph, given as a character string.
 	If it is not a syntactically valid name,
 	\code{\link{make.names}} is called to change it to a valid one.
+  }
+  \item{debug}{
+	Positive integer that sets the grid size for easier placement of nodes.
   }
   \item{debug}{
 	Logical. If \code{TRUE} debug output is printed to the R console.
