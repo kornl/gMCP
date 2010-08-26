@@ -18,3 +18,4 @@ This causes trouble
 - Check on Windows whether "\" work in ActionExportToLatex or have to be modified.
 - Look at print method for SRMTPResult
 - Cleanup Config
+- Can we add a RUnit Test for Java imports Random Graph and then exports the same graph?
