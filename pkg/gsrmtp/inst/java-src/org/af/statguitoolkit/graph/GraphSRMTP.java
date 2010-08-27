@@ -21,6 +21,14 @@ public class GraphSRMTP {
 	public Vector<Node> knoten = new Vector<Node>();
 	NetzListe nl;
 	
+	public NetzListe getNL() {
+		return nl;
+	}
+
+	public void setNL(NetzListe nl) {
+		this.nl = nl;
+	}
+
 	public GraphSRMTP(String name, VS vs) {
 		this.name = name;		
 		if ( RControl.getR().eval("exists(\""+name+"\")").asRLogical().getData()[0] ) {
