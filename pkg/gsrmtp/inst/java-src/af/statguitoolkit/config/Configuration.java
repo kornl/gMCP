@@ -50,14 +50,14 @@ public class Configuration {
 
 
     private void loadStaticProperties() {
-        setProperties(loadStaticProperties("/shared_properties.xml"));
-        setProperties(loadStaticProperties("/properties_all_versions.xml"));
-        setProperties(loadStaticProperties("/properties_this_version.xml"));
+        //setProperties(loadStaticProperties("/shared_properties.xml"));
+        //setProperties(loadStaticProperties("/properties_all_versions.xml"));
+        //setProperties(loadStaticProperties("/properties_this_version.xml"));
     }
 
     private void loadPropertiesAllVersions() {
-        Properties props = loadStaticProperties("/properties_all_versions.xml");
-        projectName = props.getProperty("project.name");
+        //Properties props = loadStaticProperties("/properties_all_versions.xml");
+        //projectName = props.getProperty("project.name");
     }
 
     private Properties loadStaticProperties(String file) {
