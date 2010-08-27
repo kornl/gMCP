@@ -17,7 +17,7 @@
 	If it is not a syntactically valid name,
 	\code{\link{make.names}} is called to change it to a valid one.
   }
-  \item{debug}{
+  \item{grid}{
 	Positive integer that sets the grid size for easier placement of nodes.
   }
   \item{debug}{
