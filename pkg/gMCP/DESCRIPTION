@@ -1,4 +1,4 @@
-Package: gsrmtp
+Package: gMCP
 Type: Package
 Title: A graphical approach to sequentially rejective multiple test procedures
 Version: 0.1-1

@@ -1,6 +1,6 @@
-The installation of gsrmtp via install.packages("gsrmtp") should be unproblematic.
+The installation of gMCP via install.packages("gMCP") should be unproblematic.
 
-However some of the packages gsrmtp depends on or suggests can be tricky to install on non-windows machines.
+However some of the packages gMCP depends on or suggests can be tricky to install on non-windows machines.
 
 rJava:
 ======

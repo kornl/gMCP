@@ -1,6 +1,6 @@
-\name{gsrmtp-package}
-\alias{gsrmtp-package}
-\alias{gsrmtp}
+\name{gMCP-package}
+\alias{gMCP-package}
+\alias{gMCP}
 \docType{package}
 \title{
 A graphical approach to sequentially rejective multiple test procedures
@@ -10,10 +10,10 @@ This package provides functions and graphical user interfaces for graphical desc
 }
 \details{
 \tabular{ll}{
-Package: \tab gsrmtp\cr
+Package: \tab gMCP\cr
 Type: \tab Package\cr
 Version: \tab 0.1\cr
-Date: \tab 2010-07-21\cr
+Date: \tab 2010-08-03\cr
 License: \tab GPL (>= 2)\cr
 LazyLoad: \tab yes\cr
 }
