@@ -62,7 +62,7 @@ public class RControl {
 				//rcs.eval(".setenv <- if (exists(\"Sys.setenv\")) Sys.setenv else Sys.putenv");
 				//rcs.eval(".setenv(\"JAVAGD_CLASS_NAME\"=\"org/mutoss/gui/JavaGD\")");
 				//rcs.eval("require(JavaGD)");					
-				rcs.eval("require(gsrmtp)");
+				rcs.eval("require(gMCP)");
 				rcs.eval("graph <- createGraphFromBretzEtAl()");
 			}
 		} catch (REngineException e) {
