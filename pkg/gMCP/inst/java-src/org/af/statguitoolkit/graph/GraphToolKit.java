@@ -11,14 +11,6 @@ public class GraphToolKit {
 	 * the center of the well-defined circle that goes through all of the three points.  
 	 */
 	public static double[] getCenter(double a1, double a2, double b1, double b2, double c1, double c2) throws GraphException {
-		//If all points are on one line - return an error:
-		double z1, z2;
-		if ((a2-b2)==0) {
-			z2=1; z1=0;
-		} else {
-			z2 = - (a1-b1)/(a2-b2);
-			z1 = 1;
-		}
 		double x1, x2;
 		if ((b2-c2)==0) {
 			x2=1; x1=0;
@@ -57,8 +49,7 @@ public class GraphToolKit {
 		}		
 		phi1 = (phi1 + 360) % 360;
 		phi2 = (phi2 + 360) % 360;
-		phi3 = (phi3 + 360) % 360;	
-		//System.out.println("phi1: "+phi1+", phi2: "+phi2+", phi3: "+phi3);
+		phi3 = (phi3 + 360) % 360;
 		if (phi2 > phi1) {
 			if (phi2 > phi3 && phi3 > phi1) {		
 				return new double[] {phi1, phi2-phi1, phi1, phi2};			
@@ -66,7 +57,6 @@ public class GraphToolKit {
 				return new double[] {phi2, (phi1-phi2+360) % 360, phi1, phi2};			
 			}
 		}
-		// phi2 < phi1
 		if (phi1 > phi3 && phi3 > phi2) {
 			return new double[] {phi1, phi2-phi1, phi1, phi2};
 		} else {
@@ -74,7 +64,19 @@ public class GraphToolKit {
 		}
 	}
 	
-	public static void drawEdge(Graphics g, double a1, double a2, double b1, double b2, double c1, double c2) {
+	/**
+	 * 
+	 * @param g das zu bearbeitende Graphics-Objekt
+	 * @param a1 die Abszisse des Pfeilanfangs
+	 * @param a2 die Ordinate des Pfeilanfangs
+	 * @param b1 die Abszisse des Hilfspunktes
+	 * @param b2 die Ordinate des Hilfspunktes
+	 * @param c1 die Abszisse des Pfeilendes
+	 * @param c2 die Ordinate des Pfeilendes
+	 * @param l die Länge der Pfeilspitze
+	 * @param grad der Winkel zwischen Pfeilspitzenschenkeln und Pfeilrumpf (0-360)
+	 */
+	public static void drawEdge(Graphics g, double a1, double a2, double b1, double b2, double c1, double c2, int l, int grad) {
 		try {
 			double[] m = GraphToolKit.getCenter(a1, a2, b1, b2, c1, c2);
 			g.drawOval((int)m[0]-1, (int)m[1]-1, 2, 2);
@@ -84,24 +86,20 @@ public class GraphToolKit {
 			if (r/d>10) throw new GraphException("Edge is too linear.");			
 			double[] phi = GraphToolKit.getAngle(a1, a2, b1, b2, c1, c2, m[0], m[1]);
 			g.drawArc((int)(m[0]-r), (int)(m[1]-r), (int)(2*r), (int)(2*r), (int)(phi[0]), (int)(phi[1]));
-			double h1, h2;
-			h1 = Math.asin((phi[3]+90)*(2*Math.PI)/360)*5;
-			h2 = -Math.acos((phi[3]+90)*(2*Math.PI)/360)*5;
-			drawArrowHead(g, c1, c2, (phi[0]==phi[2]&&phi[1]>0)||(phi[0]==phi[1]&&phi[1]<0)?phi[3]+90:(phi[3]+90+180)%360, 8, 45);			
+			drawArrowHead(g, c1, c2, (phi[0]==phi[2]&&phi[1]>0)||(phi[0]==phi[1]&&phi[1]<0)?phi[3]+90:(phi[3]+90+180)%360, l, grad);			
 		} catch (GraphException e) {
-			g.drawLine((int)a1, (int)a2, (int)c1, (int)c2);
+			GraphDrawHelper.malPfeil(g, (int)a1, (int)a2, (int)c1, (int)c2, l, grad);			
 		}
 	}
 
-	private static void drawArrowHead(Graphics g, double c1, double c2, double phi, double l, double grad) {	
+	private static void drawArrowHead(Graphics g, double c1, double c2, double phi, int l, int grad) {	
 		phi = (phi + 180) % 360;
 		int px = (int) (c1 + Math.cos((2 * Math.PI * (phi+grad) / 360)) * l );
 		int py = (int) (c2 - Math.sin((2 * Math.PI * (phi+grad) / 360)) * l );
 		g.drawLine((int)c1, (int)c2, px, py);		
 		px = (int) (c1 + Math.cos((2 * Math.PI * (phi-grad) / 360)) * l );
 		py = (int) (c2 - Math.sin((2 * Math.PI * (phi-grad) / 360)) * l );
-		g.drawLine((int)c1, (int)c2, px, py);
-			
+		g.drawLine((int)c1, (int)c2, px, py);			
 	}
 	
 }

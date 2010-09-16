@@ -110,7 +110,7 @@ class PaintPanel3Points extends JPanel implements MouseListener {
 		g.drawString("B", (int)b1, (int)b2);
 		g.drawOval((int)c1-1, (int)c2-1, 2, 2);
 		g.drawString("C", (int)c1, (int)c2);
-		GraphToolKit.drawEdge(g, a1, a2, b1, b2, c1, c2);
+		GraphToolKit.drawEdge(g, a1, a2, b1, b2, c1, c2, 8, 45);
 		/*double[] m = {0,0};
 		try {
 			m = GraphToolKit.getCenter(a1, a2, b1, b2, c1, c2);
