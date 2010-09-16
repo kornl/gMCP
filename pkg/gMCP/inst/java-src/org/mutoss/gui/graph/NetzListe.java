@@ -20,7 +20,6 @@ import org.mutoss.gui.RControl;
 
 import af.statguitoolkit.config.Configuration;
 
-
 /**
  * Diese Klasse (extends JPanel) stellt einen Graphen graphisch dar.
  */
@@ -90,7 +89,9 @@ public class NetzListe extends JPanel implements MouseMotionListener, MouseListe
 	 *            Gewicht der Kante
 	 */
 	
-	public void addEdge(Node von, Node nach, Double w) {		
+	public void addEdge(Node von, Node nach, Double w) {	
+		Integer x = null;
+		Integer y = null;
 		boolean curve = false;
 		for (Edge e : edges) {
 			if (e.von == nach && e.nach == von) {
@@ -100,11 +101,17 @@ public class NetzListe extends JPanel implements MouseMotionListener, MouseListe
 		}		
 		for (int i = edges.size()-1; i >= 0; i--) {
 			if (edges.get(i).von == von && edges.get(i).nach == nach) {
-				edges.remove(i);
+				x = edges.get(i).getK1();
+				y = edges.get(i).getK2();
+				edges.remove(i);				
 			}
 		}
 		if (w!=0) {
-			edges.add(new Edge(von, nach, w, vs));			
+			if (x!=null) {
+				edges.add(new Edge(von, nach, w, vs, x, y));
+			} else {
+				edges.add(new Edge(von, nach, w, vs, curve));
+			}						
 		}
 		edges.lastElement().curve = curve;
 	}

@@ -21,11 +21,16 @@ public class Edge {
 	private static final Log logger = LogFactory.getLog(Edge.class);
 	int k1, k2;
 
-	public Edge(Node von, Node nach, Double w, VS vs) {
+	public Edge(Node von, Node nach, Double w, VS vs, int k1, int k2) {
 		this.von = von;
 		this.nach = nach;
 		this.w = w;
 		this.vs = vs;
+		this.k1 = k1;
+		this.k2 = k2;
+	}
+	
+	public Edge(Node von, Node nach, Double w, VS vs) {		
 		int x1, x2, y1, y2;
 		x1 = von.getX() + Node.getRadius();
 		x2 = nach.getX() + Node.getRadius();
@@ -33,8 +38,34 @@ public class Edge {
 		y2 = nach.getY() + Node.getRadius();
 		k1 = (x1+x2)/2;
 		k2 = (y1+y2)/2;
+		this.von = von;
+		this.nach = nach;
+		this.w = w;
+		this.vs = vs;
 	}
 	
+	public Edge(Node von, Node nach, Double w, VS vs, boolean curve) {
+		this(von, nach, w, vs);
+		int x1, x2, y1, y2;
+		x1 = von.getX() + Node.getRadius();
+		x2 = nach.getX() + Node.getRadius();
+		y1 = von.getY() + Node.getRadius();
+		y2 = nach.getY() + Node.getRadius();
+		if (curve) {
+			double d = Math.sqrt((x1-x2)*(x1-x2)+(y1-y2)*(y1-y2));
+			int s1 = (int) Math.signum(x1-x2);
+			int s2 = (int) Math.signum(y1-y2);
+			if (s1 == s2) {s1 = s1 * -1;}
+			if (s1 == 0) {s1 = s2;}
+			if (s2 == 0) {s2 = s1;}
+			k1 = (x1+x2)/2+(int)(d/5*s1);
+			k2 = (y1+y2)/2+(int)(d/5*s2);
+		} else {
+			k1 = (x1+x2)/2;
+			k2 = (y1+y2)/2;				
+		}
+	}
+
 	Graphics2D g2d;
 	
 	public void paintYou(Graphics g) {
