@@ -30,6 +30,7 @@ public class NetzListe extends JPanel implements MouseMotionListener, MouseListe
 	private static final Log logger = LogFactory.getLog(NetzListe.class);
 	RunnableAlgorithm algo;
 	int drag = -1;
+	int edrag = -1;
 	Node firstVertex;
 	AbstractGraphControl control;
 	
@@ -204,11 +205,15 @@ public class NetzListe extends JPanel implements MouseMotionListener, MouseListe
 
 	public void mouseClicked(MouseEvent e) {}
 	public void mouseDragged(MouseEvent e) {
-		if (drag==-1) return;
-		knoten.get(drag).setX((int) ((e.getX() - Node.getRadius() * vs.getZoom()) / (double) vs.getZoom()));
-		knoten.get(drag).setY((int) ((e.getY() - Node.getRadius() * vs.getZoom()) / (double) vs.getZoom()));
+		if (drag==-1 && edrag == -1) return;
+		if (drag!=-1) {
+			knoten.get(drag).setX( (int) ((e.getX() - Node.getRadius() * vs.getZoom()) / (double) vs.getZoom()));
+			knoten.get(drag).setY( (int) ((e.getY() - Node.getRadius() * vs.getZoom()) / (double) vs.getZoom()));
+		} else {
+			edges.get(edrag).setK1( (int) ((e.getX() * vs.getZoom()) / (double) vs.getZoom()));
+			edges.get(edrag).setK2( (int) ((e.getY() * vs.getZoom()) / (double) vs.getZoom()));
+		}
 		calculateSize();
-		// vs.frameViewer.refresh();
 		repaint();
 	}
 	public void mouseEntered(MouseEvent e) {}
@@ -266,8 +271,14 @@ public class NetzListe extends JPanel implements MouseMotionListener, MouseListe
 				}
 				knoten.get(drag).drag = true;
 			}
-		} else {
-			
+		}
+		if (drag == -1 && edrag == -1) {
+			for (int i = 0; i < edges.size(); i++) {
+				if (edges.get(i).inYou(e.getX(), e.getY())) {
+					edrag = i;
+					//statusBar.setText("Nr:" + knoten.get(i).nr + " Beschreibung:" + knoten.get(i).name);
+				}
+			}		
 		}
 		if (e.getClickCount() == 2) {
 			for (int i = 0; i < knoten.size(); i++) {
@@ -309,7 +320,13 @@ public class NetzListe extends JPanel implements MouseMotionListener, MouseListe
 			calculateSize();
 			knoten.get(drag).drag = false;
 			drag = -1;
-			// vs.frameViewer.refresh();
+			repaint();
+		}
+		if (edrag != -1) {
+			edges.get(edrag).setK1( (int) ((e.getX() * vs.getZoom()) / (double) vs.getZoom()));
+			edges.get(edrag).setK2( (int) ((e.getY() * vs.getZoom()) / (double) vs.getZoom()));
+			calculateSize();
+			edrag = -1;
 			repaint();
 		}
 	}

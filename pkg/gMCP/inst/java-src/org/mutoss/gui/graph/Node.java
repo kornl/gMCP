@@ -27,8 +27,8 @@ public class Node {
 	
 	public Vector<NodeListener> listener = new Vector<NodeListener>(); 
 	public long nr;
-	long x;
-	long y;
+	int x;
+	int y;
 	public String name;
 	boolean fix = false;
 	boolean drag = false;
@@ -69,21 +69,21 @@ public class Node {
 		this.alpha = alpha;
 	}
 	
-	public long getX() {
+	public int getX() {
 		return x;
 	}
 
-	public void setX(long x) {
+	public void setX(int x) {
 		int grid = Configuration.getInstance().getGeneralConfig().getGridSize();
 		x = ((x+ (int)(0.5*grid)) / grid)*grid;
 		this.x = x;
 	}
 
-	public long getY() {
+	public int getY() {
 		return y;
 	}
 
-	public void setY(long y) {
+	public void setY(int y) {
 		int grid = Configuration.getInstance().getGeneralConfig().getGridSize();
 		y = ((y+ (int)(0.5*grid)) / grid)*grid;
 		this.y = y;

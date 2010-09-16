@@ -27,9 +27,12 @@
 	</path>
 
 	<path id="libraries.classpath">
-	        <fileset dir="${content.root}/../inst/java">
+	        <fileset dir="${content.root}/../../../build">
 	        	<include name="*.jar"/>	        		        	
 	        </fileset>
+		<fileset dir="${content.root}/../inst/java">
+		      	<include name="*.jar"/>	        		        	
+	    </fileset>
 	</path> 
 	
 	<path id="complete.classpath">
