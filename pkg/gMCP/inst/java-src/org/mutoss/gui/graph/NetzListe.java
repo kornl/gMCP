@@ -152,18 +152,27 @@ public class NetzListe extends JPanel implements MouseMotionListener, MouseListe
 	 * Berechnet die benötigte Größe um alle Knoten anzuzeigen und setzt sie.
 	 */
 
-	public void calculateSize() {
-		long maxX = 0;
-		long maxY = 0;
+	public int[] calculateSize() {
+		int maxX = 0;
+		int maxY = 0;
 		for (int i = 0; i < knoten.size(); i++) {
 			if (knoten.get(i).getX() > maxX)
 				maxX = knoten.get(i).getX();
 			if (knoten.get(i).getY() > maxY)
 				maxY = knoten.get(i).getY();
 		}
+		for (int i = 0; i < edges.size(); i++) {
+			if (edges.get(i).getK1() > maxX)
+				maxX = edges.get(i).getK1();
+			if (edges.get(i).getK2() > maxY)
+				maxY = edges.get(i).getK2();
+		}		
 		setPreferredSize(new Dimension(
-				(int) ((maxX + 2 * Node.getRadius() + 10) * vs.getZoom()),
-				(int) ((maxY + 2 * Node.getRadius() + 10) * vs.getZoom())));
+				(int) ((maxX + 2 * Node.getRadius() + 30) * vs.getZoom()),
+				(int) ((maxY + 2 * Node.getRadius() + 30) * vs.getZoom())));
+		revalidate();
+		repaint();
+		return new int[] {maxX, maxY};
 	}
 
 	public void changePhysics() {

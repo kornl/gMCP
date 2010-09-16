@@ -67,6 +67,7 @@ public class Edge {
 	}
 
 	Graphics2D g2d;
+	FontRenderContext frc = null;
 	
 	public void paintYou(Graphics g) {
 		int x1, x2, y1, y2;
@@ -95,18 +96,20 @@ public class Edge {
 			g2d = (Graphics2D) g;			
 
 			GraphDrawHelper.drawEdge(g,	(int) (x1 * vs.getZoom()), (int) (y1 * vs.getZoom()), 
-					k1,	k2,	(int) (x2 * vs.getZoom()), (int) (y2 * vs.getZoom()), 
+					(int) (k1* vs.getZoom()),
+					(int) (k2 * vs.getZoom()),
+					(int) (x2 * vs.getZoom()), (int) (y2 * vs.getZoom()), 
 					(int) (8 * vs.getZoom()), 35, true);
 			
 			//QuadCurve2D quadcurve = new QuadCurve2D.Float(x1, y1, k1, k2 ,x2, y2);
 			//g2d.draw(quadcurve);
 			
 			g2d.setFont(new Font("Arial", Font.PLAIN, (int) (16 * vs.getZoom())));
-			FontRenderContext frc = g2d.getFontRenderContext();		
+			frc = g2d.getFontRenderContext();		
 			String s = getWS();
 			Rectangle2D rc = g2d.getFont().getStringBounds(s, frc);
 			g2d.setColor(new Color(0.99f,0.99f,0.99f));
-			g2d.fillRect((int)(k1 - rc.getWidth() / 2), (int)(k2 - rc.getHeight()* 3 / 2), (int)rc.getWidth()+5, (int)rc.getHeight()+5);
+			g2d.fillRect((int)((k1 - rc.getWidth() / 2)* vs.getZoom()), (int)((k2 - rc.getHeight()* 3 / 2)* vs.getZoom()), (int)((rc.getWidth()+5)* vs.getZoom()), (int)((rc.getHeight()+5)* vs.getZoom()));
 			g2d.setColor(Color.BLACK);
 			
 			g2d.drawString(s, 
@@ -150,7 +153,13 @@ public class Edge {
 	}
 
 	public void setK1(int k1) {
-		this.k1 = k1;
+		double correction = 0;
+		/*if (frc != null) {					
+			Rectangle2D rc = g2d.getFont().getStringBounds(getWS(), frc);
+			correction = rc.getWidth()/2;
+		}*/
+		this.k1 = k1 + (int) correction;
+		if (this.k1 < 0) this.k1 = 0;
 	}
 
 	public int getK2() {
@@ -158,7 +167,13 @@ public class Edge {
 	}
 
 	public void setK2(int k2) {
-		this.k2 = k2;
+		double correction = 0;
+		if (frc != null) {					
+			Rectangle2D rc = g2d.getFont().getStringBounds(getWS(), frc);
+			correction = rc.getHeight()/2;
+		}
+		this.k2 = k2 + (int) correction;
+		if (this.k2 < 0) this.k2 = 0;
 	}
 
 }
