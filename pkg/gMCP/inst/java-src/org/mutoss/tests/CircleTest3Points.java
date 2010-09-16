@@ -2,19 +2,16 @@
 
 import java.awt.Color;
 import java.awt.Graphics;
-import java.awt.Graphics2D;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.awt.geom.Arc2D;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-import org.af.statguitoolkit.graph.GraphException;
-import org.af.statguitoolkit.graph.GraphToolKit;
+import org.af.commons.images.GraphDrawHelper;
 
 public class CircleTest3Points extends JFrame implements MouseListener {
 
@@ -110,7 +107,7 @@ class PaintPanel3Points extends JPanel implements MouseListener {
 		g.drawString("B", (int)b1, (int)b2);
 		g.drawOval((int)c1-1, (int)c2-1, 2, 2);
 		g.drawString("C", (int)c1, (int)c2);
-		GraphToolKit.drawEdge(g, a1, a2, b1, b2, c1, c2, 8, 45);
+		GraphDrawHelper.drawEdge(g, a1, a2, b1, b2, c1, c2, 8, 45);
 		/*double[] m = {0,0};
 		try {
 			m = GraphToolKit.getCenter(a1, a2, b1, b2, c1, c2);
