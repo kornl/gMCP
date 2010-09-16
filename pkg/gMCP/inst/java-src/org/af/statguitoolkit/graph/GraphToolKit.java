@@ -2,6 +2,8 @@ package org.af.statguitoolkit.graph;
 
 import java.awt.Graphics;
 
+import org.af.commons.images.GraphDrawHelper;
+
 public class GraphToolKit {
 
 	/*
@@ -56,19 +58,19 @@ public class GraphToolKit {
 		phi1 = (phi1 + 360) % 360;
 		phi2 = (phi2 + 360) % 360;
 		phi3 = (phi3 + 360) % 360;	
-		System.out.println("phi1: "+phi1+", phi2: "+phi2+", phi3: "+phi3);
+		//System.out.println("phi1: "+phi1+", phi2: "+phi2+", phi3: "+phi3);
 		if (phi2 > phi1) {
 			if (phi2 > phi3 && phi3 > phi1) {		
-				return new double[] {phi1, phi2-phi1};			
+				return new double[] {phi1, phi2-phi1, phi1, phi2};			
 			} else {
-				return new double[] {phi2, (phi1-phi2+360) % 360};			
+				return new double[] {phi2, (phi1-phi2+360) % 360, phi1, phi2};			
 			}
 		}
 		// phi2 < phi1
 		if (phi1 > phi3 && phi3 > phi2) {
-			return new double[] {phi1, phi2-phi1};
+			return new double[] {phi1, phi2-phi1, phi1, phi2};
 		} else {
-			return new double[] {phi1, (phi2-phi1+360) % 360};
+			return new double[] {phi1, (phi2-phi1+360) % 360, phi1, phi2};
 		}
 	}
 	
@@ -81,10 +83,25 @@ public class GraphToolKit {
 			double d = Math.sqrt((c1-a1)*(c1-a1)+(c2-a2)*(c2-a2));
 			if (r/d>10) throw new GraphException("Edge is too linear.");			
 			double[] phi = GraphToolKit.getAngle(a1, a2, b1, b2, c1, c2, m[0], m[1]);
-			g.drawArc((int)(m[0]-r), (int)(m[1]-r), (int)(2*r), (int)(2*r), (int)(phi[0]), (int)(phi[1]));		
+			g.drawArc((int)(m[0]-r), (int)(m[1]-r), (int)(2*r), (int)(2*r), (int)(phi[0]), (int)(phi[1]));
+			double h1, h2;
+			h1 = Math.asin((phi[3]+90)*(2*Math.PI)/360)*5;
+			h2 = -Math.acos((phi[3]+90)*(2*Math.PI)/360)*5;
+			drawArrowHead(g, c1, c2, (phi[0]==phi[2]&&phi[1]>0)||(phi[0]==phi[1]&&phi[1]<0)?phi[3]+90:(phi[3]+90+180)%360, 8, 45);			
 		} catch (GraphException e) {
 			g.drawLine((int)a1, (int)a2, (int)c1, (int)c2);
 		}
+	}
+
+	private static void drawArrowHead(Graphics g, double c1, double c2, double phi, double l, double grad) {	
+		phi = (phi + 180) % 360;
+		int px = (int) (c1 + Math.cos((2 * Math.PI * (phi+grad) / 360)) * l );
+		int py = (int) (c2 - Math.sin((2 * Math.PI * (phi+grad) / 360)) * l );
+		g.drawLine((int)c1, (int)c2, px, py);		
+		px = (int) (c1 + Math.cos((2 * Math.PI * (phi-grad) / 360)) * l );
+		py = (int) (c2 - Math.sin((2 * Math.PI * (phi-grad) / 360)) * l );
+		g.drawLine((int)c1, (int)c2, px, py);
+			
 	}
 	
 }
