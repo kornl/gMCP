@@ -1,5 +1,6 @@
 package org.mutoss.gui.graph;
 
+import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -37,18 +38,21 @@ public class Edge {
 	Graphics2D g2d;
 	
 	public void paintYou(Graphics g) {
-		long x1, x2, y1, y2;
+		int x1, x2, y1, y2;
 		x1 = von.x + Node.getRadius();
 		x2 = nach.x + Node.getRadius();
 		y1 = von.y + Node.getRadius();
 		y2 = nach.y + Node.getRadius();
 		if (von != nach) {
-			long dx = x1 - x2;
-			long dy = y1 - y2;
+			int dx = x1 - k1;
+			int dy = y1 - k2;
 			double d = Math.sqrt(dx * dx + dy * dy);
 			x1 = x1 - (int) (Node.getRadius() * dx / d);
-			x2 = x2 + (int) (Node.getRadius() * dx / d);
 			y1 = y1 - (int) (Node.getRadius() * dy / d);
+			dx = k1 - x2;
+			dy = k2 - y2;
+			d = Math.sqrt(dx * dx + dy * dy);			
+			x2 = x2 + (int) (Node.getRadius() * dx / d);
 			y2 = y2 + (int) (Node.getRadius() * dy / d);		
 			
 			
@@ -57,25 +61,26 @@ public class Edge {
 				/*g2d.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING,
                         RenderingHints.VALUE_ANTIALIAS_ON);*/
 			}
-			g2d = (Graphics2D) g;
+			g2d = (Graphics2D) g;			
 
-			GraphDrawHelper.drawEdge(g, 
-					(int) (x1 * vs.getZoom()),
-					(int) (y1 * vs.getZoom()), 
-					k1,
-					k2,
-					(int) (x2 * vs.getZoom()), 
-					(int) (y2 * vs.getZoom()), 
+			GraphDrawHelper.drawEdge(g,	(int) (x1 * vs.getZoom()), (int) (y1 * vs.getZoom()), 
+					k1,	k2,	(int) (x2 * vs.getZoom()), (int) (y2 * vs.getZoom()), 
 					(int) (8 * vs.getZoom()), 35, true);
+			
+			//QuadCurve2D quadcurve = new QuadCurve2D.Float(x1, y1, k1, k2 ,x2, y2);
+			//g2d.draw(quadcurve);
 			
 			g2d.setFont(new Font("Arial", Font.PLAIN, (int) (16 * vs.getZoom())));
 			FontRenderContext frc = g2d.getFontRenderContext();		
 			String s = getWS();
 			Rectangle2D rc = g2d.getFont().getStringBounds(s, frc);
+			g2d.setColor(new Color(0.99f,0.99f,0.99f));
+			g2d.fillRect((int)(k1 - rc.getWidth() / 2), (int)(k2 - rc.getHeight()* 3 / 2), (int)rc.getWidth()+5, (int)rc.getHeight()+5);
+			g2d.setColor(Color.BLACK);
+			
 			g2d.drawString(s, 
 					(float) ((k1 - rc.getWidth() / 2)* vs.getZoom()), 
 					(float) ((k2 - rc.getHeight() / 2)* vs.getZoom()));	
-			//g2d.drawRect((int)(a - rc.getWidth() / 2), (int)(b - rc.getHeight()* 3 / 2), (int)rc.getWidth(), (int)rc.getHeight());
 
 		} else { // Edge is a loop:
 			int r = (int) (Node.getRadius());

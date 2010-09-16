@@ -49,10 +49,7 @@ public class CreateGraphGUI extends JFrame implements WindowListener {
 	
 	private void makeContent() {
 		gv = new GraphView(agc);				
-		this.getContentPane().add(gv);
-		
-		
-		
+		this.getContentPane().add(gv);		
 	}
 
 	public static void main(String[] args) {
