@@ -109,12 +109,12 @@ public class Edge {
 			String s = getWS();
 			Rectangle2D rc = g2d.getFont().getStringBounds(s, frc);
 			g2d.setColor(new Color(0.99f,0.99f,0.99f));
-			g2d.fillRect((int)((k1 - rc.getWidth() / 2)* vs.getZoom()), (int)((k2 - rc.getHeight()* 3 / 2)* vs.getZoom()), (int)((rc.getWidth()+5)* vs.getZoom()), (int)((rc.getHeight()+5)* vs.getZoom()));
+			g2d.fillRect((int)((k1* vs.getZoom() - rc.getWidth() / 2)), (int)((k2* vs.getZoom() - rc.getHeight()* 3 / 2)), (int)((rc.getWidth()+5)), (int)((rc.getHeight()+5)));
 			g2d.setColor(Color.BLACK);
 			
 			g2d.drawString(s, 
-					(float) ((k1 - rc.getWidth() / 2)* vs.getZoom()), 
-					(float) ((k2 - rc.getHeight() / 2)* vs.getZoom()));	
+					(float) ((k1* vs.getZoom() - rc.getWidth() / 2)), 
+					(float) ((k2* vs.getZoom() - rc.getHeight() / 2)));
 
 		} else { // Edge is a loop:
 			int r = (int) (Node.getRadius());
