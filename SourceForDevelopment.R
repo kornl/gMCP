@@ -2,7 +2,7 @@ library(graph)
 library(RUnit)
 library(Rgraphviz)
 library(mutoss)
-for (file in dir(path ="pkg/gsrmtp/R")) {
+for (file in dir(path ="pkg/gMCP/R")) {
   source(paste("pkg/gMCP/R",file,sep="/"))
 }
 

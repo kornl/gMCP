@@ -15,6 +15,8 @@ setMethod("initialize", "graphSRMTP",
 			nodeAttrData <- new("attrData", defaults=defaultProps)
 			attrDataItem(nodeAttrData, x=nodes, attr="alpha") <- alpha
 			.Object@nodeData <- nodeAttrData
+			edgeDataDefaults(.Object, "labelX") <-0
+			edgeDataDefaults(.Object, "labelY") <-0
 			#.Object@alpha <- alpha
 			validObject(.Object)
 			return(.Object)

@@ -15,9 +15,11 @@ createBonferroniHolmGraph <- function(n, alpha=0.05) {
 	return(BonferroniHolmGraph)
 }
 
-createGraphFromBretzEtAl <- function(alpha=0.05) {	
-	alpha <- rep(c(alpha/3,0), each=3)
+createGraphFromBretzEtAl <- function(alpha=0.05) {
+	# Nodes:
+	alpha <- rep(c(alpha/3,0), each=3)	
 	hnodes <- paste("H", rep(1:3, 2), rep(1:2, each=3), sep="")
+	# Edges:
 	edges <- vector("list", length=6)
 	edges[[1]] <- list(edges=c("H21","H12"), weights=rep(1/2, 2))
 	edges[[2]] <- list(edges=c("H11","H31","H22"), weights=rep(1/3, 3))
@@ -26,11 +28,17 @@ createGraphFromBretzEtAl <- function(alpha=0.05) {
 	edges[[5]] <- list(edges=c("H11","H31"), weights=rep(1/2, 2))
 	edges[[6]] <- list(edges="H21", weights=1)
 	names(edges)<-hnodes
+	# Graph creation
 	graph <- new("graphSRMTP", nodes=hnodes, edgeL=edges, alpha=alpha)
+	# Visualization settings
 	nodeX <- rep(c(100, 300, 500), 2)
 	nodeY <- rep(c(100, 300), each=3)
 	names(nodeX) <- hnodes
 	names(nodeY) <- hnodes
-	nodeRenderInfo(graph) <- list(nodeX=nodeX, nodeY=nodeY)	
+	nodeRenderInfo(graph) <- list(nodeX=nodeX, nodeY=nodeY)
+	edgeData(graph, "H11", "H21", "labelX") <- 200
+	edgeData(graph, "H11", "H21", "labelY") <- 80
+	edgeData(graph, "H31", "H21", "labelX") <- 400
+	edgeData(graph, "H31", "H21", "labelY") <- 80
 	return(graph)
 }
