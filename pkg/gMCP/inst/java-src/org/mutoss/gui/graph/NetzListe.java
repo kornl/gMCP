@@ -34,8 +34,24 @@ public class NetzListe extends JPanel implements MouseMotionListener, MouseListe
 	AbstractGraphControl control;
 	
 	boolean firstVertexSelected = false;
-	public Vector<Edge> edges = new Vector<Edge>();
-	public Vector<Node> knoten = new Vector<Node>();
+	protected Vector<Edge> edges = new Vector<Edge>();
+	protected Vector<Node> knoten = new Vector<Node>();
+
+	public Vector<Edge> getEdges() {
+		return edges;
+	}
+
+	public void setEdges(Vector<Edge> edges) {
+		this.edges = edges;
+	}
+
+	public Vector<Node> getKnoten() {
+		return knoten;
+	}
+
+	public void setKnoten(Vector<Node> knoten) {
+		this.knoten = knoten;
+	}
 
 	boolean started = false;
 
