@@ -2,6 +2,8 @@ package org.mutoss.gui.graph;
 
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Vector;
@@ -26,8 +28,12 @@ public class PView extends JPanel implements ActionListener {
 	public PView(AbstractGraphControl abstractGraphControl) {
 		//super("p-Values");
 		this.control = abstractGraphControl;        
-
-		add(new JScrollPane(panel));
+		setLayout(new GridBagLayout());
+		
+		GridBagConstraints c = new GridBagConstraints();		
+		c.weightx=1; c.weighty=1; c.fill = GridBagConstraints.BOTH;
+		c.gridx=0; c.gridy=0; c.gridwidth = 1; c.gridheight = 1; c.ipadx=0; c.ipady=0;
+		add(new JScrollPane(panel), c);
     }
 	
 	public void addPPanel(Node node) {

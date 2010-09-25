@@ -8,10 +8,13 @@ import java.awt.event.WindowListener;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JSplitPane;
 
 import org.af.statguitoolkit.graph.GraphSRMTP;
 import org.mutoss.gui.graph.AbstractGraphControl;
 import org.mutoss.gui.graph.GraphView;
+import org.mutoss.gui.graph.NetzListe;
+import org.mutoss.gui.graph.PView;
 
 import af.statguitoolkit.config.Configuration;
 
@@ -46,10 +49,13 @@ public class CreateGraphGUI extends JFrame implements WindowListener {
 	JLabel statusbar = new JLabel(); 
 	GraphView gv;
 	AbstractGraphControl agc;
+	PView pview;
 	
 	private void makeContent() {
-		gv = new GraphView(agc);				
-		this.getContentPane().add(gv);		
+		gv = new GraphView(agc);
+		pview = new PView(agc);
+		JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, gv, pview);
+		this.getContentPane().add(splitPane);		
 	}
 
 	public static void main(String[] args) {
@@ -63,4 +69,8 @@ public class CreateGraphGUI extends JFrame implements WindowListener {
 	public void windowDeiconified(WindowEvent e) {}
 	public void windowIconified(WindowEvent e) {}
 	public void windowOpened(WindowEvent e) {}
+
+	public PView getPView() {		
+		return pview;
+	}
 }
