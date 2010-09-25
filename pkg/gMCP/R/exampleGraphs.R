@@ -7,11 +7,23 @@ createBonferroniHolmGraph <- function(n, alpha=0.05) {
 	}
 	names(edges)<-hnodes
 	BonferroniHolmGraph <- new("graphSRMTP", nodes=hnodes, edgeL=edges, alpha=alpha)
+	# Visualization settings
 	nodeX <- 100+(0:(n-1))*200
-	nodeY <- rep(100, n)
+	nodeY <- rep(200, n)
 	names(nodeX) <- hnodes
 	names(nodeY) <- hnodes
 	nodeRenderInfo(BonferroniHolmGraph) <- list(nodeX=nodeX, nodeY=nodeY)	
+	# Label settings
+	for (i in 1:n) {
+		n1 <- hnodes[i]
+		for (j in (1:n)[-i]) {
+			n2 <- hnodes[j]
+			x <- ((i+j)*200-200)/2
+			y <- 200 + ((i-j)*50)
+			edgeData(BonferroniHolmGraph, n1, n2, "labelX") <- x
+			edgeData(BonferroniHolmGraph, n1, n2, "labelY") <- y
+		}
+	}	
 	return(BonferroniHolmGraph)
 }
 
@@ -39,20 +51,26 @@ createGraphFromBretzEtAl <- function(alpha=0.05) {
 	# Label placement
 	edgeData(graph, "H11", "H21", "labelX") <- 200
 	edgeData(graph, "H11", "H21", "labelY") <- 80
+	
 	edgeData(graph, "H31", "H21", "labelX") <- 400
 	edgeData(graph, "H31", "H21", "labelY") <- 80
+	
 	edgeData(graph, "H21", "H11", "labelX") <- 200
 	edgeData(graph, "H21", "H11", "labelY") <- 120
+	
 	edgeData(graph, "H21", "H31", "labelX") <- 400
 	edgeData(graph, "H21", "H31", "labelY") <- 120
+	
 	edgeData(graph, "H12", "H21", "labelX") <- 150
 	edgeData(graph, "H12", "H21", "labelY") <- 250
+	
 	edgeData(graph, "H22", "H11", "labelX") <- 250
 	edgeData(graph, "H22", "H11", "labelY") <- 250
+	
 	edgeData(graph, "H32", "H21", "labelX") <- 450
 	edgeData(graph, "H32", "H21", "labelY") <- 250
+	
 	edgeData(graph, "H22", "H31", "labelX") <- 350
 	edgeData(graph, "H22", "H31", "labelY") <- 250	
-	return(graph)
-	
+	return(graph)	
 }
