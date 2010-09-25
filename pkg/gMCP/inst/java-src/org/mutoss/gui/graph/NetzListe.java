@@ -566,7 +566,11 @@ public class NetzListe extends JPanel implements MouseMotionListener, MouseListe
 		RControl.getR().evalVoid(".gsrmtVar$nodeY <- c("+y+")");
 		RControl.getR().evalVoid("names(.gsrmtVar$nodeX) <- .gsrmtVar$hnodes");
 		RControl.getR().evalVoid("names(.gsrmtVar$nodeY) <- .gsrmtVar$hnodes");
-		RControl.getR().evalVoid("nodeRenderInfo("+graphName+") <- list(nodeX=.gsrmtVar$nodeX, nodeY=.gsrmtVar$nodeY)");	
+		RControl.getR().evalVoid("nodeRenderInfo("+graphName+") <- list(nodeX=.gsrmtVar$nodeX, nodeY=.gsrmtVar$nodeY)");
+		for (Edge e : edges) {				
+			RControl.getR().evalVoid("edgeData("+graphName+", \""+e.von.getName()+"\", \""+e.nach.getName()+"\", \"labelX\") <- "+(e.k1-Node.getRadius()));
+			RControl.getR().evalVoid("edgeData("+graphName+", \""+e.von.getName()+"\", \""+e.nach.getName()+"\", \"labelY\") <- "+(e.k2-Node.getRadius()));
+		}	
 		if (verbose) { JOptionPane.showMessageDialog(null, "The graph as been exported to R under ther variable name:\n\n"+graphName, "Saved as \""+graphName+"\"", JOptionPane.INFORMATION_MESSAGE); }
 	}
 	
