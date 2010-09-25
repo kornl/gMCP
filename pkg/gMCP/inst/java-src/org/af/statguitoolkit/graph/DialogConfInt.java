@@ -214,10 +214,7 @@ public class DialogConfInt extends JDialog implements ActionListener, ChangeList
 			alt.addActionListener(this);
 			this.alt.add(alt);			
 			panel.add(alt, c);			
-			c.gridx++;
-			
-			
-			
+			c.gridx++;			
 			
 			c.gridy++;
 		}

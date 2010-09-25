@@ -14,7 +14,7 @@ public class TestImportExport {
 	public TestImportExport(String graph1, String graph2) {
 		RControl.getRControl(true);
 		VS vs = new VS();
-		vs.nl = new NetzListe(new JLabel(""), vs, new AbstractGraphControl(graph1));
+		vs.nl = new NetzListe(new JLabel(""), vs, new AbstractGraphControl(graph1, null));
 		GraphSRMTP jGraph = new GraphSRMTP(graph1, vs);
 		jGraph.getNL().saveGraph(graph2, false);
 	}

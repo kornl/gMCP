@@ -29,7 +29,7 @@ public class UpdateNode extends JDialog implements ActionListener {
 		this.node = node;
 		this.netzListe = netzListe;
 		String cols = "5dlu, fill:pref:grow, 5dlu, fill:pref:grow, 5dlu";
-        String rows = "5dlu, pref, 5dlu, pref, 5dlu";
+        String rows = "5dlu, pref, 5dlu, pref, 5dlu, pref, 5dlu";
         
         FormLayout layout = new FormLayout(cols, rows);
         getContentPane().setLayout(layout);
@@ -41,6 +41,7 @@ public class UpdateNode extends JDialog implements ActionListener {
 
         tf = new RealTextField("α for node", 0d,1d, true, false);
         tf.setText(""+node.getAlpha());
+        tf.addActionListener(this);
         getContentPane().add(tf, cc.xy(4, row));
 
         row += 2;
@@ -48,6 +49,7 @@ public class UpdateNode extends JDialog implements ActionListener {
         getContentPane().add(new JLabel("New name"), cc.xy(2, row));
 
         tfname = new JTextField();
+        tfname.addActionListener(this);
         tfname.setText(node.getName());
         getContentPane().add(tfname, cc.xy(4, row));
 
@@ -75,6 +77,7 @@ public class UpdateNode extends JDialog implements ActionListener {
 			w = tf.getValidatedValue();
 		} catch (ValidationException ve) {}
 		node.setAlpha(w, null);	
+		node.setName(tfname.getText());
 		netzListe.repaint();
 		dispose();		
 	}

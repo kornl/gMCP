@@ -1,6 +1,7 @@
 package org.mutoss.gui.graph;
 
 import java.awt.BorderLayout;
+import java.awt.Component;
 import java.awt.FlowLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
@@ -17,6 +18,7 @@ import javax.swing.JTextField;
 
 import org.af.commons.errorhandling.ErrorHandler;
 import org.af.commons.widgets.DesktopPaneBG;
+import org.af.statguitoolkit.graph.DialogConfInt;
 
 public class GraphView extends JPanel implements ActionListener {
 
@@ -47,16 +49,33 @@ public class GraphView extends JPanel implements ActionListener {
 	JButton buttonSave;
 	JTextField jtSaveName;
 	
+	JButton buttonadjPval;
+	JButton buttonConfInt;
+	JButton buttonStart;	
+	JButton buttonBack;
+	
 	public JPanel getNorthPanel() {
 		JPanel panel = new JPanel();
 		panel.setLayout(new BorderLayout());
-		panel.add("North", getToolBar());		
+		panel.add("North", getToolBar());
+		panel.add("Center", getSaveBar());		
 		panel.add("South", statusBar);
 		return panel;
 	}
 
-    public JPanel getToolBar() {
-		Insets insets = new Insets(0, 0, 0, 0);
+    private JPanel getSaveBar() {
+    	JPanel panel = new JPanel();
+    	jtSaveName = new JTextField(control.getName(), 24);
+    	panel.setLayout(new FlowLayout());
+		((FlowLayout) (panel.getLayout()))
+				.setAlignment(FlowLayout.LEFT);
+		panel.add(new JLabel("Variablename to save to: "));
+		panel.add(jtSaveName);
+		jtSaveName.addActionListener(this);
+		return panel;
+	}
+
+	public JPanel getToolBar() {
 		JPanel toolPanel = new JPanel();
 		try {
 			toolPanel.setLayout(new FlowLayout());
@@ -92,21 +111,41 @@ public class GraphView extends JPanel implements ActionListener {
 			toolPanel.add(buttonLatex);
 			buttonLatex.addActionListener(new ActionExportToLatex(this, nl, vs));
 			buttonLatex.setToolTipText("export to LaTeX");
-			buttonPhysics = new JButton(
+			
+			buttonadjPval = new JButton(
 					new ImageIcon(ImageIO.read(DesktopPaneBG.class
-											.getResource("/org/mutoss/gui/graph/images/smiley.png"))));
-			toolPanel.add(buttonPhysics);
-			buttonPhysics.addActionListener(this);
-			buttonPhysics.setToolTipText("physics");
+											.getResource("/org/mutoss/gui/graph/images/adjPval.png"))));
+			toolPanel.add(buttonadjPval);
+			buttonadjPval.addActionListener(this);
+			buttonadjPval.setToolTipText("calculate adjusted p-values");
+			buttonConfInt = new JButton(
+					new ImageIcon(ImageIO.read(DesktopPaneBG.class
+											.getResource("/org/mutoss/gui/graph/images/confint2.png"))));
+			toolPanel.add(buttonConfInt);
+			buttonConfInt.addActionListener(this);
+			buttonConfInt.setToolTipText("calculate confidence intervals");
+			
+			buttonBack = new JButton(
+					new ImageIcon(ImageIO.read(DesktopPaneBG.class
+											.getResource("/org/mutoss/gui/graph/images/back.png"))));
+			toolPanel.add(buttonBack);
+			buttonBack.setEnabled(false);
+			buttonBack.addActionListener(this);
+			buttonBack.setToolTipText("go back one step");
+			
+			buttonStart = new JButton(
+					new ImageIcon(ImageIO.read(DesktopPaneBG.class
+											.getResource("/org/mutoss/gui/graph/images/StartTesting.png"))));
+			toolPanel.add(buttonStart);
+			buttonStart.addActionListener(this);
+			buttonStart.setToolTipText("start testing");
+			
 			buttonSave = new JButton(
 					new ImageIcon(ImageIO.read(DesktopPaneBG.class
 											.getResource("/org/mutoss/gui/graph/images/save.png"))));
 			toolPanel.add(buttonSave);
 			buttonSave.addActionListener(this);
-			buttonSave.setToolTipText("save");
-			jtSaveName = new JTextField(control.getName(), 24);
-			toolPanel.add(new JLabel("Variablename to save to: "));
-			toolPanel.add(jtSaveName);
+			buttonSave.setToolTipText("save");			
 		} catch (IOException e) {
 			ErrorHandler.getInstance().makeErrDialog(e.getMessage(), e);
 		}
@@ -134,10 +173,11 @@ public class GraphView extends JPanel implements ActionListener {
 			getNL().statusBar.setText("Click on the graph panel to place the node.");
 		} else if (e.getSource().equals(buttonPhysics)) {
 			getNL().changePhysics();
-		} else if (e.getSource().equals(buttonSave)) {			
+		} else if (e.getSource().equals(buttonSave) || e.getSource().equals(jtSaveName)) {			
 			getNL().saveGraph(jtSaveName.getText(), true);
+		} else if (e.getSource().equals(buttonConfInt)) {
+			new DialogConfInt(control.getMainFrame(), nl);
 		}
-		
 	}
 
 	public VS getVS() {		

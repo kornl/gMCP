@@ -16,6 +16,7 @@ public class UpdateEdge extends JDialog implements ActionListener {
 	
 	JTextField tf;
 	JButton jb = new JButton("Update Edge");
+	JButton jbDelete = new JButton("Remove Edge");
 	Edge edge;
 	NetzListe netzListe;
 	
@@ -39,6 +40,9 @@ public class UpdateEdge extends JDialog implements ActionListener {
         tf.addActionListener(this);
         getContentPane().add(tf, cc.xy(4, 2));
 
+        jbDelete.addActionListener(this);
+        getContentPane().add(jbDelete, cc.xy(2, 4));
+                
         jb.addActionListener(this);
         getContentPane().add(jb, cc.xy(4, 4));
         
@@ -49,10 +53,12 @@ public class UpdateEdge extends JDialog implements ActionListener {
 
 	public void actionPerformed(ActionEvent e) {
 		Double w = 0d;		
-		try {
-			w = Double.parseDouble(tf.getText());
-		} catch (NumberFormatException ve) {
-			w = Double.NaN;
+		if (e.getSource() != jbDelete) {
+			try {
+				w = Double.parseDouble(tf.getText());
+			} catch (NumberFormatException ve) {
+				w = Double.NaN;
+			}
 		}
 		if (w==0) {
 			netzListe.removeEdge(edge);
