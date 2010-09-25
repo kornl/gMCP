@@ -25,4 +25,8 @@ public class AbstractGraphControl  {
 		return name;
 	}
 
+	public JFrame getMainFrame() {		
+		return parent;
+	}
+
 }

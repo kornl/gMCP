@@ -41,12 +41,20 @@ public class GraphSRMTP {
 				knoten.add(new Node(nodes[i], (int) x[i], (int) y[i], alpha[i], vs));
 			}
 			// Edges:
-			RList edgeL = RControl.getR().eval("gsrmtp:::getEdges("+name+")").asRList();
+			RList edgeL = RControl.getR().eval("gMCP:::getEdges("+name+")").asRList();
 			String[] from = edgeL.get(0).asRChar().getData();
 			String[] to = edgeL.get(1).asRChar().getData();
 			double[] weight = edgeL.get(2).asRNumeric().getData();
+			double[] labelX = edgeL.get(3).asRNumeric().getData();
+			double[] labelY = edgeL.get(4).asRNumeric().getData();
 			for (int i=0; i<from.length; i++) {
-				kanten.add(new Edge(getNode(from[i]), getNode(to[i]), weight[i], vs));
+				Node fromNode = getNode(from[i]);
+				Node toNode = getNode(to[i]);
+				int xl = (int) labelX[i];
+				if (xl<-50) xl = (fromNode.getX()+toNode.getX())/2;
+				int yl = (int) labelY[i];
+				if (yl<-50) yl = (fromNode.getY()+toNode.getY())/2;				
+				kanten.add(new Edge(fromNode, toNode, weight[i], vs, xl+Node.getRadius(), yl+Node.getRadius()));
 			}
 		}		
 		this.nl = vs.nl;

@@ -63,7 +63,7 @@ public class RControl {
 				//rcs.eval(".setenv(\"JAVAGD_CLASS_NAME\"=\"org/mutoss/gui/JavaGD\")");
 				//rcs.eval("require(JavaGD)");					
 				rcs.eval("require(gMCP)");
-				//rcs.eval("graph <- createGraphFromBretzEtAl()");
+				rcs.eval("graph <- createGraphFromBretzEtAl()");
 			}
 		} catch (REngineException e) {
 			ErrorHandler.getInstance().makeErrDialog("Error creating RCallServicesREngine!", e);
