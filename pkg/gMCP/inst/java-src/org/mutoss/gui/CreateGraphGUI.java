@@ -13,7 +13,6 @@ import javax.swing.JSplitPane;
 import org.af.statguitoolkit.graph.GraphSRMTP;
 import org.mutoss.gui.graph.AbstractGraphControl;
 import org.mutoss.gui.graph.GraphView;
-import org.mutoss.gui.graph.NetzListe;
 import org.mutoss.gui.graph.PView;
 
 import af.statguitoolkit.config.Configuration;

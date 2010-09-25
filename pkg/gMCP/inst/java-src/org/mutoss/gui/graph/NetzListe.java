@@ -547,7 +547,8 @@ public class NetzListe extends JPanel implements MouseMotionListener, MouseListe
 		RControl.getR().evalVoid(".gsrmtVar$alpha <- c("+alpha+")");
 		RControl.getR().evalVoid(".gsrmtVar$hnodes <- c("+nodes+")");
 		RControl.getR().evalVoid(".gsrmtVar$edges <- vector(\"list\", length="+knoten.size()+")");
-		for (int i=0; i<knoten.size(); i++) {
+		RControl.getR().evalVoid("names(.gsrmtVar$edges)<-.gsrmtVar$hnodes");
+		for (int i=knoten.size()-1; i>=0; i--) {
 			Node n = knoten.get(i);
 			String edgeL = "";
 			String weights = "";
@@ -561,9 +562,12 @@ public class NetzListe extends JPanel implements MouseMotionListener, MouseListe
 				edgeL = edgeL.substring(0, edgeL.length()-1);
 				weights = weights.substring(0, weights.length()-1);			
 				RControl.getR().evalVoid(".gsrmtVar$edges[["+(i+1)+"]] <- list(edges=c("+edgeL+"), weights=c("+weights+"))");
+			} else {
+				RControl.getR().evalVoid(".gsrmtVar$edges[["+(i+1)+"]] <- list(edges=character(0), weights=numeric(0))");
 			}
 		}		
-		RControl.getR().evalVoid("names(.gsrmtVar$edges)<-.gsrmtVar$hnodes");
+		//String s = RControl.getR().eval("paste(capture.output(dput(.gsrmtVar)), collapse=\"\")").asRChar().getData()[0];
+		//JOptionPane.showMessageDialog(null, "Exported graph as: "+s);
 		RControl.getR().evalVoid(graphName+" <- new(\"graphSRMTP\", nodes=.gsrmtVar$hnodes, edgeL=.gsrmtVar$edges, alpha=.gsrmtVar$alpha)");		
 		RControl.getR().evalVoid(".gsrmtVar$nodeX <- c("+x+")");
 		RControl.getR().evalVoid(".gsrmtVar$nodeY <- c("+y+")");
