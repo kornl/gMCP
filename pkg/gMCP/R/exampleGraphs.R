@@ -36,9 +36,23 @@ createGraphFromBretzEtAl <- function(alpha=0.05) {
 	names(nodeX) <- hnodes
 	names(nodeY) <- hnodes
 	nodeRenderInfo(graph) <- list(nodeX=nodeX, nodeY=nodeY)
+	# Label placement
 	edgeData(graph, "H11", "H21", "labelX") <- 200
 	edgeData(graph, "H11", "H21", "labelY") <- 80
 	edgeData(graph, "H31", "H21", "labelX") <- 400
 	edgeData(graph, "H31", "H21", "labelY") <- 80
+	edgeData(graph, "H21", "H11", "labelX") <- 200
+	edgeData(graph, "H21", "H11", "labelY") <- 120
+	edgeData(graph, "H21", "H31", "labelX") <- 400
+	edgeData(graph, "H21", "H31", "labelY") <- 120
+	edgeData(graph, "H12", "H21", "labelX") <- 150
+	edgeData(graph, "H12", "H21", "labelY") <- 250
+	edgeData(graph, "H22", "H11", "labelX") <- 250
+	edgeData(graph, "H22", "H11", "labelY") <- 250
+	edgeData(graph, "H32", "H21", "labelX") <- 450
+	edgeData(graph, "H32", "H21", "labelY") <- 250
+	edgeData(graph, "H22", "H31", "labelX") <- 350
+	edgeData(graph, "H22", "H31", "labelY") <- 250	
 	return(graph)
+	
 }
