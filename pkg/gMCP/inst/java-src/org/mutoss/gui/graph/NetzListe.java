@@ -28,7 +28,6 @@ import af.statguitoolkit.config.Configuration;
 public class NetzListe extends JPanel implements MouseMotionListener, MouseListener {
 
 	private static final Log logger = LogFactory.getLog(NetzListe.class);
-	RunnableAlgorithm algo;
 	AbstractGraphControl control;
 	int drag = -1;
 	protected Vector<Edge> edges = new Vector<Edge>();
@@ -187,18 +186,6 @@ public class NetzListe extends JPanel implements MouseMotionListener, MouseListe
 		revalidate();
 		repaint();
 		return new int[] {maxX, maxY};
-	}
-
-	
-	public void changePhysics() {
-		if (!started) {
-			System.out.println("Starte Algorithmen");
-			algo = new RunnableAlgorithm(knoten, edges, vs,	this);
-			algo.start();
-			started = true;
-			algo.force = false;
-		}
-		algo.force = !algo.force;
 	}
 	
 	public Edge findEdge(Node von, Node nach) {
@@ -543,18 +530,6 @@ public class NetzListe extends JPanel implements MouseMotionListener, MouseListe
 
 	public void updateSettings() {
 		int d = (2 * Node.getRadius() + 10);
-		switch (vs.getGraphDrawAlgo()) {
-		case 0:
-			for (int i = 0; i < knoten.size(); i++) {
-				int w = (int) (Math.sqrt(knoten.size())) + 1;
-				knoten.get(i).setX( 3 + (d * (i % w)));
-				knoten.get(i).setY( 3 + (d * (i / w)));
-			}
-			break;
-		case 1:
-			RunnableAlgorithm.hierarchicallySort(knoten, edges, vs);
-			break;
-		}
 		calculateSize();
 	}
 	
