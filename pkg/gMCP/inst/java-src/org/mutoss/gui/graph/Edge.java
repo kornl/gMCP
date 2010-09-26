@@ -8,6 +8,7 @@ import java.awt.font.FontRenderContext;
 import java.awt.geom.Rectangle2D;
 
 import org.af.commons.images.GraphDrawHelper;
+import org.af.commons.images.GraphException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -164,6 +165,65 @@ public class Edge {
 
 	public int getK2() {
 		return k2;
+	}
+	
+	public int getBendLeft() {
+		int x1, x2, y1, y2;
+		x1 = von.getX() + Node.getRadius();
+		x2 = nach.getX() + Node.getRadius();
+		y1 = von.getY() + Node.getRadius();
+		y2 = nach.getY() + Node.getRadius();
+		double[] m;
+		try {
+			m = GraphDrawHelper.getCenter(x1, y1, k1, k2, x2, y2);
+		} catch (GraphException e) {
+			return 0; // Seriously, this is the right answer!
+		}
+		double[] phi = GraphDrawHelper.getAngle(x1, y1, k1, k2, x2, y2, m[0], m[1]);
+		double gamma;
+		if ((x1-x2)==0) {
+			gamma = 90 + ((y2-y1>0)?0:180);
+		} else {
+			gamma = Math.atan((-y1+y2)/(x1-x2))*360/(2*Math.PI)+((x1-x2<0)?180:0);
+		}
+		return ((int)(phi[2]+(phi[1]>0?180:0)+90-gamma)+360)%360;
+	}
+
+	public double getPos() {
+		int x1, x2, y1, y2;
+		x1 = von.getX() + Node.getRadius();
+		x2 = nach.getX() + Node.getRadius();
+		y1 = von.getY() + Node.getRadius();
+		y2 = nach.getY() + Node.getRadius();		
+		double[] m;
+		try {
+			m = GraphDrawHelper.getCenter(x1, y1, k1, k2, x2, y2);
+			double d = Math.sqrt((x2-x1)*(x2-x1)+(y2-y1)*(y2-y1));
+			double r = Math.sqrt((m[0]-x1)*(m[0]-x1)+(m[1]-y1)*(m[1]-y1));
+			if (2*Math.PI*r/360>6*d/200) throw new GraphException("Edge is too linear.");	
+		} catch (GraphException e) {			
+			double n2 = Math.sqrt((x2-x1)*(x2-x1)+(y2-y1)*(y2-y1));
+			double k = Math.sqrt((k1-x1)*(k1-x1)+(k2-y1)*(k2-y1));
+			if (k>n2) return 1;
+			return (k/n2);			
+		}
+		double[] phi = GraphDrawHelper.getAngle(x1, y1, k1, k2, x2, y2, m[0], m[1]);
+		double phiA = phi[2];
+		double phiC = phi[3];
+		double phiK = phi[4];		
+		if (phi[1]*(phi[0]==phi[2]?1:-1)>0) {
+			if (phiK<phiA) phiK = phiK + 360;
+			if (phiC<phiK) phiC = phiC + 360;
+			return ((double)(phiK-phiA))/((double)(phiC-phiA));
+		} else {
+			if (phiK>phiA) phiK = phiK - 360;
+			if (phiC>phiK) phiC = phiC - 360;
+			return ((double)(phiK-phiA))/((double)(phiC-phiA));
+		}
+	}
+
+	public Double getW() {
+		return w;
 	}
 
 	public void setK2(int k2) {

@@ -8,6 +8,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.image.BufferedImage;
+import java.text.DecimalFormat;
 import java.util.Vector;
 
 import javax.swing.JLabel;
@@ -247,6 +248,34 @@ public class NetzListe extends JPanel implements MouseMotionListener, MouseListe
 	public Vector<Node> getKnoten() {
 		return knoten;
 	}
+	
+	DecimalFormat format = new DecimalFormat("#.###");
+	
+	public String getLaTeX() {
+		String latex = "";
+		double scale=0.5;
+		latex += "\\begin{tikzpicture}[scale="+scale+"]";
+		for (int i = 0; i < getKnoten().size(); i++) {
+			Node node = getKnoten().get(i);
+			latex += "\\node ("+node.getName().replace("_", "-")+") at ("+node.getX()+"bp,"+(-node.getY())+"bp)\n";
+			String nodeColor = "green!80";
+			if (node.isRejected()) {nodeColor = "red!80";}
+			latex += "[draw,circle split,fill="+nodeColor+"] {$"+node.getName()+"$ \\nodepart{lower} $"+format.format(node.getAlpha())+"$};\n";			
+		}
+		for (int i = 0; i < getEdges().size(); i++) {
+			Node node1 = getEdges().get(i).von;
+			Node node2 = getEdges().get(i).nach;			
+			String to = "bend left="+getEdges().get(i).getBendLeft();
+			Double w = getEdges().get(i).getW();
+			String weight = (w.toString().equals("NaN")) ? "$\\epsilon$" : ""+format.format(w);
+			String pos = format.format(getEdges().get(i).getPos()).replace(",", ".");
+			latex += "\\draw [->,line width=1pt] ("+node1.getName().replace("_", "-")+") to["+to+"] node[pos="+pos+",above,fill=blue!20] {"+weight+"} ("+node2.getName().replace("_", "-")+");\n";
+
+		}
+		latex += "\\end{tikzpicture}\n\n";
+		return latex;
+	}
+	
 	/**
 	 * Liefert die interne Nummer des Knoten mit der ID id
 	 * 
