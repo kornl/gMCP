@@ -4,12 +4,15 @@ import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.text.DecimalFormat;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -110,7 +113,7 @@ public class GraphView extends JPanel implements ActionListener {
 					new ImageIcon(ImageIO.read(DesktopPaneBG.class
 											.getResource("/org/mutoss/gui/graph/images/latex.png"))));
 			toolPanel.add(buttonLatex);
-			buttonLatex.addActionListener(new ActionExportToLatex(this, nl, vs));
+			buttonLatex.addActionListener(this);
 			buttonLatex.setToolTipText("export to LaTeX");
 			
 			buttonadjPval = new JButton(
@@ -195,6 +198,8 @@ public class GraphView extends JPanel implements ActionListener {
 			}
 			s = s.substring(0, s.length()-2);
 			JOptionPane.showMessageDialog(control.getMainFrame(), s, "Adjusted p-Values", JOptionPane.INFORMATION_MESSAGE);
+		} else if (e.getSource().equals(buttonLatex)) {
+			exportLaTeXGraph();
 		}
 	}
 
@@ -203,6 +208,41 @@ public class GraphView extends JPanel implements ActionListener {
 	public VS getVS() {		
 		return vs;
 	}
+	
+	public void writeLaTeX(String s) {
+		JFileChooser fc = new JFileChooser();		
+		File f;
+		int returnVal = fc.showSaveDialog(this);
+		if (returnVal == JFileChooser.APPROVE_OPTION) {
+			f = fc.getSelectedFile();
+			if (!f.getName().toLowerCase().endsWith(".tex")) {
+            	f = new File(f.getAbsolutePath()+".tex");
+            }
+			System.out.println("Export to: " + f.getAbsolutePath() + ".");
+		} else {
+			return;
+		}
+		try {
+			FileWriter out = new FileWriter(f);
+			out.write(LATEX_BEGIN_DOCUMENT);
+			out.write(s);
+			out.write(LATEX_END_DOCUMENT);
+			out.close();
+		} catch( Exception ex ) {
+			JOptionPane.showMessageDialog(null, "Saving LaTeX code to '" + f.getAbsolutePath() + "' failed: " + ex.getMessage(), "Saving failed.", JOptionPane.ERROR_MESSAGE);
+		}
+	}
+	
+	public void exportLaTeXGraph() {		
+		writeLaTeX(getNL().getLaTeX());
+	}
+	
+	public String LATEX_BEGIN_DOCUMENT = "\\documentclass[11pt]{article}\n"+
+	 "\\usepackage{tikz}\n"+
+	 "\\usetikzlibrary{snakes,arrows,shapes}\n"+
+	 "\\begin{document}\n";
+
+	public String LATEX_END_DOCUMENT = "\\end{document}";
 
 	public void stopTesting() {
 		if (!getNL().testingStarted) return;
@@ -219,6 +259,20 @@ public class GraphView extends JPanel implements ActionListener {
 		} catch (IOException ex) {
 			ErrorHandler.getInstance().makeErrDialog(ex.getMessage(), ex);
 		}
+	}
+	
+	public void WriteLaTeXwithR() {
+		JFileChooser fc = new JFileChooser();
+		File file;
+		int returnVal = fc.showSaveDialog(control.getMainFrame());
+		if (returnVal == JFileChooser.APPROVE_OPTION) {
+			file = fc.getSelectedFile();			
+		} else {
+			return;
+		}
+		String filename = file.getAbsolutePath();
+		nl.saveGraph(".exportGraphToLaTeX", false);
+		RControl.getR().eval("createGsrmtpReport(.exportGraphToLaTeX, file=\""+filename+"\")");
 	}
 
 	public void startTesting() {	
