@@ -134,10 +134,6 @@ public class Configuration {
     public JavaConfig getJavaConfig() {
         return new JavaConfig(this);
     }
-    
-    public InstallConfig getInstallConfig() {
-        return new InstallConfig(this);
-    }
 
     /**
      * Returns a String which lists all Preferences in Preferences.userRoot() which start with the keyPrefix.
