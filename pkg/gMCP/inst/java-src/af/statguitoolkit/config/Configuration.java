@@ -127,10 +127,6 @@ public class Configuration {
         return new PlotConfig(this);
     }
 
-    public ROutputConfig getROutputConfig() {
-        return new ROutputConfig(this);
-    }
-
     public JavaConfig getJavaConfig() {
         return new JavaConfig(this);
     }
