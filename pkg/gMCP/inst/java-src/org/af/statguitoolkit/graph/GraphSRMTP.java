@@ -20,6 +20,7 @@ public class GraphSRMTP {
 	public Vector<Edge> kanten = new Vector<Edge>();
 	public Vector<Node> knoten = new Vector<Node>();
 	NetzListe nl;
+	VS vs;
 	
 	public NetzListe getNL() {
 		return nl;
@@ -30,7 +31,14 @@ public class GraphSRMTP {
 	}
 
 	public GraphSRMTP(String name, VS vs) {
-		this.name = name;		
+		this.name = name;
+		this.vs = vs;
+		loadGraph(name);
+		nl.revalidate();
+		nl.repaint();
+	}
+	
+	public void loadGraph(String name) {
 		if ( RControl.getR().eval("exists(\""+name+"\")").asRLogical().getData()[0] ) {
 			String[] nodes = RControl.getR().eval("nodes("+name+")").asRChar().getData();
 			double[] alpha = RControl.getR().eval("getAlpha("+name+")").asRNumeric().getData();
@@ -42,19 +50,21 @@ public class GraphSRMTP {
 			}
 			// Edges:
 			RList edgeL = RControl.getR().eval("gMCP:::getEdges("+name+")").asRList();
-			String[] from = edgeL.get(0).asRChar().getData();
-			String[] to = edgeL.get(1).asRChar().getData();
-			double[] weight = edgeL.get(2).asRNumeric().getData();
-			double[] labelX = edgeL.get(3).asRNumeric().getData();
-			double[] labelY = edgeL.get(4).asRNumeric().getData();
-			for (int i=0; i<from.length; i++) {
-				Node fromNode = getNode(from[i]);
-				Node toNode = getNode(to[i]);
-				int xl = (int) labelX[i];
-				if (xl<-50) xl = (fromNode.getX()+toNode.getX())/2;
-				int yl = (int) labelY[i];
-				if (yl<-50) yl = (fromNode.getY()+toNode.getY())/2;				
-				kanten.add(new Edge(fromNode, toNode, weight[i], vs, xl+Node.getRadius(), yl+Node.getRadius()));
+			if (edgeL.get(0)!= null) {
+				String[] from = edgeL.get(0).asRChar().getData();
+				String[] to = edgeL.get(1).asRChar().getData();
+				double[] weight = edgeL.get(2).asRNumeric().getData();
+				double[] labelX = edgeL.get(3).asRNumeric().getData();
+				double[] labelY = edgeL.get(4).asRNumeric().getData();
+				for (int i=0; i<from.length; i++) {
+					Node fromNode = getNode(from[i]);
+					Node toNode = getNode(to[i]);
+					int xl = (int) labelX[i];
+					if (xl<-50) xl = (fromNode.getX()+toNode.getX())/2;
+					int yl = (int) labelY[i];
+					if (yl<-50) yl = (fromNode.getY()+toNode.getY())/2;				
+					kanten.add(new Edge(fromNode, toNode, weight[i], vs, xl+Node.getRadius(), yl+Node.getRadius()));
+				}
 			}
 		}		
 		this.nl = vs.nl;
@@ -64,8 +74,6 @@ public class GraphSRMTP {
 		for (Edge e : kanten) {
 			nl.addEdge(e);
 		}
-		nl.revalidate();
-		nl.repaint();
 	}
 
 	private Node getNode(String name) {

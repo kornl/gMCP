@@ -64,7 +64,7 @@ public class RControl {
 				//rcs.eval("require(JavaGD)");					
 				rcs.eval("require(gMCP)");
 				rcs.eval("graph <- createGraphFromBretzEtAl()");
-				rcs.eval("graph <- createBonferroniHolmGraph(5)");
+				//rcs.eval("graph <- createBonferroniHolmGraph(5)");
 			}
 		} catch (REngineException e) {
 			ErrorHandler.getInstance().makeErrDialog("Error creating RCallServicesREngine!", e);

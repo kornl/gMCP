@@ -14,6 +14,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
+import org.af.statguitoolkit.graph.GraphSRMTP;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.mutoss.gui.RControl;
@@ -435,83 +436,10 @@ public class NetzListe extends JPanel implements MouseMotionListener, MouseListe
 	
 
 	public void acceptNode(Node node) {
-		int epsilon = 0; 
-		boolean eps = true;
-		boolean hasChildren = updateEdges(node);
-		for (int i=edges.size()-1; i>=0; i--) {
-			Edge e = edges.get(i);
-			if (e.nach == node) {				
-				removeEdge(e);
-			}
-			if (e.von == node && !e.w.toString().equals("NaN")) {
-				e.nach.alpha = e.nach.alpha + node.alpha * e.w;				
-				removeEdge(e);
-				eps = false;
-			} 
-			if (e.von == node && e.w.toString().equals("NaN")) {
-				epsilon++;
-			}
-		}
-		if (epsilon>0) {
-			for (int i=edges.size()-1; i>=0; i--) {
-				Edge e = edges.get(i);
-				if (e.von == node && e.w.toString().equals("NaN")) {
-					if (eps) {
-						e.nach.alpha = e.nach.alpha + node.alpha / epsilon;					
-					}
-					removeEdge(e);
-				} 
-			}
-		}
-		if (hasChildren) {
-			node.alpha = 0; 
-		}
-		node.setColor(Color.MAGENTA);
-		revalidate();
-		repaint();
-	}
-
-	private boolean updateEdges(Node node) {
-		Vector<Node> epsChildren = new Vector<Node>();
-		Vector<Node> realChildren = new Vector<Node>();
-		Vector<Node> allChildren = new Vector<Node>();
-		for (Edge e : edges) {
-			if (node == e.von) {
-				if (e.w.toString().equals("NaN")) {
-					epsChildren.add(e.nach);
-				} else {
-					realChildren.add(e.nach);
-				}		
-				allChildren.add(e.nach);
-			}
-		}		
-		Vector<Edge> all = new Vector<Edge>();
-		all.addAll(edges);
-		for (Edge e : all) {			
-			if (e.nach == node) {				
-				if (e.w.toString().equals("NaN")) { 
-					for (Node nach : allChildren) {
-						if (findEdge(e.von,nach)==null) {
-							if (e.von!=nach) { addEdge(e.von, nach); }
-						}
-					}
-				} else { 
-					for (Node nach : epsChildren) {
-						if (findEdge(e.von,nach)==null) {
-							if (e.von!=nach) { addEdge(e.von, nach); }
-						}
-					}
-					for (Node nach : realChildren) {						
-						Double glk = (findEdge(e.von,nach)==null)?0:findEdge(e.von,nach).w;
-						Double glj = e.w;
-						Double gjk = findEdge(node,nach).w;
-						Double gjl = (findEdge(node,e.von)==null)?0:findEdge(node,e.von).w;
-						if (e.von!=nach) { addEdge(e.von, nach, (glk+glj*gjk)/(1-glj*gjl)); }						
-					}					
-				}				
-			}
-		}		
-		return allChildren.size()!=0;
+		saveGraph(".tmpGraph", false);
+		RControl.getR().eval(".tmpGraph <- rejectNode(.tmpGraph, \""+node.getName()+"\")");
+		reset();
+		new GraphSRMTP(".tmpGraph", vs);
 	}
 
 	public void reset() {
