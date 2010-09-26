@@ -8,7 +8,7 @@ srmtp <- function(graph, pvalues, verbose=FALSE) {
 	sequence <- list(graph)
 	while(!is.null(node <- getRejectableNode(graph, pvalues))) {
 		if (verbose) cat(paste("Node \"",node,"\" can be rejected.\n",sep=""))
-		graph <- updateGraph(graph, node, verbose)
+		graph <- rejectNode(graph, node, verbose)
 		sequence <- c(sequence, graph)
 	}	
 	return(new("srmtpResult", graphs=sequence, pvalues=pvalues))
@@ -35,14 +35,14 @@ adjPValues <- function(graph, pvalues, verbose=FALSE) {
 		adjPValues[node] <- max(pvalues[node]/getAlpha(graph)[node], pmax)
 		pmax <- adjPValues[node]
 		if (verbose) cat(paste("We will update the graph with node \"",node,"\".\n",sep=""))
-		graph <- updateGraph(graph, node, verbose)
+		graph <- rejectNode(graph, node, verbose)
 		J <- J[J!=node]
 		sequence <- c(sequence, graph)
 	}	
 	return(new("srmtpResult", graphs=sequence, pvalues=pvalues, adjPValues=adjPValues))
 }
 
-updateGraph <- function(graph, node, verbose=FALSE) {
+rejectNode <- function(graph, node, verbose=FALSE) {
 	edgesIn <- c()			
 	for (node2 in nodes(graph)) {
 		i <- which(names(edgeWeights(graph, node2)[[node2]])==node)
@@ -58,6 +58,7 @@ updateGraph <- function(graph, node, verbose=FALSE) {
 	
 	if (all(TRUE == all.equal(edgesOut, rep(0, length(edgesOut))))) {
 		if (verbose) cat("Alpha is passed via epsilon-edges.\n")
+		
 	} else {
 		if (verbose) cat("Alpha is passed via non-epsilon-edges.\n")
 		graph2 <- graph
