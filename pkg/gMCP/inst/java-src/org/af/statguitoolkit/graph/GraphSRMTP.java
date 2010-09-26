@@ -44,9 +44,11 @@ public class GraphSRMTP {
 			double[] alpha = RControl.getR().eval("getAlpha("+name+")").asRNumeric().getData();
 			double[] x = RControl.getR().eval("getX("+name+")").asRNumeric().getData();
 			double[] y = RControl.getR().eval("getY("+name+")").asRNumeric().getData();
+			boolean[] rejected = RControl.getR().eval("getRejected("+name+")").asRLogical().getData();
 			for (int i=0; i<nodes.length; i++) {
 				logger.debug("Adding node "+nodes[i]+" at ("+x[i]+","+y[i]+").");
 				knoten.add(new Node(nodes[i], (int) x[i], (int) y[i], alpha[i], vs));
+				if (rejected[i]) knoten.lastElement().reject();
 			}
 			// Edges:
 			RList edgeL = RControl.getR().eval("gMCP:::getEdges("+name+")").asRList();
@@ -55,7 +57,7 @@ public class GraphSRMTP {
 				String[] to = edgeL.get(1).asRChar().getData();
 				double[] weight = edgeL.get(2).asRNumeric().getData();
 				double[] labelX = edgeL.get(3).asRNumeric().getData();
-				double[] labelY = edgeL.get(4).asRNumeric().getData();
+				double[] labelY = edgeL.get(4).asRNumeric().getData();				
 				for (int i=0; i<from.length; i++) {
 					Node fromNode = getNode(from[i]);
 					Node toNode = getNode(to[i]);
@@ -63,7 +65,7 @@ public class GraphSRMTP {
 					if (xl<-50) xl = (fromNode.getX()+toNode.getX())/2;
 					int yl = (int) labelY[i];
 					if (yl<-50) yl = (fromNode.getY()+toNode.getY())/2;				
-					kanten.add(new Edge(fromNode, toNode, weight[i], vs, xl+Node.getRadius(), yl+Node.getRadius()));
+					kanten.add(new Edge(fromNode, toNode, weight[i], vs, xl+Node.getRadius(), yl+Node.getRadius()));					
 				}
 			}
 		}		

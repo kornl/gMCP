@@ -61,22 +61,31 @@ public class PPanel implements ActionListener, KeyListener, NodeListener {
 		jb = new JButton("Reject and pass α");
 		jb.setEnabled(false);
 		jb.addActionListener(this);
-		keyTyped(null);
+		if (node.isRejected()) {
+			reject();
+		} else {
+			keyTyped(null);
+		}
+		
 	}
 
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource()==jb) {
-			wTF.setEnabled(false);
-			pTF.setEnabled(false);
-			jb.setEnabled(false);
-			label.setText(label.getText()+" rejected!");
-			label.setForeground(new Color(0,100,0));
-			node.setColor(new Color(50,255,50));
-			rejected = true;
+			reject();
 			updateGraph();
 		} else {
 			keyTyped(null);
 		}
+	}
+
+	private void reject() {
+		wTF.setEnabled(false);
+		pTF.setEnabled(false);
+		jb.setEnabled(false);
+		label.setText(label.getText()+" rejected!");
+		label.setForeground(new Color(0,100,0));
+		node.setColor(new Color(50,255,50));
+		rejected = true;
 	}
 
 	private void updateGraph() {

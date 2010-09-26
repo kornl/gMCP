@@ -336,9 +336,6 @@ public class NetzListe extends JPanel implements MouseMotionListener, MouseListe
 				}
 			}
 			if (drag != -1) {
-				if (false) {
-					knoten.get(drag).fix = true;
-				}
 				knoten.get(drag).drag = true;
 			}
 		}
@@ -511,7 +508,13 @@ public class NetzListe extends JPanel implements MouseMotionListener, MouseListe
 		}		
 		//String s = RControl.getR().eval("paste(capture.output(dput(.gsrmtVar)), collapse=\"\")").asRChar().getData()[0];
 		//JOptionPane.showMessageDialog(null, "Exported graph as: "+s);
-		RControl.getR().evalVoid(graphName+" <- new(\"graphSRMTP\", nodes=.gsrmtVar$hnodes, edgeL=.gsrmtVar$edges, alpha=.gsrmtVar$alpha)");		
+		RControl.getR().evalVoid(graphName+" <- new(\"graphSRMTP\", nodes=.gsrmtVar$hnodes, edgeL=.gsrmtVar$edges, alpha=.gsrmtVar$alpha)");
+		for (int i=knoten.size()-1; i>=0; i--) {
+			Node n = knoten.get(i);
+			if (n.isRejected()) {
+				RControl.getR().evalVoid("nodeData("+graphName+", \""+n.getName()+"\", \"rejected\") <- TRUE");
+			}
+		}
 		RControl.getR().evalVoid(".gsrmtVar$nodeX <- c("+x+")");
 		RControl.getR().evalVoid(".gsrmtVar$nodeY <- c("+y+")");
 		RControl.getR().evalVoid("names(.gsrmtVar$nodeX) <- .gsrmtVar$hnodes");

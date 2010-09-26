@@ -35,6 +35,7 @@ public class Node {
 	VS vs;
 	public double alpha;
 	private Color color = Color.WHITE;
+	boolean rejected = false;
 
 	public static int r = 25;
 
@@ -223,4 +224,13 @@ public class Node {
 		this.name = name;		
 	}
 	
+	public boolean isRejected() {		
+		return rejected;
+	}
+
+	public void reject() {
+		color = Color.MAGENTA;
+		rejected = true;
+	}
+
 }
