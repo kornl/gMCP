@@ -145,12 +145,23 @@ cat(graph2latex(graph))
 %\end{lstlisting}
 \normalsize
 
+We can even change the position of the edge labels for further fine tuning of the graphical representation.
+
+\scriptsize
+<<echo=TRUE>>=
+
+edgeData(graph, "H11", "H21", "labelX") <- 200
+edgeData(graph, "H11", "H21", "labelY") <- 80
+
+@
+\normalsize
+
 \subsection{Using the GUI}
 
 The creation of \texttt{graphSRMTP} objects is very straight forward,
 but still takes some time and typos may occur.
 More convenient for the average user is the use of the graphical user interface for creating
-and editing SRMTP graphs that the \texttt{gsrmtp} package includes.
+and editing SRMTP graphs that the \texttt{gMCP} package includes.
 
 It is called by the command \texttt{graphGUI()} and takes as optional argument a variable name,
 given as a character string, of the graph to edit or under which a newly created
@@ -183,7 +194,11 @@ For really big graphs the ability to zoom in and out is usefull.
 
 \includegraphics[width=0.5cm]{pictures/latex.png} This button exports the graph as an {\LaTeX} TikZ picture.
 
-%\includegraphics[width=0.5cm]{pictures/smiley.png} What this button does is up to to speculation. ;)
+\includegraphics[width=0.5cm]{pictures/adjPval.png} Calculates the adjusted p-values.
+
+\includegraphics[width=0.5cm]{pictures/confint2.png} Calculates simultaneous confidence intervals.
+
+\includegraphics[width=0.5cm]{pictures/StartTesting.png} \includegraphics[width=0.5cm]{pictures/Reset.png} Starts the testing procedure / goes back to the graph modification. 
 
 \includegraphics[width=0.5cm]{pictures/save.png} This button exports the graph back to R under the variable name
 in the adjacent text field.  
@@ -275,10 +290,6 @@ simConfint(createBonferroniHolmGraph(3),
 
 \subsection{Using the GUI}
 
-For version 0.1 this is not yet implemented, but it's a goal for gsrmtp 0.2.
-You can see some of the features planed for the package \texttt{gsrmtp} in figure \ref{fullGUI}
-that exist as prototypes but are not yet publicly available.
-
 \begin{figure}[ht]
   \centering    
   \includegraphics[width=0.8\textwidth]{pictures/FullFeaturedGUI.png}      
@@ -288,7 +299,7 @@ that exist as prototypes but are not yet publicly available.
 
 \section{Important TikZ commands for optimizing the reports}
 A clear automatic placement of edges and weight labels without overlapping is a very difficult task 
-and for complicated graphs the \texttt{gsrmtp} package will often fail to accomplish this.
+and for complicated graphs the \texttt{gMCP} package will often fail to accomplish this.
 There is the possibilty to adjust the edges and labels in the GUI, but since the {\LaTeX} graph layout is not (yet) exactly the same,
 there is perhaps the need for adjusting the graphs in the TikZ code.
 The TikZ program is very useful and we recommend it for many purposes,
