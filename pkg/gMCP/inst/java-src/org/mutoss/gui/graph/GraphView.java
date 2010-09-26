@@ -5,11 +5,13 @@ import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
+import java.text.DecimalFormat;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
@@ -17,6 +19,7 @@ import javax.swing.JTextField;
 import org.af.commons.errorhandling.ErrorHandler;
 import org.af.commons.widgets.DesktopPaneBG;
 import org.af.statguitoolkit.graph.DialogConfInt;
+import org.mutoss.gui.RControl;
 
 public class GraphView extends JPanel implements ActionListener {
 
@@ -179,9 +182,24 @@ public class GraphView extends JPanel implements ActionListener {
 			} else {
 				stopTesting();
 			}
+		} else if (e.getSource().equals(buttonadjPval)) {
+			if (!getNL().isTesting()) {
+				getNL().saveGraph();
+				control.getPView().savePValues();
+			}
+			String pValues = control.getPView().getPValuesString();
+			double[] adjPValues = RControl.getR().eval("adjPValues("+NetzListe.initialGraph+","+pValues+")@adjPValues").asRNumeric().getData();
+			String s = "Adjusted p-Values: ";
+			for (double p : adjPValues) {
+				s+=""+format.format(p)+"; ";
+			}
+			s = s.substring(0, s.length()-2);
+			JOptionPane.showMessageDialog(control.getMainFrame(), s, "Adjusted p-Values", JOptionPane.INFORMATION_MESSAGE);
 		}
 	}
 
+	DecimalFormat format = new DecimalFormat("#.###");
+	
 	public VS getVS() {		
 		return vs;
 	}

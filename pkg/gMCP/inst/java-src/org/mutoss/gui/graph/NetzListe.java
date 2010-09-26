@@ -583,12 +583,14 @@ public class NetzListe extends JPanel implements MouseMotionListener, MouseListe
 	}
 
 	public void saveGraph() {
-		saveGraph(".InitialGraph", false);
+		saveGraph(initialGraph, false);
 		control.getPView().savePValues();
 	}
 
+	public static String initialGraph = ".InitialGraph";
+	
 	public void loadGraph() {
-		new GraphSRMTP(".InitialGraph", vs);
+		new GraphSRMTP(initialGraph, vs);
 		control.getPView().restorePValues();
 	}
 	

@@ -142,5 +142,13 @@ public class PView extends JPanel implements ActionListener {
 			p.keyTyped(null);
 		}
 	}
+
+	public String getPValuesString() {
+		String s = "c(";
+		for (double p : pValues) {
+			s += p+", ";
+		}
+		return s.substring(0, s.length()-2)+")";
+	}
 	
 }
