@@ -209,6 +209,7 @@ public class Node {
 	}
 
 	public Color getColor() {
+		if (rejected) return Color.MAGENTA;
 		return color;
 	}
 

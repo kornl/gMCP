@@ -116,21 +116,32 @@ public class PPanel implements ActionListener, KeyListener, NodeListener {
 		if (p<=w) {
 			node.setColor(new Color(50, 255, 50));
 			wTF.setBackground(new Color(50, 255, 50));
-			jb.setEnabled(true);
+			if (testing) {
+				jb.setEnabled(true);
+			} else  {
+				jb.setEnabled(false);
+			}
 		} else {
 			node.setColor(Color.WHITE);
 			wTF.setBackground(Color.WHITE);
 			jb.setEnabled(false);
 		}
+		if (testing) {
+			wTF.setEditable(false);
+			pTF.setEditable(false);
+		} else {
+			wTF.setEditable(true);
+			pTF.setEditable(true);
+		}
 		pview.updateLabels();
 	}
 
-	public void update() {
+	public void update() {		
+		this.name = node.name;
+		this.w = node.getAlpha();
+		wTF.setText(""+w);		
+		pTF.setText(""+p);
 		if (!rejected) {
-			this.name = node.name;
-			this.w = node.getAlpha();
-			wTF.setText(""+w);		
-			pTF.setText(""+p);	
 			keyTyped(null);
 		}
 	}
@@ -141,6 +152,21 @@ public class PPanel implements ActionListener, KeyListener, NodeListener {
 		wTF.setText(""+w);		
 		pTF.setText(""+p);	
 		pview.updateLabels();
+	}
+
+	public double getP() {		
+		return p;
+	}
+
+	public void setP(double p) {
+		this.p = p;
+		update();
+	}	
+	
+	static boolean testing;
+	
+	public static void setTesting(boolean b) {
+		testing = b;
 	}	
 	
 }

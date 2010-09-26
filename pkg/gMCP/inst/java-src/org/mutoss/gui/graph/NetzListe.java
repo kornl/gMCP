@@ -42,6 +42,7 @@ public class NetzListe extends JPanel implements MouseMotionListener, MouseListe
 	JLabel statusBar;
 
 	protected VS vs;
+	public boolean testingStarted = false;
 
 	/**
 	 * Konstruktor der die NetzListe erzeugt
@@ -66,10 +67,12 @@ public class NetzListe extends JPanel implements MouseMotionListener, MouseListe
 	}
 
 	public void acceptNode(Node node) {
+		control.getPView().savePValues();
 		saveGraph(".tmpGraph", false);
 		RControl.getR().eval(".tmpGraph <- rejectNode(.tmpGraph, \""+node.getName()+"\")");
 		reset();
 		new GraphSRMTP(".tmpGraph", vs);
+		control.getPView().restorePValues();
 	}
 
 	public void addDefaultNode(int x, int y) {
@@ -540,6 +543,28 @@ public class NetzListe extends JPanel implements MouseMotionListener, MouseListe
 			}
 		}
 		return null;
+	}
+	
+	public void startTesting() {
+		testingStarted = true;		
+	}
+
+	public void stopTesting() {
+		testingStarted = false;
+	}
+
+	public void saveGraph() {
+		saveGraph(".InitialGraph", false);
+		control.getPView().savePValues();
+	}
+
+	public void loadGraph() {
+		new GraphSRMTP(".InitialGraph", vs);
+		control.getPView().restorePValues();
+	}
+	
+	public boolean isTesting() {		
+		return testingStarted;
 	}
 	
 }

@@ -6,6 +6,7 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.List;
 import java.util.Vector;
 
 import javax.swing.JLabel;
@@ -24,7 +25,7 @@ public class PView extends JPanel implements ActionListener {
 	CellConstraints cc = new CellConstraints();	
 	JPanel panel = new JPanel();
 	JLabel label = new JLabel("Total α: "+0);
-
+	
 	public PView(AbstractGraphControl abstractGraphControl) {
 		//super("p-Values");
 		this.control = abstractGraphControl;        
@@ -39,6 +40,21 @@ public class PView extends JPanel implements ActionListener {
 	public void addPPanel(Node node) {
 		panels.add(new PPanel(node, this));
 		setUp();
+	}
+	
+	List<Double> pValues = null;
+	
+	public void savePValues() {
+		pValues = new Vector<Double>();
+		for (PPanel panel : panels) {
+			pValues.add(panel.getP());
+		}
+	}
+	
+	public void restorePValues() {
+		for (int i=0; i<pValues.size(); i++) {
+			panels.get(i).setP(pValues.get(i));
+		}
 	}
 	
 	public void setUp() {
@@ -118,6 +134,13 @@ public class PView extends JPanel implements ActionListener {
 			}
 		}
 		setUp();
+	}
+	
+	public void setTesting(boolean b) {
+		PPanel.setTesting(b);
+		for (PPanel p : panels) {
+			p.keyTyped(null);
+		}
 	}
 	
 }

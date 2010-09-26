@@ -123,13 +123,13 @@ public class GraphView extends JPanel implements ActionListener {
 			buttonConfInt.addActionListener(this);
 			buttonConfInt.setToolTipText("calculate confidence intervals");
 			
-			buttonBack = new JButton(
+			/*buttonBack = new JButton(
 					new ImageIcon(ImageIO.read(DesktopPaneBG.class
 											.getResource("/org/mutoss/gui/graph/images/back.png"))));
 			toolPanel.add(buttonBack);
 			buttonBack.setEnabled(false);
 			buttonBack.addActionListener(this);
-			buttonBack.setToolTipText("go back one step");
+			buttonBack.setToolTipText("go back one step");*/
 			
 			buttonStart = new JButton(
 					new ImageIcon(ImageIO.read(DesktopPaneBG.class
@@ -173,6 +173,12 @@ public class GraphView extends JPanel implements ActionListener {
 			getNL().saveGraph(jtSaveName.getText(), true);
 		} else if (e.getSource().equals(buttonConfInt)) {
 			new DialogConfInt(control.getMainFrame(), nl);
+		} else if (e.getSource().equals(buttonStart)) {
+			if (!getNL().isTesting()) {
+				startTesting();
+			} else {
+				stopTesting();
+			}
 		}
 	}
 
@@ -180,4 +186,37 @@ public class GraphView extends JPanel implements ActionListener {
 		return vs;
 	}
 
+	public void stopTesting() {
+		if (!getNL().testingStarted) return;
+		getNL().stopTesting();
+		getNL().reset();
+		getNL().loadGraph();
+		control.getPView().restorePValues();
+		control.getPView().setTesting(false);		
+		buttonNewVertex.setEnabled(true);
+		buttonNewEdge.setEnabled(true);
+		try {
+			buttonStart.setIcon(new ImageIcon(ImageIO.read(DesktopPaneBG.class
+					.getResource("/org/mutoss/gui/graph/images/StartTesting.png"))));
+		} catch (IOException ex) {
+			ErrorHandler.getInstance().makeErrDialog(ex.getMessage(), ex);
+		}
+	}
+
+	public void startTesting() {	
+		if (getNL().testingStarted) return;
+		control.getPView().savePValues();
+		try {
+			getNL().startTesting();
+			getNL().saveGraph();
+			control.getPView().setTesting(true);			
+			buttonNewVertex.setEnabled(false);
+			buttonNewEdge.setEnabled(false);				
+			buttonStart.setIcon(new ImageIcon(ImageIO.read(DesktopPaneBG.class
+					.getResource("/org/mutoss/gui/graph/images/Reset.png"))));
+		} catch (Exception ex) {
+			ErrorHandler.getInstance().makeErrDialog(ex.getMessage(), ex);
+		} 
+	}
+	
 }
