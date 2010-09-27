@@ -52,20 +52,31 @@ public class GraphSRMTP {
 			}
 			// Edges:
 			RList edgeL = RControl.getR().eval("gMCP:::getEdges("+name+")").asRList();
+			String[] debugEdges = RControl.getR().eval("capture.output(print(gMCP:::getEdges("+name+")))").asRChar().getData();
+			for (String s : debugEdges) {
+				System.out.println(s);
+			}
 			if (edgeL.get(0)!= null) {
 				String[] from = edgeL.get(0).asRChar().getData();
 				String[] to = edgeL.get(1).asRChar().getData();
 				double[] weight = edgeL.get(2).asRNumeric().getData();
 				double[] labelX = edgeL.get(3).asRNumeric().getData();
-				double[] labelY = edgeL.get(4).asRNumeric().getData();				
+				double[] labelY = edgeL.get(4).asRNumeric().getData();		
+				boolean[] curved = edgeL.get(5).asRLogical().getData();
 				for (int i=0; i<from.length; i++) {
 					Node fromNode = getNode(from[i]);
 					Node toNode = getNode(to[i]);
 					int xl = (int) labelX[i];
-					if (xl<-50) xl = (fromNode.getX()+toNode.getX())/2;
+					//if (xl<-50) xl = (fromNode.getX()+toNode.getX())/2;
 					int yl = (int) labelY[i];
-					if (yl<-50) yl = (fromNode.getY()+toNode.getY())/2;				
-					kanten.add(new Edge(fromNode, toNode, weight[i], vs, xl+Node.getRadius(), yl+Node.getRadius()));					
+					//if (yl<-50) yl = (fromNode.getY()+toNode.getY())/2;				
+					boolean curve = curved[i];
+					if (xl < -50 || yl < -50) {
+						kanten.add(new Edge(fromNode, toNode, weight[i], vs, /* xl+Node.getRadius(), yl+Node.getRadius(),*/ curve));
+					} else {
+						kanten.add(new Edge(fromNode, toNode, weight[i], vs, xl+Node.getRadius(), yl+Node.getRadius()));
+					}
+					
 				}
 			}
 		}		

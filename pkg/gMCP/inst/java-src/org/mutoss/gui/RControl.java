@@ -69,7 +69,7 @@ public class RControl {
 		} catch (REngineException e) {
 			ErrorHandler.getInstance().makeErrDialog("Error creating RCallServicesREngine!", e);
 		}
-		System.setOut(new PrintStream(new LoggingOutputStream(logger), true));
+		if (System.getProperty("eclipse") == null && !debug) System.setOut(new PrintStream(new LoggingOutputStream(logger), true));
 	}
 
 }

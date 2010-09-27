@@ -54,13 +54,19 @@ public class Edge {
 		y2 = nach.getY() + Node.getRadius();
 		if (curve) {
 			double d = Math.sqrt((x1-x2)*(x1-x2)+(y1-y2)*(y1-y2));
-			int s1 = (int) Math.signum(x1-x2);
-			int s2 = (int) Math.signum(y1-y2);
-			if (s1 == s2) {s1 = s1 * -1;}
-			if (s1 == 0) {s1 = s2;}
-			if (s2 == 0) {s2 = s1;}
-			k1 = (x1+x2)/2+(int)(d/5*s1);
-			k2 = (y1+y2)/2+(int)(d/5*s2);
+			double y = y2-y1;
+			double x = x2-x1;
+			double alpha;
+			if (x==0 && y<0) {
+				alpha = 90;
+			} else if (x==0&&y>0) {
+				alpha = -90;
+			} else {
+				alpha = Math.atan(-y/x)/(Math.PI*2)*360+((x<0)?180:0);
+			}
+			alpha = alpha + 10;
+			k1 = x1 + (int)(Math.cos(alpha*(Math.PI*2)/360)*d/2);
+			k2 = y1 - (int)(Math.sin(alpha*(Math.PI*2)/360)*d/2);
 		} else {
 			k1 = (x1+x2)/2;
 			k2 = (y1+y2)/2;				
