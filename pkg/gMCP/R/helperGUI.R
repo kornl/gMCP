@@ -4,6 +4,7 @@ getEdges <- function(graph){
 	weightL <- numeric(0)
 	labelx <- numeric(0)
 	labely <- numeric(0)
+	curveL <- logical(0)
 	for (node in nodes(graph)) {
 		edgeL <- edgeWeights(graph)[[node]]	
 		if (length(edgeL)!=0) {
@@ -26,8 +27,10 @@ getEdges <- function(graph){
 				fromL <- c(fromL, node)
 				toL <- c(toL, names(edgeL[i]))
 				weightL <- c(weightL, weight)
+				curve <- node%in%unlist(edges(graph, names(edgeL[i])))
+				curveL <- c(curveL, curve)
 			}
 		}
 	}
-	return(list(from=fromL, to=toL, weight=weightL, labelx=labelx, labely=labely))
+	return(list(from=fromL, to=toL, weight=weightL, labelx=labelx, labely=labely, curve=curveL))
 }
