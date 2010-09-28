@@ -1,4 +1,4 @@
-package org.af.statguitoolkit.graph;
+package org.mutoss.gui.graph;
 
 import java.util.Vector;
 
@@ -6,10 +6,6 @@ import org.af.jhlir.call.RList;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.mutoss.gui.RControl;
-import org.mutoss.gui.graph.Edge;
-import org.mutoss.gui.graph.NetzListe;
-import org.mutoss.gui.graph.Node;
-import org.mutoss.gui.graph.VS;
 
 public class GraphSRMTP {
 

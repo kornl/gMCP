@@ -10,12 +10,12 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JSplitPane;
 
-import org.af.statguitoolkit.graph.GraphSRMTP;
+import org.mutoss.config.Configuration;
 import org.mutoss.gui.graph.AbstractGraphControl;
+import org.mutoss.gui.graph.GraphSRMTP;
 import org.mutoss.gui.graph.GraphView;
 import org.mutoss.gui.graph.PView;
 
-import af.statguitoolkit.config.Configuration;
 
 public class CreateGraphGUI extends JFrame implements WindowListener {
 	

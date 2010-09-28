@@ -1,4 +1,4 @@
-package af.statguitoolkit.config;
+package org.mutoss.config;
 
 
 import java.net.URL;

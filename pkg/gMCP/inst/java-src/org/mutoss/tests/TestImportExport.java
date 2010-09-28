@@ -3,9 +3,9 @@ package org.mutoss.tests;
 import javax.swing.JLabel;
 
 import org.af.jhlir.backends.rengine.RCallServicesREngine;
-import org.af.statguitoolkit.graph.GraphSRMTP;
 import org.mutoss.gui.RControl;
 import org.mutoss.gui.graph.AbstractGraphControl;
+import org.mutoss.gui.graph.GraphSRMTP;
 import org.mutoss.gui.graph.NetzListe;
 import org.mutoss.gui.graph.VS;
 

@@ -11,7 +11,8 @@ import java.awt.geom.Line2D;
 import java.awt.geom.Rectangle2D;
 import java.util.Vector;
 
-import af.statguitoolkit.config.Configuration;
+import org.mutoss.config.Configuration;
+
 
 
 /**

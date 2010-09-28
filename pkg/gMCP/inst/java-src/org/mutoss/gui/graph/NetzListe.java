@@ -15,12 +15,11 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
-import org.af.statguitoolkit.graph.GraphSRMTP;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.mutoss.config.Configuration;
 import org.mutoss.gui.RControl;
 
-import af.statguitoolkit.config.Configuration;
 
 /**
  * Diese Klasse (extends JPanel) stellt einen Graphen graphisch dar.

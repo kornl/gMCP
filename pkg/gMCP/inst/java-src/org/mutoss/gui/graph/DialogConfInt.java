@@ -1,4 +1,4 @@
-package org.af.statguitoolkit.graph;
+package org.mutoss.gui.graph;
 
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -28,8 +28,6 @@ import org.apache.commons.math.MathException;
 import org.apache.commons.math.distribution.ContinuousDistribution;
 import org.apache.commons.math.distribution.NormalDistributionImpl;
 import org.apache.commons.math.distribution.TDistributionImpl;
-import org.mutoss.gui.graph.NetzListe;
-import org.mutoss.gui.graph.Node;
 
 public class DialogConfInt extends JDialog implements ActionListener, ChangeListener, DocumentListener {
 	
