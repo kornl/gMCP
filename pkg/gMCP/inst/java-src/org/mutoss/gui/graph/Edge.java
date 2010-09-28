@@ -6,6 +6,7 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.font.FontRenderContext;
 import java.awt.geom.Rectangle2D;
+import java.text.DecimalFormat;
 
 import org.af.commons.images.GraphDrawHelper;
 import org.af.commons.images.GraphException;
@@ -137,9 +138,11 @@ public class Edge {
 		}
 	}
 	
+	DecimalFormat format = new DecimalFormat("#.###");
+	
 	private String getWS() {
-		String s = (w.toString().equals("NaN")) ? "ε" : ""+w;	
-		return s.substring(0, Math.min(5,s.length()));
+		if (w.toString().equals("NaN")) return "ε";	
+		return format.format(w);
 	}
 
 	public boolean inYou(int x, int y) {
