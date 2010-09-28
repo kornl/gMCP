@@ -1,23 +1,28 @@
+High priority:
+
 - In af.statguitoolkit.graph.UpdateEdge:
 setW -> ((AbstractGraphControl)(AbstractControl.getInstance())).getNL().addEdge(edge.von, edge.nach, w);
 setW with w=0 is bad, since it does not delete the edge.
-- highlight is cool - but how can I tell r-forge or CRAN to use it?
-See also http://comments.gmane.org/gmane.comp.lang.r.general/200179
 - CITATION file?
 - graph2latex turns graphs upside / down.
-- Why is the space in for example "F.˜Bretz," still shown in the pdf?
 - We have the same Generics as Rgraphviz:
 library(Rgraphviz)
 getX(new("xyPoint", x=150, y=30))
 This causes trouble
 - matrix2graph function
 - Confidence intervals are unfinished
-- JTextfield disappears if window is shrinked.
 - Check on Windows whether "\" work in ActionExportToLatex or have to be modified.
 - Look at print method for SRMTPResult
-- Cleanup Config
 - Can we add a RUnit Test for Java imports Random Graph and then exports the same graph?
-- Check to which RJava version we are compatible.
 - Double placement for PPanels
 - PPanels for newly added nodes
 - Warn user when sum of edge weights is bigger than 1 
+
+Additional features / low priority:
+
+- Cleanup Config
+- Why is the space in for example "F.˜Bretz," still shown in the pdf?
+- Check to which RJava version we are compatible.
+- highlight is cool - but how can I tell r-forge or CRAN to use it?
+See also http://comments.gmane.org/gmane.comp.lang.r.general/200179
+ 

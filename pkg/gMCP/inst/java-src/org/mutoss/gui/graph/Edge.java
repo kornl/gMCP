@@ -146,7 +146,7 @@ public class Edge {
 	}
 
 	public boolean inYou(int x, int y) {
-		String s = (w.toString().equals("NaN")) ? "ε" : ""+w;
+		String s = getWS();
 		FontRenderContext frc = g2d.getFontRenderContext();	
 		Rectangle2D rc = (new Font("Arial", Font.PLAIN, (int) (16 * vs.getZoom()))).getStringBounds(s, frc);
 		int TOLERANCE = 4; 
