@@ -17,6 +17,7 @@ This causes trouble
 - Double placement for PPanels
 - PPanels for newly added nodes
 - Warn user when sum of edge weights is bigger than 1 
+- Graphs without xy-coordinate specifications should be placed in a circle
 
 Additional features / low priority:
 
@@ -25,4 +26,5 @@ Additional features / low priority:
 - Check to which RJava version we are compatible.
 - highlight is cool - but how can I tell r-forge or CRAN to use it?
 See also http://comments.gmane.org/gmane.comp.lang.r.general/200179
+- Edge labels should be fixed and placed by user or free and adjust to moving nodes
  

@@ -365,7 +365,7 @@ public class NetzListe extends JPanel implements MouseMotionListener, MouseListe
 				}
 			}		
 		}
-		if (e.getClickCount() == 2) {
+		if (e.getClickCount() == 2 && !testingStarted) {
 			for (int i = 0; i < knoten.size(); i++) {
 				if (knoten.get(i).inYou(e.getX(), e.getY())) {
 					new UpdateNode(knoten.get(i), this);
