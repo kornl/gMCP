@@ -48,10 +48,12 @@ public class GraphSRMTP {
 			}
 			// Edges:
 			RList edgeL = RControl.getR().eval("gMCP:::getEdges("+name+")").asRList();
+			/*
 			String[] debugEdges = RControl.getR().eval("capture.output(print(gMCP:::getEdges("+name+")))").asRChar().getData();
 			for (String s : debugEdges) {
 				System.out.println(s);
 			}
+			*/
 			if (edgeL.get(0)!= null) {
 				String[] from = edgeL.get(0).asRChar().getData();
 				String[] to = edgeL.get(1).asRChar().getData();

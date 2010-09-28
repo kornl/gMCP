@@ -9,6 +9,7 @@ import java.awt.font.FontRenderContext;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Line2D;
 import java.awt.geom.Rectangle2D;
+import java.text.DecimalFormat;
 import java.util.Vector;
 
 import org.mutoss.config.Configuration;
@@ -166,9 +167,10 @@ public class Node {
 		}
 	}
 
-	private String getWS() {
-		String w = ""+getAlpha();		
-		return w.substring(0, Math.min(5,w.length()));
+	DecimalFormat format = new DecimalFormat("#.###");
+	
+	private String getWS() {		
+		return format.format(alpha);
 	}
 
 	/**
