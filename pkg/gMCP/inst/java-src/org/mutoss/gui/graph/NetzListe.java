@@ -76,7 +76,7 @@ public class NetzListe extends JPanel implements MouseMotionListener, MouseListe
 	}
 
 	public void addDefaultNode(int x, int y) {
-		knoten.add(new Node(knoten.size() + 1, "HA_" + (knoten.size() + 1), x, y, vs));		
+		addNode(new Node(knoten.size() + 1, "HA_" + (knoten.size() + 1), x, y, vs));		
 	}
 
 	public void addEdge(Edge e) {
