@@ -375,14 +375,8 @@ public class NetzListe extends JPanel implements MouseMotionListener, MouseListe
 				if (edges.get(i).inYou(e.getX(), e.getY())) {
 					new UpdateEdge(edges.get(i), this);
 				}
-			}
-		/*	for (int i = 0; i < knoten.size(); i++) {
-				if (knoten.get(i).inYou(e.getX(), e.getY())) {
-					knoten.get(i).fix = !knoten.get(i).fix;
-				}
-			}*/
+			}		
 		}		
-		// vs.frameViewer.refresh();
 		repaint();
 	}
 
@@ -574,11 +568,13 @@ public class NetzListe extends JPanel implements MouseMotionListener, MouseListe
 	}
 	
 	public void startTesting() {
-		testingStarted = true;		
+		testingStarted = true;	
+		statusBar.setText("Reject nodes or reset to the initial graph for modifications.");
 	}
 
 	public void stopTesting() {
 		testingStarted = false;
+		statusBar.setText(GraphView.STATUSBAR_DEFAULT);
 	}
 
 	public void saveGraph() {
