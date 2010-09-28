@@ -297,6 +297,59 @@ simConfint(createBonferroniHolmGraph(3),
 \end{figure}
 
 
+\scalebox {0.7}{
+\begin{tikzpicture}[scale=1]\node (H11) at (100bp,-100bp)
+[draw,circle split,fill=red!80] {$H11$ \nodepart{lower} $0$};
+\node (H21) at (300bp,-100bp)
+[draw,circle split,fill=red!80] {$H21$ \nodepart{lower} $0$};
+\node (H31) at (500bp,-100bp)
+[draw,circle split,fill=green!80] {$H31$ \nodepart{lower} $0,027$};
+\node (H12) at (100bp,-300bp)
+[draw,circle split,fill=green!80] {$H12$ \nodepart{lower} $0,013$};
+\node (H22) at (300bp,-300bp)
+[draw,circle split,fill=green!80] {$H22$ \nodepart{lower} $0,01$};
+\node (H32) at (500bp,-300bp)
+[draw,circle split,fill=green!80] {$H32$ \nodepart{lower} $0$};
+\draw [->,line width=1pt] (H31) to[bend left=0] node[pos=0.5,above,fill=blue!20] {0,625} (H32);
+\draw [->,line width=1pt] (H31) to[bend left=46] node[pos=0.491,above,fill=blue!20] {0,125} (H12);
+\draw [->,line width=1pt] (H31) to[bend left=19] node[pos=0.49,above,fill=blue!20] {0,25} (H22);
+\draw [->,line width=1pt] (H12) to[bend left=46] node[pos=0.491,above,fill=blue!20] {0,5} (H31);
+\draw [->,line width=1pt] (H12) to[bend left=19] node[pos=0.49,above,fill=blue!20] {0,5} (H22);
+\draw [->,line width=1pt] (H22) to[bend left=0] node[pos=0.25,above,fill=blue!20] {0,667} (H31);
+\draw [->,line width=1pt] (H22) to[bend left=0] node[pos=0.5,above,fill=blue!20] {0,333} (H12);
+\draw [->,line width=1pt] (H32) to[bend left=19] node[pos=0.49,above,fill=blue!20] {0,4} (H31);
+\draw [->,line width=1pt] (H32) to[bend left=0] node[pos=0.5,above,fill=blue!20] {0,2} (H12);
+\draw [->,line width=1pt] (H32) to[bend left=0] node[pos=0.5,above,fill=blue!20] {0,4} (H22);
+\end{tikzpicture}
+}
+
+\scalebox {0.7}{
+\begin{tikzpicture}[scale=1]\node (H11) at (100bp,-100bp)
+[draw,circle split,fill=red!80] {$H11$ \nodepart{lower} $0$};
+\node (H21) at (300bp,-100bp)
+[draw,circle split,fill=red!80] {$H21$ \nodepart{lower} $0$};
+\node (H31) at (500bp,-100bp)
+[draw,circle split,fill=green!80] {$H31$ \nodepart{lower} $0,027$};
+\node (H12) at (100bp,-300bp)
+[draw,circle split,fill=green!80] {$H12$ \nodepart{lower} $0,013$};
+\node (H22) at (300bp,-300bp)
+[draw,circle split,fill=green!80] {$H22$ \nodepart{lower} $0,01$};
+\node (H32) at (500bp,-300bp)
+[draw,circle split,fill=green!80] {$H32$ \nodepart{lower} $0$};
+\draw [->,line width=1pt] (H31) to[bend left=0] node[pos=0.5,above,fill=blue!20] {0,625} (H32);
+\draw [->,line width=1pt] (H31) to[bend left=1] node[pos=0.687,above,fill=blue!20] {0,125} (H12);
+\draw [->,line width=1pt] (H31) to[bend left=8] node[pos=0.808,above,fill=blue!20] {0,25} (H22);
+\draw [->,line width=1pt] (H12) to[bend left=28] node[pos=0.735,above,fill=blue!20] {0,5} (H31);
+\draw [->,line width=1pt] (H12) to[bend left=342] node[pos=0.51,above,fill=blue!20] {0,5} (H22);
+\draw [->,line width=1pt] (H22) to[bend left=324] node[pos=0.43,above,fill=blue!20] {0,667} (H31);
+\draw [->,line width=1pt] (H22) to[bend left=336] node[pos=0.26,above,fill=blue!20] {0,333} (H12);
+\draw [->,line width=1pt] (H32) to[bend left=312] node[pos=0.54,above,fill=blue!20] {0,4} (H31);
+\draw [->,line width=1pt] (H32) to[bend left=36] node[pos=0.696,above,fill=blue!20] {0,2} (H12);
+\draw [->,line width=1pt] (H32) to[bend left=3] node[pos=0.445,above,fill=blue!20] {0,4} (H22);
+\end{tikzpicture}
+}
+
+
 \section{Important TikZ commands for optimizing the reports}
 A clear automatic placement of edges and weight labels without overlapping is a very difficult task 
 and for complicated graphs the \texttt{gMCP} package will often fail to accomplish this.
