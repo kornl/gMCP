@@ -13,6 +13,7 @@
 \bibliographystyle{plainnat}
 \setlength{\parindent}{0mm}
 \setlength{\parskip}{1mm}
+\newcommand{\commentout}[1]{}
 \begin{document}
 
 % \VignetteIndexEntry{A Graphical Approach to Sequentially Rejective Multiple Test Procedures}
@@ -117,7 +118,6 @@ Since we also want to visualize the graph, we use the method
 x- and y-coordinates in the renderInfo.
 (We are compatible to the renderInfo usage from package Rgraphviz \cite{Rgraphviz}.)
 
-
 \scriptsize
 <<echo=TRUE>>=
 
@@ -146,6 +146,7 @@ cat(graph2latex(graph))
 \normalsize
 
 We can even change the position of the edge labels for further fine tuning of the graphical representation.
+With the following command we place the label for the edge from \texttt{H1} to \texttt{H2} at position (200, 80):
 
 \scriptsize
 <<echo=TRUE>>=
@@ -214,9 +215,14 @@ You can either specify each rejection step yourself or simply use the
 method \texttt{srmtp}:
 
 \scriptsize
-<<echo=TRUE>>=
+<<echo=TRUE,keep.source=TRUE>>=
 
 graph <- createGraphFromBretzEtAl()
+
+# We can reject a single node:
+print(rejectNode(graph, "H11"))
+
+# Or given a vector of pvalues let the function srmtp do all the work:  
 pvalues <- c(0.1, 0.008, 0.005, 0.15, 0.04, 0.006)
 result <- srmtp(graph, pvalues)
 print(result)
@@ -246,6 +252,11 @@ createGsrmtpReport(result, "Report.tex")
 
 @
 \normalsize
+
+\subsubsection{Adjusted p-values and simultaneous confidence intervals}
+
+Also adjusted p-values and simultaneous confidence intervals can be computed. THIS SECTION IS STILL UNFINISHED!!!
+
 <<echo=FALSE,results=hide>>=
 
 pval <- c(0.02,0.055,0.012)
@@ -259,11 +270,6 @@ st <- qt(pval/2,df=df, lower.tail=FALSE)
 est <- st*s/sqrt(10)
 
 @
-
-
-\subsubsection{Adjusted p-values and simultaneous confidence intervals}
-
-Also adjusted p-values and simultaneous confidence intervals can be computed.
 
 Let's assume the tests for hypotheses $H1:\;\theta_1=0$, $H2:\;\theta_2=0$ and $H3:\;\theta_3=0$ are three t-tests with degree of freedom 9.
 The estimates are $\hat\theta_1=\Sexpr{format(est[1])}$, $\hat\theta_2=\Sexpr{format(est[2])}$ and $\hat\theta_3=\Sexpr{format(est[3])}$, 
@@ -293,11 +299,15 @@ simConfint(createBonferroniHolmGraph(3),
 \begin{figure}[ht]
   \centering    
   \includegraphics[width=0.8\textwidth]{pictures/FullFeaturedGUI.png}      
-  \caption{\label{fullGUI} A preview of the full-featured graphical user interface.}
+  \caption{\label{fullGUI} The graphical user interface allows testing, calculation of confidence intervals and adjusted p-values.}
 \end{figure}
 
+\commentout{
 
-\scalebox {0.7}{
+\includegraphics[width=5cm]{pictures/uglyGraph.png}      
+\includegraphics[width=5cm]{pictures/niceGraph.png}
+
+\scalebox {0.5}{
 \begin{tikzpicture}[scale=1]\node (H11) at (100bp,-100bp)
 [draw,circle split,fill=red!80] {$H11$ \nodepart{lower} $0$};
 \node (H21) at (300bp,-100bp)
@@ -323,7 +333,7 @@ simConfint(createBonferroniHolmGraph(3),
 \end{tikzpicture}
 }
 
-\scalebox {0.7}{
+\scalebox {0.5}{
 \begin{tikzpicture}[scale=1]\node (H11) at (100bp,-100bp)
 [draw,circle split,fill=red!80] {$H11$ \nodepart{lower} $0$};
 \node (H21) at (300bp,-100bp)
@@ -349,6 +359,7 @@ simConfint(createBonferroniHolmGraph(3),
 \end{tikzpicture}
 }
 
+}
 
 \section{Important TikZ commands for optimizing the reports}
 A clear automatic placement of edges and weight labels without overlapping is a very difficult task 
