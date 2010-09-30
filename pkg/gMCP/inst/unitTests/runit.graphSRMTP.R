@@ -83,6 +83,24 @@ test.srmtpBretzEtAl <- function() {
 					.Names = c("H11", "H21", "H31", "H12", "H22", "H32")))
 }
 
+test.srmtpIGK <- function() {
+	graph <- createGraphForImprovedParallelGatekeeping()
+	graph <- rejectNode(graph, "H1")
+	checkEquals(graph, structure(list(
+							H1 = numeric(0),
+							H2 = structure(c(0.5, 0.5), .Names = c("H3", "H4")),
+							H3 = structure(1, .Names = "H4"),
+							H4 = structure(c(1,	0), .Names = c("H3", "H2"))),
+					.Names = c("H1", "H2", "H3", "H4")))
+	checkEquals(graph, structure(list(
+							H1 = numeric(0),
+							H2 = structure(1, .Names = "H3"), 
+							H3 = structure(0, .Names = "H2"),
+							H4 = numeric(0)),
+					.Names = c("H1", "H2", "H3", "H4")))		
+	graph <- rejectNode(graph, "H4")
+}
+
 test.only.no.error <- function() {
 	graph <- createBonferroniHolmGraph(3, alpha=0.6)
 	pvalues <- c(0.1, 0.2, 0.3)
