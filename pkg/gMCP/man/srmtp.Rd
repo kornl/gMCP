@@ -1,5 +1,5 @@
-\name{srmtp}
-\alias{srmtp}
+\name{gMCP}
+\alias{gMCP}
 \alias{adjPValues}
 
 \title{
@@ -9,7 +9,7 @@
 	Performs a sequentially rejective multiple test procedure on a graph given unadjusted p-values.
 }
 \usage{
-	srmtp(graph, pvalues, verbose=FALSE)
+	gMCP(graph, pvalues, verbose=FALSE)
 	adjPValues(graph, pvalues, verbose=FALSE)
 }
 
@@ -51,7 +51,7 @@ Kornelius Rohmeyer \email{rohmeyer@small-projects.de}
 
 g <- createBonferroniHolmGraph(5)
 
-srmtp(g, pvalues=c(0.01, 0.02, 0.04, 0.04, 0.7))
+gMCP(g, pvalues=c(0.01, 0.02, 0.04, 0.04, 0.7))
 
 
 }

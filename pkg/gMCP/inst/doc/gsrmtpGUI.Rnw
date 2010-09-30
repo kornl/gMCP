@@ -18,7 +18,7 @@
 
 % \VignetteIndexEntry{A Graphical Approach to Sequentially Rejective Multiple Test Procedures}
 
-\title{gsrmtp - an R package for a graphical approach to sequentially
+\title{gMCP - an R package for a graphical approach to sequentially
   rejective multiple test procedures} 
 
 \author{Kornelius Rohmeyer}
@@ -164,7 +164,7 @@ edgeData(graph, "H11", "H21", "labelY") <- 80
 The creation of \texttt{graphMCP} objects is very straight forward,
 but still takes some time and typos may occur.
 More convenient for the average user is the use of the graphical user interface for creating
-and editing SRMTP graphs that the \texttt{gMCP} package includes.
+and editing MCP graphs that the \texttt{gMCP} package includes.
 
 It is called by the command \texttt{graphGUI()} and takes as optional argument a variable name,
 given as a character string, of the graph to edit or under which a newly created
@@ -216,7 +216,7 @@ procedure take a look at Bretz et al. \cite{bretzEtAl2009graphical}.
 \subsection{Using R}
 
 You can either specify each rejection step yourself or simply use the 
-method \texttt{srmtp}:
+method \texttt{gMCP}:
 
 \scriptsize
 <<echo=TRUE,keep.source=TRUE>>=
@@ -226,9 +226,9 @@ graph <- createGraphFromBretzEtAl()
 # We can reject a single node:
 print(rejectNode(graph, "H11"))
 
-# Or given a vector of pvalues let the function srmtp do all the work:  
+# Or given a vector of pvalues let the function gMCP do all the work:  
 pvalues <- c(0.1, 0.008, 0.005, 0.15, 0.04, 0.006)
-result <- srmtp(graph, pvalues)
+result <- gMCP(graph, pvalues)
 print(result)
 
 @

@@ -1,4 +1,4 @@
-## Graph representation in GSRMTP 
+## Graph representation in gMCP
 setClass("graphMCP",
 		contains="graphNEL",
 		#representation(alpha="numeric"),
@@ -31,7 +31,7 @@ setClass("gMCPResult",
 setMethod("print", "gMCPResult",
 		function(x, ...) {
 			# callNextMethod(x, ...)
-			cat("SRMTP-Result\n")
+			cat("gMCP-Result\n")
 			cat("\nP-values:\n")
 			print(x@pvalues)
 			cat("\nInitial graph:\n")
@@ -158,7 +158,7 @@ setMethod("plot", "graphMCP",
 setGeneric("simConfint", function(object, pvalues, confintF) standardGeneric("simConfint"))
 
 setMethod("simConfint", c("graphMCP"), function(object, pvalues, confintF) {			
-			result <- srmtp(object, pvalues)
+			result <- gMCP(object, pvalues)
 			if (all(getRejected(result))) {
 				m <- mapply(confintF, nodes(object), getAlpha(object)) 
 			} else {

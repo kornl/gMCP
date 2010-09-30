@@ -74,7 +74,7 @@ library(Rgraphviz)
 renderGraph(layoutGraph(g))
 }
 
-srmtp(g, pvalues=c(0.1, 0.2, 0.4, 0.4, 0.7))
+gMCP(g, pvalues=c(0.1, 0.2, 0.4, 0.4, 0.7))
 
 }
 \keyword{ misc }

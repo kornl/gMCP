@@ -1,6 +1,5 @@
 \name{gMCP-package}
 \alias{gMCP-package}
-\alias{gMCP}
 \docType{package}
 \title{
 A graphical approach to sequentially rejective multiple test procedures
@@ -21,7 +20,7 @@ LazyLoad: \tab yes\cr
 1. Creating a object of \code{\link{graphMCP}} which is a subclass of \code{\link[graph:graphNEL-class]{graphNEL}} from package \code{graph} that contains some additional information.
 This can be done directly via the \code{\link{new}} method or a graphical user interface by calling \code{\link{graphGUI}}.
 
-2. Calling \code{\link{srmtp}} or \code{\link{graphGUI}}. This can create also LaTeX or PDF reports.
+2. Calling \code{\link{gMCP}} or \code{\link{graphGUI}}. This can create also LaTeX or PDF reports.
 
 }
 \author{
@@ -65,5 +64,5 @@ We use the following Java libraries:
 g5 <- createBonferroniHolmGraph(5)
 \dontrun{
 graphGUI("g5")}
-srmtp(g5, pvalues=c(0.1,0.2,0.4,0.4,0.4))
+gMCP(g5, pvalues=c(0.1,0.2,0.4,0.4,0.4))
 }

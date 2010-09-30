@@ -17,6 +17,6 @@
 }
 \author{Kornelius Rohmeyer \email{rohmeyer@small-projects.de}}
 \seealso{
-\code{\link{srmtp}}
+\code{\link{gMCP}}
 }
 \keyword{ graphs }

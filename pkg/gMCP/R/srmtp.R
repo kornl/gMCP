@@ -1,4 +1,4 @@
-srmtp <- function(graph, pvalues, verbose=FALSE) {
+gMCP <- function(graph, pvalues, verbose=FALSE) {
 	if (length(pvalues)!=length(nodes(graph))) {
 		stop("Length of pvalues must equal number of nodes.")
 	}

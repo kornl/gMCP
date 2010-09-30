@@ -49,7 +49,7 @@
 
 g <- createGraphFromBretzEtAl()
 
-result <- srmtp(g, pvalues=c(0.1, 0.008, 0.005, 0.15, 0.04, 0.006))
+result <- gMCP(g, pvalues=c(0.1, 0.008, 0.005, 0.15, 0.04, 0.006))
 
 gMCPReport(result)
 

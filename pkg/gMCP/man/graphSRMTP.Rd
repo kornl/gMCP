@@ -82,7 +82,7 @@ getAlpha(graph)
 getRejected(graph)
 
 pvalues <- c(0.1, 0.008, 0.005, 0.15, 0.04, 0.006)
-result <- srmtp(graph, pvalues)
+result <- gMCP(graph, pvalues)
 
 getAlpha(result@graphs[[4]])
 getRejected(result@graphs[[4]])

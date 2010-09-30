@@ -37,7 +37,7 @@ test.bonferroniHolm <- function() {
 										   H3 = c("H1", "H2")), 
 								   .Names = c("H1", "H2", "H3")))
 				   
-	result <- srmtp(bhG3, pvalues=c(0.1, 0.3, 0.7))
+	result <- gMCP(bhG3, pvalues=c(0.1, 0.3, 0.7))
 	checkEquals(gMCP:::getRejected(result@graphs[[3]]),
 			structure(c(TRUE, TRUE, FALSE), .Names = c("H1", "H2", "H3")))
 }
@@ -49,8 +49,8 @@ test.srmtp <- function() {
 	checkTrue(gMCP:::canBeRejected(bhG3, "H1", pvalues)) 
 	checkTrue(gMCP:::canBeRejected(bhG3, "H2", pvalues)) 
 	checkTrue(!gMCP:::canBeRejected(bhG3, "H3", pvalues)) 
-	checkException(srmtp(bhG3, 0))
-	checkException(srmtp(bhG3, rep(0,6)))
+	checkException(gMCP(bhG3, 0))
+	checkException(gMCP(bhG3, rep(0,6)))
 }
 
 test.adjPValues <- function() {
@@ -62,7 +62,7 @@ test.adjPValues <- function() {
 test.srmtpBretzEtAl <- function() {
 	graph <- createGraphFromBretzEtAl()
 	pvalues <- c(0.1, 0.008, 0.005, 0.15, 0.04, 0.006)
-	result <- srmtp(graph, pvalues)
+	result <- gMCP(graph, pvalues)
 	last <- result@graphs[[4]]	
 	checkEquals(unname(unlist(nodeData(last, nodes(last), "rejected"))),
 			c(FALSE, TRUE, TRUE, FALSE, FALSE, TRUE))
@@ -106,5 +106,5 @@ test.only.no.error <- function() {
 	pvalues <- c(0.1, 0.2, 0.3)
 	graph2latex(graph)
 	gMCPReport(graph)
-	gMCPReport(srmtp(graph, pvalues))
+	gMCPReport(gMCP(graph, pvalues))
 }

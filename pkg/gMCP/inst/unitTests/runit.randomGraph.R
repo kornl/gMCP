@@ -1,4 +1,4 @@
-randomSRMTPGraph <- function(V=letters[1:10], M=1:4, p=0.2) {	
+randomMCPGraph <- function(V=letters[1:10], M=1:4, p=0.2) {	
 	g <- randomGraph(V, M, p)
 	class(g) <- "graphMCP"
 	defaultProps <- list(alpha=0, rejected=FALSE)
@@ -30,10 +30,10 @@ isValidGraph <- function(g, alpha=0.05) {
 test.randomGraph <- function() {
 	set.seed(1234)
 	for (i in 1:4) {
-		g <- randomSRMTPGraph(letters[1:10])
+		g <- randomMCPGraph(letters[1:10])
 		checkTrue(isValidGraph(g))
 		p <- runif(10)/20
-		result <- srmtp(g, p)
+		result <- gMCP(g, p)
 		checkTrue(isValidGraph(result@graphs[[length(result@graphs)]]))
 	}
 }
