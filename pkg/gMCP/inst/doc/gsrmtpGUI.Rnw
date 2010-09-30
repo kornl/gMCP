@@ -178,8 +178,8 @@ graphGUI("graph")
 
 \begin{figure}[ht]
   \centering    
-  \includegraphics[width=0.8\textwidth]{pictures/CreatingGraphs.png}      
-  \caption{The graphical user interface of the package gsrmtp.}
+  \includegraphics[width=0.8\textwidth]{pictures/FullFeaturedGUI.png}      
+  \caption{\label{fullGUI} The graphical user interface allows testing, calculation of confidence intervals and adjusted p-values.}
 \end{figure}
 
 Let's take a look at the icon panel:
@@ -203,6 +203,8 @@ For really big graphs the ability to zoom in and out is usefull.
 
 \includegraphics[width=0.5cm]{pictures/save.png} This button exports the graph back to R under the variable name
 in the adjacent text field.  
+
+With drag and drop you can move nodes and also adjust edges.
 
 \section{The sequentially rejective MTP}
 
@@ -255,7 +257,7 @@ createGsrmtpReport(result, "Report.tex")
 
 \subsubsection{Adjusted p-values and simultaneous confidence intervals}
 
-Also adjusted p-values and simultaneous confidence intervals can be computed. THIS SECTION IS STILL UNFINISHED!!!
+Also adjusted p-values and simultaneous confidence intervals can be computed.
 
 <<echo=FALSE,results=hide>>=
 
@@ -296,11 +298,7 @@ simConfint(createBonferroniHolmGraph(3),
 
 \subsection{Using the GUI}
 
-\begin{figure}[ht]
-  \centering    
-  \includegraphics[width=0.8\textwidth]{pictures/FullFeaturedGUI.png}      
-  \caption{\label{fullGUI} The graphical user interface allows testing, calculation of confidence intervals and adjusted p-values.}
-\end{figure}
+
 
 \commentout{
 

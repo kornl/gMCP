@@ -20,7 +20,7 @@ test.graphSRMTP <- function() {
 	
 	bhG5 <- createBonferroniHolmGraph(5)
 	
-	checkEquals(gsrmtp:::getAlpha(bhG5),
+	checkEquals(gMCP:::getAlpha(bhG5),
 				structure(c(0.01, 0.01, 0.01, 0.01, 0.01),
 						.Names = c("H1", "H2", "H3", "H4", "H5")))
 	
@@ -38,7 +38,7 @@ test.bonferroniHolm <- function() {
 								   .Names = c("H1", "H2", "H3")))
 				   
 	result <- srmtp(bhG3, pvalues=c(0.1, 0.3, 0.7))
-	checkEquals(gsrmtp:::getRejected(result@graphs[[3]]),
+	checkEquals(gMCP:::getRejected(result@graphs[[3]]),
 			structure(c(TRUE, TRUE, FALSE), .Names = c("H1", "H2", "H3")))
 }
 
@@ -46,9 +46,9 @@ test.srmtp <- function() {
 	bhG3 <- createBonferroniHolmGraph(3, alpha=0.6)
 	pvalues <- c(0.1, 0.2, 0.3)
 	names(pvalues) <- nodes(bhG3)
-	checkTrue(gsrmtp:::canBeRejected(bhG3, "H1", pvalues)) 
-	checkTrue(gsrmtp:::canBeRejected(bhG3, "H2", pvalues)) 
-	checkTrue(!gsrmtp:::canBeRejected(bhG3, "H3", pvalues)) 
+	checkTrue(gMCP:::canBeRejected(bhG3, "H1", pvalues)) 
+	checkTrue(gMCP:::canBeRejected(bhG3, "H2", pvalues)) 
+	checkTrue(!gMCP:::canBeRejected(bhG3, "H3", pvalues)) 
 	checkException(srmtp(bhG3, 0))
 	checkException(srmtp(bhG3, rep(0,6)))
 }
@@ -86,19 +86,19 @@ test.srmtpBretzEtAl <- function() {
 test.srmtpIGK <- function() {
 	graph <- createGraphForImprovedParallelGatekeeping()
 	graph <- rejectNode(graph, "H1")
-	checkEquals(graph, structure(list(
+	checkEquals(edgeWeights(graph), structure(list(
 							H1 = numeric(0),
 							H2 = structure(c(0.5, 0.5), .Names = c("H3", "H4")),
 							H3 = structure(1, .Names = "H4"),
 							H4 = structure(c(1,	0), .Names = c("H3", "H2"))),
 					.Names = c("H1", "H2", "H3", "H4")))
-	checkEquals(graph, structure(list(
+	graph <- rejectNode(graph, "H4")
+	checkEquals(edgeWeights(graph), structure(list(
 							H1 = numeric(0),
 							H2 = structure(1, .Names = "H3"), 
 							H3 = structure(0, .Names = "H2"),
 							H4 = numeric(0)),
-					.Names = c("H1", "H2", "H3", "H4")))		
-	graph <- rejectNode(graph, "H4")
+					.Names = c("H1", "H2", "H3", "H4")))
 }
 
 test.only.no.error <- function() {

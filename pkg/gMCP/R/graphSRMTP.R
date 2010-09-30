@@ -160,11 +160,12 @@ setGeneric("simConfint", function(object, pvalues, confintF) standardGeneric("si
 setMethod("simConfint", c("graphSRMTP"), function(object, pvalues, confintF) {			
 			result <- srmtp(object, pvalues)
 			if (all(getRejected(result))) {
-				
+				m <- mapply(confintF, nodes(object), getAlpha(object)) 
 			} else {
-				m <- mapply(confintF, nodes(object), getAlpha(result))
-				alpha <- sum(getAlpha(result))*100
-				rownames(m) <- paste(c(alpha/2,100-alpha/2),"%",sep="")# TODO These will be labelled as (1-level)/2 and 1 - (1-level)/2 in \% (by default 2.5\% and 97.5%)
-				return(t(m))
+				m <- mapply(confintF, nodes(object), getAlpha(result))				
 			}
+			alpha <- sum(getAlpha(result))*100
+			rownames(m) <- paste(c(alpha/2,100-alpha/2),"%",sep="")# TODO These will be labelled as (1-level)/2 and 1 - (1-level)/2 in \% (by default 2.5\% and 97.5%)
+			return(t(m))
 		})
+
