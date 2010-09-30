@@ -507,7 +507,7 @@ public class NetzListe extends JPanel implements MouseMotionListener, MouseListe
 			for (Edge e : edges) {				
 				if (e.von == n) {
 					edgeL += "\""+e.nach.getName()+"\",";
-					weights += e.w +",";
+					weights += ((""+e.w).equals("NaN")?0+",":e.w +",");
 				}
 			}
 			if (edgeL.length()!=0) {

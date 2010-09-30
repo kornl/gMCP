@@ -140,8 +140,8 @@ public class Edge {
 	
 	DecimalFormat format = new DecimalFormat("#.###");
 	
-	private String getWS() {
-		if (w.toString().equals("NaN")) return "ε";	
+	private String getWS() {		
+		if (w.toString().equals("NaN")) return "ε";
 		return format.format(w);
 	}
 
