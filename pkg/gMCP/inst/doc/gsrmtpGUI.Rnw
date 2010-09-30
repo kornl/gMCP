@@ -298,7 +298,7 @@ simConfint(createBonferroniHolmGraph(3),
 
 \subsection{Using the GUI}
 
-
+Use the following two buttons: \includegraphics[width=1cm]{pictures/adjPval_b.png} \includegraphics[width=1cm]{pictures/confint2_b.png}
 
 \commentout{
 
