@@ -1,6 +1,6 @@
 Version 0.3-0
 =============
-- Major API changes. (But now it will stay relatively stable.)
+- Major API changes (gsrmtp replaced by gMCP - but now the API should stay relatively stable).  
 - GraphGUI can now also be called directly on objects of class graphSRMTP, like graphGUI(rejectNode(graph, "H1")).
 - Small GUI bug-fix for placing edge labels while in another zoom level than 100%.
 - Completely separated nodes (which only occur in sub-optimal testing procedures) are now handled correctly.

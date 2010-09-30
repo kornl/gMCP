@@ -10,7 +10,7 @@ Follow the instructions of rJava.
 For Windows:
 If you run into a "MSVCR71.dll is is missing" please try adding your JAVA_HOME directory (something like "C:\Program Files\Java\jre6\bin\") to your PATH.
 
-For Linux:
+For Unix:
 Most likely you will have to run the command "R CMD javareconf" with root permissions to let R find your java compiler and headers.
 
 Rgraphviz:
