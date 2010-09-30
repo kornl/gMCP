@@ -87,6 +87,11 @@ createGraphForParallelGatekeeping <- function(alpha=0.05) {
 	names(nodeX) <- hnodes
 	names(nodeY) <- hnodes
 	nodeRenderInfo(graph) <- list(nodeX=nodeX, nodeY=nodeY)
+	# Label placement
+	edgeData(graph, "H1", "H4", "labelX") <- 150
+	edgeData(graph, "H1", "H4", "labelY") <- 150
+	edgeData(graph, "H2", "H3", "labelX") <- 250
+	edgeData(graph, "H2", "H3", "labelY") <- 150
 	return(graph)	
 }
 
