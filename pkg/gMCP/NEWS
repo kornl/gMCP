@@ -5,6 +5,7 @@ Version 0.3-0
 - Small GUI bug-fix for placing edge labels while in another zoom level than 100%.
 - Completely separated nodes (which only occur in sub-optimal testing procedures) are now handled correctly.
 - If the graph has no nodeRenderInfo available when the GUI is called, the edges are placed in a circle.
+- Deducer support if installed and loaded.
 
 Version 0.2-4
 =============

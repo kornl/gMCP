@@ -12,4 +12,15 @@
 	## we supply our own JavaGD class
 	#.setenv <- if (exists("Sys.setenv")) Sys.setenv else Sys.putenv
 	#.setenv("JAVAGD_CLASS_NAME"="org/mutoss/gui/JavaGD")  
+	
+	# Optional Deducer integration:
+	if(exists(".deducer")) {
+		if (!is.null(.deducer)) {
+			deducer.addMenuItem("Multiple Test Graph",,"graphGUI()","Analysis")
+			if(.jgr){
+				jgr.addMenuSeparator("Analysis")
+				jgr.addMenuItem("Analysis","Multiple Test Graph","graphGUI()")
+			}
+		}
+	}
 }  
