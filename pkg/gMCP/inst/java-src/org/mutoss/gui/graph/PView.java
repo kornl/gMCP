@@ -130,10 +130,14 @@ public class PView extends JPanel implements ActionListener {
 	public void removePPanel(Node node) {
 		for (int i=panels.size()-1;i>=0;i--) {
 			if (panels.get(i).node==node) {
+				panel.remove(panels.get(i).label);
+				panel.remove(panels.get(i).jb);
+				panel.remove(panels.get(i).pTF);
+				panel.remove(panels.get(i).wTF);
 				panels.remove(i);
 			}
 		}
-		setUp();
+		setUp();		
 	}
 	
 	public void setTesting(boolean b) {
