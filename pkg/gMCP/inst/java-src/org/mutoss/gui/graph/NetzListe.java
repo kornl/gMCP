@@ -289,20 +289,22 @@ public class NetzListe extends JPanel implements MouseMotionListener, MouseListe
 		}
 		throw new Exception();
 	}
-	public void mouseClicked(MouseEvent e) {}
+	
 	public void mouseDragged(MouseEvent e) {
 		if (drag==-1 && edrag == -1) return;
 		if (drag!=-1) {
 			knoten.get(drag).setX( (int) ((e.getX() - Node.getRadius() * vs.getZoom()) / (double) vs.getZoom()));
 			knoten.get(drag).setY( (int) ((e.getY() - Node.getRadius() * vs.getZoom()) / (double) vs.getZoom()));
 		} else {
-			edges.get(edrag).setK1( (int) ((e.getX() * vs.getZoom()) / (double) vs.getZoom()));
-			edges.get(edrag).setK2( (int) ((e.getY() * vs.getZoom()) / (double) vs.getZoom()));
+			edges.get(edrag).setK1( (int) ((e.getX()) / (double) vs.getZoom()));
+			edges.get(edrag).setK2( (int) ((e.getY()) / (double) vs.getZoom()));
 		}
 		calculateSize();
 		repaint();
 	}
 
+	public void mouseClicked(MouseEvent e) {}
+	
 	public void mouseEntered(MouseEvent e) {}
 	
 	public void mouseExited(MouseEvent e) {}
@@ -398,8 +400,8 @@ public class NetzListe extends JPanel implements MouseMotionListener, MouseListe
 			repaint();
 		}
 		if (edrag != -1) {
-			edges.get(edrag).setK1( (int) ((e.getX() * vs.getZoom()) / (double) vs.getZoom()));
-			edges.get(edrag).setK2( (int) ((e.getY() * vs.getZoom()) / (double) vs.getZoom()));
+			edges.get(edrag).setK1( (int) ((e.getX()) / (double) vs.getZoom()));
+			edges.get(edrag).setK2( (int) ((e.getY()) / (double) vs.getZoom()));
 			calculateSize();
 			edrag = -1;
 			repaint();

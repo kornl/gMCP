@@ -15,23 +15,20 @@ import org.apache.commons.logging.LogFactory;
 
 public class Edge {
 
-	public Node von;
-	public Node nach;
-	Double w;
-	VS vs;
-	public boolean curve = false;
 	private static final Log logger = LogFactory.getLog(Edge.class);
+	public boolean curve = false;
+	DecimalFormat format = new DecimalFormat("#.###");
+	FontRenderContext frc = null;
+	Graphics2D g2d;
 	int k1, k2;
+	public Node nach;
 
-	public Edge(Node von, Node nach, Double w, VS vs, int k1, int k2) {
-		this.von = von;
-		this.nach = nach;
-		this.w = w;
-		this.vs = vs;
-		this.k1 = k1;
-		this.k2 = k2;
-	}
+	public Node von;
 	
+	VS vs;
+	
+	Double w;
+
 	public Edge(Node von, Node nach, Double w, VS vs) {		
 		int x1, x2, y1, y2;
 		x1 = von.getX() + Node.getRadius();
@@ -45,7 +42,6 @@ public class Edge {
 		this.w = w;
 		this.vs = vs;
 	}
-	
 	public Edge(Node von, Node nach, Double w, VS vs, boolean curve) {
 		this(von, nach, w, vs);
 		int x1, x2, y1, y2;
@@ -73,9 +69,95 @@ public class Edge {
 			k2 = (y1+y2)/2;				
 		}
 	}
+	
+	public Edge(Node von, Node nach, Double w, VS vs, int k1, int k2) {
+		this.von = von;
+		this.nach = nach;
+		this.w = w;
+		this.vs = vs;
+		this.k1 = k1;
+		this.k2 = k2;
+	}
+	
+	public int getBendLeft() {
+		int x1, x2, y1, y2;
+		x1 = von.getX() + Node.getRadius();
+		x2 = nach.getX() + Node.getRadius();
+		y1 = von.getY() + Node.getRadius();
+		y2 = nach.getY() + Node.getRadius();
+		double[] m;
+		try {
+			m = GraphDrawHelper.getCenter(x1, y1, k1, k2, x2, y2);
+		} catch (GraphException e) {
+			return 0; // Seriously, this is the right answer!
+		}
+		double[] phi = GraphDrawHelper.getAngle(x1, y1, k1, k2, x2, y2, m[0], m[1]);
+		double gamma;
+		if ((x1-x2)==0) {
+			gamma = 90 + ((y2-y1>0)?0:180);
+		} else {
+			gamma = Math.atan((-y1+y2)/(x1-x2))*360/(2*Math.PI)+((x1-x2<0)?180:0);
+		}
+		return ((int)(phi[2]+(phi[1]>0?180:0)+90-gamma)+360)%360;
+	}
+	
+	public int getK1() {
+		return k1;
+	}
 
-	Graphics2D g2d;
-	FontRenderContext frc = null;
+	public int getK2() {
+		return k2;
+	}
+
+	public double getPos() {
+		int x1, x2, y1, y2;
+		x1 = von.getX() + Node.getRadius();
+		x2 = nach.getX() + Node.getRadius();
+		y1 = von.getY() + Node.getRadius();
+		y2 = nach.getY() + Node.getRadius();		
+		double[] m;
+		try {
+			m = GraphDrawHelper.getCenter(x1, y1, k1, k2, x2, y2);
+			double d = Math.sqrt((x2-x1)*(x2-x1)+(y2-y1)*(y2-y1));
+			double r = Math.sqrt((m[0]-x1)*(m[0]-x1)+(m[1]-y1)*(m[1]-y1));
+			if (2*Math.PI*r/360>6*d/200) throw new GraphException("Edge is too linear.");	
+		} catch (GraphException e) {			
+			double n2 = Math.sqrt((x2-x1)*(x2-x1)+(y2-y1)*(y2-y1));
+			double k = Math.sqrt((k1-x1)*(k1-x1)+(k2-y1)*(k2-y1));
+			if (k>n2) return 1;
+			return (k/n2);			
+		}
+		double[] phi = GraphDrawHelper.getAngle(x1, y1, k1, k2, x2, y2, m[0], m[1]);
+		double phiA = phi[2];
+		double phiC = phi[3];
+		double phiK = phi[4];		
+		if (phi[1]*(phi[0]==phi[2]?1:-1)>0) {
+			if (phiK<phiA) phiK = phiK + 360;
+			if (phiC<phiK) phiC = phiC + 360;
+			return ((double)(phiK-phiA))/((double)(phiC-phiA));
+		} else {
+			if (phiK>phiA) phiK = phiK - 360;
+			if (phiC>phiK) phiC = phiC - 360;
+			return ((double)(phiK-phiA))/((double)(phiC-phiA));
+		}
+	}
+
+	public Double getW() {
+		return w;
+	}
+
+	private String getWS() {		
+		if (w.toString().equals("NaN")) return "ε";
+		return format.format(w);
+	}
+
+	public boolean inYou(int x, int y) {
+		String s = getWS();
+		FontRenderContext frc = g2d.getFontRenderContext();	
+		Rectangle2D rc = (new Font("Arial", Font.PLAIN, (int) (16 * vs.getZoom()))).getStringBounds(s, frc);
+		int TOLERANCE = 4; 
+		return (x/ vs.getZoom()>k1-rc.getWidth()/2-TOLERANCE)&&(x/ vs.getZoom()<k1+rc.getWidth()/2+TOLERANCE)&&(y/ vs.getZoom()<k2- rc.getHeight()*1/ 2+TOLERANCE)&&(y/ vs.getZoom()>k2-rc.getHeight()*3/2-TOLERANCE);
+	}
 	
 	public void paintYou(Graphics g) {
 		int x1, x2, y1, y2;
@@ -137,30 +219,6 @@ public class Edge {
 			}
 		}
 	}
-	
-	DecimalFormat format = new DecimalFormat("#.###");
-	
-	private String getWS() {		
-		if (w.toString().equals("NaN")) return "ε";
-		return format.format(w);
-	}
-
-	public boolean inYou(int x, int y) {
-		String s = getWS();
-		FontRenderContext frc = g2d.getFontRenderContext();	
-		Rectangle2D rc = (new Font("Arial", Font.PLAIN, (int) (16 * vs.getZoom()))).getStringBounds(s, frc);
-		int TOLERANCE = 4; 
-		return (x/ vs.getZoom()>k1-rc.getWidth()/2-TOLERANCE)&&(x/ vs.getZoom()<k1+rc.getWidth()/2+TOLERANCE)&&(y/ vs.getZoom()<k2- rc.getHeight()*1/ 2+TOLERANCE)&&(y/ vs.getZoom()>k2-rc.getHeight()*3/2-TOLERANCE);
-	}
-
-	public void setW(Double w) {
-		this.w = w;
-		vs.nl.repaint();
-	}
-
-	public int getK1() {
-		return k1;
-	}
 
 	public void setK1(int k1) {
 		double correction = 0;
@@ -172,69 +230,6 @@ public class Edge {
 		if (this.k1 < 0) this.k1 = 0;
 	}
 
-	public int getK2() {
-		return k2;
-	}
-	
-	public int getBendLeft() {
-		int x1, x2, y1, y2;
-		x1 = von.getX() + Node.getRadius();
-		x2 = nach.getX() + Node.getRadius();
-		y1 = von.getY() + Node.getRadius();
-		y2 = nach.getY() + Node.getRadius();
-		double[] m;
-		try {
-			m = GraphDrawHelper.getCenter(x1, y1, k1, k2, x2, y2);
-		} catch (GraphException e) {
-			return 0; // Seriously, this is the right answer!
-		}
-		double[] phi = GraphDrawHelper.getAngle(x1, y1, k1, k2, x2, y2, m[0], m[1]);
-		double gamma;
-		if ((x1-x2)==0) {
-			gamma = 90 + ((y2-y1>0)?0:180);
-		} else {
-			gamma = Math.atan((-y1+y2)/(x1-x2))*360/(2*Math.PI)+((x1-x2<0)?180:0);
-		}
-		return ((int)(phi[2]+(phi[1]>0?180:0)+90-gamma)+360)%360;
-	}
-
-	public double getPos() {
-		int x1, x2, y1, y2;
-		x1 = von.getX() + Node.getRadius();
-		x2 = nach.getX() + Node.getRadius();
-		y1 = von.getY() + Node.getRadius();
-		y2 = nach.getY() + Node.getRadius();		
-		double[] m;
-		try {
-			m = GraphDrawHelper.getCenter(x1, y1, k1, k2, x2, y2);
-			double d = Math.sqrt((x2-x1)*(x2-x1)+(y2-y1)*(y2-y1));
-			double r = Math.sqrt((m[0]-x1)*(m[0]-x1)+(m[1]-y1)*(m[1]-y1));
-			if (2*Math.PI*r/360>6*d/200) throw new GraphException("Edge is too linear.");	
-		} catch (GraphException e) {			
-			double n2 = Math.sqrt((x2-x1)*(x2-x1)+(y2-y1)*(y2-y1));
-			double k = Math.sqrt((k1-x1)*(k1-x1)+(k2-y1)*(k2-y1));
-			if (k>n2) return 1;
-			return (k/n2);			
-		}
-		double[] phi = GraphDrawHelper.getAngle(x1, y1, k1, k2, x2, y2, m[0], m[1]);
-		double phiA = phi[2];
-		double phiC = phi[3];
-		double phiK = phi[4];		
-		if (phi[1]*(phi[0]==phi[2]?1:-1)>0) {
-			if (phiK<phiA) phiK = phiK + 360;
-			if (phiC<phiK) phiC = phiC + 360;
-			return ((double)(phiK-phiA))/((double)(phiC-phiA));
-		} else {
-			if (phiK>phiA) phiK = phiK - 360;
-			if (phiC>phiK) phiC = phiC - 360;
-			return ((double)(phiK-phiA))/((double)(phiC-phiA));
-		}
-	}
-
-	public Double getW() {
-		return w;
-	}
-
 	public void setK2(int k2) {
 		double correction = 0;
 		if (frc != null) {					
@@ -243,6 +238,11 @@ public class Edge {
 		}
 		this.k2 = k2 + (int) correction;
 		if (this.k2 < 0) this.k2 = 0;
+	}
+
+	public void setW(Double w) {
+		this.w = w;
+		vs.nl.repaint();
 	}
 
 }
