@@ -7,9 +7,9 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.mutoss.gui.RControl;
 
-public class graphMCP {
+public class GraphMCP {
 
-	private static final Log logger = LogFactory.getLog(graphMCP.class);
+	private static final Log logger = LogFactory.getLog(GraphMCP.class);
 	
 	String name;
 	
@@ -26,7 +26,7 @@ public class graphMCP {
 		this.nl = nl;
 	}
 
-	public graphMCP(String name, VS vs) {
+	public GraphMCP(String name, VS vs) {
 		this.name = name;
 		this.vs = vs;
 		loadGraph(name);

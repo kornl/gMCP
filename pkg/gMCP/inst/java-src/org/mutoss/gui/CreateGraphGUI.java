@@ -12,14 +12,14 @@ import javax.swing.JSplitPane;
 
 import org.mutoss.config.Configuration;
 import org.mutoss.gui.graph.AbstractGraphControl;
-import org.mutoss.gui.graph.graphMCP;
+import org.mutoss.gui.graph.GraphMCP;
 import org.mutoss.gui.graph.GraphView;
 import org.mutoss.gui.graph.PView;
 
 
 public class CreateGraphGUI extends JFrame implements WindowListener {
 	
-	graphMCP graph;
+	GraphMCP graph;
 	
 	public CreateGraphGUI(String graph, boolean debug, double grid) {
 		super("Creating and modifying graphs");		
@@ -36,7 +36,7 @@ public class CreateGraphGUI extends JFrame implements WindowListener {
 		addWindowListener(this);
 		
 		makeContent();
-		this.graph = new graphMCP(graph, gv.getVS());
+		this.graph = new GraphMCP(graph, gv.getVS());
 		
 		setVisible(true);
 	}

@@ -71,7 +71,7 @@ public class NetzListe extends JPanel implements MouseMotionListener, MouseListe
 		saveGraph(".tmpGraph", false);
 		RControl.getR().eval(".tmpGraph <- rejectNode(.tmpGraph, \""+node.getName()+"\")");
 		reset();
-		new graphMCP(".tmpGraph", vs);
+		new GraphMCP(".tmpGraph", vs);
 		control.getPView().restorePValues();
 	}
 
@@ -587,7 +587,7 @@ public class NetzListe extends JPanel implements MouseMotionListener, MouseListe
 	public static String initialGraph = ".InitialGraph";
 	
 	public void loadGraph() {
-		new graphMCP(initialGraph, vs);
+		new GraphMCP(initialGraph, vs);
 		control.getPView().restorePValues();
 	}
 	

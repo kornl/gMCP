@@ -5,7 +5,7 @@ import javax.swing.JLabel;
 import org.af.jhlir.backends.rengine.RCallServicesREngine;
 import org.mutoss.gui.RControl;
 import org.mutoss.gui.graph.AbstractGraphControl;
-import org.mutoss.gui.graph.graphMCP;
+import org.mutoss.gui.graph.GraphMCP;
 import org.mutoss.gui.graph.NetzListe;
 import org.mutoss.gui.graph.VS;
 
@@ -15,7 +15,7 @@ public class TestImportExport {
 		RControl.getRControl(true);
 		VS vs = new VS();
 		vs.nl = new NetzListe(new JLabel(""), vs, new AbstractGraphControl(graph1, null));
-		graphMCP jGraph = new graphMCP(graph1, vs);
+		GraphMCP jGraph = new GraphMCP(graph1, vs);
 		jGraph.getNL().saveGraph(graph2, false);
 	}
 	
@@ -24,7 +24,7 @@ public class TestImportExport {
 	 */
 	public static void main(String[] args) {
 		RCallServicesREngine r = RControl.getRControl(true).getR();
-		r.eval("library(gsrmtp)");
+		r.eval("library(gMCP)");
 		r.eval("graph <- createGraphFromBretzEtAl()");
 		new TestImportExport("graph","graphExport");
 	}
