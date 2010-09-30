@@ -12,6 +12,8 @@
 \alias{getX,graphSRMTP-method}
 \alias{getY}
 \alias{getY,graphSRMTP-method}
+\alias{addEdge}
+\alias{addEdge,graphSRMTP-method}
 \title{Class graphSRMTP}
 \description{A graphSRMTP object describes a sequentially rejective multiple test procedure.}
 \section{Slots}{  
@@ -50,6 +52,8 @@ Class \code{graph}, by class \code{graphNEL}, distance 2
     \item{getY}{\code{signature(object = "graphSRMTP")}: A method for
       getting the y coordinates of the graph
       If a second optional argument \code{node} is specified, only for these nodes the x coordinates will be returned.}
+    \item{addEdge}{signature(from="character", to="character", graph="graphNEL", weights="numeric")}: A method for
+      adding new edges with the given weights.}
   }
 }
 \author{Kornelius Rohmeyer \email{rohmeyer@small-projects.de}}
