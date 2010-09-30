@@ -80,6 +80,8 @@ rejectNode <- function(graph, node, verbose=FALSE) {
 				} else {
 					if (!is.nan(w) & w>0) {
 						graph2 <- addEdge(from, to, graph2, w)
+					} else if (existsEdge(graph,from,to) || (existsEdge(graph,from,node)&&existsEdge(graph,node,to))) {
+						graph2 <- addEdge(from, to, graph2, 0)
 					}
 				}								
 			}
@@ -109,6 +111,14 @@ getRejectableNode <- function(graph, pvalues) {
 	if (x[i]>1 | all.equal(unname(x[i]),1)[1]==TRUE) {return(nodes(graph)[i])}
 	return(NULL)	 
 }
+
+existsEdge <- function(graph, from, to) {
+	weight <- try(edgeData(graph,from,to,"weight"), silent = TRUE)
+	if (class(weight)=="try-error") {
+		return(FALSE)
+	}
+	return(TRUE)
+} 
 
 getWeight <- function(graph, from, to) {
 	weight <- try(edgeData(graph,from,to,"weight"), silent = TRUE)
