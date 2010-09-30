@@ -56,6 +56,8 @@ rejectNode <- function(graph, node, verbose=FALSE) {
 	edgesOut <- edgeWeights(graph, node)[[node]]
 	if (verbose) cat(paste("There are ",length(edgesIn)," incoming and ",length(edgesOut)," outgoing edges.\n",sep=""))
 	
+	keepAlpha <- TRUE
+	
 	graph2 <- graph
 	if (all(TRUE == all.equal(edgesOut, rep(0, length(edgesOut))))) {
 		if (verbose) cat("Alpha is passed via epsilon-edges.\n")
@@ -63,6 +65,7 @@ rejectNode <- function(graph, node, verbose=FALSE) {
 			numberOfEpsilonEdges <- sum(TRUE == all.equal(edgesOut, rep(0, length(edgesOut))))
 			if (existsEdge(graph, node, to)) {
 				nodeData(graph2, to, "alpha") <- nodeData(graph, to, "alpha")[[to]] + nodeData(graph, node, "alpha")[[node]] / numberOfEpsilonEdges
+				keepAlpha <- FALSE
 			}
 		}		
 	} else {
@@ -70,6 +73,7 @@ rejectNode <- function(graph, node, verbose=FALSE) {
 		for (to in nodes(graph)[nodes(graph)!=node]) {				
 			nodeData(graph2, to, "alpha") <- nodeData(graph, to, "alpha")[[to]] + getWeight(graph,node,to) * nodeData(graph, node, "alpha")[[node]]				
 		}	
+		keepAlpha <- FALSE
 	}
 	for (to in nodes(graph)[nodes(graph)!=node]) {						
 		for (from in nodes(graph)[nodes(graph)!=node]) {
@@ -99,7 +103,9 @@ rejectNode <- function(graph, node, verbose=FALSE) {
 	for (from in names(edgesIn)) {
 		graph <- removeEdge(from, node, graph)
 	}
-	nodeData(graph, node, "alpha") <- 0
+	if (!keepAlpha) {
+		nodeData(graph, node, "alpha") <- 0
+	}
 	nodeData(graph, node, "rejected") <- TRUE	
 	return(graph)
 }

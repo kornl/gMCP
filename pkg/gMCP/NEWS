@@ -2,7 +2,7 @@ Version 0.2.5
 =============
 - GraphGUI can now also be called directly on objects of class graphSRMTP, like graphGUI(rejectNode(graph, "H1"))
 - Small bugfix for placing edge labels while in another zoom level than 100%.
-- Completely separated nodes (which only occur in suboptimal testing procedures) are now handled correctly.
+- Completely separated nodes (which only occur in sub-optimal testing procedures) are now handled correctly.
 - If the graph has no nodeRenderInfo available when the GUI is called, the edges are placed in a circle.
 
 Version 0.2.4
