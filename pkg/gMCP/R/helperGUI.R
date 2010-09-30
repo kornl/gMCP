@@ -34,3 +34,14 @@ getEdges <- function(graph){
 	}
 	return(list(from=fromL, to=toL, weight=weightL, labelx=labelx, labely=labely, curve=curveL))
 }
+
+arrangeNodes <- function(graph) {
+	n <- length(nodes(graph))
+	v <- (1:n)/n*2*pi
+	nodeX <- 300 + 250*sin(v)
+	nodeY <- 300 + 250*cos(v)
+	names(nodeX) <- nodes(graph)
+	names(nodeY) <- nodes(graph)
+	nodeRenderInfo(graph) <- list(nodeX=nodeX, nodeY=nodeY)
+	return(graph)
+}

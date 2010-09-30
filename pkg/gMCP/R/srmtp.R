@@ -80,7 +80,7 @@ rejectNode <- function(graph, node, verbose=FALSE) {
 				} else {
 					if (!is.nan(w) & w>0) {
 						graph2 <- addEdge(from, to, graph2, w)
-					} else if (existsEdge(graph,from,to) || (existsEdge(graph,from,node)&&existsEdge(graph,node,to))) {
+					} else if (existsEdge(graph,from,to) || (existsEdge(graph,from,node) && existsEdge(graph,node,to))) {
 						graph2 <- addEdge(from, to, graph2, 0)
 					}
 				}								

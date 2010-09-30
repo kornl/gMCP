@@ -17,5 +17,14 @@ graphGUI <- function(graph="createdGraph", grid=1, debug=FALSE) {
 			warning(paste("We guess you wanted to use graphGUI(\"",graph,"\")",sep=""))
 		}
 	}
+	if (exists(graph, envir=globalenv())) {
+		if ("graphSRMTP" %in% class(get(graph, envir=globalenv()))) {
+			if (length(nodeRenderInfo(get(graph, envir=globalenv())))==0) {
+				assign(graph, arrangeNodes(get(graph, envir=globalenv())), envir=globalenv())
+			}
+		} else {
+			warning(paste("The variable ",graph," already exists and is no graphSRMTP object.",sep=""))
+		}
+	}
 	invisible(.jnew("org/mutoss/gui/CreateGraphGUI", make.names(graph), debug, grid))	
 }
