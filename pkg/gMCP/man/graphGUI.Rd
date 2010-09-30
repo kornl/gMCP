@@ -13,9 +13,8 @@
 
 \arguments{
   \item{graph}{
-	Variable name for the graph, given as a character string.
-	If it is not a syntactically valid name,
-	\code{\link{make.names}} is called to change it to a valid one.
+  	Either a variable name for the graph, given as a character string. (If it is not a syntactically valid name, \code{\link{make.names}} is called to change it to a valid one.)
+  	Or an object of class \code{\link{graphSRMTP}}.
   }
   \item{grid}{
 	Positive integer that sets the grid size for easier placement of nodes.
@@ -25,7 +24,7 @@
   }
 }
 \details{
-	See the HTML help in the GUI for further details.
+	See the vignette of this package for further details, since describing a GUI interface is better done with a lot of nice pictures.
 }
 \value{
 	The function itself returns NULL. But with the GUI a graph can be created or edited that is available in R under the specified variable name.

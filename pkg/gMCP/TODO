@@ -1,20 +1,13 @@
 High priority:
 
-- In af.statguitoolkit.graph.UpdateEdge:
-setW -> ((AbstractGraphControl)(AbstractControl.getInstance())).getNL().addEdge(edge.von, edge.nach, w);
-setW with w=0 is bad, since it does not delete the edge.
-- graph2latex turns graphs upside / down.
 - We have the same Generics as Rgraphviz:
 library(Rgraphviz)
 getX(new("xyPoint", x=150, y=30))
 This causes trouble
 - matrix2graph function
-- Confidence intervals are unfinished
 - Check on Windows whether "\" work in ActionExportToLatex or have to be modified.
 - Look at print method for SRMTPResult
 - Can we add a RUnit Test for Java imports Random Graph and then exports the same graph?
-- Double placement for PPanels
-- PPanels for newly added nodes
 - Warn user when sum of edge weights is bigger than 1 
 - Graphs without xy-coordinate specifications should be placed in a circle
 - What happens if I try to create nodes with the same name? Is Node.nr used for something?
@@ -28,5 +21,4 @@ Additional features / low priority:
 - highlight is cool - but how can I tell r-forge or CRAN to use it?
 See also http://comments.gmane.org/gmane.comp.lang.r.general/200179
 - Edge labels should be fixed and placed by user or free and adjust to moving nodes
-- if graphGUI is called with something like graphGUI(rejectNode(graph,"H11")) save the graph to some global variable.
 - CITATION file? 

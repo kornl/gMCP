@@ -1,3 +1,9 @@
-Version 0.1
-===========
-- 
+Version 0.2.5
+=============
+- graphGUI can now also be called directly on objects of class graphSRMTP, like graphGUI(rejectNode(graph, "H1"))
+- small bugfix for placing edge labels while in another zoom level than 100%.
+
+Version 0.2.4
+=============
+- First commit to CRAN.
+- We support: Graphs with epsilon nodes, confidence intervals, adjusted p-values.
