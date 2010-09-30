@@ -52,7 +52,7 @@ Class \code{graph}, by class \code{graphNEL}, distance 2
     \item{getY}{\code{signature(object = "graphSRMTP")}: A method for
       getting the y coordinates of the graph
       If a second optional argument \code{node} is specified, only for these nodes the x coordinates will be returned.}
-    \item{addEdge}{signature(from="character", to="character", graph="graphNEL", weights="numeric")}: A method for
+    \item{addEdge}{\code{signature(from="character", to="character", graph="graphNEL", weights="numeric")}: A method for
       adding new edges with the given weights.}
   }
 }
