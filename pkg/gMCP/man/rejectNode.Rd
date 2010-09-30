@@ -18,14 +18,14 @@
   \item{node}{
   	A character string specifying the node to reject.
   } 
-  \item{verbose}{logical scalar.  If \code{TRUE} verbose output is generated during
+  \item{verbose}{Logical scalar.  If \code{TRUE} verbose output is generated during
           sequentially rejection steps.}  
 }
 \details{
 	For details see the given references.
 }
 \value{
-An updated graph of class \code{\link{graphSRMTP}}
+An updated graph of class \code{\link{graphSRMTP}}.
 }
 \references{
 Frank Bretz, Willi Maurer, Werner Brannath, Martin Posch:

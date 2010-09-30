@@ -2,10 +2,10 @@
 \alias{createGsrmtpReport}
 
 \title{
-	Automatic Generation of GRSMTP Reports
+	Automatic Generation of gMCP Reports
 }
 \description{
-	Creates a LaTeX file with a GRSMTP Report.
+	Creates a LaTeX file with a gMCP Report.
 }
 \usage{
 	createGsrmtpReport(object, file, ...)
@@ -18,7 +18,7 @@
   \item{file}{ 
   	A connection, or a character string naming the file to print
     to.  If \code{""} (the default), the report is printed to the standard
-    output connection, the console unless redirected by \code{sink}.
+    output connection (the console unless redirected by \code{sink}).
     If it is \code{"|cmd"}, the output is piped to the command given
     by \code{cmd}, by opening a pipe connection.
   }
@@ -33,7 +33,7 @@
 	None (invisible \code{NULL}).
 }
 \references{
-	The Tik Z and PGF Packages Manual for version 2.00,
+	The TikZ and PGF Packages Manual for version 2.00,
 	Till Tantau,
 	\url{http://www.ctan.org/tex-archive/graphics/pgf/base/doc/generic/pgf/pgfmanual.pdf}
 }

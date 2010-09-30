@@ -1,4 +1,4 @@
-\name{createBonferroniHolmGraph}
+\name{Example Graphs}
 \alias{createBonferroniHolmGraph}
 \alias{createGraphFromBretzEtAl}
 \alias{createGraphForParallelGatekeeping}
@@ -8,7 +8,7 @@
 	Functions that create different example graphs
 }
 \description{ 
-	Functions that creates example graphs, e.g. graphs that represents a Bonferroni-Holm adjustment.
+	Functions that creates example graphs, e.g. graphs that represents a Bonferroni-Holm adjustment, parallel gatekeeping or special procedures from selected papers.
 	
 	We are providing functions and not the resulting graphs directly because this way you have additional examples:
 	You can look at the function body with \code{\link{body}} and see how the graph is built.
@@ -29,18 +29,18 @@
   }
 }
 \details{
-  \itemize{
-	\item{createBonferroniHolmGraph}{
+  \describe{
+	\item{\code{createBonferroniHolmGraph}}{
 		Returns a graph that represents a Bonferroni-Holm adjustment.
-		The result is a complete graph, the alpha is split equally between all hypotheses and each edge weight is \eqn{\frac{1}{n-1}}{1/(n-1)}.
+		The result is a complete graph, where the alpha is split equally between all hypotheses and each edge weight is \eqn{\frac{1}{n-1}}{1/(n-1)}.
 	}
-	\item{createGraphFromBretzEtAl}{
+	\item{\code{createGraphFromBretzEtAl}}{
 		Example graph from Bretz et al. See references (Bretz et al. 2009).
 	}
-	\item{createGraphForParallelGatekeeping}{
+	\item{\code{createGraphForParallelGatekeeping}}{
 		Example graph for parallel gatekeeping. See references (Dmitrienko et al. 2003).
 	}
-	\item{createGraphForImprovedParallelGatekeeping}{
+	\item{\code{createGraphForImprovedParallelGatekeeping}}{
 		Example graph for improved parallel gatekeeping. See references (Hommel et al. 2007).
 	}
   }	

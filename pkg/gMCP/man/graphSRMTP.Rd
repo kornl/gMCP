@@ -36,7 +36,7 @@
 }
 \section{Extends}{
 Class \code{graphNEL}, directly.
-Class \code{graph}, by class \code{graphNEL}, distance 2
+Class \code{graph}, by class \code{graphNEL}, distance 2.
 }
 \section{Methods}{
   \describe{

@@ -1,4 +1,4 @@
-\name{simConfint,graphSRMTP-method}
+\name{simConfint}
 \alias{simConfint}
 \alias{simConfint,graphSRMTP-method}
 
@@ -32,7 +32,7 @@
 \value{
 A matrix (or vector) with columns giving lower and upper
 confidence limits for each parameter. These will be labelled as
-(1-level)/2 and 1 - (1-level)/2 in \% (by default 2.5\% and 97.5%).
+(1-level)/2 and 1 - (1-level)/2 in \% (by default 2.5\% and 97.5\%).
 }
 \references{
 Frank Bretz, Willi Maurer, Werner Brannath, Martin Posch:
@@ -52,7 +52,6 @@ Kornelius Rohmeyer \email{rohmeyer@small-projects.de}
 g <- createBonferroniHolmGraph(5)
 
 simConfint(g, pvalues=c(0.01, 0.02, 0.04, 0.04, 0.7), function(node, alpha) {return(1:2)})
-
 
 }
 \keyword{ htest }

@@ -20,7 +20,7 @@
   \item{pvalues}{
   	A numeric vector specifying the p-values for the sequentially rejective MTP.
   } 
-  \item{verbose}{logical scalar.  If \code{TRUE} verbose output is generated during
+  \item{verbose}{Logical scalar.  If \code{TRUE} verbose output is generated during
           sequentially rejection steps.}  
 }
 \details{
