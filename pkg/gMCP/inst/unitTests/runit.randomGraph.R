@@ -1,0 +1,39 @@
+randomSRMTPGraph <- function(V=letters[1:10], M=1:4, p=0.2) {	
+	g <- randomGraph(V, M, p)
+	class(g) <- "graphSRMTP"
+	defaultProps <- list(alpha=0, rejected=FALSE)
+	nodeAttrData <- new("attrData", defaults=defaultProps)
+	alpha <- 0.05
+	attrDataItem(nodeAttrData, x=V, attr="alpha") <- alpha/length(V)
+	g@nodeData <- nodeAttrData	
+	g@graphData[[1]] <- "directed"
+	#edgeDataDefaults(g, "labelX") <- -100
+	#edgeDataDefaults(g, "labelY") <- -100
+	for (n in nodes(g)) {
+		edgeL <- edges(g)[n][[1]]
+		w <- runif(length(edgeL))
+		w <- w/sum(w)
+		edgeData(g, rep(n, length(edgeL)), edgeL, "weight") <- w
+	}
+	return(g)
+}
+
+isValidGraph <- function(g, alpha=0.05) {
+	if (!all.equal(sum(getAlpha(g)), alpha)) return(paste("Sum of alpha differs from ",alpha,".",sep=""))
+	for (n in nodes(g)) {
+		w <- edgeWeights(g,"d")[[1]]
+		if (!(sum(w) %in% 0:1)) return(paste("Sum of edges from node ",n," is ",sum(w),".",sep=""))
+	}
+	return(TRUE)
+}
+
+test.randomGraph <- function() {
+		set.seed(1234)
+		for (i in 1:100) {
+			g <- randomSRMTPGraph(letters[1:10])
+			checkTrue(isValidGraph(g))
+			p <- runif(10)/20
+			result <- srmtp(g, p)
+			checkTrue(isValidGraph(result@graphs[[length(result@graphs)]]))
+		}
+}
