@@ -7,9 +7,9 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.mutoss.gui.RControl;
 
-public class GraphSRMTP {
+public class graphMCP {
 
-	private static final Log logger = LogFactory.getLog(GraphSRMTP.class);
+	private static final Log logger = LogFactory.getLog(graphMCP.class);
 	
 	String name;
 	
@@ -26,7 +26,7 @@ public class GraphSRMTP {
 		this.nl = nl;
 	}
 
-	public GraphSRMTP(String name, VS vs) {
+	public graphMCP(String name, VS vs) {
 		this.name = name;
 		this.vs = vs;
 		loadGraph(name);

@@ -1,6 +1,6 @@
 randomSRMTPGraph <- function(V=letters[1:10], M=1:4, p=0.2) {	
 	g <- randomGraph(V, M, p)
-	class(g) <- "graphSRMTP"
+	class(g) <- "graphMCP"
 	defaultProps <- list(alpha=0, rejected=FALSE)
 	nodeAttrData <- new("attrData", defaults=defaultProps)
 	alpha <- 0.05

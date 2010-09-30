@@ -1,4 +1,4 @@
-test.graphSRMTP <- function() {
+test.graphMCP <- function() {
 	
 	hypotheses <- LETTERS[1:4]
 	edL <- vector("list", length=4)
@@ -7,16 +7,16 @@ test.graphSRMTP <- function() {
 	for(i in 1:4) {		
 		edL[[i]] <- list(edges=5-i, weights=weights[i])
 	}
-	gR <- new("graphSRMTP", nodes=hypotheses, edgeL=edL, alpha=c(0.1, 0.1, 0.1, 0))
+	gR <- new("graphMCP", nodes=hypotheses, edgeL=edL, alpha=c(0.1, 0.1, 0.1, 0))
 	
 	# Tests
 	checkEquals(unlist(edges(gR)), 
 			structure(c("D", "C", "B", "A"), .Names = c("A", "B", "C", "D")))
 	checkEquals(edgeWeights(gR)$A, structure(weights[1], .Names = "D"))	
-	checkException(new("graphSRMTP", nodes=hypotheses, edgeL=edL, alpha=c(0.5,0.5,0.1)))
-	checkException(new("graphSRMTP", nodes=hypotheses, edgeL=edL, alpha=c(-1,0.5,0.5,0.1)))
-	checkException(new("graphSRMTP", nodes=hypotheses, edgeL=edL, alpha=c(-1,1,1)))
-	checkException(new("graphSRMTP", nodes=hypotheses, edgeL=edL, alpha=c(0.5,0.5,0.5)))
+	checkException(new("graphMCP", nodes=hypotheses, edgeL=edL, alpha=c(0.5,0.5,0.1)))
+	checkException(new("graphMCP", nodes=hypotheses, edgeL=edL, alpha=c(-1,0.5,0.5,0.1)))
+	checkException(new("graphMCP", nodes=hypotheses, edgeL=edL, alpha=c(-1,1,1)))
+	checkException(new("graphMCP", nodes=hypotheses, edgeL=edL, alpha=c(0.5,0.5,0.5)))
 	
 	bhG5 <- createBonferroniHolmGraph(5)
 	
@@ -105,6 +105,6 @@ test.only.no.error <- function() {
 	graph <- createBonferroniHolmGraph(3, alpha=0.6)
 	pvalues <- c(0.1, 0.2, 0.3)
 	graph2latex(graph)
-	createGsrmtpReport(graph)
-	createGsrmtpReport(srmtp(graph, pvalues))
+	gMCPReport(graph)
+	gMCPReport(srmtp(graph, pvalues))
 }

@@ -15,7 +15,7 @@
 
 \arguments{
   \item{graph}{
-	A graph of class \code{\link{graphSRMTP}}.
+	A graph of class \code{\link{graphMCP}}.
   }
   \item{package}{
   	A character string specifying the LaTeX package that should be used.
@@ -50,7 +50,7 @@
 }
 
 \seealso{
-\code{\link{graphSRMTP}}
+\code{\link{graphMCP}}
 }
 \examples{
 

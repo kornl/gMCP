@@ -61,13 +61,13 @@ edges[["H31"]] <- list(edges=c("H21","H32"), weights=c(1/2, 1/2))
 edges[["H12"]] <- list(edges="H21", weights=1)
 edges[["H22"]] <- list(edges=c("H11","H31"), weights=c(1/2, 1/2))
 edges[["H32"]] <- list(edges="H21", weights=1)
-graph <- new("graphSRMTP", nodes=hnodes, edgeL=edges, alpha=alpha)
+graph <- new("graphMCP", nodes=hnodes, edgeL=edges, alpha=alpha)
 nodeX <- c(H11=100, H21=300, H31=500, H12=100, H22=300, H32=500)
 nodeY <- c(H11=300, H21=300, H31=300, H12=100, H22=100, H32=100)
 nodeRenderInfo(graph) <- list(nodeX=nodeX, nodeY=nodeY)	
 cat(graph2latex(graph, scale=0.7, fontsize="tiny"))
 
-createGsrmtpReport <- function(...) {invisible(NULL)}
+gMCPReport <- function(...) {invisible(NULL)}
 graphGUI <- function(...) {invisible(NULL)}
 options(digits=4)
 
@@ -78,7 +78,7 @@ options(digits=4)
 \subsection{Using R}
 
 We build upon the package \texttt{graph} \cite{graph}, more precisely
-we declare a new class \texttt{graphSRMTP} that is a subclass of
+we declare a new class \texttt{graphMCP} that is a subclass of
 \texttt{graphNEL}.  The \texttt{initialize} method of this subclass
 differs only in an extra argument \texttt{alpha}, the initial
 allocation of the significance level alpha to the individual
@@ -100,7 +100,7 @@ edges[["H31"]] <- list(edges=c("H21","H32"), weights=c(1/2, 1/2))
 edges[["H12"]] <- list(edges="H21", weights=1)
 edges[["H22"]] <- list(edges=c("H11","H31"), weights=c(1/2, 1/2))
 edges[["H32"]] <- list(edges="H21", weights=1)
-graph <- new("graphSRMTP", nodes=hnodes, edgeL=edges, alpha=alpha)
+graph <- new("graphMCP", nodes=hnodes, edgeL=edges, alpha=alpha)
 
 @
 \normalsize
@@ -161,14 +161,14 @@ edgeData(graph, "H11", "H21", "labelY") <- 80
 
 \subsection{Using the GUI}
 
-The creation of \texttt{graphSRMTP} objects is very straight forward,
+The creation of \texttt{graphMCP} objects is very straight forward,
 but still takes some time and typos may occur.
 More convenient for the average user is the use of the graphical user interface for creating
 and editing SRMTP graphs that the \texttt{gMCP} package includes.
 
 It is called by the command \texttt{graphGUI()} and takes as optional argument a variable name,
 given as a character string, of the graph to edit or under which a newly created
-\texttt{graphSRMTP} object will be available from the R command line.
+\texttt{graphMCP} object will be available from the R command line.
 
 \scriptsize
 <<echo=TRUE>>=
@@ -247,12 +247,12 @@ cat(graph2latex(result@graphs[[4]], scale=0.7, fontsize="tiny"))
   \caption{\label{finalstate}Final graph from the test procedure after rejection of $H_{21}$, $H_{31}$ and $H_{32}$.}
 \end{figure}
 
-The command \texttt{createGsrmtpReport} generates a full report of the testing procedure:
+The command \texttt{gMCPReport} generates a full report of the testing procedure:
 
 \scriptsize
 <<echo=TRUE>>=
 
-createGsrmtpReport(result, "Report.tex")
+gMCPReport(result, "Report.tex")
 
 @
 \normalsize

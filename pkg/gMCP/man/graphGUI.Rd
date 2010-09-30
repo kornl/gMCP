@@ -14,7 +14,7 @@
 \arguments{
   \item{graph}{
   	Either a variable name for the graph, given as a character string. (If it is not a syntactically valid name, \code{\link{make.names}} is called to change it to a valid one.)
-  	Or an object of class \code{\link{graphSRMTP}}.
+  	Or an object of class \code{\link{graphMCP}}.
   }
   \item{grid}{
 	Positive integer that sets the grid size for easier placement of nodes.

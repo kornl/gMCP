@@ -15,7 +15,7 @@
 
 \arguments{
   \item{graph}{
-	A graph of class \code{\link{graphSRMTP}}.
+	A graph of class \code{\link{graphMCP}}.
   }
   \item{pvalues}{
   	A numeric vector specifying the p-values for the sequentially rejective MTP.
@@ -27,7 +27,7 @@
 	For details see the given references.
 }
 \value{
-An object of class \code{srmtpResult}, more specifically a list with elements
+An object of class \code{gMCPResult}, more specifically a list with elements
 \item{graphs }{ list of graphs}				
 \item{pvalues }{ p-values}
 \item{adjPValues }{ adjusted p-values}
@@ -45,7 +45,7 @@ Kornelius Rohmeyer \email{rohmeyer@small-projects.de}
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
 \seealso{
-\code{\link{graphSRMTP}}
+\code{\link{graphMCP}}
 }
 \examples{
 

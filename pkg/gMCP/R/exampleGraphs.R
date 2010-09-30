@@ -6,7 +6,7 @@ createBonferroniHolmGraph <- function(n, alpha=0.05) {
 		edges[[i]] <- list(edges=hnodes[(1:n)[-i]], weights=rep(1/(n-1),n-1))
 	}
 	names(edges)<-hnodes
-	BonferroniHolmGraph <- new("graphSRMTP", nodes=hnodes, edgeL=edges, alpha=alpha)
+	BonferroniHolmGraph <- new("graphMCP", nodes=hnodes, edgeL=edges, alpha=alpha)
 	# Visualization settings
 	nodeX <- 100+(0:(n-1))*200
 	nodeY <- rep(200, n)
@@ -41,7 +41,7 @@ createGraphFromBretzEtAl <- function(alpha=0.05) {
 	edges[[6]] <- list(edges="H21", weights=1)
 	names(edges)<-hnodes
 	# Graph creation
-	graph <- new("graphSRMTP", nodes=hnodes, edgeL=edges, alpha=alpha)
+	graph <- new("graphMCP", nodes=hnodes, edgeL=edges, alpha=alpha)
 	# Visualization settings
 	nodeX <- rep(c(100, 300, 500), 2)
 	nodeY <- rep(c(100, 300), each=3)
@@ -80,7 +80,7 @@ createGraphForParallelGatekeeping <- function(alpha=0.05) {
 	edges[[4]] <- list(edges=c("H3"), weights=1)
 	names(edges)<-hnodes
 	# Graph creation
-	graph <- new("graphSRMTP", nodes=hnodes, edgeL=edges, alpha=alpha)
+	graph <- new("graphMCP", nodes=hnodes, edgeL=edges, alpha=alpha)
 	# Visualization settings
 	nodeX <- rep(c(100, 300), 2)
 	nodeY <- rep(c(100, 300), each=2)

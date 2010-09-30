@@ -38,18 +38,18 @@ graph2latex <- function(graph, package="TikZ", scale=1, pvalues,
 	return(tikz)
 }
 
-createGsrmtpReport <- function(object, file="", ...) {
+gMCPReport <- function(object, file="", ...) {
 	report <- LaTeXHeader()
-	if (class(object)=="srmtpResult") {
+	if (class(object)=="gMCPResult") {
 		for(i in 1:length(object@graphs)) {
 			report <- paste(report, paste("\\subsection*{Graph in Step ",i,"}", sep=""), sep="\n")
 			report <- paste(report, graph2latex(object@graphs[[i]], ..., pvalues=object@pvalues), sep="\n")
 		}
-	} else if (class(object)=="graphSRMTP") {		
+	} else if (class(object)=="graphMCP") {		
 		report <- paste(report, "\\subsection*{Graph for SRMTP}", sep="\n")
 		report <- paste(report, graph2latex(object, ...), sep="\n")
 	} else {
-		stop("object has to be of class srmtpResult or graphSRMTP.")
+		stop("object has to be of class gMCPResult or graphMCP.")
 	} 
 	report <- paste(report, "\\end{document}", sep="\n")
 	cat(report, file=file)

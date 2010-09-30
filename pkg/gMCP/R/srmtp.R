@@ -11,7 +11,7 @@ srmtp <- function(graph, pvalues, verbose=FALSE) {
 		graph <- rejectNode(graph, node, verbose)
 		sequence <- c(sequence, graph)
 	}	
-	return(new("srmtpResult", graphs=sequence, pvalues=pvalues))
+	return(new("gMCPResult", graphs=sequence, pvalues=pvalues))
 }
 
 
@@ -39,7 +39,7 @@ adjPValues <- function(graph, pvalues, verbose=FALSE) {
 		J <- J[J!=node]
 		sequence <- c(sequence, graph)
 	}	
-	return(new("srmtpResult", graphs=sequence, pvalues=pvalues, adjPValues=adjPValues))
+	return(new("gMCPResult", graphs=sequence, pvalues=pvalues, adjPValues=adjPValues))
 }
 
 rejectNode <- function(graph, node, verbose=FALSE) {

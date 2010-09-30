@@ -1,5 +1,5 @@
-\name{createGsrmtpReport}
-\alias{createGsrmtpReport}
+\name{gMCPReport}
+\alias{gMCPReport}
 
 \title{
 	Automatic Generation of gMCP Reports
@@ -8,12 +8,12 @@
 	Creates a LaTeX file with a gMCP Report.
 }
 \usage{
-	createGsrmtpReport(object, file, ...)
+	gMCPReport(object, file, ...)
 }
 
 \arguments{
   \item{object}{
-	A graph of class \code{\link{graphSRMTP}} or an object of class \code{\link{srmtpResult}}.
+	A graph of class \code{\link{graphMCP}} or an object of class \code{\link{gMCPResult}}.
   }
   \item{file}{ 
   	A connection, or a character string naming the file to print
@@ -51,7 +51,7 @@ g <- createGraphFromBretzEtAl()
 
 result <- srmtp(g, pvalues=c(0.1, 0.008, 0.005, 0.15, 0.04, 0.006))
 
-createGsrmtpReport(result)
+gMCPReport(result)
 
 }
 \keyword{ print }

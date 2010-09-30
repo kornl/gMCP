@@ -1,21 +1,21 @@
-\name{graphSRMTP-class}
+\name{graphMCP-class}
 \docType{class}
-\alias{graphSRMTP-class}
-\alias{graphSRMTP}
-\alias{print,graphSRMTP-method}
-\alias{plot,graphSRMTP-method}
+\alias{graphMCP-class}
+\alias{graphMCP}
+\alias{print,graphMCP-method}
+\alias{plot,graphMCP-method}
 \alias{getAlpha}
-\alias{getAlpha,graphSRMTP-method}
+\alias{getAlpha,graphMCP-method}
 \alias{getRejected}
-\alias{getRejected,graphSRMTP-method}
+\alias{getRejected,graphMCP-method}
 \alias{getX}
-\alias{getX,graphSRMTP-method}
+\alias{getX,graphMCP-method}
 \alias{getY}
-\alias{getY,graphSRMTP-method}
+\alias{getY,graphMCP-method}
 \alias{addEdge}
-\alias{addEdge,graphSRMTP-method}
-\title{Class graphSRMTP}
-\description{A graphSRMTP object describes a sequentially rejective multiple test procedure.}
+\alias{addEdge,graphMCP-method}
+\title{Class graphMCP}
+\description{A graphMCP object describes a sequentially rejective multiple test procedure.}
 \section{Slots}{  
   \describe{
     %\item{\code{alpha}:}{A numeric for the initial allocation of the significance level alpha to the individual hypotheses.}
@@ -40,16 +40,16 @@ Class \code{graph}, by class \code{graphNEL}, distance 2.
 }
 \section{Methods}{
   \describe{
-    \item{getAlpha}{\code{signature(object = "graphSRMTP")}: A method for
+    \item{getAlpha}{\code{signature(object = "graphMCP")}: A method for
       getting the allocation of the significance level alpha.
       If a second optional argument \code{node} is specified, only for these nodes the alpha level will be returned.}
-    \item{getRejected}{\code{signature(object = "graphSRMTP")}: A method for
+    \item{getRejected}{\code{signature(object = "graphMCP")}: A method for
       getting the information whether the hypotheses are marked in the graph as already rejected.
       If a second optional argument \code{node} is specified, only for these nodes the boolean vector will be returned.}
-    \item{getX}{\code{signature(object = "graphSRMTP")}: A method for
+    \item{getX}{\code{signature(object = "graphMCP")}: A method for
       getting the x coordinates of the graph.
       If a second optional argument \code{node} is specified, only for these nodes the x coordinates will be returned.}
-    \item{getY}{\code{signature(object = "graphSRMTP")}: A method for
+    \item{getY}{\code{signature(object = "graphMCP")}: A method for
       getting the y coordinates of the graph
       If a second optional argument \code{node} is specified, only for these nodes the x coordinates will be returned.}
     \item{addEdge}{\code{signature(from="character", to="character", graph="graphNEL", weights="numeric")}: A method for
@@ -71,7 +71,7 @@ edges[["H31"]] <- list(edges=c("H21","H32"), weights=c(1/2, 1/2))
 edges[["H12"]] <- list(edges="H21", weights=1)
 edges[["H22"]] <- list(edges=c("H11","H31"), weights=c(1/2, 1/2))
 edges[["H32"]] <- list(edges="H21", weights=1)
-graph <- new("graphSRMTP", nodes=hnodes, edgeL=edges, alpha=alpha)
+graph <- new("graphMCP", nodes=hnodes, edgeL=edges, alpha=alpha)
 
 nodeX <- c(H11=10, H21=20, H31=30, H12=10, H22=20, H32=30)
 nodeY <- c(H11=20, H21=20, H31=20, H12=10, H22=10, H32=10)

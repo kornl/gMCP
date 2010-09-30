@@ -18,7 +18,7 @@ License: \tab GPL (>= 2)\cr
 LazyLoad: \tab yes\cr
 }
 
-1. Creating a object of \code{\link{graphSRMTP}} which is a subclass of \code{\link[graph:graphNEL-class]{graphNEL}} from package \code{graph} that contains some additional information.
+1. Creating a object of \code{\link{graphMCP}} which is a subclass of \code{\link[graph:graphNEL-class]{graphNEL}} from package \code{graph} that contains some additional information.
 This can be done directly via the \code{\link{new}} method or a graphical user interface by calling \code{\link{graphGUI}}.
 
 2. Calling \code{\link{srmtp}} or \code{\link{graphGUI}}. This can create also LaTeX or PDF reports.

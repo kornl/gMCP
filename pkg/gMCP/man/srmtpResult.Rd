@@ -1,13 +1,13 @@
-\name{srmtpResult-class}
+\name{gMCPResult-class}
 \docType{class}
-\alias{srmtpResult-class}
-\alias{srmtpResult}
-\alias{print,srmtpResult-method}
-\alias{plot,srmtpResult-method}
-\alias{getAlpha,srmtpResult-method}
-\alias{getRejected,srmtpResult-method}
-\title{Class srmtpResult}
-\description{A srmtpResult object describes an evaluated sequentially rejective multiple test procedure.}
+\alias{gMCPResult-class}
+\alias{gMCPResult}
+\alias{print,gMCPResult-method}
+\alias{plot,gMCPResult-method}
+\alias{getAlpha,gMCPResult-method}
+\alias{getRejected,gMCPResult-method}
+\title{Class gMCPResult}
+\description{A gMCPResult object describes an evaluated sequentially rejective multiple test procedure.}
 \section{Slots}{
   \describe{
     \item{\code{graphs}:}{Object of class \code{list}. }        

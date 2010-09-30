@@ -1,6 +1,6 @@
 \name{simConfint}
 \alias{simConfint}
-\alias{simConfint,graphSRMTP-method}
+\alias{simConfint,graphMCP-method}
 
 \title{
 	Simultaneous confidence intervals for sequentially rejective multiple test procedures
@@ -14,7 +14,7 @@
 
 \arguments{
   \item{object}{
-	A graph of class \code{\link{graphSRMTP}}.
+	A graph of class \code{\link{graphMCP}}.
   }  
   \item{pvalues}{
   	A numeric vector specifying the p-values for the sequentially rejective MTP.
@@ -45,7 +45,7 @@ Kornelius Rohmeyer \email{rohmeyer@small-projects.de}
 }
 
 \seealso{
-\code{\link{graphSRMTP}}
+\code{\link{graphMCP}}
 }
 \examples{
 

@@ -13,7 +13,7 @@
 
 \arguments{
   \item{graph}{
-	A graph of class \code{\link{graphSRMTP}}.
+	A graph of class \code{\link{graphMCP}}.
   }
   \item{node}{
   	A character string specifying the node to reject.
@@ -25,7 +25,7 @@
 	For details see the given references.
 }
 \value{
-An updated graph of class \code{\link{graphSRMTP}}.
+An updated graph of class \code{\link{graphMCP}}.
 }
 \references{
 Frank Bretz, Willi Maurer, Werner Brannath, Martin Posch:
@@ -38,7 +38,7 @@ Kornelius Rohmeyer \email{rohmeyer@small-projects.de}
 }
 
 \seealso{
-\code{\link{graphSRMTP}}
+\code{\link{graphMCP}}
 }
 \examples{
 

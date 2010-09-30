@@ -271,7 +271,7 @@ public class GraphView extends JPanel implements ActionListener {
 		}
 		String filename = file.getAbsolutePath();
 		nl.saveGraph(".exportGraphToLaTeX", false);
-		RControl.getR().eval("createGsrmtpReport(.exportGraphToLaTeX, file=\""+filename+"\")");
+		RControl.getR().eval("gMCPReport(.exportGraphToLaTeX, file=\""+filename+"\")");
 	}
 
 	public void startTesting() {	

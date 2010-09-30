@@ -1,6 +1,6 @@
 graphGUI <- function(graph="createdGraph", grid=1, debug=FALSE) {
 	if (!is.character(graph)) {
-		if ("graphSRMTP" %in% class(graph)) {
+		if ("graphMCP" %in% class(graph)) {
 			newGraphName <- "createdGraph"
 			i <- 2
 			while(exists(newGraphName, envir=globalenv())) {
@@ -18,12 +18,12 @@ graphGUI <- function(graph="createdGraph", grid=1, debug=FALSE) {
 		}
 	}
 	if (exists(graph, envir=globalenv())) {
-		if ("graphSRMTP" %in% class(get(graph, envir=globalenv()))) {
+		if ("graphMCP" %in% class(get(graph, envir=globalenv()))) {
 			if (length(nodeRenderInfo(get(graph, envir=globalenv())))==0) {
 				assign(graph, arrangeNodes(get(graph, envir=globalenv())), envir=globalenv())
 			}
 		} else {
-			warning(paste("The variable ",graph," already exists and is no graphSRMTP object.",sep=""))
+			warning(paste("The variable ",graph," already exists and is no graphMCP object.",sep=""))
 		}
 	}
 	invisible(.jnew("org/mutoss/gui/CreateGraphGUI", make.names(graph), debug, grid))	

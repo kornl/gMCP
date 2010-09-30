@@ -1,11 +1,11 @@
 ## Graph representation in GSRMTP 
-setClass("graphSRMTP",
+setClass("graphMCP",
 		contains="graphNEL",
 		#representation(alpha="numeric"),
 		validity=function(object) validGraph(object))
 
 
-setMethod("initialize", "graphSRMTP",
+setMethod("initialize", "graphMCP",
 		function(.Object, nodes=character(0), edgeL, alpha) {
 			.Object <- callNextMethod(.Object, nodes, edgeL, edgemode="directed")
 			if (length(alpha)) {			
@@ -22,13 +22,13 @@ setMethod("initialize", "graphSRMTP",
 			return(.Object)
 		})
 
-setClass("srmtpResult",		
+setClass("gMCPResult",		
 		representation(graphs="list",
 				pvalues="numeric",
 				adjPValues="numeric")
 )
 
-setMethod("print", "srmtpResult",
+setMethod("print", "gMCPResult",
 		function(x, ...) {
 			# callNextMethod(x, ...)
 			cat("SRMTP-Result\n")
@@ -44,14 +44,14 @@ setMethod("print", "srmtpResult",
 			print(x@graphs[[length(x@graphs)]])
 		})
 
-setMethod("plot", "srmtpResult",
+setMethod("plot", "gMCPResult",
 		function(x, y, ...) {
 			# TODO Show visualization of graph			
 		})
 
 setGeneric("getAlpha", function(object, node, ...) standardGeneric("getAlpha"))
 
-setMethod("getAlpha", c("graphSRMTP"),
+setMethod("getAlpha", c("graphMCP"),
 		function(object, node, ...) {
 			alpha <- unlist(nodeData(object, nodes(object), "alpha"))
 			names(alpha) <- nodes(object)
@@ -61,7 +61,7 @@ setMethod("getAlpha", c("graphSRMTP"),
 			return(alpha)
 		})
 
-setMethod("getAlpha", c("srmtpResult"),
+setMethod("getAlpha", c("gMCPResult"),
 		function(object, node, ...) {
 			graph <- object@graphs[[length(object@graphs)]]
 			alpha <- unlist(nodeData(graph, nodes(graph), "alpha"))
@@ -74,7 +74,7 @@ setMethod("getAlpha", c("srmtpResult"),
 
 setGeneric("getRejected", function(object, node, ...) standardGeneric("getRejected"))
 
-setMethod("getRejected", c("graphSRMTP"), function(object, node, ...) {
+setMethod("getRejected", c("graphMCP"), function(object, node, ...) {
 			rejected <- unlist(nodeData(object, nodes(object), "rejected"))
 			names(rejected) <- nodes(object)
 			if (!missing(node)) {
@@ -83,7 +83,7 @@ setMethod("getRejected", c("graphSRMTP"), function(object, node, ...) {
 			return(rejected)
 		})
 
-setMethod("getRejected", c("srmtpResult"), function(object, node, ...) {
+setMethod("getRejected", c("gMCPResult"), function(object, node, ...) {
 			object <-  object@graphs[[length(object@graphs)]]
 			rejected <- unlist(nodeData(object, nodes(object), "rejected"))
 			names(rejected) <- nodes(object)
@@ -95,7 +95,7 @@ setMethod("getRejected", c("srmtpResult"), function(object, node, ...) {
 
 setGeneric("getX", function(graph, node) standardGeneric("getX"))
 
-setMethod("getX", c("graphSRMTP"), function(graph, node) {
+setMethod("getX", c("graphMCP"), function(graph, node) {
 			x <- nodeRenderInfo(graph)$nodeX
 			names(x) <- nodes(graph)
 			if (!missing(node)) {
@@ -106,7 +106,7 @@ setMethod("getX", c("graphSRMTP"), function(graph, node) {
 
 setGeneric("getY", function(graph, node) standardGeneric("getY"))
 
-setMethod("getY", c("graphSRMTP"), function(graph, node) {
+setMethod("getY", c("graphMCP"), function(graph, node) {
 			y <- nodeRenderInfo(graph)$nodeY
 			names(y) <- nodes(graph)
 			if (!missing(node)) {
@@ -119,7 +119,7 @@ canBeRejected <- function(graph, node, pvalues) {
 	return(getAlpha(graph)[[node]]>pvalues[[node]] | (all.equal(getAlpha(graph)[[node]],pvalues[[node]])[1]==TRUE));
 }
 
-setMethod("print", "graphSRMTP",
+setMethod("print", "graphMCP",
 		function(x, ...) {
 			callNextMethod(x, ...)
 			#for (node in nodes(x)) {
@@ -128,10 +128,10 @@ setMethod("print", "graphSRMTP",
 			#cat(paste("alpha=",paste(format(getAlpha(x), digits=4 ,drop0trailing=TRUE),collapse="+"),"=",sum(getAlpha(x)),"\n", sep=""))			
 		})
 
-setMethod("show", "graphSRMTP",
+setMethod("show", "graphMCP",
 		function(object) {
 			#callNextMethod(object)
-			cat("A graphSRMTP graph\n")
+			cat("A graphMCP graph\n")
 			cat(paste("Overall alpha: ",sum(getAlpha(object)),"\n", sep=""))
 			for (node in nodes(object)) {
 				cat(paste(node, " (",ifelse(unlist(nodeData(object, node, "rejected")),"rejected","not rejected"),", alpha=",format(unlist(nodeData(object, node, "alpha")), digits=4 ,drop0trailing=TRUE),")\n", sep=""))	
@@ -150,14 +150,14 @@ setMethod("show", "graphSRMTP",
 )
 
 
-setMethod("plot", "graphSRMTP",
+setMethod("plot", "graphMCP",
 		function(x, y, ...) {
 			# TODO Show visualization of graph			
 		})
 
 setGeneric("simConfint", function(object, pvalues, confintF) standardGeneric("simConfint"))
 
-setMethod("simConfint", c("graphSRMTP"), function(object, pvalues, confintF) {			
+setMethod("simConfint", c("graphMCP"), function(object, pvalues, confintF) {			
 			result <- srmtp(object, pvalues)
 			if (all(getRejected(result))) {
 				m <- mapply(confintF, nodes(object), getAlpha(object)) 

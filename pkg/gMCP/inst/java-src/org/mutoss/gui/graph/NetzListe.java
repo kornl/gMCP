@@ -71,7 +71,7 @@ public class NetzListe extends JPanel implements MouseMotionListener, MouseListe
 		saveGraph(".tmpGraph", false);
 		RControl.getR().eval(".tmpGraph <- rejectNode(.tmpGraph, \""+node.getName()+"\")");
 		reset();
-		new GraphSRMTP(".tmpGraph", vs);
+		new graphMCP(".tmpGraph", vs);
 		control.getPView().restorePValues();
 	}
 
@@ -522,7 +522,7 @@ public class NetzListe extends JPanel implements MouseMotionListener, MouseListe
 		}		
 		//String s = RControl.getR().eval("paste(capture.output(dput(.gsrmtVar)), collapse=\"\")").asRChar().getData()[0];
 		//JOptionPane.showMessageDialog(null, "Exported graph as: "+s);
-		RControl.getR().evalVoid(graphName+" <- new(\"graphSRMTP\", nodes=.gsrmtVar$hnodes, edgeL=.gsrmtVar$edges, alpha=.gsrmtVar$alpha)");
+		RControl.getR().evalVoid(graphName+" <- new(\"graphMCP\", nodes=.gsrmtVar$hnodes, edgeL=.gsrmtVar$edges, alpha=.gsrmtVar$alpha)");
 		for (int i=knoten.size()-1; i>=0; i--) {
 			Node n = knoten.get(i);
 			if (n.isRejected()) {
@@ -587,7 +587,7 @@ public class NetzListe extends JPanel implements MouseMotionListener, MouseListe
 	public static String initialGraph = ".InitialGraph";
 	
 	public void loadGraph() {
-		new GraphSRMTP(initialGraph, vs);
+		new graphMCP(initialGraph, vs);
 		control.getPView().restorePValues();
 	}
 	

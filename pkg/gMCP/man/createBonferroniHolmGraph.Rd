@@ -46,7 +46,7 @@
   }	
 }
 \value{
-	A graph of class \code{\link{graphSRMTP}} that represents a sequentially rejective multiple test procedure.
+	A graph of class \code{\link{graphMCP}} that represents a sequentially rejective multiple test procedure.
 }
 \references{
 Bonferroni, C. E.: Il calcolo delle assicurazioni su gruppi di teste. In Studi in Onore del Professore Salvatore Ortu Carboni. Rome: Italy, pp. 13-60, 1935.
