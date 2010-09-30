@@ -39,7 +39,9 @@ options(width=140)
 
 This package provides functions and graphical user interfaces for sequentially rejective multiple test procedures.
 
-At all steps either graphical user interfaces or the R Console, S4 objects and methods can be used.   
+At all steps either graphical user interfaces or the R Console, S4 objects and methods can be used.
+
+Please note that this is still a beta release and the API will change in future versions.
 
 \section{Creating the graph}
 

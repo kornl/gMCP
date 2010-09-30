@@ -8,17 +8,17 @@ This causes trouble
 - Check on Windows whether "\" work in ActionExportToLatex or have to be modified.
 - Look at print method for SRMTPResult
 - Can we add a RUnit Test for Java imports Random Graph and then exports the same graph?
-- Warn user when sum of edge weights is bigger than 1 
-- Graphs without xy-coordinate specifications should be placed in a circle
+- Warn user when sum of edge weights is bigger than 1
+- Which error does the user get, if the sum of alpha is bigger than 1 in the GUI and the console?
 - What happens if I try to create nodes with the same name? Is Node.nr used for something?
 (Saving to R returns an error: Ungültiges Objekt der Klasse "graphSRMTP": FALSE) 
 
 Additional features / low priority:
 
 - Cleanup Config
-- Why is the space in for example "F.˜Bretz," still shown in the pdf?
+- Why is the tilde in for example "F.˜Bretz" still shown in the pdf?
 - Check to which RJava version we are compatible.
-- highlight is cool - but how can I tell r-forge or CRAN to use it?
+- Package highlight is cool - but how can I tell r-forge or CRAN to use it?
 See also http://comments.gmane.org/gmane.comp.lang.r.general/200179
 - Edge labels should be fixed and placed by user or free and adjust to moving nodes
 - CITATION file? 
