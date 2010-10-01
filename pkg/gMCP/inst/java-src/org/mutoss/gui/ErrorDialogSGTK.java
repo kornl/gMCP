@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Hashtable;
+import java.util.List;
 
 import javax.swing.JCheckBox;
 import javax.swing.JPanel;
@@ -51,11 +52,12 @@ public class ErrorDialogSGTK extends ErrorDialog {
 
     protected Hashtable<String, File> getAttachedFiles() throws IOException {
     	Hashtable<String, File> files = new Hashtable<String, File>();
+    	files.put("rcommands", makeLogFile("r_commands.txt", collapseStringList(RControl.getR().getHistory(),"\n")));
         files.put("sessioninfo", makeLogFile("session_info.txt", getRSessionInfo()));
         files.put("roptions", makeLogFile("r_options.txt", getROptions()));
         //files.put("packageinfo", makeLogFile("package_info.txt", getRPackageInfo()));
         files.put("systeminfo", makeLogFile("system_info.txt", getSystemInfo()));
-        files.put("log", getReadableLogFile());
+        files.put("log", getReadableLogFile());        
 
         /* if (chbAttachDf.isSelected() && al.getDataFrame()!=null)
             files.put("", al.getDataFrame()); */
@@ -108,12 +110,25 @@ public class ErrorDialogSGTK extends ErrorDialog {
         }
         return result;
     }
+    
+    private String collapseStringList(List<String> ss, String sep) {
+        String result = "";
+        for (String s : ss) {
+            result  += s + sep;
+        }
+        return result;
+    }
 
     private String collapseStringArray(String[] ss) {
         return collapseStringArray(ss, "\n");
     }
 
-    
+    protected Hashtable<String, String> getInfoTable() {
+    	Hashtable<String, String> table = super.getInfoTable();
+    	table.put("Application", "gMCP bug report");    	
+    	return table;
+    }
+  
     
 }
 
