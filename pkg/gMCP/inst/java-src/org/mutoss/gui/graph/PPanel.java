@@ -6,6 +6,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.text.DecimalFormat;
 import java.util.Vector;
 
 import javax.swing.JButton;
@@ -32,6 +33,8 @@ public class PPanel implements ActionListener, KeyListener, NodeListener {
 	PView pview;
 	Boolean rejected = false;
 	
+	DecimalFormat format = new DecimalFormat("#.#####");
+	
 	public Vector<Component> getComponent() {
 		Vector<Component> v = new Vector<Component>();
 		v.add(label);
@@ -50,11 +53,11 @@ public class PPanel implements ActionListener, KeyListener, NodeListener {
         
         label = new JLabel(name);
 		
-		wTF = new JTextField(""+w);
+		wTF = new JTextField(format.format(w), 7);
 		wTF.addActionListener(this);
 		wTF.addKeyListener(this);
 		
-		pTF = new JTextField(""+p);
+		pTF = new JTextField(format.format(p), 7);
 		pTF.addActionListener(this);
 		pTF.addKeyListener(this);
 		
@@ -139,8 +142,8 @@ public class PPanel implements ActionListener, KeyListener, NodeListener {
 	public void update() {		
 		this.name = node.name;
 		this.w = node.getAlpha();
-		wTF.setText(""+w);		
-		pTF.setText(""+p);
+		wTF.setText(format.format(w));		
+		pTF.setText(format.format(p));
 		if (!rejected) {
 			keyTyped(null);
 		}
@@ -149,8 +152,8 @@ public class PPanel implements ActionListener, KeyListener, NodeListener {
 	public void updated(Node node) {
 		this.name = node.name;
 		this.w = node.getAlpha();
-		wTF.setText(""+w);		
-		pTF.setText(""+p);	
+		wTF.setText(format.format(w));		
+		pTF.setText(format.format(p));	
 		pview.updateLabels();
 	}
 

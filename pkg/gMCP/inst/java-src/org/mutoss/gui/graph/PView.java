@@ -6,6 +6,7 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.DecimalFormat;
 import java.util.List;
 import java.util.Vector;
 
@@ -97,6 +98,8 @@ public class PView extends JPanel implements ActionListener {
 		
 	}
 	
+	DecimalFormat format = new DecimalFormat("#.####");
+	
 	public void updateLabels() {
 		double alpha = 0;
 		for (PPanel p : panels) {
@@ -104,7 +107,7 @@ public class PView extends JPanel implements ActionListener {
 				alpha += p.w;
 			}
 		}
-		String text = "Total α: "+(""+alpha).substring(0, Math.min(7,(""+alpha).length()));
+		String text = "Total α: "+format.format(alpha);
 		if (alpha>=1) {
 			label.setForeground(Color.RED);
 			text += "; The total α is greater or equal 1!";
