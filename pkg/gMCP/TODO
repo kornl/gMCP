@@ -24,3 +24,29 @@ Additional features / low priority:
 See also http://comments.gmane.org/gmane.comp.lang.r.general/200179
 - Edge labels should be fixed and placed by user or free and adjust to moving nodes
 - CITATION file? 
+
+@graph-package:
+
+How do I create a graphNEL object, where there is a node that has no out-going edges?
+I thought the following will do it:
+
+hnodes <- c("H1","H2")
+edges <- vector("list", length=2)
+edges[[1]] <- list(edges=c("H2"), weights=c(1.0))
+edges[[2]] <- list(edges=character(0), weights=numeric(0))
+# or "edges[[2]] <- list()" which gives the same result.
+names(edges)<-hnodes
+g <- new("graphNEL", nodes=hnodes, edgeL=edges, "directed")
+
+But the problem is, that g@edgeData@data[[1]]$weight is now a numeric with attribute "names".
+This makes problems, for example it confuses edgeWeights: 
+
+edgeWeights(g)
+$H1
+H2.H1
+        1 
+
+$H2
+numeric(0)
+
+In my understanding this should be "H2" instead of "H2.H1" like it would be when H2 has any outgoing edges.

@@ -45,3 +45,18 @@ arrangeNodes <- function(graph) {
 	nodeRenderInfo(graph) <- list(nodeX=nodeX, nodeY=nodeY)
 	return(graph)
 }
+
+# I guess I simply don't understand how the graph package is supposed to be used.
+# Or they have a bug. Either way I have to contact them and till then I use this stupid work-around.
+stupidWorkAround <- function(graph) {
+	if (length(graph@edgeData@data)>0) {
+		for (i in 1:length(graph@edgeData@data)) {
+			if (length(graph@edgeData@data[[i]])>0) {
+				for (j in 1:length(graph@edgeData@data[[i]])){
+					graph@edgeData@data[[i]][[j]] <- unname(graph@edgeData@data[[i]][[j]])
+				}
+			}
+		}
+	}
+	return(graph)
+}
