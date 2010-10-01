@@ -8,7 +8,7 @@ rJava:
 Follow the instructions of rJava.
 
 For Windows:
-If you run into a "MSVCR71.dll is is missing" please try adding your JAVA_HOME directory (something like "C:\Program Files\Java\jre6\bin\") to your PATH.
+If you run into a "MSVCR71.dll is missing" please try adding your JAVA_HOME directory (something like "C:\Program Files\Java\jre6\bin\") to your PATH.
 
 For Unix:
 Most likely you will have to run the command "R CMD javareconf" with root permissions to let R find your java compiler and headers.

@@ -1,3 +1,8 @@
+Version 0.3-1
+=============
+- Improved capabilities for bug reporting. All information that is send is also shown.
+
+
 Version 0.3-0
 =============
 - Major API changes (mostly gsrmtp replaced by gMCP - but now the API should stay relatively stable).  

@@ -12,7 +12,8 @@ This causes trouble
 - Which error does the user get, if the sum of alpha is bigger than 1 in the GUI and the console?
 - What happens if I try to create nodes with the same name? Is Node.nr used for something?
 (Saving to R returns an error: Ungültiges Objekt der Klasse "graphMCP": FALSE)
-- 
+- Default edges should be epsilon edges
+- Update graph2latex to the much better algorithm already implemented in Java.
 
 Additional features / low priority:
 
