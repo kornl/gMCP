@@ -58,6 +58,7 @@ public class Node {
 		setX(x);
 		setY(y);
 		this.vs = vs;
+		count++;
 	}
 	
 	static int count = 1;
