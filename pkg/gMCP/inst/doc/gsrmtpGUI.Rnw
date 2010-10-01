@@ -180,7 +180,7 @@ graphGUI("graph")
 
 \begin{figure}[ht]
   \centering    
-  \includegraphics[width=0.8\textwidth]{pictures/FullFeaturedGUI.png}      
+  \includegraphics[width=0.95\textwidth]{pictures/FullFeaturedGUI.png}      
   \caption{\label{fullGUI} The graphical user interface allows testing, calculation of confidence intervals and adjusted p-values.}
 \end{figure}
 

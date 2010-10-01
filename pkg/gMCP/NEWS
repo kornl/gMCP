@@ -10,4 +10,4 @@ Version 0.3-0
 Version 0.2-4
 =============
 - After some alpha and beta releases on r-forge this is the first version on CRAN.
-- We support: Graphs with epsilon nodes, confidence intervals, adjusted p-values.
+- We support: Graphs with epsilon edges, confidence intervals, adjusted p-values.
