@@ -7,6 +7,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.text.DecimalFormat;
+import java.util.Locale;
 import java.util.Vector;
 
 import javax.swing.JButton;
@@ -101,15 +102,15 @@ public class PPanel implements ActionListener, KeyListener, NodeListener {
 	public void keyReleased(KeyEvent e) {keyTyped(e);}
 
 	public void keyTyped(KeyEvent e) {
-		try  {
-			p = Double.parseDouble(pTF.getText());
-			wTF.setBackground(Color.WHITE);
+		try {
+			p = Double.parseDouble(pTF.getText().replace(",", "."));
+			pTF.setBackground(Color.WHITE);
 		} catch (NumberFormatException nfe) {
 			//logger.warn("Either \""+pTF.getText()+"\" or \""+pTF.getText()+"\" is no double number.");
-			wTF.setBackground(Color.RED);
+			pTF.setBackground(Color.RED);
 		}
-		try  {
-			w = Double.parseDouble(wTF.getText());		
+		try {
+			w = Double.parseDouble(wTF.getText().replace(",", "."));		
 			wTF.setBackground(Color.WHITE);
 		} catch (NumberFormatException nfe) {		
 			wTF.setBackground(Color.RED);
@@ -142,8 +143,8 @@ public class PPanel implements ActionListener, KeyListener, NodeListener {
 	public void update() {		
 		this.name = node.name;
 		this.w = node.getAlpha();
-		wTF.setText(format.format(w));		
-		pTF.setText(format.format(p));
+		wTF.setText(format.format(w).replace(",", "."));		
+		pTF.setText(format.format(p).replace(",", "."));
 		if (!rejected) {
 			keyTyped(null);
 		}
@@ -152,8 +153,8 @@ public class PPanel implements ActionListener, KeyListener, NodeListener {
 	public void updated(Node node) {
 		this.name = node.name;
 		this.w = node.getAlpha();
-		wTF.setText(format.format(w));		
-		pTF.setText(format.format(p));	
+		wTF.setText(format.format(w).replace(",", "."));		
+		pTF.setText(format.format(p).replace(",", "."));	
 		pview.updateLabels();
 	}
 

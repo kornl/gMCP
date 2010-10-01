@@ -320,7 +320,7 @@ public class NetzListe extends JPanel implements MouseMotionListener, MouseListe
 	public void mouseMoved(MouseEvent e) {}
 
 	public void mousePressed(MouseEvent e) {
-		logger.debug("MousePressed at ("+e.getX()+","+ e.getY()+").");
+		//logger.debug("MousePressed at ("+e.getX()+","+ e.getY()+").");
 		if (vs.newVertex) {
 			addDefaultNode((int)(e.getX() / vs.getZoom())	- Node.r, 
 						(int) (e.getY() / vs.getZoom()) - Node.r);
@@ -434,7 +434,7 @@ public class NetzListe extends JPanel implements MouseMotionListener, MouseListe
 	}
 
 	/**
-	 * Mal die NetzListe neu und setzt preferredSize etc.
+	 * Repaints the NetzListe and sets the preferredSize etc.
 	 */
 
 	public void refresh() {

@@ -247,9 +247,12 @@ public class GraphView extends JPanel implements ActionListener {
 		if (!getNL().testingStarted) return;
 		getNL().stopTesting();
 		getNL().reset();
-		getNL().loadGraph();
+		//control.getPView().removeAllPanels();
+		getNL().loadGraph();				
 		control.getPView().restorePValues();
-		control.getPView().setTesting(false);		
+		control.getPView().setTesting(false);
+		control.getPView().revalidate();
+		control.getPView().repaint();
 		buttonNewVertex.setEnabled(true);
 		buttonNewEdge.setEnabled(true);
 		try {
@@ -258,20 +261,6 @@ public class GraphView extends JPanel implements ActionListener {
 		} catch (IOException ex) {
 			ErrorHandler.getInstance().makeErrDialog(ex.getMessage(), ex);
 		}
-	}
-	
-	public void WriteLaTeXwithR() {
-		JFileChooser fc = new JFileChooser();
-		File file;
-		int returnVal = fc.showSaveDialog(control.getMainFrame());
-		if (returnVal == JFileChooser.APPROVE_OPTION) {
-			file = fc.getSelectedFile();			
-		} else {
-			return;
-		}
-		String filename = file.getAbsolutePath();
-		nl.saveGraph(".exportGraphToLaTeX", false);
-		RControl.getR().eval("gMCPReport(.exportGraphToLaTeX, file=\""+filename+"\")");
 	}
 
 	public void startTesting() {	
@@ -288,6 +277,21 @@ public class GraphView extends JPanel implements ActionListener {
 		} catch (Exception ex) {
 			ErrorHandler.getInstance().makeErrDialog(ex.getMessage(), ex);
 		} 
+	}
+	
+	
+	public void WriteLaTeXwithR() {
+		JFileChooser fc = new JFileChooser();
+		File file;
+		int returnVal = fc.showSaveDialog(control.getMainFrame());
+		if (returnVal == JFileChooser.APPROVE_OPTION) {
+			file = fc.getSelectedFile();			
+		} else {
+			return;
+		}
+		String filename = file.getAbsolutePath();
+		nl.saveGraph(".exportGraphToLaTeX", false);
+		RControl.getR().eval("gMCPReport(.exportGraphToLaTeX, file=\""+filename+"\")");
 	}
 	
 }

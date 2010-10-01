@@ -4,8 +4,6 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.text.DecimalFormat;
 import java.util.List;
 import java.util.Vector;
@@ -14,68 +12,64 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import com.jgoodies.forms.layout.CellConstraints;
 import com.jgoodies.forms.layout.FormLayout;
 
-public class PView extends JPanel implements ActionListener {
+public class PView extends JPanel {
 
 	JLabel statusBar;
+	private static final Log logger = LogFactory.getLog(PView.class);
 
 	private AbstractGraphControl control;
 	private Vector<PPanel> panels = new Vector<PPanel>();
 	CellConstraints cc = new CellConstraints();	
-	JPanel panel = new JPanel();
+	//JPanel panel = new JPanel();
 	JLabel label = new JLabel("Total α: "+0);
+	GridBagConstraints c = new GridBagConstraints();
 	
 	public PView(AbstractGraphControl abstractGraphControl) {
 		//super("p-Values");
 		this.control = abstractGraphControl;        
 		setLayout(new GridBagLayout());
-		
-		GridBagConstraints c = new GridBagConstraints();		
+				
 		c.weightx=1; c.weighty=1; c.fill = GridBagConstraints.BOTH;
 		c.gridx=0; c.gridy=0; c.gridwidth = 1; c.gridheight = 1; c.ipadx=0; c.ipady=0;
-		add(new JScrollPane(panel), c);
+		
+		setUp();
     }
 	
 	public void addPPanel(Node node) {
 		panels.add(new PPanel(node, this));
+		logger.debug("Added panel for node "+node.getName());
 		setUp();
 	}
 	
 	List<Double> pValues = null;
 	
 	public void savePValues() {
+		String debug = "Saving : ";
 		pValues = new Vector<Double>();
 		for (PPanel panel : panels) {
 			pValues.add(panel.getP());
+			debug += format.format(panel.getP())+"; ";
 		}
+		logger.debug(debug);
 	}
 	
 	public void restorePValues() {
+		String debug = "Restoring : ";
 		for (int i=0; i<pValues.size(); i++) {
 			panels.get(i).setP(pValues.get(i));
+			debug += format.format(pValues.get(i))+"; ";
 		}
+		logger.debug(debug);
 	}
 	
 	public void setUp() {
-		getHeaderPanel();
-		int row = 4;
-		for (PPanel p : panels) {
-			int col=2;
-			for (Component c : p.getComponent()) {
-				panel.add(c, cc.xy(col, row));	
-				col += 2;
-			}
-			row += 2;
-		}
-		panel.add(label,cc.xyw(2, row, 7));
-		panel.revalidate();
-		//setComponent(new JScrollPane(panel));
-	}
-
-	private void getHeaderPanel() {
-		panel.removeAll();
+		JPanel panel = new JPanel();
 		
 		String cols = "5dlu, fill:pref:grow, 5dlu, fill:pref:grow, 5dlu, fill:pref:grow, 5dlu, fill:pref:grow, 5dlu";
         String rows = "5dlu, pref, 5dlu, pref, 5dlu";
@@ -91,13 +85,22 @@ public class PView extends JPanel implements ActionListener {
     	panel.add(new JLabel("Significance Level"), cc.xy(4, 2));
 
     	panel.add(new JLabel("P-Value"), cc.xy(6, 2));
+				
+		int row = 4;
+		for (PPanel p : panels) {
+			int col=2;
+			for (Component c : p.getComponent()) {
+				panel.add(c, cc.xy(col, row));	
+				col += 2;
+			}
+			row += 2;
+		}
+		panel.add(label,cc.xyw(2, row, 7));
+		panel.revalidate();
+		removeAll();
+		add(new JScrollPane(panel), c);
 	}
 
-	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
-	
 	DecimalFormat format = new DecimalFormat("#.####");
 	
 	public void updateLabels() {
@@ -133,11 +136,12 @@ public class PView extends JPanel implements ActionListener {
 	public void removePPanel(Node node) {
 		for (int i=panels.size()-1;i>=0;i--) {
 			if (panels.get(i).node==node) {
-				panel.remove(panels.get(i).label);
+		/*		panel.remove(panels.get(i).label);
 				panel.remove(panels.get(i).jb);
 				panel.remove(panels.get(i).pTF);
-				panel.remove(panels.get(i).wTF);
+				panel.remove(panels.get(i).wTF); */
 				panels.remove(i);
+				logger.debug("Removed panel for node "+node.getName());
 			}
 		}
 		setUp();		
