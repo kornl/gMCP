@@ -14,6 +14,7 @@ This causes trouble
 (Saving to R returns an error: Ungültiges Objekt der Klasse "graphMCP": FALSE)
 - Default edges should be epsilon edges
 - Update graph2latex to the much better algorithm already implemented in Java.
+- PPanels will set alpha to the truncated number.
 
 Additional features / low priority:
 

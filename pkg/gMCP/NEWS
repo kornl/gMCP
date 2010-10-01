@@ -1,7 +1,9 @@
 Version 0.3-1
 =============
-- Improved capabilities for bug reporting. All information that is send is also shown.
-
+- Improved capabilities for bug reporting. All information that is sent is also shown.
+- Workaround for a problem with the graph package when a node has no out-going edges.
+- After a reset it is now possible to change the p-values.
+- A newly created edge is now by default an epsilon edge.
 
 Version 0.3-0
 =============
