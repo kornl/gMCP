@@ -43,7 +43,7 @@ public class RControl {
 					System.getProperty("eclipse") == null && !debug,
 					System.getProperty("eclipse") != null || debug,
 					new ApplicationLog());
-			ErrorHandler.init("rohmeyer@small-projects.de", "http://www.algorithm-forge.com/report/bugreport.php", true, true, ErrorDialog.class);
+			ErrorHandler.init("rohmeyer@small-projects.de", "http://www.algorithm-forge.com/report/bugreport.php", true, true, ErrorDialogSGTK.class);
 
 		}
 		Rengine rengine = Rengine.getMainEngine();
