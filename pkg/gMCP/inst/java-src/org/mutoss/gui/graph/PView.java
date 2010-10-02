@@ -23,14 +23,14 @@ public class PView extends JPanel {
 	JLabel statusBar;
 	private static final Log logger = LogFactory.getLog(PView.class);
 
-	private AbstractGraphControl control;
+	private ControlMGraph control;
 	private Vector<PPanel> panels = new Vector<PPanel>();
 	CellConstraints cc = new CellConstraints();	
 	//JPanel panel = new JPanel();
 	JLabel label = new JLabel("Total α: "+0);
 	GridBagConstraints c = new GridBagConstraints();
 	
-	public PView(AbstractGraphControl abstractGraphControl) {
+	public PView(ControlMGraph abstractGraphControl) {
 		//super("p-Values");
 		this.control = abstractGraphControl;        
 		setLayout(new GridBagLayout());
@@ -61,9 +61,11 @@ public class PView extends JPanel {
 	
 	public void restorePValues() {
 		String debug = "Restoring : ";
-		for (int i=0; i<pValues.size(); i++) {
-			panels.get(i).setP(pValues.get(i));
-			debug += format.format(pValues.get(i))+"; ";
+		if (pValues != null) {
+			for (int i=0; i<pValues.size(); i++) {
+				panels.get(i).setP(pValues.get(i));
+				debug += format.format(pValues.get(i))+"; ";
+			}
 		}
 		logger.debug(debug);
 	}

@@ -10,8 +10,9 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JSplitPane;
 
+import org.af.commons.Localizer;
 import org.mutoss.config.Configuration;
-import org.mutoss.gui.graph.AbstractGraphControl;
+import org.mutoss.gui.graph.ControlMGraph;
 import org.mutoss.gui.graph.GraphMCP;
 import org.mutoss.gui.graph.GraphView;
 import org.mutoss.gui.graph.PView;
@@ -22,11 +23,12 @@ public class CreateGraphGUI extends JFrame implements WindowListener {
 	GraphMCP graph;
 	
 	public CreateGraphGUI(String graph, boolean debug, double grid) {
-		super("Creating and modifying graphs");		
+		super("Creating and modifying graphs");	
 		RControl.getRControl(debug);
+		Localizer.getInstance().addResourceBundle("org.mutoss.gui.ResourceBundle");
 		Configuration.getInstance().getGeneralConfig().setGridSize((int)grid);
 		setIconImage((new ImageIcon(getClass().getResource("/org/mutoss/gui/graph/images/rjavaicon64.png"))).getImage());
-		agc = new AbstractGraphControl(graph, this);
+		agc = new ControlMGraph(graph, this);
 		// Fenster in der Mitte des Bildschirms platzieren mit inset = 50 Pixeln Rand.
 		int inset = 50;
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
@@ -35,8 +37,9 @@ public class CreateGraphGUI extends JFrame implements WindowListener {
 				screenSize.height - inset*2);
 		addWindowListener(this);
 		
+		setJMenuBar(new MenuBarMGraph(agc));
 		makeContent();
-		this.graph = new GraphMCP(graph, gv.getVS());
+		this.graph = new GraphMCP(graph, graphview.getVS());
 		
 		setVisible(true);
 	}
@@ -46,14 +49,14 @@ public class CreateGraphGUI extends JFrame implements WindowListener {
 	}
 	
 	JLabel statusbar = new JLabel(); 
-	GraphView gv;
-	AbstractGraphControl agc;
+	GraphView graphview;
+	ControlMGraph agc;
 	PView pview;
 	
 	private void makeContent() {
-		gv = new GraphView(agc);
+		graphview = new GraphView(agc);
 		pview = new PView(agc);
-		JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, gv, pview);
+		JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, graphview, pview);
 		this.getContentPane().add(splitPane);		
 	}
 
@@ -71,5 +74,9 @@ public class CreateGraphGUI extends JFrame implements WindowListener {
 
 	public PView getPView() {		
 		return pview;
+	}
+
+	public GraphView getGraphView() {		
+		return graphview;
 	}
 }

@@ -29,10 +29,10 @@ public class GraphView extends JPanel implements ActionListener {
 	public NetzListe nl;
 	VS vs = new VS();
 
-	private AbstractGraphControl control;
+	private ControlMGraph control;
 	public static final String STATUSBAR_DEFAULT = "Place new nodes and edges or start the test procedure";
 
-	public GraphView(AbstractGraphControl abstractGraphControl) {
+	public GraphView(ControlMGraph abstractGraphControl) {
 		//super("Graph");
 		this.control = abstractGraphControl;
 		statusBar = new JLabel(STATUSBAR_DEFAULT);

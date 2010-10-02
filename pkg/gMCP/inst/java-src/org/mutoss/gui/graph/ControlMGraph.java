@@ -6,20 +6,20 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.mutoss.gui.CreateGraphGUI;
 
-public class AbstractGraphControl  {
+public class ControlMGraph  {
 	
-	private static final Log logger = LogFactory.getLog(AbstractGraphControl.class);
+	private static final Log logger = LogFactory.getLog(ControlMGraph.class);
 	
 	String name;
 	CreateGraphGUI parent;
 	
-	public AbstractGraphControl(String name, CreateGraphGUI parent) {
+	public ControlMGraph(String name, CreateGraphGUI parent) {
 		this.name = name;
 		this.parent = parent;
 	}
 	
 	public NetzListe getNL() {
-		return null;
+		return getGraphView().getNL();
 	}
 	
 	public String getName() {		
@@ -32,6 +32,10 @@ public class AbstractGraphControl  {
 
 	public PView getPView() {		
 		return parent.getPView();
+	}
+	
+	public GraphView getGraphView() {
+		return parent.getGraphView();
 	}
 
 }
