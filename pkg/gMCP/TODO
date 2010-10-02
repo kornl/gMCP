@@ -20,7 +20,6 @@ This causes trouble
 
 Additional features / low priority:
 
-- Add MenuBar
 - Cleanup Config
 - Why is the tilde in for example "F.˜Bretz" still shown in the pdf?
 - Check to which RJava version we are compatible.
