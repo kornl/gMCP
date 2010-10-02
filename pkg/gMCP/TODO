@@ -17,6 +17,11 @@ This causes trouble
 - PPanels will set alpha to the truncated number.
 - Don't create global variable like .tmpGraph etc.
 - PNG export cuts perhaps edges.
+- simConfint says: "A matrix (or vector) with columns giving lower and upper confidence limits for each parameter.
+These will be labeled as (1-level)/2 and 1 - (1-level)/2 in % (by default 2.5% and 97.5%)."
+Yes somehow that is correct - but somehow strange for ]-Inf,Inf[, don't you think?
+What about simply "lower bound" and "upper bound"?
+
 
 Additional features / low priority:
 
@@ -28,6 +33,13 @@ See also http://comments.gmane.org/gmane.comp.lang.r.general/200179
 - Edge labels should be fixed and placed by user or free and adjust to moving nodes
 - CITATION file? 
 - Can we add a RUnit Test for Java imports Random Graph and then exports the same graph?
+- Icon for saving graphs? (And do we need this button?
+
+@Apple - is this a problem?
+
+r-patched-macosx-ix86:
+checking R code for possible problems ... NOTE
+2010-10-02 03:00:01.838 R[97724:613] Apple AWT Java VM was loaded on first thread -- can't start AWT. 
 
 @graph-package:
 
