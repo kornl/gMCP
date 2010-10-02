@@ -15,6 +15,9 @@ import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 
 import org.af.commons.Localizer;
+import org.af.commons.errorhandling.ErrorHandler;
+import org.af.commons.logging.LoggingSystem;
+import org.af.commons.logging.widgets.DetailsDialog;
 import org.mutoss.gui.graph.ControlMGraph;
 import org.mutoss.gui.graph.NetzListe;
 
@@ -49,10 +52,10 @@ public class MenuBarMGraph extends JMenuBar implements ActionListener {
 		menu.add(makeMenuItem("Bonferroni-Holm Test (3 Null Hypotheses)", "bht3"));
 		menu.add(makeMenuItem("Bonferroni-Holm Test (4 Null Hypotheses)", "bht4"));
 		menu.add(makeMenuItem("Bonferroni-Holm Test (5 Null Hypotheses)", "bht5"));
-		menu.add(makeMenuItem("Bonferroni-Holm Test (6 Null Hypotheses)", "bht6"));
 		menu.addSeparator();
 		menu.add(makeMenuItem("Parallel Gatekeeping with 4 Hypotheses", "pg"));
 		menu.add(makeMenuItem("Improved Parallel Gatekeeping with 4 Hypotheses", "pgi"));
+		menu.add(makeMenuItem("Example graph from Bretz et al.", "bretzEtAl"));
 
 		add(menu);
 
@@ -60,26 +63,10 @@ public class MenuBarMGraph extends JMenuBar implements ActionListener {
         //addHelpMenu(true);
 	}
 	
-	public void addBHT(int n) {
-		NetzListe nl = control.getNL();
-    	newGraph();
-    	RControl.getR().eval(NetzListe.initialGraph + " <- createBonferroniHolmGraph("+n+")");
-    	nl.loadGraph();
-		control.getMainFrame().validate();
-	}
-	
-	private void pg() {
+	private void loadGraph(String string) {
 		NetzListe nl = control.getNL();		
 		newGraph();
-		RControl.getR().eval(NetzListe.initialGraph + " <- createGraphForParallelGatekeeping()");
-		nl.loadGraph();
-		control.getMainFrame().validate();
-	}
-	
-	private void pgi() {
-		NetzListe nl = control.getNL();		
-		newGraph();
-		RControl.getR().eval(NetzListe.initialGraph + " <- createGraphForImprovedParallelGatekeeping()");
+		RControl.getR().eval(NetzListe.initialGraph + " <- " + string);
 		nl.loadGraph();
 		control.getMainFrame().validate();
 	}
@@ -88,6 +75,18 @@ public class MenuBarMGraph extends JMenuBar implements ActionListener {
 		control.getGraphView().stopTesting();
 		control.getNL().reset();		
 	}
+	
+    public void showAbout() {
+        new AboutDialog(control.getMainFrame());
+    }
+
+    public void showLog() {
+        new DetailsDialog(LoggingSystem.getInstance().makeDetailsPanel());
+    }
+    
+    public void reportError() {    	
+        ErrorHandler.getInstance().makeErrDialog(localizer.getString("SGTK_MENU_EXTRAS_REPORT_ERROR"));
+    }
 
 	public void actionPerformed(ActionEvent e) {
 
@@ -106,23 +105,26 @@ public class MenuBarMGraph extends JMenuBar implements ActionListener {
         } else if (e.getActionCommand().equals("load graph")) {       	
         	//loadGraph();
         } else if (e.getActionCommand().equals("bht2")) {       	
-        	addBHT(2);
+        	loadGraph("createBonferroniHolmGraph("+2+")");
         } else if (e.getActionCommand().equals("bht3")) {       	
-        	addBHT(3);
+        	loadGraph("createBonferroniHolmGraph("+3+")");
         } else if (e.getActionCommand().equals("bht4")) {       	
-        	addBHT(4);
+        	loadGraph("createBonferroniHolmGraph("+4+")");
         } else if (e.getActionCommand().equals("bht5")) {       	
-        	addBHT(5);
-        } else if (e.getActionCommand().equals("bht6")) {       	
-        	addBHT(6);
+        	loadGraph("createBonferroniHolmGraph("+5+")");
         } else if (e.getActionCommand().equals("pg")) {       	
-        	pg();
-        	control.getMainFrame().validate();
+        	loadGraph("createGraphForParallelGatekeeping()");
         } else if (e.getActionCommand().equals("pgi")) {       	
-        	pgi();
-        	control.getMainFrame().validate();
-        }
-        
+        	loadGraph("createGraphForImprovedParallelGatekeeping()");
+        } else if (e.getActionCommand().equals("bretzEtAl")) {       	
+        	loadGraph("createGraphFromBretzEtAl()");
+        } else if (e.getActionCommand().equals("showLog")) {       	
+        	showLog();
+        } else if (e.getActionCommand().equals("reportError")) {       	
+        	 reportError();
+        } else if (e.getActionCommand().equals("exit")) {       	
+        	 control.getMainFrame().dispose();
+        }         
 	}
 
 	/*
