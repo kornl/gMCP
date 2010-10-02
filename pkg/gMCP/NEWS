@@ -3,7 +3,7 @@ Version 0.3-2
 
 Version 0.3-1
 =============
-- The GUI now has a menu bar.
+- The GUI has a menu bar.
 - Improved capabilities for bug reporting. All information that is sent is also shown.
 - Workaround for a problem with the graph package when a node has no out-going edges.
 - Numbers are now accepted with "." and "," as decimal points
