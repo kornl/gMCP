@@ -1,9 +1,13 @@
 Version 0.3-1
 =============
+- The GUI now has a menu bar.
 - Improved capabilities for bug reporting. All information that is sent is also shown.
 - Workaround for a problem with the graph package when a node has no out-going edges.
-- After a reset it is now possible to change the p-values.
+- Numbers are now accepted with "." and "," as decimal points
 - A newly created edge is now by default an epsilon edge.
+- Edges from one node to itself (loops) are not allowed any more.
+- Start button is only enabled, if the graph has any nodes.
+- Bug-fix regarding epsilon edges.
 
 Version 0.3-0
 =============

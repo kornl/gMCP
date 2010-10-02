@@ -1,5 +1,7 @@
 High priority:
 
+Medium priority:
+
 - We have the same Generics as Rgraphviz:
 library(Rgraphviz)
 getX(new("xyPoint", x=150, y=30))
@@ -7,16 +9,14 @@ This causes trouble
 - matrix2graph function
 - Check on Windows whether "\" work in ActionExportToLatex or have to be modified.
 - Look at print method for gMCPResult
-- Can we add a RUnit Test for Java imports Random Graph and then exports the same graph?
 - Warn user when sum of edge weights is bigger than 1
 - Which error does the user get, if the sum of alpha is bigger than 1 in the GUI and the console?
 - What happens if I try to create nodes with the same name? Is Node.nr used for something?
 (Saving to R returns an error: Ungültiges Objekt der Klasse "graphMCP": FALSE)
 - Update graph2latex to the much better algorithm already implemented in Java.
 - PPanels will set alpha to the truncated number.
-- It is possible to create loops that will cause problems.
-- Alpha is not passed along epsilon edges.
-- Start button should not be enabled, if no node exists.
+- Don't create global variable like .tmpGraph etc.
+- PNG export cuts perhaps edges.
 
 Additional features / low priority:
 
@@ -28,6 +28,7 @@ Additional features / low priority:
 See also http://comments.gmane.org/gmane.comp.lang.r.general/200179
 - Edge labels should be fixed and placed by user or free and adjust to moving nodes
 - CITATION file? 
+- Can we add a RUnit Test for Java imports Random Graph and then exports the same graph?
 
 @graph-package:
 
