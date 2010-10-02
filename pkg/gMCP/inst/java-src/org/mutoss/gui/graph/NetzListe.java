@@ -140,24 +140,8 @@ public class NetzListe extends JPanel implements MouseMotionListener, MouseListe
 		edges.lastElement().curve = curve;
 	}
 
-	/**
-	 * Fügt Knoten hinzu und ruft calculateSize auf.
-	 * 
-	 * @param id
-	 *            id des Knotens
-	 * @param name
-	 *            Name / Beschreibung des Knotens
-	 */
-
-	public void addNode(int id, String name,
-			int x, int y, boolean fixed) {
-		knoten.add(new Node(id, name, x, y, vs));
-		control.getPView().addPPanel(knoten.lastElement());
-		knoten.lastElement().fix = fixed;		
-		calculateSize();
-	}
-	
 	public void addNode(Node node) {
+		control.getGraphView().buttonStart.setEnabled(true);
 		knoten.add(node);
 		knoten.lastElement().fix = false;	
 		control.getPView().addPPanel(node);
@@ -338,8 +322,9 @@ public class NetzListe extends JPanel implements MouseMotionListener, MouseListe
 				statusBar.setText("Select a second node to which the edge should lead.");
 			} else {
 				Node secondVertex = vertexSelected(e.getX(), e.getY());
-				if (secondVertex == null)
+				if (secondVertex == null || secondVertex == firstVertex) {
 					return;
+				}
 				addEdge(firstVertex, secondVertex);
 				vs.newEdge = false;
 				firstVertexSelected = false;
@@ -463,6 +448,9 @@ public class NetzListe extends JPanel implements MouseMotionListener, MouseListe
 		}
 		knoten.remove(node);
 		control.getPView().removePPanel(node);
+		if (knoten.size()==0) {
+			control.getGraphView().buttonStart.setEnabled(false);
+		}
 		repaint();
 	}
 

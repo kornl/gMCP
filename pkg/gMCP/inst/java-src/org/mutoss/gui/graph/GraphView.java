@@ -141,6 +141,7 @@ public class GraphView extends JPanel implements ActionListener {
 											.getResource("/org/mutoss/gui/graph/images/StartTesting.png"))));
 			toolPanel.add(buttonStart);
 			buttonStart.addActionListener(this);
+			buttonStart.setEnabled(false);
 			buttonStart.setToolTipText("start testing");
 			
 			buttonSave = new JButton(

@@ -89,7 +89,6 @@ public class MenuBarMGraph extends JMenuBar implements ActionListener {
     }
 
 	public void actionPerformed(ActionEvent e) {
-
         if (e.getActionCommand().equals("new graph")) {
         	newGraph();			
         } else if (e.getActionCommand().equals("save graph")) {       	
