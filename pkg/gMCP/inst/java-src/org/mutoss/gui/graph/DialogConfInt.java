@@ -24,10 +24,7 @@ import javax.swing.event.DocumentListener;
 
 import org.af.commons.widgets.validate.RealTextField;
 import org.af.commons.widgets.validate.ValidationException;
-import org.apache.commons.math.MathException;
-import org.apache.commons.math.distribution.ContinuousDistribution;
-import org.apache.commons.math.distribution.NormalDistributionImpl;
-import org.apache.commons.math.distribution.TDistributionImpl;
+import org.mutoss.gui.RControl;
 
 public class DialogConfInt extends JDialog implements ActionListener, ChangeListener, DocumentListener {
 	
@@ -116,27 +113,28 @@ public class DialogConfInt extends JDialog implements ActionListener, ChangeList
 		return panel;
 	}
 
-	private void calculateCI() {
-		try {
+	private void calculateCI() {	
+
 			for (int i=0; i<nl.getKnoten().size(); i++) {
 				Node node = nl.getKnoten().get(i);
 				Double lb, ub;
-
-				ContinuousDistribution distribution = new NormalDistributionImpl(0.0,1.0); 
+				String d1 = "qnorm(";
+				String d2 = ",)";			
 
 				if (dist.get(i).getSelectedItem().equals(dists[1])) {
-					distribution = new TDistributionImpl(Integer.parseInt(df.get(i).getValue().toString()));
+					d1 = "qt(";
+					d2 = ","+Integer.parseInt(df.get(i).getValue().toString())+")";
 				}
 
 				if (alt.get(i).getSelectedItem().equals("greater")) {	
-					lb = distribution.inverseCumulativeProbability(node.getAlpha());				
+					lb = RControl.getR().eval(d1+node.getAlpha()+d2).asRNumeric().getData()[0];				
 					ub = Double.POSITIVE_INFINITY;
 				} else if (alt.get(i).getSelectedItem().equals("less")) {
 					lb = Double.NEGATIVE_INFINITY;
-					ub = distribution.inverseCumulativeProbability(1-node.getAlpha());				
+					ub = RControl.getR().eval(d1+(1-node.getAlpha())+d2).asRNumeric().getData()[0];				
 				} else {
-					lb = distribution.inverseCumulativeProbability(node.getAlpha()/2);
-					ub = distribution.inverseCumulativeProbability(1-node.getAlpha()/2);
+					lb = RControl.getR().eval(d1+node.getAlpha()/2+d2).asRNumeric().getData()[0];
+					ub = RControl.getR().eval(d1+(1-node.getAlpha()/2)+d2).asRNumeric().getData()[0];
 				}
 
 				try {
@@ -146,9 +144,6 @@ public class DialogConfInt extends JDialog implements ActionListener, ChangeList
 					ci.get(i).setText("Please specify a real number for the estimate!");
 				}
 			}
-		} catch (MathException e) {
-			throw new RuntimeException("Something fundamentally went wrong with the used Math library. Please report!");
-		}
 	}
 
 	DecimalFormat format = new DecimalFormat("#.###");
