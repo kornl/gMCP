@@ -21,6 +21,7 @@ These will be labeled as (1-level)/2 and 1 - (1-level)/2 in % (by default 2.5% a
 Yes somehow that is correct - but somehow strange for ]-Inf,Inf[, don't you think?
 What about simply "lower bound" and "upper bound"?
 - More details in manual pages.
+- Delay of placement of the first nodes?
 
 Additional features / low priority:
 
@@ -34,6 +35,7 @@ See also http://comments.gmane.org/gmane.comp.lang.r.general/200179
 - CITATION file? 
 - Can we add a RUnit Test for Java imports Random Graph and then exports the same graph?
 - Icon for saving graphs? (And do we need this button?
+- TikZ styles for rejected / rejectable nodes
 
 @Apple - is this a problem?
 

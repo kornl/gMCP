@@ -17,10 +17,15 @@ License: \tab GPL (>= 2)\cr
 LazyLoad: \tab yes\cr
 }
 
-1. Creating a object of \code{\link{graphMCP}} which is a subclass of \code{\link[graph:graphNEL-class]{graphNEL}} from package \code{graph} that contains some additional information.
+The package gMCP helps with the following steps of performing a sequentially rejective multiple test procedure:
+
+1. Creating a object of \code{\link{graphMCP}} (which is a subclass of \code{\link[graph:graphNEL-class]{graphNEL}} from package \code{graph} that contains some additional information)
+that represents a sequentially rejective multiple test procedure.
 This can be done directly via the \code{\link{new}} method or a graphical user interface by calling \code{\link{graphGUI}}.
 
-2. Calling \code{\link{gMCP}} or \code{\link{graphGUI}}. This can create also LaTeX or PDF reports.
+2. Calling \code{\link{gMCP}} or \code{\link{graphGUI}}.
+
+3. Exporting the results (optional with all sequential steps) as LaTeX or PDF report.
 
 }
 \author{
