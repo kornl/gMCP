@@ -25,6 +25,7 @@ What about simply "lower bound" and "upper bound"?
 - Do we really need all these jars?
 * iText - yes, if we want to keep PDF export
 * commons-collections? - most likely everywhere...
+- Unit test for adjusted p-values is simple - just test to the declared level.
 
 Additional features / low priority:
 
