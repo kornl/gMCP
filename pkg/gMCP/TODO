@@ -24,7 +24,6 @@ What about simply "lower bound" and "upper bound"?
 - Delay of placement of the first nodes?
 - Do we really need all these jars?
 * iText - yes, if we want to keep PDF export
-* commons-math - use R instead!
 * commons-collections? - most likely everywhere...
 
 Additional features / low priority:
