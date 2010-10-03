@@ -22,6 +22,10 @@ Yes somehow that is correct - but somehow strange for ]-Inf,Inf[, don't you thin
 What about simply "lower bound" and "upper bound"?
 - More details in manual pages.
 - Delay of placement of the first nodes?
+- Do we really need all these jars?
+* iText - yes, if we want to keep PDF export
+* commons-math - use R instead!
+* commons-collections? - most likely everywhere...
 
 Additional features / low priority:
 
