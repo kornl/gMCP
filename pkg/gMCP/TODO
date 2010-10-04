@@ -22,13 +22,11 @@ Yes somehow that is correct - but somehow strange for ]-Inf,Inf[, don't you thin
 What about simply "lower bound" and "upper bound"?
 - More details in manual pages.
 - Delay of placement of the first nodes?
-- Do we really need all these jars?
-* iText - yes, if we want to keep PDF export
-* commons-collections? - most likely everywhere...
 - Unit test for adjusted p-values is simple - just test to the declared level.
 - Edit the bugreport.php in a way such that date & browser are shown and Subject is configurable.
 (there were two or three empty bugreports in the last few days...)
 - Show vignette(s) when help is selected in the GUI menu bar.
+- Speed-up -> Matrices & perhaps ?ReferenceClasses ?
 
 Additional features / low priority:
 
@@ -43,6 +41,8 @@ See also http://comments.gmane.org/gmane.comp.lang.r.general/200179
 - Can we add a RUnit Test for Java imports Random Graph and then exports the same graph?
 - Icon for saving graphs? (And do we need this button?
 - TikZ styles for rejected / rejectable nodes
+- browseURL("http://gsrmtp.r-forge.r-project.org/")
+- Do we really need all these jars? (all big jars where already investigated...)
 
 @Apple - is this a problem?
 
