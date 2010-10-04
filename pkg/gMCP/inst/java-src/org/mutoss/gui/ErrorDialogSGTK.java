@@ -125,7 +125,7 @@ public class ErrorDialogSGTK extends ErrorDialog {
 
     protected Hashtable<String, String> getInfoTable() {
     	Hashtable<String, String> table = super.getInfoTable();
-    	table.put("Application", "gMCP bug report");    	
+    	table.put("Subject", "gMCP bug report");
     	return table;
     }
   
