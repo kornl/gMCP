@@ -43,5 +43,16 @@ echo $contents; } ?>
 
 <p><img src="mgraph.png" width="777" height="544" border="0" alt=""></p>
 
+<h3>Feature list:</h3>
+<ul>
+  <li>Create graphs with drag'n'drop.</li>
+  <li>R representation based on the graph package.</li>
+  <li>All steps can either be done in the R console or in the GUI.</li>
+  <li>Support for epsilon edges.</li>
+  <li>LaTeX and PDF/PNG export of single graphs or full reports.</li>
+  <li>Adjusted p-values.</li>
+  <li>Confidence intervals.</li>
+</ul>
+
 </body>
 </html>
