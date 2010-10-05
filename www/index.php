@@ -41,7 +41,7 @@ echo $contents; } ?>
 
 <p> The <strong>project summary page</strong> you can find <a href="http://<?php echo $domain; ?>/projects/<?php echo $group_name; ?>/"><strong>here</strong></a>. </p>
 
-<p><img src="mgraph.png" width="777" height="544" border="0" alt=""></p>
+<p><img src="mgraph.png" border="0" alt=""></p>
 
 <h3>Feature list:</h3>
 <ul>
