@@ -8,7 +8,6 @@ import java.text.DecimalFormat;
 import java.util.List;
 import java.util.Vector;
 
-import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
@@ -23,28 +22,30 @@ import javax.swing.event.ChangeListener;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
+import org.af.commons.widgets.validate.RealTextField;
+import org.af.commons.widgets.validate.ValidationException;
 import org.mutoss.gui.RControl;
 
-public class DialogConfInt extends JDialog implements ActionListener, ChangeListener, DocumentListener {
+public class DialogConfIntEstVar extends JDialog implements ActionListener, ChangeListener, DocumentListener {
 	
-	ControlMGraph control;
 	List<JLabel> names = new Vector<JLabel>();
 	List<JLabel> alpha = new Vector<JLabel>();
 	List<JLabel> ci = new Vector<JLabel>();
 	List <JSpinner> df = new Vector<JSpinner>();
+	List <RealTextField> est = new Vector<RealTextField>();
+	List <RealTextField> var = new Vector<RealTextField>();
 	List <JComboBox> alt = new Vector<JComboBox>();
 	List <JComboBox> dist = new Vector<JComboBox>();
-	JButton jbAttach = new JButton("Attach to Report");
 	
 	String[] dists = { "normal-distributed", "t-distributed" };
-	String[] alternatives = { "less", "greater" };
+	String[] alternatives = { "two.sided", "less", "greater" };
+	
 	NetzListe nl;	
 	
-	public DialogConfInt(JFrame p, ControlMGraph control) {		
-		super(p, "Confidence intervals", true);
+	public DialogConfIntEstVar(JFrame p, NetzListe nl) {		
+		super(p, "Confidence intervals");
 		setLocationRelativeTo(p);
-		this.control = control;
-		this.nl = control.getNL();
+		this.nl = nl;
 				
 		GridBagConstraints c = new GridBagConstraints();
 		
@@ -70,10 +71,7 @@ public class DialogConfInt extends JDialog implements ActionListener, ChangeList
 		getContentPane().add(new JScrollPane(getCIPanel()), c);
 		
 		c.gridy++;
-		
-		c.fill = GridBagConstraints.NONE;
-		getContentPane().add(jbAttach, c);
-		jbAttach.addActionListener(this);
+		c.weighty=1;
 		
 		//getContentPane().add(new ConfIntPlot(this), c);
 		
@@ -94,8 +92,8 @@ public class DialogConfInt extends JDialog implements ActionListener, ChangeList
 		
 		panel.setLayout(new GridBagLayout());	
 		
-		for (int i=0; i<control.getNL().getKnoten().size(); i++) {
-			Node node = control.getNL().getKnoten().get(i);
+		for (int i=0; i<nl.getKnoten().size(); i++) {
+			Node node = nl.getKnoten().get(i);
 			c.gridx=0;
 			
 			JLabel hypothesis = new JLabel(node.getName()+":");			
@@ -116,31 +114,38 @@ public class DialogConfInt extends JDialog implements ActionListener, ChangeList
 		return panel;
 	}
 
-	private void calculateCI() {
-		for (int i=0; i<nl.getKnoten().size(); i++) {
-			Node node = nl.getKnoten().get(i);
-			Double lb, ub;
-			String d1 = "qnorm(";
-			String d2 = ",)";
-			Double ste = 1.0;
-			Double pEst;
+	private void calculateCI() {	
 
-			if (dist.get(i).getSelectedItem().equals(dists[1])) {
-				d1 = "qt(";
-				d2 = ","+Integer.parseInt(df.get(i).getValue().toString())+")";
+			for (int i=0; i<nl.getKnoten().size(); i++) {
+				Node node = nl.getKnoten().get(i);
+				Double lb, ub;
+				String d1 = "qnorm(";
+				String d2 = ",)";			
+
+				if (dist.get(i).getSelectedItem().equals(dists[1])) {
+					d1 = "qt(";
+					d2 = ","+Integer.parseInt(df.get(i).getValue().toString())+")";
+				}
+
+				if (alt.get(i).getSelectedItem().equals("greater")) {	
+					lb = RControl.getR().eval(d1+node.getAlpha()+d2).asRNumeric().getData()[0];				
+					ub = Double.POSITIVE_INFINITY;
+				} else if (alt.get(i).getSelectedItem().equals("less")) {
+					lb = Double.NEGATIVE_INFINITY;
+					ub = RControl.getR().eval(d1+(1-node.getAlpha())+d2).asRNumeric().getData()[0];				
+				} else {
+					lb = RControl.getR().eval(d1+node.getAlpha()/2+d2).asRNumeric().getData()[0];
+					ub = RControl.getR().eval(d1+(1-node.getAlpha()/2)+d2).asRNumeric().getData()[0];
+				}
+
+				try {
+					Double ste = var.get(i).getValidatedValue();
+					Double pEst = est.get(i).getValidatedValue();
+					ci.get(i).setText("]"+format.format(pEst+lb*ste)+","+format.format(pEst+ub*ste)+"[");
+				} catch (ValidationException e) {
+					ci.get(i).setText("Please specify a real number for the estimate!");
+				}
 			}
-
-			if (alt.get(i).getSelectedItem().equals("greater")) {	
-				lb = RControl.getR().eval(d1+node.getAlpha()+d2).asRNumeric().getData()[0];				
-				ub = Double.POSITIVE_INFINITY;
-				pEst = RControl.getR().eval(d1+(1-control.getPView().getPValue(node))+d2).asRNumeric().getData()[0];		
-			} else {
-				lb = Double.NEGATIVE_INFINITY;
-				ub = RControl.getR().eval(d1+(1-node.getAlpha())+d2).asRNumeric().getData()[0];
-				pEst = RControl.getR().eval(d1+control.getPView().getPValue(node)+d2).asRNumeric().getData()[0];
-			}				
-			ci.get(i).setText("]"+format.format(pEst+lb*ste)+","+format.format(pEst+ub*ste)+"[");
-		}
 	}
 
 	DecimalFormat format = new DecimalFormat("#.###");
@@ -159,7 +164,7 @@ public class DialogConfInt extends JDialog implements ActionListener, ChangeList
 		
 		panel.setLayout(new GridBagLayout());		
 		
-		for (Node node : control.getNL().getKnoten()) {
+		for (Node node : nl.getKnoten()) {
 			c.gridx=0;
 			
 			JLabel hypothesis = new JLabel(node.getName()+":");			
@@ -167,9 +172,31 @@ public class DialogConfInt extends JDialog implements ActionListener, ChangeList
 			panel.add(hypothesis, c);
 			c.gridx++;
 			
-			JLabel alpha = new JLabel("α="+format.format(node.getAlpha()).replace(",","."));
+			JLabel alpha = new JLabel("α="+format.format(node.getAlpha()));
 			this.alpha.add(alpha);
 			panel.add(alpha, c);
+			c.gridx++;
+			
+			panel.add(new JLabel("Estimate:"), c);
+			c.gridx++;
+			
+			RealTextField estimate = new RealTextField("Point estimate");
+			estimate.setColumns(8);
+			estimate.setText("0");
+			estimate.getDocument().addDocumentListener(this);
+			est.add(estimate);
+			panel.add(estimate, c);
+			c.gridx++;	
+						
+			panel.add(new JLabel("Standard error/deviation:"), c);
+			c.gridx++;
+			
+			RealTextField ste = new RealTextField("Standard error");
+			ste.setColumns(8);
+			ste.setText("1");
+			ste.getDocument().addDocumentListener(this);
+			var.add(ste);
+			panel.add(ste, c);
 			c.gridx++;
 			
 			JComboBox dist = new JComboBox(dists);
@@ -177,9 +204,6 @@ public class DialogConfInt extends JDialog implements ActionListener, ChangeList
 			this.dist.add(dist);			
 			panel.add(dist, c);			
 			c.gridx++;			
-
-			panel.add(new JLabel("Degree of freedom:"), c);
-			c.gridx++;
 			
 			SpinnerModel dfModel = new SpinnerNumberModel(9, 1, Integer.MAX_VALUE, 1);
 			JSpinner df = new JSpinner(dfModel);
@@ -196,7 +220,7 @@ public class DialogConfInt extends JDialog implements ActionListener, ChangeList
 			alt.addActionListener(this);
 			this.alt.add(alt);			
 			panel.add(alt, c);			
-			c.gridx++;
+			c.gridx++;			
 			
 			c.gridy++;
 		}
@@ -206,15 +230,11 @@ public class DialogConfInt extends JDialog implements ActionListener, ChangeList
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		if (e.getSource()==jbAttach) {			
-			//control.getNL().attachCI(calculateCI());
-			dispose();
-			return;
-		}
 		int i = dist.indexOf(e.getSource());
 		if (i != -1) {			 
 			df.get(i).setEnabled(dist.get(i).getSelectedItem().equals(dists[1]));				
 		}
+		
 		calculateCI();
 	}
 

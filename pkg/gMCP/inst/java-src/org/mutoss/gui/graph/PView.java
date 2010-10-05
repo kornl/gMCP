@@ -165,5 +165,14 @@ public class PView extends JPanel {
 		}
 		return s.substring(0, s.length()-2)+")";
 	}
+
+	public double getPValue(Node node) {
+		for (int i=panels.size()-1;i>=0;i--) {
+			if (panels.get(i).node==node) {
+				return panels.get(i).p;
+			}
+		}
+		throw new RuntimeException("Something happend that should never happen. Please report!");
+	}
 	
 }

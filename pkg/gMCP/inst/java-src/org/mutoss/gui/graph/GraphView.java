@@ -178,7 +178,7 @@ public class GraphView extends JPanel implements ActionListener {
 		} else if (e.getSource().equals(buttonSave) || e.getSource().equals(jtSaveName)) {			
 			getNL().saveGraph(jtSaveName.getText(), true);
 		} else if (e.getSource().equals(buttonConfInt)) {
-			new DialogConfInt(control.getMainFrame(), nl);
+			new DialogConfIntEstVar(control.getMainFrame(), nl);
 		} else if (e.getSource().equals(buttonStart)) {
 			if (!getNL().isTesting()) {
 				startTesting();
