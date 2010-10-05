@@ -63,8 +63,10 @@ public class PView extends JPanel {
 		String debug = "Restoring : ";
 		if (pValues != null) {
 			for (int i=0; i<pValues.size(); i++) {
-				panels.get(i).setP(pValues.get(i));
-				debug += format.format(pValues.get(i))+"; ";
+				if (i<panels.size()) {
+					panels.get(i).setP(pValues.get(i));
+					debug += format.format(pValues.get(i))+"; ";
+				}
 			}
 		}
 		logger.debug(debug);
