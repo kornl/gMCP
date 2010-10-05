@@ -33,6 +33,7 @@ public class DialogConfInt extends JDialog implements ActionListener, ChangeList
 	List<JLabel> ci = new Vector<JLabel>();
 	List <JSpinner> df = new Vector<JSpinner>();
 	List <RealTextField> est = new Vector<RealTextField>();
+	List <RealTextField> var = new Vector<RealTextField>();
 	List <JComboBox> alt = new Vector<JComboBox>();
 	List <JComboBox> dist = new Vector<JComboBox>();
 	
@@ -138,8 +139,9 @@ public class DialogConfInt extends JDialog implements ActionListener, ChangeList
 				}
 
 				try {
+					Double ste = var.get(i).getValidatedValue();
 					Double pEst = est.get(i).getValidatedValue();
-					ci.get(i).setText("]"+format.format(pEst+lb)+","+format.format(pEst+ub)+"[");
+					ci.get(i).setText("]"+format.format(pEst+lb*ste)+","+format.format(pEst+ub*ste)+"[");
 				} catch (ValidationException e) {
 					ci.get(i).setText("Please specify a real number for the estimate!");
 				}
@@ -185,6 +187,17 @@ public class DialogConfInt extends JDialog implements ActionListener, ChangeList
 			est.add(estimate);
 			panel.add(estimate, c);
 			c.gridx++;	
+						
+			panel.add(new JLabel("Standard error/deviation:"), c);
+			c.gridx++;
+			
+			RealTextField ste = new RealTextField("Standard error");
+			ste.setColumns(8);
+			ste.setText("1");
+			ste.getDocument().addDocumentListener(this);
+			var.add(ste);
+			panel.add(ste, c);
+			c.gridx++;
 			
 			JComboBox dist = new JComboBox(dists);
 			dist.addActionListener(this);
