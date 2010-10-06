@@ -291,7 +291,7 @@ ssd <- c("H1"=1.2, "H2"=0.8, "H3"=1.7)
 
 simConfint(createBonferroniHolmGraph(3),
 		pvalues  = c(0.02,0.055,0.012), 
-		confintF = function(node, alpha) {
+		confint = function(node, alpha) {
 			est[node]+c(-1,1)*qt(1-alpha/2,df=9)*ssd[node]/sqrt(10)
 		})
 

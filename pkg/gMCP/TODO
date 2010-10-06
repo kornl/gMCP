@@ -39,7 +39,7 @@ See also http://comments.gmane.org/gmane.comp.lang.r.general/200179
 - Edge labels should be fixed and placed by user or free and adjust to moving nodes
 - CITATION file? 
 - Can we add a RUnit Test for Java imports Random Graph and then exports the same graph?
-- Icon for saving graphs? (And do we need this button?
+- Icon for saving graphs? (And do we need this button?)
 - TikZ styles for rejected / rejectable nodes
 - browseURL("http://gsrmtp.r-forge.r-project.org/")
 - Do we really need all these jars? (all big jars where already investigated...)

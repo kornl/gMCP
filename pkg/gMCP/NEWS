@@ -1,7 +1,9 @@
 Version 0.3-2
 =============
-- Reduced the package size.
+- Renaming of parameter in simConfint: "confintF" is now "confint"
 - Updated confidence interval dialog.
+- Confidence intervals for t- and normal distribution can be calculated based on the p-values and point estimates.
+- Reduced the package size.  
 
 Version 0.3-1
 =============

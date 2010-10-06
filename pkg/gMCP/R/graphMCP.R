@@ -155,17 +155,46 @@ setMethod("plot", "graphMCP",
 			# TODO Show visualization of graph			
 		})
 
-setGeneric("simConfint", function(object, pvalues, confintF) standardGeneric("simConfint"))
+setGeneric("simConfint", function(object, pvalues, confint, alternative=c("less", "greater"), estimates, df) standardGeneric("simConfint"))
 
-setMethod("simConfint", c("graphMCP"), function(object, pvalues, confintF) {			
+setMethod("simConfint", c("graphMCP"), function(object, pvalues, confint, alternative=c("less", "greater"), estimates, df) {
 			result <- gMCP(object, pvalues)
 			if (all(getRejected(result))) {
-				m <- mapply(confintF, nodes(object), getAlpha(object)) 
+				alpha <- getAlpha(object)				
 			} else {
-				m <- mapply(confintF, nodes(object), getAlpha(result))				
+				alpha <- getAlpha(result)				
 			}
-			alpha <- sum(getAlpha(result))*100
-			rownames(m) <- paste(c(alpha/2,100-alpha/2),"%",sep="")# TODO These will be labelled as (1-level)/2 and 1 - (1-level)/2 in \% (by default 2.5\% and 97.5%)
-			return(t(m))
+			if (class(confint)=="function") {
+				m <- mapply(confint, nodes(object), alpha)					
+				rownames(m) <- c("lower bound", "upper bound")
+				return(t(m))
+			} else if (confint=="t") {
+				dist <- function(x) {qt(x, df)}
+			} else if (confint=="normal") {
+				dist <- qnorm
+			} else {
+				stop("Parameter confint has to be a function or \"t\" or \"normal\".")
+			}
+			var <- 1
+			if (alternative=="greater") {			
+				stderr <- estimates/dist(1-pvalues)
+				dput(estimates)
+				dput(alpha)
+				dput(stderr)
+				dput(dist(alpha))
+				lb <- estimates+dist(alpha)*stderr				
+				lb <- ifelse(getRejected(result), max(0,lb), lb) 
+				ub <- rep(Inf,length(lb))
+			} else if (alternative=="less") {			
+				stderr <- estimates/qt(pvalues)
+				lb <- rep(-Inf,length(lb))				 
+				ub <- estimates+dist(1-alpha)*stderr
+				ub <- ifelse(getRejected(result), min(0,ub), ub)
+			} else {
+				stop("Specify alternative as \"less\" or \"greater\".")
+			}
+			m <- matrix(c(lb, ub), ncol=2)
+			colnames(m) <- c("lower bound", "upper bound")
+			return(m)
 		})
 
