@@ -1,13 +1,17 @@
 High priority:
 
+- references, since some people will actually look at this package.
+- More details in manual pages.
+- confidence intervals are strange...
+
 Medium priority:
 
+- Implement support for something like 2\epsilon or \epsilon^2
 - We have the same Generics as Rgraphviz:
 library(Rgraphviz)
 getX(new("xyPoint", x=150, y=30))
 This causes trouble
 - Check on Windows whether "\" work in ActionExportToLatex or have to be modified.
-- Look at print method for gMCPResult
 - Warn user when sum of edge weights is bigger than 1
 - Which error does the user get, if the sum of alpha is bigger than 1 in the GUI and the console?
 - What happens if I try to create nodes with the same name? Is Node.nr used for something?
@@ -16,24 +20,16 @@ This causes trouble
 - PPanels will set alpha to the truncated number. (Can we handle fractions?)
 - Don't create global variable like .tmpGraph etc.
 - PNG export cuts perhaps edges.
-- simConfint says: "A matrix (or vector) with columns giving lower and upper confidence limits for each parameter.
-These will be labeled as (1-level)/2 and 1 - (1-level)/2 in % (by default 2.5% and 97.5%)."
-Yes somehow that is correct - but somehow strange for ]-Inf,Inf[, don't you think?
-What about simply "lower bound" and "upper bound"?
-- More details in manual pages.
 - Delay of placement of the first nodes?
 - Unit test for adjusted p-values is simple - just test to the declared level.
-- Edit the bugreport.php in a way such that date & browser are shown and Subject is configurable.
-(there were two or three empty bugreports in the last few days...)
-- Show vignette(s) when help is selected in the GUI menu bar.
 - Speed-up -> Matrices & perhaps ?ReferenceClasses ?
 
 Additional features / low priority:
 
 - matrix2graph and graph2matrix function
+- Look at print method for gMCPResult
 - Cleanup Config
 - Why is the tilde in for example "F.˜Bretz" still shown in the pdf?
-- Check to which RJava version we are compatible.
 - Package highlight is cool - but how can I tell r-forge or CRAN to use it?
 See also http://comments.gmane.org/gmane.comp.lang.r.general/200179
 - Edge labels should be fixed and placed by user or free and adjust to moving nodes

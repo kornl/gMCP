@@ -1,9 +1,12 @@
 Version 0.3-2
 =============
 - Renaming of parameter in simConfint: "confintF" is now "confint"
-- Updated confidence interval dialog.
-- Confidence intervals for t- and normal distribution can be calculated based on the p-values and point estimates.
-- Reduced the package size.  
+- Updated confidence interval dialog (but still in development).
+- Confidence intervals for t- and normal distribution can be calculated based on the p-values and point estimates in most cases.
+- Reduced the package size.
+- Further improved capabilities for bug reporting.
+- We need rJava (≥ 0.8-3).
+- Vignette can be shown from inside the GUI.
 
 Version 0.3-1
 =============
