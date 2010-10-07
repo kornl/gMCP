@@ -5,6 +5,9 @@ import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileWriter;
+import java.io.IOException;
+import java.lang.reflect.Method;
+import java.net.URI;
 import java.text.DecimalFormat;
 
 import javax.imageio.ImageIO;
@@ -18,6 +21,9 @@ import org.af.commons.Localizer;
 import org.af.commons.errorhandling.ErrorHandler;
 import org.af.commons.logging.LoggingSystem;
 import org.af.commons.logging.widgets.DetailsDialog;
+import org.af.commons.tools.OSTools;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.mutoss.gui.graph.ControlMGraph;
 import org.mutoss.gui.graph.NetzListe;
 
@@ -25,6 +31,7 @@ public class MenuBarMGraph extends JMenuBar implements ActionListener {
 	
 	ControlMGraph control;
     protected Localizer localizer = Localizer.getInstance();
+    private static final Log logger = LogFactory.getLog(MenuBarMGraph.class);
     //protected HelpSystem helpSystem;
 
 	public MenuBarMGraph(ControlMGraph control) {
@@ -60,7 +67,7 @@ public class MenuBarMGraph extends JMenuBar implements ActionListener {
 		add(menu);
 
         addExtrasMenu();
-        //addHelpMenu(true);
+        addHelpMenu(true);
 	}
 	
 	private void loadGraph(String string) {
@@ -123,7 +130,38 @@ public class MenuBarMGraph extends JMenuBar implements ActionListener {
         	 reportError();
         } else if (e.getActionCommand().equals("exit")) {       	
         	 control.getMainFrame().dispose();
-        }         
+        } else if (e.getActionCommand().equals("showAppHelp")) {
+       	 	File f = new File(RControl.getR().eval("system.file(\"doc/gsrmtpGUI.pdf\", package=\"gMCP\")").asRChar().getData()[0]);
+       	 	if (!f.exists()) {
+       	 		throw new RuntimeException("This is strange. The gMCP vignette could not be found.");
+       	 	} else {
+        		try {	
+        			Method main = Class.forName("java.awt.Desktop").getDeclaredMethod("getDesktop");
+        			Object obj = main.invoke(new Object[0]);
+        			Method second = obj.getClass().getDeclaredMethod("open", new Class[] { File.class }); 
+        			second.invoke(obj, f);
+        		} catch (Exception exc) {			
+        			logger.warn("No Desktop class in Java 5 or URI error.");
+        			try {
+        			 if (OSTools.isWindows()) {
+        		        Process p;							
+								p = Runtime.getRuntime().exec("rundll32 " +
+								        "url.dll,FileProtocolHandler " + f.getAbsolutePath());
+						    p.waitFor();
+        			 } else {
+        				 JOptionPane.showMessageDialog(control.getMainFrame(), "Please open and read the following file:\n"+f.getAbsolutePath(), "Could not find PDF viewer", JOptionPane.WARNING_MESSAGE);
+        			 }
+        			} catch (Exception e1) {
+						logger.error(e1.getMessage());
+						e1.printStackTrace();
+						JOptionPane.showMessageDialog(control.getMainFrame(), "Please open and read the following file:\n"+f.getAbsolutePath(), "Could not find PDF viewer", JOptionPane.WARNING_MESSAGE);
+					}
+			    
+        		}
+       	 	}
+        } else if (e.getActionCommand().equals("showAbout")) {
+        	new AboutDialog(control.getMainFrame());
+        }
 	}
 
 	/*
@@ -289,18 +327,17 @@ public class MenuBarMGraph extends JMenuBar implements ActionListener {
     	return menu;
     }
 
-    /*
+    
     public void addHelpMenu(boolean helpAvailable) {
     	add(makeHelpMenu(helpAvailable));
     }
     
     private JMenu makeHelpMenu(boolean helpAvailable) {
-    	 this.helpSystem = getControl().getHelpSystem();
     	 JMenu menu = new JMenu(localizer.getString("SGTK_MENU_HELP"));
          menu.add(makeMenuItem(localizer.getString("SGTK_MENU_HELP_ABOUT"), "showAbout"));         
          if (helpAvailable) menu.add(makeMenuItem(localizer.getString("SGTK_MENU_HELP_JAVA_HELP"), "showAppHelp"));
          return menu;
 	}
-	*/
+	
 
 }

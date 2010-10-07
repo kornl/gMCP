@@ -53,8 +53,8 @@ public class AboutDialog extends JDialog implements ActionListener {
 			doc.insertString(doc.getLength(),					
 					"gMCP-GUI"+"\n\n", getH1());			
 			doc.insertString(doc.getLength(),
-					"is distributed under GPL>=2.0"+"\n\n", getT());			
-			doc.insertString(doc.getLength(), "This program uses the libraries log4j, iText, swingworker, and JGoodies Forms.\n", getT());
+					"by Kornelius Rohmeyer is distributed under GPL>=2.0."+"\n\n", getT());			
+			doc.insertString(doc.getLength(), "This program uses the libraries log4j, iText (2.1.4), jxlayer, swingworker and JGoodies Forms.\n", getT());
 			doc.setParagraphAttributes(0, doc.getLength(), getC(), true);
         } catch (BadLocationException ble) {
 
