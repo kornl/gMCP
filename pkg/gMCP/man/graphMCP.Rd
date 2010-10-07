@@ -6,6 +6,8 @@
 \alias{plot,graphMCP-method}
 \alias{getAlpha}
 \alias{getAlpha,graphMCP-method}
+\alias{setAlpha}
+\alias{setAlpha,graphMCP-method}
 \alias{getRejected}
 \alias{getRejected,graphMCP-method}
 \alias{getX}
@@ -43,6 +45,9 @@ Class \code{graph}, by class \code{graphNEL}, distance 2.
     \item{getAlpha}{\code{signature(object = "graphMCP")}: A method for
       getting the allocation of the significance level alpha.
       If a second optional argument \code{node} is specified, only for these nodes the alpha level will be returned.}
+    \item{setAlpha}{\code{signature(object = "graphMCP")}: A method for
+      setting the allocation of the significance level alpha.
+      If a second optional argument \code{node} is specified, only for these nodes the alpha level will be set.}
     \item{getRejected}{\code{signature(object = "graphMCP")}: A method for
       getting the information whether the hypotheses are marked in the graph as already rejected.
       If a second optional argument \code{node} is specified, only for these nodes the boolean vector will be returned.}

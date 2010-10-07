@@ -3,6 +3,7 @@ High priority:
 - references, since some people will actually look at this package.
 - More details in manual pages.
 - confidence intervals are strange...
+- Do we need a function adjPValues?
 
 Medium priority:
 

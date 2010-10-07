@@ -61,6 +61,17 @@ setMethod("getAlpha", c("graphMCP"),
 			return(alpha)
 		})
 
+setGeneric("setAlpha", function(object, node, alpha, ...) standardGeneric("setAlpha"))
+
+setMethod("setAlpha", c("graphMCP"),
+		function(object, node, alpha, ...) {
+			if (missing(node)) {
+				node <- nodes(object)
+			}
+			nodeData(object, nodes(object), "alpha") <- alpha			
+			return(object)
+		})
+
 setMethod("getAlpha", c("gMCPResult"),
 		function(object, node, ...) {
 			graph <- object@graphs[[length(object@graphs)]]
