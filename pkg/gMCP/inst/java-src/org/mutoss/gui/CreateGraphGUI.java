@@ -44,8 +44,22 @@ public class CreateGraphGUI extends JFrame implements WindowListener {
 		setVisible(true);
 	}
 	
-	public static void startGUI(String graph, boolean debug, double grid) {
-		new CreateGraphGUI(graph, debug, grid);
+	/**
+	 * The following three variables are only need at start time and ignored after that!
+	 */
+	static String graphStr;
+	static boolean debug;
+	static double grid;
+	
+	public static void startGUI(String graphStr, boolean debug, double grid) {
+		CreateGraphGUI.graphStr = graphStr;
+		CreateGraphGUI.debug = debug;
+		CreateGraphGUI.grid = grid;
+		javax.swing.SwingUtilities.invokeLater(new Runnable() {
+			public void run() {
+				new CreateGraphGUI(CreateGraphGUI.graphStr, CreateGraphGUI.debug, CreateGraphGUI.grid);
+			}
+		});		
 	}
 	
 	JLabel statusbar = new JLabel(); 
