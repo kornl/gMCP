@@ -169,7 +169,7 @@ public class MenuBarMGraph extends JMenuBar implements ActionListener {
 		NetzListe nl = ((ControlMGraph) control).getNL();
 		String doc = "\\section*{Initial graph}\n";
 		for (GraphStep gs : nl.getReport()) {			
-			if (!gs.getName().trim().isEmpty()) {
+			if (gs.getName().trim().length!=0) {
 				doc += "\n"+gs.getLatex()+"\n\\section{Rejection of "+gs.getName().replace("_", "\\_")+"}\n";
 			} else {
 				doc += "\n"+gs.getLatex()+"\n";
