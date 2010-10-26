@@ -4,6 +4,7 @@ High priority:
 - More details in manual pages.
 - confidence intervals are strange...
 - Do we need a function adjPValues?
+- Why is figure 1 correct but figure 3 upside-down in the vignette?
 
 Medium priority:
 

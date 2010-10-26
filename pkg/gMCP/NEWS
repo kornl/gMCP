@@ -9,7 +9,7 @@ Version 0.3-2
 - Confidence intervals for t- and normal distribution can be calculated based on the p-values and point estimates in most cases.
 - Reduced the package size.
 - Further improved capabilities for bug reporting.
-- We need rJava (≥ 0.8-3).
+- We need rJava in version 0.8-3 or later.
 - Vignette can be shown from inside the GUI.
 - Function "setAlpha".
 
