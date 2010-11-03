@@ -24,6 +24,8 @@ This causes trouble
 - PNG export cuts perhaps edges.
 - Delay of placement of the first nodes?
 - Speed-up -> Matrices & perhaps ?ReferenceClasses ?
+- gMCPReport does not work for graphs without layout.
+- graphGUI should have a parameter pvalues.
 
 Additional features / low priority:
 
