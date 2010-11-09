@@ -1,4 +1,4 @@
-graphGUI <- function(graph="createdGraph", grid=1, debug=FALSE) {
+graphGUI <- function(graph="createdGraph", grid=10, debug=FALSE) {
 	if (!is.character(graph)) {
 		if ("graphMCP" %in% class(graph)) {
 			newGraphName <- "createdGraph"

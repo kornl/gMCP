@@ -8,7 +8,7 @@
 	Starts a graphical user interface for the creation of SRMTP graphs.
 }
 \usage{
-	graphGUI(graph="createdGraph", grid=1, debug=FALSE)
+	graphGUI(graph="createdGraph", grid=10, debug=FALSE)
 }
 
 \arguments{
@@ -18,6 +18,7 @@
   }
   \item{grid}{
 	Positive integer that sets the grid size for easier placement of nodes.
+	(Grid size 1 disables therefore the grid.)
   }
   \item{debug}{
 	Logical. If \code{TRUE} debug output is printed to the R console.
