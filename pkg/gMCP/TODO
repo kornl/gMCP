@@ -7,6 +7,7 @@ High priority:
 - Do we need a function adjPValues?
 - Why is figure 1 correct but figure 3 upside-down in the vignette?
 - Option for rounding how many digits we want to see.
+- Adjacency matrix in GUI
 - This does work somehow (that means the results are correct), but the edge weights are not updated correctly due to rounding in Java(?):
 
 eps <- 0.0001
