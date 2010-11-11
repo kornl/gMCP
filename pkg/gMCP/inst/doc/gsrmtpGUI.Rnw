@@ -32,6 +32,7 @@
 
 library(gMCP)
 options(width=140)
+options(digits=4)
 
 @
 
@@ -69,7 +70,6 @@ cat(graph2latex(graph, scale=0.7, fontsize="tiny"))
 
 gMCPReport <- function(...) {invisible(NULL)}
 graphGUI <- function(...) {invisible(NULL)}
-options(digits=4)
 
 @
   \caption{\label{exampleGraphBretz} Example graph from \cite{bretzEtAl2009power} that we will create in this vignette.}
