@@ -1,6 +1,7 @@
 Version 0.3-3
 =============
-
+- New accompanying doc file: Description of Edges with Infinitesimal Small Epsilon Weights
+- Inserted missing $ in LaTeX code output from graph2latex
 
 Version 0.3-2
 =============

@@ -8,6 +8,7 @@ High priority:
 - Why is figure 1 correct but figure 3 upside-down in the vignette?
 - Option for rounding how many digits we want to see.
 - Adjacency matrix in GUI
+- 0,01 is shown as edge weight (gMCP)but an input of 0,01 results in NaN, because it should be 0.01
 - This does work somehow (that means the results are correct), but the edge weights are not updated correctly due to rounding in Java(?):
 
 eps <- 0.0001
@@ -19,12 +20,16 @@ hnodes <- paste("H", 1:n, sep = "")
 edges <- vector("list", length = n)
 edges[[1]] <- list()
 edges[[2]] <- list()
-edges[[3]] <- list(edges = c("H1", "H2", "H4"), weights = c(1-eps-eps^2,eps,eps^2))
-edges[[4]] <- list()
+edges[[3]] <- list(, weights = c(1-eps-eps^2,eps,eps^2))
+edges[[4]] <- list(edges = c("H4"), weights)
 names(edges) <- hnodes
 graph <- new("graphMCP", nodes = hnodes, edgeL = edges, alpha = alpha)
+
 graphGUI(graph)
 
+# or
+graph
+rejectNode(graph, "H1")
 
 Medium priority:
 ================
