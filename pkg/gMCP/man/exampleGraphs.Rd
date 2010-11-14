@@ -3,7 +3,7 @@
 \alias{createGraphFromBretzEtAl}
 \alias{createGraphForParallelGatekeeping}
 \alias{createGraphForImprovedParallelGatekeeping}
-
+\alias{createGraphFromHommelEtAl}
 \title{
 	Functions that create different example graphs
 }
@@ -16,7 +16,7 @@
 \usage{
 	createBonferroniHolmGraph(n, alpha=0.05)
 	createGraphFromBretzEtAl(alpha=0.025)
-	createGraphFromHommelEtAl(alpha=0.05)
+	createGraphFromHommelEtAl(alpha=0.025)
 	createGraphForParallelGatekeeping(alpha=0.05)
 	createGraphForImprovedParallelGatekeeping(alpha=0.05)
 }
