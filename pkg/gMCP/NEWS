@@ -1,6 +1,7 @@
 Version 0.3-3
 =============
 - New accompanying doc file: Description of Edges with Infinitesimal Small Epsilon Weights
+- New example graph from Hommel et al. 2007
 - Inserted missing $ in LaTeX code output from graph2latex
 
 Version 0.3-2
@@ -36,5 +37,5 @@ Version 0.3-0
 
 Version 0.2-4
 =============
-- After some alpha and beta releases on r-forge this is the first version on CRAN.
+- After some alpha and beta releases on r-forge this is the first beta version on CRAN.
 - We support: Graphs with epsilon edges, confidence intervals, adjusted p-values.

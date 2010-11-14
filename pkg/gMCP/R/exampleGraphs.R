@@ -27,7 +27,7 @@ createBonferroniHolmGraph <- function(n, alpha=0.05) {
 	return(BonferroniHolmGraph)
 }
 
-createGraphFromBretzEtAl <- function(alpha=0.05) {
+createGraphFromBretzEtAl <- function(alpha=0.025) {
 	# Nodes:
 	alpha <- rep(c(alpha/3,0), each=3)	
 	hnodes <- paste("H", rep(1:3, 2), rep(1:2, each=3), sep="")
@@ -65,6 +65,43 @@ createGraphFromBretzEtAl <- function(alpha=0.05) {
 	edgeData(graph, "H32", "H21", "labelY") <- 250	
 	edgeData(graph, "H22", "H31", "labelX") <- 350
 	edgeData(graph, "H22", "H31", "labelY") <- 250	
+	return(graph)	
+}
+
+
+createGraphFromHommelEtAl <- function(alpha=0.025) {
+	# Nodes:
+	alpha <- c(rep(alpha/3, 3), rep(0,4))	
+	hnodes <- c("E1", "QoL", "E2", "D1", "D2", "D3", "D4")
+	# Edges:
+	edges <- vector("list", length=7)
+	edges[[1]] <- list(edges="QoL", weights=1)
+	edges[[2]] <- list(edges=c("D1","D2","D3","D4"), weights=rep(1/4, 4))
+	edges[[3]] <- list(edges="QoL", weights=1)	
+	edges[[4]] <- list(edges=c("E1","E2"), weights=c(0, 0))
+	edges[[5]] <- list(edges=c("E1","E2"), weights=c(0, 0))
+	edges[[6]] <- list(edges=c("E1","E2"), weights=c(0, 0))
+	edges[[7]] <- list(edges=c("E1","E2"), weights=c(0, 0))
+	names(edges)<-hnodes
+	# Graph creation
+	graph <- new("graphMCP", nodes=hnodes, edgeL=edges, alpha=alpha)
+	# Visualization settings
+	nodeX <- c(200, 400, 600, 100, 300, 500, 700)
+	nodeY <- c(100, 100, 100, 300, 300, 300, 300)
+	names(nodeX) <- hnodes
+	names(nodeY) <- hnodes
+	nodeRenderInfo(graph) <- list(nodeX=nodeX, nodeY=nodeY)
+	for (i in 1:4) {
+		n1 <- hnodes[3+i]
+		for (j in (1:4)[-i]) {
+			n2 <- hnodes[3+j]
+			graph <- addEdge(n1, n2, graph, 0)
+			x <- ((i+j)*200-200)/2+sign(i-j)*20
+			y <- 300 + (abs(i-j)*50)			
+			edgeData(graph, n1, n2, "labelX") <- x
+			edgeData(graph, n1, n2, "labelY") <- y
+		}
+	}
 	return(graph)	
 }
 

@@ -15,7 +15,8 @@
 }
 \usage{
 	createBonferroniHolmGraph(n, alpha=0.05)
-	createGraphFromBretzEtAl(alpha=0.05)
+	createGraphFromBretzEtAl(alpha=0.025)
+	createGraphFromHommelEtAl(alpha=0.05)
 	createGraphForParallelGatekeeping(alpha=0.05)
 	createGraphForImprovedParallelGatekeeping(alpha=0.05)
 }
@@ -36,6 +37,9 @@
 	}
 	\item{\code{createGraphFromBretzEtAl}}{
 		Example graph from Bretz et al. See references (Bretz et al. 2009).
+	}
+	\item{\code{createGraphFromBretzEtAl}}{
+		Example graph from Hommel et al. See references (Hommel et al. 2007).
 	}
 	\item{\code{createGraphForParallelGatekeeping}}{
 		Example graph for parallel gatekeeping. See references (Dmitrienko et al. 2003).
