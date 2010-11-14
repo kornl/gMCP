@@ -26,6 +26,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.mutoss.gui.graph.ControlMGraph;
 import org.mutoss.gui.graph.NetzListe;
+import org.mutoss.gui.options.OptionsDialog;
 
 public class MenuBarMGraph extends JMenuBar implements ActionListener {
 	
@@ -62,12 +63,13 @@ public class MenuBarMGraph extends JMenuBar implements ActionListener {
 		menu.addSeparator();
 		menu.add(makeMenuItem("Parallel Gatekeeping with 4 Hypotheses", "pg"));
 		menu.add(makeMenuItem("Improved Parallel Gatekeeping with 4 Hypotheses", "pgi"));
-		menu.add(makeMenuItem("Example graph from Bretz et al.", "bretzEtAl"));
+		menu.add(makeMenuItem("Example graph from Bretz et al. (2009)", "bretzEtAl"));
+		menu.add(makeMenuItem("Example graph from Hommel et al. (2007)", "hommelEtAl"));
 
 		add(menu);
 
         addExtrasMenu();
-        addHelpMenu(true);
+        addHelpMenu();
 	}
 	
 	private void loadGraph(String string) {
@@ -124,6 +126,8 @@ public class MenuBarMGraph extends JMenuBar implements ActionListener {
         	loadGraph("createGraphForImprovedParallelGatekeeping()");
         } else if (e.getActionCommand().equals("bretzEtAl")) {       	
         	loadGraph("createGraphFromBretzEtAl()");
+        } else if (e.getActionCommand().equals("hommelEtAl")) {       	
+        	loadGraph("createGraphFromHommelEtAl()");
         } else if (e.getActionCommand().equals("showLog")) {       	
         	showLog();
         } else if (e.getActionCommand().equals("reportError")) {       	
@@ -131,37 +135,47 @@ public class MenuBarMGraph extends JMenuBar implements ActionListener {
         } else if (e.getActionCommand().equals("exit")) {       	
         	 control.getMainFrame().dispose();
         } else if (e.getActionCommand().equals("showAppHelp")) {
-       	 	File f = new File(RControl.getR().eval("system.file(\"doc/gsrmtpGUI.pdf\", package=\"gMCP\")").asRChar().getData()[0]);
-       	 	if (!f.exists()) {
-       	 		throw new RuntimeException("This is strange. The gMCP vignette could not be found.");
-       	 	} else {
-        		try {	
-        			Method main = Class.forName("java.awt.Desktop").getDeclaredMethod("getDesktop");
-        			Object obj = main.invoke(new Object[0]);
-        			Method second = obj.getClass().getDeclaredMethod("open", new Class[] { File.class }); 
-        			second.invoke(obj, f);
-        		} catch (Exception exc) {			
-        			logger.warn("No Desktop class in Java 5 or URI error.");
-        			try {
-        			 if (OSTools.isWindows()) {
-        		        Process p;							
-								p = Runtime.getRuntime().exec("rundll32 " +
-								        "url.dll,FileProtocolHandler " + f.getAbsolutePath());
-						    p.waitFor();
-        			 } else {
-        				 JOptionPane.showMessageDialog(control.getMainFrame(), "Please open and read the following file:\n"+f.getAbsolutePath(), "Could not find PDF viewer", JOptionPane.WARNING_MESSAGE);
-        			 }
-        			} catch (Exception e1) {
-						logger.error(e1.getMessage());
-						e1.printStackTrace();
-						JOptionPane.showMessageDialog(control.getMainFrame(), "Please open and read the following file:\n"+f.getAbsolutePath(), "Could not find PDF viewer", JOptionPane.WARNING_MESSAGE);
-					}
-			    
-        		}
-       	 	}
+        	showFile("doc/gsrmtpGUI.pdf");       	 	
+        } else if (e.getActionCommand().equals("showEpsDoc")) {
+        	showFile("doc/EpsilonEdges.pdf");       	 	
+        } else if (e.getActionCommand().equals("showNEWS")) {
+        	showFile("NEWS");       	 	
         } else if (e.getActionCommand().equals("showAbout")) {
         	new AboutDialog(control.getMainFrame());
+        } else if (e.getActionCommand().equals("showOptions")) {
+        	new OptionsDialog(control.getMainFrame());
         }
+	}
+	
+	public void showFile(String s) {
+		File f = new File(RControl.getR().eval("system.file(\""+s+"\", package=\"gMCP\")").asRChar().getData()[0]);
+		if (!f.exists()) {
+			throw new RuntimeException("This is strange. The vignette could not be found.");
+		} else {
+			try {	
+				Method main = Class.forName("java.awt.Desktop").getDeclaredMethod("getDesktop");
+				Object obj = main.invoke(new Object[0]);
+				Method second = obj.getClass().getDeclaredMethod("open", new Class[] { File.class }); 
+				second.invoke(obj, f);
+			} catch (Exception exc) {			
+				logger.warn("No Desktop class in Java 5 or URI error.");
+				try {
+					if (OSTools.isWindows()) {
+						Process p;							
+						p = Runtime.getRuntime().exec("rundll32 " +
+								"url.dll,FileProtocolHandler " + f.getAbsolutePath());
+						p.waitFor();
+					} else {
+						JOptionPane.showMessageDialog(control.getMainFrame(), "Please open and read the following file:\n"+f.getAbsolutePath(), "Could not find PDF viewer", JOptionPane.WARNING_MESSAGE);
+					}
+				} catch (Exception e1) {
+					logger.error(e1.getMessage());
+					e1.printStackTrace();
+					JOptionPane.showMessageDialog(control.getMainFrame(), "Please open and read the following file:\n"+f.getAbsolutePath(), "Could not find PDF viewer", JOptionPane.WARNING_MESSAGE);
+				}
+
+			}
+		}
 	}
 
 	/*
@@ -322,20 +336,24 @@ public class MenuBarMGraph extends JMenuBar implements ActionListener {
     public JMenu makeExtrasMenu() {
     	JMenu menu = new JMenu(localizer.getString("SGTK_MENU_EXTRAS"));
     	menu.add(makeMenuItem(localizer.getString("SGTK_MENU_EXTRAS_LOG"), "showLog"));
-    	//menu.add(makeMenuItem(localizer.getString("SGTK_MENU_EXTRAS_OPTIONS"), "showOptions"));
+    	menu.add(makeMenuItem(localizer.getString("SGTK_MENU_EXTRAS_OPTIONS"), "showOptions"));
     	menu.add(makeMenuItem(localizer.getString("SGTK_MENU_EXTRAS_REPORT_ERROR"), "reportError"));
     	return menu;
     }
 
     
-    public void addHelpMenu(boolean helpAvailable) {
-    	add(makeHelpMenu(helpAvailable));
+    public void addHelpMenu() {
+    	add(makeHelpMenu());
     }
     
-    private JMenu makeHelpMenu(boolean helpAvailable) {
+    private JMenu makeHelpMenu() {
     	 JMenu menu = new JMenu(localizer.getString("SGTK_MENU_HELP"));
          menu.add(makeMenuItem(localizer.getString("SGTK_MENU_HELP_ABOUT"), "showAbout"));         
-         if (helpAvailable) menu.add(makeMenuItem(localizer.getString("SGTK_MENU_HELP_JAVA_HELP"), "showAppHelp"));
+         menu.add(makeMenuItem(localizer.getString("SGTK_MENU_HELP_JAVA_HELP"), "showAppHelp"));
+         menu.addSeparator();
+         menu.add(makeMenuItem("Description of Edges with Infinitesimal Small Epsilon Weights", "showEpsDoc"));
+         menu.addSeparator();
+         menu.add(makeMenuItem("Version Info / NEWS", "showNEWS"));
          return menu;
 	}
 	

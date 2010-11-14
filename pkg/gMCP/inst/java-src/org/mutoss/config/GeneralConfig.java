@@ -16,20 +16,6 @@ public class GeneralConfig extends SpecificConfig {
 
     public final static String DISABLE = "disable";
 
-
-    /**
-     * Is is test or deploy version.
-     *
-     * @return true iff test version
-     */
-    public boolean isTestVersion() {
-        return getProperty("deploy.or.test").equals("test");
-    }
-
-    public void setTestVersion(boolean isTest) {
-        setProperty("deploy.or.test", isTest ? "test" : "deploy");
-    }
-
     private String getHash() {
         return getProperty("hash", Configuration.NOTFOUND);
     }
@@ -125,44 +111,9 @@ public class GeneralConfig extends SpecificConfig {
         }
         return tmpDir;
     }
-
-    public File getProjectVariantPath() {
-    	logger.debug("Project Variant path. Parent:"+getProjectInstallPath().getAbsolutePath()+", Child:"+getConf().getProjectName());
-        return new File(getProjectInstallPath(), getConf().getProjectName());
-    }
     
-    public File getProjectInstallPath() {
-    	File homeInstPath = new File(System.getProperty("user.home"), "RWorkbench");
-        String instDir = getProperty("install.dir", homeInstPath.getAbsolutePath());
-        return new File(instDir);
-    }
-
-    public void setProjectInstallPath(File path) {
-        setProperty("install.dir", path.getAbsolutePath());
-    }
-
-    public File getProjectLogsPath() {
-        return new File(getProjectVariantPath(), "logs");
-    }
-
-    public File getProjectRSourcePath() {
-        return new File(getProjectVariantPath(), "r_src");
-    }
-
-    /**
-     * Returns the directory where the temporary csv files (converted from XLS) are saved.
-     * This is always the directory "datasets" in getProjectInstallPath().
-     */
-    public File getProjectDataSetsPath() {
-        return new File(getProjectVariantPath(), "datasets");
-    }
-
-    public File getProjectPlotsPath() {
-        return new File(getProjectVariantPath(), "plots");
-    }
-
     public File getProjectPDFsPath() {
-        return new File(getProperty("pdf.output", getProjectVariantPath()+System.getProperty("file.separator")+"pdfs"));
+        return new File(getProperty("pdf.output", System.getProperty("user.dir")));
     }
 
     public void setProjectPDFsPath(String path) {
@@ -217,14 +168,6 @@ public class GeneralConfig extends SpecificConfig {
         return getProperty("about.copyright");
     }
 
-    public String getServerRSourcePath() {
-        return getProperty("server.r.src.path");
-    }
-
-    public String getBackgroundImage() {
-        return getProperty("background.image", "");
-    }
-
     /**
      * Sets for one Class a key to some String value.
      * @param c Class
@@ -260,6 +203,14 @@ public class GeneralConfig extends SpecificConfig {
     
     public int getGridSize() {
 		return Integer.parseInt(getProperty("grid", "10"));		
+	}
+    
+	public boolean getColoredImages() {		
+		return Boolean.parseBoolean(getProperty("coloredImages", "true"));
+	}
+	
+	public void setColoredImages(boolean colored) {		
+		setProperty("coloredImages", ""+colored);
 	}
 	
 }
