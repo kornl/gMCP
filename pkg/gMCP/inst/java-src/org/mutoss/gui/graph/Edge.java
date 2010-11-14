@@ -35,8 +35,8 @@ public class Edge {
 		x2 = nach.getX() + Node.getRadius();
 		y1 = von.getY() + Node.getRadius();
 		y2 = nach.getY() + Node.getRadius();
-		k1 = (x1+x2)/2;
-		k2 = (y1+y2)/2;
+		k1 = x1 + (x2-x1)/4; //(x1+x2)/2;
+		k2 = y1 + (y2-y1)/4; //(y1+y2)/2;
 		this.von = von;
 		this.nach = nach;
 		this.w = w;
@@ -65,8 +65,8 @@ public class Edge {
 			k1 = x1 + (int)(Math.cos(alpha*(Math.PI*2)/360)*d/2);
 			k2 = y1 - (int)(Math.sin(alpha*(Math.PI*2)/360)*d/2);
 		} else {
-			k1 = (x1+x2)/2;
-			k2 = (y1+y2)/2;				
+			k1 = x1 + (x2-x1)/4; //(x1+x2)/2;
+			k2 = y1 + (y2-y1)/4; //(y1+y2)/2;		
 		}
 	}
 	
