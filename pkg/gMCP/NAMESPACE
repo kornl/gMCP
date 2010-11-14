@@ -6,6 +6,7 @@ exportMethods(plot, print, getAlpha, setAlpha, getRejected, getX, getY, simConfi
 export(gMCP)
 export(createBonferroniHolmGraph)
 export(createGraphFromBretzEtAl)
+export(createGraphFromHommelEtAl)
 export(createGraphForParallelGatekeeping)
 export(createGraphForImprovedParallelGatekeeping)
 export(graphGUI)
