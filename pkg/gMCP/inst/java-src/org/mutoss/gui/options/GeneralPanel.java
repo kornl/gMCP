@@ -39,8 +39,6 @@ public class GeneralPanel extends OptionsPanel implements ActionListener {
     private IntegerJComboBox cbFontSize;
     private JComboBox cbLookAndFeel;
     //private JComboBox numberOfDigits;
-    private JTextField tfPDFViewerPath;
-    private JTextField tfPDFViewerOptions;
     private JTextField jtfGrid;
 
     private JTextField tfPDFPath;
@@ -57,7 +55,6 @@ public class GeneralPanel extends OptionsPanel implements ActionListener {
     private JCheckBox colorImages;
     //private JTextField numberOfDigits;
     
-	JComboBox jcbLanguage;
 	JFrame parent;
 
     public GeneralPanel(JFrame parent, OptionsDialog odialog) {
@@ -75,10 +72,6 @@ public class GeneralPanel extends OptionsPanel implements ActionListener {
     private void makeComponents() {
         cbFontSize = new IntegerJComboBox(8, 20);
         cbFontSize.setSelectedObject(conf.getGeneralConfig().getFontSize());
-        tfPDFViewerPath = new JTextField(30);
-        tfPDFViewerPath.setText(conf.getGeneralConfig().getPDFViewerPath());
-        tfPDFViewerOptions = new JTextField(30);
-        tfPDFViewerOptions.setText(conf.getGeneralConfig().getPDFViewerOptions());
         tfPDFPath = new JTextField(30);
         tfPDFPath.setText(conf.getGeneralConfig().getProjectPDFsPath().getAbsolutePath()); 
         jtfGrid = new JTextField(30);
@@ -90,9 +83,6 @@ public class GeneralPanel extends OptionsPanel implements ActionListener {
         looknfeel.add("Mac OS");
         looknfeel.add("Metal");
         looknfeel.add("Motif");
-        //looknfeel.add("Plastic3D");
-        //looknfeel.add("PlasticXP");
-        //looknfeel.add("Quaqua");
 
         cbLookAndFeel = new JComboBox(looknfeel);
         logger.info("LooknFeel is " + conf.getJavaConfig().getLooknFeel() + ".");
@@ -104,14 +94,6 @@ public class GeneralPanel extends OptionsPanel implements ActionListener {
         
         colorImages = new JCheckBox("Colored image files and pdf reports");
         colorImages.setSelected(conf.getGeneralConfig().getColoredImages());
-        
-        String[] languageStrings = { "Deutsch", "English" };
-
-		jcbLanguage = new JComboBox(languageStrings);
-		jcbLanguage.setSelectedIndex(1);
-		if (Locale.getDefault().getLanguage().equals("de")) {
-			jcbLanguage.setSelectedIndex(0);
-		}
     }
 
     private void doTheLayout() {
@@ -132,26 +114,10 @@ public class GeneralPanel extends OptionsPanel implements ActionListener {
         
         row += 2;
         
-        p1.add(new JLabel(loc.getString("SGTK_OPTIONS_GENERALPANEL_LANGUAGE")),     cc.xy(1, row));
-        p1.add(jcbLanguage, cc.xy(3, row));
-        
-        row += 2;
-        
         p1.add(new JLabel(loc.getString("SGTK_OPTIONS_GENERALPANEL_FONTSIZE")),     cc.xy(1, row));
         p1.add(cbFontSize, cc.xy(3, row));
         
         row += 2;
-
-        /*jbPDFVPath.addActionListener(this);
-        p1.add(jbPDFVPath, cc.xy(1, row));
-        p1.add(tfPDFViewerPath, cc.xy(3, row));
-        
-        row += 2;
-
-        p1.add(new JLabel(loc.getString("SGTK_OPTIONS_GENERALPANEL_PDFOPTIONS")),   cc.xy(1, row));
-        p1.add(tfPDFViewerOptions, cc.xy(3, row));
-        
-        row += 2;*/
         
         jbPDFPath.addActionListener(this);
         p1.add(jbPDFPath, cc.xy(1, row));
@@ -204,21 +170,9 @@ public class GeneralPanel extends OptionsPanel implements ActionListener {
         } catch (NumberFormatException e) {
         	JOptionPane.showMessageDialog(this, "\""+jtfGrid.getText()+"\" is not a valid integer for grid size.", "Invalid input", JOptionPane.ERROR_MESSAGE);
         }        
-        conf.getGeneralConfig().setPDFViewerPath(tfPDFViewerPath.getText());
-        conf.getGeneralConfig().setPDFViewerOptions(tfPDFViewerOptions.getText());
         conf.getGeneralConfig().setProjectPDFsPath(tfPDFPath.getText());
        	conf.getGeneralConfig().setColoredImages(colorImages.isSelected());
-        if (!Locale.getDefault().getLanguage().equals("en") && jcbLanguage.getSelectedItem().equals("English")) {
-			logger.info("Setting language to English.");
-			Localizer.getInstance().setLanguage("en");
-			conf.getGeneralConfig().setLanguage("en");
-			JOptionPane.showMessageDialog(this, Localizer.getInstance().getString("SGTK_OPTIONS_GENERALPANEL_LANGUAGE_NEWSTART"));
-		} else if (!Locale.getDefault().getLanguage().equals("de") && jcbLanguage.getSelectedItem().equals("Deutsch")) {
-			logger.info("Setting language to German.");
-			Localizer.getInstance().setLanguage("de");	
-			conf.getGeneralConfig().setLanguage("de");
-			JOptionPane.showMessageDialog(this, Localizer.getInstance().getString("SGTK_OPTIONS_GENERALPANEL_LANGUAGE_NEWSTART"));
-		}
+        
         try {
             LookAndFeel currentLF = UIManager.getLookAndFeel();
             logger.info("Selected LooknFeel:" + getLooknFeel());
@@ -267,9 +221,7 @@ public class GeneralPanel extends OptionsPanel implements ActionListener {
 		int returnVal = fc.showOpenDialog(this);
         if (returnVal == JFileChooser.APPROVE_OPTION) {
             File f = fc.getSelectedFile();
-            if (e.getSource()==jbPDFVPath) {
-            	tfPDFViewerPath.setText(f.getAbsolutePath());
-            } else if (e.getSource()==jbPDFPath) {
+            if (e.getSource()==jbPDFPath) {
             	tfPDFPath.setText(f.getAbsolutePath());            	
             }
         }		
