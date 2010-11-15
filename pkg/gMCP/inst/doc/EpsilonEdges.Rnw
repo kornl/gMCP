@@ -9,6 +9,7 @@
 \usepackage{url}
 \usepackage{hyperref}
 \usepackage{listings}
+\usepackage{amsmath}
 \usepackage[numbers]{natbib}
 \bibliographystyle{plainnat}
 \setlength{\parindent}{0mm}
@@ -33,7 +34,29 @@ options(digits=4)
 
 @
 
+{\Large Work in progress! Not yet finished!}
+
 \section{Introduction}
+
+Algorithm of Bretz et al. \cite{bretzEtAl2009power} for rejecting a node:
+
+\[\alpha_l <- \begin{cases}\alpha_l+a_jg_{jl}&l\in I\\0&\text{otherwise}\end{cases}\]
+
+\[g_{lk} <- \begin{cases}\frac{g_{lk}+g_{lj}g_{jk}}{1-g_{lj}g_{jl}}&k,l\in I, l\neq k, g_{lj}g_{jl}<1\\0&\text{otherwise}\end{cases}\]
+
+We want now investigate what happens if a edge weight $\epsilon>0$ approaches $0$.
+In respect to 
+
+\[\alpha_l <- \begin{cases}0=\lim\limits_{g_{jl}\rightarrow0}(\alpha_l+a_jg_{jl})&l\in I\\0&\text{otherwise}\end{cases}\]
+
+The only question is, what happens if and $l\in I, l\neq k$
+ 
+\[\lim\limits_{g_{jl}\rightarrow0}\left(\frac{g_{lk}+g_{lj}g_{jk}}{1-g_{lj}g_{jl}}\right)
+=\begin{cases}
+  \frac{g_{lk}+g_{lj}g_{jk}}{1-g_{lj}g_{jl}}&g_{lj}g_{jl}<1\\
+  \frac{g_{lk}+g_{lj}g_{jk}}{1-g_{lj}g_{jl}}&g_{lj}g_{jl}=1\\a\\b\\\end{cases}
+=\]
+
 
 \begin{figure}[ht]
   \centering   
@@ -44,8 +67,6 @@ cat(graph2latex(createGraphForImprovedParallelGatekeeping()))
 @
   \caption{\label{GraphImprovedGateKeeping} Graph for improved parallel gatekeeping.}
 \end{figure}
-
-{\Large Work in progress! Not yet finished!}
 
 \scriptsize
 <<echo=TRUE>>=
@@ -63,8 +84,6 @@ graph <- new("graphMCP", nodes=hnodes, edgeL=edges, alpha=alpha)
 
 @
 \normalsize
-
-\cite{bretzEtAl2009power}
 
 \newpage
 

@@ -6,22 +6,18 @@ High priority:
   - that does work already if we ignore rounding problems).
 - confidence intervals are strange...
 - Do we need a function adjPValues?
-- Why is figure 1 correct but figure 3 upside-down in the vignette?
 - Option for rounding how many digits we want to see.
 - Adjacency matrix in GUI
 - CI should show only the CI of the result
 - Is table sortable???
 - PPanels will set alpha to the truncated number. (Can we handle fractions?)
-- Check on Windows whether "\" work in ActionExportToLatex or have to be modified.
 - What happens if I try to create nodes with the same name? Is Node.nr used for something?
   (Saving to R returns an error: Ungültiges Objekt der Klasse "graphMCP": FALSE)
-- Create dialog with more clearly represented adj. p-values.
+
 
 Medium priority:
 ================
 
-- more references, since some people will actually look at this package.
-- More details in manual pages.
 - We have the same Generics as Rgraphviz:
   library(Rgraphviz)
   getX(new("xyPoint", x=150, y=30))
@@ -30,7 +26,6 @@ Medium priority:
 - Check mutator methods for errors (alpha > 1, edge weights > 1)
 - Update graph2latex to the much better algorithm already implemented in Java.
 - Don't create global variable like .tmpGraph etc.
-- PNG export cuts perhaps edges.
 - gMCPReport does not work for graphs without layout.
 - graphGUI should have a parameter pvalues.
 
@@ -41,6 +36,7 @@ Additional features / low priority:
 - matrix2graph and graph2matrix function
 - Look at print method for gMCPResult
 - Cleanup Config
+- PNG export cuts perhaps edges.
 - Speed-up -> Matrices & perhaps ?ReferenceClasses ?
 - Why is the tilde in for example "F.˜Bretz" still shown in the pdf?
 - Package highlight is cool - but how can I tell r-forge or CRAN to use it?
@@ -87,3 +83,8 @@ $H2
 numeric(0)
 
 In my understanding this should be "H2" instead of "H2.H1" like it would be when H2 has any outgoing edges.
+
+As always:
+==========
+- more references, since some people will actually look at this package.
+- More details in manual pages.
