@@ -1,5 +1,8 @@
 Version 0.3-3
 =============
+- Be careful with epsilon edges (we never specified what exactly they are and how they should behave) 
+  and please wait for version 0.4 which will handle them in a completely new way and will document it.
+  Support for them is broken in this release. 
 - New example graph from Hommel et al. 2007.
 - Inserted missing $ in LaTeX code output from graph2latex.
 - Better automatic placement of edge labels.
@@ -9,9 +12,10 @@ Version 0.3-3
 - Edges with small weights are rendered better. 
 - Dialog that shows adjusted p-values with much better layout. 
 - New accompanying doc file: Description of Edges with Infinitesimal Small Epsilon Weights (unfinished).
-- graph2latex has the same vertical orientation as the GUI
-- Option whether we want to still show already rejected nodes or not
-- Option whether graphs should be colored or not 
+- graph2latex has the same vertical orientation as the GUI.
+- Option whether we want to still show already rejected nodes or not.
+- Option whether graphs should be colored or not.
+- Update in the GUI for confidence intervals to avoid a confused user.
 
 Version 0.3-2 (08-Oct-2010)
 =============
