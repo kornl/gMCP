@@ -10,6 +10,7 @@ High priority:
 - Adjacency matrix in GUI
 - 0,01 is shown as edge weight but an input of 0,01 results in NaN, because it should be 0.01
 - CI should show only the CI of the result
+- Is table sortable???
 
 Medium priority:
 ================
@@ -51,6 +52,7 @@ See also http://comments.gmane.org/gmane.comp.lang.r.general/200179
 - Icon for saving graphs? (And do we need this button?)
 - TikZ styles for rejected / rejectable nodes
 - browseURL("http://gsrmtp.r-forge.r-project.org/")
+- LogPanel looks ugly -> bug in afcommons
 - Option to remove rejected nodes.
 
 @Apple - is this a problem?

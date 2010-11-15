@@ -1,10 +1,13 @@
 Version 0.3-3
 =============
-- New accompanying doc file: Description of Edges with Infinitesimal Small Epsilon Weights
+- New accompanying doc file: Description of Edges with Infinitesimal Small Epsilon Weights (unfinished)
 - New example graph from Hommel et al. 2007
 - Inserted missing $ in LaTeX code output from graph2latex
+- Better automatic placement of edge labels
+- Options dialog in GUI
+- All doc files are accessible from the GUI menu
 
-Version 0.3-2
+Version 0.3-2 (08-Oct-2010)
 =============
 - Renaming of parameter in simConfint: "confintF" is now "confint"
 - Updated confidence interval dialog (but still in development).
@@ -15,7 +18,7 @@ Version 0.3-2
 - Vignette can be shown from inside the GUI.
 - Function "setAlpha".
 
-Version 0.3-1
+Version 0.3-1 (02-Oct-2010)
 =============
 - The GUI has a menu bar.
 - Improved capabilities for bug reporting. All information that is sent is also shown.
@@ -26,7 +29,7 @@ Version 0.3-1
 - Start button is only enabled, if the graph has any nodes.
 - Bug-fix regarding epsilon edges.
 
-Version 0.3-0
+Version 0.3-0 (01-Oct-2010)
 =============
 - Major API changes (mostly gsrmtp replaced by gMCP - but now the API should stay relatively stable).  
 - GraphGUI can now also be called directly on objects of class graphMCP, like graphGUI(rejectNode(graph, "H1")).
@@ -35,7 +38,7 @@ Version 0.3-0
 - If the graph has no nodeRenderInfo available when the GUI is called, the edges are placed in a circle.
 - Deducer support if installed and loaded.
 
-Version 0.2-4
+Version 0.2-4 (30-Sep-2010)
 =============
 - After some alpha and beta releases on r-forge this is the first beta version on CRAN.
 - We support: Graphs with epsilon edges, confidence intervals, adjusted p-values.

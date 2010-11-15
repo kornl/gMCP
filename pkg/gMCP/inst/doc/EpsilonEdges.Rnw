@@ -45,6 +45,7 @@ cat(graph2latex(createGraphForImprovedParallelGatekeeping()))
   \caption{\label{GraphImprovedGateKeeping} Graph for improved parallel gatekeeping.}
 \end{figure}
 
+{\Large Work in progress! Not yet finished!}
 
 \scriptsize
 <<echo=TRUE>>=
