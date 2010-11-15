@@ -16,6 +16,7 @@ Version 0.3-3
 - Option whether we want to still show already rejected nodes or not.
 - Option whether graphs should be colored or not.
 - Update in the GUI for confidence intervals to avoid a confused user.
+- Removed function adjPValues from public API - adjusted p-values are now calculated in the gMCP call.
 
 Version 0.3-2 (08-Oct-2010)
 =============

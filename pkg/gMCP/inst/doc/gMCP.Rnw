@@ -282,7 +282,6 @@ We want to adjust for multiple testing by using the Bonferroni-Holm-Procedure.
 
 \scriptsize
 <<echo=TRUE, keep.source=TRUE>>=
-adjPValues(createBonferroniHolmGraph(3), c(0.02,0.055,0.012))@adjPValues
 
 # Estimates:
 est <- c("H1"=0.9101444, "H2"=0.4485153, "H3"=1.4568271)

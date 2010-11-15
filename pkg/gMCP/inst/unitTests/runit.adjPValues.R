@@ -1,5 +1,5 @@
 checkAdjPValues <- function(graph, pvalues) {	
-	adjP <- adjPValues(graph, pvalues)@adjPValues
+	adjP <- gMCP:::adjPValues(graph, pvalues)@adjPValues
 	for (p in adjP) {
 		alpha <- getAlpha(graph)
 		graph2 <- setAlpha(graph, alpha=alpha/sum(alpha)*p)

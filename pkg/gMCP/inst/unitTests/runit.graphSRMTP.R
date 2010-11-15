@@ -54,7 +54,7 @@ test.srmtp <- function() {
 }
 
 test.adjPValues <- function() {
-	adjPValues <- adjPValues(createBonferroniHolmGraph(3), c(0.02,0.055,0.012))@adjPValues
+	adjPValues <- gMCP:::adjPValues(createBonferroniHolmGraph(3), c(0.02,0.055,0.012))@adjPValues
 	checkEquals(adjPValues, 
 			structure(c(0.04, 0.055, 0.036), .Names = c("H1", "H2", "H3")))
 }

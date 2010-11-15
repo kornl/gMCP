@@ -1,6 +1,5 @@
 \name{gMCP}
 \alias{gMCP}
-\alias{adjPValues}
 
 \title{
 	A graphical approach to sequentially rejective multiple test procedures
@@ -10,7 +9,6 @@
 }
 \usage{
 	gMCP(graph, pvalues, verbose=FALSE)
-	adjPValues(graph, pvalues, verbose=FALSE)
 }
 
 \arguments{
