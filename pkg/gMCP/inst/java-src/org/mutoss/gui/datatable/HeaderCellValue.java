@@ -1,4 +1,4 @@
-package af.statguitoolkit.gui.datatable;
+package org.mutoss.gui.datatable;
 
 public class HeaderCellValue {
     public final String val;

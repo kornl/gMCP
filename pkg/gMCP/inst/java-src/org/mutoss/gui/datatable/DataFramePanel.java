@@ -1,4 +1,4 @@
-package af.statguitoolkit.gui.datatable;
+package org.mutoss.gui.datatable;
 
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
