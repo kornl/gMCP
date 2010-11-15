@@ -164,12 +164,12 @@ public class MenuBarMGraph extends JMenuBar implements ActionListener {
 								"url.dll,FileProtocolHandler " + f.getAbsolutePath());
 						p.waitFor();
 					} else {
-						JOptionPane.showMessageDialog(control.getMainFrame(), "Please open and read the following file:\n"+f.getAbsolutePath(), "Could not find PDF viewer", JOptionPane.WARNING_MESSAGE);
+						JOptionPane.showMessageDialog(control.getMainFrame(), "Please open and read the following file:\n"+f.getAbsolutePath(), "Could not find appropriate viewer", JOptionPane.WARNING_MESSAGE);
 					}
 				} catch (Exception e1) {
 					logger.error(e1.getMessage());
 					e1.printStackTrace();
-					JOptionPane.showMessageDialog(control.getMainFrame(), "Please open and read the following file:\n"+f.getAbsolutePath(), "Could not find PDF viewer", JOptionPane.WARNING_MESSAGE);
+					JOptionPane.showMessageDialog(control.getMainFrame(), "Please open and read the following file:\n"+f.getAbsolutePath(), "Could not find appropriate viewer", JOptionPane.WARNING_MESSAGE);
 				}
 
 			}
