@@ -15,6 +15,7 @@ High priority:
 - Check on Windows whether "\" work in ActionExportToLatex or have to be modified.
 - What happens if I try to create nodes with the same name? Is Node.nr used for something?
   (Saving to R returns an error: Ungültiges Objekt der Klasse "graphMCP": FALSE)
+- Create dialog with more clearly represented adj. p-values.
 
 Medium priority:
 ================
