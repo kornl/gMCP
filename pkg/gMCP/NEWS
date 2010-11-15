@@ -1,4 +1,7 @@
-Version 0.3-3
+Version 0.4-0
+=============
+
+Version 0.3-3 (15-Nov-2010)
 =============
 - Be careful with epsilon edges (we never specified what exactly they are and how they should behave) 
   and please wait for version 0.4 which will handle them in a completely new way and will document it.
