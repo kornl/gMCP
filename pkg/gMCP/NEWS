@@ -1,11 +1,13 @@
 Version 0.3-3
 =============
-- New accompanying doc file: Description of Edges with Infinitesimal Small Epsilon Weights (unfinished)
-- New example graph from Hommel et al. 2007
-- Inserted missing $ in LaTeX code output from graph2latex
-- Better automatic placement of edge labels
-- Options dialog in GUI
-- All doc files are accessible from the GUI menu
+- New accompanying doc file: Description of Edges with Infinitesimal Small Epsilon Weights (unfinished).
+- New example graph from Hommel et al. 2007.
+- Inserted missing $ in LaTeX code output from graph2latex.
+- Better automatic placement of edge labels.
+- Options dialog in GUI.
+- All doc files are accessible from the GUI menu.
+- The GUI Locale object is always set to English - that way there is no decimal separator confusion etc.
+- Edges with small weights are rendered better. 
 
 Version 0.3-2 (08-Oct-2010)
 =============
