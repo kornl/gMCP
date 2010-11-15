@@ -10,6 +10,8 @@ Version 0.3-3
 - Dialog that shows adjusted p-values with much better layout. 
 - New accompanying doc file: Description of Edges with Infinitesimal Small Epsilon Weights (unfinished).
 - graph2latex has the same vertical orientation as the GUI
+- Option whether we want to still show already rejected nodes or not
+- Option whether graphs should be colored or not 
 
 Version 0.3-2 (08-Oct-2010)
 =============

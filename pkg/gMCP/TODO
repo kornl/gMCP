@@ -8,8 +8,8 @@ High priority:
 - Do we need a function adjPValues?
 - Option for rounding how many digits we want to see.
 - Adjacency matrix in GUI
-- CI should show only the CI of the result
 - Is table sortable???
+- CI should show only the CI of the result
 - PPanels will set alpha to the truncated number. (Can we handle fractions?)
 - What happens if I try to create nodes with the same name? Is Node.nr used for something?
   (Saving to R returns an error: Ungültiges Objekt der Klasse "graphMCP": FALSE)
@@ -48,7 +48,6 @@ See also http://comments.gmane.org/gmane.comp.lang.r.general/200179
 - TikZ styles for rejected / rejectable nodes
 - browseURL("http://gsrmtp.r-forge.r-project.org/")
 - LogPanel looks ugly -> bug in afcommons
-- Option to remove rejected nodes.
 
 @Apple - is this a problem?
 
