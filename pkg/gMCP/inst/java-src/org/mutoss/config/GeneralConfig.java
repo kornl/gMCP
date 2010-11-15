@@ -216,5 +216,13 @@ public class GeneralConfig extends SpecificConfig {
 	public int getDigitsInTables() {
 		return Integer.parseInt(getProperty("digits.in.tables", "6"));	
 	}
+
+	public boolean showRejected() {
+		return Boolean.parseBoolean(getProperty("showRejected", "true"));
+	}
+	
+	public void setShowRejected(boolean showRejected) {		
+		setProperty("showRejected", ""+showRejected);
+	}
 	
 }

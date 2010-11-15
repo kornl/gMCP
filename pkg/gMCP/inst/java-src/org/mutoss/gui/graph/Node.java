@@ -99,6 +99,7 @@ public class Node {
 	 *            Graphics-Objekt, auf das gemalt wird.
 	 */
 	public void paintYou(Graphics g) {
+		if (rejected && !Configuration.getInstance().getGeneralConfig().showRejected()) return;
 		Graphics2D g2d = (Graphics2D) g;
 		Rectangle2D rc;
 		g2d.setColor(getColor());

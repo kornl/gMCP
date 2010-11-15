@@ -43,9 +43,6 @@ public class GeneralPanel extends OptionsPanel implements ActionListener {
 
     private JTextField tfPDFPath;
     
-    private JButton jbPDFVPath = new JButton(
-            Localizer.getInstance().getString("SGTK_OPTIONS_GENERALPANEL_PATHTOPDFVIEWER")
-    );
     private JButton jbPDFPath = new JButton(
             Localizer.getInstance().getString("SGTK_OPTIONS_GENERALPANEL_PATHTOREPORTSDIR")
     );
@@ -53,6 +50,7 @@ public class GeneralPanel extends OptionsPanel implements ActionListener {
     private Configuration conf;
     private OptionsDialog odialog;
     private JCheckBox colorImages;
+    private JCheckBox showRejected;
     //private JTextField numberOfDigits;
     
 	JFrame parent;
@@ -80,9 +78,9 @@ public class GeneralPanel extends OptionsPanel implements ActionListener {
         Vector<String> looknfeel = new Vector<String>();
         looknfeel.add("System");
         looknfeel.add("Windows");
-        looknfeel.add("Mac OS");
-        looknfeel.add("Metal");
+        looknfeel.add("Mac OS");        
         looknfeel.add("Motif");
+        looknfeel.add("Metal");
 
         cbLookAndFeel = new JComboBox(looknfeel);
         logger.info("LooknFeel is " + conf.getJavaConfig().getLooknFeel() + ".");
@@ -94,6 +92,9 @@ public class GeneralPanel extends OptionsPanel implements ActionListener {
         
         colorImages = new JCheckBox("Colored image files and pdf reports");
         colorImages.setSelected(conf.getGeneralConfig().getColoredImages());
+        
+        showRejected = new JCheckBox("Show rejected nodes in GUI");
+        showRejected.setSelected(conf.getGeneralConfig().showRejected());
     }
 
     private void doTheLayout() {
@@ -128,6 +129,14 @@ public class GeneralPanel extends OptionsPanel implements ActionListener {
         p1.add(new JLabel(loc.getString("SGTK_OPTIONS_GENERALPANEL_LF")),           cc.xy(1, row));
         p1.add(cbLookAndFeel, cc.xy(3, row));
         
+        row += 2;
+        
+        p1.add(colorImages, cc.xyw(1, row, 3));
+        
+        row += 2;        
+        
+        p1.add(showRejected, cc.xyw(1, row, 3));
+        
 
         add(p1);
     }
@@ -144,12 +153,6 @@ public class GeneralPanel extends OptionsPanel implements ActionListener {
             return "com.sun.java.swing.plaf.windows.WindowsLookAndFeel";
         } else if (id.equals("Mac OS")) {
             return "javax.swing.plaf.mac.MacLookAndFeel";
-        } else if (id.equals("Plastic3D")) {
-            return "com.jgoodies.looks.plastic.Plastic3DLookAndFeel";
-        } else if (id.equals("PlasticXP")) {
-            return "com.jgoodies.looks.plastic.PlasticXPLookAndFeel";
-        } else if (id.equals("Quaqua")) {
-            return "ch.randelshofer.quaqua.QuaquaLookAndFeel";
         }
         return null;
     }
@@ -172,6 +175,7 @@ public class GeneralPanel extends OptionsPanel implements ActionListener {
         }        
         conf.getGeneralConfig().setProjectPDFsPath(tfPDFPath.getText());
        	conf.getGeneralConfig().setColoredImages(colorImages.isSelected());
+       	conf.getGeneralConfig().setShowRejected(showRejected.isSelected());
         
         try {
             LookAndFeel currentLF = UIManager.getLookAndFeel();
@@ -213,9 +217,7 @@ public class GeneralPanel extends OptionsPanel implements ActionListener {
 
 	public void actionPerformed(ActionEvent e) {
 		JFileChooser fc = new JFileChooser();
-		if (e.getSource()==jbPDFVPath) {
-        	fc.setFileSelectionMode(JFileChooser.FILES_ONLY);
-        } else if (e.getSource()==jbPDFPath) {
+		if (e.getSource()==jbPDFPath) {
         	fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);            	
         }	
 		int returnVal = fc.showOpenDialog(this);
