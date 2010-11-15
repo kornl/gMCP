@@ -90,16 +90,16 @@ public class GeneralPanel extends OptionsPanel implements ActionListener {
         looknfeel.add("Mac OS");
         looknfeel.add("Metal");
         looknfeel.add("Motif");
-        looknfeel.add("Plastic3D");
-        looknfeel.add("PlasticXP");
-        looknfeel.add("Quaqua");
+        //looknfeel.add("Plastic3D");
+        //looknfeel.add("PlasticXP");
+        //looknfeel.add("Quaqua");
 
         cbLookAndFeel = new JComboBox(looknfeel);
         logger.info("LooknFeel is " + conf.getJavaConfig().getLooknFeel() + ".");
         for (int i = 0; i < looknfeel.size(); i++) {
             cbLookAndFeel.setSelectedIndex(i);
             if (getLooknFeel().equals(conf.getJavaConfig().getLooknFeel())) break;
-            logger.info("Not " + getLooknFeel());
+            logger.debug("Not " + getLooknFeel());
         }
         
         colorImages = new JCheckBox("Colored image files and pdf reports");
@@ -142,7 +142,7 @@ public class GeneralPanel extends OptionsPanel implements ActionListener {
         
         row += 2;
 
-        jbPDFVPath.addActionListener(this);
+        /*jbPDFVPath.addActionListener(this);
         p1.add(jbPDFVPath, cc.xy(1, row));
         p1.add(tfPDFViewerPath, cc.xy(3, row));
         
@@ -151,7 +151,7 @@ public class GeneralPanel extends OptionsPanel implements ActionListener {
         p1.add(new JLabel(loc.getString("SGTK_OPTIONS_GENERALPANEL_PDFOPTIONS")),   cc.xy(1, row));
         p1.add(tfPDFViewerOptions, cc.xy(3, row));
         
-        row += 2;
+        row += 2;*/
         
         jbPDFPath.addActionListener(this);
         p1.add(jbPDFPath, cc.xy(1, row));
@@ -238,7 +238,8 @@ public class GeneralPanel extends OptionsPanel implements ActionListener {
             }
         } catch (Exception exc) {
             // look&feel exception
-            throw new SetLookAndFeelException(exc);
+            //throw new SetLookAndFeelException(exc);
+        	JOptionPane.showMessageDialog(parent, "The selected LooknFeel is not available.", "Selected LooknFeel not available.", JOptionPane.WARNING_MESSAGE);
         }
     }
 

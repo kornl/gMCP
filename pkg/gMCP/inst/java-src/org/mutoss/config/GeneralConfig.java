@@ -212,5 +212,9 @@ public class GeneralConfig extends SpecificConfig {
 	public void setColoredImages(boolean colored) {		
 		setProperty("coloredImages", ""+colored);
 	}
+
+	public int getDigitsInTables() {
+		return Integer.parseInt(getProperty("digits.in.tables", "6"));	
+	}
 	
 }

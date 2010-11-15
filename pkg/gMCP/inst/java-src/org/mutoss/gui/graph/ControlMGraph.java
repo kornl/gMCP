@@ -38,4 +38,8 @@ public class ControlMGraph  {
 		return parent.getGraphView();
 	}
 
+	public void updateEdge(int row, int col, Double oldVal) {
+		// TODO Auto-generated method stub		
+	}
+
 }
