@@ -41,11 +41,13 @@ public class DialogConfIntEstVar extends JDialog implements ActionListener, Chan
 	String[] alternatives = { "two.sided", "less", "greater" };
 	
 	NetzListe nl;	
+	ControlMGraph control;
 	
-	public DialogConfIntEstVar(JFrame p, NetzListe nl) {		
+	public DialogConfIntEstVar(JFrame p, ControlMGraph control, NetzListe nl) {		
 		super(p, "Confidence intervals");
 		setLocationRelativeTo(p);
 		this.nl = nl;
+		this.control = control;
 				
 		GridBagConstraints c = new GridBagConstraints();
 		
@@ -115,9 +117,9 @@ public class DialogConfIntEstVar extends JDialog implements ActionListener, Chan
 	}
 
 	private void calculateCI() {	
-
+			String pValues = control.getPView().getPValuesString();
+			double[] alpha = RControl.getR().eval("getAlpha(gMCP("+NetzListe.initialGraph+","+pValues+"))").asRNumeric().getData();
 			for (int i=0; i<nl.getKnoten().size(); i++) {
-				Node node = nl.getKnoten().get(i);
 				Double lb, ub;
 				String d1 = "qnorm(";
 				String d2 = ",)";			
@@ -128,14 +130,14 @@ public class DialogConfIntEstVar extends JDialog implements ActionListener, Chan
 				}
 
 				if (alt.get(i).getSelectedItem().equals("greater")) {	
-					lb = RControl.getR().eval(d1+node.getAlpha()+d2).asRNumeric().getData()[0];				
+					lb = RControl.getR().eval(d1+alpha[i]+d2).asRNumeric().getData()[0];				
 					ub = Double.POSITIVE_INFINITY;
 				} else if (alt.get(i).getSelectedItem().equals("less")) {
 					lb = Double.NEGATIVE_INFINITY;
-					ub = RControl.getR().eval(d1+(1-node.getAlpha())+d2).asRNumeric().getData()[0];				
+					ub = RControl.getR().eval(d1+(1-alpha[i])+d2).asRNumeric().getData()[0];				
 				} else {
-					lb = RControl.getR().eval(d1+node.getAlpha()/2+d2).asRNumeric().getData()[0];
-					ub = RControl.getR().eval(d1+(1-node.getAlpha()/2)+d2).asRNumeric().getData()[0];
+					lb = RControl.getR().eval(d1+alpha[i]/2+d2).asRNumeric().getData()[0];
+					ub = RControl.getR().eval(d1+(1-alpha[i]/2)+d2).asRNumeric().getData()[0];
 				}
 
 				try {
@@ -148,7 +150,7 @@ public class DialogConfIntEstVar extends JDialog implements ActionListener, Chan
 			}
 	}
 
-	DecimalFormat format = new DecimalFormat("#.###");
+	DecimalFormat format = new DecimalFormat("#.####");
 	
 	public JPanel getPanel() {
 		
