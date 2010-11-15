@@ -5,9 +5,7 @@ import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileWriter;
-import java.io.IOException;
 import java.lang.reflect.Method;
-import java.net.URI;
 import java.text.DecimalFormat;
 
 import javax.imageio.ImageIO;

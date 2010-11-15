@@ -206,18 +206,7 @@ public class Edge {
 					(float) ((k1* vs.getZoom() - rc.getWidth() / 2)), 
 					(float) ((k2* vs.getZoom() - rc.getHeight() / 2)));
 
-		} else { // Edge is a loop:
-			int r = (int) (Node.getRadius());
-			g.drawArc(
-					(int) ((x1 - 109) * vs.getZoom()),
-					(int) ((y1 - (r / 2)) * vs.getZoom()), 
-					(int) (100 * vs.getZoom()), 
-					(int) (r * vs.getZoom()), 
-					45, 270);
-			if (vs.directed) {
-				// ToDo: Kanten mit Pfeilspitze
-			}
-		}
+		} 
 	}
 
 	public void setK1(int k1) {
