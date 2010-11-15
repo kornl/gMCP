@@ -49,12 +49,13 @@ In respect to
 
 \[\alpha_l <- \begin{cases}0=\lim\limits_{g_{jl}\rightarrow0}(\alpha_l+a_jg_{jl})&l\in I\\0&\text{otherwise}\end{cases}\]
 
-The only question is, what happens if and $l\in I, l\neq k$
+The only question is, what happens if and $l\in I, l\neq k, g_{lj}g_{jl}<1$.
+If $g_{lj}g_{jl}==1$ still $g_{lk}<-0$.
  
 \[\lim\limits_{g_{jl}\rightarrow0}\left(\frac{g_{lk}+g_{lj}g_{jk}}{1-g_{lj}g_{jl}}\right)
 =\begin{cases}
   \frac{g_{lk}+g_{lj}g_{jk}}{1-g_{lj}g_{jl}}&g_{lj}g_{jl}<1\\
-  \frac{g_{lk}+g_{lj}g_{jk}}{1-g_{lj}g_{jl}}&g_{lj}g_{jl}=1\\a\\b\\\end{cases}
+  0&g_{lj}g_{jl}=1\\a\\b\\\end{cases}
 =\]
 
 

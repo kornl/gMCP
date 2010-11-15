@@ -60,10 +60,12 @@ rejectNode <- function(graph, node, verbose=FALSE) {
 	
 	graph2 <- graph
 	
-	for (to in nodes(graph)[nodes(graph)!=node]) {				
-		nodeData(graph2, to, "alpha") <- nodeData(graph, to, "alpha")[[to]] + getWeight(graph,node,to) * nodeData(graph, node, "alpha")[[node]]				
+	for (to in nodes(graph)[nodes(graph)!=node]) {
+		if ((getWeight(graph,node,to))>0) {
+			keepAlpha <- FALSE
+			nodeData(graph2, to, "alpha") <- nodeData(graph, to, "alpha")[[to]] + getWeight(graph,node,to) * nodeData(graph, node, "alpha")[[node]]
+		}
 	}	
-	keepAlpha <- FALSE
 	
 	for (to in nodes(graph)[nodes(graph)!=node]) {						
 		for (from in nodes(graph)[nodes(graph)!=node]) {
