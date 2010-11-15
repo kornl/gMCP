@@ -17,7 +17,8 @@ public class Edge {
 
 	private static final Log logger = LogFactory.getLog(Edge.class);
 	public boolean curve = false;
-	DecimalFormat format = new DecimalFormat("#.###");
+	static DecimalFormat format = new DecimalFormat("#.###");
+	static DecimalFormat formatSmall = new DecimalFormat("#.###E0");
 	FontRenderContext frc = null;
 	Graphics2D g2d;
 	int k1, k2;
@@ -148,7 +149,11 @@ public class Edge {
 
 	private String getWS() {		
 		if (w.toString().equals("NaN")) return "ε";
-		return format.format(w);
+		if (w<0.0009) {
+			return formatSmall.format(w);
+		} else {
+			return format.format(w);
+		}
 	}
 
 	public boolean inYou(int x, int y) {

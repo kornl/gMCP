@@ -4,6 +4,7 @@ import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
+import java.util.Locale;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
@@ -24,6 +25,7 @@ public class CreateGraphGUI extends JFrame implements WindowListener {
 	
 	public CreateGraphGUI(String graph, boolean debug, double grid) {
 		super("Creating and modifying graphs");	
+		Locale.setDefault(Locale.ENGLISH);
 		RControl.getRControl(debug);
 		Localizer.getInstance().addResourceBundle("org.mutoss.gui.ResourceBundle");
 		Configuration.getInstance().getGeneralConfig().setGridSize((int)grid);
