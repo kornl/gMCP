@@ -32,7 +32,6 @@ Medium priority:
 Additional features / low priority:
 ===================================
 
-- matrix2graph and graph2matrix function
 - Look at print method for gMCPResult
 - Cleanup Config
 - PNG export cuts perhaps edges.
