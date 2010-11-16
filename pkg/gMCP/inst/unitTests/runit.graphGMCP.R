@@ -108,3 +108,11 @@ test.only.no.error <- function() {
 	gMCPReport(graph)
 	gMCPReport(gMCP(graph, pvalues))
 }
+
+test.graph2matrix <- function() {
+	m <- matrix(runif(9)/3, nrow=3)
+	rownames(m) <- LETTERS[1:3]
+	colnames(m) <- LETTERS[1:3]
+	m2 <- graph2matrix(matrix2graph(m))
+	checkEquals(m, m2)
+}

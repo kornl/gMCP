@@ -11,6 +11,7 @@ High priority:
 - PPanels will set alpha to the truncated number. (Can we handle fractions?)
 - What happens if I try to create nodes with the same name? Is Node.nr used for something?
   (Saving to R returns an error: Ungültiges Objekt der Klasse "graphMCP": FALSE)
+- Edge weight from node i to node j: m[i,j] or m[j,i] - please decide.
 
 
 Medium priority:
