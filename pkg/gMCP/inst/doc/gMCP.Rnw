@@ -159,6 +159,22 @@ edgeData(graph, "H11", "H21", "labelY") <- 80
 @
 \normalsize
 
+\subsubsection{graph2matrix and matrix2graph}
+
+We can also constuct a graph from a given adjacency matrix via the command \texttt{matrix2graph}:
+
+\scriptsize
+<<echo=TRUE>>=
+
+# Bonferroni-Holm:
+m <- matrix(rep(1/3, 9), nrow=3)
+graph <- matrix2graph(m, alpha=rep(0.05/3,3))
+print(graph)
+graph2matrix(graph)
+
+@
+\normalsize
+
 \subsection{Using the GUI}
 
 The creation of \texttt{graphMCP} objects is very straight forward,

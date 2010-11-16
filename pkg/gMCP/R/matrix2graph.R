@@ -20,5 +20,14 @@ matrix2graph <- function(m, alpha=rep(0,dim(m)[1])) {
 }
 
 graph2matrix <- function(graph) {
-	
+	hnodes <- nodes(graph)
+	m <- matrix(nrow=length(hnodes),ncol=length(hnodes))
+	colnames(m) <- hnodes
+	rownames(m) <- hnodes
+	for (i in 1:length(hnodes)) {
+		for (j in 1:length(hnodes)) {			
+			m[i,j] <- getWeight(graph, hnodes[i], hnodes[j])
+		}
+	}
+	return(m)
 }
