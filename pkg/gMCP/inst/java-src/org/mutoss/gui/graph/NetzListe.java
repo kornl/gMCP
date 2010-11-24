@@ -87,6 +87,7 @@ public class NetzListe extends JPanel implements MouseMotionListener, MouseListe
 			}
 		}
 		edges.add(e);
+		control.getDataTable().getModel().setValueAt(e.getW(), getKnoten().indexOf(e.von), getKnoten().indexOf(e.nach));
 	}
 
 	/**
@@ -99,7 +100,7 @@ public class NetzListe extends JPanel implements MouseMotionListener, MouseListe
 	 */
 
 	public void addEdge(Node von, Node nach) {
-		addEdge(von,nach, Double.NaN);		
+		addEdge(von, nach, Double.NaN);		
 	}
 
 	/**
@@ -137,6 +138,7 @@ public class NetzListe extends JPanel implements MouseMotionListener, MouseListe
 				edges.add(new Edge(von, nach, w, vs, curve));
 			}						
 		}
+		control.getDataTable().getModel().setValueAt(w, getKnoten().indexOf(von), getKnoten().indexOf(nach));
 		edges.lastElement().curve = curve;
 	}
 
@@ -145,6 +147,7 @@ public class NetzListe extends JPanel implements MouseMotionListener, MouseListe
 		knoten.add(node);
 		knoten.lastElement().fix = false;	
 		control.getPView().addPPanel(node);
+		control.getDataTable().getModel().addRowCol(node.name);
 		calculateSize();
 	}
 

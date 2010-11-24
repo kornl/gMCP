@@ -9,17 +9,20 @@ import java.util.Locale;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 
 import org.af.commons.Localizer;
 import org.mutoss.config.Configuration;
+import org.mutoss.gui.datatable.CellEditorE;
+import org.mutoss.gui.datatable.CellValue;
 import org.mutoss.gui.datatable.DataFramePanel;
+import org.mutoss.gui.datatable.DataTable;
 import org.mutoss.gui.datatable.RDataFrameRef;
 import org.mutoss.gui.graph.ControlMGraph;
 import org.mutoss.gui.graph.GraphMCP;
 import org.mutoss.gui.graph.GraphView;
 import org.mutoss.gui.graph.PView;
-
 
 public class CreateGraphGUI extends JFrame implements WindowListener {
 	
@@ -76,7 +79,8 @@ public class CreateGraphGUI extends JFrame implements WindowListener {
 		graphview = new GraphView(agc);
 		pview = new PView(agc);
 		dfp = new DataFramePanel(new RDataFrameRef());
-		JSplitPane splitPane2 = new JSplitPane(JSplitPane.VERTICAL_SPLIT, dfp, pview);
+		dfp.getTable().setDefaultEditor(CellValue.class, new CellEditorE(agc));
+		JSplitPane splitPane2 = new JSplitPane(JSplitPane.VERTICAL_SPLIT, new JScrollPane(dfp), pview);
 		JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, graphview, splitPane2);
 		this.getContentPane().add(splitPane);		
 	}
@@ -99,5 +103,9 @@ public class CreateGraphGUI extends JFrame implements WindowListener {
 
 	public GraphView getGraphView() {		
 		return graphview;
+	}
+
+	public DataTable getDataTable() {		
+		return dfp.getTable();
 	}
 }

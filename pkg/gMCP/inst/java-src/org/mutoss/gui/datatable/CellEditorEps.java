@@ -19,7 +19,7 @@ public class CellEditorEps extends DefaultCellEditor {
 		this.agc = agc;
 		this.row = row;
 		this.col = col;
-		// TODO: WHY DO I NEED THIS s.replace(',','.');
+		// TODO: WHY DO I NEED THIS s.replace(',','.'); No, this looks simple, but there are strange things out there.
 		s = s.replace(',','.');
         try {        	
         	oldVal = Double.parseDouble(s);
@@ -40,9 +40,9 @@ public class CellEditorEps extends DefaultCellEditor {
     	return oldVal;
     }
 
-    @Override
+    /*@Override
     public boolean stopCellEditing() {
         fireEditingStopped();
         return true;
-    }
+    }*/
 }

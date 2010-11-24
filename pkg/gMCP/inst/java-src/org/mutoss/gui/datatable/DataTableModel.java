@@ -39,7 +39,7 @@ public class DataTableModel extends AbstractTableModel {
     }
 
     public CellValue getValueAt(int row, int col) {
-        return new CellValue(df.getElement(row, col), df.getCol(col));
+        return new CellValue(df.getElement(row, col));
     }
     
     public void addRowCol(String name) {
