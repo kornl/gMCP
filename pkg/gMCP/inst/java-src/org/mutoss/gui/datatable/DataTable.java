@@ -69,13 +69,13 @@ public class DataTable extends JXTable2 {
     @Override
     public void createDefaultColumnsFromModel() {
         super.createDefaultColumnsFromModel();
-        for (int j = 0; j < getColumnCount(); j++) {
+        /*for (int j = 0; j < getColumnCount(); j++) {
             TableColumn aColumn = getColumn(j);
             int i = aColumn.getModelIndex();
             String name = getModel().getColumnName(i);
             double[] dfCol = getModel().getDataFrame().getCol(i);
             aColumn.setHeaderValue(new HeaderCellValue(name, dfCol));
-        }
+        }*/
     }
 
     @Override

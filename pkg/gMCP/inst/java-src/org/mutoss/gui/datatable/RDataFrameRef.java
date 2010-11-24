@@ -10,7 +10,7 @@ public class RDataFrameRef {
 	Vector<Vector<Double>> data = new Vector<Vector<Double>>();  
 	
 	public RDataFrameRef () {
-		addRowCol("H1");
+		//addRowCol("H1");
 	}
 
 	public String getColName(int col) {
@@ -19,10 +19,6 @@ public class RDataFrameRef {
 	
 	public Object getRowName(int row) {
 		return rcNames.get(row);
-	}
-
-	public void setVarName(String oldName, String newName) {
-		
 	}
 
 	public void setValue(int row, int col, Double value) {
@@ -40,8 +36,6 @@ public class RDataFrameRef {
 	public double getElement(int row, int col) {
 		return data.get(row).get(col);
 	}
-
-
 	
 	public void delRowCol(int col) {
 		rcNames.remove(col); 
@@ -67,7 +61,5 @@ public class RDataFrameRef {
 		for (int i=0; i < getRowCount(); i++) {data.get(i).add(0.0);}
 		System.out.println("Data has "+getRowCount()+" rows and "+getColumnCount()+" columns now.");
 	}
-
-
 
 }

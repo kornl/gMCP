@@ -13,6 +13,8 @@ import javax.swing.JSplitPane;
 
 import org.af.commons.Localizer;
 import org.mutoss.config.Configuration;
+import org.mutoss.gui.datatable.DataFramePanel;
+import org.mutoss.gui.datatable.RDataFrameRef;
 import org.mutoss.gui.graph.ControlMGraph;
 import org.mutoss.gui.graph.GraphMCP;
 import org.mutoss.gui.graph.GraphView;
@@ -68,11 +70,14 @@ public class CreateGraphGUI extends JFrame implements WindowListener {
 	GraphView graphview;
 	ControlMGraph agc;
 	PView pview;
+	DataFramePanel dfp;
 	
 	private void makeContent() {
 		graphview = new GraphView(agc);
 		pview = new PView(agc);
-		JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, graphview, pview);
+		dfp = new DataFramePanel(new RDataFrameRef());
+		JSplitPane splitPane2 = new JSplitPane(JSplitPane.VERTICAL_SPLIT, dfp, pview);
+		JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, graphview, splitPane2);
 		this.getContentPane().add(splitPane);		
 	}
 
