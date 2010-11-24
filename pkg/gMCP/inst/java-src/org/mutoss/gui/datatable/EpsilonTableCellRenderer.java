@@ -30,7 +30,6 @@ public class EpsilonTableCellRenderer extends DefaultTableCellRenderer {
 	
     public void setValue(Object value) {
     	setText(getString(value));
-        //setText((d == Double.NaN) ? "ε" : ""+d);
     }
 
     public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int col)	{    	

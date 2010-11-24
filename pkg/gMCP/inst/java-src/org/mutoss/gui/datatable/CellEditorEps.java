@@ -40,9 +40,4 @@ public class CellEditorEps extends DefaultCellEditor {
     	return oldVal;
     }
 
-    /*@Override
-    public boolean stopCellEditing() {
-        fireEditingStopped();
-        return true;
-    }*/
 }

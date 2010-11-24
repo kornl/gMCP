@@ -1,8 +1,6 @@
 package org.mutoss.gui.datatable;
 
 import java.awt.Component;
-import java.awt.event.MouseEvent;
-import java.util.EventObject;
 
 import javax.swing.AbstractCellEditor;
 import javax.swing.DefaultCellEditor;
@@ -37,11 +35,4 @@ public class CellEditorE  extends AbstractCellEditor implements TableCellEditor 
         return ed.getComponent();
     }
 
-    @Override
-    public boolean isCellEditable(EventObject e) {
-       // if (e instanceof MouseEvent) {
-       //    return ((MouseEvent) e).getClickCount() >= 2;
-       // }
-        return true;
-    }
 }

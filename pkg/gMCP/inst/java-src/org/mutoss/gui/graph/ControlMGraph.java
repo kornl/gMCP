@@ -1,6 +1,5 @@
 package org.mutoss.gui.graph;
 
-import javax.swing.AbstractButton;
 import javax.swing.JFrame;
 
 import org.apache.commons.logging.Log;

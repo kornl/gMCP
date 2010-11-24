@@ -24,7 +24,6 @@ public class DataTableModel extends AbstractTableModel {
         return df.getColName(col);
     }
 
-    // we do rendering and editing ourselves anyway, so don't need this
     public Class<?> getColumnClass(int col) {
         return CellValue.class;
     }
