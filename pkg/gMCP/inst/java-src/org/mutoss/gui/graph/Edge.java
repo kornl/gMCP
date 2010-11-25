@@ -66,8 +66,13 @@ public class Edge {
 			k1 = x1 + (int)(Math.cos(alpha*(Math.PI*2)/360)*d/2);
 			k2 = y1 - (int)(Math.sin(alpha*(Math.PI*2)/360)*d/2);
 		} else {
-			k1 = x1 + (x2-x1)/4; //(x1+x2)/2;
-			k2 = y1 + (y2-y1)/4; //(y1+y2)/2;		
+			if (Math.sqrt((x2-x1)*(x2-x1)+(y2-y1)*(y2-y1))>200) { // For long edges a placement at the beginning is good.
+				k1 = x1 + (x2-x1)/4;
+				k2 = y1 + (y2-y1)/4;
+			} else {                 // But for short edges we prefer pleacement in the middle. 
+				k1 = x1 + (x2-x1)/2;
+				k2 = y1 + (y2-y1)/2;
+			}
 		}
 	}
 	

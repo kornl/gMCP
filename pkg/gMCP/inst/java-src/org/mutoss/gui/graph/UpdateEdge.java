@@ -19,9 +19,11 @@ public class UpdateEdge extends JDialog implements ActionListener {
 	JButton jbDelete = new JButton("Remove Edge");
 	Edge edge;
 	NetzListe netzListe;
+	ControlMGraph control;
 	
-	public UpdateEdge(Edge edge, NetzListe netzListe) {
+	public UpdateEdge(Edge edge, NetzListe netzListe, ControlMGraph control) {
 		super((JFrame)null, "Updating Edge from node "+edge.von.name+" to "+edge.nach.name);
+		this.control = control;
 		this.edge = edge;
 		this.netzListe = netzListe;
 		String cols = "5dlu, fill:pref:grow, 5dlu, fill:pref:grow, 5dlu";
@@ -61,9 +63,11 @@ public class UpdateEdge extends JDialog implements ActionListener {
 			}
 		}
 		if (w==0) {
-			netzListe.removeEdge(edge);
+			control.getDataTable().getModel().setValueAt(0, netzListe.getKnoten().indexOf(edge.von), netzListe.getKnoten().indexOf(edge.nach));
+			netzListe.removeEdge(edge);			
 		} else {
-			edge.setW(w);
+			edge.setW(w);	
+			control.getDataTable().getModel().setValueAt(w, netzListe.getKnoten().indexOf(edge.von), netzListe.getKnoten().indexOf(edge.nach));
 		}
 		netzListe.repaint();
 		dispose();		

@@ -39,8 +39,21 @@ public class ControlMGraph  {
 		return parent.getGraphView();
 	}
 
-	public void updateEdge(int row, int col, Double oldVal) {
-		// TODO Auto-generated method stub		
+	public void updateEdge(int from, int to, Double w) {
+		logger.info("Adding Edge from "+from+" to "+to+" with weight "+w+".");
+		Edge e = getNL().findEdge(getNL().getKnoten().get(from), getNL().getKnoten().get(to));
+		if (e!=null) {
+			int x = e.getK1();
+			int y = e.getK2();
+			if (w != 0) {
+				getNL().addEdge(new Edge(getNL().getKnoten().get(from), getNL().getKnoten().get(to), w, getNL().vs, x, y));
+			} else {
+				getNL().removeEdge(e);
+			}
+		} else {
+			getNL().addEdge(getNL().getKnoten().get(from), getNL().getKnoten().get(to), w);
+		}
+		getNL().repaint();
 	}
 
 	public DataTable getDataTable() {		
