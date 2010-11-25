@@ -67,11 +67,10 @@ rejectNode <- function(graph, node, verbose=FALSE) {
 	#}	
 	
 	## The following code will be removed in 0.4! ##
-	
 	if (all(TRUE == all.equal(unname(edgesOut), rep(0, length(edgesOut))))) {
 		if (verbose) cat("Alpha is passed via epsilon-edges.\n")
 		for (to in nodes(graph)[nodes(graph)!=node]) {	
-			numberOfEpsilonEdges <- sum(TRUE == all.equal(edgesOut, rep(0, length(edgesOut))))
+			numberOfEpsilonEdges <- sum(TRUE == all.equal(unname(edgesOut), rep(0, length(edgesOut))))
 			if (existsEdge(graph, node, to)) {
 				nodeData(graph2, to, "alpha") <- nodeData(graph, to, "alpha")[[to]] + nodeData(graph, node, "alpha")[[node]] / numberOfEpsilonEdges
 				keepAlpha <- FALSE
