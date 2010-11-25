@@ -38,7 +38,7 @@ public class DialogConfIntEstVar extends JDialog implements ActionListener, Chan
 	List <JComboBox> dist = new Vector<JComboBox>();
 	
 	String[] dists = { "normal-distributed", "t-distributed" };
-	String[] alternatives = { "two.sided", "less", "greater" };
+	String[] alternatives = { /*"two.sided",*/ "less", "greater" };
 	
 	NetzListe nl;	
 	ControlMGraph control;

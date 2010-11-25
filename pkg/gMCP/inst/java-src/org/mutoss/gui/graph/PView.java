@@ -159,7 +159,7 @@ public class PView extends JPanel {
 	}
 
 	public String getPValuesString() {
-		if (pValues==null) savePValues();
+		savePValues();
 		String s = "c(";
 		for (double p : pValues) {
 			s += p+", ";
