@@ -26,6 +26,8 @@
 \details{
 	The hypotheses names are the row names or if these are \code{NULL}, 
 	the column names or if these are also \code{NULL} of type H1, H2, H3, ...
+	
+	If the diagonal of the matrix is unequal zero, the values are ignored and a warning is given.
 }
 \value{
 	A graph of class \code{\link{graphMCP}} with the given adjacency matrix for matrix2graph.
@@ -41,7 +43,8 @@
 \examples{
 
 # Bonferroni-Holm:
-m <- matrix(rep(1/3, 9), nrow=3)
+m <- matrix(rep(1/3, 16), nrow=4)
+diag(m) <- c(0, 0, 0, 0)
 graph <- matrix2graph(m)
 print(graph)
 graph2matrix(graph)

@@ -111,6 +111,7 @@ test.only.no.error <- function() {
 
 test.graph2matrix <- function() {
 	m <- matrix(runif(9)/3, nrow=3)
+	diag(m) <- c(0, 0, 0)
 	rownames(m) <- LETTERS[1:3]
 	colnames(m) <- LETTERS[1:3]
 	m2 <- graph2matrix(matrix2graph(m))
