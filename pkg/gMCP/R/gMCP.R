@@ -11,7 +11,7 @@ gMCP <- function(graph, pvalues, verbose=FALSE) {
 		graph <- rejectNode(graph, node, verbose)
 		sequence <- c(sequence, graph)
 	}	
-	return(new("gMCPResult", graphs=sequence, pvalues=pvalues, adjPValues=adjPValues(graph, pvalues, verbose)@adjPValues))
+	return(new("gMCPResult", graphs=sequence, pvalues=pvalues, adjPValues=adjPValues(sequence[[1]], pvalues, verbose)@adjPValues))
 }
 
 adjPValues <- function(graph, pvalues, verbose=FALSE) {
