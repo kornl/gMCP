@@ -1,8 +1,9 @@
 Version 0.4-0
 =============
 - Accompanying doc file: Description of Edges with Infinitesimal Small Epsilon Weights
+- New example graphs:
 
-Version 0.3-4
+Version 0.3-4 (25-Nov-2010)
 =============
 - New functions: graph2matrix and matrix2graph
 - Adjaceny matrix is shown and can be edited.
