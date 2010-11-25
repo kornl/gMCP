@@ -191,7 +191,7 @@ public class GraphView extends JPanel implements ActionListener {
 				control.getPView().savePValues();
 			}
 			String pValues = control.getPView().getPValuesString();
-			double[] adjPValues = RControl.getR().eval("adjPValues("+NetzListe.initialGraph+","+pValues+")@adjPValues").asRNumeric().getData();
+			double[] adjPValues = RControl.getR().eval("gMCP:::adjPValues("+NetzListe.initialGraph+","+pValues+")@adjPValues").asRNumeric().getData();
 			new AdjustedPValueDialog(control.getMainFrame(), control.getPView().pValues, adjPValues, getNL().getKnoten());			
 		} else if (e.getSource().equals(buttonLatex)) {
 			exportLaTeXGraph();

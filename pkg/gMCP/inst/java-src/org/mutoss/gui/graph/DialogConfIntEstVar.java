@@ -119,6 +119,7 @@ public class DialogConfIntEstVar extends JDialog implements ActionListener, Chan
 	private void calculateCI() {	
 			String pValues = control.getPView().getPValuesString();
 			double[] alpha = RControl.getR().eval("getAlpha(gMCP("+NetzListe.initialGraph+","+pValues+"))").asRNumeric().getData();
+			boolean[] rejected = RControl.getR().eval("getRejected(gMCP("+NetzListe.initialGraph+","+pValues+"))").asRLogical().getData();
 			for (int i=0; i<nl.getKnoten().size(); i++) {
 				Double lb, ub;
 				String d1 = "qnorm(";
@@ -143,7 +144,18 @@ public class DialogConfIntEstVar extends JDialog implements ActionListener, Chan
 				try {
 					Double ste = var.get(i).getValidatedValue();
 					Double pEst = est.get(i).getValidatedValue();
-					ci.get(i).setText("]"+format.format(pEst+lb*ste)+","+format.format(pEst+ub*ste)+"[");
+					double lb2 = pEst+lb*ste;
+					double ub2 = pEst+ub*ste;
+					if (alt.get(i).getSelectedItem().equals("greater")) {
+						if (rejected[i]) {
+							lb2 = Math.max(lb2, 0);
+						}
+					} else if (alt.get(i).getSelectedItem().equals("less")) {
+						if (rejected[i]) {
+							ub2 = Math.min(ub2, 0);
+						}
+					}
+					ci.get(i).setText("]"+format.format(lb2)+","+format.format(ub2)+"[");
 				} catch (ValidationException e) {
 					ci.get(i).setText("Please specify a real number for the estimate!");
 				}
