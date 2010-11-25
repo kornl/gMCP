@@ -21,7 +21,7 @@ import org.mutoss.config.Configuration;
  * 
  * @version 29 Dec 2001
  * @author G9-Gui
- * @see NetzListe
+ * @see NetList
  */
 
 public class Node {

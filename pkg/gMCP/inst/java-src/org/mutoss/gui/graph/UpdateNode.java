@@ -22,9 +22,9 @@ public class UpdateNode extends JDialog implements ActionListener {
 	JButton jb = new JButton("Update Node");
 	JButton jbDeleteNode = new JButton("Delete Node");
 	Node node;
-	NetzListe netzListe;
+	NetList netzListe;
 	
-	public UpdateNode(Node node, NetzListe netzListe) {
+	public UpdateNode(Node node, NetList netzListe) {
 		super((JFrame)null, "Updating Node "+node.name);
 		this.node = node;
 		this.netzListe = netzListe;

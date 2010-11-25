@@ -22,9 +22,9 @@ public class Edge {
 	FontRenderContext frc = null;
 	Graphics2D g2d;
 	int k1, k2;
-	public Node nach;
+	public Node to;
 
-	public Node von;
+	public Node from;
 	
 	VS vs;
 	
@@ -38,8 +38,8 @@ public class Edge {
 		y2 = nach.getY() + Node.getRadius();
 		k1 = x1 + (x2-x1)/4; //(x1+x2)/2;
 		k2 = y1 + (y2-y1)/4; //(y1+y2)/2;
-		this.von = von;
-		this.nach = nach;
+		this.from = von;
+		this.to = nach;
 		this.w = w;
 		this.vs = vs;
 	}
@@ -77,8 +77,8 @@ public class Edge {
 	}
 	
 	public Edge(Node von, Node nach, Double w, VS vs, int k1, int k2) {
-		this.von = von;
-		this.nach = nach;
+		this.from = von;
+		this.to = nach;
 		this.w = w;
 		this.vs = vs;
 		this.k1 = k1;
@@ -87,10 +87,10 @@ public class Edge {
 	
 	public int getBendLeft() {
 		int x1, x2, y1, y2;
-		x1 = von.getX() + Node.getRadius();
-		x2 = nach.getX() + Node.getRadius();
-		y1 = von.getY() + Node.getRadius();
-		y2 = nach.getY() + Node.getRadius();
+		x1 = from.getX() + Node.getRadius();
+		x2 = to.getX() + Node.getRadius();
+		y1 = from.getY() + Node.getRadius();
+		y2 = to.getY() + Node.getRadius();
 		double[] m;
 		try {
 			m = GraphDrawHelper.getCenter(x1, y1, k1, k2, x2, y2);
@@ -117,10 +117,10 @@ public class Edge {
 
 	public double getPos() {
 		int x1, x2, y1, y2;
-		x1 = von.getX() + Node.getRadius();
-		x2 = nach.getX() + Node.getRadius();
-		y1 = von.getY() + Node.getRadius();
-		y2 = nach.getY() + Node.getRadius();		
+		x1 = from.getX() + Node.getRadius();
+		x2 = to.getX() + Node.getRadius();
+		y1 = from.getY() + Node.getRadius();
+		y2 = to.getY() + Node.getRadius();		
 		double[] m;
 		try {
 			m = GraphDrawHelper.getCenter(x1, y1, k1, k2, x2, y2);
@@ -171,11 +171,11 @@ public class Edge {
 	
 	public void paintYou(Graphics g) {
 		int x1, x2, y1, y2;
-		x1 = von.x + Node.getRadius();
-		x2 = nach.x + Node.getRadius();
-		y1 = von.y + Node.getRadius();
-		y2 = nach.y + Node.getRadius();
-		if (von != nach) {
+		x1 = from.x + Node.getRadius();
+		x2 = to.x + Node.getRadius();
+		y1 = from.y + Node.getRadius();
+		y2 = to.y + Node.getRadius();
+		if (from != to) {
 			int dx = x1 - k1;
 			int dy = y1 - k2;
 			double d = Math.sqrt(dx * dx + dy * dy);

@@ -18,11 +18,11 @@ public class UpdateEdge extends JDialog implements ActionListener {
 	JButton jb = new JButton("Update Edge");
 	JButton jbDelete = new JButton("Remove Edge");
 	Edge edge;
-	NetzListe netzListe;
+	NetList netzListe;
 	ControlMGraph control;
 	
-	public UpdateEdge(Edge edge, NetzListe netzListe, ControlMGraph control) {
-		super((JFrame)null, "Updating Edge from node "+edge.von.name+" to "+edge.nach.name);
+	public UpdateEdge(Edge edge, NetList netzListe, ControlMGraph control) {
+		super((JFrame)null, "Updating Edge from node "+edge.from.name+" to "+edge.to.name);
 		this.control = control;
 		this.edge = edge;
 		this.netzListe = netzListe;
@@ -63,11 +63,11 @@ public class UpdateEdge extends JDialog implements ActionListener {
 			}
 		}
 		if (w==0) {
-			control.getDataTable().getModel().setValueAt(0, netzListe.getKnoten().indexOf(edge.von), netzListe.getKnoten().indexOf(edge.nach));
+			control.getDataTable().getModel().setValueAt(0, netzListe.getKnoten().indexOf(edge.from), netzListe.getKnoten().indexOf(edge.to));
 			netzListe.removeEdge(edge);			
 		} else {
 			edge.setW(w);	
-			control.getDataTable().getModel().setValueAt(w, netzListe.getKnoten().indexOf(edge.von), netzListe.getKnoten().indexOf(edge.nach));
+			control.getDataTable().getModel().setValueAt(w, netzListe.getKnoten().indexOf(edge.from), netzListe.getKnoten().indexOf(edge.to));
 		}
 		netzListe.repaint();
 		dispose();		

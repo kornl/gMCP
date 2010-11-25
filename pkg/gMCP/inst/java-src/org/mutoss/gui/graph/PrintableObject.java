@@ -11,9 +11,9 @@ import java.awt.print.PrinterException;
 
 public class PrintableObject implements Printable {
 	public int iResMul = 4;
-	private NetzListe nl;
+	private NetList nl;
 
-	public PrintableObject(NetzListe nl) {
+	public PrintableObject(NetList nl) {
 		this.nl = nl;
 	}
 

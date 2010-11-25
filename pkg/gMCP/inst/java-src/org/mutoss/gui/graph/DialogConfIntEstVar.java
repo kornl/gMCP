@@ -40,10 +40,10 @@ public class DialogConfIntEstVar extends JDialog implements ActionListener, Chan
 	String[] dists = { "normal-distributed", "t-distributed" };
 	String[] alternatives = { /*"two.sided",*/ "less", "greater" };
 	
-	NetzListe nl;	
+	NetList nl;	
 	ControlMGraph control;
 	
-	public DialogConfIntEstVar(JFrame p, ControlMGraph control, NetzListe nl) {		
+	public DialogConfIntEstVar(JFrame p, ControlMGraph control, NetList nl) {		
 		super(p, "Confidence intervals");
 		setLocationRelativeTo(p);
 		this.nl = nl;
@@ -118,8 +118,8 @@ public class DialogConfIntEstVar extends JDialog implements ActionListener, Chan
 
 	private void calculateCI() {	
 			String pValues = control.getPView().getPValuesString();
-			double[] alpha = RControl.getR().eval("getAlpha(gMCP("+NetzListe.initialGraph+","+pValues+"))").asRNumeric().getData();
-			boolean[] rejected = RControl.getR().eval("getRejected(gMCP("+NetzListe.initialGraph+","+pValues+"))").asRLogical().getData();
+			double[] alpha = RControl.getR().eval("getAlpha(gMCP("+NetList.initialGraph+","+pValues+"))").asRNumeric().getData();
+			boolean[] rejected = RControl.getR().eval("getRejected(gMCP("+NetList.initialGraph+","+pValues+"))").asRLogical().getData();
 			for (int i=0; i<nl.getKnoten().size(); i++) {
 				Double lb, ub;
 				String d1 = "qnorm(";

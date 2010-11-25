@@ -19,7 +19,7 @@ public class ControlMGraph  {
 		this.parent = parent;
 	}
 	
-	public NetzListe getNL() {
+	public NetList getNL() {
 		return getGraphView().getNL();
 	}
 	

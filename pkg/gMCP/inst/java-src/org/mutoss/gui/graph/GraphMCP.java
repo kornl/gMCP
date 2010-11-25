@@ -15,14 +15,14 @@ public class GraphMCP {
 	
 	public Vector<Edge> kanten = new Vector<Edge>();
 	public Vector<Node> knoten = new Vector<Node>();
-	NetzListe nl;
+	NetList nl;
 	VS vs;
 	
-	public NetzListe getNL() {
+	public NetList getNL() {
 		return nl;
 	}
 
-	public void setNL(NetzListe nl) {
+	public void setNL(NetList nl) {
 		this.nl = nl;
 	}
 

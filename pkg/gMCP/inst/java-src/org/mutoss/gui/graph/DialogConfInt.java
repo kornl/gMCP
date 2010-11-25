@@ -38,7 +38,7 @@ public class DialogConfInt extends JDialog implements ActionListener, ChangeList
 	
 	String[] dists = { "normal-distributed", "t-distributed" };
 	String[] alternatives = { "less", "greater" };
-	NetzListe nl;	
+	NetList nl;	
 	
 	public DialogConfInt(JFrame p, ControlMGraph control) {		
 		super(p, "Confidence intervals", true);

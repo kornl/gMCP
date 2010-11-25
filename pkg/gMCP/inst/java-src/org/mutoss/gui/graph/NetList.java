@@ -25,9 +25,9 @@ import org.mutoss.gui.RControl;
  * Diese Klasse (extends JPanel) stellt einen Graphen graphisch dar.
  */
 
-public class NetzListe extends JPanel implements MouseMotionListener, MouseListener {
+public class NetList extends JPanel implements MouseMotionListener, MouseListener {
 
-	private static final Log logger = LogFactory.getLog(NetzListe.class);
+	private static final Log logger = LogFactory.getLog(NetList.class);
 	ControlMGraph control;
 	int drag = -1;
 	protected Vector<Edge> edges = new Vector<Edge>();
@@ -35,7 +35,7 @@ public class NetzListe extends JPanel implements MouseMotionListener, MouseListe
 	
 	Node firstVertex;
 	boolean firstVertexSelected = false;
-	protected Vector<Node> knoten = new Vector<Node>();
+	protected Vector<Node> nodes = new Vector<Node>();
 
 	boolean started = false;
 
@@ -55,7 +55,7 @@ public class NetzListe extends JPanel implements MouseMotionListener, MouseListe
 	 *            VS Viewer Setting Objekt
 	 */
 
-	public NetzListe(JLabel statusBar, VS vs,  ControlMGraph abstractGraphControl) {
+	public NetList(JLabel statusBar, VS vs,  ControlMGraph abstractGraphControl) {
 		this.statusBar = statusBar;
 		this.vs = vs;
 		this.control = abstractGraphControl;
@@ -76,23 +76,23 @@ public class NetzListe extends JPanel implements MouseMotionListener, MouseListe
 	}
 
 	public void addDefaultNode(int x, int y) {
-		addNode(new Node(knoten.size() + 1, "H" + (knoten.size() + 1), x, y, vs));		
+		addNode(new Node(nodes.size() + 1, "H" + (nodes.size() + 1), x, y, vs));		
 	}
 
 	public void addEdge(Edge e) {
 		Edge old = null;
 		for (Edge e2 : edges) {
-			if (e2.von == e.von && e2.nach == e.nach) {
+			if (e2.from == e.from && e2.to == e.to) {
 				old = e2;
 			}
-			if (e2.von == e.nach && e2.nach == e.von) {
+			if (e2.from == e.to && e2.to == e.from) {
 				e.curve = true;
 				e2.curve = true;
 			}
 		}
 		if (old != null) edges.remove(old);
 		edges.add(e);
-		control.getDataTable().getModel().setValueAt(e.getW(), getKnoten().indexOf(e.von), getKnoten().indexOf(e.nach));
+		control.getDataTable().getModel().setValueAt(e.getW(), getKnoten().indexOf(e.from), getKnoten().indexOf(e.to));
 	}
 
 	/**
@@ -124,13 +124,13 @@ public class NetzListe extends JPanel implements MouseMotionListener, MouseListe
 		Integer y = null;
 		boolean curve = false;
 		for (Edge e : edges) {
-			if (e.von == nach && e.nach == von) {
+			if (e.from == nach && e.to == von) {
 				e.curve = true;
 				curve = true;
 			}
 		}		
 		for (int i = edges.size()-1; i >= 0; i--) {
-			if (edges.get(i).von == von && edges.get(i).nach == nach) {
+			if (edges.get(i).from == von && edges.get(i).to == nach) {
 				x = edges.get(i).getK1();
 				y = edges.get(i).getK2();
 				edges.remove(i);				
@@ -141,16 +141,16 @@ public class NetzListe extends JPanel implements MouseMotionListener, MouseListe
 				edges.add(new Edge(von, nach, w, vs, x, y));
 			} else {
 				edges.add(new Edge(von, nach, w, vs, curve));
-			}						
+			}
+			edges.lastElement().curve = curve;
 		}
 		control.getDataTable().getModel().setValueAt(w, getKnoten().indexOf(von), getKnoten().indexOf(nach));
-		edges.lastElement().curve = curve;
 	}
 
 	public void addNode(Node node) {
 		control.getGraphView().buttonStart.setEnabled(true);
-		knoten.add(node);
-		knoten.lastElement().fix = false;	
+		nodes.add(node);
+		nodes.lastElement().fix = false;	
 		control.getPView().addPPanel(node);
 		control.getDataTable().getModel().addRowCol(node.name);
 		calculateSize();
@@ -163,11 +163,11 @@ public class NetzListe extends JPanel implements MouseMotionListener, MouseListe
 	public int[] calculateSize() {
 		int maxX = 0;
 		int maxY = 0;
-		for (int i = 0; i < knoten.size(); i++) {
-			if (knoten.get(i).getX() > maxX)
-				maxX = knoten.get(i).getX();
-			if (knoten.get(i).getY() > maxY)
-				maxY = knoten.get(i).getY();
+		for (int i = 0; i < nodes.size(); i++) {
+			if (nodes.get(i).getX() > maxX)
+				maxX = nodes.get(i).getX();
+			if (nodes.get(i).getY() > maxY)
+				maxY = nodes.get(i).getY();
 		}
 		for (int i = 0; i < edges.size(); i++) {
 			if (edges.get(i).getK1() > maxX)
@@ -185,7 +185,7 @@ public class NetzListe extends JPanel implements MouseMotionListener, MouseListe
 	
 	public Edge findEdge(Node von, Node nach) {
 		for (Edge e : edges) {
-			if (von == e.von && nach == e.nach) {
+			if (von == e.from && nach == e.to) {
 				return e;
 			}
 		}
@@ -196,16 +196,16 @@ public class NetzListe extends JPanel implements MouseMotionListener, MouseListe
 	 * Liefert die Adjacenz-Matrix zurück
 	 */
 	public int[][] getAMatrix() {
-		int[][] e = new int[knoten.size()][];
-		for (int i = 0; i < knoten.size(); i++) {
-			e[i] = new int[knoten.size()];
-			for (int j = 0; j < knoten.size(); j++) {
+		int[][] e = new int[nodes.size()][];
+		for (int i = 0; i < nodes.size(); i++) {
+			e[i] = new int[nodes.size()];
+			for (int j = 0; j < nodes.size(); j++) {
 				e[i][j] = 0;
 			}
 		}
 		for (int i = 0; i < edges.size(); i++) {
-			e[knoten.indexOf(edges.get(i).von)][knoten.indexOf(edges.get(i).nach)] = 1;
-			e[knoten.indexOf(edges.get(i).nach)][knoten.indexOf(edges.get(i).von)] = 1;
+			e[nodes.indexOf(edges.get(i).from)][nodes.indexOf(edges.get(i).to)] = 1;
+			e[nodes.indexOf(edges.get(i).to)][nodes.indexOf(edges.get(i).from)] = 1;
 		}
 		return e;
 	}
@@ -217,16 +217,16 @@ public class NetzListe extends JPanel implements MouseMotionListener, MouseListe
 	public BufferedImage getImage() {
 		long maxX = 0;
 		long maxY = 0;
-		for (int i = 0; i < knoten.size(); i++) {
-			if (knoten.get(i).getX() > maxX)
-				maxX = knoten.get(i).getX();
-			if (knoten.get(i).getY() > maxY)
-				maxY = knoten.get(i).getY();
+		for (int i = 0; i < nodes.size(); i++) {
+			if (nodes.get(i).getX() > maxX)
+				maxX = nodes.get(i).getX();
+			if (nodes.get(i).getY() > maxY)
+				maxY = nodes.get(i).getY();
 		}		
 		BufferedImage img = new BufferedImage((int) ((maxX + 2 * Node.getRadius() + 10) * vs.getZoom())
 				, (int) ((maxY + 2 * Node.getRadius() + 10) * vs.getZoom()), BufferedImage.TYPE_INT_ARGB);
 		Graphics g = img.createGraphics();
-		for (Node node : knoten) {
+		for (Node node : nodes) {
 			node.paintYou(g);
 		}
 		for (Edge edge : edges) {
@@ -237,7 +237,7 @@ public class NetzListe extends JPanel implements MouseMotionListener, MouseListe
 	}
 
 	public Vector<Node> getKnoten() {
-		return knoten;
+		return nodes;
 	}
 	
 	DecimalFormat format = new DecimalFormat("#.###");
@@ -254,8 +254,8 @@ public class NetzListe extends JPanel implements MouseMotionListener, MouseListe
 			latex += "[draw,circle split,fill="+nodeColor+"] {$"+node.getName()+"$ \\nodepart{lower} $"+format.format(node.getAlpha())+"$};\n";			
 		}
 		for (int i = 0; i < getEdges().size(); i++) {
-			Node node1 = getEdges().get(i).von;
-			Node node2 = getEdges().get(i).nach;			
+			Node node1 = getEdges().get(i).from;
+			Node node2 = getEdges().get(i).to;			
 			String to = "bend left="+getEdges().get(i).getBendLeft();
 			Double w = getEdges().get(i).getW();
 			String weight = (w.toString().equals("NaN")) ? "$\\epsilon$" : ""+format.format(w);
@@ -275,8 +275,8 @@ public class NetzListe extends JPanel implements MouseMotionListener, MouseListe
 	 */
 
 	public int getNodeNr(int id) throws Exception {
-		for (int j = 0; j < knoten.size(); j++) {
-			if (knoten.get(j).nr == id)
+		for (int j = 0; j < nodes.size(); j++) {
+			if (nodes.get(j).nr == id)
 				return j;
 		}
 		throw new Exception();
@@ -285,8 +285,8 @@ public class NetzListe extends JPanel implements MouseMotionListener, MouseListe
 	public void mouseDragged(MouseEvent e) {
 		if (drag==-1 && edrag == -1) return;
 		if (drag!=-1) {
-			knoten.get(drag).setX( (int) ((e.getX() - Node.getRadius() * vs.getZoom()) / (double) vs.getZoom()));
-			knoten.get(drag).setY( (int) ((e.getY() - Node.getRadius() * vs.getZoom()) / (double) vs.getZoom()));
+			nodes.get(drag).setX( (int) ((e.getX() - Node.getRadius() * vs.getZoom()) / (double) vs.getZoom()));
+			nodes.get(drag).setY( (int) ((e.getY() - Node.getRadius() * vs.getZoom()) / (double) vs.getZoom()));
 		} else {
 			edges.get(edrag).setK1( (int) ((e.getX()) / (double) vs.getZoom()));
 			edges.get(edrag).setK2( (int) ((e.getY()) / (double) vs.getZoom()));
@@ -342,14 +342,14 @@ public class NetzListe extends JPanel implements MouseMotionListener, MouseListe
 			return;
 		}
 		if (drag == -1) {
-			for (int i = 0; i < knoten.size(); i++) {
-				if (knoten.get(i).inYou(e.getX(), e.getY())) {
+			for (int i = 0; i < nodes.size(); i++) {
+				if (nodes.get(i).inYou(e.getX(), e.getY())) {
 					drag = i;
 					//statusBar.setText("Nr:" + knoten.get(i).nr + " Beschreibung:" + knoten.get(i).name);
 				}
 			}
 			if (drag != -1) {
-				knoten.get(drag).drag = true;
+				nodes.get(drag).drag = true;
 			}
 		}
 		if (drag == -1 && edrag == -1) {
@@ -361,9 +361,9 @@ public class NetzListe extends JPanel implements MouseMotionListener, MouseListe
 			}		
 		}
 		if (e.getClickCount() == 2 && !testingStarted) {
-			for (int i = 0; i < knoten.size(); i++) {
-				if (knoten.get(i).inYou(e.getX(), e.getY())) {
-					new UpdateNode(knoten.get(i), this);
+			for (int i = 0; i < nodes.size(); i++) {
+				if (nodes.get(i).inYou(e.getX(), e.getY())) {
+					new UpdateNode(nodes.get(i), this);
 				}
 			}
 			for (int i = 0; i < edges.size(); i++) {
@@ -385,10 +385,10 @@ public class NetzListe extends JPanel implements MouseMotionListener, MouseListe
 
 	public void mouseReleased(MouseEvent e) {
 		if (drag != -1) {
-			knoten.get(drag).setX( (int) ((e.getX() - Node.getRadius() * vs.getZoom()) / (double) vs.getZoom()));
-			knoten.get(drag).setY( (int) ((e.getY() - Node.getRadius() * vs.getZoom()) / (double) vs.getZoom()));
+			nodes.get(drag).setX( (int) ((e.getX() - Node.getRadius() * vs.getZoom()) / (double) vs.getZoom()));
+			nodes.get(drag).setY( (int) ((e.getY() - Node.getRadius() * vs.getZoom()) / (double) vs.getZoom()));
 			calculateSize();
-			knoten.get(drag).drag = false;
+			nodes.get(drag).drag = false;
 			drag = -1;
 			repaint();
 		}
@@ -418,7 +418,7 @@ public class NetzListe extends JPanel implements MouseMotionListener, MouseListe
 				g.drawLine(0, y+Node.r, getWidth(), y+Node.r);
 			}
 		}
-		for (Node node : knoten) {
+		for (Node node : nodes) {
 			node.paintYou(g);
 		}
 		for (Edge edge : edges) {
@@ -438,7 +438,7 @@ public class NetzListe extends JPanel implements MouseMotionListener, MouseListe
 
 	public void removeEdge(Edge edge) {
 		for (Edge e : edges) {
-			if (e.von == edge.nach && e.nach == edge.von) {
+			if (e.from == edge.to && e.to == edge.from) {
 				e.curve = false;				
 			}
 		}
@@ -450,14 +450,14 @@ public class NetzListe extends JPanel implements MouseMotionListener, MouseListe
 	public void removeNode(Node node) {
 		for (int i=edges.size()-1; i>=0; i--) {
 			Edge e = edges.get(i);
-			if (e.von==node || e.nach==node) {
+			if (e.from==node || e.to==node) {
 				edges.remove(e);
 			}
 		}
 		control.getDataTable().getModel().delRowCol(getKnoten().indexOf(node));
-		knoten.remove(node);
+		nodes.remove(node);
 		control.getPView().removePPanel(node);
-		if (knoten.size()==0) {
+		if (nodes.size()==0) {
 			control.getGraphView().buttonStart.setEnabled(false);
 		}
 		repaint();
@@ -480,32 +480,32 @@ public class NetzListe extends JPanel implements MouseMotionListener, MouseListe
 		graphName = RControl.getR().eval("make.names(\""+graphName+"\")").asRChar().getData()[0];
 		
 		String alpha = "";
-		String nodes = "";
+		String nodeStr = "";
 		String x = "";
 		String y = "";
-		for (Node n : knoten) {
+		for (Node n : nodes) {
 			alpha += n.getAlpha() +",";
-			nodes += "\""+n.getName() +"\","; 
+			nodeStr += "\""+n.getName() +"\","; 
 			x += n.getX() + ",";
 			y += n.getY() + ",";
 		}
 		alpha = alpha.substring(0, alpha.length()-1);
-		nodes = nodes.substring(0, nodes.length()-1);
+		nodeStr = nodeStr.substring(0, nodeStr.length()-1);
 		x = x.substring(0, x.length()-1);
 		y = y.substring(0, y.length()-1);
 		
 		RControl.getR().evalVoid(".gsrmtVar <- list()");
 		RControl.getR().evalVoid(".gsrmtVar$alpha <- c("+alpha+")");
-		RControl.getR().evalVoid(".gsrmtVar$hnodes <- c("+nodes+")");
-		RControl.getR().evalVoid(".gsrmtVar$edges <- vector(\"list\", length="+knoten.size()+")");
+		RControl.getR().evalVoid(".gsrmtVar$hnodes <- c("+nodeStr+")");
+		RControl.getR().evalVoid(".gsrmtVar$edges <- vector(\"list\", length="+nodes.size()+")");
 		RControl.getR().evalVoid("names(.gsrmtVar$edges)<-.gsrmtVar$hnodes");
-		for (int i=knoten.size()-1; i>=0; i--) {
-			Node n = knoten.get(i);
+		for (int i=nodes.size()-1; i>=0; i--) {
+			Node n = nodes.get(i);
 			String edgeL = "";
 			String weights = "";
 			for (Edge e : edges) {				
-				if (e.von == n) {
-					edgeL += "\""+e.nach.getName()+"\",";
+				if (e.from == n) {
+					edgeL += "\""+e.to.getName()+"\",";
 					weights += ((""+e.w).equals("NaN")?0+",":e.w +",");
 				}
 			}
@@ -522,8 +522,8 @@ public class NetzListe extends JPanel implements MouseMotionListener, MouseListe
 		RControl.getR().evalVoid(graphName+" <- new(\"graphMCP\", nodes=.gsrmtVar$hnodes, edgeL=.gsrmtVar$edges, alpha=.gsrmtVar$alpha)");
 		//TODO remove this stupid workaround.
 		RControl.getR().evalVoid(graphName+" <- gMCP:::stupidWorkAround("+graphName+")");
-		for (int i=knoten.size()-1; i>=0; i--) {
-			Node n = knoten.get(i);
+		for (int i=nodes.size()-1; i>=0; i--) {
+			Node n = nodes.get(i);
 			if (n.isRejected()) {
 				RControl.getR().evalVoid("nodeData("+graphName+", \""+n.getName()+"\", \"rejected\") <- TRUE");
 			}
@@ -534,8 +534,8 @@ public class NetzListe extends JPanel implements MouseMotionListener, MouseListe
 		RControl.getR().evalVoid("names(.gsrmtVar$nodeY) <- .gsrmtVar$hnodes");
 		RControl.getR().evalVoid("nodeRenderInfo("+graphName+") <- list(nodeX=.gsrmtVar$nodeX, nodeY=.gsrmtVar$nodeY)");
 		for (Edge e : edges) {				
-			RControl.getR().evalVoid("edgeData("+graphName+", \""+e.von.getName()+"\", \""+e.nach.getName()+"\", \"labelX\") <- "+(e.k1-Node.getRadius()));
-			RControl.getR().evalVoid("edgeData("+graphName+", \""+e.von.getName()+"\", \""+e.nach.getName()+"\", \"labelY\") <- "+(e.k2-Node.getRadius()));
+			RControl.getR().evalVoid("edgeData("+graphName+", \""+e.from.getName()+"\", \""+e.to.getName()+"\", \"labelX\") <- "+(e.k1-Node.getRadius()));
+			RControl.getR().evalVoid("edgeData("+graphName+", \""+e.from.getName()+"\", \""+e.to.getName()+"\", \"labelY\") <- "+(e.k2-Node.getRadius()));
 		}	
 		if (verbose) { JOptionPane.showMessageDialog(null, "The graph as been exported to R under ther variable name:\n\n"+graphName, "Saved as \""+graphName+"\"", JOptionPane.INFORMATION_MESSAGE); }
 	}
@@ -546,7 +546,7 @@ public class NetzListe extends JPanel implements MouseMotionListener, MouseListe
 	
 	
 	public void setKnoten(Vector<Node> knoten) {
-		this.knoten = knoten;
+		this.nodes = knoten;
 	}
 	
 	/**
@@ -560,7 +560,7 @@ public class NetzListe extends JPanel implements MouseMotionListener, MouseListe
 	}
 	
 	public Node vertexSelected(int x, int y) {
-		for (Node n : knoten) {
+		for (Node n : nodes) {
 			if (n.inYou(x, y)) {
 				return n;
 			}

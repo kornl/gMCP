@@ -3,9 +3,9 @@ package org.mutoss.gui.graph;
 
 public class VS {
 	
-	public NetzListe nl = null;
+	public NetList nl = null;
 	
-	public void setNL(NetzListe nl) {
+	public void setNL(NetList nl) {
 		this.nl = nl;
 	}
 

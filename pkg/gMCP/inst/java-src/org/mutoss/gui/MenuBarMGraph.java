@@ -23,7 +23,7 @@ import org.af.commons.tools.OSTools;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.mutoss.gui.graph.ControlMGraph;
-import org.mutoss.gui.graph.NetzListe;
+import org.mutoss.gui.graph.NetList;
 import org.mutoss.gui.options.OptionsDialog;
 
 public class MenuBarMGraph extends JMenuBar implements ActionListener {
@@ -71,9 +71,9 @@ public class MenuBarMGraph extends JMenuBar implements ActionListener {
 	}
 	
 	private void loadGraph(String string) {
-		NetzListe nl = control.getNL();		
+		NetList nl = control.getNL();		
 		newGraph();
-		RControl.getR().eval(NetzListe.initialGraph + " <- " + string);
+		RControl.getR().eval(NetList.initialGraph + " <- " + string);
 		nl.loadGraph();
 		control.getMainFrame().validate();
 	}
@@ -226,7 +226,7 @@ public class MenuBarMGraph extends JMenuBar implements ActionListener {
 	}
 	
 	public void exportLaTeXGraph() {
-		NetzListe nl = ((ControlMGraph) control).getNL();
+		NetList nl = ((ControlMGraph) control).getNL();
 		writeLaTeX(nl.getLaTeX());
 	}
 	

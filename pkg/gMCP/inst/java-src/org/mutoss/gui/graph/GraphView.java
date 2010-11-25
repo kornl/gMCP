@@ -26,7 +26,7 @@ import org.mutoss.gui.RControl;
 public class GraphView extends JPanel implements ActionListener {
 
 	JLabel statusBar;
-	public NetzListe nl;
+	public NetList nl;
 	VS vs = new VS();
 
 	private ControlMGraph control;
@@ -36,7 +36,7 @@ public class GraphView extends JPanel implements ActionListener {
 		//super("Graph");
 		this.control = abstractGraphControl;
 		statusBar = new JLabel(STATUSBAR_DEFAULT);
-		nl = new NetzListe(statusBar, vs, abstractGraphControl);
+		nl = new NetList(statusBar, vs, abstractGraphControl);
 		setLayout(new BorderLayout());
 		add("North", getNorthPanel());		
 		JScrollPane sPane = new JScrollPane(nl);
@@ -156,7 +156,7 @@ public class GraphView extends JPanel implements ActionListener {
 		return toolPanel;
 	}
 
-	public NetzListe getNL() {
+	public NetList getNL() {
 		return nl;
 	}
 
@@ -191,7 +191,7 @@ public class GraphView extends JPanel implements ActionListener {
 				control.getPView().savePValues();
 			}
 			String pValues = control.getPView().getPValuesString();
-			double[] adjPValues = RControl.getR().eval("gMCP:::adjPValues("+NetzListe.initialGraph+","+pValues+")@adjPValues").asRNumeric().getData();
+			double[] adjPValues = RControl.getR().eval("gMCP:::adjPValues("+NetList.initialGraph+","+pValues+")@adjPValues").asRNumeric().getData();
 			new AdjustedPValueDialog(control.getMainFrame(), control.getPView().pValues, adjPValues, getNL().getKnoten());			
 		} else if (e.getSource().equals(buttonLatex)) {
 			exportLaTeXGraph();
