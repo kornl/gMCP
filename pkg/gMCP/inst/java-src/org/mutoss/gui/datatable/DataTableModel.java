@@ -29,7 +29,7 @@ public class DataTableModel extends AbstractTableModel {
     }
 
     public boolean isCellEditable(int rowIndex, int col) {
-        return true;
+        return rowIndex != col;
     }
 
     public void setValueAt(Double value, int row, int col) {

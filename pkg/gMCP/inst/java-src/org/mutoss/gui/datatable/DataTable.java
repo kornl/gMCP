@@ -1,14 +1,10 @@
 package org.mutoss.gui.datatable;
 
-
 import java.awt.Color;
 import java.awt.Dimension;
 
 import javax.swing.JTable;
-import javax.swing.table.TableCellRenderer;
 
-
-//TODO selection of rows/cols and copy paste
 public class DataTable extends JTable {
     public static final Color NUM_COLOR = Color.BLUE;
     public static final Color INT_COLOR = new Color(0, 155, 0);

@@ -449,6 +449,7 @@ public class NetzListe extends JPanel implements MouseMotionListener, MouseListe
 				edges.remove(e);
 			}
 		}
+		control.getDataTable().getModel().delRowCol(getKnoten().indexOf(node));
 		knoten.remove(node);
 		control.getPView().removePPanel(node);
 		if (knoten.size()==0) {
