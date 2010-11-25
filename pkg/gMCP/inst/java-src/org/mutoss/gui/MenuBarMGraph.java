@@ -348,8 +348,8 @@ public class MenuBarMGraph extends JMenuBar implements ActionListener {
     	 JMenu menu = new JMenu(localizer.getString("SGTK_MENU_HELP"));
          menu.add(makeMenuItem(localizer.getString("SGTK_MENU_HELP_ABOUT"), "showAbout"));         
          menu.add(makeMenuItem(localizer.getString("SGTK_MENU_HELP_JAVA_HELP"), "showAppHelp"));
-         menu.addSeparator();
-         menu.add(makeMenuItem("Description of Edges with Infinitesimal Small Epsilon Weights", "showEpsDoc"));
+         /*menu.addSeparator();
+         menu.add(makeMenuItem("Description of Edges with Infinitesimal Small Epsilon Weights", "showEpsDoc"));*/
          menu.addSeparator();
          menu.add(makeMenuItem("Version Info / NEWS", "showNEWS"));
          return menu;
