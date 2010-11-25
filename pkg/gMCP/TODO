@@ -6,8 +6,6 @@ High priority:
   - that does work already if we ignore rounding problems).
 - confidence intervals are strange...
 - Option for rounding how many digits we want to see.
-- Adjacency matrix in GUI
-- Is table sortable?
 - PPanels will set alpha to the truncated number. (Can we handle fractions?)
 - What happens if I try to create nodes with the same name? Is Node.nr used for something?
   (Saving to R returns an error: Ungültiges Objekt der Klasse "graphMCP": FALSE)
@@ -46,6 +44,7 @@ See also http://comments.gmane.org/gmane.comp.lang.r.general/200179
 - TikZ styles for rejected / rejectable nodes
 - browseURL("http://gsrmtp.r-forge.r-project.org/")
 - LogPanel looks ugly -> bug in afcommons
+- Check for loops in matrix2graph
 
 @Apple - is this a problem?
 
