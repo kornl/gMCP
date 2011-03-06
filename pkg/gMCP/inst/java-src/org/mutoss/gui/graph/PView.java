@@ -8,6 +8,7 @@ import java.text.DecimalFormat;
 import java.util.List;
 import java.util.Vector;
 
+import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -85,8 +86,9 @@ public class PView extends JPanel {
         panel.setLayout(layout);        
 		
     	panel.add(new JLabel("Hypothesis"), cc.xy(2, 2));
-
-    	panel.add(new JLabel("Significance Level"), cc.xy(4, 2));
+    	
+    	panel.add(new JLabel("α Level"), cc.xy(4, 2));
+    	//panel.add(new JLabel("Signif. Level"), cc.xy(4, 2));
 
     	panel.add(new JLabel("P-Value"), cc.xy(6, 2));
 				

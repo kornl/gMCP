@@ -40,8 +40,8 @@ public class MenuBarMGraph extends JMenuBar implements ActionListener {
 		JMenu menu = new JMenu("File");
 
 		menu.add(makeMenuItem("New Graph", "new graph"));
-		//menu.add(makeMenuItem("Load Graph", "load graph"));
-		//menu.add(makeMenuItem("Save Graph", "save graph"));		
+		menu.add(makeMenuItem("Load Graph from file", "load graph"));
+		menu.add(makeMenuItem("Save Graph to file", "save graph"));		
 		menu.add(makeMenuItem("Save Graph as Image", "save graph image"));
 		menu.add(makeMenuItem("Save Graph as LaTeX File", "save graph latex"));
 		menu.addSeparator();
@@ -99,7 +99,7 @@ public class MenuBarMGraph extends JMenuBar implements ActionListener {
         if (e.getActionCommand().equals("new graph")) {
         	newGraph();			
         } else if (e.getActionCommand().equals("save graph")) {       	
-        	//saveGraph();
+        	saveGraph();
         } else if (e.getActionCommand().equals("save pdf")) {       	
         	//savePDF();
         } else if (e.getActionCommand().equals("save graph image")) {       	
@@ -109,7 +109,7 @@ public class MenuBarMGraph extends JMenuBar implements ActionListener {
         } else if (e.getActionCommand().equals("save latex report")) {       	
         	//exportLaTeXReport();
         } else if (e.getActionCommand().equals("load graph")) {       	
-        	//loadGraph();
+        	loadGraph();
         } else if (e.getActionCommand().equals("bht2")) {       	
         	loadGraph("createBonferroniHolmGraph("+2+")");
         } else if (e.getActionCommand().equals("bht3")) {       	
@@ -278,25 +278,25 @@ public class MenuBarMGraph extends JMenuBar implements ActionListener {
 		
 	}
 
-	/*
-	private void loadGraph() {
-		((ControlMGraph) control).stopTesting();
+	
+	private void loadGraph() {		
 		JFileChooser fc = new JFileChooser();		
         fc.setFileSelectionMode(JFileChooser.FILES_ONLY);
         int returnVal = fc.showOpenDialog(this);
-        if (returnVal == JFileChooser.APPROVE_OPTION) {
-        	((ControlMGraph) control).getNL().reset();
+        if (returnVal == JFileChooser.APPROVE_OPTION) {  
+        	((ControlMGraph) control).getGraphView().stopTesting();
             File f = fc.getSelectedFile();
-            try {
-            	((ControlMGraph) control).getNL().loadFromXML(f);
+            try {            	
+            	//((ControlMGraph) control).getNL().loadFromXML(f);
+        		String loadedGraph = RControl.getR().eval("load(file=\""+f.getAbsolutePath()+"\")").asRChar().getData()[0];
+        		loadGraph(loadedGraph);
     		} catch( Exception ex ) {
     			JOptionPane.showMessageDialog(this, "Loading graph from '" + f.getAbsolutePath() + "' failed: " + ex.getMessage(), "Saving failed.", JOptionPane.ERROR_MESSAGE);
     		}
         }
         control.getMainFrame().validate();
-	}*/
+	}
 
-	/*
 	private void saveGraph() {
 		JFileChooser fc = new JFileChooser();		
         fc.setFileSelectionMode(JFileChooser.FILES_ONLY);
@@ -307,13 +307,15 @@ public class MenuBarMGraph extends JMenuBar implements ActionListener {
             	f = new File(f.getAbsolutePath()+".xml");
             }
             try {
-            	((ControlMGraph) control).getNL().saveToXML(f);
+            	//((ControlMGraph) control).getNL().saveToXML(f);
+            	String name = ((ControlMGraph) control).getGraphView().jtSaveName.getText();
+            	((ControlMGraph) control).getNL().saveGraph(name, true); 
+            	RControl.getR().eval("save("+name+", file=\""+f.getAbsolutePath()+"\")");        		
     		} catch( Exception ex ) {
     			JOptionPane.showMessageDialog(this, "Saving graph to '" + f.getAbsolutePath() + "' failed: " + ex.getMessage(), "Saving failed.", JOptionPane.ERROR_MESSAGE);
     		}
         }	
 	}
-	*/
 
 	protected JMenuItem makeMenuItem(String text, String action) {
         return makeMenuItem(text, action, true);

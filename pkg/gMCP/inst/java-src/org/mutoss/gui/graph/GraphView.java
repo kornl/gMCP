@@ -50,7 +50,7 @@ public class GraphView extends JPanel implements ActionListener {
 	JButton buttonLatex;
 	JButton buttonPhysics;
 	JButton buttonSave;
-	JTextField jtSaveName;
+	public JTextField jtSaveName;
 	
 	JButton buttonadjPval;
 	JButton buttonConfInt;

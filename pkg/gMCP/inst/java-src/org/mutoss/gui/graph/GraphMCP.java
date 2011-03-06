@@ -13,7 +13,7 @@ public class GraphMCP {
 	
 	String name;
 	
-	public Vector<Edge> kanten = new Vector<Edge>();
+	public Vector<Edge> edges = new Vector<Edge>();
 	public Vector<Node> knoten = new Vector<Node>();
 	NetList nl;
 	VS vs;
@@ -70,9 +70,9 @@ public class GraphMCP {
 					//if (yl<-50) yl = (fromNode.getY()+toNode.getY())/2;				
 					boolean curve = curved[i];
 					if (xl < -50 || yl < -50) {
-						kanten.add(new Edge(fromNode, toNode, weight[i], vs, /* xl+Node.getRadius(), yl+Node.getRadius(),*/ curve));
+						edges.add(new Edge(fromNode, toNode, weight[i], vs, /* xl+Node.getRadius(), yl+Node.getRadius(),*/ curve));
 					} else {
-						kanten.add(new Edge(fromNode, toNode, weight[i], vs, xl+Node.getRadius(), yl+Node.getRadius()));
+						edges.add(new Edge(fromNode, toNode, weight[i], vs, xl+Node.getRadius(), yl+Node.getRadius()));
 					}
 					
 				}
@@ -82,7 +82,7 @@ public class GraphMCP {
 		for (Node k : knoten) {
 			nl.addNode(k);
 		}		
-		for (Edge e : kanten) {
+		for (Edge e : edges) {
 			nl.addEdge(e);
 		}
 	}
