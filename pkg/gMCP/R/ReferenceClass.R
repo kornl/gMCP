@@ -1,0 +1,1 @@
+setRefClass(Class, fields = , contains = , methods =,  where =, ...)
