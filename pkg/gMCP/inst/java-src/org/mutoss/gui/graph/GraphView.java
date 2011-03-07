@@ -72,7 +72,7 @@ public class GraphView extends JPanel implements ActionListener {
     	panel.setLayout(new FlowLayout());
 		((FlowLayout) (panel.getLayout()))
 				.setAlignment(FlowLayout.LEFT);
-		panel.add(new JLabel("Variablename to save to: "));
+		panel.add(new JLabel("Object name to save to: "));
 		panel.add(jtSaveName);
 		jtSaveName.addActionListener(this);
 		return panel;

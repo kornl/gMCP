@@ -133,7 +133,7 @@ public class MenuBarMGraph extends JMenuBar implements ActionListener {
         } else if (e.getActionCommand().equals("exit")) {       	
         	 control.getMainFrame().dispose();
         } else if (e.getActionCommand().equals("showAppHelp")) {
-        	showFile("doc/gsrmtpGUI.pdf");       	 	
+        	showFile("doc/gMCP.pdf");       	 	
         } else if (e.getActionCommand().equals("showEpsDoc")) {
         	showFile("doc/EpsilonEdges.pdf");       	 	
         } else if (e.getActionCommand().equals("showNEWS")) {
