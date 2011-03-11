@@ -8,7 +8,6 @@ import java.text.DecimalFormat;
 import java.util.List;
 import java.util.Vector;
 
-import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;

@@ -168,6 +168,7 @@ public class Edge {
 				if (f.equals("2/3")) return("⅔");
 				if (f.equals("1/4")) return("¼");
 				if (f.equals("3/4")) return("¾");
+				/* The following do often not work:
 				if (f.equals("1/5")) return("⅕");
 				if (f.equals("2/5")) return("⅖");
 				if (f.equals("3/5")) return("⅗");
@@ -177,7 +178,7 @@ public class Edge {
 				if (f.equals("1/8")) return("⅛");
 				if (f.equals("3/8")) return("⅜");
 				if (f.equals("5/8")) return("⅝");
-				if (f.equals("7/8")) return("⅞");
+				if (f.equals("7/8")) return("⅞");*/
 				return f;
 			}
 		}

@@ -31,8 +31,8 @@ public class CreateGraphGUI extends JFrame implements WindowListener {
 	
 	public CreateGraphGUI(String graph, boolean debug, double grid) {
 		super("Creating and modifying graphs");	
-		Locale.setDefault(Locale.ENGLISH);
-		JComponent.setDefaultLocale(Locale.ENGLISH); 
+		Locale.setDefault(Locale.US);
+		JComponent.setDefaultLocale(Locale.US); 
 		RControl.getRControl(debug);
 		Localizer.getInstance().addResourceBundle("org.mutoss.gui.ResourceBundle");
 		Configuration.getInstance().getGeneralConfig().setGridSize((int)grid);

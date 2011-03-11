@@ -22,6 +22,7 @@ import org.af.commons.logging.widgets.DetailsDialog;
 import org.af.commons.tools.OSTools;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.mutoss.gui.dialogs.NumberOfHypotheses;
 import org.mutoss.gui.graph.ControlMGraph;
 import org.mutoss.gui.graph.NetList;
 import org.mutoss.gui.options.OptionsDialog;
@@ -42,7 +43,7 @@ public class MenuBarMGraph extends JMenuBar implements ActionListener {
 		menu.add(makeMenuItem("New Graph", "new graph"));
 		menu.add(makeMenuItem("Load Graph from file", "load graph"));
 		menu.add(makeMenuItem("Save Graph to file", "save graph"));		
-		menu.add(makeMenuItem("Save Graph as Image", "save graph image"));
+		menu.add(makeMenuItem("Save Graph as PNG Image", "save graph image"));
 		menu.add(makeMenuItem("Save Graph as LaTeX File", "save graph latex"));
 		menu.addSeparator();
 		/*menu.add(makeMenuItem("Save LaTeX Report", "save latex report"));
@@ -54,10 +55,7 @@ public class MenuBarMGraph extends JMenuBar implements ActionListener {
 
 		menu = new JMenu("Example graphs");
 
-		menu.add(makeMenuItem("Bonferroni-Holm Test (2 Null Hypotheses)", "bht2"));
-		menu.add(makeMenuItem("Bonferroni-Holm Test (3 Null Hypotheses)", "bht3"));
-		menu.add(makeMenuItem("Bonferroni-Holm Test (4 Null Hypotheses)", "bht4"));
-		menu.add(makeMenuItem("Bonferroni-Holm Test (5 Null Hypotheses)", "bht5"));
+		menu.add(makeMenuItem("Bonferroni-Holm Test", "bht"));
 		menu.addSeparator();
 		menu.add(makeMenuItem("Parallel Gatekeeping with 4 Hypotheses", "pg"));
 		menu.add(makeMenuItem("Improved Parallel Gatekeeping with 4 Hypotheses", "pgi"));
@@ -70,7 +68,7 @@ public class MenuBarMGraph extends JMenuBar implements ActionListener {
         addHelpMenu();
 	}
 	
-	private void loadGraph(String string) {
+	public void loadGraph(String string) {
 		NetList nl = control.getNL();		
 		newGraph();
 		RControl.getR().eval(NetList.initialGraph + " <- " + string);
@@ -110,14 +108,8 @@ public class MenuBarMGraph extends JMenuBar implements ActionListener {
         	//exportLaTeXReport();
         } else if (e.getActionCommand().equals("load graph")) {       	
         	loadGraph();
-        } else if (e.getActionCommand().equals("bht2")) {       	
-        	loadGraph("createBonferroniHolmGraph("+2+")");
-        } else if (e.getActionCommand().equals("bht3")) {       	
-        	loadGraph("createBonferroniHolmGraph("+3+")");
-        } else if (e.getActionCommand().equals("bht4")) {       	
-        	loadGraph("createBonferroniHolmGraph("+4+")");
-        } else if (e.getActionCommand().equals("bht5")) {       	
-        	loadGraph("createBonferroniHolmGraph("+5+")");
+        } else if (e.getActionCommand().equals("bht")) {
+        	new NumberOfHypotheses(control.getParent(), this, "createBonferroniHolmGraph");        	
         } else if (e.getActionCommand().equals("pg")) {       	
         	loadGraph("createGraphForParallelGatekeeping()");
         } else if (e.getActionCommand().equals("pgi")) {       	
@@ -204,7 +196,8 @@ public class MenuBarMGraph extends JMenuBar implements ActionListener {
 	
 	
 	public void writeLaTeX(String s) {
-		JFileChooser fc = new JFileChooser();		
+		JFileChooser fc = new JFileChooser();
+		fc.setDialogType(JFileChooser.SAVE_DIALOG);
 		File f;
 		int returnVal = fc.showSaveDialog(this);
 		if (returnVal == JFileChooser.APPROVE_OPTION) {
@@ -265,6 +258,7 @@ public class MenuBarMGraph extends JMenuBar implements ActionListener {
 		BufferedImage img = ((ControlMGraph) control).getNL().getImage();
 		JFileChooser fc = new JFileChooser();		
         fc.setFileSelectionMode(JFileChooser.FILES_ONLY);
+        fc.setDialogType(JFileChooser.SAVE_DIALOG);
         int returnVal = fc.showOpenDialog(this);
         if (returnVal == JFileChooser.APPROVE_OPTION) {
             File f = fc.getSelectedFile();
@@ -302,6 +296,7 @@ public class MenuBarMGraph extends JMenuBar implements ActionListener {
 	private void saveGraph() {
 		JFileChooser fc = new JFileChooser();		
         fc.setFileSelectionMode(JFileChooser.FILES_ONLY);
+        fc.setDialogType(JFileChooser.SAVE_DIALOG);
         int returnVal = fc.showOpenDialog(this);
         if (returnVal == JFileChooser.APPROVE_OPTION) {
             File f = fc.getSelectedFile();

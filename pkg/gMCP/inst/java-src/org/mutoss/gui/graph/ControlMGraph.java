@@ -60,4 +60,8 @@ public class ControlMGraph  {
 		return parent.getDataTable();
 	}
 
+	public CreateGraphGUI getParent() {
+		return parent;
+	}
+
 }
