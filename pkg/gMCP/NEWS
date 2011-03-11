@@ -1,6 +1,6 @@
 Version 0.3-5
 =============
-- New dependency: MASS for MASS::fractions
+- New dependencies: MASS for MASS::fractions and PolynomF for polynoms in epsilon.
 - Method graphGUI has a new optional argument "pvalues" for loading p-values.
 - Trying to show fractions in the GUI instead of decimal numbers
 - Line width of graphs can be adjusted (line width 2 is now default)
