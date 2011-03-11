@@ -61,7 +61,7 @@ public class RControl {
 				//rcs.eval(".setenv <- if (exists(\"Sys.setenv\")) Sys.setenv else Sys.putenv");
 				//rcs.eval(".setenv(\"JAVAGD_CLASS_NAME\"=\"org/mutoss/gui/JavaGD\")");
 				//rcs.eval("require(JavaGD)");					
-				rcs.eval("require(gMCP)");
+				rcs.eval("require(gMCP)");				
 				//rcs.eval("graph <- createGraphFromBretzEtAl()");
 				//rcs.eval("graph <- createBonferroniHolmGraph(5)");
 				//rcs.eval("graph <- createGraphForImprovedParallelGatekeeping()");
@@ -70,6 +70,10 @@ public class RControl {
 			ErrorHandler.getInstance().makeErrDialog("Error creating RCallServicesREngine!", e);
 		}
 		if (System.getProperty("eclipse") == null && !debug) System.setOut(new PrintStream(new LoggingOutputStream(logger), true));
+	}
+	
+	public static String getFraction(Double d) {
+		return  RControl.getR().eval("fractions("+d+")").asRChar().getData()[0];
 	}
 
 }

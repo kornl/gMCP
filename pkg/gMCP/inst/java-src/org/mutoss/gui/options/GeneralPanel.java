@@ -50,7 +50,8 @@ public class GeneralPanel extends OptionsPanel implements ActionListener {
     private OptionsDialog odialog;
     private JCheckBox colorImages;
     private JCheckBox showRejected;
-    //private JTextField numberOfDigits;
+    private JTextField jtfNumberOfDigits;
+    private JTextField jtfLineWidth;
     
 	JFrame parent;
 
