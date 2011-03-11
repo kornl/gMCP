@@ -42,7 +42,7 @@
 \dontrun{
 graphGUI()
 pvalues <- c(9.7, 1.5, 0.5, 0.6, 0.4, 0.8, 4)/100 
-graphGUI(createGraphFromHommelEtAl(), pvalues=pvalues))}
+graphGUI(createGraphFromHommelEtAl(), pvalues=pvalues)}
 
 }
 \keyword{ misc }
