@@ -1,8 +1,11 @@
 Version 0.4-0
 =============
 - New dependency: MASS for MASS::fractions
-- We now try to show fractions in the GUI instead of 
-- Accompanying doc file: Description of Edges with Infinitesimal Small Epsilon Weights
+- Trying to show fractions in the GUI instead of decimal numbers
+-
+- Line width of graphs can be adjusted (line width 2 is now default)
+- Use of antialiasing for nicer graphics 
+- Accompanying doc file: Theoretical background 
 - New example graphs:
 
 Version 0.3-4 (25-Nov-2010)
