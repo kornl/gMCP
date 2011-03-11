@@ -2,16 +2,15 @@ High priority:
 ==============
 
 - press e for epsilon, or 1+e+e^2
-- show values in percent
+- people want to allow alpha = 1 and interpret it as weight, which causes problems
 - display fractions as fractions and allow input as for example 1/7
   # eval(parse(text="1/7"))
-- people want to allow alpha = 1 and interpret it as weight, which causes problems
 - Implement support for something like 2*\epsilon or \epsilon^2
  (without using a small value for epsilon like 10^{-6} 
   - that does work already if we ignore rounding problems).
 - confidence intervals are strange...
 - Option for rounding how many digits we want to see.
-- PPanels will set alpha to the truncated number. (Can we handle fractions?)
+- PPanels will set alpha to the truncated number.
 - What happens if I try to create nodes with the same name? Is Node.nr used for something?
   (Saving to R returns an error: Ungültiges Objekt der Klasse "graphMCP": FALSE)
 - Even addDefaultNode can add nodes with already existing names.
@@ -38,6 +37,7 @@ Medium priority:
 Additional features / low priority:
 ===================================
 
+- Guide for usage under Mac OS
 - Don't create global variable like .tmpGraph etc.
 - Check whether help files under Windows (and Java 5) open correctly
 - do not show rejected null hypothesis (does this work for reports?)

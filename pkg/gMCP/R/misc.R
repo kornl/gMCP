@@ -11,5 +11,9 @@ checkValidAlpha <- function(alpha) {
 parseEpsPolynom <- function(s) {
 	e <- polynom()
 	eval(parse(text=paste("p <- ", s)))
-    return(coef(p))	
+	if(is.numeric(p)) {
+		return(p)
+	} else {
+    	return(coef(p))
+	}
 }
