@@ -220,15 +220,26 @@ public class NetList extends JPanel implements MouseMotionListener, MouseListene
 	public BufferedImage getImage() {
 		long maxX = 0;
 		long maxY = 0;
-		for (int i = 0; i < nodes.size(); i++) {
-			if (nodes.get(i).getX() > maxX)
-				maxX = nodes.get(i).getX();
-			if (nodes.get(i).getY() > maxY)
-				maxY = nodes.get(i).getY();
+		for (Node node : nodes) {
+			if (node.getX() > maxX)
+				maxX = node.getX();
+			if (node.getY() > maxY)
+				maxY = node.getY();
+		}
+		for (Edge edge : edges) {
+			if (edge.getK1() > maxX)
+				maxX = edge.getK1();
+			if (edge.getK2() > maxY)
+				maxY = edge.getK2();
 		}		
-		BufferedImage img = new BufferedImage((int) ((maxX + 2 * Node.getRadius() + 10) * vs.getZoom())
-				, (int) ((maxY + 2 * Node.getRadius() + 10) * vs.getZoom()), BufferedImage.TYPE_INT_ARGB);
-		Graphics g = img.createGraphics();
+		
+		BufferedImage img = new BufferedImage((int) ((maxX + 2 * Node.getRadius() + 10) * vs.getZoom()),
+				(int) ((maxY + 2 * Node.getRadius() + 10) * vs.getZoom()), BufferedImage.TYPE_INT_ARGB);
+		Graphics2D g = img.createGraphics();
+		
+		g.setStroke(new BasicStroke(Configuration.getInstance().getGeneralConfig().getLineWidth()));
+		g.setRenderingHint(RenderingHints.KEY_ANTIALIASING,	RenderingHints.VALUE_ANTIALIAS_ON);
+		
 		for (Node node : nodes) {
 			node.paintYou(g);
 		}

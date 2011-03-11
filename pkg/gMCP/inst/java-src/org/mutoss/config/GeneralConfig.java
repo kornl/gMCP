@@ -221,7 +221,7 @@ public class GeneralConfig extends SpecificConfig {
 		return Integer.parseInt(getProperty("linewidth", "2"));		
 	}
     
-	public boolean getShowFractions() {		
+	public boolean showFractions() {		
 		return Boolean.parseBoolean(getProperty("showFractions", "true"));
 	}
 	
