@@ -14,6 +14,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 
 import org.af.commons.Localizer;
+import org.apache.commons.lang.ArrayUtils;
 import org.mutoss.config.Configuration;
 import org.mutoss.gui.datatable.CellEditorE;
 import org.mutoss.gui.datatable.CellValue;
@@ -37,7 +38,8 @@ public class CreateGraphGUI extends JFrame implements WindowListener {
 		Localizer.getInstance().addResourceBundle("org.mutoss.gui.ResourceBundle");
 		Configuration.getInstance().getGeneralConfig().setGridSize((int)grid);
 		setIconImage((new ImageIcon(getClass().getResource("/org/mutoss/gui/graph/images/rjavaicon64.png"))).getImage());
-		agc = new ControlMGraph(graph, this);
+		agc = new ControlMGraph(graph, this);		
+		
 		// Fenster in der Mitte des Bildschirms platzieren mit inset = 50 Pixeln Rand.
 		int inset = 50;
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
@@ -49,6 +51,8 @@ public class CreateGraphGUI extends JFrame implements WindowListener {
 		setJMenuBar(new MenuBarMGraph(agc));
 		makeContent();
 		this.graph = new GraphMCP(graph, graphview.getVS());
+		
+		if (pvalues.length>0) getPView().setPValues(ArrayUtils.toObject(pvalues));
 		
 		setVisible(true);
 	}
@@ -66,7 +70,7 @@ public class CreateGraphGUI extends JFrame implements WindowListener {
 		CreateGraphGUI.grid = grid;
 		javax.swing.SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
-				new CreateGraphGUI(CreateGraphGUI.graphStr, null, CreateGraphGUI.debug, CreateGraphGUI.grid);
+				new CreateGraphGUI(CreateGraphGUI.graphStr, new double[] {}, CreateGraphGUI.debug, CreateGraphGUI.grid);
 			}
 		});		
 	}
@@ -88,7 +92,7 @@ public class CreateGraphGUI extends JFrame implements WindowListener {
 	}
 
 	public static void main(String[] args) {
-		new CreateGraphGUI("graph", null, true, 10);
+		new CreateGraphGUI("graph", new double[] {}, true, 10);
 	}
 
 	public void windowActivated(WindowEvent e) {}

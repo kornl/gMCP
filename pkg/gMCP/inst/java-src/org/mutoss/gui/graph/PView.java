@@ -5,6 +5,7 @@ import java.awt.Component;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.text.DecimalFormat;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Vector;
 
@@ -57,6 +58,11 @@ public class PView extends JPanel {
 			debug += format.format(panel.getP())+"; ";
 		}
 		logger.debug(debug);
+	}
+	
+	public void setPValues(Double[] pvalues) {
+		pValues = Arrays.asList(pvalues);
+		restorePValues();
 	}
 	
 	public void restorePValues() {
