@@ -7,7 +7,7 @@ High priority:
 - objectname to save / load (load and save button)
 - show values in percent
 - display fractions as fractions and allow input as for example 1/7
-- alpha = 1 causes problems, when interpreted as weights 
+- people want to allow alpha = 1 and interpret it as weight, which causes problems  
 - TODO is not recognized under Windows as txt file
 - Implement support for something like 2*\epsilon or \epsilon^2
  (without using a small value for epsilon like 10^{-6} 
@@ -17,15 +17,13 @@ High priority:
 - PPanels will set alpha to the truncated number. (Can we handle fractions?)
 - What happens if I try to create nodes with the same name? Is Node.nr used for something?
   (Saving to R returns an error: Ungültiges Objekt der Klasse "graphMCP": FALSE)
-- Edge weight from node i to node j: m[i,j] or m[j,i] - please decide.
 - Even addDefaultNode can add nodes with already existing names.
+- Edge weight from node i to node j: m[i,j] or m[j,i] - please decide.
 - Remember the directory where something is saved
-- Linewidth in LaTeX and NetList / PNG export
 - Flag 1+epsilon as line sum
 - round adjusted p-Values up
 - standard examples
 - parametric menu for bonferroni holm
-- do not show rejected null hypothesis
 - default to 1 for edges
 - 
 
@@ -47,6 +45,8 @@ Medium priority:
 Additional features / low priority:
 ===================================
 
+- Linewidth in LaTeX and NetList / PNG export
+- do not show rejected null hypothesis (does this work for reports?)
 - Look at print method for gMCPResult
 - Cleanup Config
 - PNG export cuts perhaps edges.
