@@ -160,8 +160,10 @@ public class MenuBarMGraph extends JMenuBar implements ActionListener {
 				try {
 					if (OSTools.isWindows()) {
 						Process p;							
-						p = Runtime.getRuntime().exec("rundll32 " +
-								"url.dll,FileProtocolHandler " + f.getAbsolutePath());
+						p = Runtime.getRuntime().exec("rundll32 url.dll,FileProtocolHandler \"" + f.getAbsolutePath()+"\"");
+						if (s.indexOf('.') == -1) {
+							p = Runtime.getRuntime().exec("wordpad " + f.getAbsolutePath());
+						}						
 						p.waitFor();
 					} else {
 						JOptionPane.showMessageDialog(control.getMainFrame(), "Please open and read the following file:\n"+f.getAbsolutePath(), "Could not find appropriate viewer", JOptionPane.WARNING_MESSAGE);
