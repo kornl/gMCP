@@ -72,7 +72,7 @@ public class GraphView extends JPanel implements ActionListener {
     	panel.setLayout(new FlowLayout());
 		((FlowLayout) (panel.getLayout()))
 				.setAlignment(FlowLayout.LEFT);
-		panel.add(new JLabel("Object name to save to: "));
+		panel.add(new JLabel("Object name in R for saving/loading: "));
 		panel.add(jtSaveName);
 		jtSaveName.addActionListener(this);
 		return panel;
@@ -178,7 +178,11 @@ public class GraphView extends JPanel implements ActionListener {
 		} else if (e.getSource().equals(buttonSave) || e.getSource().equals(jtSaveName)) {			
 			getNL().saveGraph(jtSaveName.getText(), true);
 		} else if (e.getSource().equals(buttonConfInt)) {
-			new DialogConfIntEstVar(control.getMainFrame(), control, nl);
+			if (getNL().getKnoten().size()==0) {
+				JOptionPane.showMessageDialog(control.parent, "Please create first a graph.", "Please create first a graph.", JOptionPane.ERROR_MESSAGE);
+			} else {
+				new DialogConfIntEstVar(control.getMainFrame(), control, nl);
+			}
 		} else if (e.getSource().equals(buttonStart)) {
 			if (!getNL().isTesting()) {
 				startTesting();
@@ -186,13 +190,17 @@ public class GraphView extends JPanel implements ActionListener {
 				stopTesting();
 			}
 		} else if (e.getSource().equals(buttonadjPval)) {
-			if (!getNL().isTesting()) {
-				getNL().saveGraph();
-				control.getPView().savePValues();
+			if (getNL().getKnoten().size()==0) {
+				JOptionPane.showMessageDialog(control.parent, "Please create first a graph.", "Please create first a graph.", JOptionPane.ERROR_MESSAGE);
+			} else {
+				if (!getNL().isTesting()) {
+					getNL().saveGraph();
+					control.getPView().savePValues();
+				}
+				String pValues = control.getPView().getPValuesString();
+				double[] adjPValues = RControl.getR().eval("gMCP:::adjPValues("+NetList.initialGraph+","+pValues+")@adjPValues").asRNumeric().getData();
+				new AdjustedPValueDialog(control.getMainFrame(), control.getPView().pValues, adjPValues, getNL().getKnoten());
 			}
-			String pValues = control.getPView().getPValuesString();
-			double[] adjPValues = RControl.getR().eval("gMCP:::adjPValues("+NetList.initialGraph+","+pValues+")@adjPValues").asRNumeric().getData();
-			new AdjustedPValueDialog(control.getMainFrame(), control.getPView().pValues, adjPValues, getNL().getKnoten());			
 		} else if (e.getSource().equals(buttonLatex)) {
 			exportLaTeXGraph();
 		}
