@@ -204,6 +204,30 @@ public class GeneralConfig extends SpecificConfig {
     public int getGridSize() {
 		return Integer.parseInt(getProperty("grid", "10"));		
 	}
+
+    public void setDigits(int digit) {
+		setProperty("digit", ""+digit);		
+	}
+    
+    public int getDigits() {
+		return Integer.parseInt(getProperty("Digits", "3"));		
+	}
+    
+    public void setLineWidth(int lw) {
+		setProperty("linewidth", ""+lw);		
+	}
+    
+    public int getLineWidth() {
+		return Integer.parseInt(getProperty("linewidth", "2"));		
+	}
+    
+	public boolean getShowFractions() {		
+		return Boolean.parseBoolean(getProperty("showFractions", "true"));
+	}
+	
+	public void setShowFractions(boolean showFractions) {		
+		setProperty("showFractions", ""+showFractions);
+	}
     
 	public boolean getColoredImages() {		
 		return Boolean.parseBoolean(getProperty("coloredImages", "true"));

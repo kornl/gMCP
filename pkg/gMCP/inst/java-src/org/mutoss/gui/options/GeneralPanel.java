@@ -39,6 +39,8 @@ public class GeneralPanel extends OptionsPanel implements ActionListener {
     private JComboBox cbLookAndFeel;
     //private JComboBox numberOfDigits;
     private JTextField jtfGrid;
+    private JTextField jtfNumberOfDigits;
+    private JTextField jtfLineWidth;
 
     private JTextField tfPDFPath;
     
@@ -50,8 +52,8 @@ public class GeneralPanel extends OptionsPanel implements ActionListener {
     private OptionsDialog odialog;
     private JCheckBox colorImages;
     private JCheckBox showRejected;
-    private JTextField jtfNumberOfDigits;
-    private JTextField jtfLineWidth;
+    private JCheckBox showFractions;
+
     
 	JFrame parent;
 
@@ -74,6 +76,10 @@ public class GeneralPanel extends OptionsPanel implements ActionListener {
         tfPDFPath.setText(conf.getGeneralConfig().getProjectPDFsPath().getAbsolutePath()); 
         jtfGrid = new JTextField(30);
         jtfGrid.setText(""+conf.getGeneralConfig().getGridSize()); 
+        jtfNumberOfDigits = new JTextField(30);
+        jtfNumberOfDigits.setText(""+conf.getGeneralConfig().getDigits()); 
+        jtfLineWidth = new JTextField(30);
+        jtfLineWidth.setText(""+conf.getGeneralConfig().getLineWidth()); 
         
         Vector<String> looknfeel = new Vector<String>();
         looknfeel.add("System");
@@ -93,6 +99,9 @@ public class GeneralPanel extends OptionsPanel implements ActionListener {
         colorImages = new JCheckBox("Colored image files and pdf reports");
         colorImages.setSelected(conf.getGeneralConfig().getColoredImages());
         
+        showFractions = new JCheckBox("Show fractions instead of decimal numbers");
+        showFractions.setSelected(conf.getGeneralConfig().getColoredImages());
+        
         showRejected = new JCheckBox("Show rejected nodes in GUI");
         showRejected.setSelected(conf.getGeneralConfig().showRejected());
     }
@@ -102,7 +111,7 @@ public class GeneralPanel extends OptionsPanel implements ActionListener {
         Localizer loc = Localizer.getInstance();
         JPanel p1 = new JPanel();
         String cols = "pref, 5dlu, fill:pref:grow";
-        String rows = "pref, 5dlu, pref, 5dlu, pref, 5dlu, pref, 5dlu, pref, 5dlu, pref, 5dlu, pref, 5dlu, pref";
+        String rows = "pref, 5dlu, pref, 5dlu, pref, 5dlu, pref, 5dlu, pref, 5dlu, pref, 5dlu, pref, 5dlu, pref, 5dlu, pref, 5dlu, pref, 5dlu, pref";
         
         FormLayout layout = new FormLayout(cols, rows);
         p1.setLayout(layout);
@@ -112,6 +121,18 @@ public class GeneralPanel extends OptionsPanel implements ActionListener {
         
         p1.add(new JLabel("Grid:"),     cc.xy(1, row));
         p1.add(jtfGrid, cc.xy(3, row));        
+        
+        row += 2;
+        
+        
+        p1.add(new JLabel("Number of digits:"),     cc.xy(1, row));
+        p1.add(jtfNumberOfDigits, cc.xy(3, row));        
+        
+        row += 2;
+        
+        
+        p1.add(new JLabel("Line width:"),     cc.xy(1, row));
+        p1.add(jtfLineWidth, cc.xy(3, row));        
         
         row += 2;
         
@@ -135,7 +156,11 @@ public class GeneralPanel extends OptionsPanel implements ActionListener {
         
         row += 2;        
         
-        p1.add(showRejected, cc.xyw(1, row, 3));
+        p1.add(showRejected, cc.xyw(1, row, 3));        
+        
+        row += 2;        
+        
+        p1.add(showFractions, cc.xyw(1, row, 3));
         
 
         add(p1);
@@ -172,11 +197,23 @@ public class GeneralPanel extends OptionsPanel implements ActionListener {
         	conf.getGeneralConfig().setGridSize(grid);
         } catch (NumberFormatException e) {
         	JOptionPane.showMessageDialog(this, "\""+jtfGrid.getText()+"\" is not a valid integer for grid size.", "Invalid input", JOptionPane.ERROR_MESSAGE);
-        }        
+        }
+        try {
+        	int lw = Integer.parseInt(jtfLineWidth.getText());
+        	conf.getGeneralConfig().setLineWidth(lw);
+        } catch (NumberFormatException e) {
+        	JOptionPane.showMessageDialog(this, "\""+jtfLineWidth.getText()+"\" is not a valid integer for line width.", "Invalid input", JOptionPane.ERROR_MESSAGE);
+        }
+        try {
+        	int digits = Integer.parseInt(jtfNumberOfDigits.getText());
+        	conf.getGeneralConfig().setDigits(digits);
+        } catch (NumberFormatException e) {
+        	JOptionPane.showMessageDialog(this, "\""+jtfNumberOfDigits.getText()+"\" is not a valid integer for the number of digits.", "Invalid input", JOptionPane.ERROR_MESSAGE);
+        }
         conf.getGeneralConfig().setProjectPDFsPath(tfPDFPath.getText());
        	conf.getGeneralConfig().setColoredImages(colorImages.isSelected());
        	conf.getGeneralConfig().setShowRejected(showRejected.isSelected());
-        
+       	conf.getGeneralConfig().setShowFractions(showFractions.isSelected());
         try {
             LookAndFeel currentLF = UIManager.getLookAndFeel();
             logger.info("Selected LooknFeel:" + getLooknFeel());

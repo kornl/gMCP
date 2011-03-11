@@ -6,6 +6,7 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.RenderingHints;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
@@ -402,8 +403,6 @@ public class NetList extends JPanel implements MouseMotionListener, MouseListene
 			repaint();
 		}
 	}
-
-	static BasicStroke stroke = new BasicStroke(1.0f);
 	
 	/**
 	 * Die Paint-Methode. paint() geht nicht, da sie nicht bei revalidate der
@@ -422,7 +421,11 @@ public class NetList extends JPanel implements MouseMotionListener, MouseListene
 				g.drawLine(0, y+Node.r, getWidth(), y+Node.r);
 			}
 		}
+		BasicStroke stroke = new BasicStroke(Configuration.getInstance().getGeneralConfig().getLineWidth());
 		((Graphics2D)g).setStroke(stroke);
+		((Graphics2D)g).setRenderingHint(RenderingHints.KEY_ANTIALIASING,
+				RenderingHints.VALUE_ANTIALIAS_ON);
+
 		for (Node node : nodes) {
 			node.paintYou(g);
 		}

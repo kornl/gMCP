@@ -73,7 +73,7 @@ public class RControl {
 	}
 	
 	public static String getFraction(Double d) {
-		return  RControl.getR().eval("fractions("+d+")").asRChar().getData()[0];
+		return  RControl.getR().eval("as.character(fractions("+d+"))").asRChar().getData()[0];
 	}
 
 }
