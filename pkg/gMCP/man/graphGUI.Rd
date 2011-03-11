@@ -8,7 +8,7 @@
 	Starts a graphical user interface for the creation of SRMTP graphs.
 }
 \usage{
-	graphGUI(graph="createdGraph", grid=10, debug=FALSE)
+	graphGUI(graph="createdGraph", pvalues=numeric(0), grid=10, debug=FALSE)
 }
 
 \arguments{
@@ -16,9 +16,12 @@
   	Either a variable name for the graph, given as a character string. (If it is not a syntactically valid name, \code{\link{make.names}} is called to change it to a valid one.)
   	Or an object of class \code{\link{graphMCP}}.
   }
+  \item{pvalues}{
+	Numeric value that optionally specifies the p-values. 
+  }
   \item{grid}{
 	Positive integer that sets the grid size for easier placement of nodes.
-	(Grid size 1 disables therefore the grid.)
+	(Grid size 1 disables the grid.)
   }
   \item{debug}{
 	Logical. If \code{TRUE} debug output is printed to the R console.
@@ -37,7 +40,9 @@
 \examples{
 
 \dontrun{
-graphGUI()}
+graphGUI()
+pvalues <- c(9.7, 1.5, 0.5, 0.6, 0.4, 0.8, 4)/100 
+graphGUI(createGraphFromHommelEtAl(), pvalues=pvalues))}
 
 }
 \keyword{ misc }

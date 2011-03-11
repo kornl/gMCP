@@ -22,7 +22,6 @@ High priority:
 - Flag 1+epsilon as line sum
 - round adjusted p-Values up
 - standard examples
-- parametric menu for bonferroni holm
 - default to 1 for edges
 
 Medium priority:

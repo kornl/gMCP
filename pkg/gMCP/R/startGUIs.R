@@ -1,4 +1,4 @@
-graphGUI <- function(graph="createdGraph", grid=10, debug=FALSE) {
+graphGUI <- function(graph="createdGraph", pvalues=numeric(0), grid=10, debug=FALSE) {
 	if (!is.character(graph)) {
 		if ("graphMCP" %in% class(graph)) {
 			newGraphName <- "createdGraph"
@@ -26,5 +26,5 @@ graphGUI <- function(graph="createdGraph", grid=10, debug=FALSE) {
 			warning(paste("The variable ",graph," already exists and is no graphMCP object.",sep=""))
 		}
 	}
-	invisible(.jnew("org/mutoss/gui/CreateGraphGUI", make.names(graph), debug, grid))	
+	invisible(.jnew("org/mutoss/gui/CreateGraphGUI", make.names(graph), pvalues, debug, grid))	
 }
