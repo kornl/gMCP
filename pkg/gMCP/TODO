@@ -1,14 +1,13 @@
 High priority:
 ==============
 
-- FileChooser should not look at locale - set locale to english
 - explain users what transparence in images is 
 - press e for epsilon, or 1+e+e^2
 - objectname to save / load (load and save button)
 - show values in percent
 - display fractions as fractions and allow input as for example 1/7
-- people want to allow alpha = 1 and interpret it as weight, which causes problems  
-- TODO is not recognized under Windows as txt file
+  # eval(parse(text="1/7"))
+- people want to allow alpha = 1 and interpret it as weight, which causes problems
 - Implement support for something like 2*\epsilon or \epsilon^2
  (without using a small value for epsilon like 10^{-6} 
   - that does work already if we ignore rounding problems).
@@ -25,7 +24,6 @@ High priority:
 - standard examples
 - parametric menu for bonferroni holm
 - default to 1 for edges
-- 
 
 Medium priority:
 ================
@@ -45,7 +43,7 @@ Medium priority:
 Additional features / low priority:
 ===================================
 
-- Linewidth in LaTeX and NetList / PNG export
+- Check whether help files under Windows (and Java 5) open correctly
 - do not show rejected null hypothesis (does this work for reports?)
 - Look at print method for gMCPResult
 - Cleanup Config
@@ -61,7 +59,6 @@ See also http://comments.gmane.org/gmane.comp.lang.r.general/200179
 - TikZ styles for rejected / rejectable nodes
 - browseURL("http://gsrmtp.r-forge.r-project.org/")
 - LogPanel looks ugly -> bug in afcommons
-- Check for loops in matrix2graph
 - further tests
 
 @Apple - is this a problem?

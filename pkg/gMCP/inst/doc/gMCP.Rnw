@@ -377,6 +377,14 @@ Use the following two buttons: \includegraphics[width=1cm]{pictures/adjPval_b.pn
 
 }
 
+\subsection{PNG export}
+
+\begin{figure}[ht]
+  \centering    
+  \includegraphics[width=0.7\textwidth]{pictures/pngExport.png}      
+  \caption{\label{fullGUI} Graphics can be exported from the GUI to PNG files - the squared. Note that the checkerboard pattern in the background of some image viewers is just a way to visualize transparency.}
+\end{figure}
+
 \section{Important TikZ commands for optimizing the reports}
 A clear automatic placement of edges and weight labels without overlapping is a very difficult task 
 and for complicated graphs the \texttt{gMCP} package will often fail to accomplish this.
