@@ -3,11 +3,11 @@ Version 0.3-5
 - New dependency: MASS for MASS::fractions
 - Method graphGUI has a new optional argument "pvalues" for loading p-values.
 - Trying to show fractions in the GUI instead of decimal numbers
--
 - Line width of graphs can be adjusted (line width 2 is now default)
 - Use of antialiasing for nicer graphics 
-- Accompanying doc file: Theoretical Background 
 - Parameters for example graphs in GUI
+
+- Accompanying doc file: Theoretical Background 
 - New example graphs:
 
 Version 0.3-4 (25-Nov-2010)

@@ -1,9 +1,7 @@
 High priority:
 ==============
 
-- explain users what transparence in images is 
 - press e for epsilon, or 1+e+e^2
-- objectname to save / load (load and save button)
 - show values in percent
 - display fractions as fractions and allow input as for example 1/7
   # eval(parse(text="1/7"))
@@ -34,19 +32,18 @@ Medium priority:
 - Warn user when sum of edge weights is bigger than 1
 - Check mutator methods for errors (alpha > 1, edge weights > 1)
 - Update graph2latex to the much better algorithm already implemented in Java.
-- Don't create global variable like .tmpGraph etc.
 - gMCPReport does not work for graphs without layout.
-- graphGUI should have a parameter pvalues.
 
 
 Additional features / low priority:
 ===================================
 
+- Don't create global variable like .tmpGraph etc.
 - Check whether help files under Windows (and Java 5) open correctly
 - do not show rejected null hypothesis (does this work for reports?)
 - Look at print method for gMCPResult
 - Cleanup Config
-- PNG export cuts perhaps edges.
+- PNG export cuts perhaps edges. (But already improved!)
 - Speed-up -> Matrices & perhaps ?ReferenceClasses ?
 - Why is the tilde in for example "F.˜Bretz" still shown in the pdf?
 - Package highlight is cool - but how can I tell r-forge or CRAN to use it?
@@ -59,6 +56,7 @@ See also http://comments.gmane.org/gmane.comp.lang.r.general/200179
 - browseURL("http://gsrmtp.r-forge.r-project.org/")
 - LogPanel looks ugly -> bug in afcommons
 - further tests
+- option to load another R graph
 
 @Apple - is this a problem?
 
