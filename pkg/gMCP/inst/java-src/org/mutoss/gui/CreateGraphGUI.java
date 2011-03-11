@@ -29,7 +29,7 @@ public class CreateGraphGUI extends JFrame implements WindowListener {
 	
 	GraphMCP graph;
 	
-	public CreateGraphGUI(String graph, boolean debug, double grid) {
+	public CreateGraphGUI(String graph, double[] pvalues, boolean debug, double grid) {
 		super("Creating and modifying graphs");	
 		Locale.setDefault(Locale.US);
 		JComponent.setDefaultLocale(Locale.US); 
@@ -66,7 +66,7 @@ public class CreateGraphGUI extends JFrame implements WindowListener {
 		CreateGraphGUI.grid = grid;
 		javax.swing.SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
-				new CreateGraphGUI(CreateGraphGUI.graphStr, CreateGraphGUI.debug, CreateGraphGUI.grid);
+				new CreateGraphGUI(CreateGraphGUI.graphStr, null, CreateGraphGUI.debug, CreateGraphGUI.grid);
 			}
 		});		
 	}
@@ -88,7 +88,7 @@ public class CreateGraphGUI extends JFrame implements WindowListener {
 	}
 
 	public static void main(String[] args) {
-		new CreateGraphGUI("graph", true, 10);
+		new CreateGraphGUI("graph", null, true, 10);
 	}
 
 	public void windowActivated(WindowEvent e) {}
