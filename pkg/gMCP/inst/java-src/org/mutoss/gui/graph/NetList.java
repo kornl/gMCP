@@ -108,7 +108,7 @@ public class NetList extends JPanel implements MouseMotionListener, MouseListene
 	 */
 
 	public void addEdge(Node von, Node nach) {
-		addEdge(von, nach, Double.NaN);		
+		addEdge(von, nach, 1d);		
 	}
 
 	/**
