@@ -19,9 +19,9 @@ public class UpdateEdge extends JDialog implements ActionListener {
 	JButton jbDelete = new JButton("Remove Edge");
 	Edge edge;
 	NetList netzListe;
-	ControlMGraph control;
+	GraphView control;
 	
-	public UpdateEdge(Edge edge, NetList netzListe, ControlMGraph control) {
+	public UpdateEdge(Edge edge, NetList netzListe, GraphView control) {
 		super((JFrame)null, "Updating Edge from node "+edge.from.name+" to "+edge.to.name);
 		this.control = control;
 		this.edge = edge;

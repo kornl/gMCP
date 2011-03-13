@@ -41,9 +41,9 @@ public class DialogConfIntEstVar extends JDialog implements ActionListener, Chan
 	String[] alternatives = { /*"two.sided",*/ "less", "greater" };
 	
 	NetList nl;	
-	ControlMGraph control;
+	GraphView control;
 	
-	public DialogConfIntEstVar(JFrame p, ControlMGraph control, NetList nl) {		
+	public DialogConfIntEstVar(JFrame p, GraphView control, NetList nl) {		
 		super(p, "Confidence intervals");
 		setLocationRelativeTo(p);
 		this.nl = nl;

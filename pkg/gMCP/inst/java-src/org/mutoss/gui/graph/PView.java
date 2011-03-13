@@ -24,14 +24,14 @@ public class PView extends JPanel {
 	JLabel statusBar;
 	private static final Log logger = LogFactory.getLog(PView.class);
 
-	private ControlMGraph control;
+	private GraphView control;
 	private Vector<PPanel> panels = new Vector<PPanel>();
 	CellConstraints cc = new CellConstraints();	
 	//JPanel panel = new JPanel();
 	JLabel label = new JLabel("Total α: "+0);
 	GridBagConstraints c = new GridBagConstraints();
 	
-	public PView(ControlMGraph abstractGraphControl) {
+	public PView(GraphView abstractGraphControl) {
 		//super("p-Values");
 		this.control = abstractGraphControl;        
 		setLayout(new GridBagLayout());

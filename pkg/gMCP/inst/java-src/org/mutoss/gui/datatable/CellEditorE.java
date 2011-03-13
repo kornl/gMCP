@@ -7,13 +7,13 @@ import javax.swing.DefaultCellEditor;
 import javax.swing.JTable;
 import javax.swing.table.TableCellEditor;
 
-import org.mutoss.gui.graph.ControlMGraph;
+import org.mutoss.gui.graph.GraphView;
 
 public class CellEditorE  extends AbstractCellEditor implements TableCellEditor {
     private DefaultCellEditor ed;
-    ControlMGraph agc;
+    GraphView agc;
     
-    public CellEditorE(ControlMGraph agc) {    	
+    public CellEditorE(GraphView agc) {    	
     	this.agc = agc;
     }
 

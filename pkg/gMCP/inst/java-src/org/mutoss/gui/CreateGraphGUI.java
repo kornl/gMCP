@@ -21,7 +21,6 @@ import org.mutoss.gui.datatable.CellValue;
 import org.mutoss.gui.datatable.DataFramePanel;
 import org.mutoss.gui.datatable.DataTable;
 import org.mutoss.gui.datatable.RDataFrameRef;
-import org.mutoss.gui.graph.ControlMGraph;
 import org.mutoss.gui.graph.GraphMCP;
 import org.mutoss.gui.graph.GraphView;
 import org.mutoss.gui.graph.PView;
@@ -38,7 +37,7 @@ public class CreateGraphGUI extends JFrame implements WindowListener {
 		Localizer.getInstance().addResourceBundle("org.mutoss.gui.ResourceBundle");
 		Configuration.getInstance().getGeneralConfig().setGridSize((int)grid);
 		setIconImage((new ImageIcon(getClass().getResource("/org/mutoss/gui/graph/images/rjavaicon64.png"))).getImage());
-		agc = new ControlMGraph(graph, this);		
+		agc = new GraphView(graph, this);		
 		
 		// Fenster in der Mitte des Bildschirms platzieren mit inset = 50 Pixeln Rand.
 		int inset = 50;
@@ -50,7 +49,7 @@ public class CreateGraphGUI extends JFrame implements WindowListener {
 		
 		setJMenuBar(new MenuBarMGraph(agc));
 		makeContent();
-		this.graph = new GraphMCP(graph, graphview.getVS());
+		this.graph = new GraphMCP(graph, agc.getVS());
 		
 		if (pvalues.length>0) getPView().setPValues(ArrayUtils.toObject(pvalues));
 		
@@ -76,18 +75,16 @@ public class CreateGraphGUI extends JFrame implements WindowListener {
 	}
 	
 	JLabel statusbar = new JLabel(); 
-	GraphView graphview;
-	ControlMGraph agc;
+	GraphView agc;
 	PView pview;
 	DataFramePanel dfp;
 	
 	private void makeContent() {
-		graphview = new GraphView(agc);
 		pview = new PView(agc);
 		dfp = new DataFramePanel(new RDataFrameRef());
 		dfp.getTable().setDefaultEditor(CellValue.class, new CellEditorE(agc));
 		JSplitPane splitPane2 = new JSplitPane(JSplitPane.VERTICAL_SPLIT, new JScrollPane(dfp), pview);
-		JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, graphview, splitPane2);
+		JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, agc, splitPane2);
 		this.getContentPane().add(splitPane);		
 	}
 
@@ -108,7 +105,7 @@ public class CreateGraphGUI extends JFrame implements WindowListener {
 	}
 
 	public GraphView getGraphView() {		
-		return graphview;
+		return agc;
 	}
 
 	public DataTable getDataTable() {		

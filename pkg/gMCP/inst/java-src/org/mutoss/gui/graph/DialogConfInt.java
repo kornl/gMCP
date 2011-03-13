@@ -27,7 +27,7 @@ import org.mutoss.gui.RControl;
 
 public class DialogConfInt extends JDialog implements ActionListener, ChangeListener, DocumentListener {
 	
-	ControlMGraph control;
+	GraphView control;
 	List<JLabel> names = new Vector<JLabel>();
 	List<JLabel> alpha = new Vector<JLabel>();
 	List<JLabel> ci = new Vector<JLabel>();
@@ -40,7 +40,7 @@ public class DialogConfInt extends JDialog implements ActionListener, ChangeList
 	String[] alternatives = { "less", "greater" };
 	NetList nl;	
 	
-	public DialogConfInt(JFrame p, ControlMGraph control) {		
+	public DialogConfInt(JFrame p, GraphView control) {		
 		super(p, "Confidence intervals", true);
 		setLocationRelativeTo(p);
 		this.control = control;

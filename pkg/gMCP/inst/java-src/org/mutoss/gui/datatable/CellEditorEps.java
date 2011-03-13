@@ -3,18 +3,18 @@ package org.mutoss.gui.datatable;
 import javax.swing.DefaultCellEditor;
 import javax.swing.JTextField;
 
-import org.mutoss.gui.graph.ControlMGraph;
+import org.mutoss.gui.graph.GraphView;
 
 
 public class CellEditorEps extends DefaultCellEditor {
 	
-	ControlMGraph agc;
+	GraphView agc;
 
     private Object oldVal;
     int row;
     int col;
     
-    public CellEditorEps(ControlMGraph agc, int row, int col, String s) {
+    public CellEditorEps(GraphView agc, int row, int col, String s) {
         super(new JTextField());
 		this.agc = agc;
 		this.row = row;

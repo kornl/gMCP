@@ -31,7 +31,7 @@ import org.mutoss.gui.RControl;
 public class NetList extends JPanel implements MouseMotionListener, MouseListener {
 
 	private static final Log logger = LogFactory.getLog(NetList.class);
-	ControlMGraph control;
+	GraphView control;
 	int drag = -1;
 	protected Vector<Edge> edges = new Vector<Edge>();
 	int edrag = -1;
@@ -58,7 +58,7 @@ public class NetList extends JPanel implements MouseMotionListener, MouseListene
 	 *            VS Viewer Setting Objekt
 	 */
 
-	public NetList(JLabel statusBar, VS vs,  ControlMGraph abstractGraphControl) {
+	public NetList(JLabel statusBar, VS vs,  GraphView abstractGraphControl) {
 		this.statusBar = statusBar;
 		this.vs = vs;
 		this.control = abstractGraphControl;

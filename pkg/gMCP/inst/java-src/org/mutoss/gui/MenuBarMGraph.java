@@ -23,18 +23,18 @@ import org.af.commons.tools.OSTools;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.mutoss.gui.dialogs.NumberOfHypotheses;
-import org.mutoss.gui.graph.ControlMGraph;
+import org.mutoss.gui.graph.GraphView;
 import org.mutoss.gui.graph.NetList;
 import org.mutoss.gui.options.OptionsDialog;
 
 public class MenuBarMGraph extends JMenuBar implements ActionListener {
 	
-	ControlMGraph control;
+	GraphView control;
     protected Localizer localizer = Localizer.getInstance();
     private static final Log logger = LogFactory.getLog(MenuBarMGraph.class);
     //protected HelpSystem helpSystem;
 
-	public MenuBarMGraph(ControlMGraph control) {
+	public MenuBarMGraph(GraphView control) {
 		
 		this.control = control;
 
@@ -221,7 +221,7 @@ public class MenuBarMGraph extends JMenuBar implements ActionListener {
 	}
 	
 	public void exportLaTeXGraph() {
-		NetList nl = ((ControlMGraph) control).getNL();
+		NetList nl = control.getNL();
 		writeLaTeX(nl.getLaTeX());
 	}
 	
@@ -255,7 +255,7 @@ public class MenuBarMGraph extends JMenuBar implements ActionListener {
 
 	
 	private void saveGraphImage() {
-		BufferedImage img = ((ControlMGraph) control).getNL().getImage();
+		BufferedImage img = control.getNL().getImage();
 		JFileChooser fc = new JFileChooser();		
         fc.setFileSelectionMode(JFileChooser.FILES_ONLY);
         fc.setDialogType(JFileChooser.SAVE_DIALOG);
@@ -280,7 +280,7 @@ public class MenuBarMGraph extends JMenuBar implements ActionListener {
         fc.setFileSelectionMode(JFileChooser.FILES_ONLY);
         int returnVal = fc.showOpenDialog(this);
         if (returnVal == JFileChooser.APPROVE_OPTION) {  
-        	((ControlMGraph) control).getGraphView().stopTesting();
+        	control.getGraphView().stopTesting();
             File f = fc.getSelectedFile();
             try {            	
             	//((ControlMGraph) control).getNL().loadFromXML(f);
@@ -305,8 +305,8 @@ public class MenuBarMGraph extends JMenuBar implements ActionListener {
             }
             try {
             	//((ControlMGraph) control).getNL().saveToXML(f);
-            	String name = ((ControlMGraph) control).getGraphView().jtSaveName.getText();
-            	((ControlMGraph) control).getNL().saveGraph(name, true); 
+            	String name = control.getGraphView().jtSaveName.getText();
+            	control.getNL().saveGraph(name, true); 
             	RControl.getR().eval("save("+name+", file=\""+f.getAbsolutePath()+"\")");        		
     		} catch( Exception ex ) {
     			JOptionPane.showMessageDialog(this, "Saving graph to '" + f.getAbsolutePath() + "' failed: " + ex.getMessage(), "Saving failed.", JOptionPane.ERROR_MESSAGE);
