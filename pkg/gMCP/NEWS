@@ -5,10 +5,9 @@ Version 0.3-5
 - Trying to show fractions in the GUI instead of decimal numbers
 - Line width of graphs can be adjusted (line width 2 is now default)
 - Use of antialiasing for nicer graphics 
+- Improvement of PNG exports
 - Parameters for example graphs in GUI
-
-- Accompanying doc file: Theoretical Background 
-- New example graphs:
+- More RUnit tests
 
 Version 0.3-4 (25-Nov-2010)
 =============
