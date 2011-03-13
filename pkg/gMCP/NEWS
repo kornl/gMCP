@@ -1,4 +1,4 @@
-Version 0.3-5
+Version 0.3-5 (13-Mar-2011)
 =============
 - New dependencies: MASS for MASS::fractions and PolynomF for polynoms in epsilon.
 - Method graphGUI has a new optional argument "pvalues" for loading p-values.
@@ -9,7 +9,7 @@ Version 0.3-5
 - Parameters for example graphs in GUI
 - More RUnit tests
 
-Version 0.3-4 (25-Nov-2010)
+Version 0.3-4 (26-Nov-2010)
 =============
 - New functions: graph2matrix and matrix2graph
 - Adjaceny matrix is shown and can be edited.
