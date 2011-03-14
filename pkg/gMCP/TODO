@@ -32,6 +32,7 @@ Medium priority:
 - Check mutator methods for errors (alpha > 1, edge weights > 1)
 - Update graph2latex to the much better algorithm already implemented in Java.
 - gMCPReport does not work for graphs without layout.
+- call calculateWeightString() when options change
 
 
 Additional features / low priority:

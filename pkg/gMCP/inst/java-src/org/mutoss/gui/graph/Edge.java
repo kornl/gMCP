@@ -30,7 +30,8 @@ public class Edge {
 	
 	VS vs;
 	
-	Double w;
+	private Double w;
+	private String stringW = "";
 
 	public Edge(Node von, Node nach, Double w, VS vs) {		
 		int x1, x2, y1, y2;
@@ -43,6 +44,7 @@ public class Edge {
 		this.from = von;
 		this.to = nach;
 		this.w = w;
+		calculateWeightString();
 		this.vs = vs;
 	}
 	
@@ -83,6 +85,7 @@ public class Edge {
 		this.from = von;
 		this.to = nach;
 		this.w = w;
+		calculateWeightString();
 		this.vs = vs;
 		this.k1 = k1;
 		this.k2 = k2;
@@ -160,28 +163,7 @@ public class Edge {
 		if (w<0.0009) {
 			return formatSmall.format(w);
 		} else {
-			if (!Configuration.getInstance().getGeneralConfig().showFractions()) {
-				return format.format(w);
-			} else {
-				String f = RControl.getFraction(w);
-				if (f.equals("1/2")) return("½");
-				if (f.equals("1/3")) return("⅓");
-				if (f.equals("2/3")) return("⅔");
-				if (f.equals("1/4")) return("¼");
-				if (f.equals("3/4")) return("¾");
-				/* The following do often not work:
-				if (f.equals("1/5")) return("⅕");
-				if (f.equals("2/5")) return("⅖");
-				if (f.equals("3/5")) return("⅗");
-				if (f.equals("4/5")) return("⅘");
-				if (f.equals("1/6")) return("⅙");
-				if (f.equals("5/6")) return("⅚");
-				if (f.equals("1/8")) return("⅛");
-				if (f.equals("3/8")) return("⅜");
-				if (f.equals("5/8")) return("⅝");
-				if (f.equals("7/8")) return("⅞");*/
-				return f;
-			}
+			return stringW;			
 		}
 	}
 
@@ -260,7 +242,38 @@ public class Edge {
 
 	public void setW(Double w) {
 		this.w = w;
+		calculateWeightString();
 		vs.nl.repaint();
+	}
+
+	// TODO Call this method when options change!
+	public void calculateWeightString() {
+		stringW = getString();		
+	}
+
+	private String getString() {
+		if (!Configuration.getInstance().getGeneralConfig().showFractions()) {
+			return format.format(w);
+		} else {
+			String f = RControl.getFraction(w);
+			if (f.equals("1/2")) return("½");
+			if (f.equals("1/3")) return("⅓");
+			if (f.equals("2/3")) return("⅔");
+			if (f.equals("1/4")) return("¼");
+			if (f.equals("3/4")) return("¾");
+			/* The following do often not work:
+			if (f.equals("1/5")) return("⅕");
+			if (f.equals("2/5")) return("⅖");
+			if (f.equals("3/5")) return("⅗");
+			if (f.equals("4/5")) return("⅘");
+			if (f.equals("1/6")) return("⅙");
+			if (f.equals("5/6")) return("⅚");
+			if (f.equals("1/8")) return("⅛");
+			if (f.equals("3/8")) return("⅜");
+			if (f.equals("5/8")) return("⅝");
+			if (f.equals("7/8")) return("⅞");*/
+			return f;
+		}
 	}
 
 }

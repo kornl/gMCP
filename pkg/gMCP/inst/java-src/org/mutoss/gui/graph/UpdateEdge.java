@@ -36,7 +36,7 @@ public class UpdateEdge extends JDialog implements ActionListener {
         getContentPane().add(new JLabel("Weight for edge:"), cc.xy(2, 2));
 
         
-        String text = ""+edge.w;
+        String text = ""+edge.getW();
         if (text.equals("NaN")) text = "ε";
         tf = new JTextField(text);
         tf.addActionListener(this);
