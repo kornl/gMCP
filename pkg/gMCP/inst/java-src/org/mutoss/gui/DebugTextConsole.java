@@ -53,19 +53,16 @@ public class DebugTextConsole implements RMainLoopCallbacks {
 
 	public String rChooseFile(Rengine re, int newFile) {
 		FileDialog fd = new FileDialog(f, (newFile==0)?"Select a file":"Select a new file", (newFile==0)?FileDialog.LOAD:FileDialog.SAVE);
-		fd.show();
+		fd.setVisible(true);
 		String res=null;
 		if (fd.getDirectory()!=null) res=fd.getDirectory();
 		if (fd.getFile()!=null) res=(res==null)?fd.getFile():(res+fd.getFile());
 		return res;
 	}
 
-	public void   rFlushConsole (Rengine re) {
-	}
+	public void rFlushConsole(Rengine re) {}
 
-	public void   rLoadHistory  (Rengine re, String filename) {
-	}			
+	public void rLoadHistory(Rengine re, String filename) {}			
 
-	public void   rSaveHistory  (Rengine re, String filename) {
-	}			
+	public void rSaveHistory(Rengine re, String filename) {}			
 }
