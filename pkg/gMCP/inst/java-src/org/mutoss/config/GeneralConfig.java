@@ -1,8 +1,6 @@
 package org.mutoss.config;
 
 import java.io.File;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 
 public class GeneralConfig extends SpecificConfig {
 
@@ -12,27 +10,6 @@ public class GeneralConfig extends SpecificConfig {
 	 */
     GeneralConfig(Configuration conf) {
         super(conf);        
-    }
-    
-    /**
-     * Sets for one Class a key to some String value.
-     * @param c Class
-     * @param key Key
-     * @param value Value
-     */
-    public void setClassProperty(Class c, String key, String value) {
-    	String cn = c.getName().substring(c.getName().lastIndexOf('.'));
-    	setProperty(cn+"."+key, value);
-    }
-
-    /**
-     * Returns for one Class the associated value to a key.
-     * @param c Class
-     * @param key Key
-     */
-    public String getClassProperty(Class c, String key) {
-    	String cn = c.getName().substring(c.getName().lastIndexOf('.'));
-    	return getProperty(cn+"."+key, Configuration.NOTFOUND);
     }
 
     public final static String DISABLE = "disable";

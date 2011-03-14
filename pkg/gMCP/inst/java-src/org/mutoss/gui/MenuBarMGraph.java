@@ -22,6 +22,7 @@ import org.af.commons.logging.widgets.DetailsDialog;
 import org.af.commons.tools.OSTools;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.mutoss.config.Configuration;
 import org.mutoss.gui.dialogs.NumberOfHypotheses;
 import org.mutoss.gui.graph.GraphView;
 import org.mutoss.gui.graph.NetList;
@@ -196,12 +197,13 @@ public class MenuBarMGraph extends JMenuBar implements ActionListener {
 	
 	
 	public void writeLaTeX(String s) {
-		JFileChooser fc = new JFileChooser();
+		JFileChooser fc = new JFileChooser(Configuration.getInstance().getClassProperty(this.getClass(), "LaTeXDirectory"));
 		fc.setDialogType(JFileChooser.SAVE_DIALOG);
 		File f;
 		int returnVal = fc.showSaveDialog(this);
-		if (returnVal == JFileChooser.APPROVE_OPTION) {
+		if (returnVal == JFileChooser.APPROVE_OPTION) {			
 			f = fc.getSelectedFile();
+			Configuration.getInstance().setClassProperty(this.getClass(), "LaTeXDirectory", f.getParent());
 			if (!f.getName().toLowerCase().endsWith(".tex")) {
             	f = new File(f.getAbsolutePath()+".tex");
             }
@@ -256,12 +258,13 @@ public class MenuBarMGraph extends JMenuBar implements ActionListener {
 	
 	private void saveGraphImage() {
 		BufferedImage img = control.getNL().getImage();
-		JFileChooser fc = new JFileChooser();		
+		JFileChooser fc = new JFileChooser(Configuration.getInstance().getClassProperty(this.getClass(), "ImageDirectory"));		
         fc.setFileSelectionMode(JFileChooser.FILES_ONLY);
         fc.setDialogType(JFileChooser.SAVE_DIALOG);
         int returnVal = fc.showOpenDialog(this);
         if (returnVal == JFileChooser.APPROVE_OPTION) {
             File f = fc.getSelectedFile();
+            Configuration.getInstance().setClassProperty(this.getClass(), "ImageDirectory", f.getParent());
             if (!f.getName().toLowerCase().endsWith(".png")) {
             	f = new File(f.getAbsolutePath()+".png");
             }
@@ -276,12 +279,13 @@ public class MenuBarMGraph extends JMenuBar implements ActionListener {
 
 	
 	private void loadGraph() {		
-		JFileChooser fc = new JFileChooser();		
+		JFileChooser fc = new JFileChooser(Configuration.getInstance().getClassProperty(this.getClass(), "RObjDirectory"));		
         fc.setFileSelectionMode(JFileChooser.FILES_ONLY);
         int returnVal = fc.showOpenDialog(this);
         if (returnVal == JFileChooser.APPROVE_OPTION) {  
         	control.getGraphView().stopTesting();
             File f = fc.getSelectedFile();
+            Configuration.getInstance().setClassProperty(this.getClass(), "RObjDirectory", f.getParent());
             try {            	
             	//((ControlMGraph) control).getNL().loadFromXML(f);
         		String loadedGraph = RControl.getR().eval("load(file=\""+f.getAbsolutePath()+"\")").asRChar().getData()[0];
@@ -294,12 +298,13 @@ public class MenuBarMGraph extends JMenuBar implements ActionListener {
 	}
 
 	private void saveGraph() {
-		JFileChooser fc = new JFileChooser();		
+		JFileChooser fc = new JFileChooser(Configuration.getInstance().getClassProperty(this.getClass(), "RObjDirectory"));		
         fc.setFileSelectionMode(JFileChooser.FILES_ONLY);
         fc.setDialogType(JFileChooser.SAVE_DIALOG);
         int returnVal = fc.showOpenDialog(this);
         if (returnVal == JFileChooser.APPROVE_OPTION) {
             File f = fc.getSelectedFile();
+            Configuration.getInstance().setClassProperty(this.getClass(), "RObjDirectory", f.getParent());
             if (!f.getName().toLowerCase().endsWith(".xml")) {
             	f = new File(f.getAbsolutePath()+".xml");
             }
