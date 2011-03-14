@@ -39,7 +39,6 @@ public class CreateGraphGUI extends JFrame implements WindowListener {
 		Localizer.getInstance().addResourceBundle("org.mutoss.gui.ResourceBundle");
 		Configuration.getInstance().getGeneralConfig().setGridSize((int)grid);
 		setIconImage((new ImageIcon(getClass().getResource("/org/mutoss/gui/graph/images/rjavaicon64.png"))).getImage());
-		agc = new GraphView(graph, this);		
 		
 		// Fenster in der Mitte des Bildschirms platzieren mit inset = 50 Pixeln Rand.
 		int inset = 50;
@@ -48,7 +47,10 @@ public class CreateGraphGUI extends JFrame implements WindowListener {
 				screenSize.width  - inset*2,
 				screenSize.height - inset*2);
 		addWindowListener(this);
-		
+
+		pview = new PView();
+		dfp = new DataFramePanel(new RDataFrameRef());
+		agc = new GraphView(graph, this);
 		setJMenuBar(new MenuBarMGraph(agc));
 		makeContent();
 		this.graph = new GraphMCP(graph, agc.getVS());
@@ -77,12 +79,10 @@ public class CreateGraphGUI extends JFrame implements WindowListener {
 	}
 	
 	private void makeContent() {
-		pview = new PView();
-		dfp = new DataFramePanel(new RDataFrameRef());
 		dfp.getTable().setDefaultEditor(CellValue.class, new CellEditorE(agc));
 		JSplitPane splitPane2 = new JSplitPane(JSplitPane.VERTICAL_SPLIT, new JScrollPane(dfp), pview);
 		JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, agc, splitPane2);
-		this.getContentPane().add(splitPane);		
+		getContentPane().add(splitPane);		
 	}
 
 	public static void main(String[] args) {

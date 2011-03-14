@@ -23,11 +23,6 @@ import org.apache.commons.logging.LogFactory;
 import org.mutoss.config.Configuration;
 import org.mutoss.gui.RControl;
 
-
-/**
- * Diese Klasse (extends JPanel) stellt einen Graphen graphisch dar.
- */
-
 public class NetList extends JPanel implements MouseMotionListener, MouseListener {
 
 	private static final Log logger = LogFactory.getLog(NetList.class);
@@ -47,17 +42,6 @@ public class NetList extends JPanel implements MouseMotionListener, MouseListene
 	JLabel statusBar;
 
 	protected VS vs;
-
-	/**
-	 * Konstruktor der die NetzListe erzeugt
-	 * 
-	 * @param document
-	 *            Ein org.jdom.Document, das den Plan enthält.
-	 * @param statusBar
-	 *            Die Statusbar des zugehörigen FrameViewer
-	 * @param vs
-	 *            VS Viewer Setting Objekt
-	 */
 
 	public NetList(JLabel statusBar, VS vs,  GraphView graphview) {
 		this.statusBar = statusBar;
