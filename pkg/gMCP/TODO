@@ -10,6 +10,7 @@ High priority:
   - that does work already if we ignore rounding problems).
 - confidence intervals are strange...
 - Option for rounding how many digits we want to see.
+(search for DecimalFormat and replace it with getDecFormat())
 - PPanels will set alpha to the truncated number.
 - What happens if I try to create nodes with the same name? Is Node.nr used for something?
   (Saving to R returns an error: Ungültiges Objekt der Klasse "graphMCP": FALSE)

@@ -1,11 +1,12 @@
-Version 0.4-0
+Version 0.3-6 (14-Mar-2011)
 =============
-- For clarity the GUI supports now also the replacement of epsilon with a given (intentionally small) number between 0 and 1. See options.
+- Mainly a bug-fix release, since the GUI was not responding in 0.3-5.
 - C compiler is needed for building gMCP since the first C source file was added.
-- 
+- When saving/loading graphs, reports or png/LaTeX files, the last directory is remembered. 
 
 Version 0.3-5 (13-Mar-2011)
 =============
+- Unfortunately after release it was noted that the GUI was not responding in 0.3-5.
 - New dependencies: MASS for MASS::fractions and PolynomF for polynoms in epsilon.
 - Method graphGUI has a new optional argument "pvalues" for loading p-values.
 - Trying to show fractions in the GUI instead of decimal numbers
