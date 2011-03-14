@@ -78,7 +78,7 @@ public class MenuBarMGraph extends JMenuBar implements ActionListener {
 	}
 
 	public void newGraph() {
-		control.getGraphView().stopTesting();
+		control.stopTesting();
 		control.getNL().reset();		
 	}
 	
@@ -283,7 +283,7 @@ public class MenuBarMGraph extends JMenuBar implements ActionListener {
         fc.setFileSelectionMode(JFileChooser.FILES_ONLY);
         int returnVal = fc.showOpenDialog(this);
         if (returnVal == JFileChooser.APPROVE_OPTION) {  
-        	control.getGraphView().stopTesting();
+        	control.stopTesting();
             File f = fc.getSelectedFile();
             Configuration.getInstance().setClassProperty(this.getClass(), "RObjDirectory", f.getParent());
             try {            	
@@ -310,7 +310,7 @@ public class MenuBarMGraph extends JMenuBar implements ActionListener {
             }
             try {
             	//((ControlMGraph) control).getNL().saveToXML(f);
-            	String name = control.getGraphView().jtSaveName.getText();
+            	String name = control.jtSaveName.getText();
             	control.getNL().saveGraph(name, true); 
             	RControl.getR().eval("save("+name+", file=\""+f.getAbsolutePath()+"\")");        		
     		} catch( Exception ex ) {

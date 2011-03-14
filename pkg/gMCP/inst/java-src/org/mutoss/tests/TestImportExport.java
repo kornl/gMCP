@@ -16,7 +16,7 @@ public class TestImportExport {
 		VS vs = new VS();
 		vs.nl = new NetList(new JLabel(""), vs, new GraphView(graph1, null));
 		GraphMCP jGraph = new GraphMCP(graph1, vs);
-		jGraph.getNL().saveGraph(graph2, false);
+		//jGraph.getNL().saveGraph(graph2, false);
 	}
 	
 	/**

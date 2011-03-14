@@ -17,14 +17,6 @@ public class GraphMCP {
 	public Vector<Node> knoten = new Vector<Node>();
 	NetList nl;
 	VS vs;
-	
-	public NetList getNL() {
-		return nl;
-	}
-
-	public void setNL(NetList nl) {
-		this.nl = nl;
-	}
 
 	public GraphMCP(String name, VS vs) {
 		this.name = name;

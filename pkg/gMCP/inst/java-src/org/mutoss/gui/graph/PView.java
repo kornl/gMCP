@@ -4,7 +4,6 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.text.DecimalFormat;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Vector;
@@ -15,6 +14,7 @@ import javax.swing.JScrollPane;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.mutoss.config.Configuration;
 
 import com.jgoodies.forms.layout.CellConstraints;
 import com.jgoodies.forms.layout.FormLayout;
@@ -24,16 +24,13 @@ public class PView extends JPanel {
 	JLabel statusBar;
 	private static final Log logger = LogFactory.getLog(PView.class);
 
-	private GraphView control;
 	private Vector<PPanel> panels = new Vector<PPanel>();
 	CellConstraints cc = new CellConstraints();	
 	//JPanel panel = new JPanel();
 	JLabel label = new JLabel("Total α: "+0);
 	GridBagConstraints c = new GridBagConstraints();
 	
-	public PView(GraphView abstractGraphControl) {
-		//super("p-Values");
-		this.control = abstractGraphControl;        
+	public PView() {  
 		setLayout(new GridBagLayout());
 				
 		c.weightx=1; c.weighty=1; c.fill = GridBagConstraints.BOTH;
@@ -55,7 +52,7 @@ public class PView extends JPanel {
 		pValues = new Vector<Double>();
 		for (PPanel panel : panels) {
 			pValues.add(panel.getP());
-			debug += format.format(panel.getP())+"; ";
+			debug += Configuration.getInstance().getGeneralConfig().getDecFormat().format(panel.getP())+"; ";
 		}
 		logger.debug(debug);
 	}
@@ -71,7 +68,7 @@ public class PView extends JPanel {
 			for (int i=0; i<pValues.size(); i++) {
 				if (i<panels.size()) {
 					panels.get(i).setP(pValues.get(i));
-					debug += format.format(pValues.get(i))+"; ";
+					debug += Configuration.getInstance().getGeneralConfig().getDecFormat().format(pValues.get(i))+"; ";
 				}
 			}
 		}
@@ -111,8 +108,6 @@ public class PView extends JPanel {
 		removeAll();
 		add(new JScrollPane(panel), c);
 	}
-
-	DecimalFormat format = new DecimalFormat("#.####");
 	
 	public void updateLabels() {
 		double alpha = 0;
@@ -121,7 +116,7 @@ public class PView extends JPanel {
 				alpha += p.w;
 			}
 		}
-		String text = "Total α: "+format.format(alpha);
+		String text = "Total α: "+Configuration.getInstance().getGeneralConfig().getDecFormat().format(alpha);
 		if (alpha>=1) {
 			label.setForeground(Color.RED);
 			text += "; The total α is greater or equal 1!";

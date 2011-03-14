@@ -9,7 +9,6 @@ import java.util.Locale;
 import javax.swing.ImageIcon;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 
@@ -28,6 +27,9 @@ import org.mutoss.gui.graph.PView;
 public class CreateGraphGUI extends JFrame implements WindowListener {
 	
 	GraphMCP graph;
+	GraphView agc;
+	PView pview;
+	DataFramePanel dfp;
 	
 	public CreateGraphGUI(String graph, double[] pvalues, boolean debug, double grid) {
 		super("Creating and modifying graphs");	
@@ -74,13 +76,8 @@ public class CreateGraphGUI extends JFrame implements WindowListener {
 		});		
 	}
 	
-	JLabel statusbar = new JLabel(); 
-	GraphView agc;
-	PView pview;
-	DataFramePanel dfp;
-	
 	private void makeContent() {
-		pview = new PView(agc);
+		pview = new PView();
 		dfp = new DataFramePanel(new RDataFrameRef());
 		dfp.getTable().setDefaultEditor(CellValue.class, new CellEditorE(agc));
 		JSplitPane splitPane2 = new JSplitPane(JSplitPane.VERTICAL_SPLIT, new JScrollPane(dfp), pview);
