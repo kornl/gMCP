@@ -10,20 +10,6 @@ public class JavaConfig extends SpecificConfig {
     JavaConfig(Configuration conf) {
         super(conf);
     }
-
-    public String getMainClassName() {
-        return getProperty("main.class");
-    }
-
-
-    public String getErrorHandlerClassName() {
-        return getProperty("errorhandler.class", "DefaultExceptionHandler");
-    }
-
-
-    public boolean getWithErrorhandling() {
-        return getBoolProperty("with.errorhandling", "true");
-    }
     
     public String getLooknFeel() {
         return getProperty("looknfeel", "com.jgoodies.looks.plastic.Plastic3DLookAndFeel");
@@ -31,14 +17,6 @@ public class JavaConfig extends SpecificConfig {
 
     public void setLooknFeel(String looknfeel) {
        setProperty("looknfeel", looknfeel);
-    }
-
-    public String getJavaHome() {
-        return getProperty("java.home", System.getProperty("java.home"));
-    }
-
-    public void setJavaHomel(String javaHome) {
-       setProperty("java.home", javaHome);
     }
 
 }
