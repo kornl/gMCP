@@ -9,3 +9,8 @@ void convolve(double *a, int *na, double *b, int *nb, double *ab)
 		for(j = 0; j < *nb; j++)
 			ab[i + j] += a[i] * b[j];
 }
+
+/*
+ int size = 5000;
+ double *matrix = (double *) R_alloc(size^2, sizeof(double));
+ */
