@@ -31,13 +31,15 @@ public class CreateGraphGUI extends JFrame implements WindowListener {
 	PView pview;
 	DataFramePanel dfp;
 	
-	public CreateGraphGUI(String graph, double[] pvalues, boolean debug, double grid) {
+	public CreateGraphGUI(String graph, double[] pvalues, boolean debug, double[] grid) {
 		super("Creating and modifying graphs");	
 		Locale.setDefault(Locale.US);
 		JComponent.setDefaultLocale(Locale.US); 
 		RControl.getRControl(debug);
 		Localizer.getInstance().addResourceBundle("org.mutoss.gui.ResourceBundle");
-		Configuration.getInstance().getGeneralConfig().setGridSize((int)grid);
+		if (grid.length>0) {
+			Configuration.getInstance().getGeneralConfig().setGridSize((int)grid[0]);
+		}
 		setIconImage((new ImageIcon(getClass().getResource("/org/mutoss/gui/graph/images/rjavaicon64.png"))).getImage());
 		
 		// Fenster in der Mitte des Bildschirms platzieren mit inset = 50 Pixeln Rand.
@@ -65,9 +67,9 @@ public class CreateGraphGUI extends JFrame implements WindowListener {
 	 */
 	static String graphStr;
 	static boolean debug;
-	static double grid;
+	static double[] grid;
 	
-	public static void startGUI(String graphStr, boolean debug, double grid) {
+	public static void startGUI(String graphStr, boolean debug, double[] grid) {
 		CreateGraphGUI.graphStr = graphStr;
 		CreateGraphGUI.debug = debug;
 		CreateGraphGUI.grid = grid;
@@ -86,7 +88,7 @@ public class CreateGraphGUI extends JFrame implements WindowListener {
 	}
 
 	public static void main(String[] args) {
-		new CreateGraphGUI("graph", new double[] {}, true, 10);
+		new CreateGraphGUI("graph", new double[] {}, true,  new double[] {10});
 	}
 
 	public void windowActivated(WindowEvent e) {}
