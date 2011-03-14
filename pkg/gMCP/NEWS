@@ -1,7 +1,7 @@
 Version 0.4-0
 =============
 - For clarity the GUI supports now also the replacement of epsilon with a given (intentionally small) number between 0 and 1. See options.
-- 
+- graphGUI Parameter grid is now numeric(0) by default. This restores the last used grid value.
 
 Version 0.3-6 (14-Mar-2011)
 =============
