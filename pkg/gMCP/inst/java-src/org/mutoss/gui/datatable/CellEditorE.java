@@ -9,7 +9,7 @@ import javax.swing.table.TableCellEditor;
 
 import org.mutoss.gui.graph.GraphView;
 
-public class CellEditorE  extends AbstractCellEditor implements TableCellEditor {
+public class CellEditorE extends AbstractCellEditor implements TableCellEditor {
     private DefaultCellEditor ed;
     GraphView agc;
     
@@ -17,12 +17,10 @@ public class CellEditorE  extends AbstractCellEditor implements TableCellEditor 
     	this.agc = agc;
     }
 
-    //Implement the one CellEditor method that AbstractCellEditor doesn't.
     public Object getCellEditorValue() {
         return ed.getCellEditorValue();
     }
 
-    //Implement the one method defined by TableCellEditor.
     public Component getTableCellEditorComponent(JTable table,
                                                  Object value,
                                                  boolean isSelected,

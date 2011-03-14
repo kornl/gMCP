@@ -33,6 +33,10 @@ public class GraphView extends JPanel implements ActionListener {
 	CreateGraphGUI parent;
 
 	public JTextField jtSaveName;
+	public static final String STATUSBAR_DEFAULT = "Place new nodes and edges or start the test procedure";
+	JLabel statusBar;
+	public NetList nl;
+	VS vs = new VS();
 	
 	JButton buttonNewVertex;
 	JButton buttonNewEdge;
@@ -85,12 +89,6 @@ public class GraphView extends JPanel implements ActionListener {
 		return parent;
 	}
 	
-	JLabel statusBar;
-	public NetList nl;
-	VS vs = new VS();
-
-	public static final String STATUSBAR_DEFAULT = "Place new nodes and edges or start the test procedure";
-
 	public GraphView(String graph, CreateGraphGUI createGraphGUI) {
 		this.name = graph;
 		this.parent = createGraphGUI;
@@ -286,7 +284,6 @@ public class GraphView extends JPanel implements ActionListener {
 		if (!getNL().testingStarted) return;
 		getNL().stopTesting();
 		getNL().reset();
-		//control.getPView().removeAllPanels();
 		getNL().loadGraph();				
 		getPView().restorePValues();
 		getPView().setTesting(false);

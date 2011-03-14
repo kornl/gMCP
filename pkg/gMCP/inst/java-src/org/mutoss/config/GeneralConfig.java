@@ -69,13 +69,31 @@ public class GeneralConfig extends SpecificConfig {
 
     public void setDigits(int digit) {
 		setProperty("digit", ""+digit);		
+		setFormat();
 	}
     
     public int getDigits() {
 		return Integer.parseInt(getProperty("Digits", "3"));		
 	}
     
-    public void setLineWidth(int lw) {
+    DecimalFormat format = null;
+    
+	public DecimalFormat getDecFormat() {
+		if (format==null) {
+			setFormat();
+		} 
+		return format;
+	}
+    
+    private void setFormat() {
+    	String s = "#.";
+		for (int i=0; i < getDigits(); i++) {
+			s = s + "#";
+		}
+		format = new DecimalFormat(s);		
+	}
+
+	public void setLineWidth(int lw) {
 		setProperty("linewidth", ""+lw);		
 	}
     
@@ -125,14 +143,6 @@ public class GeneralConfig extends SpecificConfig {
 	
 	public void setUseEpsApprox(boolean useEpsApprox) {
 		setProperty("useEpsApprox", ""+useEpsApprox);
-	}
-	
-	public DecimalFormat getDecFormat() {
-		String s = "#.";
-		for (int i=0; i < getDigits(); i++) {
-			s = s + "#";
-		}
-		return new DecimalFormat(s);
 	}
 	
 }

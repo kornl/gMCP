@@ -9,9 +9,7 @@ public class RDataFrameRef {
 	List<String> rcNames = new Vector<String>();
 	Vector<Vector<Double>> data = new Vector<Vector<Double>>();  
 	
-	public RDataFrameRef () {
-		//addRowCol("H1");
-	}
+	public RDataFrameRef () {}
 
 	public String getColName(int col) {
 		return rcNames.get(col);

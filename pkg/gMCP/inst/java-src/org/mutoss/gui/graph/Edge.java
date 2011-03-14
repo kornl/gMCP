@@ -45,6 +45,7 @@ public class Edge {
 		this.w = w;
 		this.vs = vs;
 	}
+	
 	public Edge(Node von, Node nach, Double w, VS vs, boolean curve) {
 		this(von, nach, w, vs);
 		int x1, x2, y1, y2;
@@ -213,8 +214,6 @@ public class Edge {
 			
 			if (g2d == null) {
 				g2d = (Graphics2D) g;
-				/*g2d.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING,
-                        RenderingHints.VALUE_ANTIALIAS_ON);*/
 			}
 			g2d = (Graphics2D) g;			
 
@@ -223,9 +222,6 @@ public class Edge {
 					(int) (k2 * vs.getZoom()),
 					(int) (x2 * vs.getZoom()), (int) (y2 * vs.getZoom()), 
 					(int) (8 * vs.getZoom()), 35, true);
-			
-			//QuadCurve2D quadcurve = new QuadCurve2D.Float(x1, y1, k1, k2 ,x2, y2);
-			//g2d.draw(quadcurve);
 			
 			g2d.setFont(new Font("Arial", Font.PLAIN, (int) (16 * vs.getZoom())));
 			frc = g2d.getFontRenderContext();		

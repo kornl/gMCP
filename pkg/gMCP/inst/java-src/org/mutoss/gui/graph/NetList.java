@@ -317,14 +317,6 @@ public class NetList extends JPanel implements MouseMotionListener, MouseListene
 	
 	public void mouseExited(MouseEvent e) {}
 
-	/**
-	 * Methode die vom MouseMotionListener MouseMotionNetz aufgerufen wird, wenn
-	 * die Mouse bewegt wird.
-	 * 
-	 * @param e
-	 *            Eingetretenes MouseEvent
-	 */
-
 	public void mouseMoved(MouseEvent e) {}
 
 	public void mousePressed(MouseEvent e) {

@@ -1,8 +1,6 @@
 package org.mutoss.config;
 
 
-import java.net.URL;
-import java.util.Properties;
 import java.util.prefs.BackingStoreException;
 import java.util.prefs.Preferences;
 
@@ -27,11 +25,8 @@ public class Configuration {
      */
     protected Configuration() {
         prefs = Preferences.userRoot();
-        loadPropertiesAllVersions();
         keyPrefix = projectName + ".";
-        loadStaticProperties();
     }
-
 
     public final static String TOXICOLOGY = "toxicology";
     public final static String DOSERESPONSE = "doseresponse";
@@ -69,34 +64,6 @@ public class Configuration {
     	return getProperty(cn+"."+key, Configuration.NOTFOUND);
     }
 
-
-    private void loadStaticProperties() {
-        //setProperties(loadStaticProperties("/shared_properties.xml"));
-        //setProperties(loadStaticProperties("/properties_all_versions.xml"));
-        //setProperties(loadStaticProperties("/properties_this_version.xml"));
-    }
-
-    private void loadPropertiesAllVersions() {
-        //Properties props = loadStaticProperties("/properties_all_versions.xml");
-        //projectName = props.getProperty("project.name");
-    }
-
-    private Properties loadStaticProperties(String file) {
-        Properties props = null;
-        try {
-            URL url = Configuration.class.getResource(file);
-            props = new Properties();
-            props.loadFromXML(url.openConnection().getInputStream());
-        //TODO make this proper or think and really be sure that this is ok                        
-        } catch (Exception e) {
-        	logger.warn("Could not load props file: " + file, e);
-        }
-        if (props == null) {
-        	logger.warn("Could not load props file: " + file+ "! Load returned null");
-        }
-        return props;
-    }
-
     protected String getProperty(String prop, String def) {
         return prefs.get(keyPrefix + prop, def);
     }
@@ -118,15 +85,8 @@ public class Configuration {
      */
     public void setProperty(String key, String val) {
         prefs.put(keyPrefix + key, val);
-    }
-    
+    }    
 
-    private void setProperties(Properties p) {
-        for (Object k : p.keySet()) {
-            setProperty(k.toString(), p.get(k).toString());
-        }
-    }
-    
     /**
      * Returns the name of the project (e.g. toxicology, doserespones, bioassay, etc.).
      * This is stored in props.getProperty("project.name") and 
@@ -158,23 +118,21 @@ public class Configuration {
      * @throws BackingStoreException
      */
     public String getConfigurationForDebugPurposes() {
-        String s = "";
-
-            s += keyPrefix + "\n";
-            try {
-				for (String key : prefs.keys()) {
-				    if (key.startsWith(keyPrefix)) {
-				        String val = prefs.get(key, "__NOT FOUND__");
-				        key = key.substring(keyPrefix.length());
-				        s += key + " : " + val + "\n";
-				    }
-				}
-			} catch (BackingStoreException e) {
-				// We really don't want to throw an error here... so we just print the stack
-				e.printStackTrace();
-			}
-
-            return s;
+    	String s = "";
+    	s += keyPrefix + "\n";
+    	try {
+    		for (String key : prefs.keys()) {
+    			if (key.startsWith(keyPrefix)) {
+    				String val = prefs.get(key, "__NOT FOUND__");
+    				key = key.substring(keyPrefix.length());
+    				s += key + " : " + val + "\n";
+    			}
+    		}
+    	} catch (BackingStoreException e) {
+    		// We really don't want to throw an error here... so we just print the stack
+    		e.printStackTrace();
+    	}
+    	return s;
     }
 
 }

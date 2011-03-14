@@ -17,9 +17,7 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.log4j.FileAppender;
 import org.apache.log4j.Logger;
 
-import com.jgoodies.forms.layout.CellConstraints;
 import com.jgoodies.forms.layout.FormLayout;
-
 
 public class ErrorDialogSGTK extends ErrorDialog {
 
@@ -41,11 +39,13 @@ public class ErrorDialogSGTK extends ErrorDialog {
         String cols = "left:pref, 5dlu, pref:grow";
         String rows = "pref";
         FormLayout layout = new FormLayout(cols, rows);
-        CellConstraints cc = new CellConstraints();
-        p.setLayout(layout);
-        /*p.add(new JLabel(
+        p.setLayout(layout);    
+
+        /* 
+         CellConstraints cc = new CellConstraints();
+         p.add(new JLabel(
                 "attach Data=")
-        ),                               cc.xy(1, 1));
+         ),                               cc.xy(1, 1));
          p.add(chbAttachDf,               cc.xy(3, 1)); */
         return p;
     }
@@ -66,10 +66,6 @@ public class ErrorDialogSGTK extends ErrorDialog {
     
     private String getSystemInfo() {		
 		return al.getSystemInfo();
-	}
-
-	private String getRPackageInfo() {		
-		return "";
 	}
 
 	private String getROptions() {		

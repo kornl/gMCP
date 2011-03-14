@@ -57,14 +57,9 @@ public class RControl {
 		}
 		try {
 			rcs = new RCallServicesREngine(new JRIEngine(rengine));
-			if (System.getProperty("eclipse") != null) {
-				//rcs.eval(".setenv <- if (exists(\"Sys.setenv\")) Sys.setenv else Sys.putenv");
-				//rcs.eval(".setenv(\"JAVAGD_CLASS_NAME\"=\"org/mutoss/gui/JavaGD\")");
-				//rcs.eval("require(JavaGD)");					
+			if (System.getProperty("eclipse") != null) {		
 				rcs.eval("require(gMCP)");				
 				//rcs.eval("graph <- createGraphFromBretzEtAl()");
-				//rcs.eval("graph <- createBonferroniHolmGraph(5)");
-				//rcs.eval("graph <- createGraphForImprovedParallelGatekeeping()");
 			}
 		} catch (REngineException e) {
 			ErrorHandler.getInstance().makeErrDialog("Error creating RCallServicesREngine!", e);

@@ -13,17 +13,6 @@ import java.util.Vector;
 
 import org.mutoss.config.Configuration;
 
-
-
-/**
- * 
- * \brief Klasse für Knoten in der NetzListe
- * 
- * @version 29 Dec 2001
- * @author G9-Gui
- * @see NetList
- */
-
 public class Node {
 	
 	public Vector<NodeListener> listener = new Vector<NodeListener>(); 
@@ -39,13 +28,6 @@ public class Node {
 	boolean rejected = false;
 
 	public static int r = 25;
-
-	/**
-	 * Ändert den Radius der Knoten
-	 * 
-	 * @param radius
-	 *            Neuer Radius der Knoten.
-	 */
 
 	public static void setRadius(int radius) {
 		r = radius;
@@ -92,12 +74,6 @@ public class Node {
 		this.y = y;
 	}
 
-	/**
-	 * Gibt den Knoten auf g aus.
-	 * 
-	 * @param g
-	 *            Graphics-Objekt, auf das gemalt wird.
-	 */
 	public void paintYou(Graphics g) {
 		if (rejected && !Configuration.getInstance().getGeneralConfig().showRejected()) return;
 		Graphics2D g2d = (Graphics2D) g;
@@ -138,11 +114,6 @@ public class Node {
 		return format.format(alpha);
 	}
 
-	/**
-	 * Gibt den Radius der Knoten zurück
-	 * 
-	 * @return Radius der Knoten.
-	 */
 	public static int getRadius() {
 		return r;
 	}

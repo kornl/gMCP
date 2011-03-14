@@ -15,6 +15,7 @@ import javax.swing.JTextField;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.mutoss.config.Configuration;
 
 public class PPanel implements ActionListener, KeyListener, NodeListener {
 	
@@ -33,8 +34,6 @@ public class PPanel implements ActionListener, KeyListener, NodeListener {
 	PView pview;
 	Boolean rejected = false;
 	
-	DecimalFormat format = new DecimalFormat("#.#####");
-	
 	public Vector<Component> getComponent() {
 		Vector<Component> v = new Vector<Component>();
 		v.add(label);
@@ -45,6 +44,7 @@ public class PPanel implements ActionListener, KeyListener, NodeListener {
 	}
 	
 	public PPanel(Node node, PView pview) {
+		DecimalFormat format = Configuration.getInstance().getGeneralConfig().getDecFormat();
 		node.addNodeListener(this);
 		this.name = node.name;
 		this.w = node.getAlpha();
@@ -139,7 +139,8 @@ public class PPanel implements ActionListener, KeyListener, NodeListener {
 		pview.updateLabels();
 	}
 
-	public void update() {		
+	public void update() {
+		DecimalFormat format = Configuration.getInstance().getGeneralConfig().getDecFormat();
 		this.name = node.name;
 		this.w = node.getAlpha();
 		wTF.setText(format.format(w).replace(",", "."));		
@@ -150,6 +151,7 @@ public class PPanel implements ActionListener, KeyListener, NodeListener {
 	}
 
 	public void updated(Node node) {
+		DecimalFormat format = Configuration.getInstance().getGeneralConfig().getDecFormat();
 		this.name = node.name;
 		this.w = node.getAlpha();
 		wTF.setText(format.format(w).replace(",", "."));		
