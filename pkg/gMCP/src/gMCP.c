@@ -1,4 +1,6 @@
 #include <R.h>
+#include <Rinternals.h>
+#include <Rdefines.h>
 
 void convolve(double *a, int *na, double *b, int *nb, double *ab)
 {
@@ -10,7 +12,22 @@ void convolve(double *a, int *na, double *b, int *nb, double *ab)
 			ab[i + j] += a[i] * b[j];
 }
 
+SEXP pr(SEXP x) {
+	SEXP dim = getAttrib(x, R_DimSymbol);
+	double *m = REAL(x);
+	int nrow = INTEGER(dim)[0];
+	int ncol = INTEGER(dim)[1];
+
+	double sum;
+	for(int i=0; i<nrow; i++){
+		for(int j=0; j<ncol; j++){
+			sum = sum + m[i + nrow*j];
+		}
+	};
+	return R_NilValue ;
+}
+
 /*
- int size = 5000;
- double *matrix = (double *) R_alloc(size^2, sizeof(double));
- */
+int size = 5000;
+double *matrix = (double *) R_alloc(size*size, sizeof(double));
+*/

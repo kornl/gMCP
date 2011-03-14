@@ -1,3 +1,4 @@
+useDynLib(gMCP)
 import(graph)
 import(rJava)
 importFrom(graphics, plot)
