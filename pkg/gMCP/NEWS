@@ -1,3 +1,8 @@
+Version 0.4-0
+=============
+- For clarity the GUI supports now also the replacement of epsilon with a given (intentionally small) number between 0 and 1. See options.
+- 
+
 Version 0.3-6 (14-Mar-2011)
 =============
 - Mainly a bug-fix release, since the GUI was often not responding in 0.3-5.
