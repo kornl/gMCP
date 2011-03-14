@@ -110,7 +110,7 @@ public class MenuBarMGraph extends JMenuBar implements ActionListener {
         } else if (e.getActionCommand().equals("load graph")) {       	
         	loadGraph();
         } else if (e.getActionCommand().equals("bht")) {
-        	new NumberOfHypotheses(control.getParent(), this, "createBonferroniHolmGraph");        	
+        	new NumberOfHypotheses(control.getGraphGUI(), this, "createBonferroniHolmGraph");        	
         } else if (e.getActionCommand().equals("pg")) {       	
         	loadGraph("createGraphForParallelGatekeeping()");
         } else if (e.getActionCommand().equals("pgi")) {       	

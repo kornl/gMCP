@@ -52,7 +52,7 @@ public class GraphView extends JPanel implements ActionListener {
 	
 	private static final Log logger = LogFactory.getLog(GraphView.class);
 	
-	public String getName() {		
+	public String getGraphName() {		
 		return name;
 	}
 
@@ -85,7 +85,7 @@ public class GraphView extends JPanel implements ActionListener {
 		return parent.getDataTable();
 	}
 
-	public CreateGraphGUI getParent() {
+	public CreateGraphGUI getGraphGUI() {
 		return parent;
 	}
 	
@@ -111,7 +111,7 @@ public class GraphView extends JPanel implements ActionListener {
 
     private JPanel getSaveBar() {
     	JPanel panel = new JPanel();
-    	jtSaveName = new JTextField(getName(), 24);
+    	jtSaveName = new JTextField(getGraphName(), 24);
     	panel.setLayout(new FlowLayout());
 		((FlowLayout) (panel.getLayout()))
 				.setAlignment(FlowLayout.LEFT);
