@@ -31,7 +31,7 @@ adjPValues <- function(graph, pvalues, verbose=FALSE) {
 	while(length(J) >= 1) {
 		j <- which.min(pvalues[J]/getAlpha(graph)[J])
 		node <- J[j]
-		adjPValues[node] <- max(pvalues[node]/getAlpha(graph)[node], pmax)
+		adjPValues[node] <- max(min(pvalues[node]/getAlpha(graph)[node], 1), pmax)
 		pmax <- adjPValues[node]
 		if (verbose) cat(paste("We will update the graph with node \"",node,"\".\n",sep=""))
 		graph <- rejectNode(graph, node, verbose)

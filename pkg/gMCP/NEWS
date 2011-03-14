@@ -1,5 +1,7 @@
 Version 0.4-0
 =============
+- For clarity the GUI supports now also the replacement of epsilon with a given (intentionally small) number between 0 and 1. See options.
+- C compiler is needed for building gMCP since the first C source file was added.
 - 
 
 Version 0.3-5 (13-Mar-2011)
