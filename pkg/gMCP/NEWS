@@ -1,6 +1,6 @@
 Version 0.3-6 (14-Mar-2011)
 =============
-- Mainly a bug-fix release, since the GUI was not responding in 0.3-5.
+- Mainly a bug-fix release, since the GUI was often not responding in 0.3-5.
 - C compiler is needed for building gMCP since the first C source file was added.
 - When saving/loading graphs, reports or png/LaTeX files, the last directory is remembered. 
 
