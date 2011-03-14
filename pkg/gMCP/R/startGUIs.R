@@ -1,4 +1,4 @@
-graphGUI <- function(graph="createdGraph", pvalues=numeric(0), grid=10, debug=FALSE) {
+graphGUI <- function(graph="createdGraph", pvalues=numeric(0), grid=numeric(0), debug=FALSE) {
 	if (!is.character(graph)) {
 		if ("graphMCP" %in% class(graph)) {
 			newGraphName <- "createdGraph"
@@ -11,9 +11,9 @@ graphGUI <- function(graph="createdGraph", pvalues=numeric(0), grid=10, debug=FA
 			graph <- newGraphName
 		} else {
 			warning("Please specify the variable name for the graph as character.")
-			stack <- sys.calls( )
-			stack.fun <- Filter( function(.) .[[1]] == as.name("graphGUI"), stack )
-			graph <- make.names(deparse( stack.fun[[1]][[2]] ))
+			stack <- sys.calls()
+			stack.fun <- Filter(function(.) .[[1]] == as.name("graphGUI"), stack)
+			graph <- make.names(deparse(stack.fun[[1]][[2]]))
 			warning(paste("We guess you wanted to use graphGUI(\"",graph,"\")",sep=""))
 		}
 	}
@@ -23,7 +23,7 @@ graphGUI <- function(graph="createdGraph", pvalues=numeric(0), grid=10, debug=FA
 				assign(graph, arrangeNodes(get(graph, envir=globalenv())), envir=globalenv())
 			}
 		} else {
-			warning(paste("The variable ",graph," already exists and is no graphMCP object.",sep=""))
+			warning(paste("The variable",graph,"already exists and is no graphMCP object."))
 		}
 	}
 	invisible(.jnew("org/mutoss/gui/CreateGraphGUI", make.names(graph), pvalues, debug, grid))	
