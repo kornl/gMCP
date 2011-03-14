@@ -141,7 +141,7 @@ public class MenuBarMGraph extends JMenuBar implements ActionListener {
 	public void showFile(String s) {
 		File f = new File(RControl.getR().eval("system.file(\""+s+"\", package=\"gMCP\")").asRChar().getData()[0]);
 		if (!f.exists()) {
-			throw new RuntimeException("This is strange. The vignette could not be found.");
+			throw new RuntimeException("This is strange. The file \""+s+"\" could not be found.");
 		} else {
 			try {	
 				Method main = Class.forName("java.awt.Desktop").getDeclaredMethod("getDesktop");
@@ -155,7 +155,7 @@ public class MenuBarMGraph extends JMenuBar implements ActionListener {
 						Process p;							
 						p = Runtime.getRuntime().exec("rundll32 url.dll,FileProtocolHandler \"" + f.getAbsolutePath()+"\"");
 						if (s.indexOf('.') == -1) {
-							p = Runtime.getRuntime().exec("wordpad " + f.getAbsolutePath());
+							p = Runtime.getRuntime().exec("wordpad \"" + f.getAbsolutePath()+"\"");
 						}						
 						p.waitFor();
 					} else {
