@@ -1,6 +1,7 @@
 package org.mutoss.config;
 
 import java.io.File;
+import java.text.DecimalFormat;
 
 public class GeneralConfig extends SpecificConfig {
 
@@ -87,7 +88,7 @@ public class GeneralConfig extends SpecificConfig {
 	}
     
     public double getEpsilon() {
-		return Double.parseDouble(getProperty("epsilon", "0.001"));		
+		return Double.parseDouble(getProperty("epsilon", "0.0001"));		
 	}
     
 	public boolean showFractions() {		
@@ -124,6 +125,14 @@ public class GeneralConfig extends SpecificConfig {
 	
 	public void setUseEpsApprox(boolean useEpsApprox) {
 		setProperty("useEpsApprox", ""+useEpsApprox);
+	}
+	
+	public DecimalFormat getDecFormat() {
+		String s = "#.";
+		for (int i=0; i < getDigits(); i++) {
+			s = s + "#";
+		}
+		return new DecimalFormat(s);
 	}
 	
 }
