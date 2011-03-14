@@ -37,12 +37,11 @@ public class GeneralPanel extends OptionsPanel implements ActionListener {
 
     private IntegerJComboBox cbFontSize;
     private JComboBox cbLookAndFeel;
-    //private JComboBox numberOfDigits;
     private JTextField jtfGrid;
     private JTextField jtfNumberOfDigits;
     private JTextField jtfLineWidth;
-
-    private JTextField tfPDFPath;
+    private JTextField jtfPDFPath;
+    private JTextField jtfEps;
     
     private JButton jbPDFPath = new JButton(
             Localizer.getInstance().getString("SGTK_OPTIONS_GENERALPANEL_PATHTOREPORTSDIR")
@@ -53,6 +52,7 @@ public class GeneralPanel extends OptionsPanel implements ActionListener {
     private JCheckBox colorImages;
     private JCheckBox showRejected;
     private JCheckBox showFractions;
+    private JCheckBox useEpsApprox;
 
     
 	JFrame parent;
@@ -72,14 +72,17 @@ public class GeneralPanel extends OptionsPanel implements ActionListener {
     private void makeComponents() {
         cbFontSize = new IntegerJComboBox(8, 20);
         cbFontSize.setSelectedObject(conf.getGeneralConfig().getFontSize());
-        tfPDFPath = new JTextField(30);
-        tfPDFPath.setText(conf.getGeneralConfig().getProjectPDFsPath().getAbsolutePath()); 
+        jtfPDFPath = new JTextField(30);
+        jtfPDFPath.setText(conf.getGeneralConfig().getProjectPDFsPath().getAbsolutePath()); 
         jtfGrid = new JTextField(30);
         jtfGrid.setText(""+conf.getGeneralConfig().getGridSize()); 
         jtfNumberOfDigits = new JTextField(30);
         jtfNumberOfDigits.setText(""+conf.getGeneralConfig().getDigits()); 
         jtfLineWidth = new JTextField(30);
-        jtfLineWidth.setText(""+conf.getGeneralConfig().getLineWidth()); 
+        jtfLineWidth.setText(""+conf.getGeneralConfig().getLineWidth());
+        jtfEps = new JTextField(30);
+        jtfEps.setText(""+conf.getGeneralConfig().getEpsilon()); 
+        jtfEps.setEnabled(conf.getGeneralConfig().useEpsApprox());
         
         Vector<String> looknfeel = new Vector<String>();
         looknfeel.add("System");
@@ -104,6 +107,10 @@ public class GeneralPanel extends OptionsPanel implements ActionListener {
         
         showRejected = new JCheckBox("Show rejected nodes in GUI");
         showRejected.setSelected(conf.getGeneralConfig().showRejected());
+        
+        useEpsApprox = new JCheckBox("Use epsilon approximation");
+        useEpsApprox.setSelected(conf.getGeneralConfig().useEpsApprox());
+        useEpsApprox.addActionListener(this);
     }
 
     private void doTheLayout() {
@@ -111,7 +118,7 @@ public class GeneralPanel extends OptionsPanel implements ActionListener {
         Localizer loc = Localizer.getInstance();
         JPanel p1 = new JPanel();
         String cols = "pref, 5dlu, fill:pref:grow";
-        String rows = "pref, 5dlu, pref, 5dlu, pref, 5dlu, pref, 5dlu, pref, 5dlu, pref, 5dlu, pref, 5dlu, pref, 5dlu, pref, 5dlu, pref, 5dlu, pref";
+        String rows = "pref, 5dlu, pref, 5dlu, pref, 5dlu, pref, 5dlu, pref, 5dlu, pref, 5dlu, pref, 5dlu, pref, 5dlu, pref, 5dlu, pref, 5dlu, pref, 5dlu, pref";
         
         FormLayout layout = new FormLayout(cols, rows);
         p1.setLayout(layout);
@@ -136,6 +143,15 @@ public class GeneralPanel extends OptionsPanel implements ActionListener {
         
         row += 2;
         
+        p1.add(useEpsApprox, cc.xyw(1, row, 3));
+        
+        row += 2;
+        
+        p1.add(new JLabel("Epsilon:"),     cc.xy(1, row));
+        p1.add(jtfEps, cc.xy(3, row));        
+        
+        row += 2;
+        
         p1.add(new JLabel(loc.getString("SGTK_OPTIONS_GENERALPANEL_FONTSIZE")),     cc.xy(1, row));
         p1.add(cbFontSize, cc.xy(3, row));
         
@@ -143,7 +159,7 @@ public class GeneralPanel extends OptionsPanel implements ActionListener {
         
         jbPDFPath.addActionListener(this);
         p1.add(jbPDFPath, cc.xy(1, row));
-        p1.add(tfPDFPath, cc.xy(3, row));
+        p1.add(jtfPDFPath, cc.xy(3, row));
         
         row += 2;
 
@@ -210,7 +226,13 @@ public class GeneralPanel extends OptionsPanel implements ActionListener {
         } catch (NumberFormatException e) {
         	JOptionPane.showMessageDialog(this, "\""+jtfNumberOfDigits.getText()+"\" is not a valid integer for the number of digits.", "Invalid input", JOptionPane.ERROR_MESSAGE);
         }
-        conf.getGeneralConfig().setProjectPDFsPath(tfPDFPath.getText());
+        try {
+        	double eps = Double.parseDouble(jtfEps.getText());
+        	conf.getGeneralConfig().setEps(eps);
+        } catch (NumberFormatException e) {
+        	JOptionPane.showMessageDialog(this, "\""+jtfEps.getText()+"\" is not a valid double for epsilon.", "Invalid input", JOptionPane.ERROR_MESSAGE);
+        }
+        conf.getGeneralConfig().setProjectPDFsPath(jtfPDFPath.getText());
        	conf.getGeneralConfig().setColoredImages(colorImages.isSelected());
        	conf.getGeneralConfig().setShowRejected(showRejected.isSelected());
        	conf.getGeneralConfig().setShowFractions(showFractions.isSelected());
@@ -253,17 +275,19 @@ public class GeneralPanel extends OptionsPanel implements ActionListener {
     }
 
 	public void actionPerformed(ActionEvent e) {
-		JFileChooser fc = new JFileChooser();
-		if (e.getSource()==jbPDFPath) {
-        	fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);            	
-        }	
-		int returnVal = fc.showOpenDialog(this);
-        if (returnVal == JFileChooser.APPROVE_OPTION) {
-            File f = fc.getSelectedFile();
-            if (e.getSource()==jbPDFPath) {
-            	tfPDFPath.setText(f.getAbsolutePath());            	
-            }
-        }		
+		if (e.getSource()==useEpsApprox) {
+			jtfEps.setEnabled(useEpsApprox.isSelected());
+		} else if (e.getSource()==jbPDFPath) {
+			JFileChooser fc = new JFileChooser();
+			fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+			int returnVal = fc.showOpenDialog(this);
+			if (returnVal == JFileChooser.APPROVE_OPTION) {
+				File f = fc.getSelectedFile();
+				if (e.getSource()==jbPDFPath) {
+					jtfPDFPath.setText(f.getAbsolutePath());            	
+				}
+			}
+		}
 	}
 }
 

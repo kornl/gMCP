@@ -221,6 +221,14 @@ public class GeneralConfig extends SpecificConfig {
 		return Integer.parseInt(getProperty("linewidth", "2"));		
 	}
     
+    public void setEps(double eps) {
+		setProperty("epsilon", ""+eps);		
+	}
+    
+    public double getEpsilon() {
+		return Double.parseDouble(getProperty("epsilon", "0.001"));		
+	}
+    
 	public boolean showFractions() {		
 		return Boolean.parseBoolean(getProperty("showFractions", "true"));
 	}
@@ -247,6 +255,14 @@ public class GeneralConfig extends SpecificConfig {
 	
 	public void setShowRejected(boolean showRejected) {		
 		setProperty("showRejected", ""+showRejected);
+	}
+
+	public boolean useEpsApprox() {
+		return Boolean.parseBoolean(getProperty("useEpsApprox", "false"));
+	}
+	
+	public void setUseEpsApprox(boolean useEpsApprox) {
+		setProperty("useEpsApprox", ""+useEpsApprox);
 	}
 	
 }

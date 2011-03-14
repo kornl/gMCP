@@ -3,7 +3,6 @@ package org.mutoss.gui.options;
 import java.awt.Container;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Properties;
 
 import javax.swing.JDialog;
 import javax.swing.JFrame;
@@ -31,9 +30,7 @@ public class OptionsDialog extends JDialog implements ActionListener {
     private OkApplyCancelButtonPane bp;
 
     private Configuration conf;
-    private Properties returnVal;
 
-    private boolean revertChange = false;
     JFrame parent;
 
     /**
