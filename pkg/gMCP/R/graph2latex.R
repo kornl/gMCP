@@ -8,7 +8,7 @@ graph2latex <- function(graph, package="TikZ", scale=1, pvalues,
 		x <- nodeRenderInfo(graph)$nodeX[node]*scale
 		y <- nodeRenderInfo(graph)$nodeY[node]*scale
 		#alpha <- format(getAlpha(graph,node), digits=3, drop0trailing=TRUE)
-		alpha <- as.character(fractions(getAlpha(graph,node)/sum(getAlpha(graph))))
+		alpha <- getLaTeXFraction(getAlpha(graph,node)/sum(getAlpha(graph)))
 		if (alpha != "0") alpha <- paste(alpha, "\\alpha", sep="")
 		double <- ""
 		if (!missing(pvalues)) {
@@ -27,8 +27,8 @@ graph2latex <- function(graph, package="TikZ", scale=1, pvalues,
 			for (i in 1:length(edgeL)) {
 				weight <- try(edgeData(graph, names(edgeL[i]), node,"weight"), silent = TRUE)
 				to <- ifelse(class(weight)=="try-error", "auto", "bend left=15")			
-				weight <- ifelse(edgeL[i]==0, "$\\epsilon$", as.character(fractions(edgeL[i]))) # format(edgeL[i], digits=3, drop0trailing=TRUE))
-				edgeLine <- paste("\\draw [->,line width=1pt] (",node,") to[",to,"] node[near start,above,fill=blue!20] {",weight,"} (",names(edgeL[i]),");",sep="")
+				weight <- ifelse(edgeL[i]==0, "\\epsilon", getLaTeXFraction(edgeL[i])) # format(edgeL[i], digits=3, drop0trailing=TRUE))
+				edgeLine <- paste("\\draw [->,line width=1pt] (",node,") to[",to,"] node[near start,above,fill=blue!20] {$",weight,"$} (",names(edgeL[i]),");",sep="")
 				tikz <- paste(tikz, edgeLine,sep="\n")
 			}
 		}
@@ -38,6 +38,12 @@ graph2latex <- function(graph, package="TikZ", scale=1, pvalues,
 		tikz <- paste(paste("{\\", fontsize, sep=""), tikz, "}",sep="\n")
 	}
 	return(tikz)
+}
+
+getLaTeXFraction <- function(x) {
+	nom <- strsplit(as.character(fractions(x)),split="/")[[1]]
+	if (length(nom)==1) return(nom)
+	return(paste("\\frac{",nom[1],"}{",nom[2],"}", sep=""))
 }
 
 gMCPReport <- function(object, file="", ...) {
