@@ -7,7 +7,9 @@ graph2latex <- function(graph, package="TikZ", scale=1, pvalues,
 		nodeColor <- ifelse(getRejected(graph, node),"red!80", "green!80")
 		x <- nodeRenderInfo(graph)$nodeX[node]*scale
 		y <- nodeRenderInfo(graph)$nodeY[node]*scale
-		alpha <- format(getAlpha(graph,node), digits=3, drop0trailing=TRUE)
+		#alpha <- format(getAlpha(graph,node), digits=3, drop0trailing=TRUE)
+		alpha <- as.character(fractions(getAlpha(graph,node)/sum(getAlpha(graph))))
+		if (alpha != "0") alpha <- paste(alpha, "\\alpha", sep="")
 		double <- ""
 		if (!missing(pvalues)) {
 			if (is.null(names(pvalues))) {
