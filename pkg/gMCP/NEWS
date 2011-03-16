@@ -1,6 +1,7 @@
 Version 0.4-0
 =============
-- For clarity the GUI supports now also the replacement of epsilon with a given (intentionally small) number between 0 and 1. See options.
+- Added code for graph based MCPs with partial knowledge of the correlation structure from Florian Klinglmueller.
+- New dependencies in this code: multcomp and gtools
 - graphGUI Parameter grid is now numeric(0) by default. This restores the last used grid value.
 - Fractions instead of decimal numbers are shown in more places.
 
@@ -31,7 +32,7 @@ Version 0.3-4 (26-Nov-2010)
 Version 0.3-3 (15-Nov-2010)
 =============
 - Be careful with epsilon edges (we never specified what exactly they are and how they should behave) 
-  and please wait for version 0.4 which will handle them in a completely new way and will document it.
+  and please wait for version 0.5 which will handle them in a completely new way and will document it.
   Support for them is broken in this release. 
 - New example graph from Hommel et al. 2007.
 - Inserted missing $ in LaTeX code output from graph2latex.

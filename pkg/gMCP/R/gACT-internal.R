@@ -1,0 +1,82 @@
+w.dunnet <- function(w,cr,al=.05){
+  if(length(cr)>1){
+    conn <- connComp(as.graph(!is.na(cr)))
+  } else {
+    conn <- 1
+  }
+  lconn <- sapply(conn,length)
+  conn <- lapply(conn,as.numeric)
+  error <- function(c) {
+    sum(sapply(conn,function(edx){
+      if(length(edx)>1){
+        return((1-pmvnorm(upper=qnorm(1-(w[edx]*c)),corr=cr[edx,edx])))
+      } else {
+        return((w[edx]*c))
+      }
+    }))-al
+  }
+  c <- uniroot(error,c(0,1))$root
+  return(qnorm(1-(w*c)))
+}
+
+
+b.dunnet <- function(h,cr,a) {
+  n <- length(h)
+  I <- h[1:(n/2)]
+  w <- h[((n/2)+1):n]
+  e <- which(I>0)
+  zb <- rep(NA,n/2)
+  zb[e] <- w.dunnet(w[e],cr[e,e],al=a)
+  return(zb)
+}
+
+mtp.weights <- function(h,g,w){
+  ## recursively compute weights for a given graph and intersection hypothesis
+  if(sum(h)==length(h)){
+    return(w)
+  } else {
+    j <- which(h==0)[1]
+    h[j] <- 1
+    wu <- mtp.weights(h,g,w)
+    gu <- mtp.edges(h,g,w)
+    guj <- gu[j,]
+    wt <- wu+wu[j]*guj
+    wt[j] <- 0
+    return(wt)
+  }
+}
+
+mtp.edges <- function(h,g,w){
+  ## recursively compute the edges for the graph of a given intersection hypothesis
+  if(sum(h)==length(h)){
+    return(g)
+  } else {
+    j <- which(h==0)[1]
+    h[j] <- 1
+    gu <- mtp.edges(h,g,w)
+    gj <- gu[,j]%*%t(gu[j,])
+    gt <- ((gu+gj)/(1-matrix(rep(diag(gj),nrow(gj)),nr=nrow(gj))))
+    gt[j,] <- 0
+    gt[,j] <- 0
+    diag(gt) <- 0
+    gt[is.nan(gt)] <- 0
+    return(gt)
+  }
+}
+
+as.graph <- function(m,...){
+  as(m,'graphNEL',...)
+}
+
+
+
+################################ Test stuff
+
+# some graph with epsila
+
+## g <- matrix(0,nr=3,nc=3)
+## g[1,2] <- 1
+## g[2,1] <- 1
+## g[2,3] <- 1i
+
+## w <- c(1/2,1/2,0)

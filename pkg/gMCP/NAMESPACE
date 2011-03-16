@@ -17,3 +17,5 @@ export(createGraphFromBretzEtAl)
 export(createGraphFromHommelEtAl)
 export(createGraphForParallelGatekeeping)
 export(createGraphForImprovedParallelGatekeeping)
+
+export(gACT, generateWeights, generateBounds, generateTest, graph2weights)
