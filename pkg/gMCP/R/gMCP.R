@@ -1,17 +1,30 @@
-gMCP <- function(graph, pvalues, verbose=FALSE) {
+gMCP <- function(graph, pvalues, test="Bonferroni", ..., verbose=FALSE) {
+	if (!test %in% c("Bonferroni", "correlated")) {
+		stop("Parameter \"test\" must be one of the following: \"Bonferroni\", \"correlated\".")
+	}
 	if (length(pvalues)!=length(nodes(graph))) {
 		stop("Length of pvalues must equal number of nodes.")
 	}
 	if (is.null(names(pvalues))) {
 		names(pvalues) <- nodes(graph)
 	}
-	sequence <- list(graph)
-	while(!is.null(node <- getRejectableNode(graph, pvalues))) {
-		if (verbose) cat(paste("Node \"",node,"\" can be rejected.\n",sep=""))
-		graph <- rejectNode(graph, node, verbose)
-		sequence <- c(sequence, graph)
-	}	
-	return(new("gMCPResult", graphs=sequence, pvalues=pvalues, adjPValues=adjPValues(sequence[[1]], pvalues, verbose)@adjPValues))
+	if (test=="Bonferroni") {
+		sequence <- list(graph)
+		while(!is.null(node <- getRejectableNode(graph, pvalues))) {
+			if (verbose) cat(paste("Node \"",node,"\" can be rejected.\n",sep=""))
+			graph <- rejectNode(graph, node, verbose)
+			sequence <- c(sequence, graph)
+		}	
+		return(new("gMCPResult", graphs=sequence, pvalues=pvalues, adjPValues=adjPValues(sequence[[1]], pvalues, verbose)@adjPValues))
+	} else if (test=="correlated") {
+		if (is.missing(correlation) || !is.matrix(correlation)) {
+			stop("Procedure for correlated tests, expects a correlation matrix as parameter \"correlation\".")
+			Gm <- graph2matrix(createdGraph)
+			w <- graph2matrix(createdGraph)
+			myTest <- generateTest(Gm, w, correlation, sum(getAlpha(graph)))
+			return(myTest(pvalues))
+		}
+	}
 }
 
 adjPValues <- function(graph, pvalues, verbose=FALSE) {

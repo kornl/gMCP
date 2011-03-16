@@ -8,7 +8,7 @@
 	Performs a sequentially rejective multiple test procedure on a graph given unadjusted p-values.
 }
 \usage{
-	gMCP(graph, pvalues, verbose=FALSE)
+	gMCP(graph, pvalues, test="Bonferroni", ..., verbose=FALSE)
 }
 
 \arguments{
@@ -18,6 +18,13 @@
   \item{pvalues}{
   	A numeric vector specifying the p-values for the sequentially rejective MTP.
   } 
+  \item{test}{
+  	A character vector specifying the test to be used.
+  	Valid values are up to now: \code{"Bonferroni"} and \code{"correlated"}.
+  } 
+  \item{...}{
+  	Test specific arguments can be given here like \code{"correlation"}.
+  }   
   \item{verbose}{Logical scalar.  If \code{TRUE} verbose output is generated during
           sequentially rejection steps.}  
 }
