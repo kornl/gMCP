@@ -37,6 +37,8 @@ Medium priority:
 - gMCPReport does not work for graphs without layout.
 - call calculateWeightString() when options change
 - Can the NEWS file be opened on Windows machines? 
+- Mac OS seems to have a problem since 0.3-6:
+http://www.r-project.org/nosvn/R.check/r-release-macosx-ix86/gMCP-00check.html
 
 
 Additional features / low priority:
