@@ -7,18 +7,14 @@ import java.rmi.RemoteException;
 import java.util.List;
 
 import javax.swing.JButton;
-import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
 import org.af.commons.widgets.WidgetFactory;
-import org.af.jhlir.backends.rengine.RMatrixDoubleREngine;
 import org.af.jhlir.call.RDataFrame;
 import org.af.jhlir.call.RMatrixDouble;
-
-import org.rosuda.REngine.REXPDouble;
 
 public class ContrastDialog2 extends StatMethodDialog implements ActionListener {
     
