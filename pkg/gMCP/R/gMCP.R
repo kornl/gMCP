@@ -17,10 +17,13 @@ gMCP <- function(graph, pvalues, test="Bonferroni", ..., verbose=FALSE) {
 		}	
 		return(new("gMCPResult", graphs=sequence, pvalues=pvalues, adjPValues=adjPValues(sequence[[1]], pvalues, verbose)@adjPValues))
 	} else if (test=="correlated") {
-		if (is.missing(correlation) || !is.matrix(correlation)) {
-			stop("Procedure for correlated tests, expects a correlation matrix as parameter \"correlation\".")
-			Gm <- graph2matrix(createdGraph)
-			w <- graph2matrix(createdGraph)
+		args <- list(...)
+		correlation <- args[["correlation"]]
+		if (is.null(correlation) || !is.matrix(correlation)) {
+			stop("Procedure for correlated tests, expects a correlation matrix as parameter \"correlation\".")			
+		} else {
+			Gm <- graph2matrix(graph)
+			w <- graph2weights(graph)
 			myTest <- generateTest(Gm, w, correlation, sum(getAlpha(graph)))
 			return(myTest(pvalues))
 		}
