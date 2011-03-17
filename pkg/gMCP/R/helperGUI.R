@@ -61,11 +61,12 @@ stupidWorkAround <- function(graph) {
 	return(graph)
 }
 
-getAllMatrices <- function() {
-	objects <- ls(globalenv())
+getAllMatrices <- function(envir=globalenv()) {
+	objects <- ls(envir)
 	matrices <- c()
 	for (obj in objects) {
-		if (is.matrix(get(obj, envir=globalenv()))) matrices <- c(matrices, obj)
+		if (is.matrix(get(obj, envir=envir))) matrices <- c(matrices, obj)
 	}
+	if (length(matrices)==0) return("No matrices found.")
 	return(matrices)
 }

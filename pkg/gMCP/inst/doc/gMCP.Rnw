@@ -318,6 +318,12 @@ simConfint(createBonferroniHolmGraph(3),
 
 Use the following two buttons: \includegraphics[width=1cm]{pictures/adjPval_b.png} \includegraphics[width=1cm]{pictures/confint2_b.png}
 
+\begin{figure}[ht]
+  \centering    
+  \includegraphics[width=0.7\textwidth]{pictures/correlated.png}      
+  \caption{\label{correlated} You can also specify a correlation between the tests.}
+\end{figure}
+
 \commentout{
 
 \includegraphics[width=5cm]{pictures/uglyGraph.png}      
