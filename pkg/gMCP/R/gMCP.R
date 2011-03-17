@@ -1,14 +1,14 @@
-gMCP <- function(graph, pvalues, test="Bonferroni", ..., verbose=FALSE) {
-	if (!test %in% c("Bonferroni", "correlated")) {
-		stop("Parameter \"test\" must be one of the following: \"Bonferroni\", \"correlated\".")
-	}
+gMCP <- function(graph, pvalues, test, correlation, ..., verbose=FALSE) {
+	#if (!test %in% c("Bonferroni", "correlated")) {
+    #	stop("Parameter \"test\" must be one of the following: \"Bonferroni\", \"correlated\".")
+	#}
 	if (length(pvalues)!=length(nodes(graph))) {
 		stop("Length of pvalues must equal number of nodes.")
 	}
 	if (is.null(names(pvalues))) {
 		names(pvalues) <- nodes(graph)
 	}
-	if (test=="Bonferroni") {
+	if ((!missing(test) && test=="Bonferroni") || (missing(test) && missing(correlation))) {
 		sequence <- list(graph)
 		while(!is.null(node <- getRejectableNode(graph, pvalues))) {
 			if (verbose) cat(paste("Node \"",node,"\" can be rejected.\n",sep=""))
@@ -16,16 +16,21 @@ gMCP <- function(graph, pvalues, test="Bonferroni", ..., verbose=FALSE) {
 			sequence <- c(sequence, graph)
 		}	
 		return(new("gMCPResult", graphs=sequence, pvalues=pvalues, adjPValues=adjPValues(sequence[[1]], pvalues, verbose)@adjPValues))
-	} else if (test=="correlated") {
-		args <- list(...)
-		correlation <- args[["correlation"]]
-		if (is.null(correlation) || !is.matrix(correlation)) {
-			stop("Procedure for correlated tests, expects a correlation matrix as parameter \"correlation\".")			
+	} else if ((!missing(test) && test=="correlated") || (missing(test) && !missing(correlation))) {
+		if (missing(correlation) || (!is.matrix(correlation) && !is.character(correlation))) {
+			stop("Procedure for correlated tests, expects a correlation matrix as parameter \"correlation\".")
 		} else {
+			if (is.character(correlation)) {
+				n <- length(pvalues)
+				x <- contrMat(rep(1, n+1), type = correlation)
+				var <- x %*% diag(n+1) %*% t(x)
+				correlation <- diag(1/sqrt(diag(var)))%*%var%*%diag(1/sqrt(diag(var)))
+			}
 			Gm <- graph2matrix(graph)
 			w <- graph2weights(graph)
 			myTest <- generateTest(Gm, w, correlation, sum(getAlpha(graph)))
-			return(myTest(pvalues))
+			zScores <- -qnorm(pvalues)
+			return(myTest(zScores))
 		}
 	}
 }
