@@ -26,6 +26,7 @@ import org.apache.commons.logging.LogFactory;
 import org.mutoss.gui.CreateGraphGUI;
 import org.mutoss.gui.RControl;
 import org.mutoss.gui.datatable.DataTable;
+import org.mutoss.gui.dialogs.CorrelatedTest;
 
 public class GraphView extends JPanel implements ActionListener {
 
@@ -221,6 +222,7 @@ public class GraphView extends JPanel implements ActionListener {
 		} else if (e.getSource().equals(buttonStart)) {
 			if (!getNL().isTesting()) {
 				startTesting();
+				new CorrelatedTest(this.getGraphGUI());
 			} else {
 				stopTesting();
 			}
