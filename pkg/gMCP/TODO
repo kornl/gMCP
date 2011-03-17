@@ -42,6 +42,7 @@ Medium priority:
 Additional features / low priority:
 ===================================
 
+- Do we really need PolynomF and gtools as dependencies?
 - Guide for usage under Mac OS
 - Don't create global variable like .tmpGraph etc.
 - Check whether help files under Windows (and Java 5) open correctly

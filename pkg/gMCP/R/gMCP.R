@@ -22,7 +22,7 @@ gMCP <- function(graph, pvalues, test, correlation, ..., verbose=FALSE) {
 		} else {
 			if (is.character(correlation)) {
 				n <- length(pvalues)
-				x <- contrMat(rep(1, n+1), type = correlation)
+				x <- contrMat(rep(10, n+1), type = correlation) # balanced design up to now and only Dunnett will work with n+1
 				var <- x %*% diag(n+1) %*% t(x)
 				correlation <- diag(1/sqrt(diag(var)))%*%var%*%diag(1/sqrt(diag(var)))
 			}
