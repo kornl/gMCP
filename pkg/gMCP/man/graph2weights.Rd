@@ -5,8 +5,8 @@
   %%  ~~function to do ... ~~
 }
 \description{
-extract local alpha levels from \code{\link{graphMCP}} class type graphs and transform to
-weight vector for use with gACT
+extract local alpha levels from \code{\link{graphMCP}} class type graphs
+and transform them to a numeric vector of weights 
 }
 \usage{
 graph2weights(g)
@@ -18,8 +18,9 @@ graph2weights(g)
 }
 }
 \value{
-  Returns a numeric vector with weights, equivalent to the local alpha
-  levels defined in the input object, for use with gACT.
+  Returns a numeric vector with weights that allocate the
+  global alpha equivalent to the local alpha
+  levels defined in the input object.
 }
 \references{
   Bretz F, Maurer W, Brannath W, Posch M; (2008) - A graphical approach to
@@ -32,9 +33,9 @@ Florian Klinglmueller
 \examples{
 \dontrun{
 library(gMCP)
-g <- createBonferroniHolmGraph(3)          #gMCP
-gm <- graph2matrix(g)                      #gMCP
-w <- graph2weights(g)                      #gACT
+g <- createBonferroniHolmGraph(3)          
+gm <- graph2matrix(g)                      
+w <- graph2weights(g)                      
 c <- matrix(NA,3,3)                            
 diag(c) <- 1
 p <- runif(length(w))                      
