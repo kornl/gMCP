@@ -47,7 +47,7 @@ arrangeNodes <- function(graph) {
 }
 
 # I guess I simply don't understand how the graph package is supposed to be used.
-# Or they have a bug. Either way I have to contact them and till then I use this stupid work-around.
+# Or they have a bug. I have contacted them but got no response. Therefore I still use this stupid work-around:
 stupidWorkAround <- function(graph) {
 	if (length(graph@edgeData@data)>0) {
 		for (i in 1:length(graph@edgeData@data)) {
@@ -59,4 +59,13 @@ stupidWorkAround <- function(graph) {
 		}
 	}
 	return(graph)
+}
+
+getAllMatrices <- function() {
+	objects <- ls(globalenv())
+	matrices <- c()
+	for (obj in objects) {
+		if (is.matrix(get(obj, envir=globalenv()))) matrices <- c(matrices, obj)
+	}
+	return(matrices)
 }
