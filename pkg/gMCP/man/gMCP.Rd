@@ -39,6 +39,8 @@ An object of class \code{gMCPResult}, more specifically a list with elements
 \item{graphs }{ list of graphs}				
 \item{pvalues }{ p-values}
 \item{adjPValues }{ adjusted p-values}
+If a correlation matrix is passed only a boolean vector specifying
+  which of the hypotheses can be rejected at the overall alpha level.
 }
 \references{
 Frank Bretz, Willi Maurer, Werner Brannath, Martin Posch:
