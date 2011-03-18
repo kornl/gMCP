@@ -98,7 +98,7 @@ Example 1 and Example 2 of \cite[Sections 2 and 3.2]{Bretz11}.
 
 Examples 1 and 2 of \cite{Bretz11} are based on the same weighting
 scheme. Inferences on two primary and two secondary hypotheses are to
-be made. For example consider the comparison of two treatments two a
+be made. For example consider the comparison of two treatments to a
 control using a primary and secondary endpoint. Only if the the null
 hypotheses can be rejected for the primary hypotheses are the
 secondary hypotheses to be tested. If both primary and secondary
@@ -124,7 +124,7 @@ overall \al~ equally between the two primary hyptheses. Initially the
 secondary hypotheses will be given no weight. The corresponding
 initial weights are therefore $(\frac{1}{2},\frac{1}{2},0,0)$. 
 
-We show in Section \ref{sec:commline} how these parameters can be
+We show in Section \ref{sec:comline} how these parameters can be
 defined using R. In Section \ref{sec:gMCPgui} we demonstrate how to
 acchiev the same using the graphical user interface provided by \gmcp.
 
@@ -268,7 +268,7 @@ graphGUI(G)
 
 \begin{figure}
   \centering
-  \includegraphics[width=.95\textwidth]{pictures/FullFeaturedGUI.png}
+  \includegraphics[width=.95\textwidth]{pictures/example.png}
   
   \caption{Screenshot of \gmcp~ GUI }
 \label{fig:gui}
@@ -363,9 +363,10 @@ power of the procedure when knowledge about the correlation structure
 is used.
 
 {\em Attention:}~Not all scenarios of partial knowledge of the correlation
-matrix can currently be handled by \gmcp. In order to work we need to
-know the whole correlation matrix for any subset of hypotheses, whose
-bounds are to be computed using the multivariate distribution. For
+matrix can currently be handled by \gmcp. The correlation matrix must
+have a block structure: We assume that the set of hypothesis can be
+partitioned into subsets such that the pairwise correlations in each
+subset are either known or are set to NA.  For
 example assume that in the example given above not only correlations
 between the statistics for $H_1$ and $H_2$ are known but also the
 correlation between the statistics for $H_1$ and $H_3$ but not between
@@ -388,7 +389,7 @@ a vector of $p$-values and computes whether the according test
 procedure rejects. For Example 1 this amounts to the call:
 
 <<>>=
-p <- rnorm(1-c(2.24,2.24,2.24,2.3))
+p <- 1-pnorm(c(2.24,2.24,2.24,2.3))
 G <- matrix2graph(Gm,w*.025)
 gMCP(G,p)
 @ 
@@ -398,14 +399,28 @@ In the case of a sequentially rejective Bonferroni type procedure
 information on the specific sequence the test procedure has taken
 through the graph and also provides adjusted $p$-values.
 
-Example 2 is implemented by additionally passing the correlation
-matrix:
+For Example 2 we use the same graph and assume normally distributed test
+statistics with known variances and a correlation matrix of the form:
 
-<<eval=F>>=
+\begin{displaymath}
+  \left( \begin{array}{cccc}
+      1 & \frac{1}{2} & \texttt{NA} & \texttt{NA} \\
+      \frac{1}{2} & 1 & \texttt{NA} & \texttt{NA} \\
+      \texttt{NA} & \texttt{NA} & 1 & \frac{1}{2} \\
+      \texttt{NA} & \texttt{NA} & \frac{1}{2} & 1
+    \end{array} \right) .
+\end{displaymath}
+
+This can be implemented in \gmcp by additionally passing the correlation
+matrix to \gmcp:
+
+<<>>=
 gMCP(G,p,corr=Cm2)
 @ 
 
-which returns a vector specifying which of the elementary hypotheses
+which returns a similar result however without the graphs representing
+the rejection sequence, since the whole closed test is done in this
+example. A vector specifying which of the elementary hypotheses
 can be rejected at the overall \al.I
 
 \newpage
