@@ -9,16 +9,17 @@
 \usepackage{url}
 \usepackage{hyperref}
 \usepackage{listings}
+\usepackage{xspace}
 \usepackage[numbers]{natbib}
 \bibliographystyle{plainnat}
 \setlength{\parindent}{0mm}
 \setlength{\parskip}{1mm}
 \newcommand{\commentout}[1]{}
-\newcommand{\al}{$\alpha-\textrm{level}$}
+\newcommand{\al}{$\alpha-\textrm{level}$\xspace}
 \newcommand{\eg}{\em e.g.}
 \newcommand{\ie}{\em i.e.}
-\newcommand{\gmcp}{\texttt{gMCP}}
-\newcommand{\gact}{\texttt{gACT}}
+\newcommand{\gmcp}{\texttt{gMCP}\xspace}
+\newcommand{\gact}{\texttt{gACT}\xspace}
 \begin{document}
 
 % \VignetteIndexEntry{Graphical approaches for multiple endpoint problems using weparametric tests}
@@ -35,13 +36,13 @@
 \section{Introduction}
 \label{sec:intro}
 
-This document describes how-to use \gmcp~to to construct, conduct and evaluate
+This document describes how-to use \gmcp to construct, conduct and evaluate
 multiple comparison procedures based on  weighted parametric tests
 which are defined by directed graphs. In addition to sequentially
-rejective Bonferroni procedures \gmcp~ provides functionality to
+rejective Bonferroni procedures \gmcp provides functionality to
 construct tests that take advantage of (partial) knowledge of the
 the joint distribution of the $p$-values associated with multiple
-hypotheses. For the time being \gmcp~ implements the case of multiple
+hypotheses. For the time being \gmcp implements the case of multiple
 inferences based on $z$-tests. Assuming normally distributed test
 statistics with known variance one can improve on the Bonferroni test
 in terms of power, provided that there exists (partial) knowledge of
@@ -120,7 +121,7 @@ tests are a directed graph, initial weights for the elementary
 hypotheses in the global intersection hypothesis as well as a
 correlation matrix. The graph for both Example 1 and 2 is depicted in
 Figure \ref{fig:bretz}. As in the article we will distribute the
-overall \al~ equally between the two primary hyptheses. Initially the
+overall \al equally between the two primary hyptheses. Initially the
 secondary hypotheses will be given no weight. The corresponding
 initial weights are therefore $(\frac{1}{2},\frac{1}{2},0,0)$. 
 
@@ -131,11 +132,11 @@ acchiev the same using the graphical user interface provided by \gmcp.
 \subsection{Creating Graphs using the Command Line}
 \label{sec:comline}
 
-The most basic way of defining an MTP in \gmcp~ is by way of
+The most basic way of defining an MTP in \gmcp is by way of
 numeric matrices where each element defines the proportion of
-the local \al~of the elementary hypotheses corresponding to the row
+the local \al of the elementary hypotheses corresponding to the row
 index which is passed to the elementary hypotheses associated with the
-column index. Since no hypotheses reallocates parts of its local \al~
+column index. Since no hypotheses reallocates parts of its local \al
 to itself the diagonal elements of this matrix are zero. The simple
 graph from our examples is defined by the matrix: 
 \begin{displaymath}
@@ -161,7 +162,7 @@ $\omega_1,...,\omega_m$ where $m$ denotes the number of test
 statistics. For the example graph of Figure \ref{fig:bretz} the
 corresponding weights vector is
 $(\frac{1}{2},\frac{1}{2},0,0)$\footnote{Note that this is
-  different to the approach taken in \texttt{gMCP} where the local \al~
+  different to the approach taken in \texttt{gMCP} where the local \al
   are specified for each elementary hypotheses instead of
   weights}. 
 
@@ -239,7 +240,7 @@ graphGUI()
 
 @ 
 
-These commands will load the the \gmcp~ library and open the GUI
+These commands will load the the \gmcp library and open the GUI
 interface a screenshot of which is presented in Figure
 \ref{fig:gui}. Graphs defined using this tool can be saved to an R
 object the name of which can be specified in the line above the graph
@@ -278,7 +279,7 @@ graphGUI(G)
 \section{Testing}
 \label{sec:testing}
 
-Performing tests using \gmcp~ can be done in several ways. \gmcp~
+Performing tests using \gmcp can be done in several ways. \gmcp
 provides functions covering every step in the test procedure which can
 be done seperately or all together. The first step is the computation
 of all intersection hypotheses in the closure of the test problem
@@ -320,7 +321,7 @@ recreate Table 2 of \cite{Bretz11}
 @ 
 
 this function takes the graph in matrix form, the weights, the
-correlation matrix and the overall \al~ as inputs in order to compute
+correlation matrix and the overall \al as inputs in order to compute
 rejection bounds for all elementary hypotheses in each intersection.
 Bounds are computed using the multivariate distribution of test
 statistics whenever the whole correlation matrix is known for more
@@ -382,8 +383,8 @@ hence break and return an exception.
 \subsection{Testing using the gMCP interface}
 \label{sec:gmcpint}
 
-The function \gmcp~ provides a common interface to both sequentially
-rejective Bonferroni procedures as well as parametric tests. \gmcp~
+The function \gmcp provides a common interface to both sequentially
+rejective Bonferroni procedures as well as parametric tests. \gmcp
 takes objects of the type \texttt{graphMCP} as its input together with
 a vector of $p$-values and computes whether the according test
 procedure rejects. For Example 1 this amounts to the call:
@@ -421,7 +422,7 @@ gMCP(G,p,corr=Cm2)
 which returns a similar result however without the graphs representing
 the rejection sequence, since the whole closed test is done in this
 example. A vector specifying which of the elementary hypotheses
-can be rejected at the overall \al.I
+can be rejected at the overall \al.
 
 \newpage
 
