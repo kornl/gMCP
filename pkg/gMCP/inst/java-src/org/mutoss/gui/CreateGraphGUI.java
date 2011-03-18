@@ -37,7 +37,7 @@ public class CreateGraphGUI extends JFrame implements WindowListener {
 		JComponent.setDefaultLocale(Locale.US); 
 		RControl.getRControl(debug);
 		Localizer.getInstance().addResourceBundle("org.mutoss.gui.ResourceBundle");
-		if (grid!=0) {
+		if (grid>0) {
 			Configuration.getInstance().getGeneralConfig().setGridSize((int)grid);
 		}
 		setIconImage((new ImageIcon(getClass().getResource("/org/mutoss/gui/graph/images/rjavaicon64.png"))).getImage());

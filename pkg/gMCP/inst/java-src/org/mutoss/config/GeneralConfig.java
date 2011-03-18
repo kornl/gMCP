@@ -64,7 +64,7 @@ public class GeneralConfig extends SpecificConfig {
 	}
     
     public int getGridSize() {
-		return Integer.parseInt(getProperty("grid", "10"));		
+		return Integer.parseInt(getProperty("grid", "50"));		
 	}
 
     public void setDigits(int digit) {
