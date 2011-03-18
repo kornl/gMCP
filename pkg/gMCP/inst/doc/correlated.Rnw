@@ -22,7 +22,7 @@
 \newcommand{\gact}{\texttt{gACT}\xspace}
 \begin{document}
 
-% \VignetteIndexEntry{Graphical approaches for multiple endpoint problems using weparametric tests}
+% \VignetteIndexEntry{Graphical approaches for multiple endpoint problems using weighted parametric tests}
 
 \title{Weighted parametric tests defined by graphs} 
 
@@ -104,7 +104,7 @@ control using a primary and secondary endpoint. Only if the the null
 hypotheses can be rejected for the primary hypotheses are the
 secondary hypotheses to be tested. If both primary and secondary
 hypotheses can be rejected for one treatment, then the portions of the
-global \al~level reserved for this treatment is passed to the other
+global \al level reserved for this treatment is passed to the other
 treatment. The graph corresponding to this procedures is depicted in
 figure \ref{fig:bretz}. We assume that all four hypotheses are tested
 by use of normally distributed test statistics with known
