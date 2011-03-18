@@ -11,8 +11,9 @@
 \section{Slots}{
   \describe{
     \item{\code{graphs}:}{Object of class \code{list}. }        
-    \item{\code{pvalues}:}{The \code{numeric} vector of pvalues. }
-    \item{\code{adjPValues}:}{The \code{numeric} vector of adjusted pvalues. }    
+    \item{\code{pvalues}:}{The \code{numeric} vector of pvalues.}
+    \item{\code{rejected}:}{The \code{logical} vector of rejected null hypotheses.}
+    \item{\code{adjPValues}:}{The \code{numeric} vector of adjusted pvalues.}    
   }
 }
 \author{Kornelius Rohmeyer \email{rohmeyer@small-projects.de}}

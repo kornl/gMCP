@@ -15,23 +15,33 @@ gMCP <- function(graph, pvalues, test, correlation, ..., verbose=FALSE) {
 			graph <- rejectNode(graph, node, verbose)
 			sequence <- c(sequence, graph)
 		}	
-		return(new("gMCPResult", graphs=sequence, pvalues=pvalues, adjPValues=adjPValues(sequence[[1]], pvalues, verbose)@adjPValues))
+		return(new("gMCPResult", graphs=sequence, pvalues=pvalues, rejected=getRejected(graph), adjPValues=adjPValues(sequence[[1]], pvalues, verbose)@adjPValues))
 	} else if ((!missing(test) && test=="correlated") || (missing(test) && !missing(correlation))) {
 		if (missing(correlation) || (!is.matrix(correlation) && !is.character(correlation))) {
 			stop("Procedure for correlated tests, expects a correlation matrix as parameter \"correlation\".")
 		} else {
 			if (is.character(correlation)) {
-				n <- length(pvalues)
-				x <- contrMat(rep(10, n+1), type = correlation) # balanced design up to now and only Dunnett will work with n+1
-				var <- x %*% diag(n+1) %*% t(x)
+				samplesize <- list(...)[["samplesize"]]
+				if (is.null(samplesize)) samplesize <- getBalancedDesign(correlation, length(pvalues))				
+				x <- contrMat(samplesize, type = correlation) # balanced design up to now and only Dunnett will work with n+1
+				var <- x %*% diag(length(samplesize)) %*% t(x)
 				correlation <- diag(1/sqrt(diag(var)))%*%var%*%diag(1/sqrt(diag(var)))
 			}
 			Gm <- graph2matrix(graph)
 			w <- graph2weights(graph)
 			myTest <- generateTest(Gm, w, correlation, sum(getAlpha(graph)))
 			zScores <- -qnorm(pvalues)
-			return(myTest(zScores))
+			rejected <- myTest(zScores)
+			names(rejected) <- nodes(graph)
+			return(new("gMCPResult", graphs=list(), pvalues=pvalues, rejected=rejected, adjPValues=numeric(0)))
 		}
+	}
+}
+
+# This function calculates the number of uncorrelated test statistics given the correlation structure and the number of p-values.
+getBalancedDesign <- function (correlation, numberOfPValues) {
+	if (correlation == "Dunnett") {
+		return (rep(10, numberOfPValues+1))
 	}
 }
 

@@ -25,6 +25,7 @@ setMethod("initialize", "graphMCP",
 setClass("gMCPResult",		
 		representation(graphs="list",
 				pvalues="numeric",
+				rejected="logical",
 				adjPValues="numeric")
 )
 
@@ -94,10 +95,8 @@ setMethod("getRejected", c("graphMCP"), function(object, node, ...) {
 			return(rejected)
 		})
 
-setMethod("getRejected", c("gMCPResult"), function(object, node, ...) {
-			object <-  object@graphs[[length(object@graphs)]]
-			rejected <- unlist(nodeData(object, nodes(object), "rejected"))
-			names(rejected) <- nodes(object)
+setMethod("getRejected", c("gMCPResult"), function(object, node, ...) {			
+			rejected <- object@rejected
 			if (!missing(node)) {
 				return(rejected[node])
 			}
