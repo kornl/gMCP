@@ -4,6 +4,8 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.text.DecimalFormat;
@@ -13,11 +15,13 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 
+import org.af.jhlir.call.RErrorException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.mutoss.config.Configuration;
+import org.mutoss.gui.RControl;
 
-public class PPanel implements ActionListener, KeyListener, NodeListener {
+public class PPanel implements ActionListener, KeyListener, NodeListener, FocusListener {
 	
 	private static final Log logger = LogFactory.getLog(PPanel.class);
 	
@@ -33,6 +37,7 @@ public class PPanel implements ActionListener, KeyListener, NodeListener {
 	Node node;
 	PView pview;
 	Boolean rejected = false;
+	DecimalFormat format = new DecimalFormat("#.######");//Configuration.getInstance().getGeneralConfig().getDecFormat();
 	
 	public Vector<Component> getComponent() {
 		Vector<Component> v = new Vector<Component>();
@@ -43,8 +48,7 @@ public class PPanel implements ActionListener, KeyListener, NodeListener {
 		return v;
 	}
 	
-	public PPanel(Node node, PView pview) {
-		DecimalFormat format = Configuration.getInstance().getGeneralConfig().getDecFormat();
+	public PPanel(Node node, PView pview) {		
 		node.addNodeListener(this);
 		this.name = node.name;
 		this.w = node.getAlpha();
@@ -53,8 +57,9 @@ public class PPanel implements ActionListener, KeyListener, NodeListener {
         
         label = new JLabel(name);
 		
-		wTF = new JTextField(format.format(w), 7);
+		wTF = new JTextField(/*RControl.getFraction*/format.format(w), 7);
 		wTF.addActionListener(this);
+		wTF.addFocusListener(this);
 		wTF.addKeyListener(this);
 		
 		pTF = new JTextField(format.format(p), 7);
@@ -68,8 +73,7 @@ public class PPanel implements ActionListener, KeyListener, NodeListener {
 			reject();
 		} else {
 			keyTyped(null);
-		}
-		
+		}		
 	}
 
 	public void actionPerformed(ActionEvent e) {
@@ -109,9 +113,9 @@ public class PPanel implements ActionListener, KeyListener, NodeListener {
 			pTF.setBackground(Color.RED);
 		}
 		try {
-			w = Double.parseDouble(wTF.getText().replace(",", "."));		
+			w = RControl.getR().eval(wTF.getText().replace(",", ".")).asRNumeric().getData()[0];		
 			wTF.setBackground(Color.WHITE);
-		} catch (NumberFormatException nfe) {		
+		} catch (RErrorException nfe) {		
 			wTF.setBackground(Color.RED);
 		}
 		node.setAlpha(w, this);
@@ -172,6 +176,18 @@ public class PPanel implements ActionListener, KeyListener, NodeListener {
 	
 	public static void setTesting(boolean b) {
 		testing = b;
+	}
+
+	@Override
+	public void focusGained(FocusEvent e) {
+		
+	}
+
+	@Override
+	public void focusLost(FocusEvent e) {
+		if (e.getSource()==wTF) {
+			wTF.setText(/*RControl.getFraction*/format.format(w));
+		}
 	}	
 	
 }

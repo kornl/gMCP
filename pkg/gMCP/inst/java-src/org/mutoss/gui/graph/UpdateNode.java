@@ -1,5 +1,6 @@
 package org.mutoss.gui.graph;
 
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -7,17 +8,18 @@ import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
-import org.af.commons.widgets.validate.RealTextField;
-import org.af.commons.widgets.validate.ValidationException;
+import org.af.jhlir.call.RErrorException;
+import org.mutoss.gui.RControl;
 
 import com.jgoodies.forms.layout.CellConstraints;
 import com.jgoodies.forms.layout.FormLayout;
 
 public class UpdateNode extends JDialog implements ActionListener {
 	
-	RealTextField tf;
+	JTextField tf;
 	JTextField tfname;
 	JButton jb = new JButton("Update Node");
 	JButton jbDeleteNode = new JButton("Delete Node");
@@ -39,8 +41,8 @@ public class UpdateNode extends JDialog implements ActionListener {
         
         getContentPane().add(new JLabel("α for node "+node.name), cc.xy(2, row));
 
-        tf = new RealTextField("α for node", 0d,1d, true, false);
-        tf.setText(""+node.getAlpha());
+        tf = new JTextField("", 7);
+        tf.setText(""+RControl.getFraction(node.getAlpha()));
         tf.addActionListener(this);
         getContentPane().add(tf, cc.xy(4, row));
 
@@ -74,8 +76,12 @@ public class UpdateNode extends JDialog implements ActionListener {
 		}	
 		Double w = 0d;		
 		try {
-			w = tf.getValidatedValue();
-		} catch (ValidationException ve) {}
+			w = RControl.getR().eval(tf.getText().replace(",", ".")).asRNumeric().getData()[0];		
+			tf.setBackground(Color.WHITE);
+		} catch (RErrorException nfe) {		
+			tf.setBackground(Color.RED);
+			JOptionPane.showMessageDialog(this, "The expression \""+tf.getText()+"\" is not a valid number.", "Not a valid number", JOptionPane.ERROR_MESSAGE);
+		}
 		node.setAlpha(w, null);	
 		node.setName(tfname.getText());
 		netzListe.repaint();
