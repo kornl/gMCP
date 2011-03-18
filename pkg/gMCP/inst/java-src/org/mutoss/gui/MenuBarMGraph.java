@@ -5,6 +5,7 @@ import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileWriter;
+import java.io.IOException;
 import java.lang.reflect.Method;
 import java.text.DecimalFormat;
 
@@ -17,6 +18,7 @@ import javax.swing.JOptionPane;
 
 import org.af.commons.Localizer;
 import org.af.commons.errorhandling.ErrorHandler;
+import org.af.commons.io.FileTransfer;
 import org.af.commons.logging.LoggingSystem;
 import org.af.commons.logging.widgets.DetailsDialog;
 import org.af.commons.tools.OSTools;
@@ -140,6 +142,13 @@ public class MenuBarMGraph extends JMenuBar implements ActionListener {
 	
 	public void showFile(String s) {
 		File f = new File(RControl.getR().eval("system.file(\""+s+"\", package=\"gMCP\")").asRChar().getData()[0]);
+		if (OSTools.isWindows() && s.indexOf('.') == -1) {
+			try {
+				f = FileTransfer.copyFile(f, new File(System.getProperty("java.io.tmpdir"), f.getName()+"TXT"));
+			} catch (IOException e) {
+				JOptionPane.showMessageDialog(control.getMainFrame(), "Please open and read the following file:\n"+f.getAbsolutePath(), "Could not find appropriate viewer", JOptionPane.WARNING_MESSAGE);
+			}
+		}		
 		if (!f.exists()) {
 			throw new RuntimeException("This is strange. The file \""+s+"\" could not be found.");
 		} else {
