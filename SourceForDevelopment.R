@@ -2,6 +2,10 @@ library(graph)
 library(RUnit)
 library(Rgraphviz)
 library(mutoss)
+library(gtools)
+library(multcomp)
+library(PolynomF)
+library(MASS)
 for (file in dir(path ="pkg/gMCP/R")) {
   source(paste("pkg/gMCP/R",file,sep="/"))
 }
