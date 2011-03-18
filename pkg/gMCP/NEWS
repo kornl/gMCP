@@ -4,6 +4,7 @@ Version 0.4-0
 - New dependencies in this code: gtools and multcomp (and therefore also mvtnorm)
 - graphGUI Parameter grid is now numeric(0) by default. This restores the last used grid value.
 - Fractions instead of decimal numbers are shown in more places.
+- Alpha values can be entered as R expression, e.g. "0.05/7".
 
 Version 0.3-6 (15-Mar-2011)
 =============
