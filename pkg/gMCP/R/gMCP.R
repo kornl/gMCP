@@ -1,14 +1,11 @@
 gMCP <- function(graph, pvalues, test, correlation, ..., verbose=FALSE) {
-	#if (!test %in% c("Bonferroni", "correlated")) {
-    #	stop("Parameter \"test\" must be one of the following: \"Bonferroni\", \"correlated\".")
-	#}
 	if (length(pvalues)!=length(nodes(graph))) {
 		stop("Length of pvalues must equal number of nodes.")
 	}
 	if (is.null(names(pvalues))) {
 		names(pvalues) <- nodes(graph)
 	}
-	if ((!missing(test) && test=="Bonferroni") || (missing(test) && missing(correlation))) {
+	if (missing(test) && missing(correlation)) {
 		sequence <- list(graph)
 		while(!is.null(node <- getRejectableNode(graph, pvalues))) {
 			if (verbose) cat(paste("Node \"",node,"\" can be rejected.\n",sep=""))
@@ -16,7 +13,7 @@ gMCP <- function(graph, pvalues, test, correlation, ..., verbose=FALSE) {
 			sequence <- c(sequence, graph)
 		}	
 		return(new("gMCPResult", graphs=sequence, pvalues=pvalues, rejected=getRejected(graph), adjPValues=adjPValues(sequence[[1]], pvalues, verbose)@adjPValues))
-	} else if ((!missing(test) && test=="correlated") || (missing(test) && !missing(correlation))) {
+	} else if (missing(test) && !missing(correlation)) {
 		if (missing(correlation) || (!is.matrix(correlation) && !is.character(correlation))) {
 			stop("Procedure for correlated tests, expects a correlation matrix as parameter \"correlation\".")
 		} else {
@@ -88,55 +85,59 @@ rejectNode <- function(graph, node, verbose=FALSE) {
 	
 	keepAlpha <- TRUE
 	
-	graph2 <- graph
-	
-	#for (to in nodes(graph)[nodes(graph)!=node]) {
-	#	if ((getWeight(graph,node,to))>0) {
-	#		keepAlpha <- FALSE
-	#		nodeData(graph2, to, "alpha") <- nodeData(graph, to, "alpha")[[to]] + getWeight(graph,node,to) * nodeData(graph, node, "alpha")[[node]]
-	#	}
-	#}	
-	
-	## The following code will be removed in 0.4! ##
-	if (all(TRUE == all.equal(unname(edgesOut), rep(0, length(edgesOut))))) {
-		if (verbose) cat("Alpha is passed via epsilon-edges.\n")
-		for (to in nodes(graph)[nodes(graph)!=node]) {	
-			numberOfEpsilonEdges <- sum(TRUE == all.equal(unname(edgesOut), rep(0, length(edgesOut))))
-			if (existsEdge(graph, node, to)) {
-				nodeData(graph2, to, "alpha") <- nodeData(graph, to, "alpha")[[to]] + nodeData(graph, node, "alpha")[[node]] / numberOfEpsilonEdges
-				keepAlpha <- FALSE
-			}
-		}		
-	} else {
-		if (verbose) cat("Alpha is passed via non-epsilon-edges.\n")
-		for (to in nodes(graph)[nodes(graph)!=node]) {				
-			nodeData(graph2, to, "alpha") <- nodeData(graph, to, "alpha")[[to]] + getWeight(graph,node,to) * nodeData(graph, node, "alpha")[[node]]				
-		}	
-		keepAlpha <- FALSE
+	if (length(edgesOut)>0) {
+		
+		graph2 <- graph
+		
+		#for (to in nodes(graph)[nodes(graph)!=node]) {
+		#	if ((getWeight(graph,node,to))>0) {
+		#		keepAlpha <- FALSE
+		#		nodeData(graph2, to, "alpha") <- nodeData(graph, to, "alpha")[[to]] + getWeight(graph,node,to) * nodeData(graph, node, "alpha")[[node]]
+		#	}
+		#}	
+		
+		## The following code will be removed in 0.4! ##
+		if (all(TRUE == all.equal(unname(edgesOut), rep(0, length(edgesOut))))) {
+			if (verbose) cat("Alpha is passed via epsilon-edges.\n")
+			for (to in nodes(graph)[nodes(graph)!=node]) {	
+				numberOfEpsilonEdges <- sum(TRUE == all.equal(unname(edgesOut), rep(0, length(edgesOut))))
+				if (existsEdge(graph, node, to)) {
+					nodeData(graph2, to, "alpha") <- nodeData(graph, to, "alpha")[[to]] + nodeData(graph, node, "alpha")[[node]] / numberOfEpsilonEdges
+					keepAlpha <- FALSE
+				}
+			}		
+		} else {
+			if (verbose) cat("Alpha is passed via non-epsilon-edges.\n")
+			for (to in nodes(graph)[nodes(graph)!=node]) {				
+				nodeData(graph2, to, "alpha") <- nodeData(graph, to, "alpha")[[to]] + getWeight(graph,node,to) * nodeData(graph, node, "alpha")[[node]]				
+			}	
+			keepAlpha <- FALSE
+		}
+		
+		#################################################
+		
+		for (to in nodes(graph)[nodes(graph)!=node]) {						
+			for (from in nodes(graph)[nodes(graph)!=node]) {
+				if (from != to) {
+					enum <- (getWeight(graph,from,to)+getWeight(graph,from,node)*getWeight(graph,node,to))
+					denum <- (1-getWeight(graph,from,node)*getWeight(graph,node,from)) 
+					w <- enum / ifelse(denum==0, 1, denum)						
+					if (to %in% edges(graph)[[from]]) {
+						edgeData(graph2,from,to,"weight") <- w
+					} else {
+						if (!is.nan(w) & w>0) {
+							graph2 <- addEdge(from, to, graph2, w)
+						} else if (existsEdge(graph,from,to) || (existsEdge(graph,from,node) && existsEdge(graph,node,to))) {
+							graph2 <- addEdge(from, to, graph2, 0)
+						}
+					}								
+				}
+			}								
+		}
+		
+		graph <- graph2
+		
 	}
-	
-	#################################################
-	
-	for (to in nodes(graph)[nodes(graph)!=node]) {						
-		for (from in nodes(graph)[nodes(graph)!=node]) {
-			if (from != to) {
-				enum <- (getWeight(graph,from,to)+getWeight(graph,from,node)*getWeight(graph,node,to))
-				denum <- (1-getWeight(graph,from,node)*getWeight(graph,node,from)) 
-				w <- enum / ifelse(denum==0, 1, denum)						
-				if (to %in% edges(graph)[[from]]) {
-					edgeData(graph2,from,to,"weight") <- w
-				} else {
-					if (!is.nan(w) & w>0) {
-						graph2 <- addEdge(from, to, graph2, w)
-					} else if (existsEdge(graph,from,to) || (existsEdge(graph,from,node) && existsEdge(graph,node,to))) {
-						graph2 <- addEdge(from, to, graph2, 0)
-					}
-				}								
-			}
-		}								
-	}
-	
-	graph <- graph2
 	
 	if (verbose) cat("Removing edges.\n")
 	for (to in names(edgesOut)) {
