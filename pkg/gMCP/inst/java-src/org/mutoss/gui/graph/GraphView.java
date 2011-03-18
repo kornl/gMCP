@@ -26,7 +26,9 @@ import org.apache.commons.logging.LogFactory;
 import org.mutoss.gui.CreateGraphGUI;
 import org.mutoss.gui.RControl;
 import org.mutoss.gui.datatable.DataTable;
+import org.mutoss.gui.dialogs.AdjustedPValueDialog;
 import org.mutoss.gui.dialogs.CorrelatedTest;
+import org.mutoss.gui.dialogs.DialogConfIntEstVar;
 
 public class GraphView extends JPanel implements ActionListener {
 
@@ -235,7 +237,7 @@ public class GraphView extends JPanel implements ActionListener {
 					getPView().savePValues();
 				}
 				String pValues = getPView().getPValuesString();
-				double[] adjPValues = RControl.getR().eval("gMCP:::adjPValues("+NetList.initialGraph+","+pValues+")@adjPValues").asRNumeric().getData();
+				double[] adjPValues = RControl.getR().eval("gMCP:::adjPValues("+ getNL().initialGraph+","+pValues+")@adjPValues").asRNumeric().getData();
 				new AdjustedPValueDialog(parent, getPView().pValues, adjPValues, getNL().getKnoten());
 			}
 		} else if (e.getSource().equals(buttonLatex)) {

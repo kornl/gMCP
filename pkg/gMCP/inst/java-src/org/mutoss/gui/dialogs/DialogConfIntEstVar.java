@@ -1,4 +1,4 @@
-package org.mutoss.gui.graph;
+package org.mutoss.gui.dialogs;
 
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -25,6 +25,9 @@ import javax.swing.event.DocumentListener;
 import org.af.commons.widgets.validate.RealTextField;
 import org.af.commons.widgets.validate.ValidationException;
 import org.mutoss.gui.RControl;
+import org.mutoss.gui.graph.GraphView;
+import org.mutoss.gui.graph.NetList;
+import org.mutoss.gui.graph.Node;
 
 public class DialogConfIntEstVar extends JDialog implements ActionListener, ChangeListener, DocumentListener {
 	
@@ -118,8 +121,8 @@ public class DialogConfIntEstVar extends JDialog implements ActionListener, Chan
 
 	private void calculateCI() {	
 			String pValues = control.getPView().getPValuesString();
-			double[] alpha = RControl.getR().eval("getAlpha(gMCP("+NetList.initialGraph+","+pValues+"))").asRNumeric().getData();
-			boolean[] rejected = RControl.getR().eval("getRejected(gMCP("+NetList.initialGraph+","+pValues+"))").asRLogical().getData();
+			double[] alpha = RControl.getR().eval("getAlpha(gMCP("+ nl.initialGraph+","+pValues+"))").asRNumeric().getData();
+			boolean[] rejected = RControl.getR().eval("getRejected(gMCP("+ nl.initialGraph+","+pValues+"))").asRLogical().getData();
 			for (int i=0; i<nl.getKnoten().size(); i++) {
 				Double lb, ub;
 				String d1 = "qnorm(";

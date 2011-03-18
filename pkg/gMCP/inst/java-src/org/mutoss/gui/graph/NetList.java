@@ -568,7 +568,7 @@ public class NetList extends JPanel implements MouseMotionListener, MouseListene
 		control.getPView().savePValues();
 	}
 
-	public static String initialGraph = ".InitialGraph";
+	public String initialGraph = ".InitialGraph";
 	
 	public void loadGraph() {
 		new GraphMCP(initialGraph, vs);

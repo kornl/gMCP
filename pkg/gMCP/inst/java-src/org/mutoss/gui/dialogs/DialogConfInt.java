@@ -1,4 +1,4 @@
-package org.mutoss.gui.graph;
+package org.mutoss.gui.dialogs;
 
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -24,6 +24,9 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
 import org.mutoss.gui.RControl;
+import org.mutoss.gui.graph.GraphView;
+import org.mutoss.gui.graph.NetList;
+import org.mutoss.gui.graph.Node;
 
 public class DialogConfInt extends JDialog implements ActionListener, ChangeListener, DocumentListener {
 	

@@ -72,7 +72,7 @@ public class MenuBarMGraph extends JMenuBar implements ActionListener {
 	public void loadGraph(String string) {
 		NetList nl = control.getNL();		
 		newGraph();
-		RControl.getR().eval(NetList.initialGraph + " <- " + string);
+		RControl.getR().eval(nl.initialGraph + " <- " + string);
 		nl.loadGraph();
 		control.getMainFrame().validate();
 	}

@@ -10,6 +10,7 @@ import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JRadioButton;
 
+import org.mutoss.gui.CreateGraphGUI;
 import org.mutoss.gui.RControl;
 
 import com.jgoodies.forms.layout.CellConstraints;
@@ -25,10 +26,12 @@ public class CorrelatedTest extends JDialog implements ActionListener {
 
     JComboBox jcbCorString;
     JComboBox jcbCorObject;
+    CreateGraphGUI parent;
     
-	public CorrelatedTest(JFrame parent) {
+	public CorrelatedTest(CreateGraphGUI parent) {
 		super(parent, "Correlated test statistics?", true);
 		setLocationRelativeTo(parent);
+		this.parent = parent;
 		
 		String[] matrices = RControl.getR().eval("gMCP:::getAllMatrices()").asRChar().getData();
 		
@@ -90,6 +93,14 @@ public class CorrelatedTest extends JDialog implements ActionListener {
 		if (e.getSource() == jrbNoCorrelation) {
 			
 		} else if (e.getSource() == ok) {
+			String correlation = "";
+			if (jrbStandardCorrelation.isSelected()) {
+				correlation = ", correlation=\""+jcbCorString.getSelectedItem()+"\"";
+			} else if (jrbRCorrelation.isSelected()) {
+				correlation = ", correlation="+jcbCorObject.getSelectedItem()+"";
+			} 
+			boolean[] rejected = RControl.getR().eval("gMCP("+parent.getGraphView().getNL().initialGraph+","+parent.getGraphView().getPView().getPValuesString()+ correlation+")@rejected").asRLogical().getData();
+			new RejectedDialog(parent, rejected, parent.getGraphView().getNL().getKnoten());
 			dispose();
 		}
 	}	

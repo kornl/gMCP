@@ -1,4 +1,4 @@
-package org.mutoss.gui.graph;
+package org.mutoss.gui.dialogs;
 
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -12,6 +12,8 @@ import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+
+import org.mutoss.gui.graph.Node;
 
 public class AdjustedPValueDialog extends JDialog implements ActionListener {
 
