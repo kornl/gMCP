@@ -50,7 +50,7 @@ matrix of a given subset of test statistics is known tests for
 intersection hypotheses containing the associated elementary
 hypotheses are computed using the multivariate distribution under the
 respective null. The consonance condition providing the shortcut
-utilized by sequentially rejective tests \cite{Hommel07,Bretz08} can
+utilized by sequentially rejective tests \cite{Hommel07,bretzEtAl2009graphical} can
 no longer be guaranteed using this approach, hence, the whole closed
 test has to be performed. For an exhaustive theoretical  specification
 of the  general statistical principle please see \cite[Section

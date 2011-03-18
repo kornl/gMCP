@@ -320,6 +320,8 @@ simConfint(createBonferroniHolmGraph(3),
 
 Use the following two buttons: \includegraphics[width=1cm]{pictures/adjPval_b.png} \includegraphics[width=1cm]{pictures/confint2_b.png}
 
+See \cite{Bretz11}.
+
 \begin{figure}[ht]
   \centering    
   \includegraphics[width=0.7\textwidth]{pictures/correlated.png}      
