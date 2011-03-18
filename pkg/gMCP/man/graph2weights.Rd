@@ -31,19 +31,10 @@ Bretz F, Posch M, Glimm E, Klinglmueller F, Maurer W, Rohmeyer K; (2011) - Graph
 Florian Klinglmueller
 }
 \examples{
-\dontrun{
-library(gMCP)
 g <- createBonferroniHolmGraph(3)          
 gm <- graph2matrix(g)                      
 w <- graph2weights(g)                      
-c <- matrix(NA,3,3)                            
-diag(c) <- 1
-p <- runif(length(w))                      
-z <- qnorm(1-p)
-
-gACT(z,gm,w,c)
-gMCP(g,p)
-}
+w
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.
