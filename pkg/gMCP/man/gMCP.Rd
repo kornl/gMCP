@@ -19,8 +19,7 @@
   	A numeric vector specifying the p-values for the sequentially rejective MTP.
   } 
   \item{test}{
-  	A character vector specifying the test to be used.
-  	Valid values are up to now: \code{"Bonferroni"} and \code{"correlated"}.
+  	A test function. Will be supported in future versions.
   } 
   \item{correlation}{
   	Correlation matrix, if the tests are correlated. Also valid are strings like \code{"Dunnett"}.
