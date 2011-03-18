@@ -38,7 +38,9 @@ options(digits=4)
 
 \section{Introduction}
 
-This package provides functions and graphical user interfaces for sequentially rejective multiple test procedures.
+This package provides functions and graphical user interfaces for graph based multiple test procedures.
+These graphs define a weighting strategy for all subsets of null hypotheses and following the closed test procedure weighted tests can be performed on these subsets.
+In some case shortcuts are available, for example the weighted Bonferroni corrected tests lead to a sequentially rejective multiple test procedure.
 
 At all steps either graphical user interfaces or the R Console, S4 objects and methods can be used.
 
@@ -64,7 +66,7 @@ edges[["H22"]] <- list(edges=c("H11","H31"), weights=c(1/2, 1/2))
 edges[["H32"]] <- list(edges="H21", weights=1)
 graph <- new("graphMCP", nodes=hnodes, edgeL=edges, alpha=alpha)
 nodeX <- c(H11=100, H21=300, H31=500, H12=100, H22=300, H32=500)
-nodeY <- c(H11=300, H21=300, H31=300, H12=100, H22=100, H32=100)
+nodeY <- c(H11=100, H21=100, H31=100, H12=300, H22=300, H32=300)
 nodeRenderInfo(graph) <- list(nodeX=nodeX, nodeY=nodeY)	
 cat(graph2latex(graph, scale=0.7, fontsize="tiny"))
 
@@ -124,7 +126,7 @@ x- and y-coordinates in the renderInfo.
 <<echo=TRUE>>=
 
 nodeX <- c(H11=100, H21=300, H31=500, H12=100, H22=300, H32=500)
-nodeY <- c(H11=300, H21=300, H31=300, H12=100, H22=100, H32=100)
+nodeY <- c(H11=100, H21=100, H31=100, H12=300, H22=300, H32=300)
 nodeRenderInfo(graph) <- list(nodeX=nodeX, nodeY=nodeY)	
 
 @

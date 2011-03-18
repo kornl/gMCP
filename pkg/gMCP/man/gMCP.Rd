@@ -38,9 +38,9 @@
 An object of class \code{gMCPResult}, more specifically a list with elements
 \item{graphs }{ list of graphs}				
 \item{pvalues }{ p-values}
+\item{rejected }{ logical whether hyptheses could be rejected}
 \item{adjPValues }{ adjusted p-values}
-If a correlation matrix is passed only a boolean vector specifying
-  which of the hypotheses can be rejected at the overall alpha level.
+If a correlation matrix is passed only the slots \code{pvalues} and \code{rejected} are set.
 }
 \references{
 Frank Bretz, Willi Maurer, Werner Brannath, Martin Posch:
