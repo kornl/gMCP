@@ -56,6 +56,7 @@ public class ErrorDialogSGTK extends ErrorDialog {
         files.put("sessioninfo", makeLogFile("session_info.txt", getRSessionInfo()));
         files.put("roptions", makeLogFile("r_options.txt", getROptions()));
         //files.put("packageinfo", makeLogFile("package_info.txt", getRPackageInfo()));
+        files.put("traceback", makeLogFile("taceback.txt", getTraceBack()));
         files.put("systeminfo", makeLogFile("system_info.txt", getSystemInfo()));
         files.put("log", getReadableLogFile());        
 
@@ -74,6 +75,10 @@ public class ErrorDialogSGTK extends ErrorDialog {
 
 	private String getRSessionInfo() {
 		return collapseStringArray(RControl.getR().eval("paste(capture.output(sessionInfo()), collapse=\"\\n\")").asRChar().getData());
+	}
+	
+	private String getTraceBack() {
+		return collapseStringArray(RControl.getR().eval("paste(capture.output(traceback()), collapse=\"\\n\")").asRChar().getData());
 	}
 
 	/**
