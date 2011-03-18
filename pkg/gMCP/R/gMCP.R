@@ -49,7 +49,7 @@ adjPValues <- function(graph, pvalues, verbose=FALSE) {
 	if (is.null(names(pvalues))) {
 		names(pvalues) <- nodes(graph)
 	}
-	nodeData(graph, nodes(graph), "alpha") <- getAlpha(graph)/sum(getAlpha(graph))
+	if (sum(getAlpha(graph))>0) nodeData(graph, nodes(graph), "alpha") <- getAlpha(graph)/sum(getAlpha(graph))
 	adjPValues <- rep(0, length(nodes(graph)))
 	names(adjPValues) <- nodes(graph)	
 	J <- nodes(graph)
@@ -85,59 +85,55 @@ rejectNode <- function(graph, node, verbose=FALSE) {
 	
 	keepAlpha <- TRUE
 	
-	if (length(edgesOut)>0) {
-		
-		graph2 <- graph
-		
-		#for (to in nodes(graph)[nodes(graph)!=node]) {
-		#	if ((getWeight(graph,node,to))>0) {
-		#		keepAlpha <- FALSE
-		#		nodeData(graph2, to, "alpha") <- nodeData(graph, to, "alpha")[[to]] + getWeight(graph,node,to) * nodeData(graph, node, "alpha")[[node]]
-		#	}
-		#}	
-		
-		## The following code will be removed in 0.4! ##
-		if (all(TRUE == all.equal(unname(edgesOut), rep(0, length(edgesOut))))) {
-			if (verbose) cat("Alpha is passed via epsilon-edges.\n")
-			for (to in nodes(graph)[nodes(graph)!=node]) {	
-				numberOfEpsilonEdges <- sum(TRUE == all.equal(unname(edgesOut), rep(0, length(edgesOut))))
-				if (existsEdge(graph, node, to)) {
-					nodeData(graph2, to, "alpha") <- nodeData(graph, to, "alpha")[[to]] + nodeData(graph, node, "alpha")[[node]] / numberOfEpsilonEdges
-					keepAlpha <- FALSE
-				}
-			}		
-		} else {
-			if (verbose) cat("Alpha is passed via non-epsilon-edges.\n")
-			for (to in nodes(graph)[nodes(graph)!=node]) {				
-				nodeData(graph2, to, "alpha") <- nodeData(graph, to, "alpha")[[to]] + getWeight(graph,node,to) * nodeData(graph, node, "alpha")[[node]]				
-			}	
-			keepAlpha <- FALSE
-		}
-		
-		#################################################
-		
-		for (to in nodes(graph)[nodes(graph)!=node]) {						
-			for (from in nodes(graph)[nodes(graph)!=node]) {
-				if (from != to) {
-					enum <- (getWeight(graph,from,to)+getWeight(graph,from,node)*getWeight(graph,node,to))
-					denum <- (1-getWeight(graph,from,node)*getWeight(graph,node,from)) 
-					w <- enum / ifelse(denum==0, 1, denum)						
-					if (to %in% edges(graph)[[from]]) {
-						edgeData(graph2,from,to,"weight") <- w
-					} else {
-						if (!is.nan(w) & w>0) {
-							graph2 <- addEdge(from, to, graph2, w)
-						} else if (existsEdge(graph,from,to) || (existsEdge(graph,from,node) && existsEdge(graph,node,to))) {
-							graph2 <- addEdge(from, to, graph2, 0)
-						}
-					}								
-				}
-			}								
-		}
-		
-		graph <- graph2
-		
+	graph2 <- graph
+	
+	#for (to in nodes(graph)[nodes(graph)!=node]) {
+	#	if ((getWeight(graph,node,to))>0) {
+	#		keepAlpha <- FALSE
+	#		nodeData(graph2, to, "alpha") <- nodeData(graph, to, "alpha")[[to]] + getWeight(graph,node,to) * nodeData(graph, node, "alpha")[[node]]
+	#	}
+	#}	
+	
+	## The following code will be removed in 0.4! ##
+	if (all(TRUE == all.equal(unname(edgesOut), rep(0, length(edgesOut))))) {
+		if (verbose) cat("Alpha is passed via epsilon-edges.\n")
+		for (to in nodes(graph)[nodes(graph)!=node]) {	
+			numberOfEpsilonEdges <- sum(TRUE == all.equal(unname(edgesOut), rep(0, length(edgesOut))))
+			if (existsEdge(graph, node, to)) {
+				nodeData(graph2, to, "alpha") <- nodeData(graph, to, "alpha")[[to]] + nodeData(graph, node, "alpha")[[node]] / numberOfEpsilonEdges
+				keepAlpha <- FALSE
+			}
+		}		
+	} else {
+		if (verbose) cat("Alpha is passed via non-epsilon-edges.\n")
+		for (to in nodes(graph)[nodes(graph)!=node]) {				
+			nodeData(graph2, to, "alpha") <- nodeData(graph, to, "alpha")[[to]] + getWeight(graph,node,to) * nodeData(graph, node, "alpha")[[node]]				
+		}	
+		keepAlpha <- FALSE
 	}
+	
+	#################################################
+	
+	for (to in nodes(graph)[nodes(graph)!=node]) {						
+		for (from in nodes(graph)[nodes(graph)!=node]) {
+			if (from != to) {
+				enum <- (getWeight(graph,from,to)+getWeight(graph,from,node)*getWeight(graph,node,to))
+				denum <- (1-getWeight(graph,from,node)*getWeight(graph,node,from)) 
+				w <- enum / ifelse(denum==0, 1, denum)						
+				if (to %in% edges(graph)[[from]]) {
+					edgeData(graph2,from,to,"weight") <- w
+				} else {
+					if (!is.nan(w) & w>0) {
+						graph2 <- addEdge(from, to, graph2, w)
+					} else if (existsEdge(graph,from,to) || (existsEdge(graph,from,node) && existsEdge(graph,node,to))) {
+						graph2 <- addEdge(from, to, graph2, 0)
+					}
+				}								
+			}
+		}								
+	}
+	
+	graph <- graph2
 	
 	if (verbose) cat("Removing edges.\n")
 	for (to in names(edgesOut)) {

@@ -1,6 +1,11 @@
 High priority:
 ==============
 
+> graph <- matrix2graph(matrix(c(0,0,0,0), nrow=2))
+> gMCP(graph, pvalues=c(0.0, 0.0))
+Error in edgeWeights(graph, node)[[node]] : 
+  attempt to select less than one element
+
 - Description: gACT provides functions to construct, perform and evaluate graph based multiple testing procedures (MCPs) with partial knowledge of the correlation structure between hypotheses.
 - Author information for Florian? <float@lefant.net> etc?
 - 1 Page PDF how to use gMCP, including hint for R installation
