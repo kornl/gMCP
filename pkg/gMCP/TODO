@@ -41,7 +41,7 @@ Medium priority:
 - Update graph2latex to the much better algorithm already implemented in Java.
 - gMCPReport does not work for graphs without layout.
 - call calculateWeightString() when options change
-- Can the NEWS file be opened on Windows machines? 
+- Can the NEWS file be opened on Windows machines? (Open it in JTextArea?)
 - Mac OS seems to have a problem since 0.3-6:
 http://www.r-project.org/nosvn/R.check/r-release-macosx-ix86/gMCP-00check.html
 
@@ -55,7 +55,6 @@ Additional features / low priority:
 - Check whether help files under Windows (and Java 5) open correctly
 - do not show rejected null hypothesis (does this work for reports?)
 - Look at print method for gMCPResult
-- Cleanup Config
 - PNG export cuts perhaps edges. (But already improved!)
 - Speed-up -> Matrices & perhaps ?ReferenceClasses ?
 - Why is the tilde in for example "F.˜Bretz" still shown in the pdf?
@@ -66,7 +65,6 @@ See also http://comments.gmane.org/gmane.comp.lang.r.general/200179
 - Can we add a RUnit Test for Java imports Random Graph and then exports the same graph?
 - Icon for saving graphs? (And do we need this button?)
 - TikZ styles for rejected / rejectable nodes
-- browseURL("http://gsrmtp.r-forge.r-project.org/")
 - LogPanel looks ugly -> bug in afcommons
 - further tests
 - option to load another R graph

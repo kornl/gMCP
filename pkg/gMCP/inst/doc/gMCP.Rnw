@@ -16,10 +16,9 @@
 \newcommand{\commentout}[1]{}
 \begin{document}
 
-% \VignetteIndexEntry{A Graphical Approach to Sequentially Rejective Multiple Test Procedures}
+% \VignetteIndexEntry{A Graphical Approach to Weighted Multiple Test Procedures}
 
-\title{gMCP - an R package for a graphical approach to sequentially
-  rejective multiple test procedures} 
+\title{gMCP - an R package for a graphical approach to weighted multiple test procedures} 
 
 \author{Kornelius Rohmeyer}
 
