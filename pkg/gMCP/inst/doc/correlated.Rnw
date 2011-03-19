@@ -338,7 +338,7 @@ all intersection hypotheses, of which they are a part of, are rejected
 at the overall \al. 
 
 Since the bounds of a testing procedure is independent of the
-observed data \gmcp~ provides a test function for that particular
+observed data \gmcp provides a test function for that particular
 MTP: 
 
 <<>>=
