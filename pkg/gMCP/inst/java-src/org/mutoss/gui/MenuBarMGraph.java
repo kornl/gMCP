@@ -7,6 +7,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.lang.reflect.Method;
+import java.net.URI;
 import java.text.DecimalFormat;
 
 import javax.imageio.ImageIO;
@@ -129,6 +130,18 @@ public class MenuBarMGraph extends JMenuBar implements ActionListener {
         	 control.getMainFrame().dispose();
         } else if (e.getActionCommand().equals("showAppHelp")) {
         	showFile("doc/gMCP.pdf");       	 	
+        } else if (e.getActionCommand().equals("showParametric")) {
+        	showFile("doc/correlated.pdf");       	 	
+        } else if (e.getActionCommand().equals("showManual")) {
+        	try {	
+				Method main = Class.forName("java.awt.Desktop").getDeclaredMethod("getDesktop");
+				Object obj = main.invoke(new Object[0]);
+				Method second = obj.getClass().getDeclaredMethod("browse", new Class[] { URI.class }); 
+				second.invoke(obj, new URI("http://cran.at.r-project.org/web/packages/gMCP/gMCP.pdf"));
+			} catch (Exception exc) {			
+				logger.warn("No Desktop class in Java 5 or URI error.");
+				RControl.getR().eval("browseURL(\"http://cran.at.r-project.org/web/packages/gMCP/gMCP.pdf\")");
+			}
         } else if (e.getActionCommand().equals("showEpsDoc")) {
         	showFile("doc/EpsilonEdges.pdf");       	 	
         } else if (e.getActionCommand().equals("showNEWS")) {
@@ -358,9 +371,12 @@ public class MenuBarMGraph extends JMenuBar implements ActionListener {
     }
     
     private JMenu makeHelpMenu() {
-    	 JMenu menu = new JMenu(localizer.getString("SGTK_MENU_HELP"));
-         menu.add(makeMenuItem(localizer.getString("SGTK_MENU_HELP_ABOUT"), "showAbout"));         
-         menu.add(makeMenuItem(localizer.getString("SGTK_MENU_HELP_JAVA_HELP"), "showAppHelp"));
+    	 JMenu menu = new JMenu("Help");
+         menu.add(makeMenuItem("About", "showAbout"));         
+         menu.add(makeMenuItem("Introduction to gMCP", "showAppHelp"));
+         menu.add(makeMenuItem("Weighted parametric tests defined by graphs", "showParametric"));
+         menu.add(makeMenuItem("gMCP R Online Reference manual", "showManual"));
+         //menu.add(makeMenuItem("Theoretical Background", "showAppHelp"));
          /*menu.addSeparator();
          menu.add(makeMenuItem("Description of Edges with Infinitesimal Small Epsilon Weights", "showEpsDoc"));*/
          menu.addSeparator();
