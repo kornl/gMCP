@@ -27,6 +27,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.mutoss.config.Configuration;
 import org.mutoss.gui.dialogs.NumberOfHypotheses;
+import org.mutoss.gui.dialogs.TextFileViewer;
 import org.mutoss.gui.graph.GraphView;
 import org.mutoss.gui.graph.NetList;
 import org.mutoss.gui.options.OptionsDialog;
@@ -145,7 +146,8 @@ public class MenuBarMGraph extends JMenuBar implements ActionListener {
         } else if (e.getActionCommand().equals("showEpsDoc")) {
         	showFile("doc/EpsilonEdges.pdf");       	 	
         } else if (e.getActionCommand().equals("showNEWS")) {
-        	showFile("NEWS");       	 	
+        	new TextFileViewer(control.getMainFrame(), new File(RControl.getR().eval("system.file(\"NEWS\", package=\"gMCP\")").asRChar().getData()[0]));
+        	//showFile("NEWS");       	 	
         } else if (e.getActionCommand().equals("showAbout")) {
         	new AboutDialog(control.getMainFrame());
         } else if (e.getActionCommand().equals("showOptions")) {
@@ -176,9 +178,9 @@ public class MenuBarMGraph extends JMenuBar implements ActionListener {
 					if (OSTools.isWindows()) {
 						Process p;							
 						p = Runtime.getRuntime().exec("rundll32 url.dll,FileProtocolHandler \"" + f.getAbsolutePath()+"\"");
-						if (s.indexOf('.') == -1) {
+						/*if (s.indexOf('.') == -1) {
 							p = Runtime.getRuntime().exec("wordpad \"" + f.getAbsolutePath()+"\"");
-						}						
+						}*/						
 						p.waitFor();
 					} else {
 						JOptionPane.showMessageDialog(control.getMainFrame(), "Please open and read the following file:\n"+f.getAbsolutePath(), "Could not find appropriate viewer", JOptionPane.WARNING_MESSAGE);
