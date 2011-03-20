@@ -64,7 +64,13 @@ public class NetList extends JPanel implements MouseMotionListener, MouseListene
 	}
 
 	public void addDefaultNode(int x, int y) {
-		addNode(new Node(nodes.size() + 1, "H" + (nodes.size() + 1), x, y, vs));		
+		int i = nodes.size() + 1;
+		String name = "H" + i;		
+		while (whichNode(name) != -1) {
+			i = i + 1;
+			name = "H" + i;
+		}
+		addNode(new Node(nodes.size() + 1, name, x, y, vs));		
 	}
 
 	public void addEdge(Edge e) {
@@ -139,10 +145,18 @@ public class NetList extends JPanel implements MouseMotionListener, MouseListene
 		control.buttonStart.setEnabled(true);
 		nodes.add(node);
 		nodes.lastElement().fix = false;	
-		// TODO The next two functions must revalidate the window!
 		control.getPView().addPPanel(node);
 		control.getDataTable().getModel().addRowCol(node.name);
 		calculateSize();
+	}
+
+	public int whichNode(String name) {
+		for (int i=0; i<nodes.size(); i++) {
+			if (nodes.get(i).name.equals(name)) {
+				return i;
+			}
+		}
+		return -1;
 	}
 
 	/**

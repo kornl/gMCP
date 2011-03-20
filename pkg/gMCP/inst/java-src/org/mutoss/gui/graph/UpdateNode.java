@@ -82,9 +82,14 @@ public class UpdateNode extends JDialog implements ActionListener {
 			tf.setBackground(Color.RED);
 			JOptionPane.showMessageDialog(this, "The expression \""+tf.getText()+"\" is not a valid number.", "Not a valid number", JOptionPane.ERROR_MESSAGE);
 		}
-		node.setAlpha(w, null);	
-		node.setName(tfname.getText());
-		netzListe.repaint();
-		dispose();		
+		node.setAlpha(w, null);
+		int which = netzListe.whichNode(tfname.getText());
+		if (which == -1 || netzListe.getKnoten().get(which) == node) {
+			node.setName(tfname.getText());
+			dispose();
+		} else {
+			JOptionPane.showMessageDialog(this, "There is already a node with name \""+tfname.getText()+"\"", "Node name already in use", JOptionPane.ERROR_MESSAGE);
+		}		
+		netzListe.repaint();				
 	}
 }
