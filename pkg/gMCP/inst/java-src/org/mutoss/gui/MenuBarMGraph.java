@@ -47,9 +47,11 @@ public class MenuBarMGraph extends JMenuBar implements ActionListener {
 
 		menu.add(makeMenuItem("New Graph", "new graph"));
 		menu.add(makeMenuItem("Load Graph from file", "load graph"));
+		menu.addSeparator();		
 		menu.add(makeMenuItem("Save Graph to file", "save graph"));		
-		menu.add(makeMenuItem("Save Graph as PNG Image", "save graph image"));
-		menu.add(makeMenuItem("Save Graph as LaTeX File", "save graph latex"));
+		menu.addSeparator();
+		menu.add(makeMenuItem("Export Graph to PNG Image", "save graph image"));
+		menu.add(makeMenuItem("Export Graph to LaTeX File", "save graph latex"));
 		menu.addSeparator();
 		/*menu.add(makeMenuItem("Save LaTeX Report", "save latex report"));
 		menu.add(makeMenuItem("Save PDF Report", "save pdf"));
