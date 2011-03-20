@@ -18,11 +18,7 @@ Error in edgeWeights(graph, node)[[node]] :
 - Option for rounding how many digits we want to see.
 (search for DecimalFormat and replace it with getDecFormat())
 - PPanels will set alpha to the truncated number.
-- What happens if I try to create nodes with the same name? Is Node.nr used for something?
-  (Saving to R returns an error: Ungültiges Objekt der Klasse "graphMCP": FALSE)
-- Even addDefaultNode can add nodes with already existing names.
 - Edge weight from node i to node j: m[i,j] or m[j,i] - please decide.
-- Remember the directory where something is saved
 - Flag 1+epsilon as line sum
 - round adjusted p-Values up
 - standard examples
@@ -41,16 +37,15 @@ Medium priority:
 - call calculateWeightString() when options change
 - Mac OS seems to have a problem since 0.3-6:
 http://www.r-project.org/nosvn/R.check/r-release-macosx-ix86/gMCP-00check.html
-
+- Guide for usage under Mac OS
+- Is Node.nr used for something?
 
 Additional features / low priority:
 ===================================
 
 - Do we really need PolynomF and gtools as dependencies?
-- Guide for usage under Mac OS
 - Don't create global variable like .tmpGraph etc.
-- Check whether help files under Windows (and Java 5) open correctly
-- do not show rejected null hypothesis (does this work for reports?)
+- Report generation in GUI (and respect the option whether to show rejected null hypothesis)
 - Look at print method for gMCPResult
 - PNG export cuts perhaps edges. (But already improved!)
 - Speed-up -> Matrices & perhaps ?ReferenceClasses ?
@@ -59,12 +54,12 @@ Additional features / low priority:
 See also http://comments.gmane.org/gmane.comp.lang.r.general/200179
 - Edge labels should be fixed and placed by user or free and adjust to moving nodes
 - CITATION file? 
-- Can we add a RUnit Test for Java imports Random Graph and then exports the same graph?
+- Can we add a RUnit Test for Java importing Random Graphs and then exporting the same graph?
 - Icon for saving graphs? (And do we need this button?)
+- option to load another R graph
 - TikZ styles for rejected / rejectable nodes
 - LogPanel looks ugly -> bug in afcommons
 - further tests
-- option to load another R graph
 
 @Apple - is this a problem?
 
