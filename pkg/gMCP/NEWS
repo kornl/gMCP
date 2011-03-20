@@ -7,7 +7,8 @@ Version 0.4-0
 - graphGUI Parameter grid is now 0 by default. This restores the last used grid value.
 - Fractions instead of decimal numbers are shown in more places.
 - Alpha values can be entered as R expression, e.g. "0.05/7".
-- When the test phase is started in the GUI, you are asked, whether you have (partial) knowledge about the correlations between the tests. 
+- When the test phase is started in the GUI, you are asked, whether you have (partial) knowledge about the correlations between the tests.
+- Better support for more than one GUI window in the same R session. 
 
 Version 0.3-6 (15-Mar-2011)
 =============

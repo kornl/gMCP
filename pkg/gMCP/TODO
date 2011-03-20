@@ -5,9 +5,7 @@ High priority:
 > gMCP(graph, pvalues=c(0.0, 0.0))
 Error in edgeWeights(graph, node)[[node]] : 
   attempt to select less than one element
-
-- Description: gACT provides functions to construct, perform and evaluate graph based multiple testing procedures (MCPs) with partial knowledge of the correlation structure between hypotheses.
-- Author information for Florian? <float@lefant.net> etc?
+  
 - 1 Page PDF how to use gMCP, including hint for R installation
 - press e for epsilon, or 1+e+e^2
 - people want to allow alpha = 1 and interpret it as weight, which causes problems
@@ -41,7 +39,6 @@ Medium priority:
 - Update graph2latex to the much better algorithm already implemented in Java.
 - gMCPReport does not work for graphs without layout.
 - call calculateWeightString() when options change
-- Can the NEWS file be opened on Windows machines? (Open it in JTextArea?)
 - Mac OS seems to have a problem since 0.3-6:
 http://www.r-project.org/nosvn/R.check/r-release-macosx-ix86/gMCP-00check.html
 
