@@ -50,7 +50,6 @@ Additional features / low priority:
 - Look at print method for gMCPResult
 - PNG export cuts perhaps edges. (But already improved!)
 - Speed-up -> Matrices & perhaps ?ReferenceClasses ?
-- Why is the tilde in for example "F.˜Bretz" still shown in the pdf?
 - Package highlight is cool - but how can I tell r-forge or CRAN to use it?
 See also http://comments.gmane.org/gmane.comp.lang.r.general/200179
 - Edge labels should be fixed and placed by user or free and adjust to moving nodes
