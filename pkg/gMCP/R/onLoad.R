@@ -1,7 +1,7 @@
 .onLoad <- function(libname, pkgname) {
 	.jpackage(pkgname)
 	# Does this work?
-    classes <- system.file("jri", package = "rJava", lib.loc = NULL)
+	classes <- system.file("jri", package = "rJava", lib.loc = NULL)
 	if (nchar(classes)) {
 		.jaddClassPath(classes)
 		jars <- grep(".*\\.jar", list.files(classes, full.names = TRUE), TRUE, value = TRUE)

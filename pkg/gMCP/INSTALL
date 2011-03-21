@@ -1,6 +1,9 @@
-The installation of gMCP via install.packages("gMCP") should be unproblematic.
+The installation of gMCP via install.packages("gMCP") should be unproblematic for Linux and Windows users.
+However two of the packages gMCP depends on or suggests can be tricky to install on non-windows machines. 
 
-However some of the packages gMCP depends on or suggests can be tricky to install on non-windows machines.
+If you use a Mac please use 
+install.packages("gMCP", repos="http://R-Forge.R-project.org")
+since there is an error for the Mac version of gMCP on CRAN since 3.6-0.
 
 rJava:
 ======
