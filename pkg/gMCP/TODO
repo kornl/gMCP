@@ -6,6 +6,7 @@ High priority:
 Error in edgeWeights(graph, node)[[node]] : 
   attempt to select less than one element
   
+- test versions: graph (>= 1.20), gtools (>= 2.5.0) [ was : rJava (>= 0.8-3), graph (>= 1.26), gtools (>= 2.6.1) ]
 - 1 Page PDF how to use gMCP, including hint for R installation
 - press e for epsilon, or 1+e+e^2
 - people want to allow alpha = 1 and interpret it as weight, which causes problems
