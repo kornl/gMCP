@@ -41,8 +41,6 @@ Medium priority:
 - Update graph2latex to the much better algorithm already implemented in Java.
 - gMCPReport does not work for graphs without layout.
 - call calculateWeightString() when options change
-- Mac OS seems to have a problem since 0.3-6:
-http://www.r-project.org/nosvn/R.check/r-release-macosx-ix86/gMCP-00check.html
 - Guide for usage under Mac OS
 - Is Node.nr used for something?
 
