@@ -12,7 +12,8 @@
 	}
 	
 	# If we have a rJava version < 0.8-3 load JRIEngine.jar and REngine.jar
-	if (sessionInfo()$otherPkgs$rJava$Version<"0.8-3") {
+	#if (installed.packages()['rJava','Version']<"0.8-3")  {
+        if (!is.null(sessionInfo()$otherPkgs$rJava$Version) && sessionInfo()$otherPkgs$rJava$Version < "0.8-3") {
 		classes <- system.file("R28", package = "gMCP", lib.loc = NULL)
 		if (nchar(classes)) {
 			.jaddClassPath(classes)
