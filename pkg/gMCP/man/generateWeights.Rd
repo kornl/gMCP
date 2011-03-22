@@ -2,7 +2,6 @@
 \alias{generateWeights}
 \title{
   generateWeights
-  %%  ~~function to do ... ~~
 }
 \description{
 compute Weights for each intersection Hypotheses in the closure of a

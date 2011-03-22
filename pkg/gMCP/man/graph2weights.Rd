@@ -2,7 +2,6 @@
 \alias{graph2weights}
 \title{
   graph2weights
-  %%  ~~function to do ... ~~
 }
 \description{
 extract local alpha levels from \code{\link{graphMCP}} class type graphs
