@@ -11,6 +11,7 @@ import java.util.Vector;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JTextField;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -27,7 +28,10 @@ public class PView extends JPanel {
 	private Vector<PPanel> panels = new Vector<PPanel>();
 	CellConstraints cc = new CellConstraints();	
 	//JPanel panel = new JPanel();
-	JLabel label = new JLabel("Total α: "+0);
+	JLabel label = new JLabel("");
+	JLabel weightLabel = new JLabel("Weight");
+	JLabel alphaLabel = new JLabel("Total α: ");
+	JTextField totalAlpha = new JTextField("0.05");
 	GridBagConstraints c = new GridBagConstraints();
 	
 	public PView() {  
@@ -79,7 +83,7 @@ public class PView extends JPanel {
 		JPanel panel = new JPanel();
 		
 		String cols = "5dlu, fill:pref:grow, 5dlu, fill:pref:grow, 5dlu, fill:pref:grow, 5dlu, fill:pref:grow, 5dlu";
-        String rows = "5dlu, pref, 5dlu, pref, 5dlu";
+        String rows = "5dlu, pref, 5dlu, pref, 5dlu, pref, 5dlu";
         for (PPanel p : panels) {
         	rows += ", pref, 5dlu";
         }
@@ -89,7 +93,7 @@ public class PView extends JPanel {
 		
     	panel.add(new JLabel("Hypothesis"), cc.xy(2, 2));
     	
-    	panel.add(new JLabel("α Level"), cc.xy(4, 2));
+    	panel.add(weightLabel, cc.xy(4, 2));
     	//panel.add(new JLabel("Signif. Level"), cc.xy(4, 2));
 
     	panel.add(new JLabel("P-Value"), cc.xy(6, 2));
@@ -104,6 +108,10 @@ public class PView extends JPanel {
 			row += 2;
 		}
 		panel.add(label,cc.xyw(2, row, 7));
+		row += 2;
+		panel.add(alphaLabel, cc.xy(2, row));    	
+    	panel.add(totalAlpha, cc.xy(4, row));
+		
 		panel.revalidate();
 		removeAll();
 		add(new JScrollPane(panel), c);
@@ -116,10 +124,10 @@ public class PView extends JPanel {
 				alpha += p.w;
 			}
 		}
-		String text = "Total α: "+Configuration.getInstance().getGeneralConfig().getDecFormat().format(alpha);
-		if (alpha>=1) {
+		String text = "Sum of weights: "+Configuration.getInstance().getGeneralConfig().getDecFormat().format(alpha);
+		if (alpha>1) {
 			label.setForeground(Color.RED);
-			text += "; The total α is greater or equal 1!";
+			text += "; The total weight is greater 1!";
 		} else {
 			label.setForeground(Color.BLACK);
 		}
@@ -156,7 +164,13 @@ public class PView extends JPanel {
 	public void setTesting(boolean b) {
 		PPanel.setTesting(b);
 		for (PPanel p : panels) {
-			p.keyTyped(null);
+			p.updateMe();
+		}
+		totalAlpha.setEditable(!b);
+		if (b) {
+			weightLabel.setText("α Level");
+		} else {
+			weightLabel.setText("Weight");
 		}
 	}
 
@@ -176,6 +190,10 @@ public class PView extends JPanel {
 			}
 		}
 		throw new RuntimeException("Something happend that should never happen. Please report!");
+	}
+
+	public double getTotalAlpha() {
+		return Double.parseDouble(totalAlpha.getText());
 	}
 	
 }

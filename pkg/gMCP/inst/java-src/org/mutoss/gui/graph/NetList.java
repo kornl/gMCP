@@ -70,7 +70,7 @@ public class NetList extends JPanel implements MouseMotionListener, MouseListene
 			i = i + 1;
 			name = "H" + i;
 		}
-		addNode(new Node(nodes.size() + 1, name, x, y, vs));		
+		addNode(new Node(name, x, y, 0d, vs));		
 	}
 
 	public void addEdge(Edge e) {
@@ -279,21 +279,6 @@ public class NetList extends JPanel implements MouseMotionListener, MouseListene
 		}
 		latex += "\\end{tikzpicture}\n\n";
 		return latex;
-	}
-	
-	/**
-	 * Liefert die interne Nummer des Knoten mit der ID id
-	 * 
-	 * @param id
-	 *            ID des gesuchten Knotens
-	 */
-
-	public int getNodeNr(int id) throws Exception {
-		for (int j = 0; j < nodes.size(); j++) {
-			if (nodes.get(j).nr == id)
-				return j;
-		}
-		throw new Exception();
 	}
 	
 	public void mouseDragged(MouseEvent e) {

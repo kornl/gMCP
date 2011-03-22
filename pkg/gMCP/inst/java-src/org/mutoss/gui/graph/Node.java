@@ -12,18 +12,19 @@ import java.text.DecimalFormat;
 import java.util.Vector;
 
 import org.mutoss.config.Configuration;
+import org.mutoss.gui.RControl;
 
 public class Node {
 	
 	public Vector<NodeListener> listener = new Vector<NodeListener>(); 
-	public long nr;
 	int x;
 	int y;
 	public String name;
 	boolean fix = false;
 	boolean drag = false;
 	VS vs;
-	public double alpha;
+	private double alpha;
+	private String stringW = "";
 	private Color color = Color.WHITE;
 	boolean rejected = false;
 
@@ -33,25 +34,15 @@ public class Node {
 		r = radius;
 	}
 
-	public Node(int nr, String name, int x, int y, VS vs) {
-		this.nr = nr;
-		this.name = name;
-		setX(x);
-		setY(y);
-		this.vs = vs;
-		count++;
-	}
-	
 	static int count = 1;
 
 	public Node(String name, int x, int y, double alpha, VS vs) {
-		this.nr = count;
 		count++;
 		this.name = name;
 		setX(x);
 		setY(y);		
 		this.vs = vs;
-		this.alpha = alpha;
+		setAlpha(alpha, null);
 	}
 	
 	public int getX() {
@@ -111,7 +102,7 @@ public class Node {
 	DecimalFormat format = new DecimalFormat("#.###");
 	
 	private String getWS() {		
-		return format.format(alpha);
+		return stringW;
 	}
 
 	public static int getRadius() {
@@ -130,6 +121,11 @@ public class Node {
 
 	public void setAlpha(double w, NodeListener me) {
 		this.alpha = w;	
+		if (!Configuration.getInstance().getGeneralConfig().showFractions()) {
+			stringW = format.format(w);
+		} else {
+			stringW = RControl.getFraction(w);
+		}
 		for (NodeListener l : listener) {
 			if (me!=l) {
 				l.updated(this);

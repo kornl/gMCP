@@ -68,7 +68,29 @@ public class RControl {
 	}
 	
 	public static String getFraction(Double d) {
-		return  RControl.getR().eval("as.character(fractions("+d+"))").asRChar().getData()[0];
+		return RControl.getR().eval("as.character(fractions("+d+"))").asRChar().getData()[0];		
+	}
+	
+	public static String getFraction(Double d, boolean useUnicode) {
+		String f = getFraction(d);
+		if (!useUnicode) { return f; }
+		if (f.equals("1/2")) return("½");
+		if (f.equals("1/3")) return("⅓");
+		if (f.equals("2/3")) return("⅔");
+		if (f.equals("1/4")) return("¼");
+		if (f.equals("3/4")) return("¾");
+		/* The following do often not work:
+		if (f.equals("1/5")) return("⅕");
+		if (f.equals("2/5")) return("⅖");
+		if (f.equals("3/5")) return("⅗");
+		if (f.equals("4/5")) return("⅘");
+		if (f.equals("1/6")) return("⅙");
+		if (f.equals("5/6")) return("⅚");
+		if (f.equals("1/8")) return("⅛");
+		if (f.equals("3/8")) return("⅜");
+		if (f.equals("5/8")) return("⅝");
+		if (f.equals("7/8")) return("⅞");*/
+		return f;
 	}
 
 }

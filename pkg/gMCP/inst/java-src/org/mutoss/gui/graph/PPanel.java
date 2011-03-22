@@ -57,7 +57,7 @@ public class PPanel implements ActionListener, KeyListener, NodeListener, FocusL
         
         label = new JLabel(name);
 		
-		wTF = new JTextField(/*RControl.getFraction*/format.format(w), 7);
+		wTF = new JTextField(RControl.getFraction(w), 7);
 		wTF.addActionListener(this);
 		wTF.addFocusListener(this);
 		wTF.addKeyListener(this);
@@ -72,7 +72,7 @@ public class PPanel implements ActionListener, KeyListener, NodeListener, FocusL
 		if (node.isRejected()) {
 			reject();
 		} else {
-			keyTyped(null);
+			updateMe();
 		}		
 	}
 
@@ -81,7 +81,7 @@ public class PPanel implements ActionListener, KeyListener, NodeListener, FocusL
 			reject();
 			updateGraph();
 		} else {
-			keyTyped(null);
+			updateMe();
 		}
 	}
 
@@ -120,6 +120,11 @@ public class PPanel implements ActionListener, KeyListener, NodeListener, FocusL
 		}
 		node.setAlpha(w, this);
 		//logger.info("P: "+p+", W: "+w);
+		updateMe();
+	}
+
+	void updateMe() {
+		wTF.setText(getWString());
 		if (p<=w) {
 			node.setColor(new Color(50, 255, 50));
 			wTF.setBackground(new Color(50, 255, 50));
@@ -147,10 +152,10 @@ public class PPanel implements ActionListener, KeyListener, NodeListener, FocusL
 		DecimalFormat format = Configuration.getInstance().getGeneralConfig().getDecFormat();
 		this.name = node.name;
 		this.w = node.getAlpha();
-		wTF.setText(format.format(w).replace(",", "."));		
+		wTF.setText(getWString());		
 		pTF.setText(format.format(p).replace(",", "."));
 		if (!rejected) {
-			keyTyped(null);
+			updateMe();
 		}
 	}
 
@@ -158,9 +163,17 @@ public class PPanel implements ActionListener, KeyListener, NodeListener, FocusL
 		DecimalFormat format = Configuration.getInstance().getGeneralConfig().getDecFormat();
 		this.name = node.name;
 		this.w = node.getAlpha();
-		wTF.setText(format.format(w).replace(",", "."));		
+		wTF.setText(getWString());		
 		pTF.setText(format.format(p).replace(",", "."));	
 		pview.updateLabels();
+	}
+
+	private String getWString() {	
+		if (testing) {
+			return format.format(w*pview.getTotalAlpha()).replace(",", ".");
+		} else {
+			return RControl.getFraction(w);
+		}
 	}
 
 	public double getP() {		
@@ -179,14 +192,12 @@ public class PPanel implements ActionListener, KeyListener, NodeListener, FocusL
 	}
 
 	@Override
-	public void focusGained(FocusEvent e) {
-		
-	}
+	public void focusGained(FocusEvent e) {	}
 
 	@Override
 	public void focusLost(FocusEvent e) {
-		if (e.getSource()==wTF) {
-			wTF.setText(/*RControl.getFraction*/format.format(w));
+		if (e.getSource()==wTF && !testing) {
+			wTF.setText(RControl.getFraction(w));
 		}
 	}	
 	
