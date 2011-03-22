@@ -8,7 +8,7 @@
 	Creates a graph of class \code{\link{graphMCP}} from a given adjacency matrix or vice versa.
 }
 \usage{
-	matrix2graph(m, alpha=rep(0,dim(m)[1])) 
+	matrix2graph(m, weights=rep(1/dim(m)[1],dim(m)[1])) 
 	graph2matrix(graph) 
 }
 
@@ -16,8 +16,8 @@
   \item{m}{
 	An adjacency matrix.
   }
-  \item{alpha}{
-  	A numeric for the initial allocation of the significance level alpha to the individual hypotheses.
+  \item{weights}{
+  	A numeric for the initial weights.
   }  
   \item{graph}{
 	A graph of class \code{\link{graphMCP}}.

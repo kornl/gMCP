@@ -1,5 +1,5 @@
-createBonferroniHolmGraph <- function(n, alpha=0.05) {
-	alpha <- rep(alpha/n, n)
+createBonferroniHolmGraph <- function(n) {
+	alpha <- rep(1/n, n)
 	hnodes <- paste("H", 1:n, sep="")
 	edges <- vector("list", length=n)
 	for(i in 1:n) {
@@ -27,9 +27,9 @@ createBonferroniHolmGraph <- function(n, alpha=0.05) {
 	return(BonferroniHolmGraph)
 }
 
-createGraphFromBretzEtAl <- function(alpha=0.025) {
+createGraphFromBretzEtAl <- function() {
 	# Nodes:
-	alpha <- rep(c(alpha/3,0), each=3)	
+	alpha <- rep(c(1/3,0), each=3)	
 	hnodes <- paste("H", rep(1:3, 2), rep(1:2, each=3), sep="")
 	# Edges:
 	edges <- vector("list", length=6)
@@ -69,9 +69,9 @@ createGraphFromBretzEtAl <- function(alpha=0.025) {
 }
 
 
-createGraphFromHommelEtAl <- function(alpha=0.025) {
+createGraphFromHommelEtAl <- function() {
 	# Nodes:
-	alpha <- c(rep(alpha/3, 3), rep(0,4))	
+	alpha <- c(rep(1/3, 3), rep(0,4))	
 	hnodes <- c("E1", "QoL", "E2", "D1", "D2", "D3", "D4")
 	# Edges:
 	edges <- vector("list", length=7)
@@ -105,9 +105,9 @@ createGraphFromHommelEtAl <- function(alpha=0.025) {
 	return(graph)	
 }
 
-createGraphForParallelGatekeeping <- function(alpha=0.05) {
+createGraphForParallelGatekeeping <- function() {
 	# Nodes:
-	alpha <- rep(c(alpha/2,0), each=2)	
+	alpha <- rep(c(1/2,0), each=2)	
 	hnodes <- paste("H", 1:4, sep="")
 	# Edges:
 	edges <- vector("list", length=4)
@@ -133,7 +133,7 @@ createGraphForParallelGatekeeping <- function(alpha=0.05) {
 }
 
 
-createGraphForImprovedParallelGatekeeping <- function(alpha=0.05) {
+createGraphForImprovedParallelGatekeeping <- function() {
 	graph <- createGraphForParallelGatekeeping()
 	graph <- addEdge("H3", "H1", graph, 0)
 	graph <- addEdge("H4", "H2", graph, 0)

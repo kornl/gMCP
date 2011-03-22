@@ -8,7 +8,7 @@
 	Performs a sequentially rejective multiple test procedure on a graph given unadjusted p-values.
 }
 \usage{
-	gMCP(graph, pvalues, test, correlation, ..., verbose=FALSE)
+	gMCP(graph, pvalues, test, correlation, alpha=0.05, ..., verbose=FALSE)
 }
 
 \arguments{
@@ -23,7 +23,10 @@
   } 
   \item{correlation}{
   	Correlation matrix, if the tests are correlated. Also valid are strings like \code{"Dunnett"}.
-  }  
+  } 
+  \item{alpha}{
+  	A numeric specifying the maximal allowed type one error rate.
+  }   
   \item{...}{
   	Test specific arguments can be given here.
   }   

@@ -14,26 +14,23 @@
 	You can look at the function body with \code{\link{body}} and see how the graph is built.
 }
 \usage{
-	createBonferroniHolmGraph(n, alpha=0.05)
-	createGraphFromBretzEtAl(alpha=0.025)
-	createGraphFromHommelEtAl(alpha=0.025)
-	createGraphForParallelGatekeeping(alpha=0.05)
-	createGraphForImprovedParallelGatekeeping(alpha=0.05)
+	createBonferroniHolmGraph(n)
+	createGraphFromBretzEtAl()
+	createGraphFromHommelEtAl()
+	createGraphForParallelGatekeeping()
+	createGraphForImprovedParallelGatekeeping()
 }
 
 \arguments{
   \item{n}{
 	Number of hypotheses.
   }
-  \item{alpha}{
-  	Overall type I error rate alpha.
-  }
 }
 \details{
   \describe{
 	\item{\code{createBonferroniHolmGraph}}{
 		Returns a graph that represents a Bonferroni-Holm adjustment.
-		The result is a complete graph, where the alpha is split equally between all hypotheses and each edge weight is \eqn{\frac{1}{n-1}}{1/(n-1)}.
+		The result is a complete graph, where all nodes have the same weights and each edge weight is \eqn{\frac{1}{n-1}}{1/(n-1)}.
 	}
 	\item{\code{createGraphFromBretzEtAl}}{
 		Example graph from Bretz et al. See references (Bretz et al. 2009).

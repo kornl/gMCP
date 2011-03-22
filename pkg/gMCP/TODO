@@ -22,6 +22,7 @@ Error in edgeWeights(graph, node)[[node]] :
 - Flag 1+epsilon as line sum
 - round adjusted p-Values up
 - standard examples
+- Think about "-Xrs" - see paragraph below.
 
 Medium priority:
 ================
@@ -35,8 +36,7 @@ Medium priority:
 - Update graph2latex to the much better algorithm already implemented in Java.
 - gMCPReport does not work for graphs without layout.
 - call calculateWeightString() when options change
-- Guide for usage under Mac OS
-- Is Node.nr used for something?
+- Guide for usage under MacOS
 
 Additional features / low priority:
 ===================================

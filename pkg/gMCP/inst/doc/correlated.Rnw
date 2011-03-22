@@ -263,7 +263,7 @@ Conversely graphs defined as matrices can also be converted to
 \texttt{graphMCP} objects.
 
 <<eval=F>>=
-G <- matrix2graph(Gm,alpha=.025*w)
+G <- matrix2graph(Gm,weights=w)
 graphGUI(G)
 @ 
 
@@ -271,7 +271,7 @@ graphGUI(G)
   \centering
   \includegraphics[width=.95\textwidth]{pictures/example.png}
   
-  \caption{Screenshot of \gmcp~ GUI }
+  \caption{Screenshot of \gmcp GUI }
 \label{fig:gui}
 \end{figure}
 
@@ -391,7 +391,7 @@ procedure rejects. For Example 1 this amounts to the call:
 
 <<>>=
 p <- 1-pnorm(c(2.24,2.24,2.24,2.3))
-G <- matrix2graph(Gm,w*.025)
+G <- matrix2graph(Gm,w)
 gMCP(G,p)
 @ 
 

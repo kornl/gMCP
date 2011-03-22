@@ -1,4 +1,4 @@
-gMCP <- function(graph, pvalues, test, correlation, ..., verbose=FALSE) {
+gMCP <- function(graph, pvalues, test, correlation, alpha=0.05, ..., verbose=FALSE) {
 	if (length(pvalues)!=length(nodes(graph))) {
 		stop("Length of pvalues must equal number of nodes.")
 	}
@@ -7,7 +7,7 @@ gMCP <- function(graph, pvalues, test, correlation, ..., verbose=FALSE) {
 	}
 	if (missing(test) && missing(correlation)) {
 		sequence <- list(graph)
-		while(!is.null(node <- getRejectableNode(graph, pvalues))) {
+		while(!is.null(node <- getRejectableNode(graph, alpha, pvalues))) {
 			if (verbose) cat(paste("Node \"",node,"\" can be rejected.\n",sep=""))
 			graph <- rejectNode(graph, node, verbose)
 			sequence <- c(sequence, graph)
@@ -26,7 +26,7 @@ gMCP <- function(graph, pvalues, test, correlation, ..., verbose=FALSE) {
 			}
 			Gm <- graph2matrix(graph)
 			w <- graph2weights(graph)
-			myTest <- generateTest(Gm, w, correlation, sum(getAlpha(graph)))
+			myTest <- generateTest(Gm, w, correlation, alpha)
 			zScores <- -qnorm(pvalues)
 			rejected <- myTest(zScores)
 			names(rejected) <- nodes(graph)
@@ -149,8 +149,8 @@ rejectNode <- function(graph, node, verbose=FALSE) {
 	return(graph)
 }
 
-getRejectableNode <- function(graph, pvalues) {
-	x <- getAlpha(graph)/pvalues
+getRejectableNode <- function(graph, alpha, pvalues) {
+	x <- getAlpha(graph)*alpha/pvalues
 	x[pvalues==0] <- 1
 	x[unlist(nodeData(graph, nodes(graph), "rejected"))] <- NaN
 	i <- which.max(x)

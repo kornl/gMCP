@@ -1,4 +1,4 @@
-graph2latex <- function(graph, package="TikZ", scale=1, pvalues,
+graph2latex <- function(graph, package="TikZ", scale=1, alpha=0.05, pvalues,
 		fontsize=c("tiny","scriptsize", "footnotesize", "small",
 		"normalsize", "large", "Large", "LARGE", "huge", "Huge")) {
 	tikz <- paste("\\begin{tikzpicture}[scale=",scale,"]", sep="")	
@@ -8,14 +8,14 @@ graph2latex <- function(graph, package="TikZ", scale=1, pvalues,
 		x <- nodeRenderInfo(graph)$nodeX[node]*scale
 		y <- nodeRenderInfo(graph)$nodeY[node]*scale
 		#alpha <- format(getAlpha(graph,node), digits=3, drop0trailing=TRUE)
-		alpha <- getLaTeXFraction(getAlpha(graph,node)/sum(getAlpha(graph)))
-		if (alpha != "0") alpha <- paste(alpha, "\\alpha", sep="")
+		weight <- getLaTeXFraction(getAlpha(graph,node))
+		if (weight != "0") weight <- paste(weight, "\\alpha", sep="")
 		double <- ""
 		if (!missing(pvalues)) {
 			if (is.null(names(pvalues))) {
 				names(pvalues) <- nodes(graph)
 			}
-			if (canBeRejected(graph, node, pvalues)) { double <- "double," }
+			if (canBeRejected(graph, node, alpha, pvalues)) { double <- "double," }
 		}		
 		nodeLine <- paste("\\node (",node,") at (",x,"bp,",-y,"bp) [draw,circle split,",double,"fill=",nodeColor,"] {$",node,"$ \\nodepart{lower} $",alpha,"$};",sep="")
 		tikz <- paste(tikz, nodeLine,sep="\n")			

@@ -125,8 +125,8 @@ setMethod("getY", c("graphMCP"), function(graph, node) {
 			return(y)
 		})
 
-canBeRejected <- function(graph, node, pvalues) {	
-	return(getAlpha(graph)[[node]]>pvalues[[node]] | (all.equal(getAlpha(graph)[[node]],pvalues[[node]])[1]==TRUE));
+canBeRejected <- function(graph, node, alpha, pvalues) {	
+	return(getAlpha(graph)[[node]]*alpha>pvalues[[node]] | (all.equal(getAlpha(graph)[[node]]*alpha,pvalues[[node]])[1]==TRUE));
 }
 
 setMethod("print", "graphMCP",
@@ -158,7 +158,6 @@ setMethod("show", "graphMCP",
 			cat("\n")
 		}
 )
-
 
 setMethod("plot", "graphMCP",
 		function(x, y, ...) {

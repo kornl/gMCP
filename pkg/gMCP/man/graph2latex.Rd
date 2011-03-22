@@ -8,7 +8,7 @@
 	Creates LaTeX code that represents the given graph.
 }
 \usage{
-	graph2latex(graph, package="TikZ", scale=1, pvalues,
+	graph2latex(graph, package="TikZ", scale=1, alpha=0.05, pvalues,
 	fontsize=c("tiny","scriptsize", "footnotesize", "small",
 		"normalsize", "large", "Large", "LARGE", "huge", "Huge"))
 }
@@ -24,6 +24,9 @@
   \item{scale}{
   	A numeric scalar specifying a possible scaling of the graph. Note that this does not effect the fontsize of the graph.
   	(Coordinates are interpreted in big points - 72 bp = 1 inch).
+  }
+  \item{alpha}{
+  	An optional numeric argument to specify the type I error rate. 
   }
   \item{pvalues}{
   	If the optional numeric argument pvalues is given, nodes that can be rejected, will be marked. 
