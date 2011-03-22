@@ -1,4 +1,5 @@
 .onLoad <- function(libname, pkgname) {
+	.jinit(parameters="-Xrs")
 	.jpackage(pkgname)
 
 	classes <- system.file("jri", package = "rJava", lib.loc = NULL)

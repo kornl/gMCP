@@ -1,4 +1,9 @@
-Version 0.4-0
+Version 0.4-1
+=============
+- Backward compatibility for R 2.8.0 and rJava 0.6-3.
+- CTRL+C interrupts only the last R command and does not close the whole R session.
+
+Version 0.4-0 (21-Mar-2011)
 =============
 - Added code for graph based MCPs with partial knowledge of the correlation structure from Florian Klinglmueller, who is now coauthor.
 - New dependencies in this code: gtools and multcomp (and therefore also mvtnorm)
