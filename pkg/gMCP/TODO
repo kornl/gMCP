@@ -6,12 +6,6 @@ High priority:
 Error in edgeWeights(graph, node)[[node]] : 
   attempt to select less than one element
   
-> library(rJava)
-> .jinit()
-> replicate(1000000,rnorm(1))
-^C
-Java requested System.exit(130), closing R.
-
 - 1 Page PDF how to use gMCP, including hint for R installation
 - press e for epsilon, or 1+e+e^2
 - people want to allow alpha = 1 and interpret it as weight, which causes problems
@@ -97,6 +91,30 @@ $H2
 numeric(0)
 
 In my understanding this should be "H2" instead of "H2.H1" like it would be when H2 has any outgoing edges.
+
+rJava: We had the following problem:
+
+> library(rJava)
+> .jinit()
+> replicate(1000000,rnorm(1))
+^C
+Java requested System.exit(130), closing R.
+
+We solved it by calling .jinit(parameters="-Xrs")
+
+Does this have side effects?
+
+From http://download.oracle.com/javase/1.3/docs/tooldocs/solaris/java.html :
+
+-Xrs
+    Reduces use of operating-system signals by the Java virtual machine (JVM). This option is available beginning with J2SE 1.3.1.
+    In J2SE 1.3.0, the Shutdown Hooks facility was added to allow orderly shutdown of a Java application. The intent was to allow user cleanup code (such as closing database connections) to run at shutdown, even if the JVM terminates abruptly.
+    Sun's JVM catches signals to implement shutdown hooks for abnormal JVM termination. The JVM uses SIGHUP, SIGINT, and SIGTERM to initiate the running of shutdown hooks.
+    The JVM uses a similar mechanism to implement the pre-1.2 feature of dumping thread stacks for debugging purposes. Sun's JVM uses SIGQUIT to perform thread dumps.
+    Applications embedding the JVM frequently need to trap signals like SIGINT or SIGTERM, which can lead to interference with the JVM's own signal handlers. To address this issue, the -Xrs command-line option has been added beginning in J2SE 1.3.1. When -Xrs is used on Sun's JVM, the signal masks for SIGINT, SIGTERM, SIGHUP, and SIGQUIT are not changed by the JVM, and signal handlers for these signals are not installed.
+    There are two consequences of specifying -Xrs:
+        * SIGQUIT thread dumps are not available.
+        * User code is responsible for causing shutdown hooks to run, for example by calling System.exit() when the JVM is to be terminated. 
 
 As always:
 ==========
