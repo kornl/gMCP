@@ -29,7 +29,7 @@ This can be done directly via the \code{\link{new}} method or a graphical user i
 
 }
 \author{
-%Kornelius Rohmeyer 
+Kornelius Rohmeyer, R code for correlated tests from Florian Klinglmueller
 
 Maintainer: Kornelius Rohmeyer \email{rohmeyer@small-projects.de}
 }
