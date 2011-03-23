@@ -9,6 +9,7 @@ Version 0.5-0
 - Backward compatibility for R 2.8.0 and rJava 0.6-3.
 - CTRL+C interrupts only the last R command and does not close the whole R session.
 - CRAN has disabled checks on arch="ppc", so MacOS builds are (hopefully) again available from CRAN.
+- Bug report sends now also the result from traceback()
 - Please note that full epsilon support is postponed for version 0.6-0 
 
 Version 0.4-0 (21-Mar-2011)

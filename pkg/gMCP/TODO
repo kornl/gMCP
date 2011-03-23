@@ -12,9 +12,6 @@ Error in edgeWeights(graph, node)[[node]] :
  (without using a small value for epsilon like 10^{-6} 
   - that does work already if we ignore rounding problems).
 - confidence intervals are strange...
-- Option for rounding how many digits we want to see.
-(search for DecimalFormat and replace it with getDecFormat())
-- PPanels will set alpha to the truncated number.
 - Edge weight from node i to node j: m[i,j] or m[j,i] - please decide.
 - Flag 1+epsilon as line sum
 - round adjusted p-Values up
@@ -30,6 +27,8 @@ Medium priority:
 - gMCPReport does not work for graphs without layout.
 - call calculateWeightString() when options change
 - Guide for usage under MacOS
+- Test the option for rounding how many digits we want to see.
+(search for DecimalFormat and replace it with getDecFormat())
 
 Additional features / low priority:
 ===================================
@@ -43,7 +42,7 @@ Additional features / low priority:
 - Package highlight is cool - but how can I tell r-forge or CRAN to use it?
 See also http://comments.gmane.org/gmane.comp.lang.r.general/200179
 - Edge labels should be fixed and placed by user or free and adjust to moving nodes
-- CITATION file? 
+- CITATION file? (see mvtnorm)
 - Can we add a RUnit Test for Java importing Random Graphs and then exporting the same graph?
 - Icon for saving graphs? (And do we need this button?)
 - option to load another R graph
