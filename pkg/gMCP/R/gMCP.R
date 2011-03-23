@@ -25,7 +25,7 @@ gMCP <- function(graph, pvalues, test, correlation, alpha=0.05, ..., verbose=FAL
 				correlation <- diag(1/sqrt(diag(var)))%*%var%*%diag(1/sqrt(diag(var)))
 			}
 			Gm <- graph2matrix(graph)
-			w <- graph2weights(graph)
+			w <- getAlpha(graph)
 			myTest <- generateTest(Gm, w, correlation, alpha)
 			zScores <- -qnorm(pvalues)
 			rejected <- myTest(zScores)
