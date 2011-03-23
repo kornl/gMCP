@@ -62,9 +62,9 @@ setMethod("getWeights", c("graphMCP"),
 			return(alpha)
 		})
 
-setGeneric("setAlpha", function(object, node, alpha, ...) standardGeneric("setAlpha"))
+setGeneric("setWeights", function(object, node, alpha, ...) standardGeneric("setWeights"))
 
-setMethod("setAlpha", c("graphMCP"),
+setMethod("setWeights", c("graphMCP"),
 		function(object, node, alpha, ...) {
 			if (missing(node)) {
 				node <- nodes(object)

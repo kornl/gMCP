@@ -6,8 +6,8 @@
 \alias{plot,graphMCP-method}
 \alias{getWeights}
 \alias{getWeights,graphMCP-method}
-\alias{setAlpha}
-\alias{setAlpha,graphMCP-method}
+\alias{setWeights}
+\alias{setWeights,graphMCP-method}
 \alias{getRejected}
 \alias{getRejected,graphMCP-method}
 \alias{getXCoordinates}
@@ -45,7 +45,7 @@ Class \code{graph}, by class \code{graphNEL}, distance 2.
     \item{getWeights}{\code{signature(object = "graphMCP")}: A method for
       getting the allocation of the significance level alpha.
       If a second optional argument \code{node} is specified, only for these nodes the alpha level will be returned.}
-    \item{setAlpha}{\code{signature(object = "graphMCP")}: A method for
+    \item{setWeights}{\code{signature(object = "graphMCP")}: A method for
       setting the allocation of the significance level alpha.
       If a second optional argument \code{node} is specified, only for these nodes the alpha level will be set.}
     \item{getRejected}{\code{signature(object = "graphMCP")}: A method for
