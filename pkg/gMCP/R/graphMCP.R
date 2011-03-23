@@ -103,9 +103,9 @@ setMethod("getRejected", c("gMCPResult"), function(object, node, ...) {
 			return(rejected)
 		})
 
-setGeneric("getX", function(graph, node) standardGeneric("getX"))
+setGeneric("getXCoordinates", function(graph, node) standardGeneric("getXCoordinates"))
 
-setMethod("getX", c("graphMCP"), function(graph, node) {
+setMethod("getXCoordinates", c("graphMCP"), function(graph, node) {
 			x <- nodeRenderInfo(graph)$nodeX
 			names(x) <- nodes(graph)
 			if (!missing(node)) {
@@ -114,9 +114,9 @@ setMethod("getX", c("graphMCP"), function(graph, node) {
 			return(x)
 		})
 
-setGeneric("getY", function(graph, node) standardGeneric("getY"))
+setGeneric("getYCoordinates", function(graph, node) standardGeneric("getYCoordinates"))
 
-setMethod("getY", c("graphMCP"), function(graph, node) {
+setMethod("getYCoordinates", c("graphMCP"), function(graph, node) {
 			y <- nodeRenderInfo(graph)$nodeY
 			names(y) <- nodes(graph)
 			if (!missing(node)) {

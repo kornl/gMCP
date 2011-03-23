@@ -10,10 +10,10 @@
 \alias{setAlpha,graphMCP-method}
 \alias{getRejected}
 \alias{getRejected,graphMCP-method}
-\alias{getX}
-\alias{getX,graphMCP-method}
-\alias{getY}
-\alias{getY,graphMCP-method}
+\alias{getXCoordinates}
+\alias{getXCoordinates,graphMCP-method}
+\alias{getYCoordinates}
+\alias{getYCoordinates,graphMCP-method}
 \alias{addEdge}
 \alias{addEdge,graphMCP-method}
 \title{Class graphMCP}
@@ -51,10 +51,10 @@ Class \code{graph}, by class \code{graphNEL}, distance 2.
     \item{getRejected}{\code{signature(object = "graphMCP")}: A method for
       getting the information whether the hypotheses are marked in the graph as already rejected.
       If a second optional argument \code{node} is specified, only for these nodes the boolean vector will be returned.}
-    \item{getX}{\code{signature(object = "graphMCP")}: A method for
+    \item{getXCoordinates}{\code{signature(object = "graphMCP")}: A method for
       getting the x coordinates of the graph.
       If a second optional argument \code{node} is specified, only for these nodes the x coordinates will be returned.}
-    \item{getY}{\code{signature(object = "graphMCP")}: A method for
+    \item{getYCoordinates}{\code{signature(object = "graphMCP")}: A method for
       getting the y coordinates of the graph
       If a second optional argument \code{node} is specified, only for these nodes the x coordinates will be returned.}
     \item{addEdge}{\code{signature(from="character", to="character", graph="graphNEL", weights="numeric")}: A method for
