@@ -29,9 +29,9 @@ public class GraphMCP {
 	public void loadGraph(String name) {
 		if ( RControl.getR().eval("exists(\""+name+"\")").asRLogical().getData()[0] ) {
 			String[] nodes = RControl.getR().eval("nodes("+name+")").asRChar().getData();
-			double[] alpha = RControl.getR().eval("getAlpha("+name+")").asRNumeric().getData();
-			double[] x = RControl.getR().eval("getX("+name+")").asRNumeric().getData();
-			double[] y = RControl.getR().eval("getY("+name+")").asRNumeric().getData();
+			double[] alpha = RControl.getR().eval("getWeights("+name+")").asRNumeric().getData();
+			double[] x = RControl.getR().eval("getXCoordinates("+name+")").asRNumeric().getData();
+			double[] y = RControl.getR().eval("getYCoordinates("+name+")").asRNumeric().getData();
 			boolean[] rejected = RControl.getR().eval("getRejected("+name+")").asRLogical().getData();
 			for (int i=0; i<nodes.length; i++) {
 				logger.debug("Adding node "+nodes[i]+" at ("+x[i]+","+y[i]+").");
