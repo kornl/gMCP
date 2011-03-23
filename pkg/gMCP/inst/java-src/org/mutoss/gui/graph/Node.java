@@ -84,8 +84,7 @@ public class Node {
 				r * 2 * vs.getZoom());
 		g2d.draw(e);
 
-		g2d.setFont(new Font("Arial", Font.PLAIN, (int) (12 * vs
-				.getZoom())));
+		g2d.setFont(new Font("Arial", Font.PLAIN, (int) (12 * vs.getZoom())));
 		FontRenderContext frc = g2d.getFontRenderContext();
 
 		rc = g2d.getFont().getStringBounds(name, frc);

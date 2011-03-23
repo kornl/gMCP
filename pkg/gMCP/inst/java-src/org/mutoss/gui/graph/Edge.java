@@ -25,7 +25,6 @@ public class Edge {
 	Graphics2D g2d;
 	int k1, k2;
 	public Node to;
-
 	public Node from;
 	
 	VS vs;
