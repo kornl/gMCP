@@ -256,7 +256,7 @@ package \gmcp. The weights set for the graph can be extracted function
 
 <<eval=F>>=
 Gm <- graph2matrix(createdGraph)
-w <- getAlpha(createdGraph)
+w <- getWeights(createdGraph)
 @ 
 
 Conversely graphs defined as matrices can also be converted to

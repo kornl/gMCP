@@ -19,7 +19,7 @@ randomMCPGraph <- function(V=letters[1:10], M=1:4, p=0.2) {
 }
 
 isValidGraph <- function(g, alpha=0.05) {
-	if (!all(TRUE==all.equal(sum(getAlpha(g)), alpha))) return(paste("Sum of alpha differs from ",alpha,".",sep=""))
+	if (!all(TRUE==all.equal(sum(getWeights(g)), alpha))) return(paste("Sum of alpha differs from ",alpha,".",sep=""))
 	for (n in nodes(g)) {
 		w <- edgeWeights(g,"d")[[1]]
 		if (!all(TRUE==all.equal(sum(w),0)||TRUE==all.equal(sum(w),1))) return(paste("Sum of edges from node ",n," is ",sum(w),".",sep=""))

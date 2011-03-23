@@ -50,9 +50,9 @@ setMethod("plot", "gMCPResult",
 			# TODO Show visualization of graph			
 		})
 
-setGeneric("getAlpha", function(object, node, ...) standardGeneric("getAlpha"))
+setGeneric("getWeights", function(object, node, ...) standardGeneric("getWeights"))
 
-setMethod("getAlpha", c("graphMCP"),
+setMethod("getWeights", c("graphMCP"),
 		function(object, node, ...) {
 			alpha <- unlist(nodeData(object, nodes(object), "alpha"))
 			names(alpha) <- nodes(object)
@@ -73,7 +73,7 @@ setMethod("setAlpha", c("graphMCP"),
 			return(object)
 		})
 
-setMethod("getAlpha", c("gMCPResult"),
+setMethod("getWeights", c("gMCPResult"),
 		function(object, node, ...) {
 			graph <- object@graphs[[length(object@graphs)]]
 			alpha <- unlist(nodeData(graph, nodes(graph), "alpha"))
@@ -126,7 +126,7 @@ setMethod("getY", c("graphMCP"), function(graph, node) {
 		})
 
 canBeRejected <- function(graph, node, alpha, pvalues) {	
-	return(getAlpha(graph)[[node]]*alpha>pvalues[[node]] | (all.equal(getAlpha(graph)[[node]]*alpha,pvalues[[node]])[1]==TRUE));
+	return(getWeights(graph)[[node]]*alpha>pvalues[[node]] | (all.equal(getWeights(graph)[[node]]*alpha,pvalues[[node]])[1]==TRUE));
 }
 
 setMethod("print", "graphMCP",
@@ -135,14 +135,14 @@ setMethod("print", "graphMCP",
 			#for (node in nodes(x)) {
 			#	cat(paste(node, " (",ifelse(unlist(nodeData(x, node, "rejected")),"rejected","not rejected"),", alpha=",format(unlist(nodeData(x, node, "alpha")), digits=4 ,drop0trailing=TRUE),")\n", sep=""))	
 			#}
-			#cat(paste("alpha=",paste(format(getAlpha(x), digits=4 ,drop0trailing=TRUE),collapse="+"),"=",sum(getAlpha(x)),"\n", sep=""))			
+			#cat(paste("alpha=",paste(format(getWeights(x), digits=4 ,drop0trailing=TRUE),collapse="+"),"=",sum(getWeights(x)),"\n", sep=""))			
 		})
 
 setMethod("show", "graphMCP",
 		function(object) {
 			#callNextMethod(object)
 			cat("A graphMCP graph\n")
-			cat(paste("Overall alpha: ",sum(getAlpha(object)),"\n", sep=""))
+			cat(paste("Overall alpha: ",sum(getWeights(object)),"\n", sep=""))
 			for (node in nodes(object)) {
 				cat(paste(node, " (",ifelse(unlist(nodeData(object, node, "rejected")),"rejected","not rejected"),", alpha=",format(unlist(nodeData(object, node, "alpha")), digits=4 ,drop0trailing=TRUE),")\n", sep=""))	
 			}
@@ -154,7 +154,7 @@ setMethod("show", "graphMCP",
 										" -(",format(unlist(edgeWeights(object)), digits=4 ,drop0trailing=TRUE),")-> ",
 										unlist(edges(object)),sep=""),collapse="\n"))
 			}
-			#cat(paste("\nalpha=",paste(format(getAlpha(object), digits=4 ,drop0trailing=TRUE),collapse="+"),"=",sum(getAlpha(object)),"\n", sep=""))
+			#cat(paste("\nalpha=",paste(format(getWeights(object), digits=4 ,drop0trailing=TRUE),collapse="+"),"=",sum(getWeights(object)),"\n", sep=""))
 			cat("\n")
 		}
 )
@@ -169,9 +169,9 @@ setGeneric("simConfint", function(object, pvalues, confint, alternative=c("less"
 setMethod("simConfint", c("graphMCP"), function(object, pvalues, confint, alternative=c("less", "greater"), estimates, df) {
 			result <- gMCP(object, pvalues)
 			if (all(getRejected(result))) {
-				alpha <- getAlpha(object)				
+				alpha <- getWeights(object)				
 			} else {
-				alpha <- getAlpha(result)				
+				alpha <- getWeights(result)				
 			}
 			if (class(confint)=="function") {
 				m <- mapply(confint, nodes(object), alpha)					

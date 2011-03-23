@@ -25,7 +25,7 @@ gMCP <- function(graph, pvalues, test, correlation, alpha=0.05, ..., verbose=FAL
 				correlation <- diag(1/sqrt(diag(var)))%*%var%*%diag(1/sqrt(diag(var)))
 			}
 			Gm <- graph2matrix(graph)
-			w <- getAlpha(graph)
+			w <- getWeights(graph)
 			myTest <- generateTest(Gm, w, correlation, alpha)
 			zScores <- -qnorm(pvalues)
 			rejected <- myTest(zScores)
@@ -49,7 +49,7 @@ adjPValues <- function(graph, pvalues, verbose=FALSE) {
 	if (is.null(names(pvalues))) {
 		names(pvalues) <- nodes(graph)
 	}
-	if (sum(getAlpha(graph))>0) nodeData(graph, nodes(graph), "alpha") <- getAlpha(graph)/sum(getAlpha(graph))
+	if (sum(getWeights(graph))>0) nodeData(graph, nodes(graph), "alpha") <- getWeights(graph)/sum(getWeights(graph))
 	adjPValues <- rep(0, length(nodes(graph)))
 	names(adjPValues) <- nodes(graph)	
 	J <- nodes(graph)
@@ -57,9 +57,9 @@ adjPValues <- function(graph, pvalues, verbose=FALSE) {
 	sequence <- list(graph)
 	pmax <- 0
 	while(length(J) >= 1) {
-		j <- which.min(pvalues[J]/getAlpha(graph)[J])
+		j <- which.min(pvalues[J]/getWeights(graph)[J])
 		node <- J[j]
-		adjPValues[node] <- max(min(pvalues[node]/getAlpha(graph)[node], 1), pmax)
+		adjPValues[node] <- max(min(pvalues[node]/getWeights(graph)[node], 1), pmax)
 		pmax <- adjPValues[node]
 		if (verbose) cat(paste("We will update the graph with node \"",node,"\".\n",sep=""))
 		graph <- rejectNode(graph, node, verbose)
@@ -150,7 +150,7 @@ rejectNode <- function(graph, node, verbose=FALSE) {
 }
 
 getRejectableNode <- function(graph, alpha, pvalues) {
-	x <- getAlpha(graph)*alpha/pvalues
+	x <- getWeights(graph)*alpha/pvalues
 	x[pvalues==0] <- 1
 	x[unlist(nodeData(graph, nodes(graph), "rejected"))] <- NaN
 	i <- which.max(x)

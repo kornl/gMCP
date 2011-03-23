@@ -20,7 +20,7 @@ test.graphMCP <- function() {
 	
 	bhG5 <- createBonferroniHolmGraph(5)
 	
-	checkEquals(gMCP:::getAlpha(bhG5),
+	checkEquals(gMCP:::getWeights(bhG5),
 				structure(c(0.2, 0.2, 0.2, 0.2, 0.2),
 						.Names = c("H1", "H2", "H3", "H4", "H5")))
 	

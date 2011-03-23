@@ -4,7 +4,7 @@
 \alias{gMCPResult}
 \alias{print,gMCPResult-method}
 \alias{plot,gMCPResult-method}
-\alias{getAlpha,gMCPResult-method}
+\alias{getWeights,gMCPResult-method}
 \alias{getRejected,gMCPResult-method}
 \title{Class gMCPResult}
 \description{A gMCPResult object describes an evaluated sequentially rejective multiple test procedure.}
