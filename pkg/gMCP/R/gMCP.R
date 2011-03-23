@@ -23,13 +23,18 @@ gMCP <- function(graph, pvalues, test, correlation, alpha=0.05, ..., verbose=FAL
 				x <- contrMat(samplesize, type = correlation) # balanced design up to now and only Dunnett will work with n+1
 				var <- x %*% diag(length(samplesize)) %*% t(x)
 				correlation <- diag(1/sqrt(diag(var)))%*%var%*%diag(1/sqrt(diag(var)))
-			}
+			}                       
 			Gm <- graph2matrix(graph)
 			w <- getWeights(graph)
-			myTest <- generateTest(Gm, w, correlation, alpha)
-			zScores <- -qnorm(pvalues)
-			rejected <- myTest(zScores)
-			names(rejected) <- nodes(graph)
+                        if( sum(w>=0)==length(w) && sum(w)==0) {
+                          rejected <- rep(FALSE,length(w))
+                          names(rejected) <- nodes(graph)
+                        } else {
+                          myTest <- generateTest(Gm, w, correlation, alpha)
+                          zScores <- -qnorm(pvalues)
+                          rejected <- myTest(zScores)
+                          names(rejected) <- nodes(graph)
+                        }
 			return(new("gMCPResult", graphs=list(), pvalues=pvalues, rejected=rejected, adjPValues=numeric(0)))
 		}
 	}

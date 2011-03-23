@@ -21,6 +21,9 @@ w.dunnet <- function(w,cr,al=.05){
 
 
 b.dunnet <- function(h,cr,a) {
+  if(a > .5){
+    stop("alpha levels above .5 are not supported")
+  }
   n <- length(h)
   I <- h[1:(n/2)]
   w <- h[((n/2)+1):n]
