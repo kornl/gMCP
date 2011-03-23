@@ -68,7 +68,7 @@ Class \code{graph}, by class \code{graphNEL}, distance 2.
 \examples{
 
 hnodes <- c("H11", "H21", "H31", "H12", "H22", "H32")
-alpha <- c(0.05/3, 0.05/3, 0.05/3, 0, 0, 0)
+alpha <- c(1/3, 1/3, 1/3, 0, 0, 0)
 edges <- list()
 edges[["H11"]] <- list(edges=c("H21","H12"), weights=c(1/2, 1/2))
 edges[["H21"]] <- list(edges=c("H11","H31","H22"), weights=c(1/3, 1/3, 1/3))

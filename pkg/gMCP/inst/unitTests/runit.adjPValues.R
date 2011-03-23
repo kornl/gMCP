@@ -1,9 +1,7 @@
 checkAdjPValues <- function(graph, pvalues) {	
 	adjP <- gMCP:::adjPValues(graph, pvalues)@adjPValues
 	for (p in adjP) {
-		alpha <- getAlpha(graph)
-		graph2 <- setAlpha(graph, alpha=alpha/sum(alpha)*p)
-		result <- gMCP(graph2, pvalues)
+		result <- gMCP(graph, pvalues, alpha=p)
 		checkEquals(adjP<=p,getRejected(result)) 
 	}	
 }
