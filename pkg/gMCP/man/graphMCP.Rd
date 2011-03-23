@@ -42,11 +42,9 @@ Class \code{graph}, by class \code{graphNEL}, distance 2.
 }
 \section{Methods}{
   \describe{
-    \item{getWeights}{\code{signature(object = "graphMCP")}: A method for
-      getting the allocation of the significance level alpha.
+    \item{getWeights}{\code{signature(object = "graphMCP")}: A method for getting the weights.
       If a second optional argument \code{node} is specified, only for these nodes the alpha level will be returned.}
-    \item{setWeights}{\code{signature(object = "graphMCP")}: A method for
-      setting the allocation of the significance level alpha.
+    \item{setWeights}{\code{signature(object = "graphMCP")}: A method for setting the weights.
       If a second optional argument \code{node} is specified, only for these nodes the alpha level will be set.}
     \item{getRejected}{\code{signature(object = "graphMCP")}: A method for
       getting the information whether the hypotheses are marked in the graph as already rejected.

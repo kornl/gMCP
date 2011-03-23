@@ -19,7 +19,7 @@ generateTest(g, w, c, al)
 }
   \item{w}{
     vector of weights, defines how much of the overall alpha is
-    initially reserved for each elementary hypthosis
+    initially reserved for each elementary hypothesis
 }
   \item{c}{
     correlation matrix defining pairwise correlations between the
