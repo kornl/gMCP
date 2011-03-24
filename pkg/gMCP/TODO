@@ -17,6 +17,7 @@ Error in edgeWeights(graph, node)[[node]] :
 - round adjusted p-Values up
 - standard examples
 - Think about "-Xrs" - see paragraph below.
+- Check weights for numeric and also not NaN, Inf, NA and warning if <0 or >1.
 
 Medium priority:
 ================

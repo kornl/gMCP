@@ -62,14 +62,14 @@ setMethod("getWeights", c("graphMCP"),
 			return(alpha)
 		})
 
-setGeneric("setWeights", function(object, node, alpha, ...) standardGeneric("setWeights"))
+setGeneric("setWeights", function(object, weights, node, ...) standardGeneric("setWeights"))
 
 setMethod("setWeights", c("graphMCP"),
-		function(object, node, alpha, ...) {
+		function(object, weights, node, ...) {
 			if (missing(node)) {
 				node <- nodes(object)
 			}
-			nodeData(object, nodes(object), "alpha") <- alpha			
+			nodeData(object, nodes(object), "alpha") <- weights			
 			return(object)
 		})
 
@@ -146,7 +146,7 @@ setMethod("show", "graphMCP",
 				cat(paste("Sum of weight: ",sum(getWeights(object)),"\n", sep=""))
 			}
 			for (node in nodes(object)) {
-				cat(paste(node, " (",ifelse(unlist(nodeData(object, node, "rejected")),"rejected","not rejected"),", alpha=",format(unlist(nodeData(object, node, "alpha")), digits=4 ,drop0trailing=TRUE),")\n", sep=""))	
+				cat(paste(node, " (",ifelse(unlist(nodeData(object, node, "rejected")),"rejected","not rejected"),", weight=",format(unlist(nodeData(object, node, "alpha")), digits=4, drop0trailing=TRUE),")\n", sep=""))	
 			}
 			if (length(unlist(edges(object)))==0) {
 				cat("No edges.\n")

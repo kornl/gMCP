@@ -26,15 +26,15 @@ gMCP <- function(graph, pvalues, test, correlation, alpha=0.05, ..., verbose=FAL
 			}                       
 			Gm <- graph2matrix(graph)
 			w <- getWeights(graph)
-                        if( sum(w>=0)==length(w) && sum(w)==0) {
-                          rejected <- rep(FALSE,length(w))
-                          names(rejected) <- nodes(graph)
-                        } else {
-                          myTest <- generateTest(Gm, w, correlation, alpha)
-                          zScores <- -qnorm(pvalues)
-                          rejected <- myTest(zScores)
-                          names(rejected) <- nodes(graph)
-                        }
+			if( all(w==0) ) {
+				rejected <- rep(FALSE,length(w))
+				names(rejected) <- nodes(graph)
+			} else {
+				myTest <- generateTest(Gm, w, correlation, alpha)
+				zScores <- -qnorm(pvalues)
+				rejected <- myTest(zScores)
+				names(rejected) <- nodes(graph)
+			}
 			return(new("gMCPResult", graphs=list(), pvalues=pvalues, rejected=rejected, adjPValues=numeric(0)))
 		}
 	}
