@@ -142,7 +142,9 @@ setMethod("show", "graphMCP",
 		function(object) {
 			#callNextMethod(object)
 			cat("A graphMCP graph\n")
-			cat(paste("Overall alpha: ",sum(getWeights(object)),"\n", sep=""))
+			if (sum(getWeights(object))<1) {
+				cat(paste("Sum of weight: ",sum(getWeights(object)),"\n", sep=""))
+			}
 			for (node in nodes(object)) {
 				cat(paste(node, " (",ifelse(unlist(nodeData(object, node, "rejected")),"rejected","not rejected"),", alpha=",format(unlist(nodeData(object, node, "alpha")), digits=4 ,drop0trailing=TRUE),")\n", sep=""))	
 			}
