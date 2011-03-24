@@ -1,4 +1,5 @@
 createBonferroniHolmGraph <- function(n) {
+	if (missing(n)) { stop("Please provide the number of hypotheses as parameter n.") }
 	alpha <- rep(1/n, n)
 	hnodes <- paste("H", 1:n, sep="")
 	edges <- vector("list", length=n)
