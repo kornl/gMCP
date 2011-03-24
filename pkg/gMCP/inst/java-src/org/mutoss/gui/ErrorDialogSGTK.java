@@ -57,6 +57,7 @@ public class ErrorDialogSGTK extends ErrorDialog {
         files.put("roptions", makeLogFile("r_options.txt", getROptions()));
         //files.put("packageinfo", makeLogFile("package_info.txt", getRPackageInfo()));
         files.put("traceback", makeLogFile("taceback.txt", getTraceBack()));
+        files.put("traceback", makeLogFile("graph.txt", getGraph()));
         files.put("systeminfo", makeLogFile("system_info.txt", getSystemInfo()));
         files.put("log", getReadableLogFile());        
 
@@ -65,7 +66,11 @@ public class ErrorDialogSGTK extends ErrorDialog {
         return files;
     }
     
-    private String getSystemInfo() {		
+    private String getGraph() {
+    	return collapseStringArray(RControl.getR().eval("gMCP:::getDebugInfo()").asRChar().getData());
+	}
+
+	private String getSystemInfo() {		
 		return al.getSystemInfo();
 	}
 

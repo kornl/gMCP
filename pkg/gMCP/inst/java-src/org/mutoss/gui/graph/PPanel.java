@@ -115,12 +115,12 @@ public class PPanel implements ActionListener, KeyListener, NodeListener, FocusL
 		try {
 			w = RControl.getR().eval(wTF.getText().replace(",", ".")).asRNumeric().getData()[0];		
 			wTF.setBackground(Color.WHITE);
-		} catch (RErrorException nfe) {		
+		} catch (Exception nfe) {		
 			wTF.setBackground(Color.RED);
 		}
 		node.setAlpha(w, this);
 		//logger.info("P: "+p+", W: "+w);
-		updateMe();
+		//updateMe();
 	}
 
 	void updateMe() {
@@ -199,6 +199,7 @@ public class PPanel implements ActionListener, KeyListener, NodeListener, FocusL
 		if (e.getSource()==wTF && !testing) {
 			wTF.setText(RControl.getFraction(w));
 		}
+		updateMe();
 	}	
 	
 }
