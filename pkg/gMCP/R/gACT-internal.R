@@ -6,24 +6,25 @@ w.dunnet <- function(w,cr,al=.05){
   }
   lconn <- sapply(conn,length)
   conn <- lapply(conn,as.numeric)
-  error <- function(c) {
+  error <- function(cb) {
     sum(sapply(conn,function(edx){
       if(length(edx)>1){
-        return((1-pmvnorm(upper=qnorm(1-(w[edx]*c)),corr=cr[edx,edx])))
+        return((1-pmvnorm(lower=-Inf,upper=qnorm(1-(w[edx]*cb*al)),corr=cr[edx,edx])))
       } else {
-        return((w[edx]*c))
+        return((w[edx]*cb*al))
       }
     }))-al
   }
-  c <- uniroot(error,c(0,1))$root
-  return(qnorm(1-(w*c)))
+  up <- 1/max(w)
+  cb <- uniroot(error,c(0,up))$root
+  return(qnorm(1-(w*cb*al)))
 }
 
 
 b.dunnet <- function(h,cr,a) {
-  if(a > .5){
-    stop("alpha levels above .5 are not supported")
-  }
+#  if(a > .5){
+#    stop("alpha levels above .5 are not supported")
+#  }
   n <- length(h)
   I <- h[1:(n/2)]
   w <- h[((n/2)+1):n]
