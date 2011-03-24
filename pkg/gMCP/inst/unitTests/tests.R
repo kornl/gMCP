@@ -62,6 +62,7 @@ simsims <- function(B,Bi,n=4,a=.05,m=0){
   replicate(B,tests(m=m,n=n,B=Bi))
 }
 
+
 n <- 4
 Gm <- randomGraph(n)
 w <- randomWeights(n)
@@ -72,29 +73,59 @@ G <- matrix2graph(Gm,w)
 
 
 
-## alpha needs to be <.5 otherwise we might get into trouble (dirty fix)
+## Works
 gMCP(G,p,corr=C,alpha=1)
 gMCP(G,p,corr=C,alpha=.99)
 gMCP(G,p,corr=C,alpha=.75)
 gMCP(G,p,corr=C,alpha=.60)
+gMCP(G,p,corr=C,alpha=.05)
 
-## zero weights are not handled well
-G <- matrix2graph(Gm,rep(0,4))
+## let's shoot some holes into C works as well 
+C[1:2,3:4] <- NA
+C[3:4,1:2] <- NA
+
+gMCP(G,p,corr=C,alpha=1)
+gMCP(G,p,corr=C,alpha=.99)
+gMCP(G,p,corr=C,alpha=.75)
+gMCP(G,p,corr=C,alpha=.60)
+gMCP(G,p,corr=C,alpha=.05)
+
+C[3,4] <- 0
+C[4,3] <- 0
+
+gMCP(G,p,corr=C,alpha=1)
+gMCP(G,p,corr=C,alpha=.99)
+gMCP(G,p,corr=C,alpha=.75)
+gMCP(G,p,corr=C,alpha=.60)
+gMCP(G,p,corr=C,alpha=.05)
+
+## more troubles:
+w <- c(0,1,0,0)
+G <- matrix2graph(Gm,w)
+
+gMCP(G,p,corr=C,alpha=1)
+gMCP(G,p,corr=C,alpha=.99)
+gMCP(G,p,corr=C,alpha=.75)
+gMCP(G,p,corr=C,alpha=.60)
 gMCP(G,p,corr=C,alpha=.05)
 
 
-## this doesn't work yet
-gMCP(G,p,corr='Dunnett')
 
-## there is some problem with finding the right output function
+## this works now (we set a high alpha to get some rejections)
+gMCP(G,p,corr='Dunnett',a=.5)
+
+## there WAS some problem with finding the right output function
 replicate(10,  gMCP(G,p,corr=C))
 
 ## we will track the current input parameters throughout simulations
 state1 <- list()
 state2 <- list()
 
-# may take some time
-out <- simsims(10,100,a=.5)
+## may take some time
+out <- simsims(1000,20,a=.5)
+
+## in case something goes wrong last call looks like that:
+#gMCP(state2$graphMCP,state1$p,corr=state2$cor)
 
 ## at the moment this throws an
 out1 <- sims(G,C,B=100,a=.3)  

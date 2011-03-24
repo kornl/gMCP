@@ -6,6 +6,7 @@ w.dunnet <- function(w,cr,al=.05){
   }
   lconn <- sapply(conn,length)
   conn <- lapply(conn,as.numeric)
+  
   error <- function(cb) {
     sum(sapply(conn,function(edx){
       if(length(edx)>1){
@@ -16,7 +17,7 @@ w.dunnet <- function(w,cr,al=.05){
     }))-al
   }
   up <- 1/max(w)
-  cb <- uniroot(error,c(0,up))$root
+  cb <- uniroot(error,c(.9,up))$root
   return(qnorm(1-(w*cb*al)))
 }
 
@@ -28,8 +29,12 @@ b.dunnet <- function(h,cr,a) {
   n <- length(h)
   I <- h[1:(n/2)]
   w <- h[((n/2)+1):n]
-  e <- which(I>0)
+  hw <- sapply(w,function(x) !isTRUE(all.equal(x,0)))
+  e <- which(I>0 & hw)
   zb <- rep(NA,n/2)
+  if(length(e) == 0){
+    return(zb)
+  }
   zb[e] <- w.dunnet(w[e],cr[e,e],al=a)
   return(zb)
 }
@@ -72,6 +77,15 @@ as.graph <- function(m,...){
   as(m,'graphNEL',...)
 }
 
+myRowSums <- function(x,...){
+  if(is.null(dim(x))){
+    a <- sum(x,...)
+  if(dim(x)==2){
+    a <- rowSums(x,...)
+  }
+  return(a)
+  }
+}
 
 
 ################################ Test stuff
