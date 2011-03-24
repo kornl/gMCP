@@ -1,10 +1,5 @@
 High priority:
 ==============
-
-> graph <- matrix2graph(matrix(c(0,0,0,0), nrow=2))
-> gMCP(graph, pvalues=c(0.0, 0.0))
-Error in edgeWeights(graph, node)[[node]] : 
-  attempt to select less than one element
   
 - 1 Page PDF how to use gMCP, including hint for R installation
 - press e for epsilon, or 1+e+e^2

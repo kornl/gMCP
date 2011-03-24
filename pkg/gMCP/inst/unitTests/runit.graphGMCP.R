@@ -51,6 +51,9 @@ test.gMCP <- function() {
 	checkTrue(!gMCP:::canBeRejected(bhG3, "H3", alpha=0.6, pvalues)) 
 	checkException(gMCP(bhG3, 0, alpha=0.6))
 	checkException(gMCP(bhG3, rep(0,6), alpha=0.6))
+	graph <- matrix2graph(matrix(c(0,0,0,0), nrow=2))
+	checkEquals(unname(getRejected(gMCP(graph, pvalues=c(0.0, 0.0)))),
+			c(TRUE, TRUE))
 }
 
 test.adjPValues <- function() {
