@@ -31,18 +31,35 @@ setClass("gMCPResult",
 
 setMethod("print", "gMCPResult",
 		function(x, ...) {
+			callNextMethod(x, ...)
+			#for (node in nodes(x)) {
+			#	cat(paste(node, " (",ifelse(unlist(nodeData(x, node, "rejected")),"rejected","not rejected"),", alpha=",format(unlist(nodeData(x, node, "alpha")), digits=4 ,drop0trailing=TRUE),")\n", sep=""))	
+			#}
+			#cat(paste("alpha=",paste(format(getWeights(x), digits=4 ,drop0trailing=TRUE),collapse="+"),"=",sum(getWeights(x)),"\n", sep=""))			
+		})
+
+setMethod("show", "gMCPResult",
+		function(object) {
 			# callNextMethod(x, ...)
-			cat("gMCP-Result\n")
-			cat("\nP-values:\n")
-			print(x@pvalues)
+			cat("gMCP-Result\n")			
 			cat("\nInitial graph:\n")
-			print(x@graphs[[1]])
-			if (length(x@graphs)==1) {
-				cat("No hypotheses could be rejected.")
-				return()
+			print(object@graphs[[1]])
+			cat("\nP-values:\n")
+			print(object@pvalues)
+			if (length(object@adjPValues)>0) {
+				cat("\nAdjusted p-values:\n")
+				print(object@adjPValues)
 			}
-			cat("\nFinal graph after", length(x@graphs)-1 ,"steps:\n")
-			print(x@graphs[[length(x@graphs)]])
+			if (all(!object@rejected)) {
+				cat("\nNo hypotheses could be rejected.\n")				
+			} else {
+				cat("\nHypothesis rejected:\n")
+				print(object@rejected)
+			}
+			if (length(object@graphs)>1) {
+				cat("\nFinal graph after", length(object@graphs)-1 ,"steps:\n")
+				print(object@graphs[[length(object@graphs)]])
+			}			
 		})
 
 setMethod("plot", "gMCPResult",

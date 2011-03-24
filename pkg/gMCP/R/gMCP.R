@@ -35,7 +35,7 @@ gMCP <- function(graph, pvalues, test, correlation, alpha=0.05, ..., verbose=FAL
 				rejected <- myTest(zScores)
 				names(rejected) <- nodes(graph)
 			}
-			return(new("gMCPResult", graphs=list(), pvalues=pvalues, rejected=rejected, adjPValues=numeric(0)))
+			return(new("gMCPResult", graphs=list(graph), pvalues=pvalues, rejected=rejected, adjPValues=numeric(0)))
 		}
 	}
 }
