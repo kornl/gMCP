@@ -84,7 +84,7 @@ gMCP(G,p,corr=C,alpha=.05)
 
 
 ## this doesn't work yet
-gMCP(G,p,corr='Dunnet')
+gMCP(G,p,corr='Dunnett')
 
 ## there is some problem with finding the right output function
 replicate(10,  gMCP(G,p,corr=C))

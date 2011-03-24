@@ -37,7 +37,6 @@ Additional features / low priority:
 - Do we really need PolynomF and gtools as dependencies?
 - Don't create global variable like .tmpGraph etc.
 - Report generation in GUI (and respect the option whether to show rejected null hypothesis)
-- Look at print method for gMCPResult
 - PNG export cuts perhaps edges. (But already improved!)
 - Speed-up -> Matrices & perhaps ?ReferenceClasses ?
 - Package highlight is cool - but how can I tell r-forge or CRAN to use it?

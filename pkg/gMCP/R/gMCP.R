@@ -45,6 +45,7 @@ getBalancedDesign <- function (correlation, numberOfPValues) {
 	if (correlation == "Dunnett") {
 		return (rep(10, numberOfPValues+1))
 	}
+	stop(paste("The string \"",correlation,"\" does not specify a supported correlation.", sep=""))
 }
 
 adjPValues <- function(graph, pvalues, verbose=FALSE) {
