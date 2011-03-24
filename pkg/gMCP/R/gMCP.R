@@ -5,7 +5,7 @@ gMCP <- function(graph, pvalues, test, correlation, alpha=0.05, ..., verbose=FAL
 	if (is.null(names(pvalues))) {
 		names(pvalues) <- nodes(graph)
 	}
-	if (missing(test) && missing(correlation)) {
+	if (missing(test) && (missing(correlation) || length(pvalues)==1)) {
 		sequence <- list(graph)
 		while(!is.null(node <- getRejectableNode(graph, alpha, pvalues))) {
 			if (verbose) cat(paste("Node \"",node,"\" can be rejected.\n",sep=""))
@@ -17,7 +17,7 @@ gMCP <- function(graph, pvalues, test, correlation, alpha=0.05, ..., verbose=FAL
 		if (missing(correlation) || (!is.matrix(correlation) && !is.character(correlation))) {
 			stop("Procedure for correlated tests, expects a correlation matrix as parameter \"correlation\".")
 		} else {
-			if (is.character(correlation)) {
+			if (length(pvalues)>1) {
 				samplesize <- list(...)[["samplesize"]]
 				if (is.null(samplesize)) samplesize <- getBalancedDesign(correlation, length(pvalues))				
 				x <- contrMat(samplesize, type = correlation) # balanced design up to now and only Dunnett will work with n+1
