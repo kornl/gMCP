@@ -21,7 +21,7 @@ generateBounds(g, w, cr, al = 0.05, hint = generateWeights(g, w))
 }
   \item{w}{
     vector of weights, defines how much of the overall alpha is
-    initially reserved for each elementary hypthosis
+    initially reserved for each elementary hypothesis
 }
   \item{cr}{
     correlation matrix defining pairwise correlations between the
