@@ -63,7 +63,9 @@ adjPValues <- function(graph, pvalues, verbose=FALSE) {
 	sequence <- list(graph)
 	pmax <- 0
 	while(length(J) >= 1) {
-		j <- which.min(pvalues[J]/getWeights(graph)[J])
+		fraction <- pvalues[J]/getWeights(graph)[J]
+		fraction[pvalues[J]==0] <- 0
+		j <- which.min(fraction)
 		node <- J[j]
 		adjPValues[node] <- max(min(pvalues[node]/getWeights(graph)[node], 1), pmax)
 		pmax <- adjPValues[node]
