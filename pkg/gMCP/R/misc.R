@@ -20,3 +20,14 @@ parseEpsPolynom <- function(s) {
     	return(coef(p))
 	}
 }
+
+getDebugInfo <- function() {	
+	if (exists(".InitialGraph")) {
+		graphTXT <- paste(capture.output(print(.InitialGraph)), collapse="\n")
+		matrixTXT <- paste("m <-",paste(capture.output(dput(graph2matrix(.InitialGraph))), collapse="\n"),"\n")
+		weightsTXT <- paste("w <-",paste(capture.output(dput(getWeights(.InitialGraph))), collapse="\n"),"\n")
+		createTXT <- paste("graph <- matrix2graph(m)", "setWeights(graph, w)", sep="\n")
+		return(paste(graphTXT, matrixTXT, weightsTXT, createTXT, sep="\n"))
+	}
+	return("Graph not available.")
+}
