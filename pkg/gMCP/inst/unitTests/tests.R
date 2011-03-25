@@ -124,13 +124,37 @@ state2 <- list()
 ## may take some time
 out <- simsims(1000,20,a=.5)
 
-## in case something goes wrong last call looks like that:
-#gMCP(state2$graphMCP,state1$p,corr=state2$cor)
+## round of errors 
+load('unirootbug.Rd')
+gMCP(state2$graphMCP,state1$p,corr=state2$cor,al=1)
+
 
 ## at the moment this throws an
 out1 <- sims(G,C,B=100,a=.3)  
 
 
 
+## Fehler von Frank
+Gm <- matrix(0,nr=4,nc=4)
+Gm[1,3] <- 1
+Gm[2,4] <- 1
+Gm[3,2] <- 1
+Gm[4,1] <- 1
+Gm
+w <- c(1/2,1/2,0,0)
+G <- matrix2graph(Gm,w)
+Cm <- matrix(NA,nr=4,nc=4)
+diag(Cm) <- 1
+Cm[1,2] <- 1/2
+Cm[2,1] <- 1/2
+Cm[3,4] <- 1/2
+Cm[4,3] <- 1/2
+p <- c(0.0131,0.1,0.012,0.01)
+B <- generateBounds(Gm,w,Cm,a=.025)
+test <- generateTest(Gm,w,Cm,a=.025)
 
+z <- qnorm(1-p)
+test(z)
+
+gMCP(G,p,corr=Cm,alpha=0.025)
 
