@@ -7,6 +7,7 @@ Version 0.5-0
   - graph2weights is removed since it is a special case of getWeights
 - due to these changes above, graphs that have been saved to files will cause errors when loaded and processed
 - getX/Y were renamed into getX/YCoordinates due to Rgraphviz conflicts.
+- new function bdiagNA for building block diagonal matrices with NA values outside the diagonal
 - Backward compatibility for R 2.8.0 and rJava 0.6-3.
 - CTRL+C interrupts only the last R command and does not close the whole R session.
 - CRAN has disabled checks on arch="ppc", so MacOS builds are (hopefully) again available from CRAN.

@@ -15,5 +15,5 @@ test.gMCP <- function() {
 	Cm[4,3] <- 1/2 
 	p <- c(0.0131,0.1,0.012,0.01) 
 	x <- unname(gMCP(G,p,corr=Cm,alpha=0.025)@rejected)
-	#checkEquals(c(TRUE, FALSE, TRUE, FALSE), x)
+	checkEquals(c(TRUE, FALSE, TRUE, FALSE), x)
 }
