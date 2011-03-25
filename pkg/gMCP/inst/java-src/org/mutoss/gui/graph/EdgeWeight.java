@@ -1,10 +1,12 @@
 package org.mutoss.gui.graph;
 
+import java.text.DecimalFormat;
 import java.util.Enumeration;
 import java.util.Hashtable;
 import java.util.List;
 import java.util.Vector;
 
+import org.mutoss.config.Configuration;
 import org.mutoss.gui.RControl;
 
 public class EdgeWeight {
@@ -12,17 +14,31 @@ public class EdgeWeight {
 	protected String weightStr = null; 
 	protected Double weight = null;
 	
+	static DecimalFormat format = new DecimalFormat("#.###");
+	static DecimalFormat formatSmall = new DecimalFormat("#.###E0");
+	
 	public EdgeWeight(String weightStr) {
+		weightStr =	weightStr.replace('e', 'ε');
 		this.weightStr = weightStr;
 	}
 	
 	public EdgeWeight(double weight) {
 		this.weight = weight;
+		/*if (w.toString().equals("NaN")) return "ε";
+		if (w<0.0009) {
+			return formatSmall.format(w);
+		} else {
+			return stringW;			
+		}*/
+		if (!Configuration.getInstance().getGeneralConfig().showFractions()) {
+			weightStr = format.format(weight);
+		} else {
+			weightStr = RControl.getFraction(weight, true);
+		}		
 	}
 	
 	public String toString() {
-		if (weightStr!=null) return weightStr;
-		return ""+weight;
+		return weightStr;
 	}
 	
 	public double getWeight(Hashtable<String,Double> ht) {
@@ -32,7 +48,7 @@ public class EdgeWeight {
 			String s = keys.nextElement();
 			replaceStr = replaceStr.replaceAll(s, ""+ht.get(s));
 		}
-		return RControl.getR().eval(replaceStr).asRNumeric().getData()[1];
+		return RControl.getR().eval(replaceStr).asRNumeric().getData()[0];
 	}
 	
 	public List<String> getVariables() {
@@ -43,7 +59,17 @@ public class EdgeWeight {
 				variables.add(""+l);
 			}				
 		}
+		if (weightStr.lastIndexOf("ε")!=-1) {
+			variables.add("ε");
+		}
 		return variables;
+	}
+
+	public String getLaTeXStr() {
+		if (weight != null) {
+			return RControl.getR().eval("gMCP:::getLaTeXFraction("+weight+")").asRChar().getData()[0];
+		}
+		return weightStr.replace("ε", "$\\epsilon$");
 	}
 	
 }

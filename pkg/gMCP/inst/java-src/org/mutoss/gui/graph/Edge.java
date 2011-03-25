@@ -7,6 +7,8 @@ import java.awt.Graphics2D;
 import java.awt.font.FontRenderContext;
 import java.awt.geom.Rectangle2D;
 import java.text.DecimalFormat;
+import java.util.Collection;
+import java.util.Hashtable;
 
 import org.af.commons.images.GraphDrawHelper;
 import org.af.commons.images.GraphException;
@@ -19,8 +21,6 @@ public class Edge {
 
 	private static final Log logger = LogFactory.getLog(Edge.class);
 	public boolean curve = false;
-	static DecimalFormat format = new DecimalFormat("#.###");
-	static DecimalFormat formatSmall = new DecimalFormat("#.###E0");
 	FontRenderContext frc = null;
 	Graphics2D g2d;
 	int k1, k2;
@@ -29,8 +29,7 @@ public class Edge {
 	
 	VS vs;
 	
-	private Double w;
-	private String stringW = "";
+	EdgeWeight ew;
 
 	public Edge(Node von, Node nach, Double w, VS vs) {		
 		int x1, x2, y1, y2;
@@ -42,8 +41,7 @@ public class Edge {
 		k2 = y1 + (y2-y1)/4; //(y1+y2)/2;
 		this.from = von;
 		this.to = nach;
-		this.w = w;
-		calculateWeightString();
+		this.ew = new EdgeWeight(w);
 		this.vs = vs;
 	}
 	
@@ -83,8 +81,7 @@ public class Edge {
 	public Edge(Node von, Node nach, Double w, VS vs, int k1, int k2) {
 		this.from = von;
 		this.to = nach;
-		this.w = w;
-		calculateWeightString();
+		this.ew = new EdgeWeight(w);
 		this.vs = vs;
 		this.k1 = k1;
 		this.k2 = k2;
@@ -153,17 +150,12 @@ public class Edge {
 		}
 	}
 
-	public Double getW() {
-		return w;
-	}
+	/*public Double getW() {
+		return ew.;
+	}*/
 
-	private String getWS() {		
-		if (w.toString().equals("NaN")) return "ε";
-		if (w<0.0009) {
-			return formatSmall.format(w);
-		} else {
-			return stringW;			
-		}
+	String getWS() {		
+		return ew.toString();
 	}
 
 	public boolean inYou(int x, int y) {
@@ -240,18 +232,28 @@ public class Edge {
 	}
 
 	public void setW(Double w) {
-		this.w = w;
-		calculateWeightString();
+		ew = new EdgeWeight(w);
 		vs.nl.repaint();
 	}
-
-	// TODO Call this method when options change!
-	public void calculateWeightString() {
-		if (!Configuration.getInstance().getGeneralConfig().showFractions()) {
-			stringW = format.format(w);
-		} else {
-			stringW = RControl.getFraction(w, true);
-		}
+	
+	public void setW(String text) {
+		ew = new EdgeWeight(text);
+		vs.nl.repaint();		
 	}
 
+	public String getWLaTeX() {		
+		return ew.getLaTeXStr();
+	}
+
+	public Collection<String> getVariable() {
+		return ew.getVariables();
+	}
+
+	public double getWeight(Hashtable<String,Double> ht) {
+		return getWeight(ht);
+	}
+
+	public double getW(Hashtable<String, Double> ht) {
+		return ew.getWeight(ht);
+	}
 }
