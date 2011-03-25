@@ -17,7 +17,7 @@ gMCP <- function(graph, pvalues, test, correlation, alpha=0.05, ..., verbose=FAL
 		if (missing(correlation) || (!is.matrix(correlation) && !is.character(correlation))) {
 			stop("Procedure for correlated tests, expects a correlation matrix as parameter \"correlation\".")
 		} else {
-			if (length(pvalues)>1) {
+			if (is.character(correlation)) {
 				samplesize <- list(...)[["samplesize"]]
 				if (is.null(samplesize)) samplesize <- getBalancedDesign(correlation, length(pvalues))				
 				x <- contrMat(samplesize, type = correlation) # balanced design up to now and only Dunnett will work with n+1
