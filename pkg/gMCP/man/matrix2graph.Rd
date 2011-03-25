@@ -37,9 +37,6 @@
 	Kornelius Rohmeyer \email{rohmeyer@small-projects.de}
 }
 
-\seealso{
-\code{\link{graphMCP}}, \code{\link{graph2matrix}}
-}
 \examples{
 
 # Bonferroni-Holm:
@@ -50,6 +47,5 @@ print(graph)
 graph2matrix(graph)
 
 }
-\keyword{ print }
 \keyword{ graphs }
 

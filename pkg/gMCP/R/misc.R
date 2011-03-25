@@ -38,3 +38,34 @@ getDebugInfo <- function() {
 	}
 	return("Graph not available.")
 }
+
+bdiagNA <- function(...) {	
+	if (nargs() == 0) 
+		return(matrix(nrow=0, ncol=0))
+	if (nargs() == 1 && !is.list(...)) 
+		return(as.matrix(...))
+	asList <- if (nargs() == 1 && is.list(...)) ... else list(...)
+	if (length(asList) == 1) 
+		return(as.matrix(asList[[1]]))
+	n <- 0
+	for (m in asList) {
+		if (!is.matrix(m)) {
+			stop("Only matrices are allowed as arguments.")
+		}
+		if (dim(m)[1]!=dim(m)[2]) {
+			stop("Only quadratic matrices are allowed.")
+		}
+		n <- n + dim(m)[1]	
+	}
+	M <- matrix(NA, nrow=n, ncol=n)
+	k <- 0
+	for (m in asList) {
+		for (i in 1:dim(m)[1]) {
+			for (j in 1:dim(m)[1]) {
+				M[i+k,j+k] <- m[i,j]
+			}
+		}
+		k <- k + dim(m)[1]	
+	}	
+	return(M)
+}
