@@ -16,6 +16,7 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
+import javax.swing.filechooser.FileFilter;
 
 import org.af.commons.Localizer;
 import org.af.commons.errorhandling.ErrorHandler;
@@ -306,7 +307,15 @@ public class MenuBarMGraph extends JMenuBar implements ActionListener {
 	
 	private void loadGraph() {		
 		JFileChooser fc = new JFileChooser(Configuration.getInstance().getClassProperty(this.getClass(), "RObjDirectory"));		
-        fc.setFileSelectionMode(JFileChooser.FILES_ONLY);
+		fc.setFileSelectionMode(JFileChooser.FILES_ONLY);
+		fc.setFileFilter(new FileFilter() {
+			public boolean accept(File f) {
+				if (f.isDirectory()) return true;
+				return f.getName().toLowerCase().endsWith(".xml");
+			}
+			public String getDescription () { return "XML files"; }  
+		});
+
         int returnVal = fc.showOpenDialog(this);
         if (returnVal == JFileChooser.APPROVE_OPTION) {  
         	control.stopTesting();
@@ -326,6 +335,13 @@ public class MenuBarMGraph extends JMenuBar implements ActionListener {
 	private void saveGraph() {
 		JFileChooser fc = new JFileChooser(Configuration.getInstance().getClassProperty(this.getClass(), "RObjDirectory"));		
         fc.setFileSelectionMode(JFileChooser.FILES_ONLY);
+        fc.setFileFilter(new FileFilter() {
+			public boolean accept(File f) {
+				if (f.isDirectory()) return true;
+				return f.getName().toLowerCase().endsWith(".xml");
+			}
+			public String getDescription () { return "XML files"; }  
+		});
         fc.setDialogType(JFileChooser.SAVE_DIALOG);
         int returnVal = fc.showOpenDialog(this);
         if (returnVal == JFileChooser.APPROVE_OPTION) {
@@ -337,7 +353,7 @@ public class MenuBarMGraph extends JMenuBar implements ActionListener {
             try {
             	//((ControlMGraph) control).getNL().saveToXML(f);
             	String name = control.jtSaveName.getText();
-            	control.getNL().saveGraph(name, true); 
+            	control.getNL().saveGraph(name, false); 
             	RControl.getR().eval("save("+name+", file=\""+f.getAbsolutePath()+"\")");        		
     		} catch( Exception ex ) {
     			JOptionPane.showMessageDialog(this, "Saving graph to '" + f.getAbsolutePath() + "' failed: " + ex.getMessage(), "Saving failed.", JOptionPane.ERROR_MESSAGE);

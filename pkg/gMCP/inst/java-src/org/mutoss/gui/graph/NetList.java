@@ -513,7 +513,7 @@ public class NetList extends JPanel implements MouseMotionListener, MouseListene
 		}		
 		//String s = RControl.getR().eval("paste(capture.output(dput(.gsrmtVar)), collapse=\"\")").asRChar().getData()[0];
 		//JOptionPane.showMessageDialog(null, "Exported graph as: "+s);
-		RControl.getR().evalVoid(graphName+" <- new(\"graphMCP\", nodes=.gsrmtVar$hnodes, edgeL=.gsrmtVar$edges, alpha=.gsrmtVar$alpha)");
+		RControl.getR().evalVoid(graphName+" <- new(\"graphMCP\", nodes=.gsrmtVar$hnodes, edgeL=.gsrmtVar$edges, weights=.gsrmtVar$alpha)");
 		//TODO remove this stupid workaround.
 		RControl.getR().evalVoid(graphName+" <- gMCP:::stupidWorkAround("+graphName+")");
 		for (int i=nodes.size()-1; i>=0; i--) {

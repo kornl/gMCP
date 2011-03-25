@@ -72,7 +72,7 @@ public class PPanel implements ActionListener, KeyListener, NodeListener, FocusL
 		if (node.isRejected()) {
 			reject();
 		} else {
-			updateMe();
+			updateMe(false);
 		}		
 	}
 
@@ -81,7 +81,7 @@ public class PPanel implements ActionListener, KeyListener, NodeListener, FocusL
 			reject();
 			updateGraph();
 		} else {
-			updateMe();
+			updateMe(false);
 		}
 	}
 
@@ -120,12 +120,13 @@ public class PPanel implements ActionListener, KeyListener, NodeListener, FocusL
 		}
 		node.setAlpha(w, this);
 		//logger.info("P: "+p+", W: "+w);
-		//updateMe();
+		updateMe(false);
 	}
 
-	void updateMe() {
-		wTF.setText(getWString());
-		if (p<=w) {
+	void updateMe(boolean setText) {
+		if (setText) wTF.setText(getWString());
+		if (p<=w*pview.getTotalAlpha()) {
+			System.out.println("Is "+p+"<="+w+"*"+pview.getTotalAlpha()+"?");
 			node.setColor(new Color(50, 255, 50));
 			wTF.setBackground(new Color(50, 255, 50));
 			if (testing) {
@@ -155,7 +156,7 @@ public class PPanel implements ActionListener, KeyListener, NodeListener, FocusL
 		wTF.setText(getWString());		
 		pTF.setText(format.format(p).replace(",", "."));
 		if (!rejected) {
-			updateMe();
+			updateMe(true);
 		}
 	}
 
@@ -196,10 +197,11 @@ public class PPanel implements ActionListener, KeyListener, NodeListener, FocusL
 
 	@Override
 	public void focusLost(FocusEvent e) {
+		keyTyped(null);
 		if (e.getSource()==wTF && !testing) {
 			wTF.setText(RControl.getFraction(w));
 		}
-		updateMe();
+		updateMe(true);
 	}	
 	
 }

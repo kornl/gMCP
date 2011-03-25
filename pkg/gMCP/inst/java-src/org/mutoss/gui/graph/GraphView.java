@@ -216,6 +216,10 @@ public class GraphView extends JPanel implements ActionListener {
 		} else if (e.getSource().equals(buttonSave) || e.getSource().equals(jtSaveName)) {			
 			getNL().saveGraph(jtSaveName.getText(), true);
 		} else if (e.getSource().equals(buttonConfInt)) {
+			if (!getNL().isTesting()) {
+				getNL().saveGraph();
+				getPView().savePValues();
+			}
 			if (getNL().getKnoten().size()==0) {
 				JOptionPane.showMessageDialog(parent, "Please create first a graph.", "Please create first a graph.", JOptionPane.ERROR_MESSAGE);
 			} else {

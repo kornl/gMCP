@@ -61,6 +61,20 @@ public class UpdateEdge extends JDialog implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		Double w = 0d;		
 		if (e.getSource() != jbDelete) {
+			String text = tf.getText();
+			int letter = -1;
+			for (int i=0; i<26; i++) {
+				char l = (char) ('a' + i);
+				if (text.lastIndexOf(l)!=-1) {
+					if (letter!=-1) {
+						JOptionPane.showMessageDialog(this, "Only one variable is allowed. " +
+								"There are at least '"+(char)letter+"' and '"+l+"'.",
+								"Only one variable is allowed.", JOptionPane.ERROR_MESSAGE);
+					}
+					letter = 'a' + i;
+				}				
+			}
+			
 			/* This will be enabled as soon as epsilons are correctly implemented.*/
 			/*try {
 				w = RControl.getR().eval(tf.getText().replace(",", ".")).asRNumeric().getData()[0];		

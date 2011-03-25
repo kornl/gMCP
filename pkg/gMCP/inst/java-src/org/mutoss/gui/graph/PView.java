@@ -4,6 +4,8 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Vector;
@@ -20,7 +22,7 @@ import org.mutoss.config.Configuration;
 import com.jgoodies.forms.layout.CellConstraints;
 import com.jgoodies.forms.layout.FormLayout;
 
-public class PView extends JPanel {
+public class PView extends JPanel implements KeyListener {
 
 	JLabel statusBar;
 	private static final Log logger = LogFactory.getLog(PView.class);
@@ -39,6 +41,8 @@ public class PView extends JPanel {
 				
 		c.weightx=1; c.weighty=1; c.fill = GridBagConstraints.BOTH;
 		c.gridx=0; c.gridy=0; c.gridwidth = 1; c.gridheight = 1; c.ipadx=0; c.ipady=0;
+		
+		totalAlpha.addKeyListener(this);
 		
 		setUp();
     }
@@ -164,7 +168,7 @@ public class PView extends JPanel {
 	public void setTesting(boolean b) {
 		PPanel.setTesting(b);
 		for (PPanel p : panels) {
-			p.updateMe();
+			p.updateMe(true);
 		}
 		totalAlpha.setEditable(!b);
 		if (b) {
@@ -194,6 +198,16 @@ public class PView extends JPanel {
 
 	public double getTotalAlpha() {
 		return Double.parseDouble(totalAlpha.getText());
+	}
+
+	public void keyPressed(KeyEvent e) {keyTyped(e);}
+
+	public void keyReleased(KeyEvent e) {keyTyped(e);}
+
+	public void keyTyped(KeyEvent e) {
+		for (PPanel p : panels) {
+			p.updateMe(false);
+		}
 	}
 	
 }

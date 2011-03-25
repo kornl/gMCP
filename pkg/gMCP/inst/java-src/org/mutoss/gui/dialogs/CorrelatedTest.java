@@ -98,7 +98,7 @@ public class CorrelatedTest extends JDialog implements ActionListener {
 			} else if (jrbRCorrelation.isSelected()) {
 				correlation = ", correlation="+jcbCorObject.getSelectedItem()+"";
 			} 
-			boolean[] rejected = RControl.getR().eval("gMCP("+parent.getGraphView().getNL().initialGraph+","+parent.getGraphView().getPView().getPValuesString()+ correlation+")@rejected").asRLogical().getData();
+			boolean[] rejected = RControl.getR().eval("gMCP("+parent.getGraphView().getNL().initialGraph+","+parent.getGraphView().getPView().getPValuesString()+ correlation+", alpha="+parent.getPView().getTotalAlpha()+")@rejected").asRLogical().getData();
 			new RejectedDialog(parent, rejected, parent.getGraphView().getNL().getKnoten());
 			dispose();
 		}

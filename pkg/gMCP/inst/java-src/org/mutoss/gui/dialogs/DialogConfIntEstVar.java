@@ -121,8 +121,8 @@ public class DialogConfIntEstVar extends JDialog implements ActionListener, Chan
 
 	private void calculateCI() {	
 			String pValues = control.getPView().getPValuesString();
-			double[] alpha = RControl.getR().eval("getAlpha(gMCP("+ nl.initialGraph+","+pValues+"))").asRNumeric().getData();
-			boolean[] rejected = RControl.getR().eval("getRejected(gMCP("+ nl.initialGraph+","+pValues+"))").asRLogical().getData();
+			double[] alpha = RControl.getR().eval(""+control.getPView().getTotalAlpha()+"*getWeights(gMCP("+ nl.initialGraph+","+pValues+", alpha="+control.getPView().getTotalAlpha()+"))").asRNumeric().getData();
+			boolean[] rejected = RControl.getR().eval("getRejected(gMCP("+ nl.initialGraph+","+pValues+", alpha="+control.getPView().getTotalAlpha()+"))").asRLogical().getData();
 			for (int i=0; i<nl.getKnoten().size(); i++) {
 				Double lb, ub;
 				String d1 = "qnorm(";
