@@ -67,7 +67,7 @@ mtp.edges <- function(h,g,w){
     h[j] <- 1
     gu <- mtp.edges(h,g,w)
     gj <- gu[,j]%*%t(gu[j,])
-    gt <- ((gu+gj)/(1-matrix(rep(diag(gj),nrow(gj)),nr=nrow(gj))))
+    gt <- ((gu+gj)/(1-matrix(rep(diag(gj),nrow(gj)),nrow=nrow(gj))))
     gt[j,] <- 0
     gt[,j] <- 0
     diag(gt) <- 0
