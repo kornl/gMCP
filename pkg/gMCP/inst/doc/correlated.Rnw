@@ -135,7 +135,7 @@ acchiev the same using the graphical user interface provided by \gmcp.
 The most basic way of defining an MTP in \gmcp is by way of
 numeric matrices where each element defines the proportion of
 the local \al of the elementary hypotheses corresponding to the row
-index which is passed to the elementary hypotheses associated with the
+index that is passed to the elementary hypotheses associated with the
 column index. Since no hypotheses reallocates parts of its local \al
 to itself the diagonal elements of this matrix are zero. The simple
 graph from our examples is defined by the matrix: 
@@ -251,8 +251,8 @@ creates an object of class \texttt{graphMCP}.
 
 After switching back to R's interpreter the created graph can be
 converted to a matrix using the command \texttt{graph2matrix} from
-package \gmcp. The weights set for the graph can be extracted function
-\texttt{graph2weights}. 
+package \gmcp. The weights set for the graph can be extracted using
+the function \texttt{getWeights}. 
 
 <<eval=F>>=
 Gm <- graph2matrix(createdGraph)
@@ -331,7 +331,7 @@ algorithm see \cite[Section 3.2]{Bretz11}.
 
 
 Once rejection bounds have been computed overall rejection of
-elementary hypotheses, based on actual data, needs do be determined
+elementary hypotheses, based on actual data, needs to be determined
 using the closed testing 
 principle. This means that all hypotheses which are rejected in
 all intersection hypotheses, of which they are a part of, are rejected
@@ -422,7 +422,8 @@ gMCP(G,p,corr=Cm2)
 which returns a similar result however without the graphs representing
 the rejection sequence, since the whole closed test is done in this
 example. A vector specifying which of the elementary hypotheses
-can be rejected at the overall \al.
+can be rejected at the overall \al. The reported $p$-values are the
+unadjusted $p$-values passed to \gmcp. 
 
 \newpage
 
