@@ -55,6 +55,7 @@ adjPValues <- function(graph, pvalues, verbose=FALSE) {
 	if (is.null(names(pvalues))) {
 		names(pvalues) <- nodes(graph)
 	}
+	# TODO for graphs with sum(weights)<1 (do we want to allow this) this will give wrong results
 	if (sum(getWeights(graph))>0) nodeData(graph, nodes(graph), "nodeWeight") <- getWeights(graph)/sum(getWeights(graph))
 	adjPValues <- rep(0, length(nodes(graph)))
 	names(adjPValues) <- nodes(graph)	
