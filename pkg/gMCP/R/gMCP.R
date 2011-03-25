@@ -12,7 +12,7 @@ gMCP <- function(graph, pvalues, test, correlation, alpha=0.05, ..., verbose=FAL
 			graph <- rejectNode(graph, node, verbose)
 			sequence <- c(sequence, graph)
 		}	
-		return(new("gMCPResult", graphs=sequence, pvalues=pvalues, rejected=getRejected(graph), adjPValues=adjPValues(sequence[[1]], pvalues, verbose)@adjPValues))
+		return(new("gMCPResult", graphs=sequence, alpha=alpha, pvalues=pvalues, rejected=getRejected(graph), adjPValues=adjPValues(sequence[[1]], pvalues, verbose)@adjPValues))
 	} else if (missing(test) && !missing(correlation)) {
 		if (missing(correlation) || (!is.matrix(correlation) && !is.character(correlation))) {
 			stop("Procedure for correlated tests, expects a correlation matrix as parameter \"correlation\".")
@@ -35,7 +35,7 @@ gMCP <- function(graph, pvalues, test, correlation, alpha=0.05, ..., verbose=FAL
 				rejected <- myTest(zScores)
 				names(rejected) <- nodes(graph)
 			}
-			return(new("gMCPResult", graphs=list(graph), pvalues=pvalues, rejected=rejected, adjPValues=numeric(0)))
+			return(new("gMCPResult", graphs=list(graph), alpha=alpha, pvalues=pvalues, rejected=rejected, adjPValues=numeric(0)))
 		}
 	}
 }

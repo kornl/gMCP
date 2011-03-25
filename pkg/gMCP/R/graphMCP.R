@@ -24,6 +24,7 @@ setMethod("initialize", "graphMCP",
 setClass("gMCPResult",		
 		representation(graphs="list",
 				pvalues="numeric",
+				alpha="numeric",
 				rejected="logical",
 				adjPValues="numeric")
 )
@@ -45,6 +46,7 @@ setMethod("show", "gMCPResult",
 			print(object@graphs[[1]])
 			cat("\nP-values:\n")
 			print(object@pvalues)
+			cat(paste("\nAlpha:",object@alpha))			
 			if (length(object@adjPValues)>0) {
 				cat("\nAdjusted p-values:\n")
 				print(object@adjPValues)
