@@ -8,13 +8,15 @@ w.dunnet <- function(w,cr,al=.05){
   conn <- lapply(conn,as.numeric)
   
   error <- function(cb) {
-    sum(sapply(conn,function(edx){
+    e <- sum(sapply(conn,function(edx){
       if(length(edx)>1){
         return((1-pmvnorm(lower=-Inf,upper=qnorm(1-(w[edx]*cb*al)),corr=cr[edx,edx])))
       } else {
         return((w[edx]*cb*al))
       }
     }))-al
+    e <- ifelse(isTRUE(all.equal(e,0)),0,e)
+    return(e)
   }
   up <- 1/max(w)
   cb <- uniroot(error,c(.9,up))$root
@@ -36,6 +38,7 @@ b.dunnet <- function(h,cr,a) {
     return(zb)
   }
   zb[e] <- w.dunnet(w[e],cr[e,e],al=a)
+  zb[which(I>0 & !hw)] <- Inf
   return(zb)
 }
 
