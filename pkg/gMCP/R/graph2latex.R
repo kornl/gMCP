@@ -17,7 +17,7 @@ graph2latex <- function(graph, package="TikZ", scale=1, alpha=0.05, pvalues,
 			}
 			if (canBeRejected(graph, node, alpha, pvalues)) { double <- "double," }
 		}		
-		nodeLine <- paste("\\node (",node,") at (",x,"bp,",-y,"bp) [draw,circle split,",double,"fill=",nodeColor,"] {$",node,"$ \\nodepart{lower} $",alpha,"$};",sep="")
+		nodeLine <- paste("\\node (",node,") at (",x,"bp,",-y,"bp) [draw,circle split,",double,"fill=",nodeColor,"] {$",node,"$ \\nodepart{lower} $",weight,"$};",sep="")
 		tikz <- paste(tikz, nodeLine,sep="\n")			
 	}
 	# A second loop for the edges is necessary:

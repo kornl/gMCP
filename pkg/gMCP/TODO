@@ -12,7 +12,6 @@ High priority:
 - round adjusted p-Values up
 - standard examples
 - Think about "-Xrs" - see paragraph below.
-- Check weights for numeric and also not NaN, Inf, NA and warning if <0 or >1.
 
 Medium priority:
 ================
@@ -44,6 +43,7 @@ See also http://comments.gmane.org/gmane.comp.lang.r.general/200179
 - TikZ styles for rejected / rejectable nodes
 - LogPanel looks ugly -> bug in afcommons
 - further tests
+- Could bdiag(matrix(1:4, 2), diag(3)) from package Matrix be useful?
 
 @Apple - is this a problem?
 

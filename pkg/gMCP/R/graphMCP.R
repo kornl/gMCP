@@ -6,18 +6,17 @@ setClass("graphMCP",
 
 
 setMethod("initialize", "graphMCP",
-		function(.Object, nodes=character(0), edgeL, alpha) {
+		function(.Object, nodes=character(0), edgeL, weights) {
 			.Object <- callNextMethod(.Object, nodes, edgeL, edgemode="directed")
-			if (length(alpha)) {			
-				checkValidAlpha(alpha)
+			if (length(weights)) {			
+				checkValidWeights(weights)
 			}
-			defaultProps <- list(alpha=0, rejected=FALSE)
+			defaultProps <- list(nodeWeight=0, rejected=FALSE)
 			nodeAttrData <- new("attrData", defaults=defaultProps)
-			attrDataItem(nodeAttrData, x=nodes, attr="alpha") <- alpha
+			attrDataItem(nodeAttrData, x=nodes, attr="nodeWeight") <- weights
 			.Object@nodeData <- nodeAttrData
 			edgeDataDefaults(.Object, "labelX") <- -100
 			edgeDataDefaults(.Object, "labelY") <- -100
-			#.Object@alpha <- alpha
 			validObject(.Object)
 			return(.Object)
 		})
@@ -33,7 +32,7 @@ setMethod("print", "gMCPResult",
 		function(x, ...) {
 			callNextMethod(x, ...)
 			#for (node in nodes(x)) {
-			#	cat(paste(node, " (",ifelse(unlist(nodeData(x, node, "rejected")),"rejected","not rejected"),", alpha=",format(unlist(nodeData(x, node, "alpha")), digits=4 ,drop0trailing=TRUE),")\n", sep=""))	
+			#	cat(paste(node, " (",ifelse(unlist(nodeData(x, node, "rejected")),"rejected","not rejected"),", alpha=",format(unlist(nodeData(x, node, "nodeWeight")), digits=4 ,drop0trailing=TRUE),")\n", sep=""))	
 			#}
 			#cat(paste("alpha=",paste(format(getWeights(x), digits=4 ,drop0trailing=TRUE),collapse="+"),"=",sum(getWeights(x)),"\n", sep=""))			
 		})
@@ -71,7 +70,7 @@ setGeneric("getWeights", function(object, node, ...) standardGeneric("getWeights
 
 setMethod("getWeights", c("graphMCP"),
 		function(object, node, ...) {
-			alpha <- unlist(nodeData(object, nodes(object), "alpha"))
+			alpha <- unlist(nodeData(object, nodes(object), "nodeWeight"))
 			names(alpha) <- nodes(object)
 			if (!missing(node)) {
 				return(alpha[node])
@@ -86,14 +85,14 @@ setMethod("setWeights", c("graphMCP"),
 			if (missing(node)) {
 				node <- nodes(object)
 			}
-			nodeData(object, nodes(object), "alpha") <- weights			
+			nodeData(object, nodes(object), "nodeWeight") <- weights			
 			return(object)
 		})
 
 setMethod("getWeights", c("gMCPResult"),
 		function(object, node, ...) {
 			graph <- object@graphs[[length(object@graphs)]]
-			alpha <- unlist(nodeData(graph, nodes(graph), "alpha"))
+			alpha <- unlist(nodeData(graph, nodes(graph), "nodeWeight"))
 			names(alpha) <- nodes(graph)
 			if (!missing(node)) {
 				return(alpha[node])
@@ -150,7 +149,7 @@ setMethod("print", "graphMCP",
 		function(x, ...) {
 			callNextMethod(x, ...)
 			#for (node in nodes(x)) {
-			#	cat(paste(node, " (",ifelse(unlist(nodeData(x, node, "rejected")),"rejected","not rejected"),", alpha=",format(unlist(nodeData(x, node, "alpha")), digits=4 ,drop0trailing=TRUE),")\n", sep=""))	
+			#	cat(paste(node, " (",ifelse(unlist(nodeData(x, node, "rejected")),"rejected","not rejected"),", alpha=",format(unlist(nodeData(x, node, "nodeWeight")), digits=4 ,drop0trailing=TRUE),")\n", sep=""))	
 			#}
 			#cat(paste("alpha=",paste(format(getWeights(x), digits=4 ,drop0trailing=TRUE),collapse="+"),"=",sum(getWeights(x)),"\n", sep=""))			
 		})
@@ -163,7 +162,7 @@ setMethod("show", "graphMCP",
 				cat(paste("Sum of weight: ",sum(getWeights(object)),"\n", sep=""))
 			}
 			for (node in nodes(object)) {
-				cat(paste(node, " (",ifelse(unlist(nodeData(object, node, "rejected")),"rejected","not rejected"),", weight=",format(unlist(nodeData(object, node, "alpha")), digits=4, drop0trailing=TRUE),")\n", sep=""))	
+				cat(paste(node, " (",ifelse(unlist(nodeData(object, node, "rejected")),"rejected","not rejected"),", weight=",format(unlist(nodeData(object, node, "nodeWeight")), digits=4, drop0trailing=TRUE),")\n", sep=""))	
 			}
 			if (length(unlist(edges(object)))==0) {
 				cat("No edges.\n")

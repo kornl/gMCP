@@ -12,7 +12,7 @@ matrix2graph <- function(m, weights=rep(1/dim(m)[1],dim(m)[1])) {
 	edges <- vector("list", length=length(hnodes))
 	names(edges)<-hnodes
 	for (i in 1:length(hnodes)) edges[[i]] <- list()
-	graph <- new("graphMCP", nodes=hnodes, edgeL=edges, alpha=weights)
+	graph <- new("graphMCP", nodes=hnodes, edgeL=edges, weights=weights)
 	# Creating edges:
 	for (i in 1:length(hnodes)) {
 		for (j in 1:length(hnodes)) {

@@ -7,7 +7,7 @@ test.graphMCP <- function() {
 	for(i in 1:4) {		
 		edL[[i]] <- list(edges=5-i, weights=weights[i])
 	}
-	gR <- new("graphMCP", nodes=hypotheses, edgeL=edL, alpha=c(0.1, 0.1, 0.1, 0))
+	gR <- new("graphMCP", nodes=hypotheses, edgeL=edL, weights=c(0.1, 0.1, 0.1, 0))
 	
 	# Tests
 	checkEquals(unlist(edges(gR)), 

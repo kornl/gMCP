@@ -5,6 +5,7 @@ Version 0.5-0
   - gMCP and many other functions have an argument alpha with default 0.05
   - getAlpha is now called getWeights since it returns the weights
   - graph2weights is removed since it is a special case of getWeights
+- due to these changes above, graphs that have been saved to files will cause errors when loaded and processed
 - getX/Y were renamed into getX/YCoordinates due to Rgraphviz conflicts.
 - Backward compatibility for R 2.8.0 and rJava 0.6-3.
 - CTRL+C interrupts only the last R command and does not close the whole R session.
@@ -37,6 +38,7 @@ Version 0.3-5 (13-Mar-2011)
 =============
 - Unfortunately after release it was noted that the GUI was not responding in 0.3-5.
 - New dependencies: MASS for MASS::fractions and PolynomF for polynoms in epsilon.
+- Saving and loading of graphs to/from files.
 - Method graphGUI has a new optional argument "pvalues" for loading p-values.
 - Trying to show fractions in the GUI instead of decimal numbers
 - Line width of graphs can be adjusted (line width 2 is now default)

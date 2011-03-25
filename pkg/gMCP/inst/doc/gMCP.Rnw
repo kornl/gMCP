@@ -55,7 +55,7 @@ must be created.
 <<echo=FALSE,results=tex>>=
 
 hnodes <- c("H11", "H21", "H31", "H12", "H22", "H32")
-alpha <- c(0.05/3, 0.05/3, 0.05/3, 0, 0, 0)
+weights <- c(1/3, 1/3, 1/3, 0, 0, 0)
 edges <- list()
 edges[["H11"]] <- list(edges=c("H21","H12"), weights=c(1/2, 1/2))
 edges[["H21"]] <- list(edges=c("H11","H31","H22"), weights=c(1/3, 1/3, 1/3))
@@ -63,7 +63,7 @@ edges[["H31"]] <- list(edges=c("H21","H32"), weights=c(1/2, 1/2))
 edges[["H12"]] <- list(edges="H21", weights=1)
 edges[["H22"]] <- list(edges=c("H11","H31"), weights=c(1/2, 1/2))
 edges[["H32"]] <- list(edges="H21", weights=1)
-graph <- new("graphMCP", nodes=hnodes, edgeL=edges, alpha=alpha)
+graph <- new("graphMCP", nodes=hnodes, edgeL=edges, weights=weights)
 nodeX <- c(H11=100, H21=300, H31=500, H12=100, H22=300, H32=500)
 nodeY <- c(H11=100, H21=100, H31=100, H12=300, H22=300, H32=300)
 nodeRenderInfo(graph) <- list(nodeX=nodeX, nodeY=nodeY)	
@@ -93,7 +93,7 @@ that you can see in figure \ref{exampleGraphBretz}.
 <<echo=TRUE>>=
 
 hnodes <- c("H11", "H21", "H31", "H12", "H22", "H32")
-alpha <- c(0.05/3, 0.05/3, 0.05/3, 0, 0, 0)
+weights <- c(1/3, 1/3, 1/3, 0, 0, 0)
 edges <- list()
 edges[["H11"]] <- list(edges=c("H21","H12"), weights=c(1/2, 1/2))
 edges[["H21"]] <- list(edges=c("H11","H31","H22"), weights=c(1/3, 1/3, 1/3))
@@ -101,7 +101,7 @@ edges[["H31"]] <- list(edges=c("H21","H32"), weights=c(1/2, 1/2))
 edges[["H12"]] <- list(edges="H21", weights=1)
 edges[["H22"]] <- list(edges=c("H11","H31"), weights=c(1/2, 1/2))
 edges[["H32"]] <- list(edges="H21", weights=1)
-graph <- new("graphMCP", nodes=hnodes, edgeL=edges, alpha=alpha)
+graph <- new("graphMCP", nodes=hnodes, edgeL=edges, weights=weights)
 
 @
 \normalsize
