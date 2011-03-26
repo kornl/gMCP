@@ -9,7 +9,6 @@ import java.awt.font.FontRenderContext;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Rectangle2D;
 import java.text.DecimalFormat;
-import java.util.Collection;
 import java.util.Vector;
 
 import org.mutoss.config.Configuration;

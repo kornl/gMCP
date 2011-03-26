@@ -7,12 +7,9 @@ import java.util.List;
 import java.util.Set;
 import java.util.Vector;
 
-import javax.swing.ButtonGroup;
 import javax.swing.JButton;
-import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
-import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 
 import org.mutoss.config.Configuration;

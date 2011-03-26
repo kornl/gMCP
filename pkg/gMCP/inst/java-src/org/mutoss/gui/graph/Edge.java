@@ -6,7 +6,6 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.font.FontRenderContext;
 import java.awt.geom.Rectangle2D;
-import java.text.DecimalFormat;
 import java.util.Collection;
 import java.util.Hashtable;
 
@@ -14,8 +13,6 @@ import org.af.commons.images.GraphDrawHelper;
 import org.af.commons.images.GraphException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.mutoss.config.Configuration;
-import org.mutoss.gui.RControl;
 
 public class Edge {
 
