@@ -47,9 +47,9 @@ public class MenuBarMGraph extends JMenuBar implements ActionListener {
 		JMenu menu = new JMenu("File");
 
 		menu.add(makeMenuItem("New Graph", "new graph"));
-		menu.add(makeMenuItem("Load Graph from file", "load graph"));
+		menu.add(makeMenuItem("Load Graph from RData file", "load graph"));
 		menu.addSeparator();		
-		menu.add(makeMenuItem("Save Graph to file", "save graph"));		
+		menu.add(makeMenuItem("Save Graph to RData file", "save graph"));		
 		menu.addSeparator();
 		menu.add(makeMenuItem("Export Graph to PNG Image", "save graph image"));
 		menu.add(makeMenuItem("Export Graph to LaTeX File", "save graph latex"));
@@ -250,8 +250,7 @@ public class MenuBarMGraph extends JMenuBar implements ActionListener {
 	}
 	
 	public void exportLaTeXGraph() {
-		NetList nl = control.getNL();
-		writeLaTeX(nl.getLaTeX());
+		writeLaTeX(control.getNL().getLaTeX());
 	}
 	
 	public String LATEX_BEGIN_DOCUMENT = "\\documentclass[11pt]{article}\n"+
@@ -311,9 +310,9 @@ public class MenuBarMGraph extends JMenuBar implements ActionListener {
 		fc.setFileFilter(new FileFilter() {
 			public boolean accept(File f) {
 				if (f.isDirectory()) return true;
-				return f.getName().toLowerCase().endsWith(".xml");
+				return f.getName().toLowerCase().endsWith(".RData");
 			}
-			public String getDescription () { return "XML files"; }  
+			public String getDescription () { return "RData files"; }  
 		});
 
         int returnVal = fc.showOpenDialog(this);
@@ -338,17 +337,17 @@ public class MenuBarMGraph extends JMenuBar implements ActionListener {
         fc.setFileFilter(new FileFilter() {
 			public boolean accept(File f) {
 				if (f.isDirectory()) return true;
-				return f.getName().toLowerCase().endsWith(".xml");
+				return f.getName().toLowerCase().endsWith(".RData");
 			}
-			public String getDescription () { return "XML files"; }  
+			public String getDescription () { return "RData files"; }  
 		});
         fc.setDialogType(JFileChooser.SAVE_DIALOG);
         int returnVal = fc.showOpenDialog(this);
         if (returnVal == JFileChooser.APPROVE_OPTION) {
             File f = fc.getSelectedFile();
             Configuration.getInstance().setClassProperty(this.getClass(), "RObjDirectory", f.getParent());
-            if (!f.getName().toLowerCase().endsWith(".xml")) {
-            	f = new File(f.getAbsolutePath()+".xml");
+            if (!f.getName().toLowerCase().endsWith(".RData")) {
+            	f = new File(f.getAbsolutePath()+".RData");
             }
             try {
             	//((ControlMGraph) control).getNL().saveToXML(f);

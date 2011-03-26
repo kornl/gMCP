@@ -15,6 +15,7 @@ import javax.swing.JLabel;
 import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 
+import org.mutoss.config.Configuration;
 import org.mutoss.gui.CreateGraphGUI;
 import org.mutoss.gui.RControl;
 
@@ -49,16 +50,20 @@ public class VariableDialog extends JDialog implements ActionListener {
         
         for (Object s : variables) {        	
         	JTextField jt = new JTextField("0");
+        	if (s.equals("ε")) {
+        		jt.setText(""+Configuration.getInstance().getGeneralConfig().getEpsilon());
+        	}
         	getContentPane().add(new JLabel("Value for '"+s+"':"), cc.xy(2, row));
         	getContentPane().add(jt, cc.xy(4, row));
         	jtl.add(jt);
 
         	row += 2;
         }
-        
                 
         getContentPane().add(ok, cc.xy(4, row));
         ok.addActionListener(this);        
+        
+        actionPerformed(null);
         
         pack();
         setVisible(true);
@@ -66,14 +71,12 @@ public class VariableDialog extends JDialog implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		if (e.getSource() == ok) {
-			//Fill HashTable:
-			for (int i=0; i<variables.length; i++) {
-				double value = RControl.getR().eval(jtl.get(i).getText()).asRNumeric().getData()[0];
-				ht.put(variables[i].toString(), value);
-			}
-			dispose();
+		//Fill HashTable:
+		for (int i=0; i<variables.length; i++) {
+			double value = RControl.getR().eval(jtl.get(i).getText()).asRNumeric().getData()[0];
+			ht.put(variables[i].toString(), value);
 		}
+		dispose();
 	}	
 	
 	public Hashtable<String,Double> getHT() {
