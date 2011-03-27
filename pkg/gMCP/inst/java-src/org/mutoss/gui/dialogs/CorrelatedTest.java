@@ -32,7 +32,7 @@ public class CorrelatedTest extends JDialog implements ActionListener {
 		setLocationRelativeTo(parent);
 		this.parent = parent;
 		
-		String[] matrices = RControl.getR().eval("gMCP:::getAllMatrices()").asRChar().getData();
+		String[] matrices = RControl.getR().eval("gMCP:::getAllQuadraticMatrices()").asRChar().getData();
 		
 		String[] correlations = new String[] {"Dunnett"};
 		//"Dunnett", "Tukey", "Sequen", "AVE", "Changepoint", "Williams", "Marcus", "McDermott", "UmbrellaWilliams", "GrandMean"
@@ -40,7 +40,7 @@ public class CorrelatedTest extends JDialog implements ActionListener {
 	    jcbCorString = new JComboBox(correlations);
 	    jcbCorObject = new JComboBox(matrices);
 		
-		if (matrices.length==1 && matrices[0].equals("No matrices found.")) {
+		if (matrices.length==1 && matrices[0].equals("No quadratic matrices found.")) {
 			jcbCorObject.setEnabled(false);
 			jrbRCorrelation.setEnabled(false);
 		}
