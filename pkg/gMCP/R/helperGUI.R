@@ -61,12 +61,28 @@ stupidWorkAround <- function(graph) {
 	return(graph)
 }
 
-getAllMatrices <- function(envir=globalenv()) {
+getAllQuadraticMatrices <- function(envir=globalenv()) {
 	objects <- ls(envir)
 	matrices <- c()
 	for (obj in objects) {
-		if (is.matrix(get(obj, envir=envir))) matrices <- c(matrices, obj)
+		candidate <- get(obj, envir=envir)
+		if (is.matrix(candidate) && dim(candidate)[1] == dim(candidate)[2]) {
+			matrices <- c(matrices, obj)
+		}
 	}
-	if (length(matrices)==0) return("No matrices found.")
+	if (length(matrices)==0) return("No quadratic matrices found.")
 	return(matrices)
+}
+
+getAllGraphs <- function(envir=globalenv()) {
+	objects <- ls(envir)
+	graphs <- c()
+	for (obj in objects) {
+		candidate <- get(obj, envir=envir)
+		if ("graphMCP" %in% class(candidate)) {
+			graphs <- c(graphs, obj)
+		}
+	}
+	if (length(graphs)==0) return("No graphMCP objects found.")
+	return(graphs)
 }
