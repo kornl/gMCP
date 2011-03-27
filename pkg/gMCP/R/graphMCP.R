@@ -17,6 +17,7 @@ setMethod("initialize", "graphMCP",
 			.Object@nodeData <- nodeAttrData
 			edgeDataDefaults(.Object, "labelX") <- -100
 			edgeDataDefaults(.Object, "labelY") <- -100
+			edgeDataDefaults(.Object, "epsilon") <- list(0)
 			validObject(.Object)
 			return(.Object)
 		})
@@ -45,12 +46,12 @@ setMethod("show", "gMCPResult",
 			cat("\nInitial graph:\n")
 			print(object@graphs[[1]])
 			cat("\nP-values:\n")
-			print(object@pvalues)
-			cat(paste("\nAlpha:",object@alpha))			
+			print(object@pvalues)						
 			if (length(object@adjPValues)>0) {
 				cat("\nAdjusted p-values:\n")
 				print(object@adjPValues)
 			}
+			cat(paste("\nAlpha:",object@alpha,"\n"))
 			if (all(!object@rejected)) {
 				cat("\nNo hypotheses could be rejected.\n")				
 			} else {

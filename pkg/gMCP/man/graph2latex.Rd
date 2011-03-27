@@ -10,7 +10,7 @@
 \usage{
 	graph2latex(graph, package="TikZ", scale=1, alpha=0.05, pvalues,
 	fontsize=c("tiny","scriptsize", "footnotesize", "small",
-		"normalsize", "large", "Large", "LARGE", "huge", "Huge"))
+		"normalsize", "large", "Large", "LARGE", "huge", "Huge"), nodeTikZ)
 }
 
 \arguments{
@@ -36,6 +36,9 @@
   	\code{"footnotesize"}, \code{"small"}, \code{"normalsize"}, \code{"large"}, \code{"Large"}, \code{"LARGE"}, 
   	\code{"huge"} or \code{"Huge"}.
   }  
+  \item{nodeTikZ}{
+  	A character string with additional arguments for the TikZ \code{node} command like for example \code{nodeTikZ="minimum size=2cm"}.
+  }
 }
 \details{
 	For details see the given references.

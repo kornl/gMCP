@@ -1,3 +1,4 @@
+
 Version 0.5-0
 =============
 - We use weights instead of direct alpha allocation in the graphs.
@@ -7,10 +8,11 @@ Version 0.5-0
   - graph2weights is removed since it is a special case of getWeights
 - due to these changes above, graphs that have been saved to files will cause errors when loaded and processed
 - getX/Y were renamed into getX/YCoordinates due to Rgraphviz conflicts.
+- graph2latex has a new argument "nodeTikZ".
 - new function bdiagNA for building block diagonal matrices with NA values outside the diagonal
 - Backward compatibility for R 2.8.0 and rJava 0.6-3.
 - CTRL+C interrupts only the last R command and does not close the whole R session.
-- CRAN has disabled checks on arch="ppc", so MacOS builds are (hopefully) again available from CRAN.
+- CRAN has disabled checks on arch="ppc", so MacOS builds are again available from CRAN.
 - Bug report sends now also the result from traceback()
 - A lot of bug fixes for corner and edge cases
 - Please note that full epsilon support is postponed for version 0.6-0 
@@ -27,6 +29,7 @@ Version 0.4-0 (21-Mar-2011)
 - When the test phase is started in the GUI, you are asked, whether you have (partial) knowledge about the correlations between the tests.
 - Better support for more than one GUI window in the same R session.
 - All help files open correctly on windows machines - even with Java 5.0
+ 48 files changed, 278 insertions(+), 91 deletions(-)
 
 Version 0.3-6 (15-Mar-2011)
 =============
@@ -34,6 +37,7 @@ Version 0.3-6 (15-Mar-2011)
 - C compiler is needed for building gMCP since the first C source file was added.
 - When saving/loading graphs, reports or png/LaTeX files, the last directory is remembered. 
 - Adjusted p-values are now truncated and can not be bigger than one.
+ 36 files changed, 278 insertions(+), 495 deletions(-)
 
 Version 0.3-5 (13-Mar-2011)
 =============
@@ -47,11 +51,13 @@ Version 0.3-5 (13-Mar-2011)
 - Improvement of PNG exports
 - Parameters for example graphs in GUI
 - More RUnit tests
+ 40 files changed, 363 insertions(+), 406 deletions(-)
 
 Version 0.3-4 (26-Nov-2010)
 =============
 - New functions: graph2matrix and matrix2graph
 - Adjaceny matrix is shown and can be edited.
+ 38 files changed, 152 insertions(+), 134 deletions(-)
 
 Version 0.3-3 (15-Nov-2010)
 =============
@@ -72,6 +78,7 @@ Version 0.3-3 (15-Nov-2010)
 - Option whether graphs should be colored or not.
 - Update in the GUI for confidence intervals to avoid a confused user.
 - Removed function adjPValues from public API - adjusted p-values are now calculated in the gMCP call.
+ 33 files changed, 269 insertions(+), 282 deletions(-)
 
 Version 0.3-2 (08-Oct-2010)
 =============
@@ -83,6 +90,7 @@ Version 0.3-2 (08-Oct-2010)
 - We need rJava in version 0.8-3 or later.
 - Vignette can be shown from inside the GUI.
 - Function "setAlpha".
+ 36 files changed, 242 insertions(+), 110 deletions(-)
 
 Version 0.3-1 (02-Oct-2010)
 =============
@@ -94,6 +102,7 @@ Version 0.3-1 (02-Oct-2010)
 - Edges from one node to itself (loops) are not allowed any more.
 - Start button is only enabled, if the graph has any nodes.
 - Bug-fix regarding epsilon edges.
+ 25 files changed, 186 insertions(+), 113 deletions(-)
 
 Version 0.3-0 (01-Oct-2010)
 =============
@@ -103,6 +112,7 @@ Version 0.3-0 (01-Oct-2010)
 - Completely separated nodes (which only occur in sub-optimal testing procedures) are now handled correctly.
 - If the graph has no nodeRenderInfo available when the GUI is called, the edges are placed in a circle.
 - Deducer support if installed and loaded.
+ 42 files changed, 980 insertions(+), 930 deletions(-)
 
 Version 0.2-4 (30-Sep-2010)
 =============

@@ -9,11 +9,44 @@
 \usepackage{url}
 \usepackage{hyperref}
 \usepackage{listings}
+\usepackage{xspace}
 \usepackage[numbers]{natbib}
+%\usepackage[left=3cm,right=3cm,top=2cm,bottom=2cm]{geometry}
+\usepackage{amsmath,amsthm,amsfonts,amssymb}
 \bibliographystyle{plainnat}
 \setlength{\parindent}{0mm}
 \setlength{\parskip}{1mm}
 \newcommand{\commentout}[1]{}
+\renewcommand{\theequation}{\thesection.\arabic{\equation}}
+\numberwithin{equation}{section}
+
+\theoremstyle{definition}
+\newtheorem{Def}{Definition}[section]
+\newtheorem{Rem}[Def]{Remark}
+\newtheorem{RemDef}[Def]{Remark und Definition}
+\newtheorem{DefRem}[Def]{Definition und Remark}
+\newtheorem{Example}[Def]{Example}
+\theoremstyle{plain}
+\newtheorem{Theorem}[Def]{Theorem}
+\newtheorem{DefTheorem}[Def]{Definition and Theorem}
+\newtheorem{Corollary}[Def]{Corollary}
+\newtheorem{Lemma}[Def]{Lemma}
+
+\newcommand{\C}{\ensuremath{\mathbb{C}}\xspace}
+\newcommand{\R}{\ensuremath{\mathbb{R}}\xspace}
+\newcommand{\Q}{\ensuremath{\mathbb{Q}}\xspace}
+\newcommand{\Z}{\ensuremath{\mathbb{Z}}\xspace}
+\newcommand{\NN}{\ensuremath{\mathbb{N}_0}\xspace}
+\newcommand{\NE}{\ensuremath{\mathbb{N}}\xspace}
+
+\DeclareMathOperator{\range}{range}
+
+\newcommand{\skp}[1]{\left\langle#1\right\rangle}
+
+\renewcommand{\epsilon}{\varepsilon}
+
+\newenvironment{Proof}{\par\noindent\upshape\textit{Proof. }\nopagebreak}{\qed\par}
+
 \begin{document}
 
 % \VignetteIndexEntry{A Graphical Approach to Weighted Multiple Test Procedures}
@@ -37,13 +70,84 @@ options(digits=4)
 
 \section{Introduction}
 
-This package provides functions and graphical user interfaces for graph based multiple test procedures.
-These graphs define a weighting strategy for all subsets of null hypotheses and following the closed test procedure weighted tests can be performed on these subsets.
-In some case shortcuts are available, for example the weighted Bonferroni corrected tests lead to a sequentially rejective multiple test procedure.
+This package provides functions and graphical user interfaces for
+graph based multiple test procedures.  These graphs define a weighting
+strategy for all subsets of null hypotheses and following the closed
+test procedure weighted tests can be performed on these subsets
+leading to a multiple test procedure controlling the family wise error
+rate in the strong sense. In some cases shortcuts are available, for
+example the weighted Bonferroni procedure leads to a sequentially
+rejective multiple test procedure.
 
-At all steps either graphical user interfaces or the R Console, S4 objects and methods can be used.
+At all steps either graphical user interfaces or the R Console with S4
+objects and methods can be used.
 
-Please note that this is still a beta release and the API will change in future versions.
+Please note that this is still a beta release and the API will most
+likely still change in future versions.
+
+<<echo=FALSE>>=
+
+gMCPReport <- function(...) {invisible(NULL)}
+graphGUI <- function(...) {invisible(NULL)}
+
+@
+
+\subsection{Example and diving in}
+
+Let's start with a well-known procedure and see how it fits into this
+graphical approach to weighted multiple test procedures: The
+Bonferroni-Holm-Procedure \cite{Holm79}.
+
+\begin{Theorem}[Bonferroni-Holm-Procedure] Let $H_0, H_1, \ldots H_k$ be 
+
+\end{Theorem}
+
+\begin{figure}[ht]
+  \centering
+<<echo=FALSE,results=tex>>=
+
+graph <- createBonferroniHolmGraph(3)
+cat(graph2latex(graph, scale=0.7, fontsize="tiny"))
+
+@
+  \caption{\label{exampleGraphBretz} Graph representing the
+    Bonferroni-Holm-Procedure for three hypotheses.}
+\end{figure}
+
+\begin{Example}
+  Let $p_1=0.01$, $p_2=0.04$ and $p_3=0.02$ be three p-values.
+  
+\end{Example}
+
+\begin{figure}[ht]
+  \centering
+<<echo=FALSE,results=tex>>=
+
+graph <- createBonferroniHolmGraph(3)
+cat(graph2latex(graph, scale=0.7, fontsize="tiny", nodeTikZ="minimum size=1.2cm"))
+cat("$\\downarrow$ reject $H_1$\\\\")
+graph <- rejectNode(graph, "H1")
+cat(graph2latex(graph, scale=0.7, fontsize="tiny", nodeTikZ="minimum size=1.2cm"))
+cat("$\\downarrow$ reject $H_3$\\\\")
+graph <- rejectNode(graph, "H3")
+cat(graph2latex(graph, scale=0.7, fontsize="tiny", nodeTikZ="minimum size=1.2cm"))
+cat("reject $H_2$")
+
+@
+  \caption{\label{exampleGraphBretz} Example showing how all three
+    null hypotheses can be rejected with p-values $p_1=0.01$,
+    $p_2=0.04$ and $p_3=0.02$.}
+\end{figure}
+
+
+\scriptsize
+<<echo=TRUE>>=
+
+library(gMCP)
+graphGUI("graph")
+
+@
+\normalsize
 
 \section{Creating the graph}
 
@@ -69,9 +173,6 @@ nodeY <- c(H11=100, H21=100, H31=100, H12=300, H22=300, H32=300)
 nodeRenderInfo(graph) <- list(nodeX=nodeX, nodeY=nodeY)	
 cat(graph2latex(graph, scale=0.7, fontsize="tiny"))
 
-gMCPReport <- function(...) {invisible(NULL)}
-graphGUI <- function(...) {invisible(NULL)}
-
 @
   \caption{\label{exampleGraphBretz} Example graph from \cite{bretzEtAl2009power} that we will create in this vignette.}
 \end{figure}
@@ -86,8 +187,9 @@ allocation of the significance level alpha to the individual
 hypotheses.  Declaration of the nodes and edges is inherited from
 class \texttt{graphNEL}.
 
-As an example we now create the graph from Bretz et al. \cite{bretzEtAl2009power}
-that you can see in figure \ref{exampleGraphBretz}.
+As an example we now create the graph from Bretz et
+al. \cite{bretzEtAl2009power} that you can see in figure
+\ref{exampleGraphBretz}.
 
 \scriptsize
 <<echo=TRUE>>=
@@ -118,8 +220,8 @@ print(graph)
 
 Since we also want to visualize the graph, we use the method
 \texttt{nodeRenderInfo} from package \texttt{graph} to set appropriate
-x- and y-coordinates in the renderInfo.
-(We are compatible to the renderInfo usage from package Rgraphviz \cite{Rgraphviz}.)
+x- and y-coordinates in the renderInfo.  (We are compatible to the
+renderInfo usage from package Rgraphviz \cite{Rgraphviz}.)
 
 \scriptsize
 <<echo=TRUE>>=
@@ -131,7 +233,8 @@ nodeRenderInfo(graph) <- list(nodeX=nodeX, nodeY=nodeY)
 @
 \normalsize
 
-Coordinates are interpretated as pixels in the GUI and big points in {\LaTeX} (72 bp = 1 inch).
+Coordinates are interpretated as pixels in the GUI and big points in
+{\LaTeX} (72 bp = 1 inch).
 
 Let's take a look at the graph in {\LaTeX} rendered with TikZ
 \cite{TikZ} (you can see the compiled result in figure
@@ -148,8 +251,10 @@ cat(graph2latex(graph))
 %\end{lstlisting}
 \normalsize
 
-We can even change the position of the edge labels for further fine tuning of the graphical representation.
-With the following command we place the label for the edge from \texttt{H1} to \texttt{H2} at position (200, 80):
+We can even change the position of the edge labels for further fine
+tuning of the graphical representation.  With the following command we
+place the label for the edge from \texttt{H1} to \texttt{H2} at
+position (200, 80):
 
 \scriptsize
 <<echo=TRUE>>=
@@ -162,7 +267,8 @@ edgeData(graph, "H11", "H21", "labelY") <- 80
 
 \subsubsection{graph2matrix and matrix2graph}
 
-We can also constuct a graph from a given adjacency matrix via the command \texttt{matrix2graph}:
+We can also constuct a graph from a given adjacency matrix via the
+command \texttt{matrix2graph}:
 
 \scriptsize
 <<echo=TRUE>>=
@@ -180,13 +286,15 @@ graph2matrix(graph)
 \subsection{Using the GUI}
 
 The creation of \texttt{graphMCP} objects is very straight forward,
-but still takes some time and typos may occur.
-More convenient for the average user is the use of the graphical user interface for creating
-and editing MCP graphs that the \texttt{gMCP} package includes.
+but still takes some time and typos may occur.  More convenient for
+the average user is the use of the graphical user interface for
+creating and editing MCP graphs that the \texttt{gMCP} package
+includes.
 
-It is called by the command \texttt{graphGUI()} and takes as optional argument a variable name,
-given as a character string, of the graph to edit or under which a newly created
-\texttt{graphMCP} object will be available from the R command line.
+It is called by the command \texttt{graphGUI()} and takes as optional
+argument a variable name, given as a character string, of the graph to
+edit or under which a newly created \texttt{graphMCP} object will be
+available from the R command line.
 
 \scriptsize
 <<echo=TRUE>>=
@@ -204,25 +312,35 @@ graphGUI("graph")
 
 Let's take a look at the icon panel:
 
-\includegraphics[width=0.5cm]{pictures/vertex.png} This button lets you add a new node to the graph.
-After pressing the button click somewhere on the graph panel and a new node will appear at this place.
+\includegraphics[width=0.5cm]{pictures/vertex.png} This button lets
+you add a new node to the graph.  After pressing the button click
+somewhere on the graph panel and a new node will appear at this place.
 
-\includegraphics[width=0.5cm]{pictures/edge.png} This button lets you add a new edge between two nodes.
-After pressing the button click on the node the edge should start and after that on the node the edge should end.
+\includegraphics[width=0.5cm]{pictures/edge.png} This button lets you
+add a new edge between two nodes.  After pressing the button click on
+the node the edge should start and after that on the node the edge
+should end.
 
-\includegraphics[width=0.5cm]{pictures/zoom_in.png} \includegraphics[width=0.5cm]{pictures/zoom_out.png}
-For really big graphs the ability to zoom in and out is usefull.
+\includegraphics[width=0.5cm]{pictures/zoom_in.png}
+\includegraphics[width=0.5cm]{pictures/zoom_out.png} For really big
+graphs the ability to zoom in and out is usefull.
 
-\includegraphics[width=0.5cm]{pictures/latex.png} This button exports the graph as an {\LaTeX} TikZ picture.
+\includegraphics[width=0.5cm]{pictures/latex.png} This button exports
+the graph as an {\LaTeX} TikZ picture.
 
-\includegraphics[width=0.5cm]{pictures/adjPval.png} Calculates the adjusted p-values.
+\includegraphics[width=0.5cm]{pictures/adjPval.png} Calculates the
+adjusted p-values.
 
-\includegraphics[width=0.5cm]{pictures/confint2.png} Calculates simultaneous confidence intervals.
+\includegraphics[width=0.5cm]{pictures/confint2.png} Calculates
+simultaneous confidence intervals.
 
-\includegraphics[width=0.5cm]{pictures/StartTesting.png} \includegraphics[width=0.5cm]{pictures/Reset.png} Starts the testing procedure / goes back to the graph modification. 
+\includegraphics[width=0.5cm]{pictures/StartTesting.png}
+\includegraphics[width=0.5cm]{pictures/Reset.png} Starts the testing
+procedure / goes back to the graph modification.
 
-\includegraphics[width=0.5cm]{pictures/save.png} This button exports the graph back to R under the variable name
-in the adjacent text field.  
+\includegraphics[width=0.5cm]{pictures/save.png} This button exports
+the graph back to R under the variable name in the adjacent text
+field.
 
 With drag and drop you can move nodes and also adjust edges.
 
@@ -265,7 +383,8 @@ cat(graph2latex(result@graphs[[4]], scale=0.7, fontsize="tiny"))
   \caption{\label{finalstate}Final graph from the test procedure after rejection of $H_{21}$, $H_{31}$ and $H_{32}$.}
 \end{figure}
 
-The command \texttt{gMCPReport} generates a full report of the testing procedure:
+The command \texttt{gMCPReport} generates a full report of the testing
+procedure:
 
 \scriptsize
 <<echo=TRUE>>=
@@ -293,10 +412,17 @@ est <- st*s/sqrt(10)
 
 @
 
-Let's assume the tests for hypotheses $H1:\;\theta_1=0$, $H2:\;\theta_2=0$ and $H3:\;\theta_3=0$ are three t-tests with degree of freedom 9.
-The estimates are $\hat\theta_1=\Sexpr{format(est[1])}$, $\hat\theta_2=\Sexpr{format(est[2])}$ and $\hat\theta_3=\Sexpr{format(est[3])}$, 
-the sample standard deviations $s_1=1.2$, $s_2=0.8$ and $s_3=1.7$ the t-statistics $\Sexpr{format(st[1])}$, $\Sexpr{format(st[2])}$ and $\Sexpr{format(st[3])}$ and the corresponding p-values $p_1=0.02$, $p_2=0.055$ and $p_3=0.012$.
-We want to adjust for multiple testing by using the Bonferroni-Holm-Procedure.
+Let's assume the tests for hypotheses $H1:\;\theta_1=0$,
+$H2:\;\theta_2=0$ and $H3:\;\theta_3=0$ are three t-tests with degree
+of freedom 9.  The estimates are
+$\hat\theta_1=\Sexpr{format(est[1])}$,
+$\hat\theta_2=\Sexpr{format(est[2])}$ and
+$\hat\theta_3=\Sexpr{format(est[3])}$, the sample standard deviations
+$s_1=1.2$, $s_2=0.8$ and $s_3=1.7$ the t-statistics
+$\Sexpr{format(st[1])}$, $\Sexpr{format(st[2])}$ and
+$\Sexpr{format(st[3])}$ and the corresponding p-values $p_1=0.02$,
+$p_2=0.055$ and $p_3=0.012$.  We want to adjust for multiple testing
+by using the Bonferroni-Holm-Procedure.
 
 \scriptsize
 <<echo=TRUE, keep.source=TRUE>>=
@@ -317,7 +443,9 @@ simConfint(createBonferroniHolmGraph(3),
 
 \subsection{Using the GUI}
 
-Use the following two buttons: \includegraphics[width=1cm]{pictures/adjPval_b.png} \includegraphics[width=1cm]{pictures/confint2_b.png}
+Use the following two buttons:
+\includegraphics[width=1cm]{pictures/adjPval_b.png}
+\includegraphics[width=1cm]{pictures/confint2_b.png}
 
 See \cite{Bretz11}.
 
@@ -405,13 +533,16 @@ See \cite{Bretz11}.
 \end{figure}
 
 \section{Important TikZ commands for optimizing the reports}
-A clear automatic placement of edges and weight labels without overlapping is a very difficult task 
-and for complicated graphs the \texttt{gMCP} package will often fail to accomplish this.
-There is the possibilty to adjust the edges and labels in the GUI, but since the {\LaTeX} graph layout is not (yet) exactly the same,
-there is perhaps the need for adjusting the graphs in the TikZ code.
-The TikZ program is very useful and we recommend it for many purposes,
-but perhaps you don't have the time to read the 560 pages manual \cite{TikZ},
-so here is a short overview of the most important commands for this kind of graphs.
+A clear automatic placement of edges and weight labels without
+overlapping is a very difficult task and for complicated graphs the
+\texttt{gMCP} package will often fail to accomplish this.  There is
+the possibilty to adjust the edges and labels in the GUI, but since
+the {\LaTeX} graph layout is not (yet) exactly the same, there is
+perhaps the need for adjusting the graphs in the TikZ code.  The TikZ
+program is very useful and we recommend it for many purposes, but
+perhaps you don't have the time to read the 560 pages manual
+\cite{TikZ}, so here is a short overview of the most important
+commands for this kind of graphs.
 
 Let's start with this graph in figure \ref{uglygraph}:
 

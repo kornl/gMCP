@@ -1,6 +1,7 @@
 graph2latex <- function(graph, package="TikZ", scale=1, alpha=0.05, pvalues,
 		fontsize=c("tiny","scriptsize", "footnotesize", "small",
-		"normalsize", "large", "Large", "LARGE", "huge", "Huge")) {
+		"normalsize", "large", "Large", "LARGE", "huge", "Huge"),
+		nodeTikZ) {
 	tikz <- paste("\\begin{tikzpicture}[scale=",scale,"]", sep="")	
 	#tikz <- paste(tikz, "\\tikzset{help lines/.style=very thin}", paste="\n")	
 	for (node in nodes(graph)) {
@@ -9,7 +10,11 @@ graph2latex <- function(graph, package="TikZ", scale=1, alpha=0.05, pvalues,
 		y <- nodeRenderInfo(graph)$nodeY[node]*scale
 		#alpha <- format(getWeights(graph,node), digits=3, drop0trailing=TRUE)
 		weight <- getLaTeXFraction(getWeights(graph,node))
-		if (weight != "0") weight <- paste(weight, "\\alpha", sep="")
+		if (weight == 1) {
+			weight <- "\\alpha"
+		} else if (weight != "0") {
+			weight <- paste(weight, "\\alpha", sep="")
+		}
 		double <- ""
 		if (!missing(pvalues)) {
 			if (is.null(names(pvalues))) {
@@ -17,7 +22,10 @@ graph2latex <- function(graph, package="TikZ", scale=1, alpha=0.05, pvalues,
 			}
 			if (canBeRejected(graph, node, alpha, pvalues)) { double <- "double," }
 		}		
-		nodeLine <- paste("\\node (",node,") at (",x,"bp,",-y,"bp) [draw,circle split,",double,"fill=",nodeColor,"] {$",node,"$ \\nodepart{lower} $",weight,"$};",sep="")
+		nodeLine <- paste("\\node (",node,")",
+				" at (",x,"bp,",-y,"bp)",
+				"[draw,circle split,",ifelse(missing(nodeTikZ),"",paste(nodeTikZ,", ",sep="")),double,"fill=",nodeColor,"]",
+				" {$",node,"$ \\nodepart{lower} $",weight,"$};",sep="")
 		tikz <- paste(tikz, nodeLine,sep="\n")			
 	}
 	# A second loop for the edges is necessary:
