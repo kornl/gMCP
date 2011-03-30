@@ -1,120 +1,261 @@
 
-Version 0.5-0
+Version 0.6-0
 =============
+
+- The GUI supports edges with variables (although sum checking of
+  outgoing edges is disabled then till values are assigned to the
+  variables.)
+
+
+Version 0.5-0 (28-Mar-2011, Rev. 525)
+=====================================
+
 - We use weights instead of direct alpha allocation in the graphs.
   This causes major API changes:
-  - gMCP and many other functions have an argument alpha with default 0.05
-  - getAlpha is now called getWeights since it returns the weights
-  - graph2weights is removed since it is a special case of getWeights
-- due to these changes above, graphs that have been saved to files will cause errors when loaded and processed
-- getX/Y were renamed into getX/YCoordinates due to Rgraphviz conflicts.
-- graph2latex has a new argument "nodeTikZ".
-- new function bdiagNA for building block diagonal matrices with NA values outside the diagonal
-- Backward compatibility for R 2.8.0 and rJava 0.6-3.
-- CTRL+C interrupts only the last R command and does not close the whole R session.
-- CRAN has disabled checks on arch="ppc", so MacOS builds are again available from CRAN.
-- Bug report sends now also the result from traceback()
-- A lot of bug fixes for corner and edge cases
-- Please note that full epsilon support is postponed for version 0.6-0 
 
-Version 0.4-0 (21-Mar-2011)
-=============
-- Added code for graph based MCPs with partial knowledge of the correlation structure from Florian Klinglmueller, who is now coauthor.
-- New dependencies in this code: gtools and multcomp (and therefore also mvtnorm)
+  - gMCP and many other functions have an argument alpha with an
+    default 0.05
+
+  - getAlpha is now called getWeights since it returns the weights
+
+  - graph2weights is removed since it is a special case of getWeights
+
+- due to these changes above, graphs that have been saved to files
+  will cause errors when loaded and processed
+
+- getX/Y were renamed into getX/YCoordinates due to Rgraphviz
+  conflicts.
+
+- graph2latex has a new argument "nodeTikZ".
+
+- new function bdiagNA for building block diagonal matrices with NA
+  values outside the diagonal
+
+- Backward compatibility for R 2.8.0 and rJava 0.6-3.
+
+- CTRL+C interrupts only the last R command and does not close the
+  whole R session.
+
+- CRAN has disabled checks on arch="ppc", so MacOS builds are again
+  available from CRAN.
+
+- Bug report sends now also the result from traceback()
+
+- A lot of bug fixes for corner and edge cases
+
+- CITATION file
+
+- Please note that full epsilon support is postponed for version 0.6-0
+
+ 61 files changed, 868 insertions(+), 482 deletions(-)
+
+
+Version 0.4-0 (21-Mar-2011, Rev. 462)
+=====================================
+
+- Added code for graph based MCPs with partial knowledge of the
+  correlation structure from Florian Klinglmueller, who is now
+  coauthor.
+
+- New dependencies in this code: gtools and multcomp (and therefore
+  also mvtnorm)
+
 - gMCP has a new optional parameter "correlation".
+
 - The new vignette "correlated.pdf" shows the new features.
-- graphGUI Parameter grid is now 0 by default. This restores the last used grid value.
+
+- graphGUI Parameter grid is now 0 by default. This restores the last
+  used grid value.
+
 - Fractions instead of decimal numbers are shown in more places.
+
 - Alpha values can be entered as R expression, e.g. "0.05/7".
-- When the test phase is started in the GUI, you are asked, whether you have (partial) knowledge about the correlations between the tests.
+
+- When the test phase is started in the GUI, you are asked, whether
+  you have (partial) knowledge about the correlations between the
+  tests.
+
 - Better support for more than one GUI window in the same R session.
-- All help files open correctly on windows machines - even with Java 5.0
+
+- All help files open correctly on windows machines - even with 
+  Java 5.0
+
  48 files changed, 278 insertions(+), 91 deletions(-)
 
-Version 0.3-6 (15-Mar-2011)
-=============
-- Mainly a bug-fix release, since the GUI was often not responding in 0.3-5.
-- C compiler is needed for building gMCP since the first C source file was added.
-- When saving/loading graphs, reports or png/LaTeX files, the last directory is remembered. 
+
+Version 0.3-6 (15-Mar-2011, Rev. 410)
+=====================================
+
+- Mainly a bug-fix release, since the GUI was often not responding 
+  in 0.3-5.
+
+- C compiler is needed for building gMCP since the first C source file
+  was added.
+
+- When saving/loading graphs, reports or png/LaTeX files, the last
+  directory is remembered.
+
 - Adjusted p-values are now truncated and can not be bigger than one.
+
  36 files changed, 278 insertions(+), 495 deletions(-)
 
-Version 0.3-5 (13-Mar-2011)
-=============
-- Unfortunately after release it was noted that the GUI was not responding in 0.3-5.
-- New dependencies: MASS for MASS::fractions and PolynomF for polynoms in epsilon.
+
+Version 0.3-5 (13-Mar-2011, Rev. 379)
+=====================================
+
+- Unfortunately after release it was noted that the GUI was not
+  responding in 0.3-5.
+
+- New dependencies: MASS for MASS::fractions and PolynomF for polynoms
+  in epsilon.
+
 - Saving and loading of graphs to/from files.
-- Method graphGUI has a new optional argument "pvalues" for loading p-values.
+
+- Method graphGUI has a new optional argument "pvalues" for loading
+  p-values.
+
 - Trying to show fractions in the GUI instead of decimal numbers
+
 - Line width of graphs can be adjusted (line width 2 is now default)
+
 - Use of antialiasing for nicer graphics 
+
 - Improvement of PNG exports
+
 - Parameters for example graphs in GUI
+
 - More RUnit tests
+
  40 files changed, 363 insertions(+), 406 deletions(-)
 
-Version 0.3-4 (26-Nov-2010)
-=============
+
+Version 0.3-4 (26-Nov-2010, Rev. 341)
+=====================================
+
 - New functions: graph2matrix and matrix2graph
+
 - Adjaceny matrix is shown and can be edited.
+
  38 files changed, 152 insertions(+), 134 deletions(-)
 
-Version 0.3-3 (15-Nov-2010)
-=============
-- Be careful with epsilon edges (we never specified what exactly they are and how they should behave) 
-  and please wait for version 0.6 which will handle them in a completely new way and will document it.
-  Support for them is broken in this release. 
+
+Version 0.3-3 (15-Nov-2010, Rev. 318)
+=====================================
+
+- Be careful with epsilon edges (we never specified what exactly they
+  are and how they should behave) and please wait for version 0.6
+  which will handle them in a completely new way and will document it.
+  Support for them is broken in this release.
+
 - New example graph from Hommel et al. 2007.
+
 - Inserted missing $ in LaTeX code output from graph2latex.
+
 - Better automatic placement of edge labels.
+
 - Options dialog in GUI.
+
 - All doc files are accessible from the GUI menu.
-- The GUI Locale object is always set to English - that way there is no decimal separator confusion etc.
-- Edges with small weights are rendered better. 
-- Dialog that shows adjusted p-values with much better layout. 
-- New accompanying doc file: Description of Edges with Infinitesimal Small Epsilon Weights (unfinished). [Removed in 0.3-4]
+
+- The GUI Locale object is always set to English - that way there is
+  no decimal separator confusion etc.
+
+- Edges with small weights are rendered better.
+
+- Dialog that shows adjusted p-values with much better layout.
+
+- New accompanying doc file: Description of Edges with Infinitesimal
+  Small Epsilon Weights (unfinished). [Removed in 0.3-4]
+
 - graph2latex has the same vertical orientation as the GUI.
+
 - Option whether we want to still show already rejected nodes or not.
+
 - Option whether graphs should be colored or not.
+
 - Update in the GUI for confidence intervals to avoid a confused user.
-- Removed function adjPValues from public API - adjusted p-values are now calculated in the gMCP call.
+
+- Removed function adjPValues from public API - adjusted p-values are
+  now calculated in the gMCP call.
+
  33 files changed, 269 insertions(+), 282 deletions(-)
 
-Version 0.3-2 (08-Oct-2010)
-=============
+
+Version 0.3-2 (08-Oct-2010, Rev. 277)
+=====================================
+
 - Renaming of parameter in simConfint: "confintF" is now "confint"
+
 - Updated confidence interval dialog (but still in development).
-- Confidence intervals for t- and normal distribution can be calculated based on the p-values and point estimates in most cases.
+
+- Confidence intervals for t- and normal distribution can be
+  calculated based on the p-values and point estimates in most cases.
+
 - Reduced the package size.
+
 - Further improved capabilities for bug reporting.
+
 - We need rJava in version 0.8-3 or later.
+
 - Vignette can be shown from inside the GUI.
+
 - Function "setAlpha".
+
  36 files changed, 242 insertions(+), 110 deletions(-)
 
-Version 0.3-1 (02-Oct-2010)
-=============
+
+Version 0.3-1 (02-Oct-2010, Rev. 249)
+=====================================
+
 - The GUI has a menu bar.
-- Improved capabilities for bug reporting. All information that is sent is also shown.
-- Workaround for a problem with the graph package when a node has no out-going edges.
+
+- Improved capabilities for bug reporting. All information that is
+  sent is also shown.
+
+- Workaround for a problem with the graph package when a node has no
+  out-going edges.
+
 - Numbers are now accepted with "." and "," as decimal points
+
 - A newly created edge is now by default an epsilon edge.
+
 - Edges from one node to itself (loops) are not allowed any more.
+
 - Start button is only enabled, if the graph has any nodes.
+
 - Bug-fix regarding epsilon edges.
+
  25 files changed, 186 insertions(+), 113 deletions(-)
 
-Version 0.3-0 (01-Oct-2010)
-=============
-- Major API changes (mostly gsrmtp replaced by gMCP - but now the API should stay relatively stable).  
-- GraphGUI can now also be called directly on objects of class graphMCP, like graphGUI(rejectNode(graph, "H1")).
-- Small GUI bug-fix for placing edge labels while in any other zoom level than 100%.
-- Completely separated nodes (which only occur in sub-optimal testing procedures) are now handled correctly.
-- If the graph has no nodeRenderInfo available when the GUI is called, the edges are placed in a circle.
+
+Version 0.3-0 (01-Oct-2010, Rev. 238)
+=====================================
+
+- Major API changes (mostly gsrmtp replaced by gMCP - but now the API
+  should stay relatively stable).
+
+- GraphGUI can now also be called directly on objects of class
+  graphMCP, like graphGUI(rejectNode(graph, "H1")).
+
+- Small GUI bug-fix for placing edge labels while in any other zoom
+  level than 100%.
+
+- Completely separated nodes (which only occur in sub-optimal testing
+  procedures) are now handled correctly.
+
+- If the graph has no nodeRenderInfo available when the GUI is called,
+  the edges are placed in a circle.
+
 - Deducer support if installed and loaded.
+
  42 files changed, 980 insertions(+), 930 deletions(-)
 
-Version 0.2-4 (30-Sep-2010)
-=============
-- After some alpha and beta releases on r-forge this is the first beta version on CRAN.
-- We support: Graphs with epsilon edges, confidence intervals, adjusted p-values.
+
+Version 0.2-4 (30-Sep-2010, Rev. 215)
+=====================================
+
+- After some alpha and beta releases on r-forge this is the first beta
+  version on CRAN.
+
+- We support: Graphs with epsilon edges, confidence intervals,
+  adjusted p-values.
