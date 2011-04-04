@@ -5,6 +5,10 @@ Version 0.6-0
 - The GUI supports edges with variables (although sum checking of
   outgoing edges is disabled then till values are assigned to the
   variables.)
+  
+- New function: substituteEps
+
+- 
 
 
 Version 0.5-0 (28-Mar-2011, Rev. 525)
