@@ -1,10 +1,11 @@
 randomMCPGraph <- function(V=letters[1:10], M=1:4, p=0.2) {	
 	g <- randomGraph(V, M, p)
+	edgeDataDefaults(g, "epsilon") <- list(0)
 	class(g) <- "graphMCP"
 	defaultProps <- list(nodeWeight=0, rejected=FALSE)
 	nodeAttrData <- new("attrData", defaults=defaultProps)
 	alpha <- 0.05
-	attrDataItem(nodeAttrData, x=V, attr="nodeWeight") <- alpha/length(V)
+	attrDataItem(nodeAttrData, x=V, attr="nodeWeight") <- alpha/length(V)	
 	g@nodeData <- nodeAttrData	
 	g@graphData[[1]] <- "directed"
 	#edgeDataDefaults(g, "labelX") <- -100

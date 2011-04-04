@@ -46,17 +46,19 @@ Class \code{graph}, by class \code{graphNEL}, distance 2.
       If a third optional argument \code{node} is specified, only for these nodes the alpha level will be returned.}
     \item{setWeights}{\code{signature(object = "graphMCP")}: A method for setting the weights.
       If a third optional argument \code{node} is specified, only for these nodes the alpha level will be set.}
-    \item{getRejected}{\code{signature(object = "graphMCP")}: A method for
-      getting the information whether the hypotheses are marked in the graph as already rejected.
+    \item{getRejected}{\code{signature(object = "graphMCP")}: 
+      A method for getting the information whether the hypotheses are marked in the graph as already rejected.
       If a second optional argument \code{node} is specified, only for these nodes the boolean vector will be returned.}
-    \item{getXCoordinates}{\code{signature(object = "graphMCP")}: A method for
-      getting the x coordinates of the graph.
+    \item{getXCoordinates}{\code{signature(object = "graphMCP")}: 
+      A method for getting the x coordinates of the graph.
       If a second optional argument \code{node} is specified, only for these nodes the x coordinates will be returned.}
-    \item{getYCoordinates}{\code{signature(object = "graphMCP")}: A method for
-      getting the y coordinates of the graph
+    \item{getYCoordinates}{\code{signature(object = "graphMCP")}: 
+      A method for getting the y coordinates of the graph
       If a second optional argument \code{node} is specified, only for these nodes the x coordinates will be returned.}
-    \item{addEdge}{\code{signature(from="character", to="character", graph="graphNEL", weights="numeric")}: A method for
-      adding new edges with the given weights.}
+    \item{addEdge}{\code{signature(from="character", to="character", graph="graphNEL", weights="numeric")}: 
+      A method for adding new edges with the given weights.}
+    \item{addEdge}{\code{signature(from="character", to="character", graph="graphMCP", weights="character")}: 
+      A method for adding new edges with the given weights.}
   }
 }
 \author{Kornelius Rohmeyer \email{rohmeyer@small-projects.de}}

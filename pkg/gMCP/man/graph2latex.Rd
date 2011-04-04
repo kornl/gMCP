@@ -40,7 +40,7 @@
   \item{nodeTikZ}{
   	A character string with additional arguments for the TikZ \code{node} command like for example \code{nodeTikZ="minimum size=2cm"}.
   }
-  \item{nodeTikZ}{
+  \item{labelTikZ}{
   	A character string with arguments for the TikZ \code{node} command within an edge.
   }
 }

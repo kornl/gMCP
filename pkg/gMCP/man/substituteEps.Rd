@@ -1,0 +1,44 @@
+\name{substituteEps}
+\alias{substituteEps}
+
+\title{
+	Substitute Epsilon
+}
+\description{
+	Substitute Epsilon with a given value.
+}
+\usage{
+	substituteEps(graph, eps=10^(-4))
+}
+
+\arguments{
+  \item{graph}{
+	A graph of class \code{\link{graphMCP}}.
+  }
+  \item{eps}{
+  	A numeric scalar specifying a value for epsilon edges.
+  }
+}
+\details{
+	For details see the given references.
+}
+\value{
+	A graph where all epsilons have been replaced with the given value.
+}
+\author{
+	Kornelius Rohmeyer \email{rohmeyer@small-projects.de}
+}
+
+\seealso{
+\code{\link{graphMCP}}
+}
+\examples{
+
+graph <- createGraphForImprovedParallelGatekeeping()
+graph
+substituteEps(graph, eps=0.01)
+
+}
+\keyword{ print }
+\keyword{ graphs }
+
