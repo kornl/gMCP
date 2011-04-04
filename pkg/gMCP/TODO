@@ -3,9 +3,6 @@ High priority:
   
 - 1 Page PDF how to use gMCP, including hint for R installation
 - press e for epsilon, or 1+e+e^2
-- Implement support for something like 2*\epsilon or \epsilon^2
- (without using a small value for epsilon like 10^{-6} 
-  - that does work already if we ignore rounding problems).
 - confidence intervals are strange...
 - Edge weight from node i to node j: m[i,j] or m[j,i] - please decide.
 - Flag 1+epsilon as line sum

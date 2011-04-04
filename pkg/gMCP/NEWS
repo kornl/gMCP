@@ -1,6 +1,6 @@
 
-Version 0.6-0
-=============
+Version 0.6-0 (??-Apr-2011, Rev. ???)
+=====================================
 
 - The GUI supports edges with variables (although sum checking of
   outgoing edges is disabled then till values are assigned to the
@@ -8,8 +8,11 @@ Version 0.6-0
   
 - New function: substituteEps
 
-- 
+- Changes in class graphMCP:
+ 
+  - Attribute for node weights is called "nodeWeight".  
 
+  - New mandatory edge attribute "epsilon".
 
 Version 0.5-0 (28-Mar-2011, Rev. 525)
 =====================================
