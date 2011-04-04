@@ -137,6 +137,10 @@ createGraphForParallelGatekeeping <- function() {
 createGraphForImprovedParallelGatekeeping <- function() {
 	graph <- createGraphForParallelGatekeeping()
 	graph <- addEdge("H3", "H1", graph, 0)
+	edgeData(graph, "H3", "H1", "epsilon") <- list(1)	
 	graph <- addEdge("H4", "H2", graph, 0)
+	edgeData(graph, "H4", "H2", "epsilon") <- list(1)
+	edgeData(graph, "H3", "H4", "epsilon") <- list(-1)
+	edgeData(graph, "H4", "H3", "epsilon") <- list(-1)
 	return(graph)	
 }

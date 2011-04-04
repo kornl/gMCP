@@ -11,8 +11,12 @@ for (file in dir(path ="pkg/gMCP/R")) {
 }
 
 g <- createBonferroniHolmGraph(5)
-graph <- createGraphFromBretzEtAl()
+
+bretzG <- createGraphFromBretzEtAl()
 pvalues <- c(0.1, 0.008, 0.005, 0.15, 0.04, 0.006)
-names(pvalues) <- nodes(graph)
+names(pvalues) <- nodes(bretzG)
 verbose <- TRUE
-result <- gMCP(graph, pvalues)
+result <- gMCP(bretzG, pvalues)
+
+graph <- createGraphForImprovedParallelGatekeeping()
+

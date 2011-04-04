@@ -103,6 +103,28 @@ setMethod("getWeights", c("gMCPResult"),
 			return(alpha)
 		})
 
+setMethod("addEdge", signature=signature(from="character", to="character",
+				graph="graphMCP", weights="character"),
+		function(from, to, graph, weights) {
+			p <- parseEpsPolynom(weights)
+			graph <- addEdge(from, to, graph, p[1])
+			if (length(p)>1) {
+				edgeData(graph, from=from, to=to, attr="epsilon") <- list(p[2:length(p)])	
+			}			
+			graph
+		})
+
+setMethod("addEdge", signature=signature(from="character", to="character",
+				graph="graphNEL", weights="numeric"),
+		function(from, to, graph, weights) {
+			graph <- addEdge(from, to, graph)
+			if (!("weight" %in% names(edgeDataDefaults(graph))))
+				edgeDataDefaults(graph, attr="weight") <- 1:1
+			edgeData(graph, from=from, to=to, attr="weight") <- weights
+			edgeData(graph, from=from, to=to, attr="epsilon") <- list(0)
+			graph
+		})
+
 setGeneric("getRejected", function(object, node, ...) standardGeneric("getRejected"))
 
 setMethod("getRejected", c("graphMCP"), function(object, node, ...) {
@@ -171,14 +193,47 @@ setMethod("show", "graphMCP",
 				cat("No edges.\n")
 			} else {
 				cat("Edges:\n")
-				cat(paste(paste(rep(names(edges(object)), unlist(lapply(edges(object),length))),
-										" -(",format(unlist(edgeWeights(object)), digits=4 ,drop0trailing=TRUE),")-> ",
-										unlist(edges(object)),sep=""),collapse="\n"))
+				from <- rep(names(edges(object)), unlist(lapply(edges(object),length)))
+				to <- unlist(edges(object))
+				for (i in 1:length(from)) {
+					cat(paste(from[i], " -(", getWeightStr(object, from[i], to[i]),")-> ", to[i], "\n"))	
+				}
+				
 			}
 			#cat(paste("\nalpha=",paste(format(getWeights(object), digits=4 ,drop0trailing=TRUE),collapse="+"),"=",sum(getWeights(object)),"\n", sep=""))
 			cat("\n")
 		}
 )
+
+getWeightStr <- function(graph, from, to) {	
+	weight <- edgeData(graph, from, to, "weight")
+	p <- unlist(edgeData(graph, from, to, "epsilon"))
+	attributes(p) <- NULL # Always do this when using all.equal	
+	pStr <- ""
+	for (i in 1:length(p)) {
+		if (!isTRUE(all.equal(p[i], 0))) {
+			if (as.numeric(as.character(fractions(p[i])))>=0) {
+				pStr <- paste(pStr, "+", sep="")
+			}
+			if (!isTRUE(all.equal(p[i], 1))) {
+				if (!isTRUE(all.equal(p[i], -1))) {
+					pStr <- paste(pStr, as.character(fractions(p[i])), "*e", sep="")
+				} else {
+					pStr <- paste(pStr, "-e", sep="")
+				}
+			} else {
+				pStr <- paste(pStr, "e", sep="")
+			}
+			if (i>1) {
+				pStr <- paste(pStr, "^", i, sep="")
+			}
+		}
+	}
+	if (weight==0 && pStr!="") { # Remove the first "+" and just return the epsilon part:
+		return(substring(pStr, 2))
+	}
+	return(paste(weight, pStr, sep=""))	
+}
 
 setMethod("plot", "graphMCP",
 		function(x, y, ...) {

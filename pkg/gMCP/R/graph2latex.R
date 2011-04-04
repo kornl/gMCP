@@ -1,7 +1,7 @@
 graph2latex <- function(graph, package="TikZ", scale=1, alpha=0.05, pvalues,
 		fontsize=c("tiny","scriptsize", "footnotesize", "small",
 		"normalsize", "large", "Large", "LARGE", "huge", "Huge"),
-		nodeTikZ) {
+		nodeTikZ, labelTikZ="near start,above,fill=blue!20") {
 	tikz <- paste("\\begin{tikzpicture}[scale=",scale,"]", sep="")	
 	#tikz <- paste(tikz, "\\tikzset{help lines/.style=very thin}", paste="\n")	
 	for (node in nodes(graph)) {
@@ -35,8 +35,8 @@ graph2latex <- function(graph, package="TikZ", scale=1, alpha=0.05, pvalues,
 			for (i in 1:length(edgeL)) {
 				weight <- try(edgeData(graph, names(edgeL[i]), node,"weight"), silent = TRUE)
 				to <- ifelse(class(weight)=="try-error", "auto", "bend left=15")			
-				weight <- ifelse(edgeL[i]==0, "\\epsilon", getLaTeXFraction(edgeL[i])) # format(edgeL[i], digits=3, drop0trailing=TRUE))
-				edgeLine <- paste("\\draw [->,line width=1pt] (",node,") to[",to,"] node[near start,above,fill=blue!20] {$",weight,"$} (",names(edgeL[i]),");",sep="")
+				weight <- ifelse(edgeL[i]==0, "\\epsilon", getLaTeXFraction(edgeL[i])) # format(edgeL[i], digits=3, drop0trailing=TRUE))				
+				edgeLine <- paste("\\draw [->,line width=1pt] (",node,") to[",to,"] node[",labelTikZ,"] {$",weight,"$} (",names(edgeL[i]),");",sep="")
 				tikz <- paste(tikz, edgeLine,sep="\n")
 			}
 		}

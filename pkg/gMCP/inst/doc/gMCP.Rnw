@@ -10,6 +10,7 @@
 \usepackage{hyperref}
 \usepackage{listings}
 \usepackage{xspace}
+\usepackage{makeidx}\makeindex
 \usepackage[numbers]{natbib}
 %\usepackage[left=3cm,right=3cm,top=2cm,bottom=2cm]{geometry}
 \usepackage{amsmath,amsthm,amsfonts,amssymb}
@@ -98,9 +99,12 @@ Let's start with a well-known procedure and see how it fits into this
 graphical approach to weighted multiple test procedures: The
 Bonferroni-Holm-Procedure \cite{Holm79}.
 
-\begin{Theorem}[Bonferroni-Holm-Procedure] Let $T_1, \ldots, T_m$
-be test statistics for $m\in\N$ null hypotheses $H_1, \ldots, H_m$ and $p_1, \ldots, p_m$ 
-the associated p-values. Then the following test will control the familywise error rate at level $\alpha\in]0,1[$ in the strong sense:
+\begin{Theorem}[Bonferroni-Holm-Procedure]\index{Bonferroni-Holm-Procedure} 
+Let $T_1, \ldots, T_m$
+be test statistics for $m\in\N$ null hypotheses $H_1, \ldots, H_m$ and
+$p_1, \ldots, p_m$ the associated p-values. Then the following test
+will control the familywise error rate at level $\alpha\in]0,1[$ in
+    the strong sense:
 
 Denote the ordered p-values by $p^{(1)}<p^{(2)}<\ldots<p^{(m)}$ 
 and the corresponding hypotheses by $H^{(1)},H^{(2)},\ldots, H^{(m)}$.
@@ -109,32 +113,35 @@ Reject $H^{(1)},H^{(2)},\ldots, H^{(j)}$ such that
 \[p^{(i)}\leq\frac{\alpha}{n-i+1}\quad\text{for all $1\leq i\leq j$}.\]
 \end{Theorem}
 
-The corresponding graph for the Bonferroni-Holm-Procedure for three hypotheses is given in Figure \ref{exampleHolm}.
-We see a fully connected graph, where each node represents a hypothesis and the nodes and edges have weights.
+The corresponding graph for the Bonferroni-Holm-Procedure for three
+hypotheses is given in Figure \ref{exampleHolm}.  We see a fully
+connected graph, where each node represents a hypothesis and the nodes
+and edges have weights.
 
 \begin{figure}[ht]
   \centering
 <<echo=FALSE,results=tex>>=
 
 graph <- createBonferroniHolmGraph(3)
-cat(graph2latex(graph, scale=0.7, fontsize="tiny"))
+cat(graph2latex(graph, scale=0.7, fontsize="tiny", labelTikZ="near start,fill=blue!20"))
 
 @
   \caption{\label{exampleHolm} Graph representing the
     Bonferroni-Holm-Procedure for three hypotheses.}
 \end{figure}
 
-A null hypothesis can be rejected, when the p-value is less than the 
-alpha level of the corresponding node.
-In this case the graph will be updated and the alpha level of this node
-is passed according to the edge weights.   
+A null hypothesis can be rejected, when the p-value is less than the
+alpha level of the corresponding node.  In this case the graph will be
+updated and the alpha level of this node is passed according to the
+edge weights.
 
 \begin{Example}
-  Let $p_1=0.01$, $p_2=0.04$ and $p_3=0.02$ be three p-values and $alpha=0.05$.
-  In the first step $H_1$ can be rejected since $p_1<\alpha/3$.
-  The updated graph can be seen in figure \ref{exampleHolmP}
-  and now also $H_3$ can be rejected since $p_1<\alpha/2$.
-  Again the graph is updated and at last also $H_2$ can be rejected.
+  Let $p_1=0.01$, $p_2=0.04$ and $p_3=0.02$ be three p-values and
+  $alpha=0.05$.  In the first step $H_1$ can be rejected since
+  $p_1<\alpha/3$.  The updated graph can be seen in figure
+  \ref{exampleHolmP} and now also $H_3$ can be rejected since
+  $p_1<\alpha/2$.  Again the graph is updated and at last also $H_2$
+  can be rejected.
 \end{Example}
 
 \begin{figure}[ht]
@@ -168,10 +175,11 @@ graphGUI()
 @
 \normalsize
 
-The GUI seen in Figure \ref{fullGUI} is shown and we select from the menu "Example graphs" the entry "Bonferroni-Holm Test".
-We enter the three p-values in the respective fields on the right side.
-By clicking on the button with the green arrow we start the test procedure
-and can sequentially reject all three hypotheses.  
+The GUI seen in Figure \ref{fullGUI} is shown and we select from the
+menu "\emph{Example graphs}" the entry "\emph{Bonferroni-Holm Test}".
+We enter the three p-values in the respective fields on the right
+side.  By clicking on the button with the green arrow we start the
+test procedure and can sequentially reject all three hypotheses.
 
 If we don't want to use the GUI we can also use R:
 
@@ -255,7 +263,7 @@ print(graph)
 \normalsize
 
 Since we also want to visualize the graph, we use the method
-\texttt{nodeRenderInfo} from package \texttt{graph} to set appropriate
+\texttt{nodeRenderInfo}\index{nodeRenderInfo} from package \texttt{graph} to set appropriate
 x- and y-coordinates in the renderInfo.  (We are compatible to the
 renderInfo usage from package Rgraphviz \cite{Rgraphviz}.)
 
@@ -430,7 +438,7 @@ gMCPReport(result, "Report.tex")
 @
 \normalsize
 
-\subsubsection{Adjusted p-values and simultaneous confidence intervals}
+\subsubsection{Adjusted p-values and simultaneous confidence intervals}\index{adjusted p-values}
 
 Also adjusted p-values and simultaneous confidence intervals can be computed.
 
@@ -550,6 +558,23 @@ See \cite{Bretz11}.
 
 }
 
+\section{Epsilon edges}
+
+
+\scriptsize
+<<echo=TRUE, keep.source=TRUE>>=
+
+graph <- createGraphForImprovedParallelGatekeeping()
+graph
+substituteEps(graph)
+
+gMCP(graph, pvalues=c(0.02, 0.04, 0.01, 0.02))
+
+@
+\normalsize
+
+
+
 \section{Options and Export}
 
 \subsection{Options}
@@ -635,6 +660,10 @@ the TikZ manual \cite{TikZ}.
 
 \newpage
 
+\addcontentsline{toc}{section}{Index}
+\printindex
+
+\addcontentsline{toc}{section}{Literatur}
 \bibliography{literatur}
 
 \end{document}

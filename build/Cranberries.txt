@@ -330,4 +330,67 @@ Diff between gMCP versions 0.3-6 dated 2011-03-15 and 0.4-0 dated 2011-03-21
  gMCP-0.4-0/gMCP/man/graphGUI.Rd                                                |    5 
  48 files changed, 278 insertions(+), 91 deletions(-)
 
+Diff between gMCP versions 0.4-0 dated 2011-03-21 and 0.5-0 dated 2011-03-28
 
+ gMCP-0.4-0/gMCP/R/ReferenceClass.R                                            |only
+ gMCP-0.4-0/gMCP/R/graph2weights.R                                             |only
+ gMCP-0.4-0/gMCP/man/graph2weights.Rd                                          |only
+ gMCP-0.5-0/gMCP/DESCRIPTION                                                   |   13 
+ gMCP-0.5-0/gMCP/INSTALL                                                       |    7 
+ gMCP-0.5-0/gMCP/NAMESPACE                                                     |    7 
+ gMCP-0.5-0/gMCP/NEWS                                                          |   35 +
+ gMCP-0.5-0/gMCP/R/exampleGraphs.R                                             |   29 -
+ gMCP-0.5-0/gMCP/R/gACT-internal.R                                             |   37 +
+ gMCP-0.5-0/gMCP/R/gMCP.R                                                      |   49 +
+ gMCP-0.5-0/gMCP/R/generateTest.R                                              |    5 
+ gMCP-0.5-0/gMCP/R/generateWeights.R                                           |    2 
+ gMCP-0.5-0/gMCP/R/graph2latex.R                                               |   22 
+ gMCP-0.5-0/gMCP/R/graphMCP.R                                                  |   96 ++-
+ gMCP-0.5-0/gMCP/R/helperGUI.R                                                 |   22 
+ gMCP-0.5-0/gMCP/R/matrix2graph.R                                              |    6 
+ gMCP-0.5-0/gMCP/R/misc.R                                                      |   59 +-
+ gMCP-0.5-0/gMCP/R/onLoad.R                                                    |   23 
+ gMCP-0.5-0/gMCP/TODO                                                          |   56 +
+ gMCP-0.5-0/gMCP/inst/CITATION                                                 |only
+ gMCP-0.5-0/gMCP/inst/R28                                                      |only
+ gMCP-0.5-0/gMCP/inst/doc/correlated.Rnw                                       |   19 
+ gMCP-0.5-0/gMCP/inst/doc/correlated.pdf                                       |binary
+ gMCP-0.5-0/gMCP/inst/doc/gMCP.Rnw                                             |  285 +++++++---
+ gMCP-0.5-0/gMCP/inst/doc/gMCP.pdf                                             |binary
+ gMCP-0.5-0/gMCP/inst/doc/literatur.bib                                        |   21 
+ gMCP-0.5-0/gMCP/inst/java-src/org/mutoss/gui/ErrorDialogSGTK.java             |    7 
+ gMCP-0.5-0/gMCP/inst/java-src/org/mutoss/gui/MenuBarMGraph.java               |   65 +-
+ gMCP-0.5-0/gMCP/inst/java-src/org/mutoss/gui/RControl.java                    |   24 
+ gMCP-0.5-0/gMCP/inst/java-src/org/mutoss/gui/dialogs/CorrelatedTest.java      |    6 
+ gMCP-0.5-0/gMCP/inst/java-src/org/mutoss/gui/dialogs/DialogConfIntEstVar.java |    4 
+ gMCP-0.5-0/gMCP/inst/java-src/org/mutoss/gui/dialogs/VariableDialog.java      |only
+ gMCP-0.5-0/gMCP/inst/java-src/org/mutoss/gui/graph/Edge.java                  |   77 --
+ gMCP-0.5-0/gMCP/inst/java-src/org/mutoss/gui/graph/EdgeWeight.java            |only
+ gMCP-0.5-0/gMCP/inst/java-src/org/mutoss/gui/graph/GraphMCP.java              |    6 
+ gMCP-0.5-0/gMCP/inst/java-src/org/mutoss/gui/graph/GraphView.java             |   52 -
+ gMCP-0.5-0/gMCP/inst/java-src/org/mutoss/gui/graph/NetList.java               |   46 -
+ gMCP-0.5-0/gMCP/inst/java-src/org/mutoss/gui/graph/Node.java                  |   27 
+ gMCP-0.5-0/gMCP/inst/java-src/org/mutoss/gui/graph/PPanel.java                |   41 -
+ gMCP-0.5-0/gMCP/inst/java-src/org/mutoss/gui/graph/PView.java                 |   48 +
+ gMCP-0.5-0/gMCP/inst/java-src/org/mutoss/gui/graph/UpdateEdge.java            |   10 
+ gMCP-0.5-0/gMCP/inst/java/afcommons.jar                                       |binary
+ gMCP-0.5-0/gMCP/inst/java/gsrmtp.jar                                          |binary
+ gMCP-0.5-0/gMCP/inst/unitTests/runit.adjPValues.R                             |    4 
+ gMCP-0.5-0/gMCP/inst/unitTests/runit.correlation.R                            |only
+ gMCP-0.5-0/gMCP/inst/unitTests/runit.graphGMCP.R                              |   33 -
+ gMCP-0.5-0/gMCP/inst/unitTests/runit.randomGraph.R                            |    6 
+ gMCP-0.5-0/gMCP/inst/unitTests/tests.R                                        |only
+ gMCP-0.5-0/gMCP/inst/unitTests/unirootbug.Rd                                  |only
+ gMCP-0.5-0/gMCP/man/bdiagNA.Rd                                                |only
+ gMCP-0.5-0/gMCP/man/exampleGraphs.Rd                                          |   15 
+ gMCP-0.5-0/gMCP/man/gMCP-package.Rd                                           |    2 
+ gMCP-0.5-0/gMCP/man/gMCP.Rd                                                   |    7 
+ gMCP-0.5-0/gMCP/man/gMCPResult.Rd                                             |    3 
+ gMCP-0.5-0/gMCP/man/generateBounds.Rd                                         |    2 
+ gMCP-0.5-0/gMCP/man/generateTest.Rd                                           |    2 
+ gMCP-0.5-0/gMCP/man/generateWeights.Rd                                        |    1 
+ gMCP-0.5-0/gMCP/man/graph2latex.Rd                                            |   10 
+ gMCP-0.5-0/gMCP/man/graphMCP.Rd                                               |   38 -
+ gMCP-0.5-0/gMCP/man/matrix2graph.Rd                                           |   10 
+ gMCP-0.5-0/gMCP/man/rejectNode.Rd                                             |   11 
+ 61 files changed, 868 insertions(+), 482 deletions(-)

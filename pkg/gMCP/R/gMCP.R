@@ -1,4 +1,8 @@
-gMCP <- function(graph, pvalues, test, correlation, alpha=0.05, ..., verbose=FALSE) {
+gMCP <- function(graph, pvalues, test, correlation, alpha=0.05, 
+		approxEps=TRUE, eps=10^(-4), ..., verbose=FALSE) {
+	if (approxEps) {
+		graph <- substituteEps(graph, eps=eps)
+	}
 	if (length(pvalues)!=length(nodes(graph))) {
 		stop("Length of pvalues must equal number of nodes.")
 	}
@@ -38,6 +42,21 @@ gMCP <- function(graph, pvalues, test, correlation, alpha=0.05, ..., verbose=FAL
 			return(new("gMCPResult", graphs=list(graph), alpha=alpha, pvalues=pvalues, rejected=rejected, adjPValues=numeric(0)))
 		}
 	}
+}
+
+substituteEps <- function(graph, eps=10^(-4)) {
+	from <- rep(names(edges(graph)), unlist(lapply(edges(graph),length)))	
+	to <- unlist(edges(graph))
+	for (i in 1:length(from)) {		
+		p <- unlist(edgeData(graph, from[i], to[i], "epsilon"))
+		if (!all(p==0)) {
+			 text <- gsub("e", eps, getWeightStr(graph, from[i], to[i]))	
+			 newWeight <- eval(parse(text=text))
+			 edgeData(graph, from[i], to[i], "epsilon") <- 0
+			 edgeData(graph, from[i], to[i], "weight") <- newWeight
+		}		
+	}
+	return(graph)
 }
 
 # This function calculates the number of uncorrelated test statistics given the correlation structure and the number of p-values.

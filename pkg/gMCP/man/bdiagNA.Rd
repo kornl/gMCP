@@ -4,7 +4,7 @@
 	Create a Block Diagonal Matrix with NA outside the diagonal
 }
 \description{
-	Build a block diagonal matrix given several building block matrices, but with NA values outside the diagonal.
+	Build a block diagonal matrix with NA values outside the diagonal given several building block matrices.
 }
 \usage{
 	bdiagNA(...) 

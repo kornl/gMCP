@@ -8,7 +8,8 @@
 	Performs a sequentially rejective multiple test procedure on a graph given unadjusted p-values.
 }
 \usage{
-	gMCP(graph, pvalues, test, correlation, alpha=0.05, ..., verbose=FALSE)
+	gMCP(graph, pvalues, test, correlation, alpha=0.05, approxEps=TRUE, eps=10^(-4), ..., 
+         verbose=FALSE)
 }
 
 \arguments{

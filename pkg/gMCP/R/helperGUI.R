@@ -5,6 +5,7 @@ getEdges <- function(graph){
 	labelx <- numeric(0)
 	labely <- numeric(0)
 	curveL <- logical(0)
+	weightStrL <- character(0)
 	for (node in nodes(graph)) {
 		edgeL <- edgeWeights(graph)[[node]]	
 		if (length(edgeL)!=0) {
@@ -12,6 +13,7 @@ getEdges <- function(graph){
 				# Label: Are these silent "tries" really tested? Or did I just forgot documentating it?
 				weight <- try(edgeData(graph, node, names(edgeL[i]), "weight"), silent = TRUE)
 				weight <- ifelse(edgeL[i]==0, NaN, edgeL[i])
+				weightStr <- getWeightStr(graph, node, names(edgeL[i]))
 				x <- try(unlist(edgeData(graph, node, names(edgeL[i]), "labelX")), silent = TRUE)
 				if (class(x)!="try-error") {
 					labelx <- c(labelx, x)
@@ -29,10 +31,11 @@ getEdges <- function(graph){
 				weightL <- c(weightL, weight)
 				curve <- node%in%unlist(edges(graph, names(edgeL[i])))
 				curveL <- c(curveL, curve)
+				weightStrL <- c(weightStrL, weightStr)
 			}
 		}
 	}
-	return(list(from=fromL, to=toL, weight=weightL, labelx=labelx, labely=labely, curve=curveL))
+	return(list(from=fromL, to=toL, weight=weightL, labelx=labelx, labely=labely, curve=curveL, weightStr=weightStrL))
 }
 
 arrangeNodes <- function(graph) {
