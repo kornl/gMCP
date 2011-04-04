@@ -53,6 +53,7 @@ public class GraphMCP {
 				double[] labelX = edgeL.get(3).asRNumeric().getData();
 				double[] labelY = edgeL.get(4).asRNumeric().getData();		
 				boolean[] curved = edgeL.get(5).asRLogical().getData();
+				String[] weightStr = edgeL.get(6).asRChar().getData();
 				for (int i=0; i<from.length; i++) {
 					Node fromNode = getNode(from[i]);
 					Node toNode = getNode(to[i]);
@@ -61,10 +62,18 @@ public class GraphMCP {
 					int yl = (int) labelY[i];
 					//if (yl<-50) yl = (fromNode.getY()+toNode.getY())/2;				
 					boolean curve = curved[i];
-					if (xl < -50 || yl < -50) {
-						edges.add(new Edge(fromNode, toNode, weight[i], vs, /* xl+Node.getRadius(), yl+Node.getRadius(),*/ curve));
-					} else {
-						edges.add(new Edge(fromNode, toNode, weight[i], vs, xl+Node.getRadius(), yl+Node.getRadius()));
+					/*if (!((Double)weight[i]).toString().equals("NaN")) {
+						if (xl < -50 || yl < -50) {
+							edges.add(new Edge(fromNode, toNode, weight[i], vs,  curve));
+						} else {
+							edges.add(new Edge(fromNode, toNode, weight[i], vs, xl+Node.getRadius(), yl+Node.getRadius()));
+						}
+					} else */ {
+						if (xl < -50 || yl < -50) {
+							edges.add(new Edge(fromNode, toNode, weightStr[i], vs, /* xl+Node.getRadius(), yl+Node.getRadius(),*/ curve));
+						} else {
+							edges.add(new Edge(fromNode, toNode, weightStr[i], vs, xl+Node.getRadius(), yl+Node.getRadius()));
+						}
 					}
 					
 				}

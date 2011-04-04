@@ -84,6 +84,16 @@ public class Edge {
 		this.k2 = k2;
 	}
 	
+	public Edge(Node from, Node to, String wStr, VS vs, boolean curve) {
+		this(from, to, 0d, vs, curve);
+		this.ew = new EdgeWeight(wStr);
+	}
+
+	public Edge(Node from, Node to, String wStr, VS vs, int i, int j) {
+		this(from, to, 0d, vs, i, j);
+		this.ew = new EdgeWeight(wStr);
+	}
+
 	public int getBendLeft() {
 		int x1, x2, y1, y2;
 		x1 = from.getX() + Node.getRadius();
