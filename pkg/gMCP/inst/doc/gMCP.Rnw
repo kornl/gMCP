@@ -66,6 +66,8 @@
 library(gMCP)
 options(width=140)
 options(digits=4)
+gMCPReport <- function(...) {invisible(NULL)}
+graphGUI <- function(...) {invisible(NULL)}
 
 @
 
@@ -85,13 +87,6 @@ objects and methods can be used.
 
 Please note that this is still a beta release and the API will most
 likely still change in future versions.
-
-<<echo=FALSE>>=
-
-gMCPReport <- function(...) {invisible(NULL)}
-graphGUI <- function(...) {invisible(NULL)}
-
-@
 
 \subsection{Example and diving in}
 
@@ -278,10 +273,10 @@ nodeRenderInfo(graph) <- list(nodeX=nodeX, nodeY=nodeY)
 \normalsize
 
 Coordinates are interpretated as pixels in the GUI and big points in
-{\LaTeX} (72 bp = 1 inch).
+{\LaTeX} (72 bp = 1 inch).\index{coordinates}
 
 Let's take a look at the graph in {\LaTeX} rendered with TikZ
-\cite{TikZ} (you can see the compiled result in figure
+\cite{TikZ}\index{TikZ} (you can see the compiled result in figure
 \ref{exampleGraphBretz}):
 
 \scriptsize
@@ -309,7 +304,7 @@ edgeData(graph, "H11", "H21", "labelY") <- 80
 @
 \normalsize
 
-\subsubsection{graph2matrix and matrix2graph}
+\subsubsection{graph2matrix and matrix2graph}\index{graph2matrix}\index{matrix2graph}
 
 We can also constuct a graph from a given adjacency matrix via the
 command \texttt{matrix2graph}:
@@ -369,9 +364,6 @@ should end.
 \includegraphics[width=0.5cm]{pictures/zoom_out.png} For really big
 graphs the ability to zoom in and out is usefull.
 
-\includegraphics[width=0.5cm]{pictures/latex.png} This button exports
-the graph as an {\LaTeX} TikZ picture.
-
 \includegraphics[width=0.5cm]{pictures/adjPval.png} Calculates the
 adjusted p-values.
 
@@ -427,7 +419,7 @@ cat(graph2latex(result@graphs[[4]], scale=0.7, fontsize="tiny"))
   \caption{\label{finalstate}Final graph from the test procedure after rejection of $H_{21}$, $H_{31}$ and $H_{32}$.}
 \end{figure}
 
-The command \texttt{gMCPReport} generates a full report of the testing
+The command \texttt{gMCPReport}\index{report generation} generates a full report of the testing
 procedure:
 
 \scriptsize
@@ -438,7 +430,7 @@ gMCPReport(result, "Report.tex")
 @
 \normalsize
 
-\subsubsection{Adjusted p-values and simultaneous confidence intervals}\index{adjusted p-values}
+\subsubsection{Adjusted p-values and simultaneous confidence intervals}\index{adjusted p-values}\index{simultaneous confidence intervals}
 
 Also adjusted p-values and simultaneous confidence intervals can be computed.
 
@@ -499,66 +491,7 @@ See \cite{Bretz11}.
   \caption{\label{correlated} You can also specify a correlation between the tests.}
 \end{figure}
 
-\commentout{
-
-\includegraphics[width=5cm]{pictures/uglyGraph.png}      
-\includegraphics[width=5cm]{pictures/niceGraph.png}
-
-\scalebox {0.5}{
-\begin{tikzpicture}[scale=1]\node (H11) at (100bp,-100bp)
-[draw,circle split,fill=red!80] {$H11$ \nodepart{lower} $0$};
-\node (H21) at (300bp,-100bp)
-[draw,circle split,fill=red!80] {$H21$ \nodepart{lower} $0$};
-\node (H31) at (500bp,-100bp)
-[draw,circle split,fill=green!80] {$H31$ \nodepart{lower} $0,027$};
-\node (H12) at (100bp,-300bp)
-[draw,circle split,fill=green!80] {$H12$ \nodepart{lower} $0,013$};
-\node (H22) at (300bp,-300bp)
-[draw,circle split,fill=green!80] {$H22$ \nodepart{lower} $0,01$};
-\node (H32) at (500bp,-300bp)
-[draw,circle split,fill=green!80] {$H32$ \nodepart{lower} $0$};
-\draw [->,line width=1pt] (H31) to[bend left=0] node[pos=0.5,above,fill=blue!20] {0,625} (H32);
-\draw [->,line width=1pt] (H31) to[bend left=46] node[pos=0.491,above,fill=blue!20] {0,125} (H12);
-\draw [->,line width=1pt] (H31) to[bend left=19] node[pos=0.49,above,fill=blue!20] {0,25} (H22);
-\draw [->,line width=1pt] (H12) to[bend left=46] node[pos=0.491,above,fill=blue!20] {0,5} (H31);
-\draw [->,line width=1pt] (H12) to[bend left=19] node[pos=0.49,above,fill=blue!20] {0,5} (H22);
-\draw [->,line width=1pt] (H22) to[bend left=0] node[pos=0.25,above,fill=blue!20] {0,667} (H31);
-\draw [->,line width=1pt] (H22) to[bend left=0] node[pos=0.5,above,fill=blue!20] {0,333} (H12);
-\draw [->,line width=1pt] (H32) to[bend left=19] node[pos=0.49,above,fill=blue!20] {0,4} (H31);
-\draw [->,line width=1pt] (H32) to[bend left=0] node[pos=0.5,above,fill=blue!20] {0,2} (H12);
-\draw [->,line width=1pt] (H32) to[bend left=0] node[pos=0.5,above,fill=blue!20] {0,4} (H22);
-\end{tikzpicture}
-}
-
-\scalebox {0.5}{
-\begin{tikzpicture}[scale=1]\node (H11) at (100bp,-100bp)
-[draw,circle split,fill=red!80] {$H11$ \nodepart{lower} $0$};
-\node (H21) at (300bp,-100bp)
-[draw,circle split,fill=red!80] {$H21$ \nodepart{lower} $0$};
-\node (H31) at (500bp,-100bp)
-[draw,circle split,fill=green!80] {$H31$ \nodepart{lower} $0,027$};
-\node (H12) at (100bp,-300bp)
-[draw,circle split,fill=green!80] {$H12$ \nodepart{lower} $0,013$};
-\node (H22) at (300bp,-300bp)
-[draw,circle split,fill=green!80] {$H22$ \nodepart{lower} $0,01$};
-\node (H32) at (500bp,-300bp)
-[draw,circle split,fill=green!80] {$H32$ \nodepart{lower} $0$};
-\draw [->,line width=1pt] (H31) to[bend left=0] node[pos=0.5,above,fill=blue!20] {0,625} (H32);
-\draw [->,line width=1pt] (H31) to[bend left=1] node[pos=0.687,above,fill=blue!20] {0,125} (H12);
-\draw [->,line width=1pt] (H31) to[bend left=8] node[pos=0.808,above,fill=blue!20] {0,25} (H22);
-\draw [->,line width=1pt] (H12) to[bend left=28] node[pos=0.735,above,fill=blue!20] {0,5} (H31);
-\draw [->,line width=1pt] (H12) to[bend left=342] node[pos=0.51,above,fill=blue!20] {0,5} (H22);
-\draw [->,line width=1pt] (H22) to[bend left=324] node[pos=0.43,above,fill=blue!20] {0,667} (H31);
-\draw [->,line width=1pt] (H22) to[bend left=336] node[pos=0.26,above,fill=blue!20] {0,333} (H12);
-\draw [->,line width=1pt] (H32) to[bend left=312] node[pos=0.54,above,fill=blue!20] {0,4} (H31);
-\draw [->,line width=1pt] (H32) to[bend left=36] node[pos=0.696,above,fill=blue!20] {0,2} (H12);
-\draw [->,line width=1pt] (H32) to[bend left=3] node[pos=0.445,above,fill=blue!20] {0,4} (H22);
-\end{tikzpicture}
-}
-
-}
-
-\section{Epsilon edges}
+\section{Epsilon edges}\index{epsilon edges}
 
 \begin{figure}[ht]
   \centering
@@ -570,7 +503,7 @@ cat(graph2latex(createGraphForImprovedParallelGatekeeping(), scale=0.7, fontsize
 
 @
 \end{tikzpicture}
-  \caption{\label{gatekeeping} The Parallel Gate Keeping and the Improved Parallel Gate Keeping Procedure.}
+  \caption{\label{gatekeeping}\index{parallel gatekeeping}\index{gatekeeping!parallel}\index{gatekeeping!improved parallel} The Parallel Gatekeeping and the Improved Parallel Gatekeeping Procedure.}
 \end{figure}
 
 \scriptsize
@@ -578,16 +511,16 @@ cat(graph2latex(createGraphForImprovedParallelGatekeeping(), scale=0.7, fontsize
 
 graph <- createGraphForImprovedParallelGatekeeping()
 graph
-substituteEps(graph)
+substituteEps(graph, eps=0.001)
 
-gMCP(graph, pvalues=c(0.02, 0.04, 0.01, 0.02))
+gMCP(graph, pvalues=c(0.02, 0.04, 0.01, 0.02), eps=0.001)
 
 @
 \normalsize
 
 \section{Options and Import/Export}
 
-\subsection{Options}
+\subsection{Options}\index{options}
 
 This subsection is work in progress, but fortunately the options in figure \ref{optionsDialog} should be fairly self-explanatory.
 
@@ -597,7 +530,7 @@ This subsection is work in progress, but fortunately the options in figure \ref{
   \caption{\label{optionsDialog} You can configure many things in the option dialog.}
 \end{figure}
 
-\subsection{Import/Exports}
+\subsection{Import/Exports}\index{import}\index{export}
 
 This subsection is work in progress, but fortunately the menu entries in figure \ref{fileMenu} should be fairly self-explanatory.
 
@@ -615,7 +548,7 @@ You can export graphs to png files.
   \caption{\label{pngExport} Graphics can be exported from the GUI to PNG files. Note that the checkerboard pattern in the background of some image viewers is just a way to visualize transparency.}
 \end{figure}
 
-\section{Important TikZ commands for optimizing the reports}
+\subsection{Important TikZ commands for optimizing the reports}\index{graph2latex}
 A clear automatic placement of edges and weight labels without
 overlapping is a very difficult task and for complicated graphs the
 \texttt{gMCP} package will often fail to accomplish this.  There is
@@ -680,10 +613,16 @@ A powerful feature is the use of styles, since this will effect all
 objects of a given class. But for this please take a look directly at
 the TikZ manual \cite{TikZ}.
 
+\section{Case Studies}
+
+This section is work in progress.
+
 \newpage
 
 \addcontentsline{toc}{section}{Index}
 \printindex
+
+\newpage
 
 \addcontentsline{toc}{section}{Literatur}
 \bibliography{literatur}

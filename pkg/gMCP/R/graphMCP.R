@@ -183,7 +183,7 @@ setMethod("show", "graphMCP",
 		function(object) {
 			#callNextMethod(object)
 			cat("A graphMCP graph\n")
-			if (sum(getWeights(object))<1) {
+			if (!isTRUE(all.equal(sum(getWeights(object)),1))) {
 				cat(paste("Sum of weight: ",sum(getWeights(object)),"\n", sep=""))
 			}
 			for (node in nodes(object)) {
@@ -219,7 +219,7 @@ getWeightStr <- function(graph, from, to, LaTeX=FALSE) {
 	}
 	for (i in 1:length(p)) {
 		if (!isTRUE(all.equal(p[i], 0))) {
-			if (as.numeric(frac(p[i]))>=0) {
+			if (p[i]>=0) {
 				pStr <- paste(pStr, "+", sep="")
 			}
 			if (!isTRUE(all.equal(p[i], 1))) {

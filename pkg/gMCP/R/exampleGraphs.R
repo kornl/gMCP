@@ -94,9 +94,12 @@ createGraphFromHommelEtAl <- function() {
 	nodeRenderInfo(graph) <- list(nodeX=nodeX, nodeY=nodeY)
 	for (i in 1:4) {
 		n1 <- hnodes[3+i]
+		edgeData(graph, n1, "E1", "epsilon") <- list(1)
+		edgeData(graph, n1, "E2", "epsilon") <- list(1)
 		for (j in (1:4)[-i]) {
 			n2 <- hnodes[3+j]
 			graph <- addEdge(n1, n2, graph, 1/3)
+			edgeData(graph, n1, n2, "epsilon") <- list(-2/3)	
 			x <- ((i+j)*200-200)/2+sign(i-j)*20
 			y <- 300 + (abs(i-j)*45)+sign(i-j)*5		
 			edgeData(graph, n1, n2, "labelX") <- x
