@@ -3,6 +3,8 @@ package org.mutoss.gui.datatable;
 import javax.swing.event.TableModelEvent;
 import javax.swing.table.AbstractTableModel;
 
+import org.mutoss.gui.graph.EdgeWeight;
+
 public class DataTableModel extends AbstractTableModel {
 
 	protected RDataFrameRef df;
@@ -20,19 +22,11 @@ public class DataTableModel extends AbstractTableModel {
         return df.getRowCount();
     }
 
-    public String getColumnName(int col) {
-        return df.getColName(col);
-    }
-
-    public Class<?> getColumnClass(int col) {
-        return CellValue.class;
-    }
-
     public boolean isCellEditable(int rowIndex, int col) {
         return rowIndex != col;
     }
 
-    public void setValueAt(Double value, int row, int col) {
+    public void setValueAt(EdgeWeight value, int row, int col) {
         getDataFrame().setValue(row, col, value);		
 		fireTableChanged(new TableModelEvent(this, row));
     }

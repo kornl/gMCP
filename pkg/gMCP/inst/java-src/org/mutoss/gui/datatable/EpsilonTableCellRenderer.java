@@ -9,6 +9,7 @@ import javax.swing.table.DefaultTableCellRenderer;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.mutoss.gui.graph.EdgeWeight;
 
 public class EpsilonTableCellRenderer extends DefaultTableCellRenderer {
 	
@@ -37,8 +38,9 @@ public class EpsilonTableCellRenderer extends DefaultTableCellRenderer {
     	double sum = 0;
 
     	for (int i=0; i<model.getColumnCount(); i++) {
-    		Double d = (Double) model.getValueAt(row, i).val;
+    		EdgeWeight ew = model.getValueAt(row, i).val;
     		//logger.debug("d="+d);
+    		Double d = ew.getWeight(null);
     		if (d>1||d<0) sum=1000;
     		sum += (d>=0&&d<=1)?d:0;
     	}

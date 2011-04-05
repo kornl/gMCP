@@ -3,24 +3,25 @@ package org.mutoss.gui.datatable;
 import java.text.DecimalFormat;
 
 import org.mutoss.config.Configuration;
+import org.mutoss.gui.graph.EdgeWeight;
 
 public class CellValue {
 	
-    public final Object val;
+    public final EdgeWeight val;
 
-    public CellValue(Object val) {
+    public CellValue(EdgeWeight val) {
         this.val = val;
     }
 
     public String toString() {
         Object s = val;
-        if (val instanceof Double) {
-            DecimalFormat df = new DecimalFormat();
-            int n = Configuration.getInstance().getGeneralConfig().getDigitsInTables();
-            df.setMinimumFractionDigits(n);
-            df.setMaximumFractionDigits(n);
-            df.setGroupingUsed(false);
-            s = df.format(val);
+        if (false) {
+        	DecimalFormat df = new DecimalFormat();
+        	int n = Configuration.getInstance().getGeneralConfig().getDigitsInTables();
+        	df.setMinimumFractionDigits(n);
+        	df.setMaximumFractionDigits(n);
+        	df.setGroupingUsed(false);
+        	s = df.format(val);
         }
         return s.toString();
     }

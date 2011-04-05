@@ -3,11 +3,13 @@ package org.mutoss.gui.datatable;
 import java.util.List;
 import java.util.Vector;
 
+import org.mutoss.gui.graph.EdgeWeight;
+
 
 public class RDataFrameRef {
 
 	List<String> rcNames = new Vector<String>();
-	Vector<Vector<Double>> data = new Vector<Vector<Double>>();  
+	Vector<Vector<EdgeWeight>> data = new Vector<Vector<EdgeWeight>>();  
 	
 	public RDataFrameRef () {}
 
@@ -19,26 +21,18 @@ public class RDataFrameRef {
 		return rcNames.get(row);
 	}
 
-	public void setValue(int row, int col, Double value) {
+	public void setValue(int row, int col, EdgeWeight value) {
 		data.get(row).set(col, value);
 	}
 
-	public double[] getCol(int col) {
-		double[] value = new double[getRowCount()];
-		for (int i=0; i < getRowCount(); i++) {
-			value[i] = data.get(i).get(col);
-		}
-		return value;
-	}
-
-	public double getElement(int row, int col) {
+	public EdgeWeight getElement(int row, int col) {
 		return data.get(row).get(col);
 	}
 	
 	public void delRowCol(int col) {
 		rcNames.remove(col); 
 		data.remove(col);
-		for (Vector<Double> v: data) {
+		for (Vector<EdgeWeight> v: data) {
 			v.remove(col);
 		}
 	}
@@ -53,10 +47,10 @@ public class RDataFrameRef {
 
 	public void addRowCol(String name) {
 		rcNames.add(name);
-		Vector<Double> row = new Vector<Double>();
-		for (int i=0; i < getColumnCount(); i++) {row.add(0.0);}
+		Vector<EdgeWeight> row = new Vector<EdgeWeight>();
+		for (int i=0; i < getColumnCount(); i++) {row.add(new EdgeWeight(0.0));}
 		data.add(row);
-		for (int i=0; i < getRowCount(); i++) {data.get(i).add(0.0);}
+		for (int i=0; i < getRowCount(); i++) {data.get(i).add(new EdgeWeight(0.0));}
 		System.out.println("Data has "+getRowCount()+" rows and "+getColumnCount()+" columns now.");
 	}
 

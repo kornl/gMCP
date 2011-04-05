@@ -43,12 +43,15 @@ public class EdgeWeight {
 	
 	public double getWeight(Hashtable<String,Double> ht) {
 		String replaceStr = weightStr;
-		if (weight!=null) return weight;		
-		for (Enumeration<String> keys = ht.keys() ; keys.hasMoreElements() ;) {
-			String s = keys.nextElement();
-			replaceStr = replaceStr.replaceAll(s, ""+ht.get(s));
+		if (weight!=null) return weight;
+		if (ht!=null) {
+			for (Enumeration<String> keys = ht.keys() ; keys.hasMoreElements() ;) {
+				String s = keys.nextElement();
+				replaceStr = replaceStr.replaceAll(s, ""+ht.get(s));
+			}
 		}
-		return RControl.getR().eval(replaceStr).asRNumeric().getData()[0];
+		weight = RControl.getR().eval(replaceStr).asRNumeric().getData()[0];
+		return weight;
 	}
 	
 	public List<String> getVariables() {
