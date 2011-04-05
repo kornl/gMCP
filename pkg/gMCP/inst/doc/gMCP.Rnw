@@ -560,6 +560,18 @@ See \cite{Bretz11}.
 
 \section{Epsilon edges}
 
+\begin{figure}[ht]
+  \centering
+  \begin{tikzpicture}[scale=0.7]
+<<echo=FALSE,results=tex>>=
+
+cat(graph2latex(createGraphForParallelGatekeeping(), scale=0.7, fontsize="tiny", nodeTikZ="minimum size=1.2cm", tikzEnv=FALSE))
+cat(graph2latex(createGraphForImprovedParallelGatekeeping(), scale=0.7, fontsize="tiny", nodeTikZ="minimum size=1.2cm", tikzEnv=FALSE, offset=c(300, 0)))
+
+@
+\end{tikzpicture}
+  \caption{\label{gatekeeping} The Parallel Gate Keeping and the Improved Parallel Gate Keeping Procedure.}
+\end{figure}
 
 \scriptsize
 <<echo=TRUE, keep.source=TRUE>>=
@@ -573,11 +585,11 @@ gMCP(graph, pvalues=c(0.02, 0.04, 0.01, 0.02))
 @
 \normalsize
 
-
-
-\section{Options and Export}
+\section{Options and Import/Export}
 
 \subsection{Options}
+
+This subsection is work in progress, but fortunately the options in figure \ref{optionsDialog} should be fairly self-explanatory.
 
 \begin{figure}[ht]
   \centering    
@@ -585,12 +597,22 @@ gMCP(graph, pvalues=c(0.02, 0.04, 0.01, 0.02))
   \caption{\label{optionsDialog} You can configure many things in the option dialog.}
 \end{figure}
 
-\subsection{PNG export}
+\subsection{Import/Exports}
+
+This subsection is work in progress, but fortunately the menu entries in figure \ref{fileMenu} should be fairly self-explanatory.
+
+You can export graphs to png files.
+
+\begin{figure}[ht]
+  \centering    
+  \includegraphics[width=0.7\textwidth]{pictures/fileMenu.png}      
+  \caption{\label{fileMenu} Import and export of graphs.}
+\end{figure}
 
 \begin{figure}[ht]
   \centering    
   \includegraphics[width=0.7\textwidth]{pictures/pngExport.png}      
-  \caption{\label{fullGUI} Graphics can be exported from the GUI to PNG files. Note that the checkerboard pattern in the background of some image viewers is just a way to visualize transparency.}
+  \caption{\label{pngExport} Graphics can be exported from the GUI to PNG files. Note that the checkerboard pattern in the background of some image viewers is just a way to visualize transparency.}
 \end{figure}
 
 \section{Important TikZ commands for optimizing the reports}
