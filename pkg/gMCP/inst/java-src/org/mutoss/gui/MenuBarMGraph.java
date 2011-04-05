@@ -109,6 +109,10 @@ public class MenuBarMGraph extends JMenuBar implements ActionListener {
         	saveGraph();
         } else if (e.getActionCommand().equals("save graph to R")) {   
         	//TODO ask for alternate name
+        	if (control.getNL().getKnoten().size()==0) {
+        		JOptionPane.showMessageDialog(control.getMainFrame(), "Will not save empty graph.", "Saving to R failed.", JOptionPane.ERROR_MESSAGE);
+        		return;
+        	}
         	control.getNL().saveGraph(control.getGraphName(), true);
         } else if (e.getActionCommand().equals("export graph image")) {       	
         	saveGraphImage();
