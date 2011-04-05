@@ -205,24 +205,31 @@ setMethod("show", "graphMCP",
 		}
 )
 
-getWeightStr <- function(graph, from, to) {	
+getWeightStr <- function(graph, from, to, LaTeX=FALSE) {	
 	weight <- unlist(edgeData(graph, from, to, "weight"))
 	p <- unlist(edgeData(graph, from, to, "epsilon"))
 	attributes(p) <- NULL # Always do this when using all.equal	
 	pStr <- ""
+	if (LaTeX) {
+		frac <- getLaTeXFraction
+		e <- "\\epsilon"
+	} else {
+		frac <- function(x) {as.character(fractions(x))}
+		e <- "e"
+	}
 	for (i in 1:length(p)) {
 		if (!isTRUE(all.equal(p[i], 0))) {
-			if (as.numeric(as.character(fractions(p[i])))>=0) {
+			if (as.numeric(frac(p[i]))>=0) {
 				pStr <- paste(pStr, "+", sep="")
 			}
 			if (!isTRUE(all.equal(p[i], 1))) {
 				if (!isTRUE(all.equal(p[i], -1))) {
-					pStr <- paste(pStr, as.character(fractions(p[i])), "*e", sep="")
+					pStr <- paste(pStr, frac(p[i]), "*", e, sep="")
 				} else {
-					pStr <- paste(pStr, "-e", sep="")
+					pStr <- paste(pStr, "-", e, sep="")
 				}
 			} else {
-				pStr <- paste(pStr, "e", sep="")
+				pStr <- paste(pStr, e, sep="")
 			}
 			if (i>1) {
 				pStr <- paste(pStr, "^", i, sep="")
@@ -232,7 +239,7 @@ getWeightStr <- function(graph, from, to) {
 	if (weight==0 && pStr!="") { # Remove the first "+" and just return the epsilon part:
 		return(substring(pStr, 2))
 	}
-	return(paste(as.character(fractions(weight)), pStr, sep=""))	
+	return(paste(frac(weight), pStr, sep=""))	
 }
 
 setMethod("plot", "graphMCP",

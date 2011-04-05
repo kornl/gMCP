@@ -13,6 +13,9 @@ Version 0.6-0 (??-Apr-2011, Rev. ???)
   - Attribute for node weights is called "nodeWeight".  
 
   - New mandatory edge attribute "epsilon".
+  
+- graph2latex has the new arguments "labelTikZ", "tikzEnv" and 
+  "offset".
 
 Version 0.5-0 (28-Mar-2011, Rev. 525)
 =====================================
