@@ -605,7 +605,7 @@ You can export graphs to png files.
 
 \begin{figure}[ht]
   \centering    
-  \includegraphics[width=0.7\textwidth]{pictures/fileMenu.png}      
+  \includegraphics[width=4cm]{pictures/filemenu.png}      
   \caption{\label{fileMenu} Import and export of graphs.}
 \end{figure}
 
