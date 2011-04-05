@@ -29,7 +29,7 @@ public class VariableDialog extends JDialog implements ActionListener {
     List<JTextField> jtl;
     
 	public VariableDialog(CreateGraphGUI parent, Set<String> v) {
-		super(parent, "Correlated test statistics?", true);
+		super(parent, "Variables", true);
 		setLocationRelativeTo(parent);
 		this.parent = parent;
 		variables = v.toArray();

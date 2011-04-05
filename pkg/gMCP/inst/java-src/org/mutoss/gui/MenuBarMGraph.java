@@ -28,6 +28,7 @@ import org.apache.commons.logging.LogFactory;
 import org.mutoss.config.Configuration;
 import org.mutoss.gui.dialogs.NumberOfHypotheses;
 import org.mutoss.gui.dialogs.TextFileViewer;
+import org.mutoss.gui.dialogs.VariableNameDialog;
 import org.mutoss.gui.graph.GraphView;
 import org.mutoss.gui.graph.NetList;
 import org.mutoss.gui.options.OptionsDialog;
@@ -107,13 +108,13 @@ public class MenuBarMGraph extends JMenuBar implements ActionListener {
         	newGraph();			
         } else if (e.getActionCommand().equals("save graph")) {       	
         	saveGraph();
-        } else if (e.getActionCommand().equals("save graph to R")) {   
-        	//TODO ask for alternate name
+        } else if (e.getActionCommand().equals("save graph to R")) {
         	if (control.getNL().getKnoten().size()==0) {
         		JOptionPane.showMessageDialog(control.getMainFrame(), "Will not save empty graph.", "Saving to R failed.", JOptionPane.ERROR_MESSAGE);
         		return;
         	}
-        	control.getNL().saveGraph(control.getGraphName(), true);
+        	VariableNameDialog vnd = new VariableNameDialog(control.getGraphGUI());
+        	control.getNL().saveGraph(vnd.getName(), true);
         } else if (e.getActionCommand().equals("export graph image")) {       	
         	saveGraphImage();
         } else if (e.getActionCommand().equals("export graph latex")) {       	
@@ -349,7 +350,7 @@ public class MenuBarMGraph extends JMenuBar implements ActionListener {
         fc.setFileFilter(new FileFilter() {
 			public boolean accept(File f) {
 				if (f.isDirectory()) return true;
-				return f.getName().toLowerCase().endsWith(".RData");
+				return f.getName().toLowerCase().endsWith(".rdata");
 			}
 			public String getDescription () { return "RData files"; }  
 		});
@@ -358,17 +359,17 @@ public class MenuBarMGraph extends JMenuBar implements ActionListener {
         if (returnVal == JFileChooser.APPROVE_OPTION) {
             File f = fc.getSelectedFile();
             Configuration.getInstance().setClassProperty(this.getClass(), "RObjDirectory", f.getParent());
-            if (!f.getName().toLowerCase().endsWith(".RData")) {
+            if (!f.getName().toLowerCase().endsWith(".rdata")) {
             	f = new File(f.getAbsolutePath()+".RData");
             }
             try {
-            	//((ControlMGraph) control).getNL().saveToXML(f);
-            	String name = control.getGraphName();
+            	VariableNameDialog vnd = new VariableNameDialog(control.getGraphGUI());            	
+            	String name = vnd.getName();
             	control.getNL().saveGraph(name, false); 
             	RControl.getR().eval("save("+name+", file=\""+f.getAbsolutePath()+"\")");        		
-            	JOptionPane.showMessageDialog(this, "Exported graph to R object '"+name+"' and saved this to \n'" + f.getAbsolutePath() + "'.", "Saved graph", JOptionPane.INFORMATION_MESSAGE);
+            	JOptionPane.showMessageDialog(control.getMainFrame(), "Exported graph to R object '"+name+"' and saved this to \n'" + f.getAbsolutePath() + "'.", "Saved graph", JOptionPane.INFORMATION_MESSAGE);
     		} catch( Exception ex ) {
-    			JOptionPane.showMessageDialog(this, "Saving graph to '" + f.getAbsolutePath() + "' failed: " + ex.getMessage(), "Saving failed", JOptionPane.ERROR_MESSAGE);
+    			JOptionPane.showMessageDialog(control.getMainFrame(), "Saving graph to '" + f.getAbsolutePath() + "' failed: " + ex.getMessage(), "Saving failed", JOptionPane.ERROR_MESSAGE);
     		}
         }	
 	}
