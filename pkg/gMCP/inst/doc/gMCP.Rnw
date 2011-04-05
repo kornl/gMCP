@@ -374,10 +374,6 @@ simultaneous confidence intervals.
 \includegraphics[width=0.5cm]{pictures/Reset.png} Starts the testing
 procedure / goes back to the graph modification.
 
-\includegraphics[width=0.5cm]{pictures/save.png} This button exports
-the graph back to R under the variable name in the adjacent text
-field.
-
 With drag and drop you can move nodes and also adjust edges.
 
 \section{The sequentially rejective MTP}

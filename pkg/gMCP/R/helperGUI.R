@@ -64,13 +64,15 @@ stupidWorkAround <- function(graph) {
 	return(graph)
 }
 
-getAllQuadraticMatrices <- function(envir=globalenv()) {
+getAllQuadraticMatrices <- function(envir=globalenv(), n="all") {
 	objects <- ls(envir)
 	matrices <- c()
 	for (obj in objects) {
 		candidate <- get(obj, envir=envir)
 		if (is.matrix(candidate) && dim(candidate)[1] == dim(candidate)[2]) {
-			matrices <- c(matrices, obj)
+			if (n!="all" && dim(candidate)[1]==n) {
+				matrices <- c(matrices, obj)
+			}
 		}
 	}
 	if (length(matrices)==0) return("No quadratic matrices found.")
