@@ -65,20 +65,7 @@ public class GraphView extends JPanel implements ActionListener {
 	}
 
 	public void updateEdge(int from, int to, Double w) {
-		logger.info("Adding Edge from "+from+" to "+to+" with weight "+w+".");
-		Edge e = getNL().findEdge(getNL().getKnoten().get(from), getNL().getKnoten().get(to));
-		if (e!=null) {
-			int x = e.getK1();
-			int y = e.getK2();
-			if (w != 0) {
-				getNL().addEdge(new Edge(getNL().getKnoten().get(from), getNL().getKnoten().get(to), w, getNL().vs, x, y));
-			} else {
-				getNL().removeEdge(e);
-			}
-		} else {
-			getNL().addEdge(getNL().getKnoten().get(from), getNL().getKnoten().get(to), w);
-		}
-		getNL().repaint();
+		updateEdge(from, to, new EdgeWeight(w));
 	}
 
 	public DataTable getDataTable() {		
@@ -290,6 +277,23 @@ public class GraphView extends JPanel implements ActionListener {
 		String filename = file.getAbsolutePath();
 		nl.saveGraph(".exportGraphToLaTeX", false);
 		RControl.getR().eval("gMCPReport(.exportGraphToLaTeX, file=\""+filename+"\")");
+	}
+
+	public void updateEdge(int from, int to, EdgeWeight weight) {
+		logger.info("Adding Edge from "+from+" to "+to+" with weight "+weight.toString()+".");
+		Edge e = getNL().findEdge(getNL().getKnoten().get(from), getNL().getKnoten().get(to));
+		if (e!=null) {
+			int x = e.getK1();
+			int y = e.getK2();			
+			if (!weight.toString().equals("0")) {
+				getNL().addEdge(new Edge(getNL().getKnoten().get(from), getNL().getKnoten().get(to), weight, getNL().vs, x, y));
+			} else {
+				getNL().removeEdge(e);
+			}
+		} else {
+			getNL().addEdge(getNL().getKnoten().get(from), getNL().getKnoten().get(to), weight);
+		}
+		getNL().repaint();		
 	}
 	
 }

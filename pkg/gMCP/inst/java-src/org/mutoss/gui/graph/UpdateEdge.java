@@ -63,11 +63,11 @@ public class UpdateEdge extends JDialog implements ActionListener {
 			}
 		}
 		if (w==0) {
-			control.getDataTable().getModel().setValueAt(0, netzListe.getKnoten().indexOf(edge.from), netzListe.getKnoten().indexOf(edge.to));
+			control.getDataTable().getModel().setValueAt(new EdgeWeight(0), netzListe.getKnoten().indexOf(edge.from), netzListe.getKnoten().indexOf(edge.to));
 			netzListe.removeEdge(edge);			
 		} else {
 			edge.setW(tf.getText());	
-			control.getDataTable().getModel().setValueAt(tf.getText(), netzListe.getKnoten().indexOf(edge.from), netzListe.getKnoten().indexOf(edge.to));
+			control.getDataTable().getModel().setValueAt(new EdgeWeight(tf.getText()), netzListe.getKnoten().indexOf(edge.from), netzListe.getKnoten().indexOf(edge.to));
 		}
 		netzListe.repaint();
 		dispose();		

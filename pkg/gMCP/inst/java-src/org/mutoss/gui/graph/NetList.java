@@ -90,7 +90,7 @@ public class NetList extends JPanel implements MouseMotionListener, MouseListene
 		}
 		if (old != null) edges.remove(old);
 		edges.add(e);
-		control.getDataTable().getModel().setValueAt(e.getWS(), getKnoten().indexOf(e.from), getKnoten().indexOf(e.to));
+		control.getDataTable().getModel().setValueAt(e.getEdgeWeight(), getKnoten().indexOf(e.from), getKnoten().indexOf(e.to));
 	}
 
 	/**
@@ -118,31 +118,7 @@ public class NetList extends JPanel implements MouseMotionListener, MouseListene
 	 */
 	
 	public void addEdge(Node von, Node nach, Double w) {	
-		Integer x = null;
-		Integer y = null;
-		boolean curve = false;
-		for (Edge e : edges) {
-			if (e.from == nach && e.to == von) {
-				e.curve = true;
-				curve = true;
-			}
-		}		
-		for (int i = edges.size()-1; i >= 0; i--) {
-			if (edges.get(i).from == von && edges.get(i).to == nach) {
-				x = edges.get(i).getK1();
-				y = edges.get(i).getK2();
-				edges.remove(i);				
-			}
-		}
-		if (w!=0) {
-			if (x!=null) {
-				edges.add(new Edge(von, nach, w, vs, x, y));
-			} else {
-				edges.add(new Edge(von, nach, w, vs, curve));
-			}
-			edges.lastElement().curve = curve;
-		}
-		control.getDataTable().getModel().setValueAt(w, getKnoten().indexOf(von), getKnoten().indexOf(nach));
+		addEdge(von, nach, new EdgeWeight(w));
 	}
 
 	public void addNode(Node node) {
@@ -595,6 +571,34 @@ public class NetList extends JPanel implements MouseMotionListener, MouseListene
 	
 	public boolean isTesting() {		
 		return testingStarted;
+	}
+
+	public void addEdge(Node von, Node nach, EdgeWeight w) {
+		Integer x = null;
+		Integer y = null;
+		boolean curve = false;
+		for (Edge e : edges) {
+			if (e.from == nach && e.to == von) {
+				e.curve = true;
+				curve = true;
+			}
+		}		
+		for (int i = edges.size()-1; i >= 0; i--) {
+			if (edges.get(i).from == von && edges.get(i).to == nach) {
+				x = edges.get(i).getK1();
+				y = edges.get(i).getK2();
+				edges.remove(i);				
+			}
+		}
+		if (!w.toString().equals("0")) {
+			if (x!=null) {
+				edges.add(new Edge(von, nach, w, vs, x, y));
+			} else {
+				edges.add(new Edge(von, nach, w, vs, curve));
+			}
+			edges.lastElement().curve = curve;
+		}
+		control.getDataTable().getModel().setValueAt(w, getKnoten().indexOf(von), getKnoten().indexOf(nach));
 	}
 	
 }

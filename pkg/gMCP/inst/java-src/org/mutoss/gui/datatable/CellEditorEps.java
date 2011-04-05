@@ -3,14 +3,14 @@ package org.mutoss.gui.datatable;
 import javax.swing.DefaultCellEditor;
 import javax.swing.JTextField;
 
+import org.mutoss.gui.graph.EdgeWeight;
 import org.mutoss.gui.graph.GraphView;
-
 
 public class CellEditorEps extends DefaultCellEditor {
 	
 	GraphView agc;
 
-    private Object oldVal;
+    private EdgeWeight oldVal;
     int row;
     int col;
     
@@ -21,22 +21,14 @@ public class CellEditorEps extends DefaultCellEditor {
 		this.col = col;
 		// TODO: WHY DO I NEED THIS s.replace(',','.'); No, this looks simple, but there are strange things out there.
 		s = s.replace(',','.');
-        try {        	
-        	oldVal = Double.parseDouble(s);
-        } catch (NumberFormatException e) {        	
-        	oldVal = "ε";
-        }
-        ((JTextField)getComponent()).setText(oldVal.toString());
+		oldVal = new EdgeWeight(s);
+		((JTextField)getComponent()).setText(oldVal.toString());
     }
 
-    public Object getCellEditorValue() {
+    public EdgeWeight getCellEditorValue() {
     	String s = ((JTextField)getComponent()).getText();
-    	try {
-        	oldVal = Double.parseDouble(s);
-        } catch (NumberFormatException e) {
-        	oldVal = Double.NaN;
-        }    
-        agc.updateEdge(row, col, (Double)oldVal); 
+    	oldVal = new EdgeWeight(s);
+    	agc.updateEdge(row, col, oldVal); 
     	return oldVal;
     }
 

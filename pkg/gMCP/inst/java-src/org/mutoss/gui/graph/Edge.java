@@ -85,13 +85,21 @@ public class Edge {
 	}
 	
 	public Edge(Node from, Node to, String wStr, VS vs, boolean curve) {
-		this(from, to, 0d, vs, curve);
-		this.ew = new EdgeWeight(wStr);
+		this(from, to, new EdgeWeight(wStr), vs, curve);
 	}
 
 	public Edge(Node from, Node to, String wStr, VS vs, int i, int j) {
-		this(from, to, 0d, vs, i, j);
-		this.ew = new EdgeWeight(wStr);
+		this(from, to, new EdgeWeight(wStr), vs, i, j);	
+	}
+
+	public Edge(Node from, Node to, EdgeWeight ew, VS vs, int k1, int k2) {
+		this(from, to, 0d, vs, k1, k2);
+		this.ew = ew;
+	}
+
+	public Edge(Node from, Node to, EdgeWeight ew, VS vs, boolean curve) {
+		this(from, to, 0d, vs, curve);
+		this.ew = ew;
 	}
 
 	public int getBendLeft() {
@@ -262,5 +270,9 @@ public class Edge {
 
 	public double getW(Hashtable<String, Double> ht) {
 		return ew.getWeight(ht);
+	}
+	
+	public EdgeWeight getEdgeWeight() {
+		return ew;
 	}
 }
