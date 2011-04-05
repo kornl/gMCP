@@ -206,7 +206,7 @@ setMethod("show", "graphMCP",
 )
 
 getWeightStr <- function(graph, from, to) {	
-	weight <- edgeData(graph, from, to, "weight")
+	weight <- unlist(edgeData(graph, from, to, "weight"))
 	p <- unlist(edgeData(graph, from, to, "epsilon"))
 	attributes(p) <- NULL # Always do this when using all.equal	
 	pStr <- ""
@@ -232,7 +232,7 @@ getWeightStr <- function(graph, from, to) {
 	if (weight==0 && pStr!="") { # Remove the first "+" and just return the epsilon part:
 		return(substring(pStr, 2))
 	}
-	return(paste(weight, pStr, sep=""))	
+	return(paste(as.character(fractions(weight)), pStr, sep=""))	
 }
 
 setMethod("plot", "graphMCP",
