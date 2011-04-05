@@ -4,6 +4,8 @@ import java.awt.Dimension;
 
 import javax.swing.JTable;
 
+import org.mutoss.gui.graph.EdgeWeight;
+
 public class DataTable extends JTable {
 
     public DataTable(RDataFrameRef df) {
@@ -16,8 +18,8 @@ public class DataTable extends JTable {
         getColumnModel().setColumnSelectionAllowed(false);
         setRowSelectionAllowed(false);
         setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
-
-    	setDefaultRenderer(CellValue.class, new EpsilonTableCellRenderer());
+              
+    	setDefaultRenderer(EdgeWeight.class, new EpsilonTableCellRenderer());
     }
 
     public DataTableModel getModel() {

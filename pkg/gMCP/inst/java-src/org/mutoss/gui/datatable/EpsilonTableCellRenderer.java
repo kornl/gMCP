@@ -17,39 +17,31 @@ public class EpsilonTableCellRenderer extends DefaultTableCellRenderer {
 	
 	public EpsilonTableCellRenderer() { super(); }
 
-	public String getString (Object value) {
-		CellValue cv = (CellValue) value;
-    	try {
-    		// TODO: WHY DO I NEED THIS s.replace(',','.');
-    		Double d = Double.parseDouble(cv.toString().replace(',', '.'));    		
-        	return ""+d;        	
-        } catch (NumberFormatException e) {
-        	return "ε";
-        }  
-	}
-	
     public void setValue(Object value) {
-    	setText(getString(value));
+    	setText(value.toString());
     }
 
     public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int col)	{    	
-    	DataTableModel model =  (DataTableModel) table.getModel();
+    	DataTableModel model = (DataTableModel) table.getModel();
 
     	double sum = 0;
 
     	for (int i=0; i<model.getColumnCount(); i++) {
-    		EdgeWeight ew = model.getValueAt(row, i).val;
-    		//logger.debug("d="+d);
-    		Double d = ew.getWeight(null);
+    		EdgeWeight ew = model.getValueAt(row, i);
+    		Double d = 0.0;
+    		try {
+    			d = ew.getWeight(null);
+    		} catch (Exception e) {
+    			// Seriously - we don't want to do anything: d=0.0 is fine.
+    		}
     		if (d>1||d<0) sum=1000;
     		sum += (d>=0&&d<=1)?d:0;
     	}
-    	//logger.debug("sum="+sum);
 
     	DefaultTableCellRenderer dtcr = new DefaultTableCellRenderer();
         JLabel label = (JLabel) dtcr.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, col);       
-    	
-        label.setText(getString(value));
+   
+        label.setText(value.toString());
         
     	if(sum>1.0001) {
     		label.setForeground(Color.RED);

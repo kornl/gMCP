@@ -31,8 +31,12 @@ public class DataTableModel extends AbstractTableModel {
 		fireTableChanged(new TableModelEvent(this, row));
     }
 
-    public CellValue getValueAt(int row, int col) {
-        return new CellValue(df.getElement(row, col));
+    public EdgeWeight getValueAt(int row, int col) {
+        return df.getElement(row, col);
+    }
+    
+    public Class<?> getColumnClass(int col) {
+        return EdgeWeight.class;
     }
     
     public void addRowCol(String name) {

@@ -5,19 +5,16 @@ import java.util.Vector;
 
 import org.mutoss.gui.graph.EdgeWeight;
 
-
 public class RDataFrameRef {
 
 	List<String> rcNames = new Vector<String>();
-	Vector<Vector<EdgeWeight>> data = new Vector<Vector<EdgeWeight>>();  
-	
-	public RDataFrameRef () {}
+	Vector<Vector<EdgeWeight>> data = new Vector<Vector<EdgeWeight>>();
 
 	public String getColName(int col) {
 		return rcNames.get(col);
 	}
 	
-	public Object getRowName(int row) {
+	public String getRowName(int row) {
 		return rcNames.get(row);
 	}
 

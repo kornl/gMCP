@@ -16,10 +16,10 @@ import org.af.commons.Localizer;
 import org.apache.commons.lang.ArrayUtils;
 import org.mutoss.config.Configuration;
 import org.mutoss.gui.datatable.CellEditorE;
-import org.mutoss.gui.datatable.CellValue;
 import org.mutoss.gui.datatable.DataFramePanel;
 import org.mutoss.gui.datatable.DataTable;
 import org.mutoss.gui.datatable.RDataFrameRef;
+import org.mutoss.gui.graph.EdgeWeight;
 import org.mutoss.gui.graph.GraphMCP;
 import org.mutoss.gui.graph.GraphView;
 import org.mutoss.gui.graph.PView;
@@ -81,7 +81,7 @@ public class CreateGraphGUI extends JFrame implements WindowListener {
 	}
 	
 	private void makeContent() {
-		dfp.getTable().setDefaultEditor(CellValue.class, new CellEditorE(agc));
+		dfp.getTable().setDefaultEditor(EdgeWeight.class, new CellEditorE(agc));
 		JSplitPane splitPane2 = new JSplitPane(JSplitPane.VERTICAL_SPLIT, new JScrollPane(dfp), pview);
 		JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, agc, splitPane2);
 		getContentPane().add(splitPane);		
