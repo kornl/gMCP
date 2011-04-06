@@ -1,4 +1,11 @@
 
+Version 0.6-1 (??-Apr-2011, Rev. ???)
+=====================================
+
+- We use the pretty cool library JMathTeX for edge labeling.
+
+- New jars JMathTeX-0.7pre.jar and jdom.jar.
+
 Version 0.6-0 (06-Apr-2011, Rev. 547)
 =====================================
 
