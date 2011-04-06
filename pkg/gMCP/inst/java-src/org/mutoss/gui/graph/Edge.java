@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Insets;
 import java.awt.font.FontRenderContext;
 import java.awt.geom.Rectangle2D;
 import java.util.Collection;
@@ -180,11 +181,21 @@ public class Edge {
 	}
 
 	public boolean inYou(int x, int y) {
-		String s = getWS();
+		if (icon==null) {
+			icon = getTeXIcon(getWS());			
+		}		
+		int TOLERANCE = 5; 
+		return (x/vs.getZoom()>k1-icon.getIconWidth()/2-TOLERANCE)
+			&& (x/vs.getZoom()<k1+icon.getIconWidth()/2+TOLERANCE)
+			&& (y/vs.getZoom()<k2+icon.getIconHeight()/2+TOLERANCE)
+			&& (y/vs.getZoom()>k2-icon.getIconHeight()/2-TOLERANCE);
+		
+		/*String s = getWS();
 		FontRenderContext frc = g2d.getFontRenderContext();	
 		Rectangle2D rc = (new Font("Arial", Font.PLAIN, (int) (16 * vs.getZoom()))).getStringBounds(s, frc);
 		int TOLERANCE = 4; 
 		return (x/ vs.getZoom()>k1-rc.getWidth()/2-TOLERANCE)&&(x/ vs.getZoom()<k1+rc.getWidth()/2+TOLERANCE)&&(y/ vs.getZoom()<k2- rc.getHeight()*1/ 2+TOLERANCE)&&(y/ vs.getZoom()>k2-rc.getHeight()*3/2-TOLERANCE);
+		*/
 	}
 	
 	public void paintYou(Graphics g) {
@@ -219,23 +230,119 @@ public class Edge {
 			
 			g2d.setFont(new Font("Arial", Font.PLAIN, (int) (16 * vs.getZoom())));
 			frc = g2d.getFontRenderContext();		
-			String s = getWS();
+			String s = getWS();			
+			
+			/*
 			Rectangle2D rc = g2d.getFont().getStringBounds(s, frc);
 			g2d.setColor(new Color(0.99f,0.99f,0.99f));
-			g2d.fillRect((int)((k1* vs.getZoom() - rc.getWidth() / 2)), (int)((k2* vs.getZoom() - rc.getHeight()* 3 / 2)), (int)((rc.getWidth()+5)), (int)((rc.getHeight()+5)));
+			g2d.fillRect((int)((k1* vs.getZoom() - rc.getWidth() / 2)), 
+			(int)((k2* vs.getZoom() - rc.getHeight()* 3 / 2)), 
+			(int)((rc.getWidth()+5)), (int)((rc.getHeight()+5)));
 			g2d.setColor(Color.BLACK);
 			
 			g2d.drawString(s, 
 					(float) ((k1* vs.getZoom() - rc.getWidth() / 2)), 
-					(float) ((k2* vs.getZoom() - rc.getHeight() / 2)));
+					(float) ((k2* vs.getZoom() - rc.getHeight() / 2)));*/
 			
-			TeXFormula formula = new TeXFormula("1/2+2/8*"); 
-			formula.addFraction("1", "2", true);
-			TeXIcon icon = formula.createTeXIcon(TeXConstants.ALIGN_CENTER, 16);
+			if (icon==null) {
+				icon = getTeXIcon(s);			
+			}
+			g2d.setColor(new Color(0.99f,0.99f,0.99f));
+			g2d.fillRect((int)((k1* vs.getZoom() - icon.getIconWidth() / 2)-5), 
+					(int)((k2* vs.getZoom() - icon.getIconHeight() / 2)-5), 
+					(int)((icon.getIconWidth()+10)),
+					(int)((icon.getIconHeight()+10)));
+			g2d.setColor(Color.BLACK);
+			
 			icon.paintIcon(new JPanel(), g2d,
-					(int) ((k1* vs.getZoom() - rc.getWidth() / 2)), 
-					(int) ((k2* vs.getZoom() - rc.getHeight() / 2)));
+					(int) ((k1* vs.getZoom() - icon.getIconWidth() / 2)), 
+					(int) ((k2* vs.getZoom() - icon.getIconHeight() / 2)));
 		} 
+	}
+	
+	TeXIcon icon = null;
+
+	private TeXIcon getTeXIcon(String s) {
+		boolean print = true;
+		TeXFormula formula = new TeXFormula();
+		while (s.length()>0) {			
+			int i = getNextOperator(s);
+			System.out.println("Next index is "+i+" in string: "+s);
+			if (i!=-1) {
+				String op = ""+s.charAt(i);
+				String start = s.substring(0, i);				
+				System.out.println("Start "+start+"; op: "+op);
+				s = s.substring(i+1, s.length());
+				if (op.equals("+") || op.equals("-") || op.equals("*")) {
+					if (print) {
+						if (start.equals("ε")) {
+							formula.addSymbol("varepsilon");
+						} else {
+							formula.add(start);
+						}	
+					}
+					if (!op.equals("*")) formula.add(op);
+					print = true;
+				}
+				if (op.equals("/") || op.equals("^")) {
+					i = getNextOperator(s);
+					String s2;
+					if (i!=-1) {
+						s2 = s.substring(0, i);
+					} else {
+						s2 = s;
+					}
+					if (op.equals("/")) {
+						formula.addFraction(start, s2, true);
+					}
+					if (op.equals("^")) {
+						if (start.equals("ε")) {
+							formula.addSymbol("varepsilon");
+						} else {
+							formula.add(start);
+						}
+						formula.setSuperscript(s2);
+					}
+					print = false;
+				}
+			} else {
+				if (print) {
+					if (s.equals("ε")) {
+						formula.addSymbol("varepsilon");
+					} else {
+						formula.add(s);
+					}			
+				}
+				s = "";
+			}
+		}
+		return formula.createTeXIcon(TeXConstants.ALIGN_CENTER, (int) (16 * vs.getZoom()));
+	}
+	
+	private static int getNextOperator(String s) {
+		int min = s.length()+1;
+		int i = s.indexOf("+");
+		if (i!=-1) {
+			min = i;
+		}
+		i = s.indexOf("-");
+		if (i!=-1 && min>i) {
+			min = i;
+		}
+		i = s.indexOf("*");
+		if (i!=-1 && min>i) {
+			min = i;
+		}
+		i = s.indexOf("/");
+		if (i!=-1 && min>i) {
+			min = i;
+		}
+		i = s.indexOf("^");
+		if (i!=-1 && min>i) {
+			min = i;
+		}
+		if (min==s.length()+1) return -1;
+		return min;
 	}
 
 	public void setK1(int k1) {
