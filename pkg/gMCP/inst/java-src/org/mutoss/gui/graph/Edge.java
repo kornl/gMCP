@@ -9,10 +9,16 @@ import java.awt.geom.Rectangle2D;
 import java.util.Collection;
 import java.util.Hashtable;
 
+import javax.swing.JPanel;
+
 import org.af.commons.images.GraphDrawHelper;
 import org.af.commons.images.GraphException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+
+import be.ugent.caagt.jmathtex.TeXConstants;
+import be.ugent.caagt.jmathtex.TeXFormula;
+import be.ugent.caagt.jmathtex.TeXIcon;
 
 public class Edge {
 
@@ -222,7 +228,13 @@ public class Edge {
 			g2d.drawString(s, 
 					(float) ((k1* vs.getZoom() - rc.getWidth() / 2)), 
 					(float) ((k2* vs.getZoom() - rc.getHeight() / 2)));
-
+			
+			TeXFormula formula = new TeXFormula("1/2+2/8*"); 
+			formula.addFraction("1", "2", true);
+			TeXIcon icon = formula.createTeXIcon(TeXConstants.ALIGN_CENTER, 16);
+			icon.paintIcon(new JPanel(), g2d,
+					(int) ((k1* vs.getZoom() - rc.getWidth() / 2)), 
+					(int) ((k2* vs.getZoom() - rc.getHeight() / 2)));
 		} 
 	}
 

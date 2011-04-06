@@ -11,8 +11,14 @@ import java.awt.geom.Rectangle2D;
 import java.text.DecimalFormat;
 import java.util.Vector;
 
+import javax.swing.JPanel;
+
 import org.mutoss.config.Configuration;
 import org.mutoss.gui.RControl;
+
+import be.ugent.caagt.jmathtex.TeXConstants;
+import be.ugent.caagt.jmathtex.TeXFormula;
+import be.ugent.caagt.jmathtex.TeXIcon;
 
 public class Node {
 	
@@ -91,6 +97,13 @@ public class Node {
 		g2d.drawString(name, 
 				(float) ((x + r) * vs.getZoom() - rc.getWidth() / 2), 
 				(float) ((y + r - 0.25*r) * vs.getZoom())); // +rc.getHeight()/2));
+		
+		TeXFormula formula = new TeXFormula("H"); 
+		formula.setScripts("1", "");
+		TeXIcon icon = formula.createTeXIcon(TeXConstants.ALIGN_CENTER, 16);
+		icon.paintIcon(new JPanel(), g2d,
+				(int) ((x + r) * vs.getZoom() - rc.getWidth() / 2), 
+				(int) ((y + r - 0.25*r) * vs.getZoom()));
 
 		rc = g2d.getFont().getStringBounds(getWS(), frc);
 		g2d.drawString(getWS(),
