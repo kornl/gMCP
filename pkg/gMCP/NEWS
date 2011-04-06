@@ -6,6 +6,8 @@ Version 0.6-0 (06-Apr-2011, Rev. 547)
   outgoing edges is disabled then till values are assigned to the
   variables.)
   
+- gMCP has new arguments: approxEps=TRUE, eps=10^(-4)
+  
 - New function: substituteEps
 
 - Changes in class graphMCP:
@@ -16,6 +18,8 @@ Version 0.6-0 (06-Apr-2011, Rev. 547)
   
 - graph2latex has the new arguments "labelTikZ", "tikzEnv" and 
   "offset".
+  
+ 40 files changed, 599 insertions(+), 339 deletions(-)
 
 Version 0.5-0 (28-Mar-2011, Rev. 525)
 =====================================

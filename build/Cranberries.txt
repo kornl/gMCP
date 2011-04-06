@@ -394,3 +394,47 @@ Diff between gMCP versions 0.4-0 dated 2011-03-21 and 0.5-0 dated 2011-03-28
  gMCP-0.5-0/gMCP/man/matrix2graph.Rd                                           |   10 
  gMCP-0.5-0/gMCP/man/rejectNode.Rd                                             |   11 
  61 files changed, 868 insertions(+), 482 deletions(-)
+
+ Diff between gMCP versions 0.5-0 dated 2011-03-28 and 0.6-0 dated 2011-04-06
+
+ gMCP-0.5-0/gMCP/inst/doc/pictures/latex.png                                          |only
+ gMCP-0.5-0/gMCP/inst/doc/pictures/save.png                                           |only
+ gMCP-0.5-0/gMCP/inst/java-src/org/mutoss/gui/datatable/CellValue.java                |only
+ gMCP-0.5-0/gMCP/inst/java-src/org/mutoss/gui/graph/images/save.png                   |only
+ gMCP-0.6-0/gMCP/DESCRIPTION                                                          |    6 
+ gMCP-0.6-0/gMCP/NAMESPACE                                                            |    2 
+ gMCP-0.6-0/gMCP/NEWS                                                                 |  263 +++++++---
+ gMCP-0.6-0/gMCP/R/exampleGraphs.R                                                    |    7 
+ gMCP-0.6-0/gMCP/R/gMCP.R                                                             |   22 
+ gMCP-0.6-0/gMCP/R/graph2latex.R                                                      |   21 
+ gMCP-0.6-0/gMCP/R/graphMCP.R                                                         |   70 ++
+ gMCP-0.6-0/gMCP/R/helperGUI.R                                                        |   11 
+ gMCP-0.6-0/gMCP/TODO                                                                 |    3 
+ gMCP-0.6-0/gMCP/inst/CITATION                                                        |    2 
+ gMCP-0.6-0/gMCP/inst/doc/correlated.pdf                                              |binary
+ gMCP-0.6-0/gMCP/inst/doc/gMCP.Rnw                                                    |  180 +++---
+ gMCP-0.6-0/gMCP/inst/doc/gMCP.pdf                                                    |binary
+ gMCP-0.6-0/gMCP/inst/doc/pictures/filemenu.png                                       |only
+ gMCP-0.6-0/gMCP/inst/java-src/org/mutoss/gui/CreateGraphGUI.java                     |    4 
+ gMCP-0.6-0/gMCP/inst/java-src/org/mutoss/gui/MenuBarMGraph.java                      |   28 -
+ gMCP-0.6-0/gMCP/inst/java-src/org/mutoss/gui/datatable/CellEditorEps.java            |   22 
+ gMCP-0.6-0/gMCP/inst/java-src/org/mutoss/gui/datatable/DataTable.java                |    6 
+ gMCP-0.6-0/gMCP/inst/java-src/org/mutoss/gui/datatable/DataTableModel.java           |   20 
+ gMCP-0.6-0/gMCP/inst/java-src/org/mutoss/gui/datatable/EpsilonTableCellRenderer.java |   30 -
+ gMCP-0.6-0/gMCP/inst/java-src/org/mutoss/gui/datatable/RDataFrameRef.java            |   27 -
+ gMCP-0.6-0/gMCP/inst/java-src/org/mutoss/gui/dialogs/VariableDialog.java             |    2 
+ gMCP-0.6-0/gMCP/inst/java-src/org/mutoss/gui/dialogs/VariableNameDialog.java         |only
+ gMCP-0.6-0/gMCP/inst/java-src/org/mutoss/gui/graph/Edge.java                         |   22 
+ gMCP-0.6-0/gMCP/inst/java-src/org/mutoss/gui/graph/EdgeWeight.java                   |    5 
+ gMCP-0.6-0/gMCP/inst/java-src/org/mutoss/gui/graph/GraphMCP.java                     |   17 
+ gMCP-0.6-0/gMCP/inst/java-src/org/mutoss/gui/graph/GraphView.java                    |   60 --
+ gMCP-0.6-0/gMCP/inst/java-src/org/mutoss/gui/graph/NetList.java                      |   56 +-
+ gMCP-0.6-0/gMCP/inst/java-src/org/mutoss/gui/graph/UpdateEdge.java                   |    4 
+ gMCP-0.6-0/gMCP/inst/java/gsrmtp.jar                                                 |binary
+ gMCP-0.6-0/gMCP/inst/unitTests/runit.randomGraph.R                                   |    3 
+ gMCP-0.6-0/gMCP/man/bdiagNA.Rd                                                       |    2 
+ gMCP-0.6-0/gMCP/man/gMCP.Rd                                                          |    9 
+ gMCP-0.6-0/gMCP/man/graph2latex.Rd                                                   |   13 
+ gMCP-0.6-0/gMCP/man/graphMCP.Rd                                                      |   21 
+ gMCP-0.6-0/gMCP/man/substituteEps.Rd                                                 |only
+ 40 files changed, 599 insertions(+), 339 deletions(-)
