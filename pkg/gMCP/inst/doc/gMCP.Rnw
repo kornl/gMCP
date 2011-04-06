@@ -132,7 +132,7 @@ edge weights.
 
 \begin{Example}
   Let $p_1=0.01$, $p_2=0.04$ and $p_3=0.02$ be three p-values and
-  $alpha=0.05$.  In the first step $H_1$ can be rejected since
+  $\alpha=0.05$.  In the first step $H_1$ can be rejected since
   $p_1<\alpha/3$.  The updated graph can be seen in figure
   \ref{exampleHolmP} and now also $H_3$ can be rejected since
   $p_1<\alpha/2$.  Again the graph is updated and at last also $H_2$
