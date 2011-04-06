@@ -33,6 +33,6 @@ citEntry(entry="article",
          year = "2011",
          publisher = "unkown",
          address = "unknown",
-         textVersion = "Frank Bretz, Martin Posch, Ekkehard Glimm, Florian Klinglmueller, Willi Maurer, Kornelius Rohmeyer (2011), Graphical approaches for multiple comparison procedures using weighted Bonferroni, Simes or parametric tests. Lecture Notes in Statistics, Vol. 195., Springer-Verlage, Heidelberg. ISBN 978-3-642-01688-2"
+         textVersion = "Frank Bretz, Martin Posch, Ekkehard Glimm, Florian Klinglmueller, Willi Maurer, Kornelius Rohmeyer (2011), Graphical approaches for multiple comparison procedures using weighted Bonferroni, Simes or parametric tests."
 )
 
