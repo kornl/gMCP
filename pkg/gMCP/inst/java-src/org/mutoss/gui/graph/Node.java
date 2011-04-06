@@ -98,12 +98,12 @@ public class Node {
 				(float) ((x + r) * vs.getZoom() - rc.getWidth() / 2), 
 				(float) ((y + r - 0.25*r) * vs.getZoom())); // +rc.getHeight()/2));
 		
-		TeXFormula formula = new TeXFormula("H"); 
+		/*TeXFormula formula = new TeXFormula("H"); 
 		formula.setScripts("1", "");
 		TeXIcon icon = formula.createTeXIcon(TeXConstants.ALIGN_CENTER, 16);
 		icon.paintIcon(new JPanel(), g2d,
 				(int) ((x + r) * vs.getZoom() - rc.getWidth() / 2), 
-				(int) ((y + r - 0.25*r) * vs.getZoom()));
+				(int) ((y + r - 0.25*r) * vs.getZoom()));*/
 
 		rc = g2d.getFont().getStringBounds(getWS(), frc);
 		g2d.drawString(getWS(),

@@ -262,16 +262,21 @@ public class Edge {
 	
 	TeXIcon icon = null;
 
+	/**
+	 * This function takes a string and creates a TeXIcon from this.
+	 * Things like "2^(1+2)" or even "2*2/4" will cause Exceptions or give false results.
+	 * This function is only meant to be for polynomials. 
+	 * @param s String to be parsed.
+	 * @return
+	 */
 	private TeXIcon getTeXIcon(String s) {
 		boolean print = true;
 		TeXFormula formula = new TeXFormula();
 		while (s.length()>0) {			
 			int i = getNextOperator(s);
-			System.out.println("Next index is "+i+" in string: "+s);
 			if (i!=-1) {
 				String op = ""+s.charAt(i);
-				String start = s.substring(0, i);				
-				System.out.println("Start "+start+"; op: "+op);
+				String start = s.substring(0, i);
 				s = s.substring(i+1, s.length());
 				if (op.equals("+") || op.equals("-") || op.equals("*")) {
 					if (print) {
@@ -281,7 +286,11 @@ public class Edge {
 							formula.add(start);
 						}	
 					}
-					if (!op.equals("*")) formula.add(op);
+					if (!op.equals("*")) {
+						formula.add(op);
+					} else {
+						//formula.addSymbol("cdot");
+					}					
 					print = true;
 				}
 				if (op.equals("/") || op.equals("^")) {
