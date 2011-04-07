@@ -325,7 +325,8 @@ public class Edge {
 			}
 		}
 		logger.info("LaTeX string:"+latex);		
-		TeXFormula formula = new TeXFormula(latex);//"\\mathbb "+latex+"");
+		TeXFormula formula = new TeXFormula(latex);//
+		formula = new TeXFormula("\\mathbf{"+latex+"}");
 		
 		return formula.createTeXIcon(TeXConstants.ALIGN_CENTER, (int) (16 * vs.getZoom()));
 	}

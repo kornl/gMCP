@@ -5,9 +5,9 @@ import java.awt.Graphics;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-import be.ugent.caagt.jmathtex.TeXConstants;
-import be.ugent.caagt.jmathtex.TeXFormula;
-import be.ugent.caagt.jmathtex.TeXIcon;
+import org.scilab.forge.jlatexmath.TeXConstants;
+import org.scilab.forge.jlatexmath.TeXFormula;
+import org.scilab.forge.jlatexmath.TeXIcon;
 
 public class TeXFormulaTest extends JFrame {
 
@@ -39,29 +39,35 @@ class TeXPanel extends JPanel {
 		icon.paintIcon(this, g,	100, 100);
 	}
 	
-	private static TeXIcon getTeXIcon(String s) {
-		boolean print = true;
-		TeXFormula formula = new TeXFormula();
+	/**
+	 * This function takes a string and creates a TeXIcon from this.
+	 * Things like "2^(1+2)" or even "2*2/4" will cause Exceptions or give false results.
+	 * This function is only meant to be for polynomials. 
+	 * @param s String to be parsed.
+	 * @return
+	 */
+	private TeXIcon getTeXIcon(String s) {
+		boolean print = true;		
+		s.replaceAll("ε", "\\varepsilon");
+		String latex = "";
 		while (s.length()>0) {			
 			int i = getNextOperator(s);
-			System.out.println("Next index is "+i+" in string: "+s);
 			if (i!=-1) {
 				String op = ""+s.charAt(i);
-				String start = s.substring(0, i);				
-				System.out.println("Start "+start+"; op: "+op);
+				String start = s.substring(0, i);
 				s = s.substring(i+1, s.length());
 				if (op.equals("+") || op.equals("-") || op.equals("*")) {
 					if (print) {
-						if (start.equals("ε")) {
-							formula.addSymbol("varepsilon");
-						} else {
-							formula.add(start);
-						}	
+						latex += start;							
 					}
-					if (!op.equals("*")) formula.add(op);
+					if (!op.equals("*")) {
+						latex += op;
+					} else {
+						//formula.addSymbol("cdot");
+					}					
 					print = true;
 				}
-				if (op.equals("/") || op.equals("^")) {
+				if (op.equals("/")) {
 					i = getNextOperator(s);
 					String s2;
 					if (i!=-1) {
@@ -70,29 +76,20 @@ class TeXPanel extends JPanel {
 						s2 = s;
 					}
 					if (op.equals("/")) {
-						formula.addFraction(start, s2, true);
-					}
-					if (op.equals("^")) {
-						if (start.equals("ε")) {
-							formula.addSymbol("varepsilon");
-						} else {
-							formula.add(start);
-						}
-						formula.setSuperscript(s2);
+						latex += "\\frac{"+start+"}{"+s2+"}";
 					}
 					print = false;
 				}
 			} else {
 				if (print) {
-					if (s.equals("ε")) {
-						formula.addSymbol("varepsilon");
-					} else {
-						formula.add(s);
-					}			
+					latex += s;
 				}
 				s = "";
 			}
-		}
+		}	
+		TeXFormula formula = new TeXFormula(latex);//
+		formula = new TeXFormula("\\mathbf{"+latex+"}");
+		
 		return formula.createTeXIcon(TeXConstants.ALIGN_CENTER, 16);
 	}
 	
@@ -111,10 +108,6 @@ class TeXPanel extends JPanel {
 			min = i;
 		}
 		i = s.indexOf("/");
-		if (i!=-1 && min>i) {
-			min = i;
-		}
-		i = s.indexOf("^");
 		if (i!=-1 && min>i) {
 			min = i;
 		}
