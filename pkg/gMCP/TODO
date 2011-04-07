@@ -43,6 +43,8 @@ See also http://comments.gmane.org/gmane.comp.lang.r.general/200179
 - option to load another R graph
 - TikZ styles for rejected / rejectable nodes
 - further tests
+- Use of JLaTeXMath ( http://forge.scilab.org/index.php/p/jlatexmath/ ) instead of JMathTeX?
+- Look at http://xmlgraphics.apache.org/fop/
 
 @Apple - is this a problem?
 

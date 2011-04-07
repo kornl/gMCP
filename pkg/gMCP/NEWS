@@ -3,8 +3,15 @@ Version 0.6-1 (??-Apr-2011, Rev. ???)
 =====================================
 
 - We use the pretty cool library JMathTeX for edge labeling.
+  (New jars JMathTeX-0.7pre.jar and jdom.jar.)
 
-- New jars JMathTeX-0.7pre.jar and jdom.jar.
+- Eye candy (for example the edge labels have now a border and 
+  are always drawn at the end).
+  
+- The settings for correlation are moved to the p-value panel.
+
+- The value for epsilon is optionally either asked every time
+  or the value from the option panel is used.  
 
 Version 0.6-0 (06-Apr-2011, Rev. 547)
 =====================================
