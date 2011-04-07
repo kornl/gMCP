@@ -1,10 +1,13 @@
 package org.mutoss.gui.graph;
 
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Insets;
+import java.awt.RenderingHints;
+import java.awt.Stroke;
 import java.awt.font.FontRenderContext;
 import java.awt.geom.Rectangle2D;
 import java.util.Collection;
@@ -16,6 +19,7 @@ import org.af.commons.images.GraphDrawHelper;
 import org.af.commons.images.GraphException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.mutoss.config.Configuration;
 
 import be.ugent.caagt.jmathtex.TeXConstants;
 import be.ugent.caagt.jmathtex.TeXFormula;
@@ -198,7 +202,7 @@ public class Edge {
 		*/
 	}
 	
-	public void paintYou(Graphics g) {
+	public void paintEdge(Graphics g) {
 		int x1, x2, y1, y2;
 		x1 = from.x + Node.getRadius();
 		x2 = to.x + Node.getRadius();
@@ -227,37 +231,48 @@ public class Edge {
 					(int) (k2 * vs.getZoom()),
 					(int) (x2 * vs.getZoom()), (int) (y2 * vs.getZoom()), 
 					(int) (8 * vs.getZoom()), 35, true);
-			
-			g2d.setFont(new Font("Arial", Font.PLAIN, (int) (16 * vs.getZoom())));
-			frc = g2d.getFontRenderContext();		
-			String s = getWS();			
-			
-			/*
-			Rectangle2D rc = g2d.getFont().getStringBounds(s, frc);
-			g2d.setColor(new Color(0.99f,0.99f,0.99f));
-			g2d.fillRect((int)((k1* vs.getZoom() - rc.getWidth() / 2)), 
-			(int)((k2* vs.getZoom() - rc.getHeight()* 3 / 2)), 
-			(int)((rc.getWidth()+5)), (int)((rc.getHeight()+5)));
-			g2d.setColor(Color.BLACK);
-			
-			g2d.drawString(s, 
-					(float) ((k1* vs.getZoom() - rc.getWidth() / 2)), 
-					(float) ((k2* vs.getZoom() - rc.getHeight() / 2)));*/
-			
-			if (icon==null) {
-				icon = getTeXIcon(s);			
-			}
-			g2d.setColor(new Color(0.99f,0.99f,0.99f));
-			g2d.fillRect((int)((k1* vs.getZoom() - icon.getIconWidth() / 2)-5), 
-					(int)((k2* vs.getZoom() - icon.getIconHeight() / 2)-5), 
-					(int)((icon.getIconWidth()+10)),
-					(int)((icon.getIconHeight()+10)));
-			g2d.setColor(Color.BLACK);
-			
-			icon.paintIcon(new JPanel(), g2d,
-					(int) ((k1* vs.getZoom() - icon.getIconWidth() / 2)), 
-					(int) ((k2* vs.getZoom() - icon.getIconHeight() / 2)));
 		} 
+	}
+	
+	public void paintEdgeLabel(Graphics g) {
+		g2d.setFont(new Font("Arial", Font.PLAIN, (int) (16 * vs.getZoom())));
+		frc = g2d.getFontRenderContext();		
+		String s = getWS();	
+		
+		/*
+		Rectangle2D rc = g2d.getFont().getStringBounds(s, frc);
+		g2d.setColor(new Color(0.99f,0.99f,0.99f));
+		g2d.fillRect((int)((k1* vs.getZoom() - rc.getWidth() / 2)), 
+		(int)((k2* vs.getZoom() - rc.getHeight()* 3 / 2)), 
+		(int)((rc.getWidth()+5)), (int)((rc.getHeight()+5)));
+		g2d.setColor(Color.BLACK);
+		
+		g2d.drawString(s, 
+				(float) ((k1* vs.getZoom() - rc.getWidth() / 2)), 
+				(float) ((k2* vs.getZoom() - rc.getHeight() / 2)));*/
+		
+		if (icon==null) {
+			icon = getTeXIcon(s);			
+		}
+		g2d.setColor(new Color(0.99f,0.99f,0.99f));
+		g2d.fillRect((int)((k1* vs.getZoom() - icon.getIconWidth() / 2)-5), 
+				(int)((k2* vs.getZoom() - icon.getIconHeight() / 2)-5), 
+				(int)((icon.getIconWidth()+10)),
+				(int)((icon.getIconHeight()+10)));
+		g2d.setColor(Color.BLACK);
+		
+		Stroke oldStroke = g2d.getStroke();
+		g2d.setStroke(new BasicStroke(1));
+		g2d.drawRect((int)((k1* vs.getZoom() - icon.getIconWidth() / 2)-5), 
+				(int)((k2* vs.getZoom() - icon.getIconHeight() / 2)-5), 
+				(int)((icon.getIconWidth()+10)),
+				(int)((icon.getIconHeight()+10)));		
+		g2d.setStroke(oldStroke);
+		
+		
+		icon.paintIcon(new JPanel(), g2d,
+				(int) ((k1* vs.getZoom() - icon.getIconWidth() / 2)), 
+				(int) ((k2* vs.getZoom() - icon.getIconHeight() / 2)));
 	}
 	
 	TeXIcon icon = null;

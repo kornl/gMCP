@@ -225,7 +225,10 @@ public class NetList extends JPanel implements MouseMotionListener, MouseListene
 			node.paintYou(g);
 		}
 		for (Edge edge : edges) {
-			edge.paintYou(g);			
+			edge.paintEdge(g);			
+		}
+		for (Edge edge : edges) {
+			edge.paintEdgeLabel(g);			
 		}
 		return img;
 
@@ -397,7 +400,10 @@ public class NetList extends JPanel implements MouseMotionListener, MouseListene
 			node.paintYou(g);
 		}
 		for (Edge edge : edges) {
-			edge.paintYou(g);			
+			edge.paintEdge(g);			
+		}
+		for (Edge edge : edges) {
+			edge.paintEdgeLabel(g);			
 		}
 	}
 
