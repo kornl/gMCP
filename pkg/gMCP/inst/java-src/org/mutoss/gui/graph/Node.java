@@ -16,10 +16,6 @@ import javax.swing.JPanel;
 import org.mutoss.config.Configuration;
 import org.mutoss.gui.RControl;
 
-import be.ugent.caagt.jmathtex.TeXConstants;
-import be.ugent.caagt.jmathtex.TeXFormula;
-import be.ugent.caagt.jmathtex.TeXIcon;
-
 public class Node {
 	
 	public Vector<NodeListener> listener = new Vector<NodeListener>(); 

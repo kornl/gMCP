@@ -20,10 +20,9 @@ import org.af.commons.images.GraphException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.mutoss.config.Configuration;
-
-import be.ugent.caagt.jmathtex.TeXConstants;
-import be.ugent.caagt.jmathtex.TeXFormula;
-import be.ugent.caagt.jmathtex.TeXIcon;
+import org.scilab.forge.jlatexmath.TeXConstants;
+import org.scilab.forge.jlatexmath.TeXFormula;
+import org.scilab.forge.jlatexmath.TeXIcon;
 
 public class Edge {
 
@@ -285,8 +284,9 @@ public class Edge {
 	 * @return
 	 */
 	private TeXIcon getTeXIcon(String s) {
-		boolean print = true;
-		TeXFormula formula = new TeXFormula();
+		boolean print = true;		
+		s.replaceAll("ε", "\\varepsilon");
+		String latex = "";
 		while (s.length()>0) {			
 			int i = getNextOperator(s);
 			if (i!=-1) {
@@ -295,20 +295,16 @@ public class Edge {
 				s = s.substring(i+1, s.length());
 				if (op.equals("+") || op.equals("-") || op.equals("*")) {
 					if (print) {
-						if (start.equals("ε")) {
-							formula.addSymbol("varepsilon");
-						} else {
-							formula.add(start);
-						}	
+						latex += start;							
 					}
 					if (!op.equals("*")) {
-						formula.add(op);
+						latex += op;
 					} else {
 						//formula.addSymbol("cdot");
 					}					
 					print = true;
 				}
-				if (op.equals("/") || op.equals("^")) {
+				if (op.equals("/")) {
 					i = getNextOperator(s);
 					String s2;
 					if (i!=-1) {
@@ -317,29 +313,20 @@ public class Edge {
 						s2 = s;
 					}
 					if (op.equals("/")) {
-						formula.addFraction(start, s2, true);
-					}
-					if (op.equals("^")) {
-						if (start.equals("ε")) {
-							formula.addSymbol("varepsilon");
-						} else {
-							formula.add(start);
-						}
-						formula.setSuperscript(s2);
+						latex += "\\frac{"+start+"}{"+s2+"}";
 					}
 					print = false;
 				}
 			} else {
 				if (print) {
-					if (s.equals("ε")) {
-						formula.addSymbol("varepsilon");
-					} else {
-						formula.add(s);
-					}			
+					latex += s;
 				}
 				s = "";
 			}
 		}
+		logger.info("LaTeX string:"+latex);		
+		TeXFormula formula = new TeXFormula(latex);//"\\mathbb "+latex+"");
+		
 		return formula.createTeXIcon(TeXConstants.ALIGN_CENTER, (int) (16 * vs.getZoom()));
 	}
 	
@@ -358,10 +345,6 @@ public class Edge {
 			min = i;
 		}
 		i = s.indexOf("/");
-		if (i!=-1 && min>i) {
-			min = i;
-		}
-		i = s.indexOf("^");
 		if (i!=-1 && min>i) {
 			min = i;
 		}
