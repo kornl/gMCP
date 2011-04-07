@@ -8,6 +8,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.lang.reflect.Method;
 import java.net.URI;
+import java.util.List;
 
 import javax.imageio.ImageIO;
 import javax.swing.JFileChooser;
@@ -44,6 +45,8 @@ public class MenuBarMGraph extends JMenuBar implements ActionListener {
 		
 		this.control = control;
 
+		List<String> graphs = Configuration.getInstance().getGeneralConfig().getLatestGraphs();
+		
 		JMenu menu = new JMenu("File");
 
 		menu.add(makeMenuItem("New Graph", "new graph"));
@@ -59,6 +62,21 @@ public class MenuBarMGraph extends JMenuBar implements ActionListener {
 		menu.add(makeMenuItem("Save LaTeX Report", "save latex report"));
 		menu.add(makeMenuItem("Save PDF Report", "save pdf"));
 		menu.addSeparator();
+		if (graphs.size()>0) {
+			for (String graph : graphs) {
+				String s = graph;
+				File f = new File(s);
+				if (f.exists()) {
+					String path = f.getParent();
+					if (path.length()>20) {
+						path = path.substring(0, 17)+"...";
+					}
+					s = f.getName()+" ["+path+"]";
+				}
+				menu.add(makeMenuItem(s, "LOAD_GRAPH"+graph));
+			}
+			menu.addSeparator();
+		}
 		menu.add(makeMenuItem("Quit", "exit"));
 
 		add(menu);
@@ -368,6 +386,7 @@ public class MenuBarMGraph extends JMenuBar implements ActionListener {
             	control.getNL().saveGraph(name, false); 
             	RControl.getR().eval("save("+name+", file=\""+f.getAbsolutePath()+"\")");        		
             	JOptionPane.showMessageDialog(control.getMainFrame(), "Exported graph to R object '"+name+"' and saved this to \n'" + f.getAbsolutePath() + "'.", "Saved graph", JOptionPane.INFORMATION_MESSAGE);
+            	Configuration.getInstance().getGeneralConfig().addGraph(f.getAbsolutePath());
     		} catch( Exception ex ) {
     			JOptionPane.showMessageDialog(control.getMainFrame(), "Saving graph to '" + f.getAbsolutePath() + "' failed: " + ex.getMessage(), "Saving failed", JOptionPane.ERROR_MESSAGE);
     		}

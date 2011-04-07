@@ -2,6 +2,8 @@ package org.mutoss.config;
 
 import java.io.File;
 import java.text.DecimalFormat;
+import java.util.List;
+import java.util.Vector;
 
 public class GeneralConfig extends SpecificConfig {
 
@@ -143,6 +145,25 @@ public class GeneralConfig extends SpecificConfig {
 	
 	public void setUseEpsApprox(boolean useEpsApprox) {
 		setProperty("useEpsApprox", ""+useEpsApprox);
+	}
+	
+	public List<String> getLatestGraphs() {
+		Vector<String> graphs = new Vector<String>(); 
+		for (int i=0; i<4; i++) {
+			String graph = getProperty("saved_graph_"+i, "NOT_SAVED_YET");
+			if (graph.startsWith("R Object") || new File(graph).exists()) {
+				graphs.add(graph);
+			}
+		}
+		return graphs;
+	}
+	
+	public void addGraph(String graph) {
+		for (int i=3; i>0; i--) {
+			String g = getProperty("saved_graph_"+(i-1), "NOT_SAVED_YET");
+			setProperty("saved_graph_"+i, g);			
+		}
+		setProperty("saved_graph_"+0, graph);		
 	}
 	
 }
