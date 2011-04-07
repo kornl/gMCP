@@ -2,7 +2,7 @@
 Version 0.6-1 (??-Apr-2011, Rev. ???)
 =====================================
 
-- We use the pretty cool library JLaTeXMath for edge labeling.
+- We use the library JLaTeXMath for edge labeling.
 
 - Eye candy (for example the edge labels have now a border and 
   are always drawn at the end).

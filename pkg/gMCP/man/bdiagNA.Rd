@@ -26,7 +26,7 @@
 }
 
 \seealso{
-\code{\link{graphMCP}}, \code{\link{graph2matrix}}
+\code{\link{gMCP}}
 }
 \examples{
 
