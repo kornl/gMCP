@@ -16,7 +16,6 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JTextField;
 
 import org.af.commons.errorhandling.ErrorHandler;
 import org.af.commons.widgets.DesktopPaneBG;
@@ -26,8 +25,8 @@ import org.mutoss.gui.CreateGraphGUI;
 import org.mutoss.gui.RControl;
 import org.mutoss.gui.datatable.DataTable;
 import org.mutoss.gui.dialogs.AdjustedPValueDialog;
-import org.mutoss.gui.dialogs.CorrelatedTest;
 import org.mutoss.gui.dialogs.DialogConfIntEstVar;
+import org.mutoss.gui.dialogs.RejectedDialog;
 
 public class GraphView extends JPanel implements ActionListener {
 
@@ -182,7 +181,15 @@ public class GraphView extends JPanel implements ActionListener {
 		} else if (e.getSource().equals(buttonStart)) {
 			if (!getNL().isTesting()) {
 				startTesting();
-				new CorrelatedTest(this.getGraphGUI());
+				//new CorrelatedTest(this.getGraphGUI());
+				String correlation = "";
+				if (parent.getPView().jrbStandardCorrelation.isSelected()) {
+					correlation = ", correlation=\""+parent.getPView().jcbCorString.getSelectedItem()+"\"";
+				} else if (parent.getPView().jrbRCorrelation.isSelected()) {
+					correlation = ", correlation="+parent.getPView().jcbCorObject.getSelectedItem()+"";
+				} 
+				boolean[] rejected = RControl.getR().eval("gMCP("+parent.getGraphView().getNL().initialGraph+","+parent.getGraphView().getPView().getPValuesString()+ correlation+", alpha="+parent.getPView().getTotalAlpha()+")@rejected").asRLogical().getData();
+				new RejectedDialog(parent, rejected, parent.getGraphView().getNL().getKnoten());
 			} else {
 				stopTesting();
 			}

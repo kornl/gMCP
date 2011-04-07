@@ -8,19 +8,22 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Vector;
 
+import javax.imageio.ImageIO;
 import javax.swing.ButtonGroup;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
-import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 
+import org.af.commons.widgets.DesktopPaneBG;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.mutoss.config.Configuration;
@@ -220,7 +223,7 @@ public class PView extends JPanel implements KeyListener, ActionListener {
 		}
 	}
 	
-	JButton ok = new JButton("Ok");
+	JButton refresh;
 	
     JRadioButton jrbNoCorrelation = new JRadioButton("No Information about correlations");
     JRadioButton jrbStandardCorrelation = new JRadioButton("Select a standard correlation");
@@ -230,13 +233,21 @@ public class PView extends JPanel implements KeyListener, ActionListener {
     JComboBox jcbCorObject;
     CreateGraphGUI parent;
     
-    JPanel panel = null;
+    JPanel correlatedPanel = null;
     
 	public JPanel getCorrelatedPanel() {
 		
-		if (panel!=null) return panel;
+		if (correlatedPanel!=null) return correlatedPanel;
 		
-		panel = new JPanel();
+		try {
+			refresh = new JButton(new ImageIcon(ImageIO.read(DesktopPaneBG.class
+					.getResource("/org/mutoss/gui/graph/images/update24.png"))));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		correlatedPanel = new JPanel();
 		
 		String[] matrices = RControl.getR().eval("gMCP:::getAllQuadraticMatrices()").asRChar().getData();
 		
@@ -262,35 +273,35 @@ public class PView extends JPanel implements KeyListener, ActionListener {
 	    jrbStandardCorrelation.addActionListener(this);
 	    jrbRCorrelation.addActionListener(this);
 		
-        String cols = "5dlu, pref, 5dlu, fill:pref:grow, 5dlu";
+        String cols = "5dlu, pref, 5dlu, fill:pref:grow, 5dlu, pref, 5dlu";
         String rows = "5dlu, pref, 5dlu, pref, 5dlu, pref, 5dlu, pref, 5dlu";
         
         FormLayout layout = new FormLayout(cols, rows);
-        panel.setLayout(layout);
+        correlatedPanel.setLayout(layout);
         CellConstraints cc = new CellConstraints();
 
         int row = 2;
         
-        panel.add(jrbNoCorrelation,     cc.xy(2, row));
+        correlatedPanel.add(jrbNoCorrelation,     cc.xy(2, row));
         //getContentPane().add(new JLabel(), cc.xy(4, row));        
         
         row += 2;
         
-        panel.add(jrbStandardCorrelation,     cc.xy(2, row));
-        panel.add(jcbCorString, cc.xy(4, row));        
+        correlatedPanel.add(jrbStandardCorrelation,     cc.xy(2, row));
+        correlatedPanel.add(jcbCorString, cc.xy(4, row));        
         
         row += 2;
         
-        panel.add(jrbRCorrelation,     cc.xy(2, row));
-        panel.add(jcbCorObject, cc.xy(4, row));  
+        correlatedPanel.add(jrbRCorrelation,     cc.xy(2, row));
+        correlatedPanel.add(jcbCorObject, cc.xy(4, row));
+        correlatedPanel.add(refresh, cc.xy(6, row));  
+        refresh.addActionListener(this);
         
-        return panel;
+        return correlatedPanel;
 	}
 
-	@Override
 	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
-		
+		// Rescan for new quadratic matrices.
 	}
 	
 }

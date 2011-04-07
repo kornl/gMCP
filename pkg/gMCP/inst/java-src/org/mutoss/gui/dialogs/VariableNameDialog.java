@@ -2,7 +2,6 @@ package org.mutoss.gui.dialogs;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Set;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;

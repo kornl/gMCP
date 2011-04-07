@@ -11,23 +11,14 @@ import java.awt.event.KeyListener;
 import java.text.DecimalFormat;
 import java.util.Vector;
 
-import javax.swing.ButtonGroup;
 import javax.swing.JButton;
-import javax.swing.JComboBox;
 import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.mutoss.config.Configuration;
-import org.mutoss.gui.CreateGraphGUI;
 import org.mutoss.gui.RControl;
-import org.mutoss.gui.dialogs.RejectedDialog;
-
-import com.jgoodies.forms.layout.CellConstraints;
-import com.jgoodies.forms.layout.FormLayout;
 
 public class PPanel implements ActionListener, KeyListener, NodeListener, FocusListener {
 	
