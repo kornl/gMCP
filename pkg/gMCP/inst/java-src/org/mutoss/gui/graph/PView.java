@@ -4,25 +4,33 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Vector;
 
+import javax.swing.ButtonGroup;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.mutoss.config.Configuration;
+import org.mutoss.gui.CreateGraphGUI;
+import org.mutoss.gui.RControl;
 
 import com.jgoodies.forms.layout.CellConstraints;
 import com.jgoodies.forms.layout.FormLayout;
 
-public class PView extends JPanel implements KeyListener {
+public class PView extends JPanel implements KeyListener, ActionListener {
 
 	JLabel statusBar;
 	private static final Log logger = LogFactory.getLog(PView.class);
@@ -115,10 +123,12 @@ public class PView extends JPanel implements KeyListener {
 		row += 2;
 		panel.add(alphaLabel, cc.xy(2, row));    	
     	panel.add(totalAlpha, cc.xy(4, row));
-		
+    	
 		panel.revalidate();
 		removeAll();
-		add(new JScrollPane(panel), c);
+		add(panel, c);
+		c.gridy++;
+		add(getCorrelatedPanel(), c);
 	}
 	
 	public void updateLabels() {
@@ -208,6 +218,79 @@ public class PView extends JPanel implements KeyListener {
 		for (PPanel p : panels) {
 			p.updateMe(false);
 		}
+	}
+	
+	JButton ok = new JButton("Ok");
+	
+    JRadioButton jrbNoCorrelation = new JRadioButton("No Information about correlations");
+    JRadioButton jrbStandardCorrelation = new JRadioButton("Select a standard correlation");
+    JRadioButton jrbRCorrelation = new JRadioButton("Select an R correlation matrix");
+
+    JComboBox jcbCorString;
+    JComboBox jcbCorObject;
+    CreateGraphGUI parent;
+    
+    JPanel panel = null;
+    
+	public JPanel getCorrelatedPanel() {
+		
+		if (panel!=null) return panel;
+		
+		panel = new JPanel();
+		
+		String[] matrices = RControl.getR().eval("gMCP:::getAllQuadraticMatrices()").asRChar().getData();
+		
+		String[] correlations = new String[] {"Dunnett"};
+		//"Dunnett", "Tukey", "Sequen", "AVE", "Changepoint", "Williams", "Marcus", "McDermott", "UmbrellaWilliams", "GrandMean"
+		
+	    jcbCorString = new JComboBox(correlations);
+	    jcbCorObject = new JComboBox(matrices);
+		
+		if (matrices.length==1 && matrices[0].equals("No quadratic matrices found.")) {
+			jcbCorObject.setEnabled(false);
+			jrbRCorrelation.setEnabled(false);
+		}
+
+	    jrbNoCorrelation.setSelected(true);
+
+	    ButtonGroup group = new ButtonGroup();
+	    group.add(jrbNoCorrelation);
+	    group.add(jrbStandardCorrelation);
+	    group.add(jrbRCorrelation);
+
+	    jrbNoCorrelation.addActionListener(this);
+	    jrbStandardCorrelation.addActionListener(this);
+	    jrbRCorrelation.addActionListener(this);
+		
+        String cols = "5dlu, pref, 5dlu, fill:pref:grow, 5dlu";
+        String rows = "5dlu, pref, 5dlu, pref, 5dlu, pref, 5dlu, pref, 5dlu";
+        
+        FormLayout layout = new FormLayout(cols, rows);
+        panel.setLayout(layout);
+        CellConstraints cc = new CellConstraints();
+
+        int row = 2;
+        
+        panel.add(jrbNoCorrelation,     cc.xy(2, row));
+        //getContentPane().add(new JLabel(), cc.xy(4, row));        
+        
+        row += 2;
+        
+        panel.add(jrbStandardCorrelation,     cc.xy(2, row));
+        panel.add(jcbCorString, cc.xy(4, row));        
+        
+        row += 2;
+        
+        panel.add(jrbRCorrelation,     cc.xy(2, row));
+        panel.add(jcbCorObject, cc.xy(4, row));  
+        
+        return panel;
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		// TODO Auto-generated method stub
+		
 	}
 	
 }

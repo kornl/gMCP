@@ -122,7 +122,22 @@ public class MenuBarMGraph extends JMenuBar implements ActionListener {
     }
 
 	public void actionPerformed(ActionEvent e) {
-        if (e.getActionCommand().equals("new graph")) {
+        if (e.getActionCommand().startsWith("LOAD_GRAPH")) {
+        	String s = e.getActionCommand().substring(10);
+        	if (e.getActionCommand().startsWith("R Object")) {
+        		s = s.substring(10);
+        		//TODO LOAD GRAPH FROM R.
+        	} else {
+        		File f = new File(s);
+        		if (!f.exists()) {
+        			JOptionPane.showMessageDialog(control.getMainFrame(), "Could not find file:\n"+s, "Could not find file", JOptionPane.ERROR_MESSAGE);
+        			return;
+        		}
+        		if (s.toLowerCase().endsWith(".rdata")) {
+        			
+        		}
+        	}
+        } else if (e.getActionCommand().equals("new graph")) {
         	newGraph();			
         } else if (e.getActionCommand().equals("save graph")) {       	
         	saveGraph();
@@ -133,6 +148,7 @@ public class MenuBarMGraph extends JMenuBar implements ActionListener {
         	}
         	VariableNameDialog vnd = new VariableNameDialog(control.getGraphGUI());
         	control.getNL().saveGraph(vnd.getName(), true);
+        	Configuration.getInstance().getGeneralConfig().addGraph("R Object: "+vnd.getName());
         } else if (e.getActionCommand().equals("export graph image")) {       	
         	saveGraphImage();
         } else if (e.getActionCommand().equals("export graph latex")) {       	

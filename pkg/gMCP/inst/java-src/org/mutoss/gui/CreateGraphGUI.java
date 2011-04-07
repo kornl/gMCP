@@ -82,7 +82,7 @@ public class CreateGraphGUI extends JFrame implements WindowListener {
 	
 	private void makeContent() {
 		dfp.getTable().setDefaultEditor(EdgeWeight.class, new CellEditorE(agc));
-		JSplitPane splitPane2 = new JSplitPane(JSplitPane.VERTICAL_SPLIT, new JScrollPane(dfp), pview);
+		JSplitPane splitPane2 = new JSplitPane(JSplitPane.VERTICAL_SPLIT, new JScrollPane(dfp), new JScrollPane(pview));
 		JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, agc, splitPane2);
 		getContentPane().add(splitPane);		
 	}
