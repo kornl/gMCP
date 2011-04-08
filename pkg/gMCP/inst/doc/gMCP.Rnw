@@ -364,15 +364,15 @@ should end.
 \includegraphics[width=0.5cm]{pictures/zoom_out.png} For really big
 graphs the ability to zoom in and out is usefull.
 
+\includegraphics[width=0.5cm]{pictures/StartTesting.png}
+\includegraphics[width=0.5cm]{pictures/Reset.png} Starts the testing
+procedure / goes back to the graph modification.
+
 \includegraphics[width=0.5cm]{pictures/adjPval.png} Calculates the
 adjusted p-values.
 
 \includegraphics[width=0.5cm]{pictures/confint2.png} Calculates
 simultaneous confidence intervals.
-
-\includegraphics[width=0.5cm]{pictures/StartTesting.png}
-\includegraphics[width=0.5cm]{pictures/Reset.png} Starts the testing
-procedure / goes back to the graph modification.
 
 With drag and drop you can move nodes and also adjust edges.
 
@@ -488,6 +488,17 @@ See \cite{Bretz11}.
 \end{figure}
 
 \section{Epsilon edges}\index{epsilon edges}
+
+%\begin{Def}
+  %Convergence in distribution
+  %Convergence in probability
+  %Almost sure convergence
+  %Sure convergence
+  %Convergence in the r-th mean
+%\end{Def}
+ 
+
+The GUI supports epsilon edges. You can enter the weights in R syntax, e.g.\ \texttt{1-2*e+1/3*e\^{}2} for $1-2e+\frac{1}{3}e^2$.
 
 \begin{figure}[ht]
   \centering

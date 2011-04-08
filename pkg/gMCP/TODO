@@ -3,8 +3,7 @@ High priority:
 
 - LaTeX-Report
 - 1 Page PDF how to use gMCP, including hint for R installation
-- press e for epsilon, or 1+e+e^2
-- confidence intervals are strange...
+- confidence intervals are strange / wrong in the vignette...
 - Edge weight from node i to node j: m[i,j] or m[j,i] - please decide.
 - Flag 1+epsilon as line sum
 - round adjusted p-Values up
