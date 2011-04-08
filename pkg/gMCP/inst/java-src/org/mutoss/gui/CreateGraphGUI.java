@@ -16,6 +16,8 @@ import org.af.commons.Localizer;
 import org.af.commons.widgets.InfiniteProgressPanel;
 import org.af.commons.widgets.InfiniteProgressPanel.AbortListener;
 import org.apache.commons.lang.ArrayUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.mutoss.config.Configuration;
 import org.mutoss.gui.datatable.CellEditorE;
 import org.mutoss.gui.datatable.DataFramePanel;
@@ -25,6 +27,7 @@ import org.mutoss.gui.graph.EdgeWeight;
 import org.mutoss.gui.graph.GraphMCP;
 import org.mutoss.gui.graph.GraphView;
 import org.mutoss.gui.graph.PView;
+import org.rosuda.REngine.JRI.JRIEngine;
 
 public class CreateGraphGUI extends JFrame implements WindowListener, AbortListener {
 	
@@ -33,9 +36,11 @@ public class CreateGraphGUI extends JFrame implements WindowListener, AbortListe
 	PView pview;
 	DataFramePanel dfp;
 	public InfiniteProgressPanel glassPane;
+	protected static Log logger = LogFactory.getLog(CreateGraphGUI.class);
 	
 	public CreateGraphGUI(String graph, double[] pvalues, boolean debug, double grid) {
 		super("Creating and modifying graphs");	
+		System.out.println("REngine class"+RControl.getR().getREngine().getClass());
 		Locale.setDefault(Locale.US);
 		JComponent.setDefaultLocale(Locale.US); 
 		RControl.getRControl(debug);
@@ -120,7 +125,11 @@ public class CreateGraphGUI extends JFrame implements WindowListener, AbortListe
 
 	@Override
 	public void abort() {
-		// TODO Auto-generated method stub
-		
+		if (RControl.getR().getREngine().getClass() == JRIEngine.class) {
+			JRIEngine engine = (JRIEngine) RControl.getR().getREngine();
+			engine.getRni().rniStop(0);
+		} else {
+			logger.warn("Could not stop REngine of class '"+RControl.getR().getREngine().getClass()+"'");
+		}
 	}
 }
