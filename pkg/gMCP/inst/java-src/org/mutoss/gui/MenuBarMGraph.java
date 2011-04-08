@@ -92,7 +92,7 @@ public class MenuBarMGraph extends JMenuBar implements ActionListener {
 		if (graphs.size()>0) {
 			for (String graph : graphs) {
 				String s = graph;
-				logger.info("Processing '"+s+"'.");			
+				logger.info("Process last used graph: '"+s+"'.");			
 				File f = new File(s);				
 				if (f.exists()) {
 					String path = f.getParent();
@@ -104,7 +104,6 @@ public class MenuBarMGraph extends JMenuBar implements ActionListener {
 				} else {					
 					if (s.startsWith("R Object: ")) {
 						s = s.substring(10);
-						logger.info("Processing again '"+s+"'.");
 						if (RControl.getR().eval("exists(\""+s+"\")").asRLogical().getData()[0]) {
 							fmenu.add(makeMenuItem(s, "LOAD_GRAPH"+graph));
 						}

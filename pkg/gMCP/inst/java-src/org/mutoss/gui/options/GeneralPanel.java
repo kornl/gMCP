@@ -243,6 +243,7 @@ public class GeneralPanel extends OptionsPanel implements ActionListener {
        	conf.getGeneralConfig().setColoredImages(colorImages.isSelected());
        	conf.getGeneralConfig().setShowRejected(showRejected.isSelected());
        	conf.getGeneralConfig().setShowFractions(showFractions.isSelected());
+       	conf.getGeneralConfig().setUseEpsApprox(useEpsApprox.isSelected());       	
        	conf.getGeneralConfig().setUseJLaTeXMath(useJLaTeXMath.isSelected());
         try {
             LookAndFeel currentLF = UIManager.getLookAndFeel();

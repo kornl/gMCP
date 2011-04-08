@@ -39,7 +39,7 @@ public class UpdateNode extends JDialog implements ActionListener {
 		
         int row = 2;
         
-        getContentPane().add(new JLabel("α for node "+node.getName()), cc.xy(2, row));
+        getContentPane().add(new JLabel("Weight for node "+node.getName()), cc.xy(2, row));
 
         tf = new JTextField("", 7);
         tf.setText(""+RControl.getFraction(node.getWeight()));

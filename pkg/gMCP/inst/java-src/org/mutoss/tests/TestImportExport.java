@@ -12,11 +12,15 @@ import org.mutoss.gui.graph.VS;
 public class TestImportExport {
 
 	public TestImportExport(String graph1, String graph2) {
-		RControl.getRControl(true);
+		RControl.getRControl(true);		
 		VS vs = new VS();
-		vs.nl = new NetList(new JLabel(""), vs, new GraphView(graph1, null));
+		double[] weight = RControl.getR().eval("gMCP:::parseEpsPolynom(\"1-e\")").asRNumeric().getData();		
+		for (int i=0; i<weight.length; i++) {
+			System.out.println(weight[i]);
+		}
+		/*vs.nl = new NetList(new JLabel(""), vs, new GraphView(graph1, null));
 		GraphMCP jGraph = new GraphMCP(graph1, vs);
-		//jGraph.getNL().saveGraph(graph2, false);
+		vs.nl.saveGraph(graph1, false);*/
 	}
 	
 	/**
@@ -26,6 +30,7 @@ public class TestImportExport {
 		RCallServicesREngine r = RControl.getRControl(true).getR();
 		r.eval("library(gMCP)");
 		r.eval("graph <- createGraphFromBretzEtAl()");
+		r.eval("graph <- createGraphForImprovedParallelGatekeeping()");
 		new TestImportExport("graph","graphExport");
 	}
 
