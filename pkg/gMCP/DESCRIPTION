@@ -1,7 +1,7 @@
 Package: gMCP
 Type: Package
 Title: A graphical approach to sequentially rejective multiple test procedures
-Version: 0.6-1
+Version: 0.6-2
 Author: Kornelius Rohmeyer, Florian Klinglmueller
 Maintainer: Kornelius Rohmeyer <rohmeyer@small-projects.de>
 Description: This package provides functions and a graphical user interface for graphical described multiple test procedures.
