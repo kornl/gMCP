@@ -246,6 +246,7 @@ public class PView extends JPanel implements KeyListener, ActionListener {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		refresh.setToolTipText("search again for matrices in R");
 		
 		correlatedPanel = new JPanel();
 		
@@ -303,8 +304,15 @@ public class PView extends JPanel implements KeyListener, ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		jcbCorObject.removeAllItems();
 		String[] matrices = RControl.getR().eval("gMCP:::getAllQuadraticMatrices()").asRChar().getData();
-		for (String s : matrices) {
-			jcbCorObject.addItem(s);
+		if (matrices.length==1 && matrices[0].equals("No quadratic matrices found.")) {
+			jcbCorObject.setEnabled(false);
+			jrbRCorrelation.setEnabled(false);
+		} else {
+			for (String s : matrices) {
+				jcbCorObject.addItem(s);
+			}
+			jcbCorObject.setEnabled(true);
+			jrbRCorrelation.setEnabled(true);
 		}
 	}
 	
