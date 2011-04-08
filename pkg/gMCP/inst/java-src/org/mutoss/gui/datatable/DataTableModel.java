@@ -18,6 +18,10 @@ public class DataTableModel extends AbstractTableModel {
         return df.getColumnCount();
     }
 
+    public String getColumnName(int col) {
+        return df.getColName(col);
+    }
+    
     public int getRowCount() {
         return df.getRowCount();
     }
