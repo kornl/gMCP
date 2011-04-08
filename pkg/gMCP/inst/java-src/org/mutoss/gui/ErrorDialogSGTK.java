@@ -16,6 +16,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.log4j.FileAppender;
 import org.apache.log4j.Logger;
+import org.mutoss.config.Configuration;
 
 import com.jgoodies.forms.layout.FormLayout;
 
@@ -131,7 +132,7 @@ public class ErrorDialogSGTK extends ErrorDialog {
 
     protected Hashtable<String, String> getInfoTable() {
     	Hashtable<String, String> table = super.getInfoTable();
-    	table.put("Subject", "gMCP bug report from "+System.getProperty("user.name", "<unknown user name>")+" on "+System.getProperty("os.name", "<unknown OS>"));
+    	table.put("Subject", "gMCP ("+Configuration.getInstance().getGeneralConfig().getVersionNumber()+") bug report from "+System.getProperty("user.name", "<unknown user name>")+" on "+System.getProperty("os.name", "<unknown OS>"));
     	return table;
     }
   

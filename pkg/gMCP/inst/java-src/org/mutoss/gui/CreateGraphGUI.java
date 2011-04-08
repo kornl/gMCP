@@ -40,6 +40,7 @@ public class CreateGraphGUI extends JFrame implements WindowListener {
 		if (grid>0) {
 			Configuration.getInstance().getGeneralConfig().setGridSize((int)grid);
 		}
+		Configuration.getInstance().getGeneralConfig().setVersionNumber(RControl.getR().eval("as.character(packageVersion(\"gMCP\"))").asRChar().getData()[0]);
 		setIconImage((new ImageIcon(getClass().getResource("/org/mutoss/gui/graph/images/rjavaicon64.png"))).getImage());
 		
 		// Fenster in der Mitte des Bildschirms platzieren mit inset = 50 Pixeln Rand.

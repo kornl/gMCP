@@ -140,11 +140,19 @@ public class GeneralConfig extends SpecificConfig {
 	}
 
 	public boolean useEpsApprox() {
-		return Boolean.parseBoolean(getProperty("useEpsApprox", "false"));
+		return Boolean.parseBoolean(getProperty("useEpsApprox", "true"));
 	}
 	
 	public void setUseEpsApprox(boolean useEpsApprox) {
 		setProperty("useEpsApprox", ""+useEpsApprox);
+	}
+	
+	public void setVersionNumber(String version) {
+		setProperty("gMCPversion", version);
+	}
+
+	public String getVersionNumber() {
+		return getProperty("gMCPversion", "<= 0.6.0");
 	}
 	
 	public List<String> getLatestGraphs() {
