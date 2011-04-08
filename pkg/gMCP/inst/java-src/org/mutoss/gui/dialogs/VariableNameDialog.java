@@ -34,6 +34,7 @@ public class VariableNameDialog extends JDialog implements ActionListener {
 		int row = 2;
 
 		jt.setText(parent.getGraphView().getGraphName());
+		jt.addActionListener(this);
 		getContentPane().add(new JLabel("R object name:"), cc.xy(2, row));
 		getContentPane().add(jt, cc.xy(4, row));
 

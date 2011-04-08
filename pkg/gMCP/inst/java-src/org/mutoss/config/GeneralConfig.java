@@ -159,7 +159,11 @@ public class GeneralConfig extends SpecificConfig {
 	}
 	
 	public void addGraph(String graph) {
-		for (int i=3; i>0; i--) {
+		int i=1;
+		for (; i<4; i++) {
+			if (graph.equals(getProperty("saved_graph_"+(i-1)))) break; 
+		}
+		for (i--; i>0; i--) {
 			String g = getProperty("saved_graph_"+(i-1), "NOT_SAVED_YET");
 			setProperty("saved_graph_"+i, g);			
 		}
