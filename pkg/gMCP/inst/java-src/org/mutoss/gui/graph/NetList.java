@@ -93,30 +93,10 @@ public class NetList extends JPanel implements MouseMotionListener, MouseListene
 		control.getDataTable().getModel().setValueAt(e.getEdgeWeight(), getKnoten().indexOf(e.from), getKnoten().indexOf(e.to));
 	}
 
-	/**
-	 * Fügt Kante hinzu mit Gewicht 1
-	 * 
-	 * @param von
-	 *            Nummer des Knotens, aus dem die Kante austritt.
-	 * @param nach
-	 *            Nummer des Knotens, in den die Kante eintritt.
-	 */
-
 	public void addEdge(Node von, Node nach) {
 		addEdge(von, nach, 1d);		
 	}
 
-	/**
-	 * Fügt Kante hinzu mit Gewicht w
-	 * 
-	 * @param von
-	 *            Nummer des Knotens, aus dem die Kante austritt.
-	 * @param nach
-	 *            Nummer des Knotens, in den die Kante eintritt.
-	 * @param w
-	 *            Gewicht der Kante
-	 */
-	
 	public void addEdge(Node von, Node nach, Double w) {	
 		addEdge(von, nach, new EdgeWeight(w));
 	}
@@ -140,7 +120,7 @@ public class NetList extends JPanel implements MouseMotionListener, MouseListene
 	}
 
 	/**
-	 * Berechnet die benötigte Größe um alle Knoten anzuzeigen und setzt sie.
+	 * Calculates the size of the panel to view all nodes and resizes the panel.
 	 */
 
 	public int[] calculateSize() {
@@ -173,25 +153,6 @@ public class NetList extends JPanel implements MouseMotionListener, MouseListene
 			}
 		}
 		return null;
-	}
-
-	/**
-	 * Liefert die Adjacenz-Matrix zurück
-	 */
-	
-	public int[][] getAMatrix() {
-		int[][] e = new int[nodes.size()][];
-		for (int i = 0; i < nodes.size(); i++) {
-			e[i] = new int[nodes.size()];
-			for (int j = 0; j < nodes.size(); j++) {
-				e[i][j] = 0;
-			}
-		}
-		for (int i = 0; i < edges.size(); i++) {
-			e[nodes.indexOf(edges.get(i).from)][nodes.indexOf(edges.get(i).to)] = 1;
-			e[nodes.indexOf(edges.get(i).to)][nodes.indexOf(edges.get(i).from)] = 1;
-		}
-		return e;
 	}
 
 	public Vector<Edge> getEdges() {
@@ -276,12 +237,9 @@ public class NetList extends JPanel implements MouseMotionListener, MouseListene
 		repaint();
 	}
 
-	public void mouseClicked(MouseEvent e) {}
-	
-	public void mouseEntered(MouseEvent e) {}
-	
+	public void mouseClicked(MouseEvent e) {}	
+	public void mouseEntered(MouseEvent e) {}	
 	public void mouseExited(MouseEvent e) {}
-
 	public void mouseMoved(MouseEvent e) {}
 
 	public void mousePressed(MouseEvent e) {
@@ -348,14 +306,6 @@ public class NetList extends JPanel implements MouseMotionListener, MouseListene
 		repaint();
 	}
 
-	/**
-	 * Methode die vom MouseListener MouseNetz aufgerufen wird, wenn eine
-	 * Mousetaste losgelassen wird.
-	 * 
-	 * @param e
-	 *            Eingetretenes MouseEvent
-	 */
-
 	public void mouseReleased(MouseEvent e) {
 		if (drag != -1) {
 			nodes.get(drag).setX( (int) ((e.getX() - Node.getRadius() * vs.getZoom()) / (double) vs.getZoom()));
@@ -375,8 +325,8 @@ public class NetList extends JPanel implements MouseMotionListener, MouseListene
 	}
 	
 	/**
-	 * Die Paint-Methode. paint() geht nicht, da sie nicht bei revalidate der
-	 * Scrollbars aufgerufen wird.
+	 * We use paintComponent() instead of paint(), since the later one
+	 * is not called by a revalidate of the scrollbars.
 	 */
 
 	public void paintComponent(Graphics g) {
