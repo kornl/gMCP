@@ -134,12 +134,12 @@ public class DialogConfInt extends JDialog implements ActionListener, ChangeList
 			}
 
 			if (alt.get(i).getSelectedItem().equals("greater")) {	
-				lb = RControl.getR().eval(d1+node.getAlpha()+d2).asRNumeric().getData()[0];				
+				lb = RControl.getR().eval(d1+node.getWeight()+d2).asRNumeric().getData()[0];				
 				ub = Double.POSITIVE_INFINITY;
 				pEst = RControl.getR().eval(d1+(1-control.getPView().getPValue(node))+d2).asRNumeric().getData()[0];		
 			} else {
 				lb = Double.NEGATIVE_INFINITY;
-				ub = RControl.getR().eval(d1+(1-node.getAlpha())+d2).asRNumeric().getData()[0];
+				ub = RControl.getR().eval(d1+(1-node.getWeight())+d2).asRNumeric().getData()[0];
 				pEst = RControl.getR().eval(d1+control.getPView().getPValue(node)+d2).asRNumeric().getData()[0];
 			}				
 			ci.get(i).setText("]"+format.format(pEst+lb*ste)+","+format.format(pEst+ub*ste)+"[");
@@ -170,7 +170,7 @@ public class DialogConfInt extends JDialog implements ActionListener, ChangeList
 			panel.add(hypothesis, c);
 			c.gridx++;
 			
-			JLabel alpha = new JLabel("α="+format.format(node.getAlpha()).replace(",","."));
+			JLabel alpha = new JLabel("α="+format.format(node.getWeight()).replace(",","."));
 			this.alpha.add(alpha);
 			panel.add(alpha, c);
 			c.gridx++;

@@ -27,7 +27,7 @@ public class UpdateNode extends JDialog implements ActionListener {
 	NetList netzListe;
 	
 	public UpdateNode(Node node, NetList netzListe) {
-		super((JFrame)null, "Updating Node "+node.name);
+		super((JFrame)null, "Updating Node "+node.getName());
 		this.node = node;
 		this.netzListe = netzListe;
 		String cols = "5dlu, fill:pref:grow, 5dlu, fill:pref:grow, 5dlu";
@@ -39,10 +39,10 @@ public class UpdateNode extends JDialog implements ActionListener {
 		
         int row = 2;
         
-        getContentPane().add(new JLabel("α for node "+node.name), cc.xy(2, row));
+        getContentPane().add(new JLabel("α for node "+node.getName()), cc.xy(2, row));
 
         tf = new JTextField("", 7);
-        tf.setText(""+RControl.getFraction(node.getAlpha()));
+        tf.setText(""+RControl.getFraction(node.getWeight()));
         tf.addActionListener(this);
         getContentPane().add(tf, cc.xy(4, row));
 
@@ -82,7 +82,7 @@ public class UpdateNode extends JDialog implements ActionListener {
 			tf.setBackground(Color.RED);
 			JOptionPane.showMessageDialog(this, "The expression \""+tf.getText()+"\" is not a valid number.", "Not a valid number", JOptionPane.ERROR_MESSAGE);
 		}
-		node.setAlpha(w, null);
+		node.setWeight(w, null);
 		int which = netzListe.whichNode(tfname.getText());
 		if (which == -1 || netzListe.getKnoten().get(which) == node) {
 			node.setName(tfname.getText());

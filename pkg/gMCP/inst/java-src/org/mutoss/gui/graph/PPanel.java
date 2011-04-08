@@ -49,8 +49,8 @@ public class PPanel implements ActionListener, KeyListener, NodeListener, FocusL
 	
 	public PPanel(Node node, PView pview) {		
 		node.addNodeListener(this);
-		this.name = node.name;
-		this.w = node.getAlpha();
+		this.name = node.getName();
+		this.w = node.getWeight();
 		this.node = node;
 		this.pview = pview;
         
@@ -117,7 +117,7 @@ public class PPanel implements ActionListener, KeyListener, NodeListener, FocusL
 		} catch (Exception nfe) {		
 			wTF.setBackground(Color.RED);
 		}
-		node.setAlpha(w, this);
+		node.setWeight(w, this);
 		//logger.info("P: "+p+", W: "+w);
 		updateMe(false);
 	}
@@ -150,8 +150,8 @@ public class PPanel implements ActionListener, KeyListener, NodeListener, FocusL
 
 	public void update() {
 		DecimalFormat format = Configuration.getInstance().getGeneralConfig().getDecFormat();
-		this.name = node.name;
-		this.w = node.getAlpha();
+		this.name = node.getName();
+		this.w = node.getWeight();
 		wTF.setText(getWString());		
 		pTF.setText(format.format(p).replace(",", "."));
 		if (!rejected) {
@@ -161,8 +161,8 @@ public class PPanel implements ActionListener, KeyListener, NodeListener, FocusL
 
 	public void updated(Node node) {
 		DecimalFormat format = Configuration.getInstance().getGeneralConfig().getDecFormat();
-		this.name = node.name;
-		this.w = node.getAlpha();
+		this.name = node.getName();
+		this.w = node.getWeight();
 		wTF.setText(getWString());		
 		pTF.setText(format.format(p).replace(",", "."));	
 		pview.updateLabels();

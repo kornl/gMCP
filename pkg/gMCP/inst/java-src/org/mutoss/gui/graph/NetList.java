@@ -126,13 +126,13 @@ public class NetList extends JPanel implements MouseMotionListener, MouseListene
 		nodes.add(node);
 		nodes.lastElement().fix = false;	
 		control.getPView().addPPanel(node);
-		control.getDataTable().getModel().addRowCol(node.name);
+		control.getDataTable().getModel().addRowCol(node.getName());
 		calculateSize();
 	}
 
 	public int whichNode(String name) {
 		for (int i=0; i<nodes.size(); i++) {
-			if (nodes.get(i).name.equals(name)) {
+			if (nodes.get(i).getName().equals(name)) {
 				return i;
 			}
 		}
@@ -248,7 +248,7 @@ public class NetList extends JPanel implements MouseMotionListener, MouseListene
 			latex += "\\node ("+node.getName().replace("_", "-")+") at ("+node.getX()+"bp,"+(-node.getY())+"bp)\n";
 			String nodeColor = "green!80";
 			if (node.isRejected()) {nodeColor = "red!80";}
-			latex += "[draw,circle split,fill="+nodeColor+"] {$"+node.getName()+"$ \\nodepart{lower} $"+format.format(node.getAlpha())+"$};\n";			
+			latex += "[draw,circle split,fill="+nodeColor+"] {$"+node.getName()+"$ \\nodepart{lower} $"+format.format(node.getWeight())+"$};\n";			
 		}
 		for (int i = 0; i < getEdges().size(); i++) {
 			Node node1 = getEdges().get(i).from;
@@ -479,7 +479,7 @@ public class NetList extends JPanel implements MouseMotionListener, MouseListene
 		String x = "";
 		String y = "";
 		for (Node n : nodes) {
-			alpha += n.getAlpha() +",";
+			alpha += n.getWeight() +",";
 			nodeStr += "\""+n.getName() +"\","; 
 			x += n.getX() + ",";
 			y += n.getY() + ",";

@@ -2,6 +2,7 @@ package org.mutoss.gui.graph;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -24,6 +25,7 @@ import org.scilab.forge.jlatexmath.TeXIcon;
 public class Edge {
 
 	private static final Log logger = LogFactory.getLog(Edge.class);
+	public static Component panel = new JPanel();
 	public boolean curve = false;
 	FontRenderContext frc = null;
 	Graphics2D g2d;
@@ -182,7 +184,7 @@ public class Edge {
 
 	public boolean inYou(int x, int y) {
 		if (icon==null) {
-			icon = getTeXIcon(getWS());			
+			icon = getTeXIcon(getWS(), (int) (16 * vs.getZoom()));			
 		}		
 		int TOLERANCE = 5; 
 		return (x/vs.getZoom()>k1-icon.getIconWidth()/2-TOLERANCE)
@@ -248,7 +250,7 @@ public class Edge {
 				(float) ((k2* vs.getZoom() - rc.getHeight() / 2)));*/
 		
 		if (icon==null) {
-			icon = getTeXIcon(s);			
+			icon = getTeXIcon(s, (int) (16 * vs.getZoom()));			
 		}
 		g2d.setColor(new Color(0.99f,0.99f,0.99f));
 		g2d.fillRect((int)((k1* vs.getZoom() - icon.getIconWidth() / 2)-5), 
@@ -263,10 +265,9 @@ public class Edge {
 				(int)((k2* vs.getZoom() - icon.getIconHeight() / 2)-5), 
 				(int)((icon.getIconWidth()+10)),
 				(int)((icon.getIconHeight()+10)));		
-		g2d.setStroke(oldStroke);
+		g2d.setStroke(oldStroke);		
 		
-		
-		icon.paintIcon(new JPanel(), g2d,
+		icon.paintIcon(panel, g2d,
 				(int) ((k1* vs.getZoom() - icon.getIconWidth() / 2)), 
 				(int) ((k2* vs.getZoom() - icon.getIconHeight() / 2)));
 	}
@@ -280,7 +281,7 @@ public class Edge {
 	 * @param s String to be parsed.
 	 * @return
 	 */
-	private TeXIcon getTeXIcon(String s) {
+	public static TeXIcon getTeXIcon(String s, int points) {
 		boolean print = true;		
 		s.replaceAll("ε", "\\varepsilon");
 		String latex = "";
@@ -325,7 +326,7 @@ public class Edge {
 		TeXFormula formula = new TeXFormula(latex);//
 		formula = new TeXFormula("\\mathbf{"+latex+"}");
 		
-		return formula.createTeXIcon(TeXConstants.ALIGN_CENTER, (int) (16 * vs.getZoom()));
+		return formula.createTeXIcon(TeXConstants.ALIGN_CENTER, points);
 	}
 	
 	private static int getNextOperator(String s) {

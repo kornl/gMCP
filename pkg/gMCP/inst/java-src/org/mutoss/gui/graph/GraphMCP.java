@@ -90,7 +90,7 @@ public class GraphMCP {
 
 	private Node getNode(String name) {
 		for (Node node : knoten) {
-			if (node.name.equals(name)) {
+			if (node.getName().equals(name)) {
 				return node;
 			}
 		}

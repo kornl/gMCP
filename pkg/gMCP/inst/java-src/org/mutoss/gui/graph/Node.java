@@ -11,19 +11,24 @@ import java.awt.geom.Rectangle2D;
 import java.text.DecimalFormat;
 import java.util.Vector;
 
+import javax.swing.JPanel;
+
 import org.mutoss.config.Configuration;
 import org.mutoss.gui.RControl;
+import org.scilab.forge.jlatexmath.TeXConstants;
+import org.scilab.forge.jlatexmath.TeXFormula;
+import org.scilab.forge.jlatexmath.TeXIcon;
 
 public class Node {
 	
 	public Vector<NodeListener> listener = new Vector<NodeListener>(); 
 	int x;
 	int y;
-	public String name;
+	private String name;
 	boolean fix = false;
 	boolean drag = false;
 	VS vs;
-	private double alpha;
+	private double weight;
 	private String stringW = "";
 	private Color color = Color.WHITE;
 	boolean rejected = false;
@@ -35,14 +40,16 @@ public class Node {
 	}
 
 	static int count = 1;
+	
+	TeXIcon iconName, iconWeight;
 
 	public Node(String name, int x, int y, double alpha, VS vs) {
 		count++;
-		this.name = name;
+		this.vs = vs;
+		setName(name);
 		setX(x);
 		setY(y);		
-		this.vs = vs;
-		setAlpha(alpha, null);
+		setWeight(alpha, null);		
 	}
 	
 	public int getX() {
@@ -84,7 +91,7 @@ public class Node {
 				r * 2 * vs.getZoom());
 		g2d.draw(e);
 
-		g2d.setFont(new Font("Arial", Font.PLAIN, (int) (12 * vs.getZoom())));
+		/*g2d.setFont(new Font("Arial", Font.PLAIN, (int) (12 * vs.getZoom())));
 		FontRenderContext frc = g2d.getFontRenderContext();
 
 		rc = g2d.getFont().getStringBounds(name, frc);
@@ -92,17 +99,18 @@ public class Node {
 				(float) ((x + r) * vs.getZoom() - rc.getWidth() / 2), 
 				(float) ((y + r - 0.25*r) * vs.getZoom())); // +rc.getHeight()/2));
 		
-		/*TeXFormula formula = new TeXFormula("H"); 
-		formula.setScripts("1", "");
-		TeXIcon icon = formula.createTeXIcon(TeXConstants.ALIGN_CENTER, 16);
-		icon.paintIcon(new JPanel(), g2d,
-				(int) ((x + r) * vs.getZoom() - rc.getWidth() / 2), 
-				(int) ((y + r - 0.25*r) * vs.getZoom()));*/
-
 		rc = g2d.getFont().getStringBounds(getWS(), frc);
 		g2d.drawString(getWS(),
 				(float) ((x + r) * vs.getZoom() - rc.getWidth() / 2),
-				(float) ((y + 1.5 * r) * vs.getZoom()));
+				(float) ((y + 1.5 * r) * vs.getZoom())); */
+		
+		iconName.paintIcon(Edge.panel, g2d,
+				(int) ((x + r) * vs.getZoom() - iconName.getIconWidth() / 2), 
+				(int) ((y + r - 0.6*r) * vs.getZoom()));	
+		
+		iconWeight.paintIcon(Edge.panel, g2d,
+				(int) ((x + r) * vs.getZoom() - iconWeight.getIconWidth() / 2), 
+				(int) ((y + 1.1 * r) * vs.getZoom()));
 	}
 
 	DecimalFormat format = new DecimalFormat("#.###");
@@ -125,8 +133,8 @@ public class Node {
 	public void mouseRelease(MouseEvent e) {
 	}
 
-	public void setAlpha(double w, NodeListener me) {
-		this.alpha = w;	
+	public void setWeight(double w, NodeListener me) {
+		this.weight = w;	
 		if (!Configuration.getInstance().getGeneralConfig().showFractions()) {
 			stringW = format.format(w);
 		} else {
@@ -135,6 +143,9 @@ public class Node {
 				stringW = format.format(w);
 			}
 		}
+		
+		iconWeight = Edge.getTeXIcon(stringW, (int) (14 * vs.getZoom()));
+		
 		for (NodeListener l : listener) {
 			if (me!=l) {
 				l.updated(this);
@@ -143,8 +154,8 @@ public class Node {
 		vs.nl.repaint();
 	}
 
-	public double getAlpha() {
-		return alpha;
+	public double getWeight() {
+		return weight;
 	}
 
 	public void setColor(Color color) {
@@ -166,7 +177,9 @@ public class Node {
 	}
 
 	public void setName(String name) {
-		this.name = name;		
+		this.name = name;	
+		TeXFormula formula = new TeXFormula("\\mathbf{"+name+"}"); 
+		iconName = formula.createTeXIcon(TeXConstants.ALIGN_CENTER, (int) (14 * vs.getZoom()));
 	}
 	
 	public boolean isRejected() {		

@@ -22,7 +22,7 @@ public class UpdateEdge extends JDialog implements ActionListener {
 	GraphView control;
 	
 	public UpdateEdge(Edge edge, NetList netzListe, GraphView control) {
-		super((JFrame)null, "Updating Edge from node "+edge.from.name+" to "+edge.to.name);
+		super((JFrame)null, "Updating Edge from node "+edge.from.getName()+" to "+edge.to.getName());
 		this.control = control;
 		this.edge = edge;
 		this.netzListe = netzListe;
