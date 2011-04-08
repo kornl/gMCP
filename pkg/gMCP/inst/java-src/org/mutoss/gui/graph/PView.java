@@ -309,12 +309,12 @@ public class PView extends JPanel implements KeyListener, ActionListener {
 			if (matrices.length==1 && matrices[0].equals("No quadratic matrices found.")) {
 				jcbCorObject.setEnabled(false);
 				jrbRCorrelation.setEnabled(false);
-			} else {
-				for (String s : matrices) {
-					jcbCorObject.addItem(s);
-				}
+			} else {				
 				jcbCorObject.setEnabled(true);
 				jrbRCorrelation.setEnabled(true);
+			}
+			for (String s : matrices) {
+				jcbCorObject.addItem(s);
 			}
 		} else if (e.getSource()==jrbNoCorrelation) {
 			if (parent.getGraphView().getNL().getKnoten().size()>0) {
