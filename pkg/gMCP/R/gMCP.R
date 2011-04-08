@@ -123,7 +123,7 @@ rejectNode <- function(graph, node, verbose=FALSE) {
 	#	}
 	#}	
 	
-	## The following code will be removed in 0.4! ##
+	## The following code will be removed in 0.6-0.7! ##
 	if (all(TRUE == all.equal(unname(edgesOut), rep(0, length(edgesOut))))) {
 		if (verbose) cat("Alpha is passed via epsilon-edges.\n")
 		for (to in nodes(graph)[nodes(graph)!=node]) {	

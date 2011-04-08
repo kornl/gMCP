@@ -70,7 +70,7 @@ getAllQuadraticMatrices <- function(envir=globalenv(), n="all") {
 	for (obj in objects) {
 		candidate <- get(obj, envir=envir)
 		if (is.matrix(candidate) && dim(candidate)[1] == dim(candidate)[2]) {
-			if (n!="all" && dim(candidate)[1]==n) {
+			if (n=="all" || dim(candidate)[1]==n) {
 				matrices <- c(matrices, obj)
 			}
 		}

@@ -10,7 +10,11 @@ Version 0.6-1 (??-Apr-2011, Rev. ???)
 - The settings for correlation are moved to the p-value panel.
 
 - The value for epsilon is optionally either asked every time
-  or the value from the option panel is used.  
+  or the value from the option panel is used.
+
+- Changed the order of the buttons in the main button panel.
+
+- GUI is remembering the last 4 used R objects / files. 
 
 Version 0.6-0 (06-Apr-2011, Rev. 547)
 =====================================
