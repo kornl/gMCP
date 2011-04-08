@@ -122,7 +122,7 @@ public class NetList extends JPanel implements MouseMotionListener, MouseListene
 	}
 
 	public void addNode(Node node) {
-		control.buttonStart.setEnabled(true);
+		control.enableButtons(true);		
 		nodes.add(node);
 		nodes.lastElement().fix = false;	
 		control.getPView().addPPanel(node);
@@ -437,7 +437,7 @@ public class NetList extends JPanel implements MouseMotionListener, MouseListene
 		nodes.remove(node);
 		control.getPView().removePPanel(node);
 		if (nodes.size()==0) {
-			control.buttonStart.setEnabled(false);
+			control.enableButtons(false);
 		}
 		repaint();
 	}

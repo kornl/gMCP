@@ -140,6 +140,7 @@ public class GraphView extends JPanel implements ActionListener {
 											.getResource("/org/mutoss/gui/graph/images/adjPval.png"))));
 			toolPanel.add(buttonadjPval);			
 			buttonadjPval.addActionListener(this);
+			buttonadjPval.setEnabled(false);
 			buttonadjPval.setToolTipText("calculate adjusted p-values");
 			
 			buttonConfInt = new JButton(
@@ -147,6 +148,7 @@ public class GraphView extends JPanel implements ActionListener {
 											.getResource("/org/mutoss/gui/graph/images/confint2.png"))));
 			toolPanel.add(buttonConfInt);
 			buttonConfInt.addActionListener(this);
+			buttonConfInt.setEnabled(false);
 			buttonConfInt.setToolTipText("calculate confidence intervals");
 			
 		} catch (IOException e) {
@@ -283,6 +285,12 @@ public class GraphView extends JPanel implements ActionListener {
 			getNL().addEdge(getNL().getKnoten().get(from), getNL().getKnoten().get(to), weight);
 		}
 		getNL().repaint();		
+	}
+
+	public void enableButtons(Boolean enabled) {
+		buttonadjPval.setEnabled(enabled);
+		buttonConfInt.setEnabled(enabled);
+		buttonStart.setEnabled(enabled);
 	}
 	
 }
