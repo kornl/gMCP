@@ -67,12 +67,16 @@ public class RControl {
 		if (System.getProperty("eclipse") == null && !debug) System.setOut(new PrintStream(new LoggingOutputStream(logger), true));
 	}
 	
-	public static String getFraction(Double d) {
-		return RControl.getR().eval("as.character(fractions("+d+"))").asRChar().getData()[0];		
+	public static String getFraction(Double d, int cycles) {
+		return RControl.getR().eval("as.character(fractions("+d+(cycles==-1?"":", cycles="+cycles)+"))").asRChar().getData()[0];		
 	}
 	
 	public static String getFraction(Double d, boolean useUnicode) {
-		String f = getFraction(d);
+		return getFraction(d, useUnicode, -1);
+	}
+
+	public static String getFraction(Double d, boolean useUnicode, int cycles) {
+		String f = getFraction(d, cycles);
 		if (!useUnicode) { return f; }
 		if (f.equals("1/2")) return("½");
 		if (f.equals("1/3")) return("⅓");
@@ -91,6 +95,10 @@ public class RControl {
 		if (f.equals("5/8")) return("⅝");
 		if (f.equals("7/8")) return("⅞");*/
 		return f;
+	}
+
+	public static String getFraction(Double d) {
+		return getFraction(d, -1);
 	}
 
 }

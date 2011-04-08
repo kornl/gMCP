@@ -98,43 +98,34 @@ public class GraphView extends JPanel implements ActionListener {
 			toolPanel.setLayout(new FlowLayout());
 			((FlowLayout) (toolPanel.getLayout()))
 					.setAlignment(FlowLayout.LEFT);
+			
 			buttonNewVertex = new JButton(
 					new ImageIcon(ImageIO.read(DesktopPaneBG.class
 											.getResource("/org/mutoss/gui/graph/images/vertex.png"))));
 			toolPanel.add(buttonNewVertex);
 			buttonNewVertex.addActionListener(this);
 			buttonNewVertex.setToolTipText("new vertex");
+			
 			buttonNewEdge = new JButton(
 					new ImageIcon(ImageIO.read(DesktopPaneBG.class
 											.getResource("/org/mutoss/gui/graph/images/edge.png"))));
 			toolPanel.add(buttonNewEdge);
 			buttonNewEdge.addActionListener(this);
 			buttonNewEdge.setToolTipText("new edge");
+			
 			buttonZoomOut = new JButton(
 					new ImageIcon(ImageIO.read(DesktopPaneBG.class
 											.getResource("/org/mutoss/gui/graph/images/zoom_out.png"))));
 			toolPanel.add(buttonZoomOut);
 			buttonZoomOut.addActionListener(this);
 			buttonZoomOut.setToolTipText("zoom out");
+			
 			buttonZoomIn = new JButton(
 					new ImageIcon(ImageIO.read(DesktopPaneBG.class
 											.getResource("/org/mutoss/gui/graph/images/zoom_in.png"))));
 			toolPanel.add(buttonZoomIn);
 			buttonZoomIn.addActionListener(this);
 			buttonZoomIn.setToolTipText("zoom in");
-			
-			buttonadjPval = new JButton(
-					new ImageIcon(ImageIO.read(DesktopPaneBG.class
-											.getResource("/org/mutoss/gui/graph/images/adjPval.png"))));
-			toolPanel.add(buttonadjPval);
-			buttonadjPval.addActionListener(this);
-			buttonadjPval.setToolTipText("calculate adjusted p-values");
-			buttonConfInt = new JButton(
-					new ImageIcon(ImageIO.read(DesktopPaneBG.class
-											.getResource("/org/mutoss/gui/graph/images/confint2.png"))));
-			toolPanel.add(buttonConfInt);
-			buttonConfInt.addActionListener(this);
-			buttonConfInt.setToolTipText("calculate confidence intervals");
 			
 			buttonStart = new JButton(
 					new ImageIcon(ImageIO.read(DesktopPaneBG.class
@@ -143,6 +134,21 @@ public class GraphView extends JPanel implements ActionListener {
 			buttonStart.addActionListener(this);
 			buttonStart.setEnabled(false);
 			buttonStart.setToolTipText("start testing");		
+			
+			buttonadjPval = new JButton(
+					new ImageIcon(ImageIO.read(DesktopPaneBG.class
+											.getResource("/org/mutoss/gui/graph/images/adjPval.png"))));
+			toolPanel.add(buttonadjPval);			
+			buttonadjPval.addActionListener(this);
+			buttonadjPval.setToolTipText("calculate adjusted p-values");
+			
+			buttonConfInt = new JButton(
+					new ImageIcon(ImageIO.read(DesktopPaneBG.class
+											.getResource("/org/mutoss/gui/graph/images/confint2.png"))));
+			toolPanel.add(buttonConfInt);
+			buttonConfInt.addActionListener(this);
+			buttonConfInt.setToolTipText("calculate confidence intervals");
+			
 		} catch (IOException e) {
 			ErrorHandler.getInstance().makeErrDialog(e.getMessage(), e);
 		}

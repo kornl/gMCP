@@ -51,6 +51,10 @@ public class EpsilonTableCellRenderer extends DefaultTableCellRenderer {
     		label.setBackground(null);
     	}
     	
+    	if (row==col) {
+    		label.setForeground(Color.LIGHT_GRAY);
+    	}
+    	
     	return label;
 
     }

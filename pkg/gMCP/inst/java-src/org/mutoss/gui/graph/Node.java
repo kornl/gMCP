@@ -130,7 +130,10 @@ public class Node {
 		if (!Configuration.getInstance().getGeneralConfig().showFractions()) {
 			stringW = format.format(w);
 		} else {
-			stringW = RControl.getFraction(w);
+			stringW = RControl.getFraction(w, 3);
+			if (stringW.length()>7) {
+				stringW = format.format(w);
+			}
 		}
 		for (NodeListener l : listener) {
 			if (me!=l) {
