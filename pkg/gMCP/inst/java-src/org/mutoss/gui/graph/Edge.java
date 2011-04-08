@@ -18,6 +18,7 @@ import org.af.commons.images.GraphDrawHelper;
 import org.af.commons.images.GraphException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.mutoss.config.Configuration;
 import org.scilab.forge.jlatexmath.TeXConstants;
 import org.scilab.forge.jlatexmath.TeXFormula;
 import org.scilab.forge.jlatexmath.TeXIcon;
@@ -35,7 +36,7 @@ public class Edge {
 	
 	VS vs;
 	
-	EdgeWeight ew;
+	private EdgeWeight ew;
 
 	public Edge(Node von, Node nach, Double w, VS vs) {		
 		int x1, x2, y1, y2;
@@ -187,17 +188,18 @@ public class Edge {
 			icon = getTeXIcon(getWS(), (int) (16 * vs.getZoom()));			
 		}		
 		int TOLERANCE = 5; 
-		return (x/vs.getZoom()>k1-icon.getIconWidth()/2-TOLERANCE)
+		
+		if (!Configuration.getInstance().getGeneralConfig().useJLaTeXMath()) {
+			String s = getWS();
+			FontRenderContext frc = g2d.getFontRenderContext();	
+			Rectangle2D rc = (new Font("Arial", Font.PLAIN, (int) (16 * vs.getZoom()))).getStringBounds(s, frc); 
+			return (x/ vs.getZoom()>k1-rc.getWidth()/2-TOLERANCE)&&(x/ vs.getZoom()<k1+rc.getWidth()/2+TOLERANCE)&&(y/ vs.getZoom()<k2- rc.getHeight()*1/ 2+TOLERANCE)&&(y/ vs.getZoom()>k2-rc.getHeight()*3/2-TOLERANCE);
+		} else {
+			return (x/vs.getZoom()>k1-icon.getIconWidth()/2-TOLERANCE)
 			&& (x/vs.getZoom()<k1+icon.getIconWidth()/2+TOLERANCE)
 			&& (y/vs.getZoom()<k2+icon.getIconHeight()/2+TOLERANCE)
 			&& (y/vs.getZoom()>k2-icon.getIconHeight()/2-TOLERANCE);
-		
-		/*String s = getWS();
-		FontRenderContext frc = g2d.getFontRenderContext();	
-		Rectangle2D rc = (new Font("Arial", Font.PLAIN, (int) (16 * vs.getZoom()))).getStringBounds(s, frc);
-		int TOLERANCE = 4; 
-		return (x/ vs.getZoom()>k1-rc.getWidth()/2-TOLERANCE)&&(x/ vs.getZoom()<k1+rc.getWidth()/2+TOLERANCE)&&(y/ vs.getZoom()<k2- rc.getHeight()*1/ 2+TOLERANCE)&&(y/ vs.getZoom()>k2-rc.getHeight()*3/2-TOLERANCE);
-		*/
+		}
 	}
 	
 	public void paintEdge(Graphics g) {
@@ -236,40 +238,41 @@ public class Edge {
 		g2d.setFont(new Font("Arial", Font.PLAIN, (int) (16 * vs.getZoom())));
 		frc = g2d.getFontRenderContext();		
 		String s = getWS();	
-		
-		/*
-		Rectangle2D rc = g2d.getFont().getStringBounds(s, frc);
-		g2d.setColor(new Color(0.99f,0.99f,0.99f));
-		g2d.fillRect((int)((k1* vs.getZoom() - rc.getWidth() / 2)), 
-		(int)((k2* vs.getZoom() - rc.getHeight()* 3 / 2)), 
-		(int)((rc.getWidth()+5)), (int)((rc.getHeight()+5)));
-		g2d.setColor(Color.BLACK);
-		
-		g2d.drawString(s, 
-				(float) ((k1* vs.getZoom() - rc.getWidth() / 2)), 
-				(float) ((k2* vs.getZoom() - rc.getHeight() / 2)));*/
-		
-		if (icon==null) {
-			icon = getTeXIcon(s, (int) (16 * vs.getZoom()));			
+
+		if (!Configuration.getInstance().getGeneralConfig().useJLaTeXMath()) {
+			Rectangle2D rc = g2d.getFont().getStringBounds(s, frc);
+			g2d.setColor(new Color(0.99f,0.99f,0.99f));
+			g2d.fillRect((int)((k1* vs.getZoom() - rc.getWidth() / 2)), 
+					(int)((k2* vs.getZoom() - rc.getHeight()* 3 / 2)), 
+					(int)((rc.getWidth()+5)), (int)((rc.getHeight()+5)));
+			g2d.setColor(Color.BLACK);
+
+			g2d.drawString(s, 
+					(float) ((k1* vs.getZoom() - rc.getWidth() / 2)), 
+					(float) ((k2* vs.getZoom() - rc.getHeight() / 2)));
+		} else {
+			if (icon==null) {
+				icon = getTeXIcon(s, (int) (16 * vs.getZoom()));			
+			}
+			g2d.setColor(new Color(0.99f,0.99f,0.99f));
+			g2d.fillRect((int)((k1* vs.getZoom() - icon.getIconWidth() / 2)-5), 
+					(int)((k2* vs.getZoom() - icon.getIconHeight() / 2)-5), 
+					(int)((icon.getIconWidth()+10)),
+					(int)((icon.getIconHeight()+10)));
+			g2d.setColor(Color.BLACK);
+
+			Stroke oldStroke = g2d.getStroke();
+			g2d.setStroke(new BasicStroke(1));
+			g2d.drawRect((int)((k1* vs.getZoom() - icon.getIconWidth() / 2)-5), 
+					(int)((k2* vs.getZoom() - icon.getIconHeight() / 2)-5), 
+					(int)((icon.getIconWidth()+10)),
+					(int)((icon.getIconHeight()+10)));		
+			g2d.setStroke(oldStroke);		
+
+			icon.paintIcon(panel, g2d,
+					(int) ((k1* vs.getZoom() - icon.getIconWidth() / 2)), 
+					(int) ((k2* vs.getZoom() - icon.getIconHeight() / 2)));
 		}
-		g2d.setColor(new Color(0.99f,0.99f,0.99f));
-		g2d.fillRect((int)((k1* vs.getZoom() - icon.getIconWidth() / 2)-5), 
-				(int)((k2* vs.getZoom() - icon.getIconHeight() / 2)-5), 
-				(int)((icon.getIconWidth()+10)),
-				(int)((icon.getIconHeight()+10)));
-		g2d.setColor(Color.BLACK);
-		
-		Stroke oldStroke = g2d.getStroke();
-		g2d.setStroke(new BasicStroke(1));
-		g2d.drawRect((int)((k1* vs.getZoom() - icon.getIconWidth() / 2)-5), 
-				(int)((k2* vs.getZoom() - icon.getIconHeight() / 2)-5), 
-				(int)((icon.getIconWidth()+10)),
-				(int)((icon.getIconHeight()+10)));		
-		g2d.setStroke(oldStroke);		
-		
-		icon.paintIcon(panel, g2d,
-				(int) ((k1* vs.getZoom() - icon.getIconWidth() / 2)), 
-				(int) ((k2* vs.getZoom() - icon.getIconHeight() / 2)));
 	}
 	
 	TeXIcon icon = null;
@@ -373,11 +376,13 @@ public class Edge {
 
 	public void setW(Double w) {
 		ew = new EdgeWeight(w);
+		icon=null;
 		vs.nl.repaint();
 	}
 	
 	public void setW(String text) {
 		ew = new EdgeWeight(text);
+		icon=null;
 		vs.nl.repaint();		
 	}
 

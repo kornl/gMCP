@@ -147,6 +147,14 @@ public class GeneralConfig extends SpecificConfig {
 		setProperty("useEpsApprox", ""+useEpsApprox);
 	}
 	
+	public boolean useJLaTeXMath() {
+		return Boolean.parseBoolean(getProperty("useJLaTeXMath", "true"));
+	}
+	
+	public void setUseJLaTeXMath(boolean useJLaTeXMath) {
+		setProperty("useJLaTeXMath", ""+useJLaTeXMath);
+	}
+	
 	public void setVersionNumber(String version) {
 		setProperty("gMCPversion", version);
 	}

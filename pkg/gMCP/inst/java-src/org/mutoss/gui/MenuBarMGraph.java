@@ -57,7 +57,10 @@ public class MenuBarMGraph extends JMenuBar implements ActionListener {
 		fmenu.add(makeMenuItem("Export Graph to LaTeX File", "export graph latex"));
 		fmenu.addSeparator();
 		fmenu.add(makeMenuItem("Save LaTeX Report", "save latex report"));
-		fmenu.add(makeMenuItem("Save PDF Report", "save pdf"));
+		JMenuItem item = makeMenuItem("Save PDF Report", "save pdf");
+		item.setEnabled(false);
+		fmenu.add(item);
+		//fmenu.add(makeMenuItem("Save PDF Report", "save pdf"));
 		fmenu.addSeparator();
 		createLastUsed();
 
@@ -69,6 +72,7 @@ public class MenuBarMGraph extends JMenuBar implements ActionListener {
 		menu.addSeparator();
 		menu.add(makeMenuItem("Parallel Gatekeeping with 4 Hypotheses", "pg"));
 		menu.add(makeMenuItem("Improved Parallel Gatekeeping with 4 Hypotheses", "pgi"));
+		menu.addSeparator();
 		menu.add(makeMenuItem("Example graph from Bretz et al. (2009)", "bretzEtAl"));
 		menu.add(makeMenuItem("Example graph from Hommel et al. (2007)", "hommelEtAl"));
 

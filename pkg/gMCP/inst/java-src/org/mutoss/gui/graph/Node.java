@@ -91,26 +91,28 @@ public class Node {
 				r * 2 * vs.getZoom());
 		g2d.draw(e);
 
-		/*g2d.setFont(new Font("Arial", Font.PLAIN, (int) (12 * vs.getZoom())));
-		FontRenderContext frc = g2d.getFontRenderContext();
+		if (!Configuration.getInstance().getGeneralConfig().useJLaTeXMath()) {
+			g2d.setFont(new Font("Arial", Font.PLAIN, (int) (12 * vs.getZoom())));
+			FontRenderContext frc = g2d.getFontRenderContext();
 
-		rc = g2d.getFont().getStringBounds(name, frc);
-		g2d.drawString(name, 
-				(float) ((x + r) * vs.getZoom() - rc.getWidth() / 2), 
-				(float) ((y + r - 0.25*r) * vs.getZoom())); // +rc.getHeight()/2));
-		
-		rc = g2d.getFont().getStringBounds(getWS(), frc);
-		g2d.drawString(getWS(),
-				(float) ((x + r) * vs.getZoom() - rc.getWidth() / 2),
-				(float) ((y + 1.5 * r) * vs.getZoom())); */
-		
-		iconName.paintIcon(Edge.panel, g2d,
-				(int) ((x + r) * vs.getZoom() - iconName.getIconWidth() / 2), 
-				(int) ((y + r - 0.6*r) * vs.getZoom()));	
-		
-		iconWeight.paintIcon(Edge.panel, g2d,
-				(int) ((x + r) * vs.getZoom() - iconWeight.getIconWidth() / 2), 
-				(int) ((y + 1.1 * r) * vs.getZoom()));
+			rc = g2d.getFont().getStringBounds(name, frc);
+			g2d.drawString(name, 
+					(float) ((x + r) * vs.getZoom() - rc.getWidth() / 2), 
+					(float) ((y + r - 0.25*r) * vs.getZoom())); // +rc.getHeight()/2));
+
+			rc = g2d.getFont().getStringBounds(getWS(), frc);
+			g2d.drawString(getWS(),
+					(float) ((x + r) * vs.getZoom() - rc.getWidth() / 2),
+					(float) ((y + 1.5 * r) * vs.getZoom())); 
+		} else {		
+			iconName.paintIcon(Edge.panel, g2d,
+					(int) ((x + r) * vs.getZoom() - iconName.getIconWidth() / 2), 
+					(int) ((y + r - 0.6*r) * vs.getZoom()));	
+
+			iconWeight.paintIcon(Edge.panel, g2d,
+					(int) ((x + r) * vs.getZoom() - iconWeight.getIconWidth() / 2), 
+					(int) ((y + 1.1 * r) * vs.getZoom()));
+		}
 	}
 
 	DecimalFormat format = new DecimalFormat("#.###");
