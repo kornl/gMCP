@@ -51,7 +51,7 @@ public class CreateGraphGUI extends JFrame implements WindowListener {
 				screenSize.height - inset*2);
 		addWindowListener(this);
 
-		pview = new PView();
+		pview = new PView(this);
 		dfp = new DataFramePanel(new RDataFrameRef());
 		agc = new GraphView(graph, this);
 		setJMenuBar(new MenuBarMGraph(agc));

@@ -11,8 +11,6 @@ import java.awt.geom.Rectangle2D;
 import java.text.DecimalFormat;
 import java.util.Vector;
 
-import javax.swing.JPanel;
-
 import org.mutoss.config.Configuration;
 import org.mutoss.gui.RControl;
 import org.scilab.forge.jlatexmath.TeXConstants;

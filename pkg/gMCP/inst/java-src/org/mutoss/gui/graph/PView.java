@@ -46,8 +46,10 @@ public class PView extends JPanel implements KeyListener, ActionListener {
 	JLabel alphaLabel = new JLabel("Total α: ");
 	JTextField totalAlpha = new JTextField("0.05");
 	GridBagConstraints c = new GridBagConstraints();
+	CreateGraphGUI parent;
 	
-	public PView() {  
+	public PView(CreateGraphGUI parent) {
+		this.parent = parent;
 		setLayout(new GridBagLayout());
 				
 		c.weightx=1; c.weighty=1; c.fill = GridBagConstraints.BOTH;
@@ -231,7 +233,6 @@ public class PView extends JPanel implements KeyListener, ActionListener {
 
     JComboBox jcbCorString;
     JComboBox jcbCorObject;
-    CreateGraphGUI parent;
     
     JPanel correlatedPanel = null;
     
@@ -302,17 +303,27 @@ public class PView extends JPanel implements KeyListener, ActionListener {
 	}
 
 	public void actionPerformed(ActionEvent e) {
-		jcbCorObject.removeAllItems();
-		String[] matrices = RControl.getR().eval("gMCP:::getAllQuadraticMatrices()").asRChar().getData();
-		if (matrices.length==1 && matrices[0].equals("No quadratic matrices found.")) {
-			jcbCorObject.setEnabled(false);
-			jrbRCorrelation.setEnabled(false);
-		} else {
-			for (String s : matrices) {
-				jcbCorObject.addItem(s);
+		if (e.getSource()==refresh) {
+			jcbCorObject.removeAllItems();
+			String[] matrices = RControl.getR().eval("gMCP:::getAllQuadraticMatrices()").asRChar().getData();
+			if (matrices.length==1 && matrices[0].equals("No quadratic matrices found.")) {
+				jcbCorObject.setEnabled(false);
+				jrbRCorrelation.setEnabled(false);
+			} else {
+				for (String s : matrices) {
+					jcbCorObject.addItem(s);
+				}
+				jcbCorObject.setEnabled(true);
+				jrbRCorrelation.setEnabled(true);
 			}
-			jcbCorObject.setEnabled(true);
-			jrbRCorrelation.setEnabled(true);
+		} else if (e.getSource()==jrbNoCorrelation) {
+			if (parent.getGraphView().getNL().getKnoten().size()>0) {
+				parent.getGraphView().buttonConfInt.setEnabled(true);
+				parent.getGraphView().buttonadjPval.setEnabled(true);
+			}
+		} else if (e.getSource()==jrbStandardCorrelation || e.getSource()==jrbRCorrelation) {
+			parent.getGraphView().buttonConfInt.setEnabled(false);
+			parent.getGraphView().buttonadjPval.setEnabled(false);
 		}
 	}
 	
