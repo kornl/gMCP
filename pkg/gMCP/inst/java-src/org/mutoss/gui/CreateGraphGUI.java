@@ -13,6 +13,8 @@ import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 
 import org.af.commons.Localizer;
+import org.af.commons.widgets.InfiniteProgressPanel;
+import org.af.commons.widgets.InfiniteProgressPanel.AbortListener;
 import org.apache.commons.lang.ArrayUtils;
 import org.mutoss.config.Configuration;
 import org.mutoss.gui.datatable.CellEditorE;
@@ -24,12 +26,13 @@ import org.mutoss.gui.graph.GraphMCP;
 import org.mutoss.gui.graph.GraphView;
 import org.mutoss.gui.graph.PView;
 
-public class CreateGraphGUI extends JFrame implements WindowListener {
+public class CreateGraphGUI extends JFrame implements WindowListener, AbortListener {
 	
 	GraphMCP graph;
 	GraphView agc;
 	PView pview;
 	DataFramePanel dfp;
+	public InfiniteProgressPanel glassPane;
 	
 	public CreateGraphGUI(String graph, double[] pvalues, boolean debug, double grid) {
 		super("Creating and modifying graphs");	
@@ -59,7 +62,10 @@ public class CreateGraphGUI extends JFrame implements WindowListener {
 		this.graph = new GraphMCP(graph, agc.getVS());
 		
 		if (pvalues.length>0) getPView().setPValues(ArrayUtils.toObject(pvalues));
-		
+		glassPane = new InfiniteProgressPanel(this, "Calculating");
+	    setGlassPane(glassPane);
+	    glassPane.addAbortListener(this);
+
 		setVisible(true);
 	}
 	
@@ -110,5 +116,11 @@ public class CreateGraphGUI extends JFrame implements WindowListener {
 
 	public DataTable getDataTable() {		
 		return dfp.getTable();
+	}
+
+	@Override
+	public void abort() {
+		// TODO Auto-generated method stub
+		
 	}
 }

@@ -21,6 +21,7 @@ import org.af.commons.errorhandling.ErrorHandler;
 import org.af.commons.widgets.DesktopPaneBG;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.jdesktop.swingworker.SwingWorker;
 import org.mutoss.gui.CreateGraphGUI;
 import org.mutoss.gui.RControl;
 import org.mutoss.gui.datatable.DataTable;
@@ -161,6 +162,8 @@ public class GraphView extends JPanel implements ActionListener {
 		return nl;
 	}
 
+	String correlation;
+	
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource().equals(buttonZoomIn)) {
 			vs.setZoom(vs.getZoom() * 1.25);
@@ -188,16 +191,25 @@ public class GraphView extends JPanel implements ActionListener {
 			}
 		} else if (e.getSource().equals(buttonStart)) {
 			if (!getNL().isTesting()) {
+				parent.glassPane.start();
 				startTesting();
 				//new CorrelatedTest(this.getGraphGUI());
-				String correlation = "";
+				correlation = "";
 				if (parent.getPView().jrbStandardCorrelation.isSelected()) {
 					correlation = ", correlation=\""+parent.getPView().jcbCorString.getSelectedItem()+"\"";
 				} else if (parent.getPView().jrbRCorrelation.isSelected()) {
 					correlation = ", correlation="+parent.getPView().jcbCorObject.getSelectedItem()+"";
-				} 
-				boolean[] rejected = RControl.getR().eval("gMCP("+parent.getGraphView().getNL().initialGraph+","+parent.getGraphView().getPView().getPValuesString()+ correlation+", alpha="+parent.getPView().getTotalAlpha()+")@rejected").asRLogical().getData();
-				new RejectedDialog(parent, rejected, parent.getGraphView().getNL().getKnoten());
+				}
+				SwingWorker<Void, Void> worker = new SwingWorker<Void, Void>() {
+					@Override
+					protected Void doInBackground() throws Exception {
+						boolean[] rejected = RControl.getR().eval("gMCP("+parent.getGraphView().getNL().initialGraph+","+parent.getGraphView().getPView().getPValuesString()+ correlation+", alpha="+parent.getPView().getTotalAlpha()+")@rejected").asRLogical().getData();				
+						new RejectedDialog(parent, rejected, parent.getGraphView().getNL().getKnoten());
+						parent.glassPane.stop();
+						return null;
+					}  
+				};
+				worker.execute();				
 			} else {
 				stopTesting();
 			}
