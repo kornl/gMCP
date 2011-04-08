@@ -28,14 +28,6 @@ public class GeneralConfig extends SpecificConfig {
         }
         return tmpDir;
     }
-    
-    public File getProjectPDFsPath() {
-        return new File(getProperty("pdf.output", System.getProperty("user.dir")));
-    }
-
-    public void setProjectPDFsPath(String path) {
-    	setProperty("pdf.output", path);
-    }
 
     public void setPDFViewerPath(String pdfViewerPath) {
         setProperty("acrobat.path", pdfViewerPath);

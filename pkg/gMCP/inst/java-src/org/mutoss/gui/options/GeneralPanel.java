@@ -2,13 +2,10 @@ package org.mutoss.gui.options;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.File;
 import java.util.Vector;
 
-import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
-import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -40,12 +37,7 @@ public class GeneralPanel extends OptionsPanel implements ActionListener {
     private JTextField jtfGrid;
     private JTextField jtfNumberOfDigits;
     private JTextField jtfLineWidth;
-    private JTextField jtfPDFPath;
     private JTextField jtfEps;
-    
-    private JButton jbPDFPath = new JButton(
-            Localizer.getInstance().getString("SGTK_OPTIONS_GENERALPANEL_PATHTOREPORTSDIR")
-    );
     
     private Configuration conf;
     private OptionsDialog odialog;
@@ -72,8 +64,6 @@ public class GeneralPanel extends OptionsPanel implements ActionListener {
     private void makeComponents() {
         cbFontSize = new IntegerJComboBox(8, 20);
         cbFontSize.setSelectedObject(conf.getGeneralConfig().getFontSize());
-        jtfPDFPath = new JTextField(30);
-        jtfPDFPath.setText(conf.getGeneralConfig().getProjectPDFsPath().getAbsolutePath()); 
         jtfGrid = new JTextField(30);
         jtfGrid.setText(""+conf.getGeneralConfig().getGridSize()); 
         jtfNumberOfDigits = new JTextField(30);
@@ -121,7 +111,7 @@ public class GeneralPanel extends OptionsPanel implements ActionListener {
         Localizer loc = Localizer.getInstance();
         JPanel p1 = new JPanel();
         String cols = "pref, 5dlu, fill:pref:grow";
-        String rows = "pref, 5dlu, pref, 5dlu, pref, 5dlu, pref, 5dlu, pref, 5dlu, pref, 5dlu, pref, 5dlu, pref, 5dlu, pref, 5dlu, pref, 5dlu, pref, 5dlu, pref, 5dlu, pref";
+        String rows = "pref, 5dlu, pref, 5dlu, pref, 5dlu, pref, 5dlu, pref, 5dlu, pref, 5dlu, pref, 5dlu, pref, 5dlu, pref, 5dlu, pref, 5dlu, pref, 5dlu, pref";
         
         FormLayout layout = new FormLayout(cols, rows);
         p1.setLayout(layout);
@@ -134,12 +124,10 @@ public class GeneralPanel extends OptionsPanel implements ActionListener {
         
         row += 2;
         
-        
         p1.add(new JLabel("Number of digits:"),     cc.xy(1, row));
         p1.add(jtfNumberOfDigits, cc.xy(3, row));        
         
         row += 2;
-        
         
         p1.add(new JLabel("Line width:"),     cc.xy(1, row));
         p1.add(jtfLineWidth, cc.xy(3, row));        
@@ -157,12 +145,6 @@ public class GeneralPanel extends OptionsPanel implements ActionListener {
         
         p1.add(new JLabel(loc.getString("SGTK_OPTIONS_GENERALPANEL_FONTSIZE")),     cc.xy(1, row));
         p1.add(cbFontSize, cc.xy(3, row));
-        
-        row += 2;
-        
-        jbPDFPath.addActionListener(this);
-        p1.add(jbPDFPath, cc.xy(1, row));
-        p1.add(jtfPDFPath, cc.xy(3, row));
         
         row += 2;
 
@@ -239,7 +221,6 @@ public class GeneralPanel extends OptionsPanel implements ActionListener {
         } catch (NumberFormatException e) {
         	JOptionPane.showMessageDialog(this, "\""+jtfEps.getText()+"\" is not a valid double for epsilon.", "Invalid input", JOptionPane.ERROR_MESSAGE);
         }
-        conf.getGeneralConfig().setProjectPDFsPath(jtfPDFPath.getText());
        	conf.getGeneralConfig().setColoredImages(colorImages.isSelected());
        	conf.getGeneralConfig().setShowRejected(showRejected.isSelected());
        	conf.getGeneralConfig().setShowFractions(showFractions.isSelected());
@@ -286,16 +267,6 @@ public class GeneralPanel extends OptionsPanel implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource()==useEpsApprox) {
 			jtfEps.setEnabled(useEpsApprox.isSelected());
-		} else if (e.getSource()==jbPDFPath) {
-			JFileChooser fc = new JFileChooser();
-			fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-			int returnVal = fc.showOpenDialog(this);
-			if (returnVal == JFileChooser.APPROVE_OPTION) {
-				File f = fc.getSelectedFile();
-				if (e.getSource()==jbPDFPath) {
-					jtfPDFPath.setText(f.getAbsolutePath());            	
-				}
-			}
 		}
 	}
 }
