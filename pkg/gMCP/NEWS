@@ -2,7 +2,9 @@
 Version 0.6-2 (??-Apr-2011, Rev. ???)
 =====================================
 
-- ...
+- Indefinite ProgressPanel is shown while calculating.
+
+- Calculations can be interrupted and canceled.
 
 Version 0.6-1 (??-Apr-2011, Rev. 589)
 =====================================

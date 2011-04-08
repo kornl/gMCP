@@ -11,6 +11,14 @@ High priority:
 - Think about "-Xrs" - see paragraph below.
 - PView is not well revalidated - load bonferroni holm (3) - total alpha 0.667 is shown
   Also create node and remove node again - its panels are sometimes still visible for some time 
+- Implement TODO method in CreateGraphGUI
+
+m <- structure(c(0, 0, 1, 0), .Dim = c(2L, 2L), .Dimnames = list(c("H1", "H2"), c("H1", "H2"))) 
+w <- structure(c(0, 0), .Names = c("H1", "H2")) 
+graph <- matrix2graph(m)
+setWeights(graph, w)
+gMCP:::adjPValues(.InitialGraph,c(0.0, 0.0))@adjPValues
+
 
 Medium priority:
 ================
@@ -26,6 +34,9 @@ Medium priority:
 (search for DecimalFormat and replace it with getDecFormat())
 - Big font sizes misplaces TextField for object name
 - Ask for saving graph when quitting
+- LookNFeel is not kept between sessions
+- After interruption of a calculation a new calculation gives:
+  "unprotect(): only 0 protected items"
 
 Additional features / low priority:
 ===================================
