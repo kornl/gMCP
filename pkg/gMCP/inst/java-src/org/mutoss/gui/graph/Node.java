@@ -138,7 +138,7 @@ public class Node {
 		if (!Configuration.getInstance().getGeneralConfig().showFractions()) {
 			stringW = format.format(w);
 		} else {
-			stringW = RControl.getFraction(w, 3);
+			stringW = RControl.getFraction(w, 5);
 			if (stringW.length()>7) {
 				stringW = format.format(w);
 			}
