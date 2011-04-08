@@ -30,7 +30,7 @@ public class EpsilonTableCellRenderer extends DefaultTableCellRenderer {
     		EdgeWeight ew = model.getValueAt(row, i);
     		Double d = 0.0;
     		try {
-    			d = ew.getWeight(null);
+    			d = ew.getWeight(null)[0];
     		} catch (Exception e) {
     			// Seriously - we don't want to do anything: d=0.0 is fine.
     		}

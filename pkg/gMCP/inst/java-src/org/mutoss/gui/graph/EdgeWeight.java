@@ -12,7 +12,7 @@ import org.mutoss.gui.RControl;
 public class EdgeWeight {
 	
 	protected String weightStr = null; 
-	protected Double weight = null;
+	protected double[] weight = null;
 	
 	static DecimalFormat format = new DecimalFormat("#.###");
 	static DecimalFormat formatSmall = new DecimalFormat("#.###E0");
@@ -23,7 +23,7 @@ public class EdgeWeight {
 	}
 	
 	public EdgeWeight(double weight) {
-		this.weight = weight;
+		this.weight = new double[] { weight };
 		/*if (w.toString().equals("NaN")) return "ε";
 		if (w<0.0009) {
 			return formatSmall.format(w);
@@ -41,14 +41,15 @@ public class EdgeWeight {
 		return weightStr;
 	}
 	
-	public double getWeight(Hashtable<String,Double> ht) {
+	public double[] getWeight(Hashtable<String,Double> ht) {
 		String replaceStr = weightStr;
 		if (weight!=null) return weight;
 		for (Enumeration<String> keys = ht.keys() ; keys.hasMoreElements() ;) {
 			String s = keys.nextElement();
 			replaceStr = replaceStr.replaceAll(s, ""+ht.get(s));
 		}
-		weight = RControl.getR().eval(replaceStr).asRNumeric().getData()[0];
+		replaceStr = replaceStr.replaceAll("ε", "e");
+		weight = RControl.getR().eval("gMCP:::parseEpsPolynom(\""+replaceStr+"\")").asRNumeric().getData();
 		return weight;
 	}
 	

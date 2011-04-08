@@ -413,11 +413,16 @@ public class NetList extends JPanel implements MouseMotionListener, MouseListene
 		for (Edge e : edges) {		
 			variables.addAll(e.getVariable());
 		}
+		if (!Configuration.getInstance().getGeneralConfig().useEpsApprox()) {
+			variables.remove("ε");
+		}
 		
 		Hashtable<String,Double> ht = new Hashtable<String,Double>();
-		if (!variables.isEmpty()) {
+		if (!variables.isEmpty() && !(variables.size()==1 && variables.contains("ε"))) {
 			VariableDialog vd = new VariableDialog(this.control.parent, variables);
 			ht = vd.getHT();
+		} else if (variables.size()==1 && variables.contains("ε")){
+			ht.put("ε", Configuration.getInstance().getGeneralConfig().getEpsilon());
 		}
 		
 		// Okay, let's go:
@@ -451,7 +456,7 @@ public class NetList extends JPanel implements MouseMotionListener, MouseListene
 			for (Edge e : edges) {				
 				if (e.from == n) {
 					edgeL += "\""+e.to.getName()+"\",";
-					weights += ((""+e.getW(ht)).equals("NaN")?0+",":e.getW(ht) +",");
+					weights += e.getW(ht)[0] +",";
 				}
 			}
 			if (edgeL.length()!=0) {
@@ -481,6 +486,10 @@ public class NetList extends JPanel implements MouseMotionListener, MouseListene
 		for (Edge e : edges) {				
 			RControl.getR().evalVoid("edgeData("+graphName+", \""+e.from.getName()+"\", \""+e.to.getName()+"\", \"labelX\") <- "+(e.k1-Node.getRadius()));
 			RControl.getR().evalVoid("edgeData("+graphName+", \""+e.from.getName()+"\", \""+e.to.getName()+"\", \"labelY\") <- "+(e.k2-Node.getRadius()));
+			String eps = e.getEpsilonString(null);
+			if (eps!=null) {
+				RControl.getR().evalVoid("edgeData("+graphName+", \""+e.from.getName()+"\", \""+e.to.getName()+"\", \"epsilon\") <- list("+eps+")");
+			}
 		}	
 		if (verbose) { JOptionPane.showMessageDialog(null, "The graph as been exported to R under ther variable name:\n\n"+graphName, "Saved as \""+graphName+"\"", JOptionPane.INFORMATION_MESSAGE); }
 		return graphName;
