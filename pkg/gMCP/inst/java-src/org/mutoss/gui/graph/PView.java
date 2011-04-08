@@ -301,7 +301,11 @@ public class PView extends JPanel implements KeyListener, ActionListener {
 	}
 
 	public void actionPerformed(ActionEvent e) {
-		// Rescan for new quadratic matrices.
+		jcbCorObject.removeAllItems();
+		String[] matrices = RControl.getR().eval("gMCP:::getAllQuadraticMatrices()").asRChar().getData();
+		for (String s : matrices) {
+			jcbCorObject.addItem(s);
+		}
 	}
 	
 }
