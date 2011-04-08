@@ -70,7 +70,7 @@ public class GeneralConfig extends SpecificConfig {
 	}
 
     public void setDigits(int digit) {
-		setProperty("digit", ""+digit);		
+		setProperty("Digits", ""+digit);		
 		setFormat();
 	}
     

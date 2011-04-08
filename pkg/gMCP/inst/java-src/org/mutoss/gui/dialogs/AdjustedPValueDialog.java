@@ -13,11 +13,11 @@ import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 
+import org.mutoss.config.Configuration;
 import org.mutoss.gui.graph.Node;
 
 public class AdjustedPValueDialog extends JDialog implements ActionListener {
 
-	DecimalFormat format = new DecimalFormat("#.#####");
 	JButton jb = new JButton("Ok");
 	
 	public AdjustedPValueDialog(JFrame mainFrame, List<Double> pValues, double[] adjPValues, Vector<Node> vector) {
@@ -40,6 +40,8 @@ public class AdjustedPValueDialog extends JDialog implements ActionListener {
 		c.gridx=2;
 		(getContentPane()).add(new JLabel("adjusted p-values"), c);
 		c.gridy++;		
+		
+		DecimalFormat format = Configuration.getInstance().getGeneralConfig().getDecFormat();
 		for (int i=0; i<adjPValues.length; i++) {
 			c.gridx=0; 
 			(getContentPane()).add(new JLabel(""+vector.get(i).getName()+":"), c);
@@ -48,7 +50,7 @@ public class AdjustedPValueDialog extends JDialog implements ActionListener {
 			c.gridx=2;
 			(getContentPane()).add(new JLabel(""+format.format(adjPValues[i])), c);
 			c.gridy++;
-		}	
+		}
 		c.gridx = 1;
 		jb.addActionListener(this);
 		(getContentPane()).add(jb, c);
