@@ -119,7 +119,8 @@ public class MenuBarMGraph extends JMenuBar implements ActionListener {
 	public void loadGraph(String string) {
 		NetList nl = control.getNL();		
 		newGraph();
-		RControl.getR().eval(nl.initialGraph + " <- " + string);
+		boolean matrix = RControl.getR().eval("is.matrix("+string+")").asRLogical().getData()[0];
+		RControl.getR().eval(nl.initialGraph + " <- gMCP:::arrangeNodes("+ (matrix?"matrix2graph(":"(")+ string + "))");
 		nl.loadGraph();
 		control.getMainFrame().validate();
 	}
@@ -187,9 +188,7 @@ public class MenuBarMGraph extends JMenuBar implements ActionListener {
         	loadGraph();
         } else if (e.getActionCommand().equals("load graph from R")) {
         	new RObjectLoadingDialog(control.getGraphGUI());
-        	VariableNameDialog vnd = new VariableNameDialog(control.getGraphGUI());
-        	loadGraph(vnd.getName());
-        	Configuration.getInstance().getGeneralConfig().addGraph("R Object: "+vnd.getName());
+        	//VariableNameDialog vnd = new VariableNameDialog(control.getGraphGUI());
         	createLastUsed();        	
         } else if (e.getActionCommand().equals("bht")) {
         	new NumberOfHypotheses(control.getGraphGUI(), this, "createBonferroniHolmGraph");        	

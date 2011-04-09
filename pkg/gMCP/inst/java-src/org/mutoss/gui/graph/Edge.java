@@ -325,7 +325,7 @@ public class Edge {
 				s = "";
 			}
 		}
-		logger.info("LaTeX string:"+latex);		
+		logger.debug("LaTeX string:"+latex);		
 		TeXFormula formula = new TeXFormula(latex);//
 		formula = new TeXFormula("\\mathbf{"+latex+"}");
 		
