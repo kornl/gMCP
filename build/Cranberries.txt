@@ -395,7 +395,7 @@ Diff between gMCP versions 0.4-0 dated 2011-03-21 and 0.5-0 dated 2011-03-28
  gMCP-0.5-0/gMCP/man/rejectNode.Rd                                             |   11 
  61 files changed, 868 insertions(+), 482 deletions(-)
 
- Diff between gMCP versions 0.5-0 dated 2011-03-28 and 0.6-0 dated 2011-04-06
+Diff between gMCP versions 0.5-0 dated 2011-03-28 and 0.6-0 dated 2011-04-06
 
  gMCP-0.5-0/gMCP/inst/doc/pictures/latex.png                                          |only
  gMCP-0.5-0/gMCP/inst/doc/pictures/save.png                                           |only
@@ -438,3 +438,52 @@ Diff between gMCP versions 0.4-0 dated 2011-03-21 and 0.5-0 dated 2011-03-28
  gMCP-0.6-0/gMCP/man/graphMCP.Rd                                                      |   21 
  gMCP-0.6-0/gMCP/man/substituteEps.Rd                                                 |only
  40 files changed, 599 insertions(+), 339 deletions(-)
+ 
+Diff between gMCP versions 0.6-0 dated 2011-04-06 and 0.6-1 dated 2011-04-09
+
+ gMCP-0.6-0/gMCP/inst/java-src/org/mutoss/gui/dialogs/CorrelatedTest.java             |only
+ gMCP-0.6-1/gMCP/DESCRIPTION                                                          |    6 
+ gMCP-0.6-1/gMCP/NEWS                                                                 |   21 +
+ gMCP-0.6-1/gMCP/R/exampleGraphs.R                                                    |    4 
+ gMCP-0.6-1/gMCP/R/gMCP.R                                                             |    2 
+ gMCP-0.6-1/gMCP/R/helperGUI.R                                                        |    2 
+ gMCP-0.6-1/gMCP/TODO                                                                 |    7 
+ gMCP-0.6-1/gMCP/inst/doc/correlated.pdf                                              |binary
+ gMCP-0.6-1/gMCP/inst/doc/gMCP.Rnw                                                    |   21 -
+ gMCP-0.6-1/gMCP/inst/doc/gMCP.pdf                                                    |binary
+ gMCP-0.6-1/gMCP/inst/doc/pictures/FullFeaturedGUI.png                                |binary
+ gMCP-0.6-1/gMCP/inst/java-src/org/mutoss/config/GeneralConfig.java                   |   45 ++
+ gMCP-0.6-1/gMCP/inst/java-src/org/mutoss/gui/AboutDialog.java                        |    2 
+ gMCP-0.6-1/gMCP/inst/java-src/org/mutoss/gui/CreateGraphGUI.java                     |    5 
+ gMCP-0.6-1/gMCP/inst/java-src/org/mutoss/gui/ErrorDialogSGTK.java                    |    3 
+ gMCP-0.6-1/gMCP/inst/java-src/org/mutoss/gui/MenuBarMGraph.java                      |  136 +++++--
+ gMCP-0.6-1/gMCP/inst/java-src/org/mutoss/gui/RControl.java                           |   14 
+ gMCP-0.6-1/gMCP/inst/java-src/org/mutoss/gui/ResourceBundle.properties               |   33 -
+ gMCP-0.6-1/gMCP/inst/java-src/org/mutoss/gui/datatable/DataTableModel.java           |    4 
+ gMCP-0.6-1/gMCP/inst/java-src/org/mutoss/gui/datatable/EpsilonTableCellRenderer.java |    6 
+ gMCP-0.6-1/gMCP/inst/java-src/org/mutoss/gui/dialogs/AdjustedPValueDialog.java       |    6 
+ gMCP-0.6-1/gMCP/inst/java-src/org/mutoss/gui/dialogs/DialogConfInt.java              |    6 
+ gMCP-0.6-1/gMCP/inst/java-src/org/mutoss/gui/dialogs/DialogConfIntEstVar.java        |    2 
+ gMCP-0.6-1/gMCP/inst/java-src/org/mutoss/gui/dialogs/VariableNameDialog.java         |    2 
+ gMCP-0.6-1/gMCP/inst/java-src/org/mutoss/gui/graph/Edge.java                         |  180 ++++++++--
+ gMCP-0.6-1/gMCP/inst/java-src/org/mutoss/gui/graph/EdgeWeight.java                   |    9 
+ gMCP-0.6-1/gMCP/inst/java-src/org/mutoss/gui/graph/GraphMCP.java                     |    2 
+ gMCP-0.6-1/gMCP/inst/java-src/org/mutoss/gui/graph/GraphView.java                    |   43 +-
+ gMCP-0.6-1/gMCP/inst/java-src/org/mutoss/gui/graph/NetList.java                      |   98 +----
+ gMCP-0.6-1/gMCP/inst/java-src/org/mutoss/gui/graph/Node.java                         |   69 ++-
+ gMCP-0.6-1/gMCP/inst/java-src/org/mutoss/gui/graph/PPanel.java                       |   16 
+ gMCP-0.6-1/gMCP/inst/java-src/org/mutoss/gui/graph/PView.java                        |  127 ++++++-
+ gMCP-0.6-1/gMCP/inst/java-src/org/mutoss/gui/graph/UpdateEdge.java                   |    2 
+ gMCP-0.6-1/gMCP/inst/java-src/org/mutoss/gui/graph/UpdateNode.java                   |    8 
+ gMCP-0.6-1/gMCP/inst/java-src/org/mutoss/gui/graph/images/update.png                 |only
+ gMCP-0.6-1/gMCP/inst/java-src/org/mutoss/gui/graph/images/update24.png               |only
+ gMCP-0.6-1/gMCP/inst/java-src/org/mutoss/gui/options/GeneralPanel.java               |   13 
+ gMCP-0.6-1/gMCP/inst/java-src/org/mutoss/tests/TeXFormulaTest.java                   |only
+ gMCP-0.6-1/gMCP/inst/java-src/org/mutoss/tests/TestImportExport.java                 |   11 
+ gMCP-0.6-1/gMCP/inst/java/gsrmtp.jar                                                 |binary
+ gMCP-0.6-1/gMCP/inst/java/jlatexmath-0.9.4.jar                                       |only
+ gMCP-0.6-1/gMCP/man/bdiagNA.Rd                                                       |    2 
+ gMCP-0.6-1/gMCP/man/gMCP-package.Rd                                                  |    7 
+ 43 files changed, 666 insertions(+), 248 deletions(-)
+ 
+ 

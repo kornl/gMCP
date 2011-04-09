@@ -6,7 +6,7 @@ Version 0.6-2 (??-Apr-2011, Rev. ???)
 
 - Calculations can be interrupted and canceled.
 
-Version 0.6-1 (??-Apr-2011, Rev. 589)
+Version 0.6-1 (09-Apr-2011, Rev. 589)
 =====================================
 
 - We use the library JLaTeXMath for edge labeling.
@@ -22,6 +22,11 @@ Version 0.6-1 (??-Apr-2011, Rev. 589)
 - Changed the order of the buttons in the main button panel.
 
 - GUI is remembering the last 4 used R objects / files. 
+
+- Since r-forge has rJava problems at the moment and does
+  not provide gMCP builds, we pushed 0.6-1 early to CRAN. 
+
+ 43 files changed, 666 insertions(+), 248 deletions(-)
 
 Version 0.6-0 (06-Apr-2011, Rev. 547)
 =====================================
