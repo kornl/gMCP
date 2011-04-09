@@ -3,6 +3,7 @@ graph2latex <- function(graph, package="TikZ", scale=1, alpha=0.05, pvalues,
 		"normalsize", "large", "Large", "LARGE", "huge", "Huge"),
 		nodeTikZ, labelTikZ="near start,above,fill=blue!20",
 		tikzEnv=TRUE, offset=c(0,0)) {
+	graph <- arrangeNodes(graph)
 	if (tikzEnv) {
 		tikz <- paste("\\begin{tikzpicture}[scale=",scale,"]", sep="")
 	} else {
