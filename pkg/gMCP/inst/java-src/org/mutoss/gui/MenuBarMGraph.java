@@ -182,8 +182,7 @@ public class MenuBarMGraph extends JMenuBar implements ActionListener {
         	notYetSupported();
         	//savePDF();
         } else if (e.getActionCommand().equals("save latex report")) {
-        	notYetSupported();
-        	//exportLaTeXReport();
+        	exportLaTeXReport();
         } else if (e.getActionCommand().equals("load graph")) {       	
         	loadGraph();
         } else if (e.getActionCommand().equals("load graph from R")) {
@@ -274,28 +273,31 @@ public class MenuBarMGraph extends JMenuBar implements ActionListener {
 			}
 		}
 	}
-
-	/*
+	
 	public void exportLaTeXReport() {
-		NetzListe nl = ((ControlMGraph) control).getNL();
-		String doc = "\\section*{Initial graph}\n";
-		for (GraphStep gs : nl.getReport()) {			
-			if (gs.getName().trim().length!=0) {
-				doc += "\n"+gs.getLatex()+"\n\\section{Rejection of "+gs.getName().replace("_", "\\_")+"}\n";
-			} else {
-				doc += "\n"+gs.getLatex()+"\n";
-			}
+		JFileChooser fc = new JFileChooser(Configuration.getInstance().getClassProperty(this.getClass(), "LaTeXReportDirectory"));
+		fc.setDialogType(JFileChooser.SAVE_DIALOG);
+		File f;
+		int returnVal = fc.showSaveDialog(this);
+		if (returnVal == JFileChooser.APPROVE_OPTION) {			
+			f = fc.getSelectedFile();
+			Configuration.getInstance().setClassProperty(this.getClass(), "LaTeXReportDirectory", f.getParent());
+			if (!f.getName().toLowerCase().endsWith(".tex")) {
+            	f = new File(f.getAbsolutePath()+".tex");
+            }
+			logger.info("Export to: " + f.getAbsolutePath() + ".");
+		} else {
+			return;
 		}
-		List<CI> ciV = ((ControlMGraph) control).getNL().getCi();
-		if (ciV != null) {
-			doc += "\n\\section{Confidence intervals}";
-			for (CI ci : ciV) {				
-				doc += "Confidence interval "+ci.getName().replace("_", "\\_")+":  $]"+((ci.getLb()==Double.NEGATIVE_INFINITY)?"-\\infty":format.format(ci.getLb()))+", "+((ci.getUb()==Double.POSITIVE_INFINITY)?"\\infty":format.format(ci.getUb()))+"[$\\\\\n";					
-			}
-		}		
-		writeLaTeX(doc);
+		String correlation = "";
+		if (control.getPView().jrbStandardCorrelation.isSelected()) {
+			correlation = ", correlation=\""+control.getPView().jcbCorString.getSelectedItem()+"\"";
+		} else if (control.getPView().jrbRCorrelation.isSelected()) {
+			correlation = ", correlation="+control.getPView().jcbCorObject.getSelectedItem()+"";
+		}
+		RControl.getR().eval("result <- gMCP("+control.getNL().initialGraph+","+control.getPView().getPValuesString()+ correlation+", alpha="+control.getPView().getTotalAlpha()+")");
+		RControl.getR().eval("gMCPReport(result, file=\""+f.getAbsolutePath()+"\")");
 	}
-	*/
 	
 	public void writeLaTeX(String s) {
 		JFileChooser fc = new JFileChooser(Configuration.getInstance().getClassProperty(this.getClass(), "LaTeXDirectory"));
@@ -308,7 +310,7 @@ public class MenuBarMGraph extends JMenuBar implements ActionListener {
 			if (!f.getName().toLowerCase().endsWith(".tex")) {
             	f = new File(f.getAbsolutePath()+".tex");
             }
-			System.out.println("Export to: " + f.getAbsolutePath() + ".");
+			logger.info("Export to: " + f.getAbsolutePath() + ".");
 		} else {
 			return;
 		}
@@ -461,8 +463,9 @@ public class MenuBarMGraph extends JMenuBar implements ActionListener {
 
     public JMenu makeExtrasMenu() {
     	JMenu menu = new JMenu(localizer.getString("SGTK_MENU_EXTRAS"));
-    	menu.add(makeMenuItem(localizer.getString("SGTK_MENU_EXTRAS_LOG"), "showLog"));
     	menu.add(makeMenuItem(localizer.getString("SGTK_MENU_EXTRAS_OPTIONS"), "showOptions"));
+    	menu.addSeparator();
+    	menu.add(makeMenuItem(localizer.getString("SGTK_MENU_EXTRAS_LOG"), "showLog"));    	
     	menu.add(makeMenuItem(localizer.getString("SGTK_MENU_EXTRAS_REPORT_ERROR"), "reportError"));
     	return menu;
     }
