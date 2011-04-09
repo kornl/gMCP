@@ -9,10 +9,12 @@ import java.util.Locale;
 import javax.swing.ImageIcon;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 
 import org.af.commons.Localizer;
+import org.af.commons.errorhandling.ErrorHandler;
 import org.af.commons.widgets.InfiniteProgressPanel;
 import org.af.commons.widgets.InfiniteProgressPanel.AbortListener;
 import org.apache.commons.lang.ArrayUtils;
@@ -128,8 +130,29 @@ public class CreateGraphGUI extends JFrame implements WindowListener, AbortListe
 		if (RControl.getR().getREngine().getClass() == JRIEngine.class) {
 			JRIEngine engine = (JRIEngine) RControl.getR().getREngine();
 			engine.getRni().rniStop(0);
+			// We try to evaluate something:
+			try {
+				RControl.getR().eval("rmvnorm(n=5, mean=c(1,2), sigma=matrix(c(4,2,2,3), ncol=2))");
+			} catch (Exception e) {
+				/* There is a chance this first evaluation goes
+				 * wrong due to protect / unprotect issues caused
+				 * by the interrupt. 
+				 */
+				logger.warn("There was an error in the test eval after interrupt:\n"+e.getMessage(), e);
+			}
+			// Now the second evaluation should be fine:
+			try {
+				RControl.getR().eval("rmvnorm(n=5, mean=c(1,2), sigma=matrix(c(4,2,2,3), ncol=2))");
+			} catch (Exception e) {				
+				logger.error("There was an error in the 2. test eval after interrupt:\n"+e.getMessage(), e);
+				String message = "There was an error interrupting the R calculation.\n"
+					+"After you press okay an error dialog will open and please inform us about this.\n"
+					+"After that we recommend that you close the GUI (but you can try whether saving of graphs or other things work).";
+				JOptionPane.showMessageDialog(this, message, "Error interrupting R calculation", JOptionPane.ERROR_MESSAGE);
+				ErrorHandler.getInstance().makeErrDialog("");
+			}
 		} else {
-			logger.warn("Could not stop REngine of class '"+RControl.getR().getREngine().getClass()+"'");
+			logger.error("Could not stop REngine of class '"+RControl.getR().getREngine().getClass()+"'");
 		}
 	}
 }
