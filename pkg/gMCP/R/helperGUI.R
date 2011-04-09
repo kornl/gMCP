@@ -39,14 +39,16 @@ getEdges <- function(graph){
 }
 
 arrangeNodes <- function(graph) {
-	n <- length(nodes(graph))
-	v <- (1:n)/n*2*pi
-	nodeX <- 300 + 250*sin(v)
-	nodeY <- 300 + 250*cos(v)
-	names(nodeX) <- nodes(graph)
-	names(nodeY) <- nodes(graph)
-	nodeRenderInfo(graph) <- list(nodeX=nodeX, nodeY=nodeY)
-	return(graph)
+	if (length(nodeRenderInfo(graph))==0) {
+		n <- length(nodes(graph))
+		v <- (1:n)/n*2*pi
+		nodeX <- 300 + 250*sin(v)
+		nodeY <- 300 + 250*cos(v)
+		names(nodeX) <- nodes(graph)
+		names(nodeY) <- nodes(graph)
+		nodeRenderInfo(graph) <- list(nodeX=nodeX, nodeY=nodeY)
+	}
+	return(graph)	
 }
 
 # I guess I simply don't understand how the graph package is supposed to be used.
