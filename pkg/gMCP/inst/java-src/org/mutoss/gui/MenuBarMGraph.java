@@ -277,6 +277,13 @@ public class MenuBarMGraph extends JMenuBar implements ActionListener {
 	}
 	
 	public void exportLaTeXReport() {
+		if (control.getNL().getKnoten().size()==0) {
+    		JOptionPane.showMessageDialog(control.getMainFrame(), "Can not create report for empty graph.", "Can not create report for empty graph.", JOptionPane.ERROR_MESSAGE);
+    		return;
+    	}
+		if (!RControl.getR().eval("exists("+control.getNL().initialGraph+")").asRLogical().getData()[0]) {
+			control.getNL().saveGraph();
+		}
 		JFileChooser fc = new JFileChooser(Configuration.getInstance().getClassProperty(this.getClass(), "LaTeXReportDirectory"));
 		fc.setDialogType(JFileChooser.SAVE_DIALOG);
 		File f;
