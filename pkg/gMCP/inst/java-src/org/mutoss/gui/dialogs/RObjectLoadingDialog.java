@@ -9,7 +9,7 @@ import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
-import javax.swing.JTextField;
+import javax.swing.JTextArea;
 import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
@@ -25,17 +25,18 @@ import com.jgoodies.forms.layout.FormLayout;
 public class RObjectLoadingDialog extends JDialog implements ActionListener, ListSelectionListener {
 	JButton ok = new JButton("Load");
 
-    CreateGraphGUI parent;
-    JTextField jtGraphName;
+    CreateGraphGUI parent;    
     JList jlMatrices;
     JList jlGraphs;
     String[] matrices;
     String[] graphs;
+    JTextArea jtInfo = new JTextArea(9, 30);;
     
 	public RObjectLoadingDialog(CreateGraphGUI parent) {
 		super(parent, "Variables", true);
 		setLocationRelativeTo(parent);
 		this.parent = parent;
+		jtInfo.setEditable(false);
 		
 		matrices = RControl.getR().eval("gMCP:::getAllQuadraticMatrices()").asRChar().getData();
 		graphs = RControl.getR().eval("gMCP:::getAllGraphs()").asRChar().getData();		
@@ -46,7 +47,7 @@ public class RObjectLoadingDialog extends JDialog implements ActionListener, Lis
 		jlGraphs = new JList(graphs);
 		jlGraphs.addListSelectionListener(this);
 		jlGraphs.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-
+		
 		if (matrices.length==1 && matrices[0].equals("No quadratic matrices found.")) {
 			jlMatrices.setEnabled(false);
 		}
@@ -60,7 +61,7 @@ public class RObjectLoadingDialog extends JDialog implements ActionListener, Lis
 			return;
 		}		
 		
-        String cols = "5dlu, fill:pref:grow, 5dlu, fill:pref:grow, 5dlu";
+        String cols = "5dlu, fill:pref:grow, 5dlu, fill:pref:grow, 5dlu, fill:pref:grow, 5dlu";
         String rows = "5dlu, pref, 5dlu, pref, 5dlu, pref, 5dlu, pref, 5dlu";
         
         FormLayout layout = new FormLayout(cols, rows);
@@ -71,11 +72,13 @@ public class RObjectLoadingDialog extends JDialog implements ActionListener, Lis
 
         getContentPane().add(new JLabel("Graph objects"), cc.xy(2, row));
         getContentPane().add(new JLabel("Quadratic matrices"), cc.xy(4, row));
+        getContentPane().add(new JLabel("Object info"), cc.xy(6, row));
 
         row += 2;
         
         getContentPane().add(new JScrollPane(jlGraphs), cc.xy(2, row));
         getContentPane().add(new JScrollPane(jlMatrices), cc.xy(4, row));
+        getContentPane().add(new JScrollPane(jtInfo), cc.xy(6, row));
 
         row += 2;
                         
@@ -106,11 +109,15 @@ public class RObjectLoadingDialog extends JDialog implements ActionListener, Lis
 	@Override
 	public void valueChanged(ListSelectionEvent e) {
 		if (e.getSource()==jlMatrices && jlMatrices.getSelectedIndex() != -1) {
-			jlGraphs.removeSelectionInterval(0, graphs.length-1);			
+			jlGraphs.removeSelectionInterval(0, graphs.length-1);
+			String info = RControl.getR().eval("gMCP:::getObjectInfo("+jlMatrices.getSelectedValue()+")").asRChar().getData()[0];
+			jtInfo.setText(info);
 		} else if (e.getSource()==jlGraphs && jlGraphs.getSelectedIndex() != -1) {
 			jlMatrices.removeSelectionInterval(0, matrices.length-1);
+			String info = RControl.getR().eval("gMCP:::getObjectInfo("+jlGraphs.getSelectedValue()+")").asRChar().getData()[0];
+			jtInfo.setText(info);
 		}
-		
+		jtInfo.setCaretPosition(0);		
 	}	
 	
 }

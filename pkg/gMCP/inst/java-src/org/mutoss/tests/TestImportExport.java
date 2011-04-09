@@ -1,12 +1,7 @@
 package org.mutoss.tests;
 
-import javax.swing.JLabel;
-
 import org.af.jhlir.backends.rengine.RCallServicesREngine;
 import org.mutoss.gui.RControl;
-import org.mutoss.gui.graph.GraphMCP;
-import org.mutoss.gui.graph.GraphView;
-import org.mutoss.gui.graph.NetList;
 import org.mutoss.gui.graph.VS;
 
 public class TestImportExport {

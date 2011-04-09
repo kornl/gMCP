@@ -6,7 +6,6 @@ import java.util.Vector;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.mutoss.gui.graph.EdgeWeight;
-import org.mutoss.gui.graph.GraphMCP;
 
 public class RDataFrameRef {
 	
