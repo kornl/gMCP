@@ -125,7 +125,7 @@ public class PPanel implements ActionListener, KeyListener, NodeListener, FocusL
 	void updateMe(boolean setText) {
 		if (setText) wTF.setText(getWString());
 		if (p<=w*pview.getTotalAlpha()) {
-			System.out.println("Is "+p+"<="+w+"*"+pview.getTotalAlpha()+"?");
+			//logger.debug("Is "+p+"<="+w+"*"+pview.getTotalAlpha()+"?");
 			node.setColor(new Color(50, 255, 50));
 			wTF.setBackground(new Color(50, 255, 50));
 			if (testing) {

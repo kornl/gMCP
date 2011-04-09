@@ -227,6 +227,8 @@ public class MenuBarMGraph extends JMenuBar implements ActionListener {
         	new AboutDialog(control.getMainFrame());
         } else if (e.getActionCommand().equals("showOptions")) {
         	new OptionsDialog(control.getMainFrame());
+        } else if (e.getActionCommand().equals("debugConsole")) {
+        	RControl.console.setVisible(true);
         }
 	}
 	
@@ -467,6 +469,9 @@ public class MenuBarMGraph extends JMenuBar implements ActionListener {
     	menu.addSeparator();
     	menu.add(makeMenuItem(localizer.getString("SGTK_MENU_EXTRAS_LOG"), "showLog"));    	
     	menu.add(makeMenuItem(localizer.getString("SGTK_MENU_EXTRAS_REPORT_ERROR"), "reportError"));
+    	if (System.getProperty("eclipse") != null) {		
+    		menu.add(makeMenuItem("Debug console", "debugConsole"));
+    	}
     	return menu;
     }
 

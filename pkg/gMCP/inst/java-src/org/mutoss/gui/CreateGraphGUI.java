@@ -42,7 +42,7 @@ public class CreateGraphGUI extends JFrame implements WindowListener, AbortListe
 	
 	public CreateGraphGUI(String graph, double[] pvalues, boolean debug, double grid) {
 		super("Creating and modifying graphs");	
-		System.out.println("REngine class"+RControl.getR().getREngine().getClass());
+		logger.info("REngine class "+RControl.getR().getREngine().getClass());
 		Locale.setDefault(Locale.US);
 		JComponent.setDefaultLocale(Locale.US); 
 		RControl.getRControl(debug);

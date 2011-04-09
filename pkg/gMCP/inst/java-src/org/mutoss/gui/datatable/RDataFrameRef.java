@@ -3,9 +3,14 @@ package org.mutoss.gui.datatable;
 import java.util.List;
 import java.util.Vector;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.mutoss.gui.graph.EdgeWeight;
+import org.mutoss.gui.graph.GraphMCP;
 
 public class RDataFrameRef {
+	
+	private static final Log logger = LogFactory.getLog(RDataFrameRef.class);
 
 	List<String> rcNames = new Vector<String>();
 	Vector<Vector<EdgeWeight>> data = new Vector<Vector<EdgeWeight>>();
@@ -48,7 +53,7 @@ public class RDataFrameRef {
 		for (int i=0; i < getColumnCount(); i++) {row.add(new EdgeWeight(0.0));}
 		data.add(row);
 		for (int i=0; i < getRowCount(); i++) {data.get(i).add(new EdgeWeight(0.0));}
-		System.out.println("Data has "+getRowCount()+" rows and "+getColumnCount()+" columns now.");
+		logger.info("Data has "+getRowCount()+" rows and "+getColumnCount()+" columns now.");
 	}
 
 }

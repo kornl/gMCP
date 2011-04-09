@@ -54,7 +54,7 @@ public class GraphView extends JPanel implements ActionListener {
 		return name;
 	}
 
-	public JFrame getMainFrame() {		
+	public CreateGraphGUI getMainFrame() {		
 		return parent;
 	}
 

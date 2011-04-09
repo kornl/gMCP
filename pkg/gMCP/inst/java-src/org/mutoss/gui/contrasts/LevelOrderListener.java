@@ -24,7 +24,7 @@ public class LevelOrderListener implements ActionListener, SplitListChangeListen
         this.cbFactor = cbFactor;
         this.slLevelOrder = slLevelOrder;
         RLegalName g = cbFactor.getSelectedObject();
-        System.out.println("Selected: \""+g+"\"");
+        //System.out.println("Selected: \""+g+"\"");
 
         List<String> levels = Arrays.asList(df.getCol(g.toString()).asRFactor().getLevels());
 
