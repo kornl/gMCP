@@ -28,6 +28,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.mutoss.config.Configuration;
 import org.mutoss.gui.dialogs.NumberOfHypotheses;
+import org.mutoss.gui.dialogs.RObjectLoadingDialog;
 import org.mutoss.gui.dialogs.TextFileViewer;
 import org.mutoss.gui.dialogs.VariableNameDialog;
 import org.mutoss.gui.graph.GraphView;
@@ -185,6 +186,7 @@ public class MenuBarMGraph extends JMenuBar implements ActionListener {
         } else if (e.getActionCommand().equals("load graph")) {       	
         	loadGraph();
         } else if (e.getActionCommand().equals("load graph from R")) {
+        	new RObjectLoadingDialog(control.getGraphGUI());
         	VariableNameDialog vnd = new VariableNameDialog(control.getGraphGUI());
         	loadGraph(vnd.getName());
         	Configuration.getInstance().getGeneralConfig().addGraph("R Object: "+vnd.getName());
