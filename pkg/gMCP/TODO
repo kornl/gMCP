@@ -26,17 +26,13 @@ Medium priority:
 - Warn user when sum of edge weights is bigger than 1
 - Check mutator methods for errors (alpha > 1, edge weights > 1)
 - Update graph2latex to the much better algorithm already implemented in Java.
-- gMCPReport does not work for graphs without layout.
-  also new BlockLayout
+- new BlockLayout in arrangeNodes
 - call calculateWeightString() when options change
 - Guide for usage under MacOS
 - Test the option for rounding how many digits we want to see.
 (search for DecimalFormat and replace it with getDecFormat())
-- Big font sizes misplaces TextField for object name
 - Ask for saving graph when quitting
 - LookNFeel is not kept between sessions
-- After interruption of a calculation a new calculation gives:
-  "unprotect(): only 0 protected items"
 
 Additional features / low priority:
 ===================================
@@ -50,11 +46,12 @@ Additional features / low priority:
 See also http://comments.gmane.org/gmane.comp.lang.r.general/200179
 - Edge labels should be fixed and placed by user or free and adjust to moving nodes
 - Can we add a RUnit Test for Java importing Random Graphs and then exporting the same graph?
-- Icon for saving graphs? (And do we need this button?)
-- option to load another R graph
 - TikZ styles for rejected / rejectable nodes
 - further tests
 - Look at http://xmlgraphics.apache.org/fop/
+- After interruption of a calculation a new calculation gave:
+  "unprotect(): only 0 protected items"
+  Should be fixed now - but if time, we could look further into this.
 
 @Apple - is this a problem?
 

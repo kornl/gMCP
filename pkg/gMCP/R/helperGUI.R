@@ -93,3 +93,7 @@ getAllGraphs <- function(envir=globalenv()) {
 	if (length(graphs)==0) return("No graphMCP objects found.")
 	return(graphs)
 }
+
+getObjectInfo <- function(object) {
+	return(paste(capture.output(print(object)), collapse="\n"))
+}
