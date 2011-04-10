@@ -1,5 +1,6 @@
 gMCP <- function(graph, pvalues, test, correlation, alpha=0.05, 
 		approxEps=TRUE, eps=10^(-4), ..., verbose=FALSE) {
+	sequence <- list(graph)
 	if (approxEps) {
 		graph <- substituteEps(graph, eps=eps)
 	}
@@ -9,8 +10,7 @@ gMCP <- function(graph, pvalues, test, correlation, alpha=0.05,
 	if (is.null(names(pvalues))) {
 		names(pvalues) <- nodes(graph)
 	}
-	if (missing(test) && (missing(correlation) || length(pvalues)==1)) {
-		sequence <- list(graph)
+	if (missing(test) && (missing(correlation) || length(pvalues)==1)) {		
 		while(!is.null(node <- getRejectableNode(graph, alpha, pvalues))) {
 			if (verbose) cat(paste("Node \"",node,"\" can be rejected.\n",sep=""))
 			graph <- rejectNode(graph, node, verbose)
@@ -39,7 +39,7 @@ gMCP <- function(graph, pvalues, test, correlation, alpha=0.05,
 				rejected <- myTest(zScores)
 				names(rejected) <- nodes(graph)
 			}
-			return(new("gMCPResult", graphs=list(graph), alpha=alpha, pvalues=pvalues, rejected=rejected, adjPValues=numeric(0)))
+			return(new("gMCPResult", graphs=sequence, alpha=alpha, pvalues=pvalues, rejected=rejected, adjPValues=numeric(0)))
 		}
 	}
 }
