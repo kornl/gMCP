@@ -41,8 +41,7 @@ public class CreateGraphGUI extends JFrame implements WindowListener, AbortListe
 	protected static Log logger = LogFactory.getLog(CreateGraphGUI.class);
 	
 	public CreateGraphGUI(String graph, double[] pvalues, boolean debug, double grid) {
-		super("gMCP GUI");	
-		logger.info("REngine class "+RControl.getR().getREngine().getClass());
+		super("gMCP GUI");
 		Locale.setDefault(Locale.US);
 		JComponent.setDefaultLocale(Locale.US); 
 		RControl.getRControl(debug);
