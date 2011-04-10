@@ -35,13 +35,11 @@ import com.jgoodies.forms.layout.FormLayout;
 
 public class PView extends JPanel implements KeyListener, ActionListener {
 
-	JLabel statusBar;
 	private static final Log logger = LogFactory.getLog(PView.class);
 
 	private Vector<PPanel> panels = new Vector<PPanel>();
 	CellConstraints cc = new CellConstraints();	
-	//JPanel panel = new JPanel();
-	JLabel label = new JLabel("");
+	JLabel statusLabel = new JLabel("");
 	JLabel weightLabel = new JLabel("Weight");
 	JLabel alphaLabel = new JLabel("Total α: ");
 	JTextField totalAlpha = new JTextField("0.05");
@@ -124,7 +122,7 @@ public class PView extends JPanel implements KeyListener, ActionListener {
 			}
 			row += 2;
 		}
-		panel.add(label,cc.xyw(2, row, 7));
+		panel.add(statusLabel,cc.xyw(2, row, 7));
 		row += 2;
 		panel.add(alphaLabel, cc.xy(2, row));    	
     	panel.add(totalAlpha, cc.xy(4, row));
@@ -145,18 +143,18 @@ public class PView extends JPanel implements KeyListener, ActionListener {
 		}
 		String text = "Sum of weights: "+Configuration.getInstance().getGeneralConfig().getDecFormat().format(alpha);
 		if (alpha>1) {
-			label.setForeground(Color.RED);
+			statusLabel.setForeground(Color.RED);
 			text += "; The total weight is greater 1!";
 		} else {
-			label.setForeground(Color.BLACK);
+			statusLabel.setForeground(Color.BLACK);
 		}
 		
-		label.setText(text);
+		statusLabel.setText(text);
 	}
 
 	public void recalculate() {
 		for (PPanel p : panels) {
-			p.update();
+			p.updateMe(true);
 		}
 		revalidate();
 		repaint();		
@@ -169,10 +167,6 @@ public class PView extends JPanel implements KeyListener, ActionListener {
 	public void removePPanel(Node node) {
 		for (int i=panels.size()-1;i>=0;i--) {
 			if (panels.get(i).node==node) {
-		/*		panel.remove(panels.get(i).label);
-				panel.remove(panels.get(i).jb);
-				panel.remove(panels.get(i).pTF);
-				panel.remove(panels.get(i).wTF); */
 				panels.remove(i);
 				logger.debug("Removed panel for node "+node.getName());
 			}

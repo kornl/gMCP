@@ -34,11 +34,11 @@ public class Edge {
 	public Node to;
 	public Node from;
 	
-	VS vs;
+	NetList vs;
 	
 	private EdgeWeight ew;
 
-	public Edge(Node von, Node nach, Double w, VS vs) {		
+	public Edge(Node von, Node nach, Double w, NetList vs) {		
 		int x1, x2, y1, y2;
 		x1 = von.getX() + Node.getRadius();
 		x2 = nach.getX() + Node.getRadius();
@@ -52,7 +52,7 @@ public class Edge {
 		this.vs = vs;
 	}
 	
-	public Edge(Node von, Node nach, Double w, VS vs, boolean curve) {
+	public Edge(Node von, Node nach, Double w, NetList vs, boolean curve) {
 		this(von, nach, w, vs);
 		int x1, x2, y1, y2;
 		x1 = von.getX() + Node.getRadius();
@@ -85,7 +85,7 @@ public class Edge {
 		}
 	}
 	
-	public Edge(Node von, Node nach, Double w, VS vs, int k1, int k2) {
+	public Edge(Node von, Node nach, Double w, NetList vs, int k1, int k2) {
 		this.from = von;
 		this.to = nach;
 		this.ew = new EdgeWeight(w);
@@ -94,20 +94,20 @@ public class Edge {
 		this.k2 = k2;
 	}
 	
-	public Edge(Node from, Node to, String wStr, VS vs, boolean curve) {
+	public Edge(Node from, Node to, String wStr, NetList vs, boolean curve) {
 		this(from, to, new EdgeWeight(wStr), vs, curve);
 	}
 
-	public Edge(Node from, Node to, String wStr, VS vs, int i, int j) {
+	public Edge(Node from, Node to, String wStr, NetList vs, int i, int j) {
 		this(from, to, new EdgeWeight(wStr), vs, i, j);	
 	}
 
-	public Edge(Node from, Node to, EdgeWeight ew, VS vs, int k1, int k2) {
+	public Edge(Node from, Node to, EdgeWeight ew, NetList vs, int k1, int k2) {
 		this(from, to, 0d, vs, k1, k2);
 		this.ew = ew;
 	}
 
-	public Edge(Node from, Node to, EdgeWeight ew, VS vs, boolean curve) {
+	public Edge(Node from, Node to, EdgeWeight ew, NetList vs, boolean curve) {
 		this(from, to, 0d, vs, curve);
 		this.ew = ew;
 	}
@@ -377,13 +377,13 @@ public class Edge {
 	public void setW(Double w) {
 		ew = new EdgeWeight(w);
 		icon=null;
-		vs.nl.repaint();
+		vs.repaint();
 	}
 	
 	public void setW(String text) {
 		ew = new EdgeWeight(text);
 		icon=null;
-		vs.nl.repaint();		
+		vs.repaint();		
 	}
 
 	public String getWLaTeX() {		

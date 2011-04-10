@@ -45,13 +45,9 @@ public class NetList extends JPanel implements MouseMotionListener, MouseListene
 
 	JLabel statusBar;
 
-	protected VS vs;
-
-	public NetList(JLabel statusBar, VS vs,  GraphView graphview) {
+	public NetList(JLabel statusBar, GraphView graphview) {
 		this.statusBar = statusBar;
-		this.vs = vs;
 		this.control = graphview;
-		vs.setNL(this);
 		addMouseMotionListener(this);
 		addMouseListener(this);
 		Font f = statusBar.getFont();
@@ -63,7 +59,7 @@ public class NetList extends JPanel implements MouseMotionListener, MouseListene
 		saveGraph(".tmpGraph", false);
 		RControl.getR().eval(".tmpGraph <- rejectNode(.tmpGraph, \""+node.getName()+"\")");
 		reset();
-		new GraphMCP(".tmpGraph", vs);
+		new GraphMCP(".tmpGraph", this);
 		control.getPView().restorePValues();
 	}
 
@@ -74,7 +70,7 @@ public class NetList extends JPanel implements MouseMotionListener, MouseListene
 			i = i + 1;
 			name = "H" + i;
 		}
-		addNode(new Node(name, x, y, 0d, vs));		
+		addNode(new Node(name, x, y, 0d, this));		
 	}
 
 	public void addEdge(Edge e) {
@@ -139,8 +135,8 @@ public class NetList extends JPanel implements MouseMotionListener, MouseListene
 				maxY = edges.get(i).getK2();
 		}		
 		setPreferredSize(new Dimension(
-				(int) ((maxX + 2 * Node.getRadius() + 30) * vs.getZoom()),
-				(int) ((maxY + 2 * Node.getRadius() + 30) * vs.getZoom())));
+				(int) ((maxX + 2 * Node.getRadius() + 30) * getZoom()),
+				(int) ((maxY + 2 * Node.getRadius() + 30) * getZoom())));
 		revalidate();
 		repaint();
 		return new int[] {maxX, maxY};
@@ -175,8 +171,8 @@ public class NetList extends JPanel implements MouseMotionListener, MouseListene
 				maxY = edge.getK2();
 		}		
 		
-		BufferedImage img = new BufferedImage((int) ((maxX + 2 * Node.getRadius() + 10) * vs.getZoom()),
-				(int) ((maxY + 2 * Node.getRadius() + 10) * vs.getZoom()), BufferedImage.TYPE_INT_ARGB);
+		BufferedImage img = new BufferedImage((int) ((maxX + 2 * Node.getRadius() + 10) * getZoom()),
+				(int) ((maxY + 2 * Node.getRadius() + 10) * getZoom()), BufferedImage.TYPE_INT_ARGB);
 		Graphics2D g = img.createGraphics();
 		
 		g.setStroke(new BasicStroke(Configuration.getInstance().getGeneralConfig().getLineWidth()));
@@ -227,11 +223,11 @@ public class NetList extends JPanel implements MouseMotionListener, MouseListene
 	public void mouseDragged(MouseEvent e) {
 		if (drag==-1 && edrag == -1) return;
 		if (drag!=-1) {
-			nodes.get(drag).setX( (int) ((e.getX() - Node.getRadius() * vs.getZoom()) / (double) vs.getZoom()));
-			nodes.get(drag).setY( (int) ((e.getY() - Node.getRadius() * vs.getZoom()) / (double) vs.getZoom()));
+			nodes.get(drag).setX( (int) ((e.getX() - Node.getRadius() * getZoom()) / (double) getZoom()));
+			nodes.get(drag).setY( (int) ((e.getY() - Node.getRadius() * getZoom()) / (double) getZoom()));
 		} else {
-			edges.get(edrag).setK1( (int) ((e.getX()) / (double) vs.getZoom()));
-			edges.get(edrag).setK2( (int) ((e.getY()) / (double) vs.getZoom()));
+			edges.get(edrag).setK1( (int) ((e.getX()) / (double) getZoom()));
+			edges.get(edrag).setK2( (int) ((e.getY()) / (double) getZoom()));
 		}
 		calculateSize();
 		repaint();
@@ -244,15 +240,15 @@ public class NetList extends JPanel implements MouseMotionListener, MouseListene
 
 	public void mousePressed(MouseEvent e) {
 		logger.debug("MousePressed at ("+e.getX()+","+ e.getY()+").");
-		if (vs.newVertex) {
-			addDefaultNode((int)(e.getX() / vs.getZoom()) - Node.r, 
-						(int) (e.getY() / vs.getZoom()) - Node.r);
-			vs.newVertex = false;
+		if (newVertex) {
+			addDefaultNode((int)(e.getX() / getZoom()) - Node.r, 
+						(int) (e.getY() / getZoom()) - Node.r);
+			newVertex = false;
 			statusBar.setText(GraphView.STATUSBAR_DEFAULT);
 			repaint();
 			return;
 		}
-		if (vs.newEdge) {
+		if (newEdge) {
 			if (!firstVertexSelected) {
 				firstVertex = vertexSelected(e.getX(), e.getY());
 				if (firstVertex == null)
@@ -265,7 +261,7 @@ public class NetList extends JPanel implements MouseMotionListener, MouseListene
 					return;
 				}
 				addEdge(firstVertex, secondVertex);
-				vs.newEdge = false;
+				newEdge = false;
 				firstVertexSelected = false;
 				statusBar.setText(GraphView.STATUSBAR_DEFAULT);
 			}
@@ -308,16 +304,16 @@ public class NetList extends JPanel implements MouseMotionListener, MouseListene
 
 	public void mouseReleased(MouseEvent e) {
 		if (drag != -1) {
-			nodes.get(drag).setX( (int) ((e.getX() - Node.getRadius() * vs.getZoom()) / (double) vs.getZoom()));
-			nodes.get(drag).setY( (int) ((e.getY() - Node.getRadius() * vs.getZoom()) / (double) vs.getZoom()));
+			nodes.get(drag).setX( (int) ((e.getX() - Node.getRadius() * getZoom()) / (double) getZoom()));
+			nodes.get(drag).setY( (int) ((e.getY() - Node.getRadius() * getZoom()) / (double) getZoom()));
 			calculateSize();
 			nodes.get(drag).drag = false;
 			drag = -1;
 			repaint();
 		}
 		if (edrag != -1) {
-			edges.get(edrag).setK1( (int) ((e.getX()) / (double) vs.getZoom()));
-			edges.get(edrag).setK2( (int) ((e.getY()) / (double) vs.getZoom()));
+			edges.get(edrag).setK1( (int) ((e.getX()) / (double) getZoom()));
+			edges.get(edrag).setK2( (int) ((e.getY()) / (double) getZoom()));
 			calculateSize();
 			edrag = -1;
 			repaint();
@@ -399,9 +395,9 @@ public class NetList extends JPanel implements MouseMotionListener, MouseListene
 		}
 		statusBar.setText(GraphView.STATUSBAR_DEFAULT);
 		firstVertexSelected = false;
-		vs.newVertex = false;
-		vs.newEdge = false;
-		vs.zoom = 1.00;
+		newVertex = false;
+		newEdge = false;
+		zoom = 1.00;
 	}
 	
 
@@ -531,7 +527,7 @@ public class NetList extends JPanel implements MouseMotionListener, MouseListene
 	public String initialGraph = ".InitialGraph";
 	
 	public void loadGraph() {
-		new GraphMCP(initialGraph, vs);
+		new GraphMCP(initialGraph, this);
 		control.getPView().restorePValues();
 	}
 	
@@ -558,13 +554,26 @@ public class NetList extends JPanel implements MouseMotionListener, MouseListene
 		}
 		if (!w.toString().equals("0")) {
 			if (x!=null) {
-				edges.add(new Edge(von, nach, w, vs, x, y));
+				edges.add(new Edge(von, nach, w, this, x, y));
 			} else {
-				edges.add(new Edge(von, nach, w, vs, curve));
+				edges.add(new Edge(von, nach, w, this, curve));
 			}
 			edges.lastElement().curve = curve;
 		}
 		control.getDataTable().getModel().setValueAt(w, getKnoten().indexOf(von), getKnoten().indexOf(nach));
 	}
+	
+	double zoom = 1.00;
+
+	public double getZoom() {
+		return zoom;
+	}
+
+	public void setZoom(double p) {
+		zoom = p;
+	}
+
+	boolean newVertex = false;
+	boolean newEdge = false;
 	
 }

@@ -15,15 +15,14 @@ public class GraphMCP {
 	
 	public Vector<Edge> edges = new Vector<Edge>();
 	public Vector<Node> knoten = new Vector<Node>();
-	NetList nl;
-	VS vs;
+	NetList vs;
 
-	public GraphMCP(String name, VS vs) {
+	public GraphMCP(String name, NetList vs) {
 		this.name = name;
 		this.vs = vs;
 		loadGraph(name);
-		nl.revalidate();
-		nl.repaint();
+		vs.revalidate();
+		vs.repaint();
 	}
 	
 	public void loadGraph(String name) {
@@ -78,13 +77,12 @@ public class GraphMCP {
 					
 				}
 			}
-		}		
-		this.nl = vs.nl;
+		}
 		for (Node k : knoten) {
-			nl.addNode(k);
+			vs.addNode(k);
 		}		
 		for (Edge e : edges) {
-			nl.addEdge(e);
+			vs.addEdge(e);
 		}
 	}
 

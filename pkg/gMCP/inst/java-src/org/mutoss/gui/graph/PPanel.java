@@ -17,7 +17,6 @@ import javax.swing.JTextField;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.mutoss.config.Configuration;
 import org.mutoss.gui.RControl;
 
 public class PPanel implements ActionListener, KeyListener, NodeListener, FocusListener {
@@ -72,7 +71,7 @@ public class PPanel implements ActionListener, KeyListener, NodeListener, FocusL
 			reject();
 		} else {
 			updateMe(false);
-		}		
+		}
 	}
 
 	public void actionPerformed(ActionEvent e) {
@@ -95,7 +94,7 @@ public class PPanel implements ActionListener, KeyListener, NodeListener, FocusL
 	}
 
 	private void updateGraph() {
-		node.vs.nl.acceptNode(node);
+		node.vs.acceptNode(node);
 		pview.recalculate();
 	}
 
@@ -123,7 +122,10 @@ public class PPanel implements ActionListener, KeyListener, NodeListener, FocusL
 	}
 
 	void updateMe(boolean setText) {
-		if (setText) wTF.setText(getWString());
+		if (setText) {
+			wTF.setText(getWString());
+			pTF.setText(format.format(p).replace(",", "."));
+		}
 		if (p<=w*pview.getTotalAlpha()) {
 			//logger.debug("Is "+p+"<="+w+"*"+pview.getTotalAlpha()+"?");
 			node.setColor(new Color(50, 255, 50));
@@ -148,24 +150,10 @@ public class PPanel implements ActionListener, KeyListener, NodeListener, FocusL
 		pview.updateLabels();
 	}
 
-	public void update() {
-		DecimalFormat format = Configuration.getInstance().getGeneralConfig().getDecFormat();
+	public void updated(Node node) {		
 		this.name = node.getName();
 		this.w = node.getWeight();
-		wTF.setText(getWString());		
-		pTF.setText(format.format(p).replace(",", "."));
-		if (!rejected) {
-			updateMe(true);
-		}
-	}
-
-	public void updated(Node node) {
-		DecimalFormat format = Configuration.getInstance().getGeneralConfig().getDecFormat();
-		this.name = node.getName();
-		this.w = node.getWeight();
-		wTF.setText(getWString());		
-		pTF.setText(format.format(p).replace(",", "."));	
-		pview.updateLabels();
+		updateMe(true);
 	}
 
 	private String getWString() {	
@@ -182,7 +170,7 @@ public class PPanel implements ActionListener, KeyListener, NodeListener, FocusL
 
 	public void setP(double p) {
 		this.p = p;
-		update();
+		updateMe(true);
 	}	
 	
 	static boolean testing;
@@ -202,7 +190,5 @@ public class PPanel implements ActionListener, KeyListener, NodeListener, FocusL
 		}
 		updateMe(true);
 	}	
-	
 
-	
 }

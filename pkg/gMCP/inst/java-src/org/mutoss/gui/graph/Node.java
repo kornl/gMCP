@@ -25,7 +25,7 @@ public class Node {
 	private String name;
 	boolean fix = false;
 	boolean drag = false;
-	VS vs;
+	NetList vs;
 	private double weight;
 	private String stringW = "";
 	private Color color = Color.WHITE;
@@ -41,7 +41,7 @@ public class Node {
 	
 	TeXIcon iconName, iconWeight;
 
-	public Node(String name, int x, int y, double alpha, VS vs) {
+	public Node(String name, int x, int y, double alpha, NetList vs) {
 		count++;
 		this.vs = vs;
 		setName(name);
@@ -151,7 +151,7 @@ public class Node {
 				l.updated(this);
 			}
 		}
-		vs.nl.repaint();
+		vs.repaint();
 	}
 
 	public double getWeight() {

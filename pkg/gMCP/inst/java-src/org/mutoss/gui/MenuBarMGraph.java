@@ -79,6 +79,14 @@ public class MenuBarMGraph extends JMenuBar implements ActionListener {
 
 		add(menu);
 
+		menu = new JMenu("Analysis");
+
+		menu.add(makeMenuItem("Graph analysis", "graphAnalysis"));
+		menu.addSeparator();
+		menu.add(makeMenuItem("Power analysis", "powerAnalysis"));		
+
+		add(menu);
+		
         addExtrasMenu();
         addHelpMenu();
 	}

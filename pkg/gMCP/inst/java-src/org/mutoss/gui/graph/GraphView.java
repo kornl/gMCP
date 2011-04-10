@@ -36,7 +36,6 @@ public class GraphView extends JPanel implements ActionListener {
 	public static final String STATUSBAR_DEFAULT = "Place new nodes and edges or start the test procedure";
 	JLabel statusBar;
 	public NetList nl;
-	VS vs = new VS();
 	
 	JButton buttonNewVertex;
 	JButton buttonNewEdge;
@@ -77,7 +76,7 @@ public class GraphView extends JPanel implements ActionListener {
 		this.name = graph;
 		this.parent = createGraphGUI;
 		statusBar = new JLabel(STATUSBAR_DEFAULT);
-		nl = new NetList(statusBar, vs, this);
+		nl = new NetList(statusBar, this);
 		setLayout(new BorderLayout());
 		add("North", getNorthPanel());		
 		JScrollPane sPane = new JScrollPane(nl);
@@ -165,18 +164,18 @@ public class GraphView extends JPanel implements ActionListener {
 	
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource().equals(buttonZoomIn)) {
-			vs.setZoom(vs.getZoom() * 1.25);
+			nl.setZoom(nl.getZoom() * 1.25);
 			getNL().refresh();
 		} else if (e.getSource().equals(buttonZoomOut)) { 
-			vs.setZoom(vs.getZoom() / 1.25);
+			nl.setZoom(nl.getZoom() / 1.25);
 			getNL().refresh();
 		} else if (e.getSource().equals(buttonNewEdge)) {
-			vs.newVertex = false;
-			vs.newEdge = true;
+			nl.newVertex = false;
+			nl.newEdge = true;
 			getNL().statusBar.setText("Select a node from which this edge should start.");
 		} else if (e.getSource().equals(buttonNewVertex)) {
-			vs.newVertex = true;
-			vs.newEdge = false;
+			nl.newVertex = true;
+			nl.newEdge = false;
 			getNL().statusBar.setText("Click on the graph panel to place the node.");
 		} else if (e.getSource().equals(buttonConfInt)) {
 			if (!getNL().isTesting()) {
@@ -225,10 +224,6 @@ public class GraphView extends JPanel implements ActionListener {
 				new AdjustedPValueDialog(parent, getPView().pValues, adjPValues, getNL().getKnoten());
 			}
 		}
-	}
-	
-	public VS getVS() {		
-		return vs;
 	}
 
 	public void stopTesting() {
@@ -288,7 +283,7 @@ public class GraphView extends JPanel implements ActionListener {
 			int x = e.getK1();
 			int y = e.getK2();			
 			if (!weight.toString().equals("0")) {
-				getNL().addEdge(new Edge(getNL().getKnoten().get(from), getNL().getKnoten().get(to), weight, getNL().vs, x, y));
+				getNL().addEdge(new Edge(getNL().getKnoten().get(from), getNL().getKnoten().get(to), weight, getNL(), x, y));
 			} else {
 				getNL().removeEdge(e);
 			}
