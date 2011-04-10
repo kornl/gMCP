@@ -33,7 +33,7 @@ public class RObjectLoadingDialog extends JDialog implements ActionListener, Lis
     JTextArea jtInfo = new JTextArea(9, 30);;
     
 	public RObjectLoadingDialog(CreateGraphGUI parent) {
-		super(parent, "Variables", true);
+		super(parent, "Select an R object to load", true);
 		setLocationRelativeTo(parent);
 		this.parent = parent;
 		jtInfo.setEditable(false);

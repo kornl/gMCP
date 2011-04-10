@@ -281,7 +281,7 @@ public class MenuBarMGraph extends JMenuBar implements ActionListener {
     		JOptionPane.showMessageDialog(control.getMainFrame(), "Can not create report for empty graph.", "Can not create report for empty graph.", JOptionPane.ERROR_MESSAGE);
     		return;
     	}
-		if (!RControl.getR().eval("exists("+control.getNL().initialGraph+")").asRLogical().getData()[0]) {
+		if (!RControl.getR().eval("exists(\""+control.getNL().initialGraph+"\")").asRLogical().getData()[0]) {
 			control.getNL().saveGraph();
 		}
 		JFileChooser fc = new JFileChooser(Configuration.getInstance().getClassProperty(this.getClass(), "LaTeXReportDirectory"));
