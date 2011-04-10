@@ -12,6 +12,7 @@ export(graphGUI)
 export(gMCP, rejectNode, substituteEps)
 export(gMCPReport, graph2latex)
 export(matrix2graph, graph2matrix, bdiagNA)
+export(graphAnalysis)
 
 export(createBonferroniHolmGraph)
 export(createGraphFromBretzEtAl)

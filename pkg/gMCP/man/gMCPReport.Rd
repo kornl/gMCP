@@ -8,7 +8,7 @@
 	Creates a LaTeX file with a gMCP Report.
 }
 \usage{
-	gMCPReport(object, file, ...)
+	gMCPReport(object, file="", ...)
 }
 
 \arguments{
@@ -20,7 +20,8 @@
     to.  If \code{""} (the default), the report is printed to the standard
     output connection (the console unless redirected by \code{sink}).
     If it is \code{"|cmd"}, the output is piped to the command given
-    by \code{cmd}, by opening a pipe connection.
+    by \code{cmd}, by opening a pipe connection [taken from the manual page
+    of \code{cat}, which is called in this function].
   }
   \item{...}{
   	Arguments to be passed to method \code{\link{graph2latex}} like \code{package} and \code{scale}.

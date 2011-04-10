@@ -10,6 +10,8 @@ Version 0.6-2 (??-Apr-2011, Rev. ???)
 
 - Improved / updated gMCP-LaTeX-Report now in the GUI.
 
+- New function graphAnalysis
+
 - Fixed a major bug which prevented saving/loading in the GUI.
 
 Version 0.6-1 (09-Apr-2011, Rev. 589)
