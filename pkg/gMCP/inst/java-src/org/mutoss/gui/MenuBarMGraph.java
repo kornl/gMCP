@@ -306,12 +306,7 @@ public class MenuBarMGraph extends JMenuBar implements ActionListener {
 		} else {
 			return;
 		}
-		String correlation = "";
-		if (control.getPView().jrbStandardCorrelation.isSelected()) {
-			correlation = ", correlation=\""+control.getPView().jcbCorString.getSelectedItem()+"\"";
-		} else if (control.getPView().jrbRCorrelation.isSelected()) {
-			correlation = ", correlation="+control.getPView().jcbCorObject.getSelectedItem()+"";
-		}
+		String correlation = control.getPView().getCorrelation();		
 		RControl.getR().eval("result <- gMCP("+control.getNL().initialGraph+","+control.getPView().getPValuesString()+ correlation+", alpha="+control.getPView().getTotalAlpha()+")");
 		RControl.getR().eval("gMCPReport(result, file=\""+f.getAbsolutePath()+"\")");
 	}

@@ -222,11 +222,11 @@ public class PView extends JPanel implements KeyListener, ActionListener {
 	JButton refresh;
 	
     JRadioButton jrbNoCorrelation = new JRadioButton("No Information about correlations");
-    public JRadioButton jrbStandardCorrelation = new JRadioButton("Select a standard correlation");
-    public JRadioButton jrbRCorrelation = new JRadioButton("Select an R correlation matrix");
+    JRadioButton jrbStandardCorrelation = new JRadioButton("Select a standard correlation");
+    JRadioButton jrbRCorrelation = new JRadioButton("Select an R correlation matrix");
 
-    public JComboBox jcbCorString;
-    public JComboBox jcbCorObject;
+    JComboBox jcbCorString;
+    JComboBox jcbCorObject;
     
     JPanel correlatedPanel = null;
     
@@ -278,8 +278,7 @@ public class PView extends JPanel implements KeyListener, ActionListener {
 
         int row = 2;
         
-        correlatedPanel.add(jrbNoCorrelation,     cc.xy(2, row));
-        //getContentPane().add(new JLabel(), cc.xy(4, row));        
+        correlatedPanel.add(jrbNoCorrelation,     cc.xy(2, row));     
         
         row += 2;
         
@@ -319,6 +318,16 @@ public class PView extends JPanel implements KeyListener, ActionListener {
 			parent.getGraphView().buttonConfInt.setEnabled(false);
 			parent.getGraphView().buttonadjPval.setEnabled(false);
 		}
+	}
+
+	public String getCorrelation() {
+		String correlation = "";
+		if (jrbStandardCorrelation.isSelected()) {
+			correlation = ", correlation=\""+jcbCorString.getSelectedItem()+"\"";
+		} else if (jrbRCorrelation.isSelected()) {
+			correlation = ", correlation="+jcbCorObject.getSelectedItem()+"";
+		}
+		return correlation;
 	}
 	
 }
