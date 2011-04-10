@@ -64,10 +64,22 @@ getLaTeXFraction <- function(x) {
 
 gMCPReport <- function(object, file="", ...) {
 	report <- LaTeXHeader()
+	report <- paste(report, "\\subsection*{Initial graph}", sep="\n")
+	report <- paste(report, graph2latex(object@graphs[[1]], ..., pvalues=object@pvalues), sep="\n")
+	report <- paste(report, "\\subsection*{P-Values}", sep="\n")
+	report <- paste(report, print(xtable(t(as.matrix(object@pvalues))),include.rownames=FALSE, file=tempfile()), sep="\n")	
+	if (length(object@adjPValues)>0) {
+		report <- paste(report, "\\subsection*{Adjusted p-values}", sep="\n")
+		report <- paste(report, print(xtable(t(as.matrix(object@adjPValues))),include.rownames=FALSE, file=tempfile()), sep="\n")	
+	}
+	report <- paste(report, paste("\\subsection*{Rejected Hypotheses with $\\alpha=",object@alpha,"$}", sep=""), sep="\n")
+	report <- paste(report, print(xtable(t(as.matrix(object@rejected))),include.rownames=FALSE, file=tempfile()), sep="\n")
 	if (class(object)=="gMCPResult") {
-		for(i in 1:length(object@graphs)) {
-			report <- paste(report, paste("\\subsection*{Graph in Step ",i,"}", sep=""), sep="\n")
-			report <- paste(report, graph2latex(object@graphs[[i]], ..., pvalues=object@pvalues), sep="\n")
+		if (length(object@graphs)>1) {
+			for(i in 2:length(object@graphs)) {
+				report <- paste(report, paste("\\subsection*{Graph in Step ",i,"}", sep=""), sep="\n")
+				report <- paste(report, graph2latex(object@graphs[[i]], ..., pvalues=object@pvalues), sep="\n")
+			}		
 		}
 	} else if (class(object)=="graphMCP") {		
 		report <- paste(report, "\\subsection*{Graph for SRMTP}", sep="\n")
