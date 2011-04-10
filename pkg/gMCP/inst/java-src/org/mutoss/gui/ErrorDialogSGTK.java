@@ -53,15 +53,21 @@ public class ErrorDialogSGTK extends ErrorDialog {
 
     protected Hashtable<String, File> getAttachedFiles() throws IOException {
     	Hashtable<String, File> files = new Hashtable<String, File>();
-    	files.put("rcommands", makeLogFile("r_commands.txt", collapseStringList(RControl.getR().getHistory(),"\n")));
-        files.put("sessioninfo", makeLogFile("session_info.txt", getRSessionInfo()));
-        files.put("roptions", makeLogFile("r_options.txt", getROptions()));
-        //files.put("packageinfo", makeLogFile("package_info.txt", getRPackageInfo()));
-        files.put("traceback", makeLogFile("taceback.txt", getTraceBack()));
-        files.put("traceback", makeLogFile("graph.txt", getGraph()));
-        files.put("systeminfo", makeLogFile("system_info.txt", getSystemInfo()));
-        files.put("log", getReadableLogFile());        
-
+    	try {
+    		files.put("log", getReadableLogFile());
+    		files.put("systeminfo", makeLogFile("system_info.txt", getSystemInfo()));
+    		files.put("rcommands", makeLogFile("r_commands.txt", collapseStringList(RControl.getR().getHistory(),"\n")));
+    		files.put("sessioninfo", makeLogFile("session_info.txt", getRSessionInfo()));
+    		files.put("roptions", makeLogFile("r_options.txt", getROptions()));
+    		files.put("traceback", makeLogFile("taceback.txt", getTraceBack()));
+    		files.put("graph", makeLogFile("graph.txt", getGraph()));
+    	} catch (Exception e) {
+    		/* Seriously, if something goes wrong here, 
+    		 * we simply don't attach the following information.
+    		 * Further error handling could easily create infinite loops.
+    		 * So no code in the catch clause. 
+    		 */
+    	}
         /* if (chbAttachDf.isSelected() && al.getDataFrame()!=null)
             files.put("", al.getDataFrame()); */
         return files;
