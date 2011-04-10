@@ -94,7 +94,7 @@ public class PPanel implements ActionListener, KeyListener, NodeListener, FocusL
 	}
 
 	private void updateGraph() {
-		node.vs.acceptNode(node);
+		node.nl.acceptNode(node);
 		pview.recalculate();
 	}
 

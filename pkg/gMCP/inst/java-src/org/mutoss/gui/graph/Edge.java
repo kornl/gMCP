@@ -34,11 +34,11 @@ public class Edge {
 	public Node to;
 	public Node from;
 	
-	NetList vs;
+	NetList nl;
 	
 	private EdgeWeight ew;
 
-	public Edge(Node von, Node nach, Double w, NetList vs) {		
+	public Edge(Node von, Node nach, Double w, NetList nl) {		
 		int x1, x2, y1, y2;
 		x1 = von.getX() + Node.getRadius();
 		x2 = nach.getX() + Node.getRadius();
@@ -49,11 +49,11 @@ public class Edge {
 		this.from = von;
 		this.to = nach;
 		this.ew = new EdgeWeight(w);
-		this.vs = vs;
+		this.nl = nl;
 	}
 	
-	public Edge(Node von, Node nach, Double w, NetList vs, boolean curve) {
-		this(von, nach, w, vs);
+	public Edge(Node von, Node nach, Double w, NetList nl, boolean curve) {
+		this(von, nach, w, nl);
 		int x1, x2, y1, y2;
 		x1 = von.getX() + Node.getRadius();
 		x2 = nach.getX() + Node.getRadius();
@@ -85,30 +85,30 @@ public class Edge {
 		}
 	}
 	
-	public Edge(Node von, Node nach, Double w, NetList vs, int k1, int k2) {
+	public Edge(Node von, Node nach, Double w, NetList nl, int k1, int k2) {
 		this.from = von;
 		this.to = nach;
 		this.ew = new EdgeWeight(w);
-		this.vs = vs;
+		this.nl = nl;
 		this.k1 = k1;
 		this.k2 = k2;
 	}
 	
-	public Edge(Node from, Node to, String wStr, NetList vs, boolean curve) {
-		this(from, to, new EdgeWeight(wStr), vs, curve);
+	public Edge(Node from, Node to, String wStr, NetList nl, boolean curve) {
+		this(from, to, new EdgeWeight(wStr), nl, curve);
 	}
 
-	public Edge(Node from, Node to, String wStr, NetList vs, int i, int j) {
-		this(from, to, new EdgeWeight(wStr), vs, i, j);	
+	public Edge(Node from, Node to, String wStr, NetList nl, int i, int j) {
+		this(from, to, new EdgeWeight(wStr), nl, i, j);	
 	}
 
-	public Edge(Node from, Node to, EdgeWeight ew, NetList vs, int k1, int k2) {
-		this(from, to, 0d, vs, k1, k2);
+	public Edge(Node from, Node to, EdgeWeight ew, NetList nl, int k1, int k2) {
+		this(from, to, 0d, nl, k1, k2);
 		this.ew = ew;
 	}
 
-	public Edge(Node from, Node to, EdgeWeight ew, NetList vs, boolean curve) {
-		this(from, to, 0d, vs, curve);
+	public Edge(Node from, Node to, EdgeWeight ew, NetList nl, boolean curve) {
+		this(from, to, 0d, nl, curve);
 		this.ew = ew;
 	}
 
@@ -185,20 +185,20 @@ public class Edge {
 
 	public boolean inYou(int x, int y) {
 		if (icon==null) {
-			icon = getTeXIcon(getWS(), (int) (16 * vs.getZoom()));			
+			icon = getTeXIcon(getWS(), (int) (16 * nl.getZoom()));			
 		}		
 		int TOLERANCE = 5; 
 		
 		if (!Configuration.getInstance().getGeneralConfig().useJLaTeXMath()) {
 			String s = getWS();
 			FontRenderContext frc = g2d.getFontRenderContext();	
-			Rectangle2D rc = (new Font("Arial", Font.PLAIN, (int) (16 * vs.getZoom()))).getStringBounds(s, frc); 
-			return (x/ vs.getZoom()>k1-rc.getWidth()/2-TOLERANCE)&&(x/ vs.getZoom()<k1+rc.getWidth()/2+TOLERANCE)&&(y/ vs.getZoom()<k2- rc.getHeight()*1/ 2+TOLERANCE)&&(y/ vs.getZoom()>k2-rc.getHeight()*3/2-TOLERANCE);
+			Rectangle2D rc = (new Font("Arial", Font.PLAIN, (int) (16 * nl.getZoom()))).getStringBounds(s, frc); 
+			return (x/ nl.getZoom()>k1-rc.getWidth()/2-TOLERANCE)&&(x/ nl.getZoom()<k1+rc.getWidth()/2+TOLERANCE)&&(y/ nl.getZoom()<k2- rc.getHeight()*1/ 2+TOLERANCE)&&(y/ nl.getZoom()>k2-rc.getHeight()*3/2-TOLERANCE);
 		} else {
-			return (x/vs.getZoom()>k1-icon.getIconWidth()/2-TOLERANCE)
-			&& (x/vs.getZoom()<k1+icon.getIconWidth()/2+TOLERANCE)
-			&& (y/vs.getZoom()<k2+icon.getIconHeight()/2+TOLERANCE)
-			&& (y/vs.getZoom()>k2-icon.getIconHeight()/2-TOLERANCE);
+			return (x/nl.getZoom()>k1-icon.getIconWidth()/2-TOLERANCE)
+			&& (x/nl.getZoom()<k1+icon.getIconWidth()/2+TOLERANCE)
+			&& (y/nl.getZoom()<k2+icon.getIconHeight()/2+TOLERANCE)
+			&& (y/nl.getZoom()>k2-icon.getIconHeight()/2-TOLERANCE);
 		}
 	}
 	
@@ -226,52 +226,52 @@ public class Edge {
 			}
 			g2d = (Graphics2D) g;			
 
-			GraphDrawHelper.drawEdge(g,	(int) (x1 * vs.getZoom()), (int) (y1 * vs.getZoom()), 
-					(int) (k1* vs.getZoom()),
-					(int) (k2 * vs.getZoom()),
-					(int) (x2 * vs.getZoom()), (int) (y2 * vs.getZoom()), 
-					(int) (8 * vs.getZoom()), 35, true);
+			GraphDrawHelper.drawEdge(g,	(int) (x1 * nl.getZoom()), (int) (y1 * nl.getZoom()), 
+					(int) (k1* nl.getZoom()),
+					(int) (k2 * nl.getZoom()),
+					(int) (x2 * nl.getZoom()), (int) (y2 * nl.getZoom()), 
+					(int) (8 * nl.getZoom()), 35, true);
 		} 
 	}
 	
 	public void paintEdgeLabel(Graphics g) {
-		g2d.setFont(new Font("Arial", Font.PLAIN, (int) (16 * vs.getZoom())));
+		g2d.setFont(new Font("Arial", Font.PLAIN, (int) (16 * nl.getZoom())));
 		frc = g2d.getFontRenderContext();		
 		String s = getWS();	
 
 		if (!Configuration.getInstance().getGeneralConfig().useJLaTeXMath()) {
 			Rectangle2D rc = g2d.getFont().getStringBounds(s, frc);
 			g2d.setColor(new Color(0.99f,0.99f,0.99f));
-			g2d.fillRect((int)((k1* vs.getZoom() - rc.getWidth() / 2)), 
-					(int)((k2* vs.getZoom() - rc.getHeight()* 3 / 2)), 
+			g2d.fillRect((int)((k1* nl.getZoom() - rc.getWidth() / 2)), 
+					(int)((k2* nl.getZoom() - rc.getHeight()* 3 / 2)), 
 					(int)((rc.getWidth()+5)), (int)((rc.getHeight()+5)));
 			g2d.setColor(Color.BLACK);
 
 			g2d.drawString(s, 
-					(float) ((k1* vs.getZoom() - rc.getWidth() / 2)), 
-					(float) ((k2* vs.getZoom() - rc.getHeight() / 2)));
+					(float) ((k1* nl.getZoom() - rc.getWidth() / 2)), 
+					(float) ((k2* nl.getZoom() - rc.getHeight() / 2)));
 		} else {
 			if (icon==null) {
-				icon = getTeXIcon(s, (int) (16 * vs.getZoom()));			
+				icon = getTeXIcon(s, (int) (16 * nl.getZoom()));			
 			}
 			g2d.setColor(new Color(0.99f,0.99f,0.99f));
-			g2d.fillRect((int)((k1* vs.getZoom() - icon.getIconWidth() / 2)-5), 
-					(int)((k2* vs.getZoom() - icon.getIconHeight() / 2)-5), 
+			g2d.fillRect((int)((k1* nl.getZoom() - icon.getIconWidth() / 2)-5), 
+					(int)((k2* nl.getZoom() - icon.getIconHeight() / 2)-5), 
 					(int)((icon.getIconWidth()+10)),
 					(int)((icon.getIconHeight()+10)));
 			g2d.setColor(Color.BLACK);
 
 			Stroke oldStroke = g2d.getStroke();
 			g2d.setStroke(new BasicStroke(1));
-			g2d.drawRect((int)((k1* vs.getZoom() - icon.getIconWidth() / 2)-5), 
-					(int)((k2* vs.getZoom() - icon.getIconHeight() / 2)-5), 
+			g2d.drawRect((int)((k1* nl.getZoom() - icon.getIconWidth() / 2)-5), 
+					(int)((k2* nl.getZoom() - icon.getIconHeight() / 2)-5), 
 					(int)((icon.getIconWidth()+10)),
 					(int)((icon.getIconHeight()+10)));		
 			g2d.setStroke(oldStroke);		
 
 			icon.paintIcon(panel, g2d,
-					(int) ((k1* vs.getZoom() - icon.getIconWidth() / 2)), 
-					(int) ((k2* vs.getZoom() - icon.getIconHeight() / 2)));
+					(int) ((k1* nl.getZoom() - icon.getIconWidth() / 2)), 
+					(int) ((k2* nl.getZoom() - icon.getIconHeight() / 2)));
 		}
 	}
 	
@@ -377,13 +377,13 @@ public class Edge {
 	public void setW(Double w) {
 		ew = new EdgeWeight(w);
 		icon=null;
-		vs.repaint();
+		nl.repaint();
 	}
 	
 	public void setW(String text) {
 		ew = new EdgeWeight(text);
 		icon=null;
-		vs.repaint();		
+		nl.repaint();		
 	}
 
 	public String getWLaTeX() {		

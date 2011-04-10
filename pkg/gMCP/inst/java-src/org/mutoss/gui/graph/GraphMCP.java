@@ -15,14 +15,14 @@ public class GraphMCP {
 	
 	public Vector<Edge> edges = new Vector<Edge>();
 	public Vector<Node> knoten = new Vector<Node>();
-	NetList vs;
+	NetList nl;
 
-	public GraphMCP(String name, NetList vs) {
+	public GraphMCP(String name, NetList nl) {
 		this.name = name;
-		this.vs = vs;
+		this.nl = nl;
 		loadGraph(name);
-		vs.revalidate();
-		vs.repaint();
+		nl.revalidate();
+		nl.repaint();
 	}
 	
 	public void loadGraph(String name) {
@@ -34,7 +34,7 @@ public class GraphMCP {
 			boolean[] rejected = RControl.getR().eval("getRejected("+name+")").asRLogical().getData();
 			for (int i=0; i<nodes.length; i++) {
 				logger.debug("Adding node "+nodes[i]+" at ("+x[i]+","+y[i]+").");
-				knoten.add(new Node(nodes[i], (int) x[i], (int) y[i], alpha[i], vs));
+				knoten.add(new Node(nodes[i], (int) x[i], (int) y[i], alpha[i], nl));
 				if (rejected[i]) knoten.lastElement().reject();
 			}
 			// Edges:
@@ -69,9 +69,9 @@ public class GraphMCP {
 						}
 					} else */ {
 						if (xl < -50 || yl < -50) {
-							edges.add(new Edge(fromNode, toNode, weightStr[i], vs, /* xl+Node.getRadius(), yl+Node.getRadius(),*/ curve));
+							edges.add(new Edge(fromNode, toNode, weightStr[i], nl, /* xl+Node.getRadius(), yl+Node.getRadius(),*/ curve));
 						} else {
-							edges.add(new Edge(fromNode, toNode, weightStr[i], vs, xl+Node.getRadius(), yl+Node.getRadius()));
+							edges.add(new Edge(fromNode, toNode, weightStr[i], nl, xl+Node.getRadius(), yl+Node.getRadius()));
 						}
 					}
 					
@@ -79,10 +79,10 @@ public class GraphMCP {
 			}
 		}
 		for (Node k : knoten) {
-			vs.addNode(k);
+			nl.addNode(k);
 		}		
 		for (Edge e : edges) {
-			vs.addEdge(e);
+			nl.addEdge(e);
 		}
 	}
 
