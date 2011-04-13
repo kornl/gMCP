@@ -6,7 +6,6 @@ import java.io.IOException;
 import java.util.Hashtable;
 import java.util.List;
 
-import javax.swing.JCheckBox;
 import javax.swing.JPanel;
 
 import org.af.commons.errorhandling.ErrorDialog;
@@ -25,7 +24,6 @@ public class ErrorDialogSGTK extends ErrorDialog {
     protected static Log logger = LogFactory.getLog(ErrorDialogSGTK.class);
 
     protected ApplicationLog al;
-    protected JCheckBox chbAttachDf;
 
 	public ErrorDialogSGTK(String msg, Object e, boolean fatal) {
 		super(msg, e, fatal);		
@@ -33,9 +31,6 @@ public class ErrorDialogSGTK extends ErrorDialog {
 
     protected JPanel getOptionalPanel() {
     	al = LoggingSystem.getInstance().getApplicationLog();
-        /* chbAttachDf = new JCheckBox();
-        chbAttachDf.setSelected(true);
-        chbAttachDf.setEnabled(al.getDataFrame() != null);*/
         JPanel p = new JPanel();
         String cols = "left:pref, 5dlu, pref:grow";
         String rows = "pref";
@@ -44,10 +39,8 @@ public class ErrorDialogSGTK extends ErrorDialog {
 
         /* 
          CellConstraints cc = new CellConstraints();
-         p.add(new JLabel(
-                "attach Data=")
-         ),                               cc.xy(1, 1));
-         p.add(chbAttachDf,               cc.xy(3, 1)); */
+         p.add(new JLabel("attach Data=")),    cc.xy(1, 1));
+         p.add(chbAttachDf,                    cc.xy(3, 1)); */
         return p;
     }
 
@@ -68,8 +61,6 @@ public class ErrorDialogSGTK extends ErrorDialog {
     		 * So no code in the catch clause. 
     		 */
     	}
-        /* if (chbAttachDf.isSelected() && al.getDataFrame()!=null)
-            files.put("", al.getDataFrame()); */
         return files;
     }
     
