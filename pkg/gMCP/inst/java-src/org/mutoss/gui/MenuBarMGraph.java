@@ -2,6 +2,7 @@ package org.mutoss.gui;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileWriter;
@@ -47,27 +48,28 @@ public class MenuBarMGraph extends JMenuBar implements ActionListener {
 		
 		this.control = control;		
 
-		fmenu.add(makeMenuItem("New Graph", "new graph"));
-		fmenu.add(makeMenuItem("Load Graph from R", "load graph from R"));
+		fmenu.add(makeMenuItem("New Graph", "new graph", KeyEvent.VK_N));
+		fmenu.add(makeMenuItem("Load Graph from R", "load graph from R", KeyEvent.VK_L));
 		fmenu.add(makeMenuItem("Load Graph from RData file", "load graph"));		
 		fmenu.addSeparator();
-		fmenu.add(makeMenuItem("Save Graph to R", "save graph to R"));	
+		fmenu.add(makeMenuItem("Save Graph to R", "save graph to R", KeyEvent.VK_S));	
 		fmenu.add(makeMenuItem("Save Graph to RData file", "save graph"));		
 		fmenu.addSeparator();
-		fmenu.add(makeMenuItem("Export Graph to PNG Image", "export graph image"));
-		fmenu.add(makeMenuItem("Export Graph to LaTeX File", "export graph latex"));
+		fmenu.add(makeMenuItem("Export Graph to PNG Image", "export graph image", KeyEvent.VK_P));
+		fmenu.add(makeMenuItem("Export Graph to LaTeX File", "export graph latex", KeyEvent.VK_L));
 		fmenu.addSeparator();
-		fmenu.add(makeMenuItem("Save LaTeX Report", "save latex report"));
+		fmenu.add(makeMenuItem("Save LaTeX Report", "save latex report", KeyEvent.VK_R));
 		JMenuItem item = makeMenuItem("Save PDF Report", "save pdf");
 		item.setEnabled(false);
 		fmenu.add(item);
 		//fmenu.add(makeMenuItem("Save PDF Report", "save pdf"));
 		fmenu.addSeparator();
 		createLastUsed();
-
+		fmenu.setMnemonic(KeyEvent.VK_F);
 		add(fmenu);
 
 		JMenu menu = new JMenu("Example graphs");
+		menu.setMnemonic(KeyEvent.VK_X);
 
 		menu.add(makeMenuItem("Bonferroni-Holm Test", "bht"));
 		menu.addSeparator();
@@ -80,7 +82,8 @@ public class MenuBarMGraph extends JMenuBar implements ActionListener {
 		add(menu);
 
 		menu = new JMenu("Analysis");
-
+		menu.setMnemonic(KeyEvent.VK_A);
+		
 		menu.add(makeMenuItem("Graph analysis", "graphAnalysis"));
 		menu.addSeparator();
 		menu.add(makeMenuItem("Power analysis", "powerAnalysis"));		
@@ -98,8 +101,10 @@ public class MenuBarMGraph extends JMenuBar implements ActionListener {
 			fmenu.remove(i);
 		}
 		
-		if (graphs.size()>0) {
+		if (graphs.size()>0) {	
+			int i = 0;
 			for (String graph : graphs) {
+				i++;
 				String s = graph;
 				logger.info("Process last used graph: '"+s+"'.");			
 				File f = new File(s);				
@@ -109,20 +114,33 @@ public class MenuBarMGraph extends JMenuBar implements ActionListener {
 						path = path.substring(0, 17)+"...";
 					}
 					s = f.getName()+" ["+path+"]";
-					fmenu.add(makeMenuItem(s, "LOAD_GRAPH"+graph));
+					fmenu.add(makeMenuItem(i+" "+s, "LOAD_GRAPH"+graph, (i+"").charAt(0)));
 				} else {					
 					if (s.startsWith("R Object: ")) {
 						s = s.substring(10);
 						if (RControl.getR().eval("exists(\""+s+"\")").asRLogical().getData()[0]) {
-							fmenu.add(makeMenuItem(s, "LOAD_GRAPH"+graph));
+							fmenu.add(makeMenuItem(i+" "+s, "LOAD_GRAPH"+graphs, (i+"").charAt(0)));
 						}
 					}
 				}				
 			}
 			fmenu.addSeparator();
 		}		
-		fmenu.add(makeMenuItem("Quit", "exit"));
+		fmenu.add(makeMenuItem("Exit", "exit", KeyEvent.VK_X));
 	}
+
+	private JMenuItem makeMenuItem(String text, String action, int key) {
+		JMenuItem item = makeMenuItem(text, action);
+		item.setMnemonic(key);
+		return item;
+	}
+	
+	private JMenuItem makeMenuItem(String text, String action, char key) {
+		JMenuItem item = makeMenuItem(text, action);
+		item.setMnemonic(key);
+		return item;
+	}
+
 
 	public void loadGraph(String string) {
 		NetList nl = control.getNL();		
@@ -492,15 +510,16 @@ public class MenuBarMGraph extends JMenuBar implements ActionListener {
     
     private JMenu makeHelpMenu() {
     	 JMenu menu = new JMenu("Help");
-         menu.add(makeMenuItem("About", "showAbout"));         
-         menu.add(makeMenuItem("Introduction to gMCP", "showAppHelp"));
-         menu.add(makeMenuItem("Weighted parametric tests defined by graphs", "showParametric"));
-         menu.add(makeMenuItem("gMCP R Online Reference manual", "showManual"));
+    	 menu.setMnemonic(KeyEvent.VK_H);
+         menu.add(makeMenuItem("About", "showAbout", KeyEvent.VK_B));         
+         menu.add(makeMenuItem("Introduction to gMCP", "showAppHelp", KeyEvent.VK_I));
+         menu.add(makeMenuItem("Weighted parametric tests defined by graphs", "showParametric", KeyEvent.VK_P));
+         menu.add(makeMenuItem("gMCP R Online Reference manual", "showManual", KeyEvent.VK_M));
          //menu.add(makeMenuItem("Theoretical Background", "showAppHelp"));
          /*menu.addSeparator();
          menu.add(makeMenuItem("Description of Edges with Infinitesimal Small Epsilon Weights", "showEpsDoc"));*/
          menu.addSeparator();
-         menu.add(makeMenuItem("Version Info / NEWS", "showNEWS"));
+         menu.add(makeMenuItem("Version Info / NEWS", "showNEWS", KeyEvent.VK_N));
          return menu;
 	}
 	
