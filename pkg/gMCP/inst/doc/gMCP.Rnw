@@ -513,6 +513,27 @@ cat(graph2latex(createGraphForImprovedParallelGatekeeping(), scale=0.7, fontsize
   \caption{\label{gatekeeping}\index{parallel gatekeeping}\index{gatekeeping!parallel}\index{gatekeeping!improved parallel} The Parallel Gatekeeping and the Improved Parallel Gatekeeping Procedure.}
 \end{figure}
 
+Algorithm of Bretz et al. \cite{bretzEtAl2009power} for rejecting a node:
+
+\[\alpha_l \leftarrow \begin{cases}\alpha_l+a_jg_{jl}&l\in I\\0&\text{otherwise}\end{cases}\]
+
+\[g_{lk} \leftarrow \begin{cases}\frac{g_{lk}+g_{lj}g_{jk}}{1-g_{lj}g_{jl}}&k,l\in I, l\neq k, g_{lj}g_{jl}<1\\0&\text{otherwise}\end{cases}\]
+
+We want now investigate what happens if a edge weight $\epsilon>0$ approaches $0$.
+In respect to 
+
+\[\alpha_l \leftarrow \begin{cases}0=\lim\limits_{g_{jl}\rightarrow0}(\alpha_l+a_jg_{jl})&l\in I\\0&\text{otherwise}\end{cases}\]
+
+The only question is, what happens if and $l\in I, l\neq k, g_{lj}g_{jl}<1$.
+If $g_{lj}g_{jl}==1$ still $g_{lk}<-0$.
+ 
+\[\lim\limits_{g_{jl}\rightarrow0}\left(\frac{g_{lk}+g_{lj}g_{jk}}{1-g_{lj}g_{jl}}\right)
+=\begin{cases}
+  \frac{g_{lk}+g_{lj}g_{jk}}{1-g_{lj}g_{jl}}&g_{lj}g_{jl}<1\\
+  0&g_{lj}g_{jl}=1\\a\\b\\\end{cases}
+=\]
+
+
 \scriptsize
 <<echo=TRUE, keep.source=TRUE>>=
 
@@ -542,17 +563,13 @@ This subsection is work in progress, but fortunately the options in figure \ref{
 This subsection is work in progress, but fortunately the menu entries in figure \ref{fileMenu} should be fairly self-explanatory.
 
 You can export graphs to png files.
+The background of these png files will be made transperant, so that they will fit into whichever document you insert them.
+Note that some image viewers visualize transparency with a checkerboard pattern.
 
 \begin{figure}[ht]
   \centering    
   \includegraphics[width=4cm]{pictures/filemenu.png}      
   \caption{\label{fileMenu} Import and export of graphs.}
-\end{figure}
-
-\begin{figure}[ht]
-  \centering    
-  \includegraphics[width=0.7\textwidth]{pictures/pngExport.png}      
-  \caption{\label{pngExport} Graphics can be exported from the GUI to PNG files. Note that the checkerboard pattern in the background of some image viewers is just a way to visualize transparency.}
 \end{figure}
 
 \subsection{Important TikZ commands for optimizing the reports}\index{graph2latex}
@@ -625,6 +642,8 @@ the TikZ manual \cite{TikZ}.
 This section is work in progress.
 
 \section{Appendix - Multiple Testing Basics}
+
+This section is work in progress.
 
 \begin{Def}
 
