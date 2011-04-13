@@ -27,7 +27,9 @@ import org.af.commons.logging.widgets.DetailsDialog;
 import org.af.commons.tools.OSTools;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.jdesktop.swingworker.SwingWorker;
 import org.mutoss.config.Configuration;
+import org.mutoss.gui.dialogs.DialogConfIntEstVar;
 import org.mutoss.gui.dialogs.NumberOfHypotheses;
 import org.mutoss.gui.dialogs.RObjectLoadingDialog;
 import org.mutoss.gui.dialogs.TextFileViewer;
@@ -302,6 +304,9 @@ public class MenuBarMGraph extends JMenuBar implements ActionListener {
 		}
 	}
 	
+	String correlation;
+	File f;
+	
 	public void exportLaTeXReport() {
 		if (control.getNL().getKnoten().size()==0) {
     		JOptionPane.showMessageDialog(control.getMainFrame(), "Can not create report for empty graph.", "Can not create report for empty graph.", JOptionPane.ERROR_MESSAGE);
@@ -311,8 +316,7 @@ public class MenuBarMGraph extends JMenuBar implements ActionListener {
 			control.getNL().saveGraph();
 		}
 		JFileChooser fc = new JFileChooser(Configuration.getInstance().getClassProperty(this.getClass(), "LaTeXReportDirectory"));
-		fc.setDialogType(JFileChooser.SAVE_DIALOG);
-		File f;
+		fc.setDialogType(JFileChooser.SAVE_DIALOG);		
 		int returnVal = fc.showSaveDialog(this);
 		if (returnVal == JFileChooser.APPROVE_OPTION) {			
 			f = fc.getSelectedFile();
@@ -324,9 +328,22 @@ public class MenuBarMGraph extends JMenuBar implements ActionListener {
 		} else {
 			return;
 		}
-		String correlation = control.getPView().getCorrelation();		
-		RControl.getR().eval("result <- gMCP("+control.getNL().initialGraph+","+control.getPView().getPValuesString()+ correlation+", alpha="+control.getPView().getTotalAlpha()+")");
-		RControl.getR().eval("gMCPReport(result, file=\""+f.getAbsolutePath()+"\")");
+		control.getMainFrame().glassPane.start();
+		//startTesting();
+		correlation = control.getPView().getCorrelation();
+		SwingWorker<Void, Void> worker = new SwingWorker<Void, Void>() {
+			@Override
+			protected Void doInBackground() throws Exception {
+				if (!control.resultUpToDate) {
+					RControl.getR().evalVoid(control.result+" <- gMCP("+control.getNL().initialGraph+","+control.getPView().getPValuesString()+ correlation+", alpha="+control.getPView().getTotalAlpha()+")");
+					control.resultUpToDate = true;
+				}
+				RControl.getR().eval("gMCPReport("+control.result+", file=\""+f.getAbsolutePath()+"\")");
+				control.getMainFrame().glassPane.stop();
+				return null;
+			}  
+		};
+		worker.execute();
 	}
 	
 	public void writeLaTeX(String s) {

@@ -7,7 +7,6 @@ import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
 import java.util.Date;
-import java.util.Random;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
@@ -47,6 +46,10 @@ public class GraphView extends JPanel implements ActionListener {
 	JButton buttonConfInt;
 	JButton buttonStart;	
 	JButton buttonBack;
+	
+	String correlation;
+	public String result = ".gMCPResult_" + (new Date()).getTime();
+	public boolean resultUpToDate = false;
 	
 	private static final Log logger = LogFactory.getLog(GraphView.class);
 	
@@ -161,9 +164,6 @@ public class GraphView extends JPanel implements ActionListener {
 	public NetList getNL() {
 		return nl;
 	}
-
-	String correlation;
-	String result = ".gMCPResult_" + (new Date()).getTime();
 	
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource().equals(buttonZoomIn)) {
@@ -189,14 +189,17 @@ public class GraphView extends JPanel implements ActionListener {
 				JOptionPane.showMessageDialog(parent, "Please create first a graph.", "Please create first a graph.", JOptionPane.ERROR_MESSAGE);
 			} else {
 				parent.glassPane.start();
-				startTesting();
+				//startTesting();
 				correlation = parent.getPView().getCorrelation();
 				SwingWorker<Void, Void> worker = new SwingWorker<Void, Void>() {
 					@Override
 					protected Void doInBackground() throws Exception {
-						String pValues = getPView().getPValuesString();
-						double[] alpha = RControl.getR().eval(""+getPView().getTotalAlpha()+"*getWeights(gMCP("+ nl.initialGraph+","+pValues+", alpha="+getPView().getTotalAlpha()+"))").asRNumeric().getData();
-						boolean[] rejected = RControl.getR().eval("getRejected(gMCP("+ nl.initialGraph+","+pValues+", alpha="+getPView().getTotalAlpha()+"))").asRLogical().getData();						
+						if (!resultUpToDate) {
+							RControl.getR().evalVoid(result+" <- gMCP("+getNL().initialGraph+","+getPView().getPValuesString()+ correlation+", alpha="+getPView().getTotalAlpha()+")");
+							resultUpToDate = true;
+						}
+						double[] alpha = RControl.getR().eval(""+getPView().getTotalAlpha()+"*getWeights("+result+")").asRNumeric().getData();
+						boolean[] rejected = RControl.getR().eval("getRejected("+result+")").asRLogical().getData();						
 						new DialogConfIntEstVar(parent, nl, rejected, alpha);						
 						parent.glassPane.stop();
 						return null;
@@ -212,7 +215,11 @@ public class GraphView extends JPanel implements ActionListener {
 				SwingWorker<Void, Void> worker = new SwingWorker<Void, Void>() {
 					@Override
 					protected Void doInBackground() throws Exception {
-						boolean[] rejected = RControl.getR().eval("gMCP("+parent.getGraphView().getNL().initialGraph+","+parent.getGraphView().getPView().getPValuesString()+ correlation+", alpha="+parent.getPView().getTotalAlpha()+")@rejected").asRLogical().getData();				
+						if (!resultUpToDate) {
+							RControl.getR().evalVoid(result+" <- gMCP("+getNL().initialGraph+","+getPView().getPValuesString()+ correlation+", alpha="+getPView().getTotalAlpha()+")");
+							resultUpToDate = true;
+						}
+						boolean[] rejected = RControl.getR().eval(result+"@rejected").asRLogical().getData();				
 						new RejectedDialog(parent, rejected, parent.getGraphView().getNL().getKnoten());
 						parent.glassPane.stop();
 						return null;
@@ -224,20 +231,23 @@ public class GraphView extends JPanel implements ActionListener {
 			}
 		} else if (e.getSource().equals(buttonadjPval)) {
 			if (getNL().getKnoten().size()==0) {
-				JOptionPane.showMessageDialog(parent, "Please create first a graph.", "Please create first a graph.", JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showMessageDialog(parent, "Please create first a graph.", "Please create first a graph.", JOptionPane.ERROR_MESSAGE);				
 			} else {
 				if (!getNL().isTesting()) {
 					getNL().saveGraph();
 					getPView().savePValues();
 				}
 				parent.glassPane.start();
-				startTesting();
+				//startTesting();
 				correlation = parent.getPView().getCorrelation();
 				SwingWorker<Void, Void> worker = new SwingWorker<Void, Void>() {
 					@Override
-					protected Void doInBackground() throws Exception {
-						String pValues = getPView().getPValuesString();
-						double[] adjPValues = RControl.getR().eval("gMCP:::adjPValues("+ getNL().initialGraph+","+pValues+")@adjPValues").asRNumeric().getData();
+					protected Void doInBackground() throws Exception {						
+						if (!resultUpToDate) {
+							RControl.getR().evalVoid(result+" <- gMCP("+getNL().initialGraph+","+getPView().getPValuesString()+ correlation+", alpha="+getPView().getTotalAlpha()+")");
+							resultUpToDate = true;
+						}
+						double[] adjPValues = RControl.getR().eval(result+"@adjPValues").asRNumeric().getData();
 						new AdjustedPValueDialog(parent, getPView().pValues, adjPValues, getNL().getKnoten());
 						parent.glassPane.stop();
 						return null;

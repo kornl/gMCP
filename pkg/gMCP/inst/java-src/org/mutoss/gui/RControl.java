@@ -104,6 +104,10 @@ public class RControl {
 		return getFraction(d, -1);
 	}
 
+	public static boolean exists(String obj) {		
+		return getR().eval("exists(\""+obj+"\")").asRLogical().getData()[0];
+	}
+
 }
 
 class LoggingOutputStream extends ByteArrayOutputStream { 

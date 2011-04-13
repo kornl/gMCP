@@ -95,6 +95,7 @@ public class NetList extends JPanel implements MouseMotionListener, MouseListene
 		if (old != null) edges.remove(old);
 		edges.add(e);
 		control.getDataTable().getModel().setValueAt(e.getEdgeWeight(), getKnoten().indexOf(e.from), getKnoten().indexOf(e.to));
+		graphHasChanged();
 	}
 
 	public void addEdge(Node von, Node nach) {
@@ -131,6 +132,7 @@ public class NetList extends JPanel implements MouseMotionListener, MouseListene
 			edges.lastElement().curve = curve;
 		}
 		control.getDataTable().getModel().setValueAt(w, getKnoten().indexOf(von), getKnoten().indexOf(nach));
+		graphHasChanged();
 	}
 
 	public void addNode(Node node) {
@@ -140,6 +142,11 @@ public class NetList extends JPanel implements MouseMotionListener, MouseListene
 		control.getPView().addPPanel(node);
 		control.getDataTable().getModel().addRowCol(node.getName());
 		calculateSize();
+		graphHasChanged();
+	}
+
+	public void graphHasChanged() {
+		control.resultUpToDate = false;	
 	}
 
 	/**
@@ -258,6 +265,7 @@ public class NetList extends JPanel implements MouseMotionListener, MouseListene
 	public void loadGraph() {
 		new GraphMCP(initialGraph, this);
 		control.getPView().restorePValues();
+		graphHasChanged();
 	}
 	
 	public void mouseClicked(MouseEvent e) {}
@@ -412,7 +420,8 @@ public class NetList extends JPanel implements MouseMotionListener, MouseListene
 				e.curve = false;				
 			}
 		}
-		edges.remove(edge);		
+		edges.remove(edge);
+		graphHasChanged();
 	}
 
 	public void removeNode(Node node) {
@@ -429,6 +438,7 @@ public class NetList extends JPanel implements MouseMotionListener, MouseListene
 			control.enableButtons(false);
 		}
 		repaint();
+		graphHasChanged();
 	}
 
 	public void reset() {
@@ -441,6 +451,7 @@ public class NetList extends JPanel implements MouseMotionListener, MouseListene
 		newVertex = false;
 		newEdge = false;
 		zoom = 1.00;
+		graphHasChanged();
 	}
 
 	public void saveGraph() {
@@ -540,10 +551,12 @@ public class NetList extends JPanel implements MouseMotionListener, MouseListene
 	
 	public void setEdges(Vector<Edge> edges) {
 		this.edges = edges;
+		graphHasChanged();
 	}
 
 	public void setKnoten(Vector<Node> knoten) {
 		this.nodes = knoten;
+		graphHasChanged();
 	}
 	
 	public void setZoom(double p) {

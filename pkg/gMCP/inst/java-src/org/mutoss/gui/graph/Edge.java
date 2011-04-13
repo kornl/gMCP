@@ -378,12 +378,14 @@ public class Edge {
 		ew = new EdgeWeight(w);
 		icon=null;
 		nl.repaint();
+		nl.graphHasChanged();
 	}
 	
 	public void setW(String text) {
 		ew = new EdgeWeight(text);
 		icon=null;
-		nl.repaint();		
+		nl.repaint();
+		nl.graphHasChanged();
 	}
 
 	public String getWLaTeX() {		

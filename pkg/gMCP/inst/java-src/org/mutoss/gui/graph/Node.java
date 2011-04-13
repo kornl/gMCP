@@ -130,9 +130,6 @@ public class Node {
 				* (y / nl.getZoom() - this.y - r) <= (r * r));
 	}
 
-	public void mouseRelease(MouseEvent e) {
-	}
-
 	public void setWeight(double w, NodeListener me) {
 		this.weight = w;	
 		if (!Configuration.getInstance().getGeneralConfig().showFractions()) {
@@ -151,6 +148,7 @@ public class Node {
 				l.updated(this);
 			}
 		}
+		nl.graphHasChanged();
 		nl.repaint();
 	}
 
@@ -180,6 +178,7 @@ public class Node {
 		this.name = name;	
 		TeXFormula formula = new TeXFormula("\\mathbf{"+name+"}"); 
 		iconName = formula.createTeXIcon(TeXConstants.ALIGN_CENTER, (int) (14 * nl.getZoom()));
+		nl.graphHasChanged();
 	}
 	
 	public boolean isRejected() {		
