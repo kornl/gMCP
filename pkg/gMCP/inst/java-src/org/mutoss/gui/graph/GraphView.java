@@ -185,19 +185,27 @@ public class GraphView extends JPanel implements ActionListener {
 			if (getNL().getKnoten().size()==0) {
 				JOptionPane.showMessageDialog(parent, "Please create first a graph.", "Please create first a graph.", JOptionPane.ERROR_MESSAGE);
 			} else {
-				new DialogConfIntEstVar(parent, this, nl);
+				parent.glassPane.start();
+				startTesting();
+				correlation = parent.getPView().getCorrelation();
+				SwingWorker<Void, Void> worker = new SwingWorker<Void, Void>() {
+					@Override
+					protected Void doInBackground() throws Exception {
+						String pValues = getPView().getPValuesString();
+						double[] alpha = RControl.getR().eval(""+getPView().getTotalAlpha()+"*getWeights(gMCP("+ nl.initialGraph+","+pValues+", alpha="+getPView().getTotalAlpha()+"))").asRNumeric().getData();
+						boolean[] rejected = RControl.getR().eval("getRejected(gMCP("+ nl.initialGraph+","+pValues+", alpha="+getPView().getTotalAlpha()+"))").asRLogical().getData();						
+						new DialogConfIntEstVar(parent, nl, rejected, alpha);						
+						parent.glassPane.stop();
+						return null;
+					}  
+				};
+				worker.execute();				
 			}
 		} else if (e.getSource().equals(buttonStart)) {
 			if (!getNL().isTesting()) {
 				parent.glassPane.start();
 				startTesting();
-				//new CorrelatedTest(this.getGraphGUI());
-				correlation = "";
-				if (parent.getPView().jrbStandardCorrelation.isSelected()) {
-					correlation = ", correlation=\""+parent.getPView().jcbCorString.getSelectedItem()+"\"";
-				} else if (parent.getPView().jrbRCorrelation.isSelected()) {
-					correlation = ", correlation="+parent.getPView().jcbCorObject.getSelectedItem()+"";
-				}
+				correlation = parent.getPView().getCorrelation();
 				SwingWorker<Void, Void> worker = new SwingWorker<Void, Void>() {
 					@Override
 					protected Void doInBackground() throws Exception {
@@ -219,9 +227,20 @@ public class GraphView extends JPanel implements ActionListener {
 					getNL().saveGraph();
 					getPView().savePValues();
 				}
-				String pValues = getPView().getPValuesString();
-				double[] adjPValues = RControl.getR().eval("gMCP:::adjPValues("+ getNL().initialGraph+","+pValues+")@adjPValues").asRNumeric().getData();
-				new AdjustedPValueDialog(parent, getPView().pValues, adjPValues, getNL().getKnoten());
+				parent.glassPane.start();
+				startTesting();
+				correlation = parent.getPView().getCorrelation();
+				SwingWorker<Void, Void> worker = new SwingWorker<Void, Void>() {
+					@Override
+					protected Void doInBackground() throws Exception {
+						String pValues = getPView().getPValuesString();
+						double[] adjPValues = RControl.getR().eval("gMCP:::adjPValues("+ getNL().initialGraph+","+pValues+")@adjPValues").asRNumeric().getData();
+						new AdjustedPValueDialog(parent, getPView().pValues, adjPValues, getNL().getKnoten());
+						parent.glassPane.stop();
+						return null;
+					}  
+				};
+				worker.execute();
 			}
 		}
 	}

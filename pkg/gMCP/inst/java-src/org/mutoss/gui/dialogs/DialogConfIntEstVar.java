@@ -32,7 +32,7 @@ import org.mutoss.gui.graph.Node;
 public class DialogConfIntEstVar extends JDialog implements ActionListener, ChangeListener, DocumentListener {
 	
 	List<JLabel> names = new Vector<JLabel>();
-	List<JLabel> alpha = new Vector<JLabel>();
+	List<JLabel> alphaLabel = new Vector<JLabel>();
 	List<JLabel> ci = new Vector<JLabel>();
 	List <JSpinner> df = new Vector<JSpinner>();
 	List <RealTextField> est = new Vector<RealTextField>();
@@ -44,13 +44,13 @@ public class DialogConfIntEstVar extends JDialog implements ActionListener, Chan
 	String[] alternatives = { /*"two.sided",*/ "less", "greater" };
 	
 	NetList nl;	
-	GraphView control;
 	
-	public DialogConfIntEstVar(JFrame p, GraphView control, NetList nl) {		
+	public DialogConfIntEstVar(JFrame p, NetList nl, boolean[] rejected, double[] alpha) {		
 		super(p, "Confidence intervals");
 		setLocationRelativeTo(p);
 		this.nl = nl;
-		this.control = control;
+		this.alpha = alpha;
+		this.rejected = rejected;
 				
 		GridBagConstraints c = new GridBagConstraints();
 		
@@ -118,11 +118,11 @@ public class DialogConfIntEstVar extends JDialog implements ActionListener, Chan
 		
 		return panel;
 	}
+	
+	boolean[] rejected;
+	double[] alpha;	
 
 	private void calculateCI() {	
-			String pValues = control.getPView().getPValuesString();
-			double[] alpha = RControl.getR().eval(""+control.getPView().getTotalAlpha()+"*getWeights(gMCP("+ nl.initialGraph+","+pValues+", alpha="+control.getPView().getTotalAlpha()+"))").asRNumeric().getData();
-			boolean[] rejected = RControl.getR().eval("getRejected(gMCP("+ nl.initialGraph+","+pValues+", alpha="+control.getPView().getTotalAlpha()+"))").asRLogical().getData();
 			for (int i=0; i<nl.getKnoten().size(); i++) {
 				Double lb, ub;
 				String d1 = "qnorm(";
@@ -190,7 +190,7 @@ public class DialogConfIntEstVar extends JDialog implements ActionListener, Chan
 			c.gridx++;
 			
 			JLabel alpha = new JLabel("α="+format.format(node.getWeight()));
-			this.alpha.add(alpha);
+			this.alphaLabel.add(alpha);
 			panel.add(alpha, c);
 			c.gridx++;
 			
