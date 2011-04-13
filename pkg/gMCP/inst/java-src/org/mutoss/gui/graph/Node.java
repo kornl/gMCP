@@ -32,6 +32,8 @@ public class Node {
 	boolean rejected = false;
 
 	public static int r = 25;
+	
+	int lastFontSize = 14;
 
 	public static void setRadius(int radius) {
 		r = radius;
@@ -103,6 +105,12 @@ public class Node {
 					(float) ((x + r) * nl.getZoom() - rc.getWidth() / 2),
 					(float) ((y + 1.5 * r) * nl.getZoom())); 
 		} else {		
+			if (lastFontSize != (int) (14 * nl.getZoom())) {
+				lastFontSize = (int) (14 * nl.getZoom());
+				iconWeight = Edge.getTeXIcon(stringW, lastFontSize);
+				TeXFormula formula = new TeXFormula("\\mathbf{"+name+"}"); 
+				iconName = formula.createTeXIcon(TeXConstants.ALIGN_CENTER, lastFontSize);
+			}
 			iconName.paintIcon(Edge.panel, g2d,
 					(int) ((x + r) * nl.getZoom() - iconName.getIconWidth() / 2), 
 					(int) ((y + r - 0.6*r) * nl.getZoom()));	
@@ -112,8 +120,6 @@ public class Node {
 					(int) ((y + 1.1 * r) * nl.getZoom()));
 		}
 	}
-
-	DecimalFormat format = new DecimalFormat("#.###");
 	
 	private String getWS() {		
 		return stringW;
@@ -132,6 +138,7 @@ public class Node {
 
 	public void setWeight(double w, NodeListener me) {
 		this.weight = w;	
+		DecimalFormat format = Configuration.getInstance().getGeneralConfig().getDecFormat();
 		if (!Configuration.getInstance().getGeneralConfig().showFractions()) {
 			stringW = format.format(w);
 		} else {

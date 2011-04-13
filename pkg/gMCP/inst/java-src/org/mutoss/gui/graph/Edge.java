@@ -37,6 +37,8 @@ public class Edge {
 	NetList nl;
 	
 	private EdgeWeight ew;
+	
+	int lastFontSize = 16;
 
 	public Edge(Node von, Node nach, Double w, NetList nl) {		
 		int x1, x2, y1, y2;
@@ -251,8 +253,9 @@ public class Edge {
 					(float) ((k1* nl.getZoom() - rc.getWidth() / 2)), 
 					(float) ((k2* nl.getZoom() - rc.getHeight() / 2)));
 		} else {
-			if (icon==null) {
-				icon = getTeXIcon(s, (int) (16 * nl.getZoom()));			
+			if (icon==null || lastFontSize != (int) (16 * nl.getZoom())) {
+				lastFontSize = (int) (16 * nl.getZoom());
+				icon = getTeXIcon(s, lastFontSize);				
 			}
 			g2d.setColor(new Color(0.99f,0.99f,0.99f));
 			g2d.fillRect((int)((k1* nl.getZoom() - icon.getIconWidth() / 2)-5), 
