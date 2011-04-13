@@ -24,8 +24,8 @@ import javax.swing.event.DocumentListener;
 
 import org.af.commons.widgets.validate.RealTextField;
 import org.af.commons.widgets.validate.ValidationException;
+import org.mutoss.config.Configuration;
 import org.mutoss.gui.RControl;
-import org.mutoss.gui.graph.GraphView;
 import org.mutoss.gui.graph.NetList;
 import org.mutoss.gui.graph.Node;
 
@@ -165,7 +165,7 @@ public class DialogConfIntEstVar extends JDialog implements ActionListener, Chan
 			}
 	}
 
-	DecimalFormat format = new DecimalFormat("#.####");
+	DecimalFormat format = Configuration.getInstance().getGeneralConfig().getDecFormat();
 	
 	public JPanel getPanel() {
 		
