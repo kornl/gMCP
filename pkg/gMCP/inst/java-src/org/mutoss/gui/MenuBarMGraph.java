@@ -29,7 +29,6 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.jdesktop.swingworker.SwingWorker;
 import org.mutoss.config.Configuration;
-import org.mutoss.gui.dialogs.DialogConfIntEstVar;
 import org.mutoss.gui.dialogs.NumberOfHypotheses;
 import org.mutoss.gui.dialogs.RObjectLoadingDialog;
 import org.mutoss.gui.dialogs.TextFileViewer;
