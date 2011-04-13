@@ -29,6 +29,9 @@ parseEpsPolynom <- function(s) {
 
 getDebugInfo <- function() {
 	graphs <- ls(pattern="\\.InitialGraph*", all.names=TRUE, envir=globalenv())
+	if (exists(".tmpGraph")) {
+		graphs <- c(graphs, ".tmpGraph")
+	}
 	graphInfo <- c()
 	for (graph in graphs) {
 		.DebugGraph <- get(graph, envir=globalenv())
