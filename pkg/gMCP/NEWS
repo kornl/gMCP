@@ -14,6 +14,9 @@ Version 0.6-2 (??-Apr-2011, Rev. ???)
 
 - Fixed a major bug which prevented saving/loading in the GUI.
 
+- Mnemonic keys for the menu.
+
+
 Version 0.6-1 (09-Apr-2011, Rev. 589)
 =====================================
 
@@ -36,6 +39,7 @@ Version 0.6-1 (09-Apr-2011, Rev. 589)
 
  43 files changed, 666 insertions(+), 248 deletions(-)
 
+
 Version 0.6-0 (06-Apr-2011, Rev. 547)
 =====================================
 
@@ -57,6 +61,7 @@ Version 0.6-0 (06-Apr-2011, Rev. 547)
   "offset".
   
  40 files changed, 599 insertions(+), 339 deletions(-)
+
 
 Version 0.5-0 (28-Mar-2011, Rev. 525)
 =====================================

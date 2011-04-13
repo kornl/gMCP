@@ -24,7 +24,8 @@ createBonferroniHolmGraph <- function(n) {
 			edgeData(BonferroniHolmGraph, n1, n2, "labelX") <- x
 			edgeData(BonferroniHolmGraph, n1, n2, "labelY") <- y
 		}
-	}	
+	}
+	attr(BonferroniHolmGraph, "description") <- paste("Graph representing the Bonferroni-Holm-Procedure", sep="\n")
 	return(BonferroniHolmGraph)
 }
 

@@ -27,14 +27,19 @@ parseEpsPolynom <- function(s) {
 	}
 }
 
-getDebugInfo <- function() {	
-	if (exists(".InitialGraph")) {
-		.InitialGraph <- get(".InitialGraph", envir=globalenv())
-		graphTXT <- paste(capture.output(print(.InitialGraph)), collapse="\n")
-		matrixTXT <- paste("m <-",paste(capture.output(dput(graph2matrix(.InitialGraph))), collapse="\n"),"\n")
-		weightsTXT <- paste("w <-",paste(capture.output(dput(getWeights(.InitialGraph))), collapse="\n"),"\n")
+getDebugInfo <- function() {
+	graphs <- ls(pattern="\\.InitialGraph*", all.names=TRUE, envir=globalenv())
+	graphInfo <- c()
+	for (graph in graphs) {
+		.DebugGraph <- get(graph, envir=globalenv())
+		graphTXT <- paste(capture.output(print(.DebugGraph)), collapse="\n")
+		matrixTXT <- paste("m <-",paste(capture.output(dput(graph2matrix(.DebugGraph))), collapse="\n"),"\n")
+		weightsTXT <- paste("w <-",paste(capture.output(dput(getWeights(.DebugGraph))), collapse="\n"),"\n")
 		createTXT <- paste("graph <- matrix2graph(m)", "setWeights(graph, w)", sep="\n")
-		return(paste(graphTXT, matrixTXT, weightsTXT, createTXT, sep="\n"))
+		graphInfo <- c(graphInfo, paste(graphTXT, matrixTXT, weightsTXT, createTXT, sep="\n"))
+	}
+	if (length(graphInfo)!=0) {
+		return(paste(graphInfo, collapse="\n\n"))
 	}
 	return("Graph not available.")
 }
