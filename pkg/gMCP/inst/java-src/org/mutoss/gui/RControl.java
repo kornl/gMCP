@@ -63,8 +63,9 @@ public class RControl {
 				rcs.eval("graph2 <- createGraphFromBretzEtAl()");
 				rcs.eval("m <- matrix(0, nrow=2, ncol=2)");
 				rcs.eval("dunnettM <- matrix(c(1,1/2,1/2,1), nrow=2)");
-				rcs.eval("mu <- c(1,2,3)");
-				rcs.eval("sdEst <- c(0.2,1.6,3)");
+				rcs.eval("mu <- c(0.860382, 0.9161474, 0.9732953)");
+				rcs.eval("sdEst <- c(0.8759528, 1.291310, 0.8570892)");
+				rcs.eval("pval <- c(0.01260, 0.05154, 0.02124)");
 			}
 		} catch (REngineException e) {
 			ErrorHandler.getInstance().makeErrDialog("Error creating RCallServicesREngine!", e);

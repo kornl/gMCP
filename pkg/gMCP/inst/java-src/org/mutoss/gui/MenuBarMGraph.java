@@ -25,6 +25,7 @@ import org.af.commons.io.FileTransfer;
 import org.af.commons.logging.LoggingSystem;
 import org.af.commons.logging.widgets.DetailsDialog;
 import org.af.commons.tools.OSTools;
+import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.jdesktop.swingworker.SwingWorker;
@@ -50,7 +51,9 @@ public class MenuBarMGraph extends JMenuBar implements ActionListener {
 
 		fmenu.add(makeMenuItem("New Graph", "new graph", KeyEvent.VK_N));
 		fmenu.add(makeMenuItem("Load Graph from R", "load graph from R", KeyEvent.VK_L));
-		fmenu.add(makeMenuItem("Load Graph from RData file", "load graph"));		
+		fmenu.add(makeMenuItem("Load Graph from RData file", "load graph"));
+		fmenu.addSeparator();
+		fmenu.add(makeMenuItem("Load p-Values from R", "load p-values from R"));
 		fmenu.addSeparator();
 		fmenu.add(makeMenuItem("Save Graph to R", "save graph to R", KeyEvent.VK_S));	
 		fmenu.add(makeMenuItem("Save Graph to RData file", "save graph"));		
@@ -259,6 +262,20 @@ public class MenuBarMGraph extends JMenuBar implements ActionListener {
         	notYetSupported();
         } else if (e.getActionCommand().equals("powerAnalysis")) {
         	notYetSupported();
+        } else if (e.getActionCommand().equals("load p-values from R")) {
+        	VariableNameDialog vnd = new VariableNameDialog(control.getGraphGUI(), "");     
+			try {
+				double[] data = RControl.getR().eval(vnd.getName()).asRNumeric().getData();
+				if (data.length!=control.getNL().getKnoten().size()) {
+					JOptionPane.showMessageDialog(this, "Number of hypotheses and values do not match.", 
+							"Number of hypotheses and values do not match", JOptionPane.ERROR_MESSAGE);
+					return;
+				}
+				control.getPView().setPValues(ArrayUtils.toObject(data));					
+			} catch (Exception ex) {
+				JOptionPane.showMessageDialog(this, "Error loading values from R:\n"+ex.getMessage(), 
+						"Error loading values from R", JOptionPane.ERROR_MESSAGE);
+			} 
         }
 	}
 	
