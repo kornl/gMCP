@@ -121,17 +121,19 @@ public class PView extends JPanel implements KeyListener, ActionListener {
 				col += 2;
 			}
 			row += 2;
-		}
+		}		
 		panel.add(statusLabel,cc.xyw(2, row, 7));
 		row += 2;
 		panel.add(alphaLabel, cc.xy(2, row));    	
     	panel.add(totalAlpha, cc.xy(4, row));
     	
+    	//updateLabels();
 		panel.revalidate();
-		removeAll();
+		removeAll();		
 		add(panel, c);
 		c.gridy++;
 		add(getCorrelatedPanel(), c);
+		revalidate();
 	}
 	
 	public void updateLabels() {
