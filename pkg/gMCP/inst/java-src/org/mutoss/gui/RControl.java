@@ -88,7 +88,7 @@ public class RControl {
 		if (f.equals("2/3")) return("⅔");
 		if (f.equals("1/4")) return("¼");
 		if (f.equals("3/4")) return("¾");
-		/* The following do often not work:
+		/* The following does often not work:
 		if (f.equals("1/5")) return("⅕");
 		if (f.equals("2/5")) return("⅖");
 		if (f.equals("3/5")) return("⅗");
