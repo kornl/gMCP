@@ -475,7 +475,7 @@ $\Sexpr{format(st[1])}$, $\Sexpr{format(st[2])}$ and
 $\Sexpr{format(st[3])}$ and the corresponding p-values $\Sexpr{format(pval[1])}$, 
 $\Sexpr{format(pval[2])}$ and
 $\Sexpr{format(pval[3])}$.  We want to adjust for multiple testing
-by using the Bonferroni-Holm-Procedure with $alpha=0.025$.
+by using the Bonferroni-Holm-Procedure with $\alpha=0.025$.
 
 \scriptsize
 <<echo=TRUE, keep.source=TRUE>>=
@@ -490,12 +490,12 @@ pval <- c(0.01260, 0.05154, 0.02124)/2
 simConfint(createBonferroniHolmGraph(3), pvalues=pval, 
 		confint=function(node, alpha) {
 			c(est[node]-qt(1-alpha,df=9)*ssd[node]/sqrt(10), Inf)
-		}, alpha=0.025)
+		}, alpha=0.025, mu=0, alternative="greater")
 
 # Note that the sample standard deviations will be calculated from the pvalues and estimates.
 # For example by estimates/dist(pvalues) for alternative="less".
-#simConfint(createBonferroniHolmGraph(3), pvalues=pval, 
-#		confint="t", df=9, estimates=est, alpha=0.25)
+simConfint(createBonferroniHolmGraph(3), pvalues=pval, 
+		confint="t", df=9, estimates=est, alpha=0.025, alternative="greater")
 
 @
 \normalsize

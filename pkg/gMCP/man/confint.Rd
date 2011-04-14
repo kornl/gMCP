@@ -9,7 +9,7 @@
 	Calculates simultaneous confidence intervals for sequentially rejective multiple test procedures.
 }
 \usage{
-	simConfint(object, pvalues, confint, alternative=c("less", "greater"), estimates, df, alpha=0.05)
+	simConfint(object, pvalues, confint, alternative=c("less", "greater"), estimates, df, alpha=0.05, mu=0)
 }
 
 \arguments{
@@ -37,6 +37,9 @@
   }
   \item{alpha}{
   	The overall alpha level as numeric scalar.
+  }
+  \item{mu}{
+  	The numerical parameter vector under null hypothesis.
   }
 }
 \details{

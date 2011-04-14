@@ -247,9 +247,9 @@ setMethod("plot", "graphMCP",
 			# TODO Show visualization of graph			
 		})
 
-setGeneric("simConfint", function(object, pvalues, confint, alternative=c("less", "greater"), estimates, df, alpha=0.05) standardGeneric("simConfint"))
+setGeneric("simConfint", function(object, pvalues, confint, alternative=c("less", "greater"), estimates, df, alpha=0.05, mu=0) standardGeneric("simConfint"))
 
-setMethod("simConfint", c("graphMCP"), function(object, pvalues, confint, alternative=c("less", "greater"), estimates, df, alpha=0.05) {
+setMethod("simConfint", c("graphMCP"), function(object, pvalues, confint, alternative=c("less", "greater"), estimates, df, alpha=0.05, mu=0) {
 			result <- gMCP(object, pvalues, alpha=alpha)
 			if (all(getRejected(result))) {
 				alpha <- getWeights(object)*alpha				
@@ -257,31 +257,31 @@ setMethod("simConfint", c("graphMCP"), function(object, pvalues, confint, altern
 				alpha <- getWeights(result)*alpha				
 			}
 			if (class(confint)=="function") {
-				m <- mapply(confint, nodes(object), alpha)					
+				f <- function(node, alpha, rejected) {
+					if (rejected && alternative=="less") return(c(-Inf, mu))
+					if (rejected && alternative=="greater") return(c(mu, Inf))
+					return(confint(node, alpha))
+				}
+				m <- mapply(f, nodes(object), alpha, getRejected(result))					
 				rownames(m) <- c("lower bound", "upper bound")
 				return(t(m))
 			} else if (confint=="t") {
-				dist <- function(x) {qt(x, df)}
+				dist <- function(x) {qt(p=x, df=df)}
 			} else if (confint=="normal") {
 				dist <- qnorm
 			} else {
-				stop("Parameter confint has to be a function or \"t\" or \"normal\".")
+				stop('Parameter confint has to be a function or "t" or "normal".')
 			}
-			var <- 1
 			if (alternative=="greater") {			
-				stderr <- estimates/dist(1-pvalues)
-				dput(estimates)
-				dput(alpha)
-				dput(stderr)
-				dput(dist(alpha))
+				stderr <- abs(estimates/dist(1-pvalues))
 				lb <- estimates+dist(alpha)*stderr				
 				lb <- ifelse(getRejected(result), max(0,lb), lb) 
 				ub <- rep(Inf,length(lb))
 			} else if (alternative=="less") {			
-				stderr <- estimates/dist(pvalues)
-				lb <- rep(-Inf,length(lb))				 
-				ub <- estimates+dist(1-alpha)*stderr
+				stderr <- abs(estimates/dist(pvalues))								 
+				ub <- estimates+dist(1-alpha)*stderr				
 				ub <- ifelse(getRejected(result), min(0,ub), ub)
+				lb <- rep(-Inf,length(ub))
 			} else {
 				stop("Specify alternative as \"less\" or \"greater\".")
 			}
