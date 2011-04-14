@@ -100,7 +100,7 @@ public class GeneralConfig extends SpecificConfig {
 	}
     
     public double getEpsilon() {
-		return Double.parseDouble(getProperty("epsilon", "0.0001"));		
+		return Double.parseDouble(getProperty("epsilon", "0.001"));		
 	}
     
 	public boolean showFractions() {		
