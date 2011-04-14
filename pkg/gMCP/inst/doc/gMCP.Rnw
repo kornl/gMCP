@@ -438,48 +438,72 @@ Also adjusted p-values and simultaneous confidence intervals can be computed.
 
 <<echo=FALSE,results=hide>>=
 
-pval <- c(0.02,0.055,0.012)
+d1 <- c(1.68005156523844, 1.95566697423700, 0.00137860945822299, 0.660052238622464, 
+		1.06731835721526, 0.39479303427265, -0.312462050794408, 0.323637755662837, 
+		0.490976552328251, 2.34240774442652)
+
+d2 <- c(0.507878380203451, 1.60461475524144, 2.66959621483759, 0.0358289240280020, 
+		-1.13014087491324, 0.792461583741794, 0.0701657425268248, 3.15360436883856, 
+		0.217669661552567, 1.23979492014026)
+
+d3 <- c(-1.31499425534849, 1.62201370145649, 0.89391826766116, 0.845473572033649, 
+		2.17912435223573, 1.07521368050267, 0.791598289847664, 1.58537210294519, 
+		-0.079778759456515, 0.97295072606043)
+
+est <- c(0.860382, 0.9161474, 0.9732953)
+s <- c(0.8759528, 1.291310, 0.8570892)
+pval <- c(0.01260, 0.05154, 0.02124)/2
 
 df <- 9
-# Sample Standard Deviations:
-s <- c(1.2, 0.8, 1.7)
 # Statistics:
-st <- qt(pval/2,df=df, lower.tail=FALSE)
+st <- qt(pval/2, df=df, lower.tail=FALSE)
 # Estimates:
 est <- st*s/sqrt(10)
 
 @
 
-Let's assume the tests for hypotheses $H1:\;\theta_1=0$,
-$H2:\;\theta_2=0$ and $H3:\;\theta_3=0$ are three t-tests with degree
+Let's assume the tests for hypotheses $H1:\;\theta_1\leq0$,
+$H2:\;\theta_2\leq0$ and $H3:\;\theta_3\leq0$ are three t-tests with degree
 of freedom 9.  The estimates are
 $\hat\theta_1=\Sexpr{format(est[1])}$,
 $\hat\theta_2=\Sexpr{format(est[2])}$ and
 $\hat\theta_3=\Sexpr{format(est[3])}$, the sample standard deviations
-$s_1=1.2$, $s_2=0.8$ and $s_3=1.7$ the t-statistics
+$s_1=\Sexpr{format(s[1])}$,
+$s_2=\Sexpr{format(s[2])}$ and
+$s_3=\Sexpr{format(s[3])}$ the t-statistics
 $\Sexpr{format(st[1])}$, $\Sexpr{format(st[2])}$ and
-$\Sexpr{format(st[3])}$ and the corresponding p-values $p_1=0.02$,
-$p_2=0.055$ and $p_3=0.012$.  We want to adjust for multiple testing
-by using the Bonferroni-Holm-Procedure.
+$\Sexpr{format(st[3])}$ and the corresponding p-values $\Sexpr{format(pval[1])}$, 
+$\Sexpr{format(pval[2])}$ and
+$\Sexpr{format(pval[3])}$.  We want to adjust for multiple testing
+by using the Bonferroni-Holm-Procedure with $alpha=0.025$.
 
 \scriptsize
 <<echo=TRUE, keep.source=TRUE>>=
 
 # Estimates:
-est <- c("H1"=0.9101444, "H2"=0.4485153, "H3"=1.4568271)
+est <- c("H1"=0.860382, "H2"=0.9161474, "H3"=0.9732953)
 # Sample standard deviations:
-ssd <- c("H1"=1.2, "H2"=0.8, "H3"=1.7)
+ssd <- c("H1"=0.8759528, "H2"=1.291310, "H3"=0.8570892)
+
+pval <- c(0.01260, 0.05154, 0.02124)/2
 
 simConfint(createBonferroniHolmGraph(3),
-		pvalues  = c(0.02,0.055,0.012), 
+		pvalues  = pval, 
 		confint = function(node, alpha) {
-			est[node]+c(-1,1)*qt(1-alpha/2,df=9)*ssd[node]/sqrt(10)
-		})
+			c(est[node]-qt(1-alpha,df=9)*ssd[node]/sqrt(10), Inf)
+		}, alpha=0.025)
 
 @
 \normalsize
 
 \subsection{Using the GUI}
+
+\begin{figure}[ht]
+  \centering    
+  \includegraphics[width=0.7\textwidth]{pictures/CIDialog.png}      
+  \caption{\label{CIDialog} For normal and t-distributions simultaneous CI can be calculated by the GUI.}
+\end{figure}
+
 
 Use the following two buttons:
 \includegraphics[width=1cm]{pictures/adjPval_b.png}

@@ -247,14 +247,14 @@ setMethod("plot", "graphMCP",
 			# TODO Show visualization of graph			
 		})
 
-setGeneric("simConfint", function(object, pvalues, confint, alternative=c("less", "greater"), estimates, df) standardGeneric("simConfint"))
+setGeneric("simConfint", function(object, pvalues, confint, alternative=c("less", "greater"), estimates, df, alpha=0.05) standardGeneric("simConfint"))
 
-setMethod("simConfint", c("graphMCP"), function(object, pvalues, confint, alternative=c("less", "greater"), estimates, df) {
-			result <- gMCP(object, pvalues)
+setMethod("simConfint", c("graphMCP"), function(object, pvalues, confint, alternative=c("less", "greater"), estimates, df, alpha=0.05) {
+			result <- gMCP(object, pvalues, alpha=alpha)
 			if (all(getRejected(result))) {
-				alpha <- getWeights(object)				
+				alpha <- getWeights(object)*alpha				
 			} else {
-				alpha <- getWeights(result)				
+				alpha <- getWeights(result)*alpha				
 			}
 			if (class(confint)=="function") {
 				m <- mapply(confint, nodes(object), alpha)					
