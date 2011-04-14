@@ -25,7 +25,6 @@ import org.af.commons.io.FileTransfer;
 import org.af.commons.logging.LoggingSystem;
 import org.af.commons.logging.widgets.DetailsDialog;
 import org.af.commons.tools.OSTools;
-import org.af.commons.tools.StringTools;
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -101,7 +100,7 @@ public class MenuBarMGraph extends JMenuBar implements ActionListener {
 	private void createLastUsed() {
 		List<String> graphs = Configuration.getInstance().getGeneralConfig().getLatestGraphs();
 		
-		for(int i=fmenu.getItemCount()-1; i>12; i--) {
+		for(int i=fmenu.getItemCount()-1; i>13; i--) {
 			fmenu.remove(i);
 		}
 		
@@ -447,10 +446,8 @@ public class MenuBarMGraph extends JMenuBar implements ActionListener {
     		} catch( Exception ex ) {
     			JOptionPane.showMessageDialog(this, "Saving image to '" + f.getAbsolutePath() + "' failed: " + ex.getMessage(), "Saving failed.", JOptionPane.ERROR_MESSAGE);
     		}
-        }	
-		
+        }		
 	}
-
 	
 	private void loadGraph() {		
 		JFileChooser fc = new JFileChooser(Configuration.getInstance().getClassProperty(this.getClass(), "RObjDirectory"));		
@@ -544,7 +541,6 @@ public class MenuBarMGraph extends JMenuBar implements ActionListener {
     	}
     	return menu;
     }
-
     
     public void addHelpMenu() {
     	add(makeHelpMenu());
@@ -563,7 +559,6 @@ public class MenuBarMGraph extends JMenuBar implements ActionListener {
          menu.addSeparator();
          menu.add(makeMenuItem("Version Info / NEWS", "showNEWS", KeyEvent.VK_N));
          return menu;
-	}
-	
+	}	
 
 }
