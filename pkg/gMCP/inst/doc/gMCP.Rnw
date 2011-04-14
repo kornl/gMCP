@@ -487,11 +487,15 @@ ssd <- c("H1"=0.8759528, "H2"=1.291310, "H3"=0.8570892)
 
 pval <- c(0.01260, 0.05154, 0.02124)/2
 
-simConfint(createBonferroniHolmGraph(3),
-		pvalues  = pval, 
-		confint = function(node, alpha) {
+simConfint(createBonferroniHolmGraph(3), pvalues=pval, 
+		confint=function(node, alpha) {
 			c(est[node]-qt(1-alpha,df=9)*ssd[node]/sqrt(10), Inf)
 		}, alpha=0.025)
+
+# Note that the sample standard deviations will be calculated from the pvalues and estimates.
+# For example by estimates/dist(pvalues) for alternative="less".
+#simConfint(createBonferroniHolmGraph(3), pvalues=pval, 
+#		confint="t", df=9, estimates=est, alpha=0.25)
 
 @
 \normalsize
@@ -511,11 +515,15 @@ Use the following two buttons:
 
 See \cite{Bretz11}.
 
+\section{Weighted parametric tests}
+
 \begin{figure}[ht]
   \centering    
   \includegraphics[width=0.7\textwidth]{pictures/correlated.png}      
   \caption{\label{correlated} You can also specify a correlation between the tests.}
 \end{figure}
+
+For further information please take a look at the vignette "\emph{Weighted parametric tests defined by graphs}".
 
 \section{Epsilon edges}\index{epsilon edges}
 
