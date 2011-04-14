@@ -1,7 +1,6 @@
 High priority:
 ==============
 
-- LaTeX-Report
 - 1 Page PDF how to use gMCP, including hint for R installation
 - confidence intervals are strange / wrong in the vignette...
 - Edge weight from node i to node j: m[i,j] or m[j,i] - please decide.
@@ -9,16 +8,12 @@ High priority:
 - round adjusted p-Values up
 - standard examples
 - Think about "-Xrs" - see paragraph below.
-- PView is not well revalidated - load bonferroni holm (3) - total alpha 0.667 is shown
-  Also create node and remove node again - its panels are sometimes still visible for some time 
-- Implement TODO method in CreateGraphGUI
 
 m <- structure(c(0, 0, 1, 0), .Dim = c(2L, 2L), .Dimnames = list(c("H1", "H2"), c("H1", "H2"))) 
 w <- structure(c(0, 0), .Names = c("H1", "H2")) 
 graph <- matrix2graph(m)
 setWeights(graph, w)
 gMCP:::adjPValues(.InitialGraph,c(0.0, 0.0))@adjPValues
-
 
 Medium priority:
 ================
@@ -32,12 +27,12 @@ Medium priority:
 - Test the option for rounding how many digits we want to see.
 (search for DecimalFormat and replace it with getDecFormat())
 - Ask for saving graph when quitting
-- LookNFeel is not kept between sessions
+- LookNFeel is not kept between sessions (also first call of options result in strange LookNFeel message)
 
 Additional features / low priority:
 ===================================
 
-- Do we really need PolynomF and gtools as dependencies?
+- Do we really need PolynomF and gtools and xtable as dependencies?
 - Don't create global variable like .tmpGraph etc.
 - Report generation in GUI (and respect the option whether to show rejected null hypothesis)
 - PNG export cuts perhaps edges. (But already improved!)
