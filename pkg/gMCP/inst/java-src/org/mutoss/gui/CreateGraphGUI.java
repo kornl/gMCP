@@ -49,7 +49,12 @@ public class CreateGraphGUI extends JFrame implements WindowListener, AbortListe
 		if (grid>0) {
 			Configuration.getInstance().getGeneralConfig().setGridSize((int)grid);
 		}
-		Configuration.getInstance().getGeneralConfig().setVersionNumber(RControl.getR().eval("as.character(packageVersion(\"gMCP\"))").asRChar().getData()[0]);
+		try {		
+			Configuration.getInstance().getGeneralConfig().setVersionNumber(RControl.getR().eval("as.character(packageVersion(\"gMCP\"))").asRChar().getData()[0]);
+		} catch (Exception e) {
+			// This is no vital information and will fail for e.g. R 2.8.0, so no error handling here...
+			logger.warn("Package version could not be set:\n"+e.getMessage());
+		}
 		setIconImage((new ImageIcon(getClass().getResource("/org/mutoss/gui/graph/images/rjavaicon64.png"))).getImage());
 		
 		// Fenster in der Mitte des Bildschirms platzieren mit inset = 50 Pixeln Rand.
