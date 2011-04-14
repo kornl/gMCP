@@ -30,8 +30,20 @@ public class TextFileViewer extends JDialog implements ActionListener {
 			dispose();
 			return;
 		}
-		
-		jta = new JTextArea(news);
+		setUp(news);		
+	}
+	
+	public TextFileViewer(JFrame p, String title, String text) {
+		super(p, title);
+		setUp(text);
+	}
+
+	public void actionPerformed(ActionEvent e) {
+		dispose();
+	}
+	
+	private void setUp(String text) {
+		jta = new JTextArea(text);
 		jta.setFont(new Font("Monospaced", Font.PLAIN, 10));
 		jta.setLineWrap(true);
 		jta.setWrapStyleWord(true);
@@ -55,13 +67,9 @@ public class TextFileViewer extends JDialog implements ActionListener {
 			
 		pack();
 		setSize(800,600);
-		setLocationRelativeTo(p);
+		setLocationRelativeTo(this.getParent());
 		
 		setVisible(true);
-	}
-	
-	public void actionPerformed(ActionEvent e) {
-		dispose();
 	}
 
 }

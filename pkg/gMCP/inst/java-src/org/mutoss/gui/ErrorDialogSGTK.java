@@ -4,13 +4,13 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Hashtable;
-import java.util.List;
 
 import javax.swing.JPanel;
 
 import org.af.commons.errorhandling.ErrorDialog;
 import org.af.commons.logging.ApplicationLog;
 import org.af.commons.logging.LoggingSystem;
+import org.af.commons.tools.StringTools;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.log4j.FileAppender;
@@ -49,7 +49,7 @@ public class ErrorDialogSGTK extends ErrorDialog {
     	try {
     		files.put("log", getReadableLogFile());
     		files.put("systeminfo", makeLogFile("system_info.txt", getSystemInfo()));
-    		files.put("rcommands", makeLogFile("r_commands.txt", collapseStringList(RControl.getR().getHistory(),"\n")));
+    		files.put("rcommands", makeLogFile("r_commands.txt", StringTools.collapseStringList(RControl.getR().getHistory(),"\n")));
     		files.put("sessioninfo", makeLogFile("session_info.txt", getRSessionInfo()));
     		files.put("roptions", makeLogFile("r_options.txt", getROptions()));
     		files.put("traceback", makeLogFile("taceback.txt", getTraceBack()));
@@ -65,7 +65,7 @@ public class ErrorDialogSGTK extends ErrorDialog {
     }
     
     private String getGraph() {
-    	return collapseStringArray(RControl.getR().eval("gMCP:::getDebugInfo()").asRChar().getData());
+    	return StringTools.collapseStringArray(RControl.getR().eval("gMCP:::getDebugInfo()").asRChar().getData());
 	}
 
 	private String getSystemInfo() {		
@@ -73,15 +73,15 @@ public class ErrorDialogSGTK extends ErrorDialog {
 	}
 
 	private String getROptions() {		
-		return collapseStringArray(RControl.getR().eval("paste(capture.output(options()), collapse=\"\\n\")").asRChar().getData());
+		return StringTools.collapseStringArray(RControl.getR().eval("paste(capture.output(options()), collapse=\"\\n\")").asRChar().getData());
 	}
 
 	private String getRSessionInfo() {
-		return collapseStringArray(RControl.getR().eval("paste(capture.output(sessionInfo()), collapse=\"\\n\")").asRChar().getData());
+		return StringTools.collapseStringArray(RControl.getR().eval("paste(capture.output(sessionInfo()), collapse=\"\\n\")").asRChar().getData());
 	}
 	
 	private String getTraceBack() {
-		return collapseStringArray(RControl.getR().eval("paste(capture.output(traceback()), collapse=\"\\n\")").asRChar().getData());
+		return StringTools.collapseStringArray(RControl.getR().eval("paste(capture.output(traceback()), collapse=\"\\n\")").asRChar().getData());
 	}
 
 	/**
@@ -105,26 +105,6 @@ public class ErrorDialogSGTK extends ErrorDialog {
         fw.write(content);
         fw.close();
         return output;
-    }
-    
-    private String collapseStringArray(String[] ss, String sep) {
-        String result = "";
-        for (String s : ss) {
-            result  += s + sep;
-        }
-        return result;
-    }
-    
-    private String collapseStringList(List<String> ss, String sep) {
-        String result = "";
-        for (String s : ss) {
-            result  += s + sep;
-        }
-        return result;
-    }
-
-    private String collapseStringArray(String[] ss) {
-        return collapseStringArray(ss, "\n");
     }
 
     protected Hashtable<String, String> getInfoTable() {

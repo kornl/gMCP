@@ -59,7 +59,7 @@ public class RControl {
 			rcs = new RCallServicesREngine(new JRIEngine(rengine));
 			if (System.getProperty("eclipse") != null) {		
 				rcs.eval("require(gMCP)");				
-				rcs.eval("graph <- createGraphFromBretzEtAl()");
+				rcs.eval("graph <- createBonferroniHolmGraph(3)");
 				rcs.eval("graph2 <- createGraphFromBretzEtAl()");
 				rcs.eval("m <- matrix(0, nrow=2, ncol=2)");
 				rcs.eval("dunnettM <- matrix(c(1,1/2,1/2,1), nrow=2)");

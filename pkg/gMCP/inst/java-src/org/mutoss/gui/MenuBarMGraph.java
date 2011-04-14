@@ -25,6 +25,7 @@ import org.af.commons.io.FileTransfer;
 import org.af.commons.logging.LoggingSystem;
 import org.af.commons.logging.widgets.DetailsDialog;
 import org.af.commons.tools.OSTools;
+import org.af.commons.tools.StringTools;
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -259,7 +260,12 @@ public class MenuBarMGraph extends JMenuBar implements ActionListener {
         } else if (e.getActionCommand().equals("debugConsole")) {
         	RControl.console.setVisible(true);
         } else if (e.getActionCommand().equals("graphAnalysis")) {
-        	notYetSupported();
+        	if (control.getNL().getKnoten().size()==0) {
+        		JOptionPane.showMessageDialog(control.getMainFrame(), "Graph is empty!", "Graph is empty!", JOptionPane.ERROR_MESSAGE);
+        		return;
+        	}
+        	String text = RControl.getR().eval("graphAnalysis("+control.getNL().initialGraph+")").asRChar().getData()[0];
+        	new TextFileViewer(control.getMainFrame(), "Graph analysis", text);
         } else if (e.getActionCommand().equals("powerAnalysis")) {
         	notYetSupported();
         } else if (e.getActionCommand().equals("load p-values from R")) {
