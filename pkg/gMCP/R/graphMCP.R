@@ -278,7 +278,7 @@ setMethod("simConfint", c("graphMCP"), function(object, pvalues, confint, altern
 				lb <- ifelse(getRejected(result), max(0,lb), lb) 
 				ub <- rep(Inf,length(lb))
 			} else if (alternative=="less") {			
-				stderr <- estimates/qt(pvalues)
+				stderr <- estimates/dist(pvalues)
 				lb <- rep(-Inf,length(lb))				 
 				ub <- estimates+dist(1-alpha)*stderr
 				ub <- ifelse(getRejected(result), min(0,ub), ub)
