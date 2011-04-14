@@ -20,6 +20,8 @@ Version 0.6-2 (??-Apr-2011, Rev. ???)
 
 - Improved zoom with TeXItem edge labels.
 
+- Menu entry for loading p-values.
+
 - Fixed bug where panel with p-values was sometimes out of sync.
 
 
