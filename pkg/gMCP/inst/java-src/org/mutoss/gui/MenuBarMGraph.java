@@ -196,7 +196,7 @@ public class MenuBarMGraph extends JMenuBar implements ActionListener {
         		JOptionPane.showMessageDialog(control.getMainFrame(), "Will not save empty graph.", "Saving to R failed.", JOptionPane.ERROR_MESSAGE);
         		return;
         	}
-        	VariableNameDialog vnd = new VariableNameDialog(control.getGraphGUI());
+        	VariableNameDialog vnd = new VariableNameDialog(control.getGraphGUI(), control.getGraphName());
         	String name = control.getNL().saveGraph(vnd.getName(), true);
         	Configuration.getInstance().getGeneralConfig().addGraph("R Object: "+name);
         	createLastUsed();
@@ -481,7 +481,7 @@ public class MenuBarMGraph extends JMenuBar implements ActionListener {
             	f = new File(f.getAbsolutePath()+".RData");
             }
             try {
-            	VariableNameDialog vnd = new VariableNameDialog(control.getGraphGUI());            	
+            	VariableNameDialog vnd = new VariableNameDialog(control.getGraphGUI(), control.getGraphName());            	
             	String name = vnd.getName();
             	control.getNL().saveGraph(name, false); 
             	RControl.getR().eval("save("+name+", file=\""+f.getAbsolutePath()+"\")");        		
