@@ -5,6 +5,7 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 
@@ -16,11 +17,11 @@ import com.jgoodies.forms.layout.FormLayout;
 public class VariableNameDialog extends JDialog implements ActionListener {
 	JButton ok = new JButton("Ok");
 
-    CreateGraphGUI parent;
+    JFrame parent;
     JTextField jt = new JTextField();
     
-	public VariableNameDialog(CreateGraphGUI parent) {
-		super(parent, "Correlated test statistics?", true);
+	public VariableNameDialog(JFrame parent, String name) {
+		super(parent, "R object name", true);
 		setLocationRelativeTo(parent);
 		this.parent = parent;		
 
@@ -33,7 +34,7 @@ public class VariableNameDialog extends JDialog implements ActionListener {
 
 		int row = 2;
 
-		jt.setText(parent.getGraphView().getGraphName());
+		jt.setText(name);
 		jt.addActionListener(this);
 		getContentPane().add(new JLabel("R object name:"), cc.xy(2, row));
 		getContentPane().add(jt, cc.xy(4, row));
