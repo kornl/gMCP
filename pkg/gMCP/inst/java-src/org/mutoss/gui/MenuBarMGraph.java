@@ -263,7 +263,8 @@ public class MenuBarMGraph extends JMenuBar implements ActionListener {
         		JOptionPane.showMessageDialog(control.getMainFrame(), "Graph is empty!", "Graph is empty!", JOptionPane.ERROR_MESSAGE);
         		return;
         	}
-        	String text = RControl.getR().eval("graphAnalysis("+control.getNL().initialGraph+")").asRChar().getData()[0];
+        	control.getNL().saveGraph(".tmpGraph", false);
+        	String text = RControl.getR().eval("graphAnalysis(.tmpGraph)").asRChar().getData()[0];
         	new TextFileViewer(control.getMainFrame(), "Graph analysis", text);
         } else if (e.getActionCommand().equals("powerAnalysis")) {
         	notYetSupported();
