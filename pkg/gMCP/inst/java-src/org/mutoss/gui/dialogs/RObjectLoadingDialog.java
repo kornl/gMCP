@@ -1,5 +1,6 @@
 package org.mutoss.gui.dialogs;
 
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -30,13 +31,13 @@ public class RObjectLoadingDialog extends JDialog implements ActionListener, Lis
     JList jlGraphs;
     String[] matrices;
     String[] graphs;
-    JTextArea jtInfo = new JTextArea(9, 30);;
+    JTextArea jtInfo = new JTextArea(12, 40);;
     
 	public RObjectLoadingDialog(CreateGraphGUI parent) {
 		super(parent, "Select an R object to load", true);
-		setLocationRelativeTo(parent);
 		this.parent = parent;
 		jtInfo.setEditable(false);
+		jtInfo.setFont(new Font("Monospaced", Font.PLAIN, 10));
 		
 		matrices = RControl.getR().eval("gMCP:::getAllQuadraticMatrices()").asRChar().getData();
 		graphs = RControl.getR().eval("gMCP:::getAllGraphs()").asRChar().getData();		
@@ -62,7 +63,7 @@ public class RObjectLoadingDialog extends JDialog implements ActionListener, Lis
 		}		
 		
         String cols = "5dlu, fill:pref:grow, 5dlu, fill:pref:grow, 5dlu, fill:pref:grow, 5dlu";
-        String rows = "5dlu, pref, 5dlu, pref, 5dlu, pref, 5dlu, pref, 5dlu";
+        String rows = "5dlu, pref, 5dlu, fill:pref:grow, 5dlu, pref, 5dlu, pref, 5dlu";
         
         FormLayout layout = new FormLayout(cols, rows);
         getContentPane().setLayout(layout);
@@ -86,6 +87,8 @@ public class RObjectLoadingDialog extends JDialog implements ActionListener, Lis
         ok.addActionListener(this);        
 
         pack();
+        setSize(760,500);
+		setLocationRelativeTo(parent);
         setVisible(true);
 	}
 
