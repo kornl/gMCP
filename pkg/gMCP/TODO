@@ -8,6 +8,7 @@ High priority:
 - round adjusted p-Values up
 - standard examples
 - Think about "-Xrs" - see paragraph below.
+- somehow p-value labels where disabled (but we were not in testing modus).
 
 Medium priority:
 ================
