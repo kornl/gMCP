@@ -10,11 +10,17 @@ Version 0.6-2 (??-Apr-2011, Rev. ???)
 
 - Improved / updated gMCP-LaTeX-Report now in the GUI.
 
-- New function graphAnalysis
+- New function: graphAnalysis
 
 - Fixed a major bug which prevented saving/loading in the GUI.
 
 - Mnemonic keys for the menu.
+
+- Buttons for loading estimates / sd from R in CI-dialog.
+
+- Improved zoom with TeXItem edge labels.
+
+- Fixed bug where panel with p-values was sometimes out of sync.
 
 
 Version 0.6-1 (09-Apr-2011, Rev. 589)

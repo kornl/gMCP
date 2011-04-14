@@ -131,12 +131,19 @@ updated and the alpha level of this node is passed according to the
 edge weights.
 
 \begin{Example}
-  Let $p_1=0.01$, $p_2=0.04$ and $p_3=0.02$ be three p-values and
+  We give an example for the Bonferroni-Holm-Procedure that will
+  be used repeatedly throughout this manual. Of course this 
+  package is made for more advanced tests (you find a selection in 
+  section \ref{caseStudies}),
+  but since most readers are already familiar with this procedure,
+  for a first introduction of gMCP, we stick to this simple example.  
+  
+  Let $p_1=0.01$, $p_2=0.07$ and $p_3=0.02$ be three p-values and
   $\alpha=0.05$.  In the first step $H_1$ can be rejected since
   $p_1<\alpha/3$.  The updated graph can be seen in figure
   \ref{exampleHolmP} and now also $H_3$ can be rejected since
-  $p_1<\alpha/2$.  Again the graph is updated and at last also $H_2$
-  can be rejected.
+  $p_1<\alpha/2$.  Again the graph is updated, but $H_2$
+  can not be rejected.
 \end{Example}
 
 \begin{figure}[ht]
@@ -151,12 +158,11 @@ cat(graph2latex(graph, scale=0.7, fontsize="tiny", nodeTikZ="minimum size=1.2cm"
 cat("$\\downarrow$ reject $H_3$\\\\")
 graph <- rejectNode(graph, "H3")
 cat(graph2latex(graph, scale=0.7, fontsize="tiny", nodeTikZ="minimum size=1.2cm"))
-cat("reject $H_2$")
 
 @
-  \caption{\label{exampleHolmP} Example showing how all three
+  \caption{\label{exampleHolmP} Example showing how two
     null hypotheses can be rejected with p-values $p_1=0.01$,
-    $p_2=0.04$ and $p_3=0.02$.}
+    $p_2=0.07$ and $p_3=0.02$.}
 \end{figure}
 
 Okay, let's reproduce this with the \texttt{gMCP} package. We start R and enter:
@@ -183,7 +189,7 @@ If we don't want to use the GUI we can also use R:
 
 library(gMCP)
 graph <- createBonferroniHolmGraph(3)
-gMCP(graph, pvalues=c(0.01,0.04,0.02), alpha=0.05)
+gMCP(graph, pvalues=c(0.01,0.07,0.02), alpha=0.05)
 
 @
 \normalsize
@@ -637,7 +643,7 @@ A powerful feature is the use of styles, since this will effect all
 objects of a given class. But for this please take a look directly at
 the TikZ manual \cite{TikZ}.
 
-\section{Case Studies}
+\section{Case Studies}\label{caseStudies}
 
 This section is work in progress.
 

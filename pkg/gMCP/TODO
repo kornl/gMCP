@@ -9,12 +9,6 @@ High priority:
 - standard examples
 - Think about "-Xrs" - see paragraph below.
 
-m <- structure(c(0, 0, 1, 0), .Dim = c(2L, 2L), .Dimnames = list(c("H1", "H2"), c("H1", "H2"))) 
-w <- structure(c(0, 0), .Names = c("H1", "H2")) 
-graph <- matrix2graph(m)
-setWeights(graph, w)
-gMCP:::adjPValues(.InitialGraph,c(0.0, 0.0))@adjPValues
-
 Medium priority:
 ================
 
