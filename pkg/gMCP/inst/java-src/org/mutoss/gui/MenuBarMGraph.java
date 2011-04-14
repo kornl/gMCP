@@ -42,7 +42,6 @@ public class MenuBarMGraph extends JMenuBar implements ActionListener {
 	GraphView control;
     protected Localizer localizer = Localizer.getInstance();
     private static final Log logger = LogFactory.getLog(MenuBarMGraph.class);
-    //protected HelpSystem helpSystem;
     JMenu fmenu = new JMenu("File");
 
 	public MenuBarMGraph(GraphView control) {
@@ -256,6 +255,10 @@ public class MenuBarMGraph extends JMenuBar implements ActionListener {
         	new OptionsDialog(control.getMainFrame());
         } else if (e.getActionCommand().equals("debugConsole")) {
         	RControl.console.setVisible(true);
+        } else if (e.getActionCommand().equals("graphAnalysis")) {
+        	notYetSupported();
+        } else if (e.getActionCommand().equals("powerAnalysis")) {
+        	notYetSupported();
         }
 	}
 	
