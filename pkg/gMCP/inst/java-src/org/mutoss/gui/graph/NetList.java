@@ -65,6 +65,7 @@ public class NetList extends JPanel implements MouseMotionListener, MouseListene
 	public void acceptNode(Node node) {
 		control.getPView().savePValues();
 		saveGraph(".tmpGraph", false);
+		RControl.getR().eval(".tmpGraph <- substituteEps(.tmpGraph, eps="+Configuration.getInstance().getGeneralConfig().getEpsilon()+")");
 		RControl.getR().eval(".tmpGraph <- rejectNode(.tmpGraph, \""+node.getName()+"\")");
 		reset();
 		new GraphMCP(".tmpGraph", this);
@@ -468,7 +469,8 @@ public class NetList extends JPanel implements MouseMotionListener, MouseListene
 		for (Edge e : edges) {		
 			variables.addAll(e.getVariable());
 		}
-		if (!Configuration.getInstance().getGeneralConfig().useEpsApprox()) {
+		/*if (!Configuration.getInstance().getGeneralConfig().useEpsApprox()) */
+		{
 			variables.remove("ε");
 		}
 		

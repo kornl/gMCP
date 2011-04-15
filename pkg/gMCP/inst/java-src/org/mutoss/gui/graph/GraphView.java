@@ -22,6 +22,7 @@ import org.af.commons.widgets.DesktopPaneBG;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.jdesktop.swingworker.SwingWorker;
+import org.mutoss.config.Configuration;
 import org.mutoss.gui.CreateGraphGUI;
 import org.mutoss.gui.RControl;
 import org.mutoss.gui.datatable.DataTable;
@@ -195,7 +196,7 @@ public class GraphView extends JPanel implements ActionListener {
 					@Override
 					protected Void doInBackground() throws Exception {
 						if (!resultUpToDate) {
-							RControl.getR().evalVoid(result+" <- gMCP("+getNL().initialGraph+","+getPView().getPValuesString()+ correlation+", alpha="+getPView().getTotalAlpha()+")");
+							RControl.getR().evalVoid(result+" <- gMCP("+getNL().initialGraph+getGMCPOptions()+")");
 							resultUpToDate = true;
 						}
 						double[] alpha = RControl.getR().eval(""+getPView().getTotalAlpha()+"*getWeights("+result+")").asRNumeric().getData();
@@ -216,7 +217,7 @@ public class GraphView extends JPanel implements ActionListener {
 					@Override
 					protected Void doInBackground() throws Exception {
 						if (!resultUpToDate) {
-							RControl.getR().evalVoid(result+" <- gMCP("+getNL().initialGraph+","+getPView().getPValuesString()+ correlation+", alpha="+getPView().getTotalAlpha()+")");
+							RControl.getR().evalVoid(result+" <- gMCP("+getNL().initialGraph+getGMCPOptions()+")");
 							resultUpToDate = true;
 						}
 						boolean[] rejected = RControl.getR().eval(result+"@rejected").asRLogical().getData();				
@@ -244,7 +245,7 @@ public class GraphView extends JPanel implements ActionListener {
 					@Override
 					protected Void doInBackground() throws Exception {						
 						if (!resultUpToDate) {
-							RControl.getR().evalVoid(result+" <- gMCP("+getNL().initialGraph+","+getPView().getPValuesString()+ correlation+", alpha="+getPView().getTotalAlpha()+")");
+							RControl.getR().evalVoid(result+" <- gMCP("+getNL().initialGraph+getGMCPOptions()+")");
 							resultUpToDate = true;
 						}
 						double[] adjPValues = RControl.getR().eval(result+"@adjPValues").asRNumeric().getData();
@@ -329,6 +330,10 @@ public class GraphView extends JPanel implements ActionListener {
 		buttonadjPval.setEnabled(enabled);
 		buttonConfInt.setEnabled(enabled);
 		buttonStart.setEnabled(enabled);
+	}
+
+	public String getGMCPOptions() {
+		return ","+getPView().getPValuesString()+ correlation+", alpha="+getPView().getTotalAlpha()+", eps="+Configuration.getInstance().getGeneralConfig().getEpsilon();
 	}
 	
 }

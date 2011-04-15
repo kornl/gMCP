@@ -34,7 +34,7 @@ public class EpsilonTableCellRenderer extends DefaultTableCellRenderer {
     		} catch (Exception e) {
     			// Seriously - we don't want to do anything: d=0.0 is fine.
     		}
-    		if (d>1||d<0) sum=1000;
+    		if (d>1.0001||d<0) sum=1000;
     		sum += (d>=0&&d<=1)?d:0;
     	}
 

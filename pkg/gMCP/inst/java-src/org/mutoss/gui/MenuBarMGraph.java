@@ -363,7 +363,7 @@ public class MenuBarMGraph extends JMenuBar implements ActionListener {
 			@Override
 			protected Void doInBackground() throws Exception {
 				if (!control.resultUpToDate) {
-					RControl.getR().evalVoid(control.result+" <- gMCP("+control.getNL().initialGraph+","+control.getPView().getPValuesString()+ correlation+", alpha="+control.getPView().getTotalAlpha()+")");
+					RControl.getR().evalVoid(control.result+" <- gMCP("+control.getNL().initialGraph+control.getGMCPOptions()+")");
 					control.resultUpToDate = true;
 				}
 				RControl.getR().eval("gMCPReport("+control.result+", file=\""+f.getAbsolutePath()+"\")");

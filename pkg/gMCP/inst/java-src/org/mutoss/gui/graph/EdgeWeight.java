@@ -6,10 +6,14 @@ import java.util.Hashtable;
 import java.util.List;
 import java.util.Vector;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.mutoss.config.Configuration;
 import org.mutoss.gui.RControl;
 
 public class EdgeWeight {
+	
+	private static final Log logger = LogFactory.getLog(EdgeWeight.class);
 	
 	protected String weightStr = null; 
 	protected double[] weight = null;
@@ -59,6 +63,7 @@ public class EdgeWeight {
 			weight = RControl.getR().eval("gMCP:::parseEpsPolynom(\""+replaceStr+"\")").asRNumeric().getData();
 			return weight;
 		} catch (Exception e) {
+			logger.warn("Error parsing edge weight:\n"+e.getMessage(), e);
 			return new double[] {};
 		}
 	}

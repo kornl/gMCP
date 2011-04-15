@@ -144,7 +144,7 @@ public class PView extends JPanel implements KeyListener, ActionListener {
 			}
 		}
 		String text = "Sum of weights: "+Configuration.getInstance().getGeneralConfig().getDecFormat().format(alpha);
-		if (alpha>1) {
+		if (alpha>1.0001) {
 			statusLabel.setForeground(Color.RED);
 			text += "; The total weight is greater 1!";
 		} else {
