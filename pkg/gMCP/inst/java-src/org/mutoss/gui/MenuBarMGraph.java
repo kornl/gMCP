@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.lang.reflect.Method;
 import java.net.URI;
 import java.util.List;
+import java.util.Properties;
 
 import javax.imageio.ImageIO;
 import javax.swing.JFileChooser;
@@ -256,6 +257,9 @@ public class MenuBarMGraph extends JMenuBar implements ActionListener {
         	new AboutDialog(control.getMainFrame());
         } else if (e.getActionCommand().equals("showOptions")) {
         	new OptionsDialog(control.getMainFrame());
+        } else if (e.getActionCommand().equals("clearOptions")) {
+        	Configuration.getInstance().clearConfiguration();
+        	control.getMainFrame().repaint();
         } else if (e.getActionCommand().equals("debugConsole")) {
         	RControl.console.setVisible(true);
         } else if (e.getActionCommand().equals("graphAnalysis")) {
@@ -264,7 +268,7 @@ public class MenuBarMGraph extends JMenuBar implements ActionListener {
         		return;
         	}
         	control.getNL().saveGraph(".tmpGraph", false);
-        	String text = RControl.getR().eval("graphAnalysis(.tmpGraph)").asRChar().getData()[0];
+        	String text = RControl.getR().eval("graphAnalysis(.tmpGraph, file=tempfile())").asRChar().getData()[0];
         	new TextFileViewer(control.getMainFrame(), "Graph analysis", text);
         } else if (e.getActionCommand().equals("powerAnalysis")) {
         	notYetSupported();
@@ -533,13 +537,15 @@ public class MenuBarMGraph extends JMenuBar implements ActionListener {
 
     public JMenu makeExtrasMenu() {
     	JMenu menu = new JMenu(localizer.getString("SGTK_MENU_EXTRAS"));
-    	menu.add(makeMenuItem(localizer.getString("SGTK_MENU_EXTRAS_OPTIONS"), "showOptions"));
+    	menu.add(makeMenuItem(localizer.getString("SGTK_MENU_EXTRAS_OPTIONS"), "showOptions", KeyEvent.VK_O));
+    	menu.add(makeMenuItem("Set all options back to default", "clearOptions", KeyEvent.VK_C));
     	menu.addSeparator();
-    	menu.add(makeMenuItem(localizer.getString("SGTK_MENU_EXTRAS_LOG"), "showLog"));    	
-    	menu.add(makeMenuItem(localizer.getString("SGTK_MENU_EXTRAS_REPORT_ERROR"), "reportError"));
+    	menu.add(makeMenuItem(localizer.getString("SGTK_MENU_EXTRAS_LOG"), "showLog", KeyEvent.VK_L));
+    	menu.add(makeMenuItem(localizer.getString("SGTK_MENU_EXTRAS_REPORT_ERROR"), "reportError", KeyEvent.VK_R));
     	if (System.getProperty("eclipse") != null) {		
-    		menu.add(makeMenuItem("Debug console", "debugConsole"));
+    		menu.add(makeMenuItem("Debug console", "debugConsole", KeyEvent.VK_D));
     	}
+    	menu.setMnemonic(KeyEvent.VK_E);
     	return menu;
     }
     
