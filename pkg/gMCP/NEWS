@@ -1,5 +1,5 @@
 
-Version 0.6-2 (16-Apr-2011, Rev. 273)
+Version 0.6-2 (16-Apr-2011, Rev. 279)
 =====================================
 
 - New dependency: xtable 
@@ -28,7 +28,9 @@ Version 0.6-2 (16-Apr-2011, Rev. 273)
 - Fixed bug: Edges with small values were set to 0.
 
 - Fixed visualization bug: 
-  Adjacency table was not updated when edge was deleted.   
+  Adjacency table was not updated when edge was deleted.
+  
+- GUI deals a lot better with rounding errors.  
 
 
 Version 0.6-1 (09-Apr-2011, Rev. 589)
