@@ -99,3 +99,12 @@ getAllGraphs <- function(envir=globalenv()) {
 getObjectInfo <- function(object) {
 	return(paste(capture.output(print(object)), collapse="\n"))
 }
+
+gMCPVersion <- function() {
+	x <- try(as.character(packageVersion("gMCP")), silent=TRUE)
+	if (class(x)!="try-error") {
+		return(x)
+	} else {
+		return("unknown")
+	}
+}
