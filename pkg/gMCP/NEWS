@@ -1,5 +1,5 @@
 
-Version 0.6-2 (??-Apr-2011, Rev. ???)
+Version 0.6-2 (16-Apr-2011, Rev. 273)
 =====================================
 
 - New dependency: xtable 
@@ -22,7 +22,13 @@ Version 0.6-2 (??-Apr-2011, Rev. ???)
 
 - Menu entry for loading p-values.
 
-- Fixed bug where panel with p-values was sometimes out of sync.
+- Fixed visualization bug: 
+  Panel with p-values was sometimes out of sync.
+
+- Fixed bug: Edges with small values were set to 0.
+
+- Fixed visualization bug: 
+  Adjacency table was not updated when edge was deleted.   
 
 
 Version 0.6-1 (09-Apr-2011, Rev. 589)
