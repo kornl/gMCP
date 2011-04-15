@@ -1,5 +1,5 @@
 gMCP <- function(graph, pvalues, test, correlation, alpha=0.05, 
-		approxEps=TRUE, eps=10^(-4), ..., verbose=FALSE) {
+		approxEps=TRUE, eps=10^(-3), ..., verbose=FALSE) {
 	sequence <- list(graph)
 	if (approxEps) {
 		graph <- substituteEps(graph, eps=eps)
