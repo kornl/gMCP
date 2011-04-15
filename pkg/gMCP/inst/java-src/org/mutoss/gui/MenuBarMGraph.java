@@ -149,7 +149,7 @@ public class MenuBarMGraph extends JMenuBar implements ActionListener {
 		NetList nl = control.getNL();		
 		newGraph();
 		boolean matrix = RControl.getR().eval("is.matrix("+string+")").asRLogical().getData()[0];
-		RControl.getR().eval(nl.initialGraph + " <- gMCP:::arrangeNodes("+ (matrix?"matrix2graph(":"(")+ string + "))");
+		RControl.getR().eval(nl.initialGraph + " <- placeNodes("+ (matrix?"matrix2graph(":"(")+ string + "))");
 		nl.loadGraph();
 		control.getMainFrame().validate();
 	}
