@@ -17,7 +17,6 @@ Medium priority:
 - Check mutator methods for errors (alpha > 1, edge weights > 1)
 - Update graph2latex to the much better algorithm already implemented in Java.
 - new BlockLayout in arrangeNodes
-- call calculateWeightString() when options change
 - Guide for usage under MacOS
 - Test the option for rounding how many digits we want to see.
 (search for DecimalFormat and replace it with getDecFormat())
