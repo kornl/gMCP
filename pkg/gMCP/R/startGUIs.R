@@ -20,7 +20,7 @@ graphGUI <- function(graph="createdGraph", pvalues=numeric(0), grid=0, debug=FAL
 	if (exists(graph, envir=globalenv())) {
 		if ("graphMCP" %in% class(get(graph, envir=globalenv()))) {
 			if (length(nodeRenderInfo(get(graph, envir=globalenv())))==0) {
-				assign(graph, arrangeNodes(get(graph, envir=globalenv())), envir=globalenv())
+				assign(graph, placeNodes(get(graph, envir=globalenv())), envir=globalenv())
 			}
 		} else {
 			warning(paste("The variable",graph,"already exists and is no graphMCP object."))

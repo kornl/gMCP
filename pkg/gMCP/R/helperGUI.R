@@ -40,7 +40,7 @@ getEdges <- function(graph){
 	return(list(from=fromL, to=toL, weight=weightL, labelx=labelx, labely=labely, curve=curveL, weightStr=weightStrL))
 }
 
-arrangeNodes <- function(graph) {
+placeNodes <- function(graph, nrow, ncol, byrow = FALSE) {
 	if (length(nodeRenderInfo(graph))==0) {
 		n <- length(nodes(graph))
 		v <- (1:n)/n*2*pi

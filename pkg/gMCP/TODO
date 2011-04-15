@@ -9,6 +9,7 @@ High priority:
 - standard examples
 - Think about "-Xrs" - see paragraph below.
 - somehow p-value labels where disabled (but we were not in testing modus).
+- Labels like 1/3+1/2*e also in decimal format: 0.3333+0.5*e
 
 Medium priority:
 ================
@@ -18,6 +19,7 @@ Medium priority:
 - Check mutator methods for errors (alpha > 1, edge weights > 1)
 - Update graph2latex to the much better algorithm already implemented in Java.
 - new BlockLayout in arrangeNodes
+  with nrow, ncol, byrow = FALSE
 - Guide for usage under MacOS
 - Test the option for rounding how many digits we want to see.
 (search for DecimalFormat and replace it with getDecFormat())

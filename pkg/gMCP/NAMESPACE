@@ -9,7 +9,7 @@ exportClasses(graphMCP, gMCPResult)
 exportMethods(plot, print, getWeights, setWeights, getRejected, getXCoordinates, getYCoordinates, simConfint, addEdge)
 
 export(graphGUI)
-export(gMCP, rejectNode, substituteEps)
+export(gMCP, rejectNode, substituteEps, placeNodes)
 export(gMCPReport, graph2latex)
 export(matrix2graph, graph2matrix, bdiagNA)
 export(graphAnalysis)
