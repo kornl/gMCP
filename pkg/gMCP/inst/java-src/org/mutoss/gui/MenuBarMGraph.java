@@ -123,7 +123,7 @@ public class MenuBarMGraph extends JMenuBar implements ActionListener {
 					if (s.startsWith("R Object: ")) {
 						s = s.substring(10);
 						if (RControl.getR().eval("exists(\""+s+"\")").asRLogical().getData()[0]) {
-							fmenu.add(makeMenuItem(i+" "+s, "LOAD_GRAPH"+graphs, (i+"").charAt(0)));
+							fmenu.add(makeMenuItem(i+" "+s, "LOAD_GRAPH"+graph, (i+"").charAt(0)));
 						}
 					}
 				}				

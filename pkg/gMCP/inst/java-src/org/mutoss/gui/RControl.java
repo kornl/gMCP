@@ -83,6 +83,7 @@ public class RControl {
 
 	public static String getFraction(Double d, boolean useUnicode, int cycles) {
 		String f = getFraction(d, cycles);
+		if (true) return f; //TODO boolean useUnicode is ignored - do we want to use this somewhere?
 		if (!useUnicode) { return f; }
 		if (f.equals("1/2")) return("½");
 		if (f.equals("1/3")) return("⅓");

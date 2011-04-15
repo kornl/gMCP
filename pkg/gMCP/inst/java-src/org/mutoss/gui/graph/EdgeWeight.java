@@ -14,7 +14,6 @@ public class EdgeWeight {
 	protected String weightStr = null; 
 	protected double[] weight = null;
 	
-	static DecimalFormat format = new DecimalFormat("#.###");
 	static DecimalFormat formatSmall = new DecimalFormat("#.###E0");
 	
 	public EdgeWeight(String weightStr) {
@@ -23,17 +22,25 @@ public class EdgeWeight {
 	}
 	
 	public EdgeWeight(double weight) {
-		this.weight = new double[] { weight };
-		/*if (w.toString().equals("NaN")) return "ε";
-		if (w<0.0009) {
+		this.weight = new double[] { weight };		
+		/*if (w<0.0009) {
 			return formatSmall.format(w);
 		} else {
 			return stringW;			
-		}*/
+		}*/	
+		DecimalFormat format = Configuration.getInstance().getGeneralConfig().getDecFormat();
 		if (!Configuration.getInstance().getGeneralConfig().showFractions()) {
-			weightStr = format.format(weight);
+			if (weight!=0 && weight < Math.pow(0.1, Configuration.getInstance().getGeneralConfig().getDigits())) {
+				weightStr = formatSmall.format(weight);
+			} else {
+				weightStr = format.format(weight);
+			}
 		} else {
-			weightStr = RControl.getFraction(weight, true);
+			if (weight!=0 && weight < Math.pow(0.1, Configuration.getInstance().getGeneralConfig().getDigits())) {
+				weightStr = formatSmall.format(weight);
+			} else {
+				weightStr = RControl.getFraction(weight, true);
+			}
 		}		
 	}
 	

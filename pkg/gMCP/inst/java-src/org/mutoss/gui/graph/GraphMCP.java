@@ -61,13 +61,13 @@ public class GraphMCP {
 					int yl = (int) labelY[i];
 					//if (yl<-50) yl = (fromNode.getY()+toNode.getY())/2;				
 					boolean curve = curved[i];
-					/*if (!((Double)weight[i]).toString().equals("NaN")) {
+					if (!((Double)weight[i]).toString().equals("NaN")) {
 						if (xl < -50 || yl < -50) {
-							edges.add(new Edge(fromNode, toNode, weight[i], vs,  curve));
+							edges.add(new Edge(fromNode, toNode, weight[i], nl,  curve));
 						} else {
-							edges.add(new Edge(fromNode, toNode, weight[i], vs, xl+Node.getRadius(), yl+Node.getRadius()));
+							edges.add(new Edge(fromNode, toNode, weight[i], nl, xl+Node.getRadius(), yl+Node.getRadius()));
 						}
-					} else */ {
+					} else {
 						if (xl < -50 || yl < -50) {
 							edges.add(new Edge(fromNode, toNode, weightStr[i], nl, /* xl+Node.getRadius(), yl+Node.getRadius(),*/ curve));
 						} else {
