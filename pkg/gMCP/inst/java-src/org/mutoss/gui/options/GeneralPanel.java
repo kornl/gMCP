@@ -93,7 +93,7 @@ public class GeneralPanel extends OptionsPanel implements ActionListener {
         colorImages.setSelected(conf.getGeneralConfig().getColoredImages());
         
         showFractions = new JCheckBox("Show fractions instead of decimal numbers");
-        showFractions.setSelected(conf.getGeneralConfig().getColoredImages());
+        showFractions.setSelected(conf.getGeneralConfig().showFractions());
         
         showRejected = new JCheckBox("Show rejected nodes in GUI");
         showRejected.setSelected(conf.getGeneralConfig().showRejected());

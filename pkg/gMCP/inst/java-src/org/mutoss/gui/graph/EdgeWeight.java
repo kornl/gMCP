@@ -28,6 +28,10 @@ public class EdgeWeight {
 		} else {
 			return stringW;			
 		}*/	
+		setWeightStr(weight);	
+	}
+	
+	private void setWeightStr(double weight) {
 		DecimalFormat format = Configuration.getInstance().getGeneralConfig().getDecFormat();
 		if (!Configuration.getInstance().getGeneralConfig().showFractions()) {
 			if (weight!=0 && weight < Math.pow(0.1, Configuration.getInstance().getGeneralConfig().getDigits())) {
@@ -41,23 +45,27 @@ public class EdgeWeight {
 			} else {
 				weightStr = RControl.getFraction(weight, true);
 			}
-		}		
+		}	
 	}
-	
+
 	public String toString() {
 		return weightStr;
 	}
 	
 	public double[] getWeight(Hashtable<String,Double> ht) {
-		String replaceStr = weightStr;
-		if (weight!=null) return weight;
-		for (Enumeration<String> keys = ht.keys() ; keys.hasMoreElements() ;) {
-			String s = keys.nextElement();
-			replaceStr = replaceStr.replaceAll(s, ""+ht.get(s));
+		try {
+			String replaceStr = weightStr;
+			if (weight!=null) return weight;
+			for (Enumeration<String> keys = ht.keys() ; keys.hasMoreElements() ;) {
+				String s = keys.nextElement();
+				replaceStr = replaceStr.replaceAll(s, ""+ht.get(s));
+			}
+			replaceStr = replaceStr.replaceAll("ε", "e");
+			weight = RControl.getR().eval("gMCP:::parseEpsPolynom(\""+replaceStr+"\")").asRNumeric().getData();
+			return weight;
+		} catch (Exception e) {
+			return new double[] {};
 		}
-		replaceStr = replaceStr.replaceAll("ε", "e");
-		weight = RControl.getR().eval("gMCP:::parseEpsPolynom(\""+replaceStr+"\")").asRNumeric().getData();
-		return weight;
 	}
 	
 	public List<String> getVariables() {

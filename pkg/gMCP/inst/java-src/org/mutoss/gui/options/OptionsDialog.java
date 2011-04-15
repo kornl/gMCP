@@ -17,6 +17,9 @@ import org.af.commons.widgets.validate.ValidationException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.mutoss.config.Configuration;
+import org.mutoss.gui.CreateGraphGUI;
+import org.mutoss.gui.graph.Edge;
+import org.mutoss.gui.graph.Node;
 
 /**
  * Dialog for configuring various settings.
@@ -31,12 +34,12 @@ public class OptionsDialog extends JDialog implements ActionListener {
 
     private Configuration conf;
 
-    JFrame parent;
+    CreateGraphGUI parent;
 
     /**
      * Standard constructor
      */
-    public OptionsDialog(JFrame p) {
+    public OptionsDialog(CreateGraphGUI p) {
     	super(p);
     	this.parent = p;
         this.conf = Configuration.getInstance();
@@ -91,7 +94,17 @@ public class OptionsDialog extends JDialog implements ActionListener {
             	plotPanel.setProperties();
                 if  (e.getActionCommand().equals(OkApplyCancelButtonPane.OK_CMD)) {
                 	dispose();
-                }                
+                }
+                for (Edge edge : parent.getGraphView().getNL().getEdges()) {
+                	double[] weight = edge.getW(null);
+                	if (weight.length==1) {
+                		edge.setW(weight[0]);
+                	}
+                }
+                for (Node node : parent.getGraphView().getNL().getKnoten()) {
+                	node.setWeight(node.getWeight(), null);
+                }
+                parent.repaint();
             } catch (ValidationException exc) {
                 JOptionPane.showMessageDialog(this, exc.getMessage());
             } catch (SetLookAndFeelException exc) {
