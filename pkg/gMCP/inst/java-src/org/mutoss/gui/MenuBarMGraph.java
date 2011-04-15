@@ -10,7 +10,6 @@ import java.io.IOException;
 import java.lang.reflect.Method;
 import java.net.URI;
 import java.util.List;
-import java.util.Properties;
 
 import javax.imageio.ImageIO;
 import javax.swing.JFileChooser;
