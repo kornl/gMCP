@@ -5,7 +5,7 @@ checkValidWeights <- function(weights) {
 	if(any(is.na(weights) | is.infinite(weights))) {
 		warning("Some of the weights are not real numbers. NA, NaN, Inf and -Inf are not supported.")
 	}
-	if(any(0 > weights | weights > 1)) {
+	if(any(0 > weights | weights > 1 + .Machine$double.eps ^ 0.25)) {
 		stop("Invalid weights: weights must be between 0 and 1")
 	}
 	if(sum(weights) > 1) {

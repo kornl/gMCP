@@ -13,6 +13,7 @@ High priority:
 Medium priority:
 ================
 
+- graphAnalysis: Graph can be optimal despite the fact that some nodes are not accessible from others
 - Warn user when sum of edge weights is bigger than 1
 - Check mutator methods for errors (alpha > 1, edge weights > 1)
 - Update graph2latex to the much better algorithm already implemented in Java.
