@@ -12,7 +12,9 @@ getEdges <- function(graph){
 			for (i in 1:length(edgeL)) {
 				# Label: Are these silent "tries" really tested? Or did I just forgot documentating it?
 				weight <- try(edgeData(graph, node, names(edgeL[i]), "weight"), silent = TRUE)
-				weight <- ifelse(edgeL[i]==0, NaN, edgeL[i])
+				p <- unlist(edgeData(graph, node, names(edgeL[i]), "epsilon"))
+				attributes(p) <- NULL # Always do this when using all.equal	
+				weight <- ifelse(length(p)>0 && !isTRUE(all.equal(p, rep(0,length(p)))), NaN, edgeL[i])
 				weightStr <- getWeightStr(graph, node, names(edgeL[i]))
 				x <- try(unlist(edgeData(graph, node, names(edgeL[i]), "labelX")), silent = TRUE)
 				if (class(x)!="try-error") {
