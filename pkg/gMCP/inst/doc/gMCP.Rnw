@@ -165,7 +165,7 @@ cat(graph2latex(graph, scale=0.7, fontsize="tiny", nodeTikZ="minimum size=1.2cm"
     $p_2=0.07$ and $p_3=0.02$.}
 \end{figure}
 
-Okay, let's reproduce this with the \texttt{gMCP} package. We start R and enter:
+Let's reproduce this with the \texttt{gMCP} package. We start R and enter:
 
 \scriptsize
 <<echo=TRUE>>=
@@ -330,7 +330,8 @@ graph2matrix(graph)
 
 \subsection{Using the GUI}
 
-The creation of \texttt{graphMCP} objects is very straight forward,
+The creation of \texttt{graphMCP} objects as seen in the last section 
+with basic R commands is very straight forward,
 but still takes some time and typos may occur.  More convenient for
 the average user is the use of the graphical user interface for
 creating and editing MCP graphs that the \texttt{gMCP} package
@@ -523,6 +524,9 @@ See \cite{Bretz11}.
   \caption{\label{correlated} You can also specify a correlation between the tests.}
 \end{figure}
 
+In the lower right panel with p-values, it is also possible to specify a known correlation between these values (see figure \ref{correlated}).
+ 
+
 For further information please take a look at the vignette "\emph{Weighted parametric tests defined by graphs}".
 
 \section{Epsilon edges}\index{epsilon edges}
@@ -551,6 +555,8 @@ cat(graph2latex(createGraphForImprovedParallelGatekeeping(), scale=0.7, fontsize
   \caption{\label{gatekeeping}\index{parallel gatekeeping}\index{gatekeeping!parallel}\index{gatekeeping!improved parallel} The Parallel Gatekeeping and the Improved Parallel Gatekeeping Procedure.}
 \end{figure}
 
+\commentout{
+
 Algorithm of Bretz et al. \cite{bretzEtAl2009power} for rejecting a node:
 
 \[\alpha_l \leftarrow \begin{cases}\alpha_l+a_jg_{jl}&l\in I\\0&\text{otherwise}\end{cases}\]
@@ -570,6 +576,7 @@ If $g_{lj}g_{jl}==1$ still $g_{lk}<-0$.
   \frac{g_{lk}+g_{lj}g_{jk}}{1-g_{lj}g_{jl}}&g_{lj}g_{jl}<1\\
   0&g_{lj}g_{jl}=1\\a\\b\\\end{cases}
 =\]
+}
 
 
 \scriptsize

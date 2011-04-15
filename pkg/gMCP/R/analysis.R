@@ -18,6 +18,6 @@ graphAnalysis <- function(graph, file="") {
 	} else {
 		
 	}
-	cat(result)
+	cat(result, file=file)
 	return(invisible(result))
 }
