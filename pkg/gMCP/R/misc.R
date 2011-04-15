@@ -16,7 +16,7 @@ checkValidWeights <- function(weights) {
 # Converts a string like "5+3*e+5*e^2" to the tupel representation c(5,3,5) 
 parseEpsPolynom <- function(s) {
 	env <- new.env(parent = baseenv())
-	eval(e <- polynom(), envir=env)
+	assign("e", polynom(), envir=env)
 	p <- try(eval(parse(text=s), envir=env))
 	if (class(p)=="try-error") {
 		stop("String does not represent a polynom in e.")
