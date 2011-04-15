@@ -42,10 +42,26 @@ getEdges <- function(graph){
 
 placeNodes <- function(graph, nrow, ncol, byrow = FALSE) {
 	if (length(nodeRenderInfo(graph))==0) {
-		n <- length(nodes(graph))
-		v <- (1:n)/n*2*pi
-		nodeX <- 300 + 250*sin(v)
-		nodeY <- 300 + 250*cos(v)
+		if (missing(nrow) && missing(ncol)) {
+			n <- length(nodes(graph))
+			v <- (1:n)/n*2*pi
+			nodeX <- 300 + 250*sin(v)
+			nodeY <- 300 + 250*cos(v)			
+		} else {
+			if (missing(nrow)) {
+				nrow <- ceiling(length(nodes(graph))/ncol)
+			}
+			if (missing(ncol)) {
+				ncol <- ceiling(length(nodes(graph))/nrow)
+			}
+			if (byrow) {
+				nodeX <- rep(((1:ncol)-1)*200+100, nrow)
+				nodeY <- rep(((1:nrow)-1)*200+100, each = ncol)
+			} else {
+				nodeX <- rep(((1:ncol)-1)*200+100, each = nrow)
+				nodeY <- rep(((1:nrow)-1)*200+100, ncol)
+			}
+		}
 		names(nodeX) <- nodes(graph)
 		names(nodeY) <- nodes(graph)
 		nodeRenderInfo(graph) <- list(nodeX=nodeX, nodeY=nodeY)
