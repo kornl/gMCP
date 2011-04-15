@@ -1,7 +1,6 @@
 package org.mutoss.config;
 
 
-import java.util.Properties;
 import java.util.prefs.BackingStoreException;
 import java.util.prefs.Preferences;
 
