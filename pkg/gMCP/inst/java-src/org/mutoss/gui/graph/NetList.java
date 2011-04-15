@@ -421,6 +421,7 @@ public class NetList extends JPanel implements MouseMotionListener, MouseListene
 			}
 		}
 		edges.remove(edge);
+		control.getDataTable().getModel().setValueAt(new EdgeWeight(0), getKnoten().indexOf(edge.from), getKnoten().indexOf(edge.to));
 		graphHasChanged();
 	}
 

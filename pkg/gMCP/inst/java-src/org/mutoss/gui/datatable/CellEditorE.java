@@ -21,11 +21,8 @@ public class CellEditorE extends AbstractCellEditor implements TableCellEditor {
         return ed.getCellEditorValue();
     }
 
-    public Component getTableCellEditorComponent(JTable table,
-                                                 Object value,
-                                                 boolean isSelected,
-                                                 int row,
-                                                 int col) {
+    public Component getTableCellEditorComponent(JTable table, Object value,
+                                                 boolean isSelected, int row, int col) {
         
         ed = new CellEditorEps(agc, row, col, value.toString());
         

@@ -22,12 +22,7 @@ public class EdgeWeight {
 	}
 	
 	public EdgeWeight(double weight) {
-		this.weight = new double[] { weight };		
-		/*if (w<0.0009) {
-			return formatSmall.format(w);
-		} else {
-			return stringW;			
-		}*/	
+		this.weight = new double[] { weight };
 		setWeightStr(weight);	
 	}
 	

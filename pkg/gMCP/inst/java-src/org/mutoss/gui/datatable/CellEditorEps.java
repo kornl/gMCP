@@ -19,7 +19,7 @@ public class CellEditorEps extends DefaultCellEditor {
 		this.agc = agc;
 		this.row = row;
 		this.col = col;
-		// TODO: WHY DO I NEED THIS s.replace(',','.'); No, this looks simple, but there are strange things out there.
+		// TODO: WHY DO I NEED THIS s.replace(',','.'); Yes - I know, this looks simple, but there are strange things out there.
 		s = s.replace(',','.');
 		oldVal = new EdgeWeight(s);
 		((JTextField)getComponent()).setText(oldVal.toString());
