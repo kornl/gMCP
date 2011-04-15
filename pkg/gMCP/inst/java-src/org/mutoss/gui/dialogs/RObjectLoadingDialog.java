@@ -3,6 +3,8 @@ package org.mutoss.gui.dialogs;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -23,7 +25,7 @@ import org.mutoss.gui.RControl;
 import com.jgoodies.forms.layout.CellConstraints;
 import com.jgoodies.forms.layout.FormLayout;
 
-public class RObjectLoadingDialog extends JDialog implements ActionListener, ListSelectionListener {
+public class RObjectLoadingDialog extends JDialog implements ActionListener, ListSelectionListener, MouseListener {
 	JButton ok = new JButton("Load");
 
     CreateGraphGUI parent;    
@@ -44,9 +46,11 @@ public class RObjectLoadingDialog extends JDialog implements ActionListener, Lis
 				
 		jlMatrices = new JList(matrices);
 		jlMatrices.addListSelectionListener(this);
+		jlMatrices.addMouseListener(this);
 		jlMatrices.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		jlGraphs = new JList(graphs);
 		jlGraphs.addListSelectionListener(this);
+		jlGraphs.addMouseListener(this);
 		jlGraphs.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		
 		if (matrices.length==1 && matrices[0].equals("No quadratic matrices found.")) {
@@ -121,6 +125,33 @@ public class RObjectLoadingDialog extends JDialog implements ActionListener, Lis
 			jtInfo.setText(info);
 		}
 		jtInfo.setCaretPosition(0);		
-	}	
+	}
+
+	@Override
+	 public void mouseClicked(MouseEvent e) {
+        if (e.getClickCount() == 2) {
+            int i = jlMatrices.locationToIndex(e.getPoint());
+            if (jlMatrices.getCellBounds(i, i).contains(e.getPoint())) {            	
+            	actionPerformed(null);
+            }
+            i = jlGraphs.locationToIndex(e.getPoint());
+            if (jlGraphs.getCellBounds(i, i).contains(e.getPoint())) {            	
+            	actionPerformed(null);
+            }
+         }
+    }
+
+
+	@Override
+	public void mouseEntered(MouseEvent e) {}
+
+	@Override
+	public void mouseExited(MouseEvent e) {}
+
+	@Override
+	public void mousePressed(MouseEvent e) {}
+
+	@Override
+	public void mouseReleased(MouseEvent e) {}	
 	
 }
