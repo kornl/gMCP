@@ -1,0 +1,69 @@
+\documentclass[a4paper, 11pt]{article}
+\usepackage[OT1]{fontenc}
+\usepackage{url}
+\usepackage{Sweave}
+\usepackage{graphicx}
+\usepackage{tikz}
+\usetikzlibrary{snakes,arrows,shapes}
+\usepackage[margin=0.9in]{geometry}
+\usepackage{url}
+\usepackage{hyperref}
+\usepackage{listings}
+\usepackage{xspace}
+\usepackage{makeidx}\makeindex
+\usepackage[numbers]{natbib}
+%\usepackage[left=3cm,right=3cm,top=2cm,bottom=2cm]{geometry}
+\usepackage{amsmath,amsthm,amsfonts,amssymb}
+\bibliographystyle{plainnat}
+\setlength{\parindent}{0mm}
+\setlength{\parskip}{1mm}
+\newcommand{\commentout}[1]{}
+\renewcommand{\theequation}{\thesection.\arabic{\equation}}
+\numberwithin{equation}{section}
+
+\newcommand{\C}{\ensuremath{\mathbb{C}}\xspace}
+\newcommand{\R}{\ensuremath{\mathbb{R}}\xspace}
+\newcommand{\Q}{\ensuremath{\mathbb{Q}}\xspace}
+\newcommand{\Z}{\ensuremath{\mathbb{Z}}\xspace}
+\newcommand{\NN}{\ensuremath{\mathbb{N}_0}\xspace}
+\newcommand{\N}{\ensuremath{\mathbb{N}}\xspace}
+
+\renewcommand{\epsilon}{\varepsilon}
+
+\begin{document}
+
+% \VignetteIndexEntry{A Graphical Approach to Weighted Multiple Test Procedures}
+
+\title{gMCP Quick Start - an R package for a graphical approach to weighted multiple test procedures} 
+
+\author{Kornelius Rohmeyer}
+
+\maketitle
+
+
+% Bibliotheken
+<<echo=FALSE,results=hide>>=
+
+library(gMCP)
+options(width=140)
+options(digits=4)
+gMCPReport <- function(...) {invisible(NULL)}
+graphGUI <- function(...) {invisible(NULL)}
+
+@
+
+\section{Introduction}
+
+This package provides functions and graphical user interfaces for
+graph based multiple test procedures.
+
+\scriptsize
+<<echo=TRUE>>=
+
+library(gMCP)
+graphGUI()
+
+@
+\normalsize
+
+\end{document}
