@@ -8,7 +8,7 @@
 	Places the nodes of a graph according to a specified layout. 
 }
 \usage{
-	graphAnalysis(graph, nrow, ncol, byrow = TRUE)
+	placeNodes(graph, nrow, ncol, byrow = TRUE)
 }
 
 \arguments{
@@ -37,9 +37,9 @@
 }
 \examples{
 
-g <- createBonferroniHolmGraph(6)
+g <- matrix2graph(matrix(0, nrow=6, ncol=6))
 
-g <- placeNodes(g, nrow=2)
+g <- placeNodes(g, nrow=2, force=TRUE)
 
 \dontrun{
 graphGUI(g)
