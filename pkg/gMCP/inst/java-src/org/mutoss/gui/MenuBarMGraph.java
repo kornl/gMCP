@@ -86,15 +86,40 @@ public class MenuBarMGraph extends JMenuBar implements ActionListener {
 
 		menu = new JMenu("Analysis");
 		menu.setMnemonic(KeyEvent.VK_A);
-		
+
 		menu.add(makeMenuItem("Graph analysis", "graphAnalysis"));
 		menu.addSeparator();
 		menu.add(makeMenuItem("Power analysis", "powerAnalysis"));		
 
 		add(menu);
-		
-        addExtrasMenu();
-        addHelpMenu();
+
+		menu = new JMenu("Extras");
+		menu.add(makeMenuItem("Options", "showOptions", KeyEvent.VK_O));
+		menu.add(makeMenuItem("Set all options back to default", "clearOptions", KeyEvent.VK_C));
+		menu.addSeparator();
+		menu.add(makeMenuItem("Change Layout of graph", "changeGraphLayout", KeyEvent.VK_G));
+		menu.addSeparator();
+		menu.add(makeMenuItem("Log", "showLog", KeyEvent.VK_L));
+		menu.add(makeMenuItem("Report error", "reportError", KeyEvent.VK_R));
+		if (System.getProperty("eclipse") != null) {		
+			menu.add(makeMenuItem("Debug console", "debugConsole", KeyEvent.VK_D));
+		}
+		menu.setMnemonic(KeyEvent.VK_E);
+		add(menu);
+
+		menu = new JMenu("Help");
+		menu.setMnemonic(KeyEvent.VK_H);
+		menu.add(makeMenuItem("About", "showAbout", KeyEvent.VK_B));         
+		menu.add(makeMenuItem("Introduction to gMCP", "showAppHelp", KeyEvent.VK_I));
+		menu.add(makeMenuItem("Weighted parametric tests defined by graphs", "showParametric", KeyEvent.VK_P));
+		menu.add(makeMenuItem("gMCP R Online Reference manual", "showManual", KeyEvent.VK_M));
+		//menu.add(makeMenuItem("Theoretical Background", "showAppHelp"));
+		/*menu.addSeparator();
+         menu.add(makeMenuItem("Description of Edges with Infinitesimal Small Epsilon Weights", "showEpsDoc"));*/
+		menu.addSeparator();
+		menu.add(makeMenuItem("Version Info / NEWS", "showNEWS", KeyEvent.VK_N));
+		add(menu);
+
 	}
 	
 	private void createLastUsed() {
@@ -285,7 +310,9 @@ public class MenuBarMGraph extends JMenuBar implements ActionListener {
 				JOptionPane.showMessageDialog(this, "Error loading values from R:\n"+ex.getMessage(), 
 						"Error loading values from R", JOptionPane.ERROR_MESSAGE);
 			} 
-        }
+        } else if (e.getActionCommand().equals("changeGraphLayout")) {
+        	notYetSupported();
+        } 
 	}
 	
 	private void notYetSupported() {
@@ -529,42 +556,5 @@ public class MenuBarMGraph extends JMenuBar implements ActionListener {
         item.addActionListener(this);
         return (item);
     }
-    
-    public void addExtrasMenu() {
-        add(makeExtrasMenu());
-    }
-
-    public JMenu makeExtrasMenu() {
-    	JMenu menu = new JMenu(localizer.getString("SGTK_MENU_EXTRAS"));
-    	menu.add(makeMenuItem(localizer.getString("SGTK_MENU_EXTRAS_OPTIONS"), "showOptions", KeyEvent.VK_O));
-    	menu.add(makeMenuItem("Set all options back to default", "clearOptions", KeyEvent.VK_C));
-    	menu.addSeparator();
-    	menu.add(makeMenuItem(localizer.getString("SGTK_MENU_EXTRAS_LOG"), "showLog", KeyEvent.VK_L));
-    	menu.add(makeMenuItem(localizer.getString("SGTK_MENU_EXTRAS_REPORT_ERROR"), "reportError", KeyEvent.VK_R));
-    	if (System.getProperty("eclipse") != null) {		
-    		menu.add(makeMenuItem("Debug console", "debugConsole", KeyEvent.VK_D));
-    	}
-    	menu.setMnemonic(KeyEvent.VK_E);
-    	return menu;
-    }
-    
-    public void addHelpMenu() {
-    	add(makeHelpMenu());
-    }
-    
-    private JMenu makeHelpMenu() {
-    	 JMenu menu = new JMenu("Help");
-    	 menu.setMnemonic(KeyEvent.VK_H);
-         menu.add(makeMenuItem("About", "showAbout", KeyEvent.VK_B));         
-         menu.add(makeMenuItem("Introduction to gMCP", "showAppHelp", KeyEvent.VK_I));
-         menu.add(makeMenuItem("Weighted parametric tests defined by graphs", "showParametric", KeyEvent.VK_P));
-         menu.add(makeMenuItem("gMCP R Online Reference manual", "showManual", KeyEvent.VK_M));
-         //menu.add(makeMenuItem("Theoretical Background", "showAppHelp"));
-         /*menu.addSeparator();
-         menu.add(makeMenuItem("Description of Edges with Infinitesimal Small Epsilon Weights", "showEpsDoc"));*/
-         menu.addSeparator();
-         menu.add(makeMenuItem("Version Info / NEWS", "showNEWS", KeyEvent.VK_N));
-         return menu;
-	}	
 
 }
