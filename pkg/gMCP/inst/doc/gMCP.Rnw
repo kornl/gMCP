@@ -278,6 +278,17 @@ nodeRenderInfo(graph) <- list(nodeX=nodeX, nodeY=nodeY)
 @
 \normalsize
 
+For placement of the nodes in a matrix pattern, the function \texttt{placeNodes} is helpful.
+The following code does the same as the three lines of R code above.  
+
+\scriptsize
+<<echo=TRUE>>=
+
+graph <- placeNodes(graph, nrow=2)
+
+@
+\normalsize
+
 Coordinates are interpretated as pixels in the GUI and big points in
 {\LaTeX} (72 bp = 1 inch).\index{coordinates}
 

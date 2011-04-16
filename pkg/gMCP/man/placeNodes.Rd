@@ -8,7 +8,7 @@
 	Places the nodes of a graph according to a specified layout. 
 }
 \usage{
-	graphAnalysis(graph, nrow, ncol, byrow = FALSE)
+	graphAnalysis(graph, nrow, ncol, byrow = TRUE)
 }
 
 \arguments{
