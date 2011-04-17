@@ -78,7 +78,7 @@ public class UpdateNode extends JDialog implements ActionListener {
 		try {
 			w = RControl.getR().eval(tf.getText().replace(",", ".")).asRNumeric().getData()[0];		
 			tf.setBackground(Color.WHITE);
-		} catch (RErrorException nfe) {		
+		} catch (Exception nfe) {		
 			tf.setBackground(Color.RED);
 			JOptionPane.showMessageDialog(this, "The expression \""+tf.getText()+"\" is not a valid number.", "Not a valid number", JOptionPane.ERROR_MESSAGE);
 		}
