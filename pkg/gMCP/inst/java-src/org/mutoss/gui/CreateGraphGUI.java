@@ -25,6 +25,7 @@ import org.mutoss.gui.datatable.CellEditorE;
 import org.mutoss.gui.datatable.DataFramePanel;
 import org.mutoss.gui.datatable.DataTable;
 import org.mutoss.gui.datatable.RDataFrameRef;
+import org.mutoss.gui.graph.DView;
 import org.mutoss.gui.graph.EdgeWeight;
 import org.mutoss.gui.graph.GraphMCP;
 import org.mutoss.gui.graph.GraphView;
@@ -36,6 +37,7 @@ public class CreateGraphGUI extends JFrame implements WindowListener, AbortListe
 	GraphMCP graph;
 	GraphView agc;
 	PView pview;
+	DView dview;
 	DataFramePanel dfp;
 	public InfiniteProgressPanel glassPane;
 	protected static Log logger = LogFactory.getLog(CreateGraphGUI.class);
@@ -66,6 +68,7 @@ public class CreateGraphGUI extends JFrame implements WindowListener, AbortListe
 		addWindowListener(this);
 
 		pview = new PView(this);
+		dview = new DView(this);
 		dfp = new DataFramePanel(new RDataFrameRef());
 		agc = new GraphView(graph, this);
 		setJMenuBar(new MenuBarMGraph(agc));
@@ -78,6 +81,17 @@ public class CreateGraphGUI extends JFrame implements WindowListener, AbortListe
 	    glassPane.addAbortListener(this);
 
 		setVisible(true);
+		//splitPane.setDividerLocation(0.5);
+		splitPane1.setDividerLocation(0.75);
+		splitPane2.setDividerLocation(0.5);		
+		
+		//TODO What kind of strange workaround is that?!?
+		javax.swing.SwingUtilities.invokeLater(new Runnable() {
+			public void run() {
+				splitPane1.setDividerLocation(0.75);
+				splitPane2.setDividerLocation(0.5);		
+			}
+		});	
 	}
 	
 	/**
@@ -98,10 +112,18 @@ public class CreateGraphGUI extends JFrame implements WindowListener, AbortListe
 		});		
 	}
 	
+	JSplitPane splitPane;
+	JSplitPane splitPane1;
+	JSplitPane splitPane2;
+	
 	private void makeContent() {
 		dfp.getTable().setDefaultEditor(EdgeWeight.class, new CellEditorE(agc));
-		JSplitPane splitPane2 = new JSplitPane(JSplitPane.VERTICAL_SPLIT, new JScrollPane(dfp), new JScrollPane(pview));
-		JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, agc, splitPane2);
+		splitPane1 = new JSplitPane(JSplitPane.VERTICAL_SPLIT, agc, new JScrollPane(dview));
+		
+		splitPane2 = new JSplitPane(JSplitPane.VERTICAL_SPLIT, new JScrollPane(dfp), new JScrollPane(pview));
+		
+		splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, splitPane1, splitPane2);
+		
 		getContentPane().add(splitPane);		
 	}
 
