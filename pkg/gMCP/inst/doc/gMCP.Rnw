@@ -602,6 +602,8 @@ gMCP(graph, pvalues=c(0.02, 0.04, 0.01, 0.02), eps=0.001)
 @
 \normalsize
 
+\section{Power Simulations}
+
 \section{Options and Import/Export}
 
 \subsection{Options}\index{options}
