@@ -23,6 +23,7 @@ Medium priority:
 - Edge labels should be fixed and placed by user or free and adjust to moving nodes
 - Improve speed when loading graphs
 - Test everything when graph is loaded on startup (e.g. is description shown?)
+- Check for / think about conflicts: "JAVAGD_CLASS_NAME"="org/mutoss/gui/JavaGD"
 
 Additional features / low priority:
 ===================================
