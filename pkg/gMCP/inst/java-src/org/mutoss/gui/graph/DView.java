@@ -1,7 +1,13 @@
 package org.mutoss.gui.graph;
 
+import java.awt.Font;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
+import javax.swing.JTextArea;
 
 import org.mutoss.gui.CreateGraphGUI;
 
@@ -12,9 +18,9 @@ public class DView extends JTabbedPane {
 	JPanel analysis = null;
 	
 	public DView(CreateGraphGUI control) {
-		this.control = control;
-		setDescription("jkdfhsajf");
+		this.control = control;		
 		setAnalysis("jkdfhsajf");
+		setDescription("jkdfhsajf");		
 	}
 	
 	public void setDescription(String s) {
@@ -24,7 +30,16 @@ public class DView extends JTabbedPane {
 			return;
 		}
 		description = new JPanel();
-		this.insertTab("Description", null, description, "Description", 0);
+		description.setLayout(new GridBagLayout());
+		JTextArea jta = new JTextArea(s);
+		jta.setFont(new Font("Monospaced", Font.PLAIN, 12));
+		jta.setLineWrap(true);
+		jta.setEditable(false);
+		jta.setWrapStyleWord(true);
+		GridBagConstraints c = getConstraints();
+		description.add(new JScrollPane(jta), c);
+		insertTab("Description", null, description, "Description", 0);
+		setSelectedComponent(description);
 	}
 
 	public void setAnalysis(String s) {
@@ -34,7 +49,26 @@ public class DView extends JTabbedPane {
 			return;
 		}
 		analysis = new JPanel();
-		this.insertTab("Analysis", null, analysis, "Analysis", 0);
+		analysis.setLayout(new GridBagLayout());
+		JTextArea jta = new JTextArea(s);
+		jta.setFont(new Font("Monospaced", Font.PLAIN, 12));
+		jta.setLineWrap(true);
+		jta.setEditable(false);
+		jta.setWrapStyleWord(true);
+		GridBagConstraints c = getConstraints();
+		analysis.add(new JScrollPane(jta), c);
+		insertTab("Analysis", null, analysis, "Analysis", this.getComponentCount());
+		setSelectedComponent(analysis);
+	}
+	
+	public GridBagConstraints getConstraints() {
+		GridBagConstraints c = new GridBagConstraints();
+		c.fill = GridBagConstraints.BOTH;	
+		c.gridx=0; c.gridy=0;
+		c.gridwidth = 1; c.gridheight = 1;
+		c.ipadx=0; c.ipady=0;
+		c.weightx=1; c.weighty=1;
+		return c;
 	}
 	
 }
