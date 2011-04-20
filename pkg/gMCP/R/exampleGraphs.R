@@ -25,7 +25,8 @@ createBonferroniHolmGraph <- function(n) {
 			edgeData(BonferroniHolmGraph, n1, n2, "labelY") <- y
 		}
 	}
-	attr(BonferroniHolmGraph, "description") <- paste("Graph representing the Bonferroni-Holm-Procedure", sep="\n")
+	attr(BonferroniHolmGraph, "description") <- paste("Graph representing the Bonferroni-Holm-Procedure", 
+			"Literature: Holm, S. (1979). A simple sequentally rejective multiple test procedure. Scandinavian Journal of Statistics 6, 65-70.", sep="\n")
 	return(BonferroniHolmGraph)
 }
 
@@ -147,4 +148,13 @@ createGraphForImprovedParallelGatekeeping <- function() {
 	edgeData(graph, "H3", "H4", "epsilon") <- list(-1)
 	edgeData(graph, "H4", "H3", "epsilon") <- list(-1)
 	return(graph)	
+}
+
+exampleGraph <- function(graph, ...) {
+	switch(graph,
+			Hommel=createGraphFromHommelEtAl(),
+			Bretz=createGraphFromBretzEtAl(),
+			ParallelGatekeeping=createGraphForParallelGatekeeping(),
+			ImprovedParallelGatekeeping=createGraphForImprovedParallelGatekeeping(),
+			BonferroniHolm=createBonferroniHolmGraph(...))
 }

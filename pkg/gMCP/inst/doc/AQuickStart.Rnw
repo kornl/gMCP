@@ -29,6 +29,9 @@
 \newcommand{\N}{\ensuremath{\mathbb{N}}\xspace}
 
 \renewcommand{\epsilon}{\varepsilon}
+\pagestyle{empty}
+
+\pagecolor[rgb]{1.0000000,0.9607843,0.8549020}
 
 \begin{document}
 
@@ -38,7 +41,7 @@
 
 \author{Kornelius Rohmeyer}
 
-\maketitle
+%\maketitle
 
 
 % Bibliotheken
@@ -46,24 +49,58 @@
 
 library(gMCP)
 options(width=140)
+options(prompt=" ", continue=" ")
 options(digits=4)
 gMCPReport <- function(...) {invisible(NULL)}
 graphGUI <- function(...) {invisible(NULL)}
 
 @
 
-\section{Introduction}
+\section*{gMCP Quick Start Guide}
+    
+This package provides functions and graphical user interfaces for graph based multiple test procedures.
+You can use this package completely from the R command line and also completely from the graphical user interface (GUI) without the need to know any R at all.
+Both 
+This guick start guide only describes the steps to start the GUI.
 
-This package provides functions and graphical user interfaces for
-graph based multiple test procedures.
+\subsection*{Install and Start}
 
-\scriptsize
+If you not already have R then download the installer from the following URL and use it to install the latest version of R: \url{http://cran.r-project.org/bin/windows/base/release.htm}
+
+\begin{minipage}{0.50\textwidth}
+
+Open R and type \texttt{install.packages("gMCP")} into the R Console, select an arbitrary mirror and gMCP will be downloaded and installed.\\
+
+From now on you can start the gMCP graphical user interface by entering the following commands into the R Console:
+
+%\scriptsize
 <<echo=TRUE>>=
 
 library(gMCP)
 graphGUI()
 
 @
-\normalsize
+%\normalsize
+
+\end{minipage}
+\begin{minipage}{0.50\textwidth}
+\begin{flushright}
+\includegraphics[width=0.9\textwidth]{pictures/FullFeaturedGUI.png}
+\end{flushright}
+\end{minipage}
+
+\subsection*{Creation of the graph}
+
+Use the first two buttons of the icon panel to create a graph or 
+select one of the common test procedures from our example menu, that include the 
+fixed sequence test, fallback procedure, improved fallback procedure, 
+parallel gatekeeping, improved parallel gatekeeping, truncated Holm procedure and many more.
+
+\subsection*{Test procedure, CI and adjusted p-values}
+
+After you have created or loaded your graph you can start the test procedure and 
+calculate confidence intervals or adjusted p-values by using the last three buttons of the icon panel.
+
+For all further questions take a look at the help menu or mail us at: \href{mailto:help@small-projects.de}{\texttt{help@small-projects.de}}
 
 \end{document}

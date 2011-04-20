@@ -2,10 +2,31 @@
 Version 0.6-3 (??-???-2011, Rev. ???)
 =====================================
 
-- New function: placeNodes
+- placeNodes is now exported with new parameters:
+  nrow, ncol and force
 
-- 
+- New example graphs:
 
+  - Fixed sequence test
+  
+  - Fallback procedure
+  
+  - Improved fallback procedure
+  
+  - Truncated Holm procedure
+  
+  - Successive graphs
+  
+  - Graphs from Hung and Wang (2010), Bauer et al. (2001), 
+    Bretz et al. (2011), Bretz et al. (2009) and 
+    Hommel et al. (2007)
+
+- Example graphs have a description and
+  graph attributes "description" are shown in the GUI
+
+- Improved compatibility for R 2.8
+
+- New HTML file References.html accessible from the GUI.
 
 Version 0.6-2 (16-Apr-2011, Rev. 679)
 =====================================
@@ -33,7 +54,7 @@ Version 0.6-2 (16-Apr-2011, Rev. 679)
 - Fixed visualization bug: 
   Panel with p-values was sometimes out of sync.
 
-- Fixed bug: Edges with small values were set to 0.
+- Fixed bug: Edges with very small values were set to 0.
 
 - Fixed visualization bug: 
   Adjacency table was not updated when edge was deleted.
