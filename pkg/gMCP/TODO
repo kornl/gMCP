@@ -21,6 +21,8 @@ Medium priority:
 - Ask for saving graph when quitting
 - LookNFeel is not kept between sessions (also first call of options result in strange LookNFeel message)
 - Edge labels should be fixed and placed by user or free and adjust to moving nodes
+- Improve speed when loading graphs
+- Test everything when graph is loaded on startup (e.g. is description shown?)
 
 Additional features / low priority:
 ===================================
@@ -41,6 +43,7 @@ Additional features / low priority:
   Should be fixed now - but if we have time to spare, we could look further into this.
 - Use of InfoNode Docking Windows? http://www.infonode.net/index.html?idw
   Would increase size by 717 kByte.
+- Whishlist dialog.
 
 @Apple - is this a problem?
 

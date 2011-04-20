@@ -2,6 +2,8 @@
 Version 0.6-3 (??-???-2011, Rev. ???)
 =====================================
 
+- New dependency: JavaGD
+
 - Below the graphPanel is now a new panel with 
   graph description and graph analysis. 
 

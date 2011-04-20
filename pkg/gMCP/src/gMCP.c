@@ -12,9 +12,13 @@ void convolve(double *a, int *na, double *b, int *nb, double *ab)
 			ab[i + j] += a[i] * b[j];
 }
 
-SEXP pr(SEXP x) {
-	SEXP dim = getAttrib(x, R_DimSymbol);
-	double *m = REAL(x);
+SEXP pr(SEXP matrix, SEXP weights, SEXP pvalues, SEXP alpha) {
+	SEXP dim = getAttrib(matrix, R_DimSymbol);
+	double *m = REAL(matrix);
+
+	//double alpha = *REAL(alpha);
+
+
 	int nrow = INTEGER(dim)[0];
 	int ncol = INTEGER(dim)[1];
 
