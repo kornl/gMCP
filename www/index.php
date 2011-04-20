@@ -41,7 +41,7 @@ echo $contents; } ?>
 
 <h3>Feature list:</h3>
 <ul>
-  <li>Create graphs with drag'n'drop.</li>
+  <li>Create graphs with drag'n'drop or directly in R.</li>
   <li>R representation based on the graph package.</li>
   <li>All steps can either be done in the R console or in the GUI.</li>
   <li>Support for epsilon edges.</li>

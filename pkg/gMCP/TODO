@@ -1,9 +1,6 @@
 High priority:
 ==============
 
-- 1 Page PDF how to use gMCP, including hint for R installation
-- confidence intervals are strange / wrong in the vignette...
-- Edge weight from node i to node j: m[i,j] or m[j,i] - please decide.
 - Flag 1+epsilon as line sum
 - round adjusted p-Values up
 - standard examples
@@ -23,6 +20,7 @@ Medium priority:
 (search for DecimalFormat and replace it with getDecFormat())
 - Ask for saving graph when quitting
 - LookNFeel is not kept between sessions (also first call of options result in strange LookNFeel message)
+- Edge labels should be fixed and placed by user or free and adjust to moving nodes
 
 Additional features / low priority:
 ===================================
@@ -30,18 +28,19 @@ Additional features / low priority:
 - Do we really need PolynomF and gtools and xtable as dependencies?
 - Don't create global variable like .tmpGraph etc.
 - Report generation in GUI (and respect the option whether to show rejected null hypothesis)
-- PNG export cuts perhaps edges. (But already improved!)
+- PNG export cuts edges in rare cases. (But already improved!)
 - Speed-up -> Matrices & perhaps ?ReferenceClasses ?
 - Package highlight is cool - but how can I tell r-forge or CRAN to use it?
-See also http://comments.gmane.org/gmane.comp.lang.r.general/200179
-- Edge labels should be fixed and placed by user or free and adjust to moving nodes
+  See also http://comments.gmane.org/gmane.comp.lang.r.general/200179
 - Can we add a RUnit Test for Java importing Random Graphs and then exporting the same graph?
 - TikZ styles for rejected / rejectable nodes
 - further tests
 - Look at http://xmlgraphics.apache.org/fop/
 - After interruption of a calculation a new calculation gave:
   "unprotect(): only 0 protected items"
-  Should be fixed now - but if time, we could look further into this.
+  Should be fixed now - but if we have time to spare, we could look further into this.
+- Use of InfoNode Docking Windows? http://www.infonode.net/index.html?idw
+  Would increase size by 717 kByte.
 
 @Apple - is this a problem?
 

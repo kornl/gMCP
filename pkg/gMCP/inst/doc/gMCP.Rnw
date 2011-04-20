@@ -88,6 +88,16 @@ objects and methods can be used.
 Please note that this is still a beta release and the API will most
 likely still change in future versions.
 
+\subcection{Installation}
+
+Open R and type \texttt{install.packages("gMCP")} into the R Console,
+select an arbitrary mirror and gMCP will be downloaded and installed.
+
+From now on you can load the gMCP package by entering \texttt{library(gMCP)} into the R Console.
+
+If you run into problems, see \url{http://cran.r-project.org/web/packages/gMCP/INSTALL} or write
+us an email at \href{mailto:help@small-projects.de}{\texttt{help@small-projects.de}}.
+
 \subsection{Example and diving in}
 
 Let's start with a well-known procedure and see how it fits into this
