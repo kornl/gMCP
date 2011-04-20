@@ -18,6 +18,7 @@ setMethod("initialize", "graphMCP",
 			edgeDataDefaults(.Object, "labelX") <- -100
 			edgeDataDefaults(.Object, "labelY") <- -100
 			edgeDataDefaults(.Object, "epsilon") <- list(0)
+			edgeDataDefaults(.Object, "variableWeight") <- ""
 			validObject(.Object)
 			return(.Object)
 		})
