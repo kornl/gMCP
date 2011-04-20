@@ -88,7 +88,7 @@ objects and methods can be used.
 Please note that this is still a beta release and the API will most
 likely still change in future versions.
 
-\subcection{Installation}
+\subsection{Installation}
 
 Open R and type \texttt{install.packages("gMCP")} into the R Console,
 select an arbitrary mirror and gMCP will be downloaded and installed.
