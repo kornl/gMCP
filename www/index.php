@@ -39,11 +39,6 @@ echo $contents; } ?>
 
 <!-- end of project description -->
 
-<p> The <strong>project summary page</strong> you can find <a href="http://<?php echo $domain; ?>/projects/<?php echo $group_name; ?>/"><strong>here</strong></a>. </p>
-
-<!-- <p><a href=""><img src="FullFeaturedGUI.png" width="50%" height="50%" border="0" alt=""></a></p> -->
-<p><a href=""><img src="FullFeaturedGUI.png" border="0" alt=""></a></p>
-
 <h3>Feature list:</h3>
 <ul>
   <li>Create graphs with drag'n'drop.</li>
@@ -54,6 +49,11 @@ echo $contents; } ?>
   <li>Adjusted p-values.</li>
   <li>Confidence intervals.</li>
 </ul>
+
+<p> You can find the <strong>project summary page</strong> <a href="http://<?php echo $domain; ?>/projects/<?php echo $group_name; ?>/"><strong>here</strong></a>. </p>
+
+<!-- <p><a href=""><img src="FullFeaturedGUI.png" width="50%" height="50%" border="0" alt=""></a></p> -->
+<p><a href=""><img src="FullFeaturedGUI.png" border="0" alt=""></a></p>
 
 </body>
 </html>
