@@ -11,11 +11,13 @@ public class GraphMCP {
 
 	private static final Log logger = LogFactory.getLog(GraphMCP.class);
 	
-	String name;
+	protected String name; /* Not used up to now */
 	
 	public Vector<Edge> edges = new Vector<Edge>();
 	public Vector<Node> knoten = new Vector<Node>();
 	NetList nl;
+	
+	String description;
 
 	public GraphMCP(String name, NetList nl) {
 		this.name = name;
@@ -25,7 +27,11 @@ public class GraphMCP {
 		nl.repaint();
 	}
 	
-	public void loadGraph(String name) {
+	public String getDescription() {
+		return description;
+	}
+
+	protected void loadGraph(String name) {
 		if ( RControl.getR().eval("exists(\""+name+"\")").asRLogical().getData()[0] ) {
 			String[] nodes = RControl.getR().eval("nodes("+name+")").asRChar().getData();
 			double[] alpha = RControl.getR().eval("getWeights("+name+")").asRNumeric().getData();
@@ -76,6 +82,11 @@ public class GraphMCP {
 					}
 					
 				}
+			}
+			try {
+				description = RControl.getR().eval("attr("+name+", \"description\")").asRChar().getData()[0];
+			} catch (Exception e) {
+				description = null;
 			}
 		}
 		for (Node k : knoten) {

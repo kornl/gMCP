@@ -18,9 +18,7 @@ public class DView extends JTabbedPane {
 	JPanel analysis = null;
 	
 	public DView(CreateGraphGUI control) {
-		this.control = control;		
-		setAnalysis("jkdfhsajf");
-		setDescription("jkdfhsajf");		
+		this.control = control;	
 	}
 	
 	public void setDescription(String s) {
@@ -29,13 +27,10 @@ public class DView extends JTabbedPane {
 			description = null;
 			return;
 		}
+		remove(description);
 		description = new JPanel();
 		description.setLayout(new GridBagLayout());
-		JTextArea jta = new JTextArea(s);
-		jta.setFont(new Font("Monospaced", Font.PLAIN, 12));
-		jta.setLineWrap(true);
-		jta.setEditable(false);
-		jta.setWrapStyleWord(true);
+		JTextArea jta = getTextArea(s);
 		GridBagConstraints c = getConstraints();
 		description.add(new JScrollPane(jta), c);
 		insertTab("Description", null, description, "Description", 0);
@@ -48,17 +43,23 @@ public class DView extends JTabbedPane {
 			analysis = null;
 			return;
 		}
+		remove(analysis);
 		analysis = new JPanel();
 		analysis.setLayout(new GridBagLayout());
+		JTextArea jta = getTextArea(s);
+		GridBagConstraints c = getConstraints();
+		analysis.add(new JScrollPane(jta), c);
+		insertTab("Analysis", null, analysis, "Analysis", this.getComponentCount());
+		setSelectedComponent(analysis);
+	}
+	
+	public JTextArea getTextArea(String s) {
 		JTextArea jta = new JTextArea(s);
 		jta.setFont(new Font("Monospaced", Font.PLAIN, 12));
 		jta.setLineWrap(true);
 		jta.setEditable(false);
 		jta.setWrapStyleWord(true);
-		GridBagConstraints c = getConstraints();
-		analysis.add(new JScrollPane(jta), c);
-		insertTab("Analysis", null, analysis, "Analysis", this.getComponentCount());
-		setSelectedComponent(analysis);
+		return jta;
 	}
 	
 	public GridBagConstraints getConstraints() {

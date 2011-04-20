@@ -57,6 +57,8 @@ public class CreateGraphGUI extends JFrame implements WindowListener, AbortListe
 			// This is no vital information and will fail for e.g. R 2.8.0, so no error handling here...
 			logger.warn("Package version could not be set:\n"+e.getMessage());
 		}
+		Configuration.getInstance().getGeneralConfig().setNumberOfStarts(
+				Configuration.getInstance().getGeneralConfig().getNumberOfStarts()+1);		
 		setIconImage((new ImageIcon(getClass().getResource("/org/mutoss/gui/graph/images/rjavaicon64.png"))).getImage());
 		
 		// Fenster in der Mitte des Bildschirms platzieren mit inset = 50 Pixeln Rand.
@@ -88,6 +90,11 @@ public class CreateGraphGUI extends JFrame implements WindowListener, AbortListe
 		//TODO What kind of strange workaround is that?!?
 		javax.swing.SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
+				try {
+					Thread.sleep(500);
+				} catch (InterruptedException e) {
+					logger.warn("Interrupted: "+e.getMessage(), e);
+				}
 				splitPane1.setDividerLocation(0.75);
 				splitPane2.setDividerLocation(0.5);		
 			}
@@ -180,5 +187,9 @@ public class CreateGraphGUI extends JFrame implements WindowListener, AbortListe
 		} else {
 			logger.error("Could not stop REngine of class '"+RControl.getR().getREngine().getClass()+"'");
 		}
+	}
+
+	public DView getDView() {		
+		return dview;
 	}
 }

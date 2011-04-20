@@ -11,7 +11,6 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
-import org.af.jhlir.call.RErrorException;
 import org.mutoss.gui.RControl;
 
 import com.jgoodies.forms.layout.CellConstraints;

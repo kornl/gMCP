@@ -54,6 +54,7 @@ public class ErrorDialogSGTK extends ErrorDialog {
     		files.put("roptions", makeLogFile("r_options.txt", getROptions()));
     		files.put("traceback", makeLogFile("taceback.txt", getTraceBack()));
     		files.put("graph", makeLogFile("graph.txt", getGraph()));
+    		files.put("config", makeLogFile("config.txt", Configuration.getInstance().getConfigurationForDebugPurposes()));
     	} catch (Exception e) {
     		/* Seriously, if something goes wrong here, 
     		 * we simply don't attach the following information.

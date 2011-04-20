@@ -177,5 +177,13 @@ public class GeneralConfig extends SpecificConfig {
 		}
 		setProperty("saved_graph_"+0, graph);		
 	}
+
+	public int getNumberOfStarts() {
+		return Integer.parseInt(getProperty("NumberOfStarts", "0"));
+	}
+
+	public void setNumberOfStarts(int i) {
+		setProperty("NumberOfStarts", ""+i);
+	}
 	
 }

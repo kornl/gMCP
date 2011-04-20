@@ -314,15 +314,9 @@ Stuttgart, 1995; 3–18.
         } else if (e.getActionCommand().equals("showParametric")) {
         	showFile("doc/correlated.pdf");       	 	
         } else if (e.getActionCommand().equals("showManual")) {
-        	try {	
-				Method main = Class.forName("java.awt.Desktop").getDeclaredMethod("getDesktop");
-				Object obj = main.invoke(new Object[0]);
-				Method second = obj.getClass().getDeclaredMethod("browse", new Class[] { URI.class }); 
-				second.invoke(obj, new URI("http://cran.at.r-project.org/web/packages/gMCP/gMCP.pdf"));
-			} catch (Exception exc) {			
-				logger.warn("No Desktop class in Java 5 or URI error.");
-				RControl.getR().eval("browseURL(\"http://cran.at.r-project.org/web/packages/gMCP/gMCP.pdf\")");
-			}
+        	showURL("http://cran.at.r-project.org/web/packages/gMCP/gMCP.pdf");
+        } else if (e.getActionCommand().equals("showReferences")) {
+        	showFile("References.html");
         } else if (e.getActionCommand().equals("showEpsDoc")) {
         	showFile("doc/EpsilonEdges.pdf");       	 	
         } else if (e.getActionCommand().equals("showNEWS")) {
@@ -365,6 +359,17 @@ Stuttgart, 1995; 3–18.
         } 
 	}
 	
+	private void showURL(String url) {
+		try {	
+			Method main = Class.forName("java.awt.Desktop").getDeclaredMethod("getDesktop");
+			Object obj = main.invoke(new Object[0]);
+			Method second = obj.getClass().getDeclaredMethod("browse", new Class[] { URI.class }); 
+			second.invoke(obj, new URI(url));
+		} catch (Exception exc) {			
+			logger.warn("No Desktop class in Java 5 or URI error.");
+			RControl.getR().eval("browseURL(\""+url+"\")");
+		}	}
+
 	private void notYetSupported() {
 		JOptionPane.showMessageDialog(control.getMainFrame(), "Not yet supported.", "Not yet supported", JOptionPane.INFORMATION_MESSAGE);
 	}
@@ -388,6 +393,10 @@ Stuttgart, 1995; 3–18.
 				second.invoke(obj, f);
 			} catch (Exception exc) {			
 				logger.warn("No Desktop class in Java 5 or URI error.");
+				if (f.getName().toLowerCase().endsWith(".html") || f.getName().toLowerCase().endsWith(".htm")) {
+					RControl.getR().eval("browseURL(\"file://"+f.getAbsolutePath()+"\")");
+					return;
+				}
 				try {
 					if (OSTools.isWindows()) {
 						Process p;							

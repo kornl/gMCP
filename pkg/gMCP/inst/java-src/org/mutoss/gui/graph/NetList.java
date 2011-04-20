@@ -147,7 +147,8 @@ public class NetList extends JPanel implements MouseMotionListener, MouseListene
 	}
 
 	public void graphHasChanged() {
-		control.resultUpToDate = false;	
+		control.resultUpToDate = false;
+		control.getDView().setAnalysis("...");
 	}
 
 	/**
@@ -264,7 +265,10 @@ public class NetList extends JPanel implements MouseMotionListener, MouseListene
 	}
 
 	public void loadGraph() {
-		new GraphMCP(initialGraph, this);
+		GraphMCP graph = new GraphMCP(initialGraph, this);
+		if (graph.getDescription()!=null) {
+			control.getDView().setDescription(graph.getDescription());
+		}
 		control.getPView().restorePValues();
 		graphHasChanged();
 	}
