@@ -24,6 +24,7 @@ Medium priority:
 - Improve speed when loading graphs
 - Test everything when graph is loaded on startup (e.g. is description shown?)
 - Check for / think about conflicts: "JAVAGD_CLASS_NAME"="org/mutoss/gui/JavaGD"
+- Look-up-table for "as.character(fractions(x))" on Java side
 
 Additional features / low priority:
 ===================================

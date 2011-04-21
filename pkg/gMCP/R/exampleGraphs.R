@@ -138,7 +138,6 @@ createGraphForParallelGatekeeping <- function() {
 	return(graph)	
 }
 
-
 createGraphForImprovedParallelGatekeeping <- function() {
 	graph <- createGraphForParallelGatekeeping()
 	graph <- addEdge("H3", "H1", graph, 0)
@@ -148,6 +147,38 @@ createGraphForImprovedParallelGatekeeping <- function() {
 	edgeData(graph, "H3", "H4", "epsilon") <- list(-1)
 	edgeData(graph, "H4", "H3", "epsilon") <- list(-1)
 	return(graph)	
+}
+
+createGraph2FromBretzEtAl <- function() {
+	# Nodes:
+	weights <- rep(c(1/2,0), each=2)	
+	hnodes <- paste("H", 1:4, sep="")
+	# Edges:
+	edges <- vector("list", length=4)
+	edges[[1]] <- list(edges=c("H2","H3"), weights=c(NaN, NaN)) # c(γ, 1-γ)
+	edges[[2]] <- list(edges=c("H1","H4"), weights=c(NaN, NaN)) # c(δ, 1-δ)
+	edges[[3]] <- list(edges=c("H2"), weights=1)
+	edges[[4]] <- list(edges=c("H1"), weights=1)
+	names(edges)<-hnodes
+	# Graph creation
+	graph <- new("graphMCP", nodes=hnodes, edgeL=edges, weights=weights)
+	# Set edge weights with variables
+	edgeData(graph, "H1", "H2", "variableWeight") <- "\\gamma"
+	edgeData(graph, "H1", "H3", "variableWeight") <- "1-\\gamma"
+	edgeData(graph, "H2", "H1", "variableWeight") <- "\\delta"
+	edgeData(graph, "H2", "H4", "variableWeight") <- "1-\\delta"
+	# Visualization settings
+	nodeX <- rep(c(100, 300), 2)
+	nodeY <- rep(c(100, 300), each=2)
+	names(nodeX) <- hnodes
+	names(nodeY) <- hnodes
+	nodeRenderInfo(graph) <- list(nodeX=nodeX, nodeY=nodeY)
+	# Label placement
+	#edgeData(graph, "H1", "H4", "labelX") <- 150
+	#edgeData(graph, "H1", "H4", "labelY") <- 150
+	#edgeData(graph, "H2", "H3", "labelX") <- 250
+	#edgeData(graph, "H2", "H3", "labelY") <- 150
+	return(graph)
 }
 
 exampleGraph <- function(graph, ...) {

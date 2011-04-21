@@ -1,6 +1,7 @@
 \name{Example Graphs}
 \alias{createBonferroniHolmGraph}
 \alias{createGraphFromBretzEtAl}
+\alias{createGraph2FromBretzEtAl}
 \alias{createGraphForParallelGatekeeping}
 \alias{createGraphForImprovedParallelGatekeeping}
 \alias{createGraphFromHommelEtAl}
@@ -16,6 +17,7 @@
 \usage{
 	createBonferroniHolmGraph(n)
 	createGraphFromBretzEtAl()
+	createGraph2FromBretzEtAl()
 	createGraphFromHommelEtAl()
 	createGraphForParallelGatekeeping()
 	createGraphForImprovedParallelGatekeeping()
@@ -33,7 +35,10 @@
 		The result is a complete graph, where all nodes have the same weights and each edge weight is \eqn{\frac{1}{n-1}}{1/(n-1)}.
 	}
 	\item{\code{createGraphFromBretzEtAl}}{
-		Example graph from Bretz et al. See references (Bretz et al. 2009).
+		Example graph in figure 2 from Bretz et al. See references (Bretz et al. 2009).
+	}
+	\item{\code{createGraph2FromBretzEtAl}}{
+		Example graph in figure 6 from Bretz et al. See references (Bretz et al. 2009).
 	}
 	\item{\code{createGraphFromBretzEtAl}}{
 		Example graph from Hommel et al. See references (Hommel et al. 2007).

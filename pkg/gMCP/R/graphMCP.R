@@ -237,6 +237,9 @@ getWeightStr <- function(graph, from, to, LaTeX=FALSE) {
 			}
 		}
 	}
+	if (is.nan(weight)) {
+		return(paste(unlist(edgeData(graph, from, to, "variableWeight")), pStr, sep=""))
+	}
 	if (weight==0 && pStr!="") { # Remove the first "+" and just return the epsilon part:
 		return(substring(pStr, 2))
 	}
