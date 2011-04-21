@@ -561,7 +561,7 @@ For further information please take a look at the vignette "\emph{Weighted param
 %\end{Def}
  
 
-The GUI supports epsilon edges. You can enter the weights in R syntax, e.g.\ \texttt{1-2*e+1/3*e\^{}2} for $1-2e+\frac{1}{3}e^2$.
+The GUI supports epsilon edges. You can enter the weights in R syntax, e.g.\ \texttt{1-2*\textbackslash epsilon+1/3*\textbackslash epsilon\^{}2} for $1-2e+\frac{1}{3}e^2$.
 
 \begin{figure}[ht]
   \centering
@@ -613,6 +613,29 @@ gMCP(graph, pvalues=c(0.02, 0.04, 0.01, 0.02), eps=0.001)
 \normalsize
 
 \section{Power Simulations}
+
+\begin{figure}[ht]
+  \centering   
+<<echo=FALSE,results=tex>>=
+
+cat(graph2latex(createGraph2FromBretzEtAl(), scale=0.7, fontsize="tiny"))
+
+@
+  \caption{\label{powergraph} Graph from Bretz et al. (2009)}
+\end{figure}
+
+\subsection{Variable edge weights}
+
+\includegraphics[width=0.5cm]{pictures/variableEditor.png}
+
+\scriptsize
+<<echo=TRUE, keep.source=TRUE>>=
+
+graph <- createGraph2FromBretzEtAl()
+graph
+
+@
+\normalsize
 
 \section{Options and Import/Export}
 

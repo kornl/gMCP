@@ -53,7 +53,7 @@ substituteEps <- function(graph, eps=10^(-4)) {
 	for (i in 1:length(from)) {		
 		p <- unlist(edgeData(graph, from[i], to[i], "epsilon"))
 		if (!all(p==0)) {
-			 text <- gsub("e", eps, getWeightStr(graph, from[i], to[i]))	
+			 text <- gsub("\\\\epsilon", eps, getWeightStr(graph, from[i], to[i]))	
 			 newWeight <- eval(parse(text=text))
 			 edgeData(graph, from[i], to[i], "epsilon") <- 0
 			 edgeData(graph, from[i], to[i], "weight") <- newWeight

@@ -216,7 +216,7 @@ getWeightStr <- function(graph, from, to, LaTeX=FALSE) {
 		e <- "\\epsilon"
 	} else {
 		frac <- function(x) {as.character(fractions(x))}
-		e <- "e"
+		e <- "\\epsilon"
 	}
 	for (i in 1:length(p)) {
 		if (!isTRUE(all.equal(p[i], 0))) {

@@ -4,6 +4,12 @@ Version 0.6-3 (??-???-2011, Rev. ???)
 
 - New dependency: JavaGD, plotrix
 
+- Greek small letters are allowed as variables
+  - enter them as e.g. "\epsilon", "\iota", "\phi" in the GUI.
+  - use edgeData "variableWeight" to set them in R
+    (see createGraph2FromBretzEtAl as an example).
+  - epsilon has to be entered as "\epsilon" instead of "e"
+
 - Below the graphPanel is now a new panel with 
   graph description and graph analysis. 
 
