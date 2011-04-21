@@ -68,6 +68,13 @@ public class EdgeWeight {
 		}
 	}
 	
+	static final char[] greek = {
+			'α', 'β', 'γ', 'δ', 'ε', 'ζ', 'η', 
+			'θ', 'ι', 'κ', 'λ', 'μ', 'ν', 'ξ', 
+			'ο', 'π', 'ρ', 'σ', 'τ', 'υ', 'φ',
+			'χ', 'ψ', 'ω'
+	};
+	
 	public List<String> getVariables() {
 		Vector<String> variables = new Vector<String>();
 		for (int i=0; i<26; i++) {
@@ -76,8 +83,10 @@ public class EdgeWeight {
 				variables.add(""+l);
 			}				
 		}
-		if (weightStr.lastIndexOf("ε")!=-1) {
-			variables.add("ε");
+		for (int i=0; i<greek.length; i++) {
+			if (weightStr.lastIndexOf(greek[i])!=-1) {
+				variables.add(""+greek[i]);
+			}
 		}
 		return variables;
 	}
