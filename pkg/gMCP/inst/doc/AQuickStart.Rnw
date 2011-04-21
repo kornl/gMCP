@@ -10,7 +10,6 @@
 \usepackage{hyperref}
 \usepackage{listings}
 \usepackage{xspace}
-\usepackage{makeidx}\makeindex
 \usepackage[numbers]{natbib}
 %\usepackage[left=3cm,right=3cm,top=2cm,bottom=2cm]{geometry}
 \usepackage{amsmath,amsthm,amsfonts,amssymb}
