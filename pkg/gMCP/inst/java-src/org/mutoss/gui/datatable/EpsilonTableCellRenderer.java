@@ -41,7 +41,14 @@ public class EpsilonTableCellRenderer extends DefaultTableCellRenderer {
     	DefaultTableCellRenderer dtcr = new DefaultTableCellRenderer();
         JLabel label = (JLabel) dtcr.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, col);       
    
-        label.setText(value.toString());
+        
+        String text = value.toString();
+        
+        for (int i=0; i<EdgeWeight.greek.length; i++) {
+			text = text.replaceAll(EdgeWeight.greekLaTeX[i], ""+EdgeWeight.greek[i]);			
+		}
+        
+        label.setText(text);
         
     	if(sum>1.0001) {
     		label.setForeground(Color.RED);

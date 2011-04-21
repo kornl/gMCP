@@ -21,7 +21,7 @@ public class EdgeWeight {
 	static DecimalFormat formatSmall = new DecimalFormat("#.###E0");
 	
 	public EdgeWeight(String weightStr) {
-		weightStr =	weightStr.replace('e', 'ε');
+		//weightStr =	weightStr.replace('e', 'ε');
 		this.weightStr = weightStr;
 	}
 	
@@ -59,7 +59,7 @@ public class EdgeWeight {
 				String s = keys.nextElement();
 				replaceStr = replaceStr.replaceAll(s, ""+ht.get(s));
 			}
-			replaceStr = replaceStr.replaceAll("ε", "e");
+			replaceStr = replaceStr.replaceAll("\\\\epsilon", "e");
 			weight = RControl.getR().eval("gMCP:::parseEpsPolynom(\""+replaceStr+"\")").asRNumeric().getData();
 			return weight;
 		} catch (Exception e) {
@@ -68,7 +68,14 @@ public class EdgeWeight {
 		}
 	}
 	
-	static final char[] greek = {
+	public static final String[] greekLaTeX = {
+		"\\\\alpha", "\\\\beta", "\\\\gamma", "\\\\delta", "\\\\epsilon", "\\\\zeta", "\\\\eta", 
+		"\\\\theta", "\\\\iota", "\\\\kappa", "\\\\lambda", "\\\\mu", "\\\\nu", "\\\\xi", 
+		"\\\\omicron", "\\\\pi", "\\\\rho", "\\\\sigma", "\\\\tau", "\\\\nu", "\\\\phi",
+		 "\\\\chi", "\\\\psi", "\\\\omega"
+	};
+	
+	public static final char[] greek = {
 			'α', 'β', 'γ', 'δ', 'ε', 'ζ', 'η', 
 			'θ', 'ι', 'κ', 'λ', 'μ', 'ν', 'ξ', 
 			'ο', 'π', 'ρ', 'σ', 'τ', 'υ', 'φ',
@@ -77,17 +84,18 @@ public class EdgeWeight {
 	
 	public List<String> getVariables() {
 		Vector<String> variables = new Vector<String>();
+		for (int i=0; i<greek.length; i++) {
+			weightStr = weightStr.replaceAll(greekLaTeX[i], ""+greek[i]);
+			if (weightStr.lastIndexOf(greek[i])!=-1) {
+				variables.add(""+greek[i]);
+			}
+		}
 		for (int i=0; i<26; i++) {
 			char l = (char) ('a' + i);
 			if (weightStr.lastIndexOf(l)!=-1) {
 				variables.add(""+l);
 			}				
-		}
-		for (int i=0; i<greek.length; i++) {
-			if (weightStr.lastIndexOf(greek[i])!=-1) {
-				variables.add(""+greek[i]);
-			}
-		}
+		}		
 		return variables;
 	}
 

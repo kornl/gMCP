@@ -1,4 +1,4 @@
-package org.mutoss.gui.dialogs;
+package org.mutoss.gui.power;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -19,7 +19,7 @@ import org.mutoss.gui.RControl;
 import com.jgoodies.forms.layout.CellConstraints;
 import com.jgoodies.forms.layout.FormLayout;
 
-public class VariableDialog extends JDialog implements ActionListener {
+public class PowerVariableDialog extends JDialog implements ActionListener {
 	JButton ok = new JButton("Ok");
 
 	Hashtable<String,Double> ht = new Hashtable<String,Double>(); 
@@ -28,7 +28,7 @@ public class VariableDialog extends JDialog implements ActionListener {
     Object[] variables;
     List<JTextField> jtl;
     
-	public VariableDialog(CreateGraphGUI parent, Set<String> v) {
+	public PowerVariableDialog(CreateGraphGUI parent, Set<String> v) {
 		super(parent, "Variables", true);
 		setLocationRelativeTo(parent);
 		this.parent = parent;

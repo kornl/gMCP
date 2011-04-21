@@ -84,6 +84,7 @@ public class MenuBarMGraph extends JMenuBar implements ActionListener {
 		menu.add(subMenu);
 		
 		menu.add(makeMenuItem("Example graph from Bretz et al. (2009)", "bretzEtAl"));
+		menu.add(makeMenuItem("Example graph for power analysis from Bretz et al. (2009)", "bretzEtAl2"));
 		menu.add(makeMenuItem("Example graph from Hommel et al. (2007)", "hommelEtAl"));
 		
 		/*
@@ -147,6 +148,7 @@ Stuttgart, 1995; 3–18.
 		menu.add(makeMenuItem("Set all options back to default", "clearOptions", KeyEvent.VK_C));
 		menu.addSeparator();
 		menu.add(makeMenuItem("Change Layout of graph", "changeGraphLayout", KeyEvent.VK_G));
+		menu.add(makeMenuItem("Set variables to specific real values", "replaceVariables", KeyEvent.VK_V));
 		menu.addSeparator();
 		menu.add(makeMenuItem("Log", "showLog", KeyEvent.VK_L));
 		menu.add(makeMenuItem("Report error", "reportError", KeyEvent.VK_R));
@@ -301,6 +303,8 @@ Stuttgart, 1995; 3–18.
         	loadGraph("createGraphForImprovedParallelGatekeeping()");
         } else if (e.getActionCommand().equals("bretzEtAl")) {       	
         	loadGraph("createGraphFromBretzEtAl()");
+        } else if (e.getActionCommand().equals("bretzEtAl2")) {       	
+        	loadGraph("createGraph2FromBretzEtAl()");
         } else if (e.getActionCommand().equals("hommelEtAl")) {       	
         	loadGraph("createGraphFromHommelEtAl()");
         } else if (e.getActionCommand().equals("showLog")) {       	
@@ -355,6 +359,8 @@ Stuttgart, 1995; 3–18.
 						"Error loading values from R", JOptionPane.ERROR_MESSAGE);
 			} 
         } else if (e.getActionCommand().equals("changeGraphLayout")) {
+        	notYetSupported();
+        } else if (e.getActionCommand().equals("replaceVariables")) {
         	notYetSupported();
         } 
 	}
