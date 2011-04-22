@@ -18,15 +18,17 @@ RSCRIPT=$(R_HOME)/bin/Rscript
 
 AQuickStart.pdf: gMCP/AQuickStart.Rnw
 	cp -f gMCP/AQuickStart.Rnw AQuickStart.Rnw
+	$(RPROG) CMD Sweave AQuickStart.Rnw
 	$(RSCRIPT) --vanilla -e "tools::texi2dvi( 'AQuickStart.tex', pdf = TRUE, clean = TRUE )"
 	rm -fr AQuickStart.tex
-	cp -f gMCP/AQuickStart-fake.Rnw gMCP.Rnw
+	cp -f gMCP/AQuickStart-fake.Rnw AQuickStart.Rnw
 
 parametric.pdf: gMCP/parametric.Rnw
 	cp -f gMCP/parametric.Rnw parametric.Rnw
+	$(RPROG) CMD Sweave parametric.Rnw
 	$(RSCRIPT) --vanilla -e "tools::texi2dvi( 'parametric.tex', pdf = TRUE, clean = TRUE )"
 	rm -fr parametric.tex
-	cp -f gMCP/parametric-fake.Rnw gMCP.Rnw
+	cp -f gMCP/parametric-fake.Rnw parametric.Rnw
 
 gMCP.pdf: gMCP/gMCP.Rnw
 	cp -f gMCP/gMCP.Rnw gMCP.Rnw
