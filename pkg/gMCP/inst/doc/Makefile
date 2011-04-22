@@ -21,7 +21,7 @@ AQuickStart.pdf: AQuickStart.Rnw
 	$(RSCRIPT) --vanilla -e "tools::texi2dvi( 'AQuickStart.tex', pdf = TRUE, clean = TRUE ) "
 	rm -fr AQuickStart.tex
 
-AQuickStart.pdf: parametric.Rnw
+parametric.pdf: parametric.Rnw
 	$(RPROG) CMD Sweave parametric.Rnw
 	$(RSCRIPT) --vanilla -e "tools::texi2dvi( 'parametric.tex', pdf = TRUE, clean = TRUE ) "
 	rm -fr parametric.tex
