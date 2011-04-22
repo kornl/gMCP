@@ -629,7 +629,7 @@ cat(graph2latex(createGraph2FromBretzEtAl(), scale=0.7, fontsize="tiny"))
 
 \subsection{Variable edge weights}\index{edge weights!variable}
 
-\includegraphics[width=0.5cm]{pictures/variableEditor.png}
+\includegraphics[width=5cm]{pictures/variableEditor.png}
 
 \scriptsize
 <<echo=TRUE, keep.source=TRUE, size=scriptsize>>=
