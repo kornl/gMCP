@@ -42,7 +42,7 @@ Compatibility for R 2.8.0
 gMCP is still compatible with R 2.8.0 but not extensively tested.
 
 Please install the dependencies manually:
-install.packages(c("rJava", "MASS", "PolynomF", "multcomp", "graph", "gtools", "xtable"))
+install.packages(c("rJava", "MASS", "PolynomF", "multcomp", "graph", "gtools", "xtable", "plotrix", "JavaGD"))
 and build the current gMCP package from source for your system 
 or use a build for a current version (apart from the help pages everything should work).  
 

@@ -45,35 +45,7 @@ Additional features / low priority:
 - Use of InfoNode Docking Windows? http://www.infonode.net/index.html?idw
   Would increase size by 717 kByte.
 - Whishlist dialog.
-
-- Package highlight is cool - but using it with Makefiles causes errors:
-  (See also http://comments.gmane.org/gmane.comp.lang.r.general/200179)
-  
-You can now run (pdf)latex on 'gMCP.tex'
-Warnmeldungen:
-1: In is.na(x) :
-  is.na() auf nicht-(Liste oder Vektor) des Typs 'NULL' angewendet
-2: In max(data$line2) :
-  kein nicht-fehlendes Argument für max; gebe -Inf zurück
-3: In highlight(output = chunkout, parser.output = parser.output, styles = styles,  :
-  NAs durch Umwandlung erzeugt
-4: In is.na(x) :
-  is.na() auf nicht-(Liste oder Vektor) des Typs 'NULL' angewendet
-5: In max(data$line2) :
-  kein nicht-fehlendes Argument für max; gebe -Inf zurück
-6: In highlight(output = chunkout, parser.output = parser.output, styles = styles,  :
-  NAs durch Umwandlung erzeugt
-/usr/lib64/R/bin/Rscript --vanilla -e "tools::texi2dvi( 'gMCP.tex', pdf = TRUE, clean = FALSE )"
-Fehler in tools::texi2dvi("gMCP.tex", pdf = TRUE, clean = FALSE) : 
-  Ausführen von 'texi2dvi' für 'gMCP.tex' fehlgeschlagen.
-LaTeX errors:
-! No declaration for shape OMS/aesy/m/n.
-sub@sfcnt ...e forspace shapespace mandatory@arg }
-                                                  error@fontshape else #1{Fo...
-l.1413 ...epsilon+1/3*\textbackslash epsilon\^{}2}
-                                                   for $1-2\epsilon+\frac{1}...
-Ausführung angehalten
-make: *** [gMCP.pdf] Fehler 1
+- Ajust that comments have color light-grey in package highlight by default 
 
 @Apple - is this a problem?
 
