@@ -18,6 +18,7 @@ export(createBonferroniHolmGraph)
 export(createGraphFromBretzEtAl)
 export(createGraph2FromBretzEtAl)
 export(createGraphFromHommelEtAl)
+export(createGraphFromHungEtWang)
 export(createGraphForParallelGatekeeping)
 export(createGraphForImprovedParallelGatekeeping)
 

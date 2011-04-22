@@ -776,6 +776,11 @@ boxplot(micronuclei~group, data=hydroquinone)
 
 This section is work in progress.
 
+\subsection{Closed testing principle}\index{Closed testing principle}
+
+
+\subsection{Partitioning principle}\index{Partitioning principle}
+
 \begin{Def}
 
 \end{Def}

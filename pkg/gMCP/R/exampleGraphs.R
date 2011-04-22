@@ -173,11 +173,35 @@ createGraph2FromBretzEtAl <- function() {
 	names(nodeX) <- hnodes
 	names(nodeY) <- hnodes
 	nodeRenderInfo(graph) <- list(nodeX=nodeX, nodeY=nodeY)
-	# Label placement
-	#edgeData(graph, "H1", "H4", "labelX") <- 150
-	#edgeData(graph, "H1", "H4", "labelY") <- 150
-	#edgeData(graph, "H2", "H3", "labelX") <- 250
-	#edgeData(graph, "H2", "H3", "labelY") <- 150
+	return(graph)
+}
+
+createGraphFromHungEtWang <- function() {
+	# Nodes:
+	weights <- rep(c(1/2,0), each=2)	
+	hnodes <- c("H_{1,NI}","H_{1,S}","H_{2,NI}","H_{2,S}")
+	# Edges:
+	edges <- vector("list", length=4)
+	edges[[1]] <- list(edges=c("H_{1,S}","H_{2,NI}"), weights=c(NaN, NaN)) # c(nu, 1-nu)
+	edges[[2]] <- list(edges=c("H_{2,NI}","H_{2,S}"), weights=c(NaN, NaN)) # c(tau, 1-tau)
+	edges[[3]] <- list(edges=c("H_{1,S}","H_{2,S}"), weights=c(NaN, NaN))  # c(omega, 1-omega)
+	edges[[4]] <- list()
+	names(edges)<-hnodes
+	# Graph creation
+	graph <- new("graphMCP", nodes=hnodes, edgeL=edges, weights=weights)
+	# Set edge weights with variables
+	edgeData(graph, "H_{1,NI}", "H_{1,S}", "variableWeight") <- "\\nu"
+	edgeData(graph, "H_{1,NI}", "H_{2,NI}", "variableWeight") <- "1-\\nu"
+	edgeData(graph, "H_{1,S}", "H_{2,NI}", "variableWeight") <- "\\tau"
+	edgeData(graph, "H_{1,S}", "H_{2,S}", "variableWeight") <- "1-\\tau"
+	edgeData(graph, "H_{2,NI}", "H_{1,S}", "variableWeight") <- "\\omega"
+	edgeData(graph, "H_{2,NI}", "H_{2,S}", "variableWeight") <- "1-\\omega"
+	# Visualization settings
+	nodeX <- rep(c(100, 300), 2)
+	nodeY <- rep(c(100, 300), each=2)
+	names(nodeX) <- hnodes
+	names(nodeY) <- hnodes
+	nodeRenderInfo(graph) <- list(nodeX=nodeX, nodeY=nodeY)
 	return(graph)
 }
 

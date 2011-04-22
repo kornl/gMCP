@@ -5,6 +5,7 @@
 \alias{createGraphForParallelGatekeeping}
 \alias{createGraphForImprovedParallelGatekeeping}
 \alias{createGraphFromHommelEtAl}
+\alias{createGraphFromHungEtWang}
 \title{
 	Functions that create different example graphs
 }
@@ -21,6 +22,7 @@
 	createGraphFromHommelEtAl()
 	createGraphForParallelGatekeeping()
 	createGraphForImprovedParallelGatekeeping()
+	createGraphFromHungEtWang()
 }
 
 \arguments{
@@ -49,6 +51,9 @@
 	\item{\code{createGraphForImprovedParallelGatekeeping}}{
 		Example graph for improved parallel gatekeeping. See references (Hommel et al. 2007).
 	}
+	\item{\code{createGraphFromHungEtWang}}{
+	    Example graph from Hung et Wang. See references (Hung et Wang 2010).
+	}
   }	
 }
 \value{
@@ -62,7 +67,9 @@ Dmitrienko, A., Offen, W., Westfall, P.H. (2003). Gatekeeping strategies for cli
 Frank Bretz, Willi Maurer, Werner Brannath, Martin Posch: A graphical approach to sequentially rejective multiple test procedures.
 Statistics in Medicine 2009 vol. 28 issue 4 page 586-604. \url{http://www.meduniwien.ac.at/fwf_adaptive/papers/bretz_2009_22.pdf}
 
-Hommel, G., Bretz, F. und Maurer, W. (2007) Powerful short-cuts for multiple testing procedures with special reference to gatekeeping strategies. Statistics in Medicine, 26(22), 4063-4073.
+Hommel, G., Bretz, F. und Maurer, W. (2007). Powerful short-cuts for multiple testing procedures with special reference to gatekeeping strategies. Statistics in Medicine, 26(22), 4063-4073.
+
+Hung H.M.J., Wang S.-J. (2010). Challenges to multiple testing in clinical trials. Biometrical Journal 52, 747-756.
 }
 \author{
 Kornelius Rohmeyer \email{rohmeyer@small-projects.de}
