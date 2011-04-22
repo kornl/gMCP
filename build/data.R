@@ -3,3 +3,14 @@ micronuclei <- c(3,2,2,3,2,5,1,5,4,4,4,2,7,4,6,8,6,9,18,13,12,18,22,13,23,22,20,
 hydroquinone <- data.frame(group=group, micronuclei=micronuclei)
 hydroquinone$group <- factor(hydroquinone$group, levels=c("C-","30 mg/kg","50 mg/kg","75 mg/kg","100 mg/kg","C+"))
 boxplot(micronuclei~group, data=hydroquinone)
+#save(hydroquinone, file="hydroquinone.rda", compress = TRUE)
+
+group <- c("Placebo", "10 mg", "20 mg", "20 mg + 2.3 g Colesevelam")
+sampleSize <- c(33, 35, 39, 37)
+means <- c(177, 136, 119, 111)
+sd <- c(30, 31, 26, 37)
+adverseEvents <- c(25, 22, 23, 25)
+simvastatin <- data.frame(group=group, sampleSize=sampleSize, means=means, sd=sd, adverseEvents=adverseEvents)
+simvastatin$group <- factor(simvastatin$group, levels=c("Placebo", "10 mg", "20 mg", "20 mg + 2.3 g Colesevelam"))
+save(simvastatin, file="simvastatin.rda", compress = TRUE)
+
