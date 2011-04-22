@@ -16,15 +16,19 @@ endif
 RPROG=	$(R_HOME)/bin/R
 RSCRIPT=$(R_HOME)/bin/Rscript
 
-AQuickStart.pdf: AQuickStart.Rnw
+AQuickStart.pdf: gMCP/AQuickStart.Rnw
+	cp -f gMCP/AQuickStart.Rnw AQuickStart.Rnw
 	$(RSCRIPT) --vanilla -e "tools::texi2dvi( 'AQuickStart.tex', pdf = TRUE, clean = TRUE )"
 	rm -fr AQuickStart.tex
+	cp -f gMCP/AQuickStart-fake.Rnw gMCP.Rnw
 
-parametric.pdf: parametric.Rnw
+parametric.pdf: gMCP/parametric.Rnw
+	cp -f gMCP/parametric.Rnw parametric.Rnw
 	$(RSCRIPT) --vanilla -e "tools::texi2dvi( 'parametric.tex', pdf = TRUE, clean = TRUE )"
 	rm -fr parametric.tex
+	cp -f gMCP/parametric-fake.Rnw gMCP.Rnw
 
-gMCP.pdf: gMCP.Rnw
+gMCP.pdf: gMCP/gMCP.Rnw
 	cp -f gMCP/gMCP.Rnw gMCP.Rnw
 	$(RSCRIPT) --vanilla -e "require(highlight); driver <- HighlightWeaveLatex(boxes = FALSE, bg = 'white' ); Sweave( 'gMCP.Rnw', driver = driver ); "
 	$(RSCRIPT) --vanilla -e "tools::texi2dvi( 'gMCP.tex', pdf = TRUE, clean = FALSE )"
