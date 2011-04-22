@@ -151,12 +151,18 @@ public class NetList extends JPanel implements MouseMotionListener, MouseListene
 		control.resultUpToDate = false;
 		if (!updateGUI) return;
 		String analysis = null;
-		try {
-			String graphName = ".tmpGraph" + (new Date()).getTime();
-			saveGraph(graphName, false);
-			analysis = RControl.getR().eval("graphAnalysis("+graphName+")").asRChar().getData()[0];
-		} catch (Exception e) {
-			// We simply set the analysis to null - that's fine.
+		Set<String> variables = getAllVariables();
+		variables.remove("ε");
+		if (variables.size()==0) {
+			try {
+				String graphName = ".tmpGraph" + (new Date()).getTime();
+				saveGraph(graphName, false);
+				analysis = RControl.getR().eval("graphAnalysis("+graphName+")").asRChar().getData()[0];
+			} catch (Exception e) {
+				// We simply set the analysis to null - that's fine.
+			}
+		} else {
+			analysis = "Graphs with variables are not yet supported for analysis.";
 		}
 		control.getDView().setAnalysis(analysis);
 	}
@@ -481,14 +487,18 @@ public class NetList extends JPanel implements MouseMotionListener, MouseListene
 		control.getPView().savePValues();
 	}
 	
-	public String saveGraph(String graphName, boolean verbose) {
-		// We can only save up to now graphs without variables:
-		
-		Set<String> variables = new HashSet<String>();
-		
+	public Set<String> getAllVariables() {
+		Set<String> variables = new HashSet<String>();		
 		for (Edge e : edges) {		
 			variables.addAll(e.getVariable());
 		}
+		return variables;
+	}
+	
+	public String saveGraph(String graphName, boolean verbose) {
+		// We can only save up to now graphs without variables:
+		
+		Set<String> variables = getAllVariables();
 		/*if (!Configuration.getInstance().getGeneralConfig().useEpsApprox()) */
 		{
 			variables.remove("ε");

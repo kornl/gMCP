@@ -33,6 +33,7 @@ public class Edge {
 	int k1, k2;
 	public Node to;
 	public Node from;
+	public boolean fixed = false;
 	
 	NetList nl;
 	
