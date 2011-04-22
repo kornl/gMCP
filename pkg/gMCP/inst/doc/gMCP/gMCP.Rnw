@@ -178,7 +178,7 @@ cat(graph2latex(graph, scale=0.7, fontsize="tiny", nodeTikZ="minimum size=1.2cm"
 Let's reproduce this with the \texttt{gMCP} package. We start R and enter:
 
 \scriptsize
-<<echo=TRUE>>=
+<<echo=TRUE, size=scriptsize>>=
 
 library(gMCP)
 graphGUI()
@@ -195,7 +195,7 @@ test procedure and can sequentially reject all three hypotheses.
 If we don't want to use the GUI we can also use R:
 
 \scriptsize
-<<echo=TRUE>>=
+<<echo=TRUE, size=scriptsize>>=
 
 library(gMCP)
 graph <- createBonferroniHolmGraph(3)
@@ -247,7 +247,7 @@ al. \cite{bretzEtAl2009power} that you can see in figure
 \ref{exampleGraphBretz}.
 
 \scriptsize
-<<echo=TRUE>>=
+<<echo=TRUE, size=scriptsize>>=
 
 hnodes <- c("H11", "H21", "H31", "H12", "H22", "H32")
 weights <- c(1/3, 1/3, 1/3, 0, 0, 0)
@@ -266,7 +266,7 @@ graph <- new("graphMCP", nodes=hnodes, edgeL=edges, weights=weights)
 Let's print the newly created graph:
 
 \scriptsize
-<<echo=TRUE>>=
+<<echo=TRUE, size=scriptsize>>=
 
 print(graph)
 
@@ -279,7 +279,7 @@ x- and y-coordinates in the renderInfo.  (We are compatible to the
 renderInfo usage from package Rgraphviz \cite{Rgraphviz}.)
 
 \scriptsize
-<<echo=TRUE>>=
+<<echo=TRUE, size=scriptsize>>=
 
 nodeX <- c(H11=100, H21=300, H31=500, H12=100, H22=300, H32=500)
 nodeY <- c(H11=100, H21=100, H31=100, H12=300, H22=300, H32=300)
@@ -292,7 +292,7 @@ For placement of the nodes in a matrix pattern, the function \texttt{placeNodes}
 The following code does the same as the three lines of R code above.  
 
 \scriptsize
-<<echo=TRUE>>=
+<<echo=TRUE, size=scriptsize>>=
 
 graph <- placeNodes(graph, nrow=2)
 
@@ -309,7 +309,7 @@ Let's take a look at the graph in {\LaTeX} rendered with TikZ
 \scriptsize
 %\lstset{language=[LaTeX]TeX}
 %\begin{lstlisting}
-<<echo=TRUE>>=
+<<echo=TRUE, size=scriptsize>>=
 
 cat(graph2latex(graph))
 
@@ -323,7 +323,7 @@ place the label for the edge from \texttt{H1} to \texttt{H2} at
 position (200, 80):
 
 \scriptsize
-<<echo=TRUE>>=
+<<echo=TRUE, size=scriptsize>>=
 
 edgeData(graph, "H11", "H21", "labelX") <- 200
 edgeData(graph, "H11", "H21", "labelY") <- 80
@@ -337,7 +337,7 @@ We can also constuct a graph from a given adjacency matrix via the
 command \texttt{matrix2graph}:
 
 \scriptsize
-<<echo=TRUE>>=
+<<echo=TRUE, size=scriptsize>>=
 
 # Bonferroni-Holm:
 m <- matrix(rep(1/3, 16), nrow=4)
@@ -364,7 +364,7 @@ edit or under which a newly created \texttt{graphMCP} object will be
 available from the R command line.
 
 \scriptsize
-<<echo=TRUE>>=
+<<echo=TRUE, size=scriptsize>>=
 
 graphGUI("graph")
 
@@ -415,7 +415,7 @@ You can either specify each rejection step yourself or simply use the
 method \texttt{gMCP}:
 
 \scriptsize
-<<echo=TRUE,keep.source=TRUE>>=
+<<echo=TRUE,keep.source=TRUE, size=scriptsize>>=
 
 graph <- createGraphFromBretzEtAl()
 
@@ -447,7 +447,7 @@ The command \texttt{gMCPReport}\index{report generation} generates a full report
 procedure:
 
 \scriptsize
-<<echo=TRUE>>=
+<<echo=TRUE, size=scriptsize>>=
 
 gMCPReport(result, "Report.tex")
 
@@ -500,7 +500,7 @@ $\Sexpr{format(pval[3])}$.  We want to adjust for multiple testing
 by using the Bonferroni-Holm-Procedure with $\alpha=0.025$.
 
 \scriptsize
-<<echo=TRUE, keep.source=TRUE>>=
+<<echo=TRUE, keep.source=TRUE, size=scriptsize>>=
 
 # Estimates:
 est <- c("H1"=0.860382, "H2"=0.9161474, "H3"=0.9732953)
@@ -602,7 +602,7 @@ If $g_{lj}g_{jl}==1$ still $g_{lk}<-0$.
 
 
 \scriptsize
-<<echo=TRUE, keep.source=TRUE>>=
+<<echo=TRUE, keep.source=TRUE, size=scriptsize>>=
 
 graph <- createGraphForImprovedParallelGatekeeping()
 graph
@@ -632,7 +632,7 @@ cat(graph2latex(createGraph2FromBretzEtAl(), scale=0.7, fontsize="tiny"))
 \includegraphics[width=0.5cm]{pictures/variableEditor.png}
 
 \scriptsize
-<<echo=TRUE, keep.source=TRUE>>=
+<<echo=TRUE, keep.source=TRUE, size=scriptsize>>=
 
 graph <- createGraph2FromBretzEtAl()
 graph

@@ -17,19 +17,19 @@ RPROG=	$(R_HOME)/bin/R
 RSCRIPT=$(R_HOME)/bin/Rscript
 
 AQuickStart.pdf: AQuickStart.Rnw
-	$(RSCRIPT) --vanilla -e "tools::texi2dvi( 'AQuickStart.tex', pdf = TRUE, clean = TRUE ) "
+	$(RSCRIPT) --vanilla -e "tools::texi2dvi( 'AQuickStart.tex', pdf = TRUE, clean = TRUE )"
 	rm -fr AQuickStart.tex
 
 parametric.pdf: parametric.Rnw
-	$(RSCRIPT) --vanilla -e "tools::texi2dvi( 'parametric.tex', pdf = TRUE, clean = TRUE ) "
+	$(RSCRIPT) --vanilla -e "tools::texi2dvi( 'parametric.tex', pdf = TRUE, clean = TRUE )"
 	rm -fr parametric.tex
 
 gMCP.pdf: gMCP.Rnw
-    # Note that gMCP.Rnw is processed twice - but since no big calculations occur this is okay.
-	#$(RSCRIPT) --vanilla -e "require(highlight); driver <- HighlightWeaveLatex(boxes = TRUE, bg = 'white' ); Sweave( 'gMCP.Rnw', driver = driver ); "
-	#$(RPROG) CMD Sweave gMCP.Rnw
+	cp -f gMCP/gMCP.Rnw gMCP.Rnw
+	$(RSCRIPT) --vanilla -e "require(highlight); driver <- HighlightWeaveLatex(boxes = FALSE, bg = 'white' ); Sweave( 'gMCP.Rnw', driver = driver ); "
 	$(RSCRIPT) --vanilla -e "tools::texi2dvi( 'gMCP.tex', pdf = TRUE, clean = FALSE )"
 	bibtex gMCP
 	makeindex -s myIndex.ist gMCP.idx
 	$(RSCRIPT) -e "tools::texi2dvi( 'gMCP.tex', pdf = TRUE, clean = TRUE, index = FALSE )"
 	rm -fr gMCP.tex gMCP.bbl gMCP.blg gMCP.aux gMCP.out gMCP.log
+	cp -f gMCP/gMCP-fake.Rnw gMCP.Rnw
