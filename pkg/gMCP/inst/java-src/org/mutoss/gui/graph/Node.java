@@ -22,7 +22,6 @@ public class Node {
 	int x;
 	int y;
 	private String name;
-	boolean fix = false;
 	boolean drag = false;
 	NetList nl;
 	private double weight;

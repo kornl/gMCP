@@ -139,16 +139,26 @@ public class NetList extends JPanel implements MouseMotionListener, MouseListene
 	public void addNode(Node node) {
 		control.enableButtons(true);		
 		nodes.add(node);
-		nodes.lastElement().fix = false;	
 		control.getPView().addPPanel(node);
 		control.getDataTable().getModel().addRowCol(node.getName());
 		calculateSize();
 		graphHasChanged();
 	}
+	
+	public boolean updateGUI = true;
 
 	public void graphHasChanged() {
 		control.resultUpToDate = false;
-		control.getDView().setAnalysis("...");
+		if (!updateGUI) return;
+		String analysis = null;
+		try {
+			String graphName = ".tmpGraph" + (new Date()).getTime();
+			saveGraph(graphName, false);
+			analysis = RControl.getR().eval("graphAnalysis("+graphName+")").asRChar().getData()[0];
+		} catch (Exception e) {
+			// We simply set the analysis to null - that's fine.
+		}
+		control.getDView().setAnalysis(analysis);
 	}
 
 	/**
@@ -173,8 +183,10 @@ public class NetList extends JPanel implements MouseMotionListener, MouseListene
 		setPreferredSize(new Dimension(
 				(int) ((maxX + 2 * Node.getRadius() + 30) * getZoom()),
 				(int) ((maxY + 2 * Node.getRadius() + 30) * getZoom())));
-		revalidate();
-		repaint();
+		if (updateGUI) {
+			revalidate();
+			repaint();
+		}		
 		return new int[] {maxX, maxY};
 	}
 	
@@ -265,12 +277,16 @@ public class NetList extends JPanel implements MouseMotionListener, MouseListene
 	}
 
 	public void loadGraph() {
+		this.updateGUI = false;
 		GraphMCP graph = new GraphMCP(initialGraph, this);
 		if (graph.getDescription()!=null) {
 			control.getDView().setDescription(graph.getDescription());
 		}
 		control.getPView().restorePValues();
+		this.updateGUI = true;
 		graphHasChanged();
+		revalidate();
+		repaint();
 	}
 	
 	public void mouseClicked(MouseEvent e) {}
