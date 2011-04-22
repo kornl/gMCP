@@ -7,7 +7,7 @@ pdfclean:
 	rm -f AQuickStart.pdf gMCP.pdf parametric.pdf
 
 clean:
-	rm -f *.tex *.bbl *.blg *.aux *.out *.log *.idx *.toc
+	rm -f *.tex *.bbl *.blg *.aux *.out *.log *.idx *.toc *.ind *.ilg
 
 setvars:
 ifeq (${R_HOME},)
@@ -29,8 +29,12 @@ AQuickStart.pdf: parametric.Rnw
 gMCP.pdf: gMCP.Rnw
 	#$(RSCRIPT) --vanilla -e "require(highlight); driver <- HighlightWeaveLatex(boxes = TRUE, bg = 'white' ); Sweave( 'gMCP.Rnw', driver = driver ); "
 	$(RPROG) CMD Sweave gMCP.Rnw
-	$(RSCRIPT) --vanilla -e "tools::texi2dvi( 'gMCP.tex', pdf = TRUE, clean = FALSE )"
+	#$(RSCRIPT) --vanilla -e "tools::texi2dvi( 'gMCP.tex', pdf = TRUE, clean = FALSE )"
+	pdflatex gMCP.tex
+	pdflatex gMCP.tex
 	bibtex gMCP
 	makeindex -s myIndex.ist gMCP.idx
-	$(RSCRIPT) -e "tools::texi2dvi( 'gMCP.tex', pdf = TRUE, clean = TRUE )"
+	pdflatex gMCP.tex
+	pdflatex gMCP.tex
+	#$(RSCRIPT) -e "tools::texi2dvi( 'gMCP.tex', pdf = TRUE, clean = TRUE )"
 	rm -fr gMCP.tex gMCP.bbl gMCP.blg gMCP.aux gMCP.out gMCP.log
