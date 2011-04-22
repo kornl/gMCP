@@ -37,7 +37,7 @@ Version 0.6-3 (??-???-2011, Rev. ???)
     Bretz et al. (2011), Bretz et al. (2009) and 
     Hommel et al. (2007)
 
-- Example graphs have a description and
+- Most example graphs have a description and
   graph attributes "description" are shown in the GUI
 
 - Improved compatibility for R 2.8
