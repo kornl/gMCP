@@ -1,0 +1,5 @@
+group <- rep(c("C-","30 mg/kg","50 mg/kg","75 mg/kg","100 mg/kg","C+"), times=c(7,5,5,5,5,4))
+micronuclei <- c(3,2,2,3,2,5,1,5,4,4,4,2,7,4,6,8,6,9,18,13,12,18,22,13,23,22,20,33,15,32,20)
+hydroquinone <- data.frame(group=group, micronuclei=micronuclei)
+hydroquinone$group <- factor(hydroquinone$group, levels=c("C-","30 mg/kg","50 mg/kg","75 mg/kg","100 mg/kg","C+"))
+boxplot(micronuclei~group, data=hydroquinone)

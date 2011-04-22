@@ -40,6 +40,8 @@ Version 0.6-3 (??-???-2011, Rev. ???)
 - Most example graphs have a description and
   graph attributes "description" are shown in the GUI
 
+- First data file: hydroquinone
+
 - Improved compatibility for R 2.8
 
 - New HTML file References.html accessible from the GUI.

@@ -1,4 +1,4 @@
-\documentclass[a4paper, 11pt]{article}
+\documentclass[a4paper, 10pt]{article}
 \usepackage[T1]{fontenc}
 \usepackage{url}
 \usepackage{Sweave}
@@ -48,15 +48,21 @@
 
 \newenvironment{Proof}{\par\noindent\upshape\textit{Proof. }\nopagebreak}{\qed\par}
 
+\usepackage{setspace}
+\onehalfspacing
+
 \begin{document}
 
 % \VignetteIndexEntry{A Graphical Approach to Weighted Multiple Test Procedures}
+% \VignetteDepends{}
 
 \title{gMCP - an R package for a graphical approach to weighted multiple test procedures} 
 
 \author{Kornelius Rohmeyer}
 
 \maketitle
+
+\newpage
 
 \tableofcontents
 
@@ -70,6 +76,8 @@ gMCPReport <- function(...) {invisible(NULL)}
 graphGUI <- function(...) {invisible(NULL)}
 
 @
+
+\newpage
 
 \section{Introduction}
 
@@ -734,6 +742,33 @@ the TikZ manual \cite{TikZ}.
 \section{Case Studies}\label{caseStudies}
 
 This section is work in progress.
+
+\subsection{Identifying effective and/or safe doses by stepwise confidence intervals for ratios}
+In this subsection we show how to use gMCP to reproduce the results of the paper \cite{bretz2003identifying} with the same title.
+
+\subsection{Testing strategies in multi-dose experiments including active control}
+
+\cite{bauer1998testing}
+
+\scriptsize
+<<echo=TRUE, size=scriptsize>>=
+
+data(hydroquinone)
+
+@
+\normalsize
+
+\begin{figure}[ht]
+\begin{center}
+<<echo=FALSE,fig=TRUE,width=8,height=6>>=
+
+data(hydroquinone)
+boxplot(micronuclei~group, data=hydroquinone)
+
+@ 
+\end{center}
+\caption{\label{bpHydroquinone} Boxplot of the hydroquinone data set}
+\end{figure}
 
 \begin{appendix} 
 
