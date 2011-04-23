@@ -14,9 +14,8 @@ fastgMCP <- function(m, w, p, a) {
 	n <- dim(m)[1]
 	if (dim(m)[2]!=n || length(w)!=n || length(p)!=n) {
 		stop("Wrong dimensions in fastgMCP call!")
-	}
-	m2 <- m
-	w2 <- w
-	.Call("cgMCP", m2, w2, p, a)
-	return(list(m2,w2))
+	}	
+	result <- .C("cgMCP", as.double(m), as.double(w), as.double(p), as.double(a), as.integer(n), 
+			newM = double(n*n), newW = double(n) )
+	return(list(m=matrix(result$newM, nrow=n), w=result$newW))
 }

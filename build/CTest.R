@@ -7,5 +7,3 @@ a <- 0.05
 m
 w
 gMCP:::fastgMCP(m, w, p, a)
-m
-w
