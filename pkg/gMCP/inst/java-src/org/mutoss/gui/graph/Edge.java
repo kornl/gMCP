@@ -12,6 +12,8 @@ import java.awt.geom.Rectangle2D;
 import java.util.Collection;
 import java.util.Hashtable;
 
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import org.af.commons.images.GraphDrawHelper;
@@ -188,7 +190,7 @@ public class Edge {
 
 	public boolean inYou(int x, int y) {
 		if (icon==null) {
-			icon = getTeXIcon(getWS(), (int) (16 * nl.getZoom()));			
+			icon = getTeXIcon(this.nl.control.getGraphGUI(), getWS(), (int) (16 * nl.getZoom()));			
 		}		
 		int TOLERANCE = 5; 
 		
@@ -256,7 +258,7 @@ public class Edge {
 		} else {
 			if (icon==null || lastFontSize != (int) (16 * nl.getZoom())) {
 				lastFontSize = (int) (16 * nl.getZoom());
-				icon = getTeXIcon(s, lastFontSize);				
+				icon = getTeXIcon(this.nl.control.getGraphGUI(), s, lastFontSize);				
 			}
 			g2d.setColor(new Color(0.99f,0.99f,0.99f));
 			g2d.fillRect((int)((k1* nl.getZoom() - icon.getIconWidth() / 2)-5), 
@@ -278,7 +280,7 @@ public class Edge {
 					(int) ((k2* nl.getZoom() - icon.getIconHeight() / 2)));
 		}
 	}
-	
+
 	TeXIcon icon = null;
 
 	/**
@@ -288,52 +290,57 @@ public class Edge {
 	 * @param s String to be parsed.
 	 * @return
 	 */
-	public static TeXIcon getTeXIcon(String s, int points) {
-		boolean print = true;		
-		s.replaceAll("ε", "\\varepsilon");
+	public static TeXIcon getTeXIcon(JFrame parent, String s, int points) {
 		String latex = "";
-		while (s.length()>0) {			
-			int i = getNextOperator(s);
-			if (i!=-1) {
-				String op = ""+s.charAt(i);
-				String start = s.substring(0, i);
-				s = s.substring(i+1, s.length());
-				if (op.equals("+") || op.equals("-") || op.equals("*")) {
-					if (print) {
-						latex += start;							
-					}
-					if (!op.equals("*")) {
-						latex += op;
-					} else {
-						//formula.addSymbol("cdot");
-					}					
-					print = true;
-				}
-				if (op.equals("/")) {
-					i = getNextOperator(s);
-					String s2;
-					if (i!=-1) {
-						s2 = s.substring(0, i);
-					} else {
-						s2 = s;
+		try {
+			boolean print = true;		
+			s.replaceAll("ε", "\\varepsilon");			
+			while (s.length()>0) {			
+				int i = getNextOperator(s);
+				if (i!=-1) {
+					String op = ""+s.charAt(i);
+					String start = s.substring(0, i);
+					s = s.substring(i+1, s.length());
+					if (op.equals("+") || op.equals("-") || op.equals("*")) {
+						if (print) {
+							latex += start;							
+						}
+						if (!op.equals("*")) {
+							latex += op;
+						} else {
+							//formula.addSymbol("cdot");
+						}					
+						print = true;
 					}
 					if (op.equals("/")) {
-						latex += "\\frac{"+start+"}{"+s2+"}";
+						i = getNextOperator(s);
+						String s2;
+						if (i!=-1) {
+							s2 = s.substring(0, i);
+						} else {
+							s2 = s;
+						}
+						if (op.equals("/")) {
+							latex += "\\frac{"+start+"}{"+s2+"}";
+						}
+						print = false;
 					}
-					print = false;
+				} else {
+					if (print) {
+						latex += s;
+					}
+					s = "";
 				}
-			} else {
-				if (print) {
-					latex += s;
-				}
-				s = "";
 			}
-		}
-		logger.debug("LaTeX string:"+latex);		
-		TeXFormula formula = new TeXFormula(latex);//
-		formula = new TeXFormula("\\mathbf{"+latex+"}");
-		
-		return formula.createTeXIcon(TeXConstants.ALIGN_CENTER, points);
+			logger.debug("LaTeX string:"+latex);		
+			TeXFormula formula = new TeXFormula(latex);//
+			formula = new TeXFormula("\\mathbf{"+latex+"}");
+			return formula.createTeXIcon(TeXConstants.ALIGN_CENTER, points);
+		} catch(Exception e) {
+			JOptionPane.showMessageDialog(parent, "Invalid weight string:\n"+latex, "Invalid input", JOptionPane.ERROR_MESSAGE);
+			TeXFormula formula = new TeXFormula("Syntax Error");
+			return formula.createTeXIcon(TeXConstants.ALIGN_CENTER, points); 
+		}		
 	}
 	
 	private static int getNextOperator(String s) {
