@@ -44,7 +44,7 @@ public class TextFileViewer extends JDialog implements ActionListener {
 	
 	private void setUp(String text) {
 		jta = new JTextArea(text);
-		jta.setFont(new Font("Monospaced", Font.PLAIN, 10));
+		jta.setFont(new Font("Monospaced", Font.PLAIN, 12));
 		jta.setLineWrap(true);
 		jta.setWrapStyleWord(true);
 				
