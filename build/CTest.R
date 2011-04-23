@@ -6,6 +6,6 @@ p <- rep(0,4)
 a <- 0.05
 m
 w
-gMCP:::test(m, w, p, a)
+gMCP:::fastgMCP(m, w, p, a)
 m
 w

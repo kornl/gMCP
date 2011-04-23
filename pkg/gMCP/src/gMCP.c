@@ -2,17 +2,7 @@
 #include <Rinternals.h>
 #include <Rdefines.h>
 
-void convolve(double *a, int *na, double *b, int *nb, double *ab)
-{
-	int i, j, nab = *na + *nb - 1;
-	for(i = 0; i < nab; i++)
-		ab[i] = 0.0;
-	for(i = 0; i < *na; i++)
-		for(j = 0; j < *nb; j++)
-			ab[i + j] += a[i] * b[j];
-}
-
-SEXP pr(SEXP matrix, SEXP weights, SEXP pvalues, SEXP alpha) {
+SEXP cgMCP(SEXP matrix, SEXP weights, SEXP pvalues, SEXP alpha) {
 	double *m = REAL(matrix);
 	double *w = REAL(weights);
 	double *a = REAL(alpha);
@@ -27,28 +17,34 @@ SEXP pr(SEXP matrix, SEXP weights, SEXP pvalues, SEXP alpha) {
 	}
 
 	while (1==1) {
-		int i = -1;
-		for(int j=0; j<n; j++) {
-			if (p[j]<=w[j]*a[0] && s[j]==0) {
-				i = j;
+		int j = -1;
+		for(int i=0; i<n; i++) {
+			if (p[i]<=w[i]*a[0] && s[i]==0) {
+				j = i;
 			}
 		}
-		if (i==-1) return R_NilValue;
-		s[i] = 1;
-		for(int j=0; j<n; j++) {
-			if (i!=j) {
-				w[j] = w[j] + w[i]*m[i + n*j];
-				//PrintValue(w[j]);
-			} else {
-				w[j] = 0;
+		if (j==-1) return R_NilValue;
+		s[j] = 1;
+		for(int l=0; l<n; l++) {
+			if(s[l]==0) {
+				if (l!=j) {
+					w[l] = w[l] + w[j]*m[j + n*l];
+					//PrintValue(w[j]);
+				} else {
+					w[l] = 0;
+				}
+				for(int k=0; k<n; k++) {
+					if (s[k]==0) {
+						if (l!=k && m[l + n*j]*m[j + n*l]<1) {
+							m[l + n*k] = (m[l + n*k]+m[l + n*j]*m[j + n*k])/(1-m[l + n*j]*m[j + n*l]);
+						} else {
+							m[l + n*k] = 0;
+						}
+					}
+				}
 			}
 		}
 
 	}
 	return R_NilValue;
 }
-
-/*
-int size = 5000;
-double *matrix = (double *) R_alloc(size*size, sizeof(double));
-*/

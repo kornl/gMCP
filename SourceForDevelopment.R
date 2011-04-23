@@ -1,3 +1,4 @@
+library(gMCP)
 library(graph)
 library(RUnit)
 library(Rgraphviz)
