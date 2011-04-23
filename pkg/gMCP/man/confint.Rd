@@ -46,42 +46,44 @@
 	For details see the given references.
 }
 \value{
-A matrix (or vector) with columns giving lower and upper
-confidence limits for each parameter. These will be labeled as
-lower and upper bound.
+  A matrix with columns giving lower confidence limits, point estimates and upper
+  confidence limits for each parameter. These will be labeled as
+  "lower bound", "estimate" and "upper bound".
 %(1-level)/2 and 1 - (1-level)/2 in \% (by default 2.5\% and 97.5\%).
 }
 \references{
-Frank Bretz, Willi Maurer, Werner Brannath, Martin Posch:
-A graphical approach to sequentially rejective multiple test procedures.
-Statistics in Medicine 2009 vol. 28 issue 4 page 586-604. 
-\url{http://www.meduniwien.ac.at/fwf_adaptive/papers/bretz_2009_22.pdf}
+  Frank Bretz, Willi Maurer, Werner Brannath, Martin Posch:
+  A graphical approach to sequentially rejective multiple test procedures.
+  Statistics in Medicine 2009 vol. 28 issue 4 page 586-604. 
+  \url{http://www.meduniwien.ac.at/fwf_adaptive/papers/bretz_2009_22.pdf}
 }
 \author{
-Kornelius Rohmeyer \email{rohmeyer@small-projects.de}
+  Kornelius Rohmeyer \email{rohmeyer@small-projects.de}
 }
 
 \seealso{
-\code{\link{graphMCP}}
+  \code{\link{graphMCP}}
 }
 \examples{
 
-g <- createBonferroniHolmGraph(3)
-
-# Estimates:
-est <- c("H1"=0.9101444, "H2"=0.4485153, "H3"=1.4568271)
+est <- c("H1"=0.860382, "H2"=0.9161474, "H3"=0.9732953)
 # Sample standard deviations:
-ssd <- c("H1"=1.2, "H2"=0.8, "H3"=1.7)
-pvalues <- 1-pt(est/ssd*sqrt(10),df=9)
+ssd <- c("H1"=0.8759528, "H2"=1.291310, "H3"=0.8570892)
 
+pval <- c(0.01260, 0.05154, 0.02124)/2
 
-simConfint(g, pvalues, confint="t", alternative="greater", df=9, estimates=est)
+simConfint(createBonferroniHolmGraph(3), pvalues=pval, 
+		confint=function(node, alpha) {
+			c(est[node]-qt(1-alpha,df=9)*ssd[node]/sqrt(10), Inf)
+		}, estimates=est, alpha=0.025, mu=0, alternative="greater")
 
-simConfint(g, pvalues, 
-		confint = function(node, alpha) {
-			print(paste("Node ",node," has est=",est[node],", stderr=",ssd[node]/sqrt(10)," and alpha=",alpha,".",sep=""))
-			c(est[node]+qt(alpha,df=9)*ssd[node]/sqrt(10), Inf)
-		})
+# Note that the sample standard deviations in the following call
+# will be calculated from the pvalues and estimates.
+ci <- simConfint(createBonferroniHolmGraph(3), pvalues=pval, 
+		confint="t", df=9, estimates=est, alpha=0.025, alternative="greater")
+ci
+	
+plotCII(ci[,2], li=ci[,1], ui=ci[,3])
 
 }
 \keyword{ htest }

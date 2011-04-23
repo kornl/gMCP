@@ -5,7 +5,7 @@ Version: 0.6-3
 Author: Kornelius Rohmeyer, Florian Klinglmueller
 Maintainer: Kornelius Rohmeyer <rohmeyer@small-projects.de>
 Description: This package provides functions and a graphical user interface for graphical described multiple test procedures.
-Depends: R (>= 2.8.0), rJava (>= 0.6-3), methods, MASS, PolynomF, multcomp (>= 1.1), graph (>= 1.20), xtable, gtools (>= 2.5.0), JavaGD, plotrix
+Depends: R (>= 2.8.0), rJava (>= 0.6-3), methods, MASS, PolynomF, multcomp (>= 1.1), graph (>= 1.20), xtable, gtools (>= 2.5.0), JavaGD, MCPAN
 Suggests: RUnit, Deducer, highlight (>= 0.2-3), mutoss
 SystemRequirements: Java (>= 5.0) 
 License: GPL (>= 2)

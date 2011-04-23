@@ -266,8 +266,9 @@ setMethod("simConfint", c("graphMCP"), function(object, pvalues, confint, altern
 					if (rejected && alternative=="greater") return(c(mu, Inf))
 					return(confint(node, alpha))
 				}
-				m <- mapply(f, nodes(object), alpha, getRejected(result))					
-				rownames(m) <- c("lower bound", "upper bound")
+				m <- mapply(f, nodes(object), alpha, getRejected(result))	
+				m <- rbind(m[1,], estimates, m[2,])
+				rownames(m) <- c("lower bound", "estimate", "upper bound")
 				return(t(m))
 			} else if (confint=="t") {
 				dist <- function(x) {qt(p=x, df=df)}
@@ -289,8 +290,7 @@ setMethod("simConfint", c("graphMCP"), function(object, pvalues, confint, altern
 			} else {
 				stop("Specify alternative as \"less\" or \"greater\".")
 			}
-			m <- matrix(c(lb, ub), ncol=2)
-			colnames(m) <- c("lower bound", "upper bound")
+			m <- matrix(c(lb, estimates, ub), ncol=3)
+			colnames(m) <- c("lower bound", "estimate", "upper bound")
 			return(m)
 		})
-
