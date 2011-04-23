@@ -76,8 +76,8 @@ public class MenuBarMGraph extends JMenuBar implements ActionListener {
 
 		JMenu subMenu = new JMenu("Common test procedures for any number of hypotheses");		
 		subMenu.add(makeMenuItem("Bonferroni-Holm procedure", "bht"));
-		subMenu.add(makeMenuItem("Fixed sequence test", "fixedSequence"));
-		subMenu.add(makeMenuItem("Fallback procedure", "fallback"));
+		subMenu.add(makeMenuItem("Fixed sequence test", "fixedSequence", false));
+		subMenu.add(makeMenuItem("Fallback procedure", "fallback", false));
 		menu.add(subMenu);
 		
 		subMenu = new JMenu("3 unstructured hypotheses");
@@ -89,23 +89,23 @@ public class MenuBarMGraph extends JMenuBar implements ActionListener {
 		subMenu.add(makeMenuItem("Parallel Gatekeeping with 4 Hypotheses", "pg"));
 		subMenu.add(makeMenuItem("Improved Parallel Gatekeeping with 4 Hypotheses", "pgi"));
 		subMenu.addSeparator();
-		subMenu.add(makeMenuItem("Truncated Holm procedure", "truncHolm"));
+		subMenu.add(makeMenuItem("Truncated Holm procedure", "truncHolm", false));
 		subMenu.addSeparator();
-		subMenu.add(makeMenuItem("General successive graph", "gSuccessive"));
-		subMenu.add(makeMenuItem("Simple successive graph I", "successiveI"));
-		subMenu.add(makeMenuItem("Simple successive graph II", "successiveII"));
+		subMenu.add(makeMenuItem("General successive graph", "gSuccessive", false));
+		subMenu.add(makeMenuItem("Simple successive graph I", "successiveI", false));
+		subMenu.add(makeMenuItem("Simple successive graph II", "successiveII", false));
 		subMenu.addSeparator();
 		subMenu.add(makeMenuItem("Graph from Hung and Wang (2010)", "hung"));
 		menu.add(subMenu);
 		
 		subMenu = new JMenu("3 primary & 2 secondary hypotheses");		
-		subMenu.add(makeMenuItem("Graph from Bauer et al. (2001)", "bauer"));
-		subMenu.add(makeMenuItem("Graph from Bretz et al. (2011)", "bretEtAl4"));
+		subMenu.add(makeMenuItem("Graph from Bauer et al. (2001)", "bauer", false));
+		subMenu.add(makeMenuItem("Graph from Bretz et al. (2011)", "bretEtAl4", false));
 		menu.add(subMenu);
 		
 		subMenu = new JMenu("Miscellaneous");		
 		subMenu.add(makeMenuItem("Graph I from Bretz et al. (2009)", "bretzEtAl"));
-		subMenu.add(makeMenuItem("Graph II from Bretz et al. (2009)", "bretzEtAl2"));
+		subMenu.add(makeMenuItem("Graph II from Bretz et al. (2009)", "bretzEtAl2", false));
 		subMenu.add(makeMenuItem("Graph III (for power analysis) from Bretz et al. (2009)", "bretzEtAl3"));
 		subMenu.addSeparator();
 		subMenu.add(makeMenuItem("Graph from Hommel et al. (2007)", "hommelEtAl"));
