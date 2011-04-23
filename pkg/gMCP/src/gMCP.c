@@ -2,12 +2,11 @@
 #include <Rinternals.h>
 #include <Rdefines.h>
 
-SEXP cgMCP(double* oldM, double* oldW, double* a, double *p, int* n, double* m, double* w) {
+SEXP cgMCP(double *oldM, double *oldW, double *p, double *a, int *n, double *m, double *w) {
 	double *s = (double*) R_alloc(*n, sizeof(double));
 	for(int i=0; i<*n; i++) {
 		s[i] = 0;
 	}
-
 	for(int i=0; i<*n; i++) {
 		w[i] = oldW[i];
 		for(int j=0; j<*n; j++) {
@@ -24,14 +23,10 @@ SEXP cgMCP(double* oldM, double* oldW, double* a, double *p, int* n, double* m, 
 		}
 		if (j==-1) return R_NilValue;
 		s[j] = 1;
+
 		for(int l=0; l<*n; l++) {
 			if(s[l]==0) {
-				if (l!=j) {
-					w[l] = w[l] + w[j]*m[j + *n*l];
-					//PrintValue(w[j]);
-				} else {
-					w[l] = 0;
-				}
+				w[l] = w[l] + w[j]*m[j + *n*l];
 				for(int k=0; k<*n; k++) {
 					if (s[k]==0) {
 						if (l!=k && m[l + *n*j]*m[j + *n*l]<1) {
@@ -43,6 +38,7 @@ SEXP cgMCP(double* oldM, double* oldW, double* a, double *p, int* n, double* m, 
 				}
 			}
 		}
+		w[j] = 0;
 
 	}
 	return R_NilValue;
