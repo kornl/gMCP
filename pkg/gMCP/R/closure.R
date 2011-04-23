@@ -6,3 +6,7 @@ conv <- function(a, b)
 			as.integer(length(b)),
 			ab = double(length(a) + length(b) - 1),
 			PACKAGE="gMCP")$ab
+
+test <- function(m, w, p, a) {
+	.Call("pr", m, w, p, a)
+}

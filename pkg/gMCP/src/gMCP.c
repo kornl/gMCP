@@ -13,22 +13,39 @@ void convolve(double *a, int *na, double *b, int *nb, double *ab)
 }
 
 SEXP pr(SEXP matrix, SEXP weights, SEXP pvalues, SEXP alpha) {
-	SEXP dim = getAttrib(matrix, R_DimSymbol);
 	double *m = REAL(matrix);
+	double *w = REAL(weights);
+	double *a = REAL(alpha);
+	double *p = REAL(pvalues);
 
-	//double alpha = *REAL(alpha);
+	SEXP dim = getAttrib(matrix, R_DimSymbol);
+	int n = INTEGER(dim)[0];
 
+	double *s = (double*) R_alloc(n, sizeof(double));
+	for(int i=0; i<n; i++) {
+		s[i] = 0;
+	}
 
-	int nrow = INTEGER(dim)[0];
-	int ncol = INTEGER(dim)[1];
-
-	double sum;
-	for(int i=0; i<nrow; i++){
-		for(int j=0; j<ncol; j++){
-			sum = sum + m[i + nrow*j];
+	while (1==1) {
+		int i = -1;
+		for(int j=0; j<n; j++) {
+			if (p[j]<=w[j]*a[0] && s[j]==0) {
+				i = j;
+			}
 		}
-	};
-	return R_NilValue ;
+		if (i==-1) return R_NilValue;
+		s[i] = 1;
+		for(int j=0; j<n; j++) {
+			if (i!=j) {
+				w[j] = w[j] + w[i]*m[i + n*j];
+				//PrintValue(w[j]);
+			} else {
+				w[j] = 0;
+			}
+		}
+
+	}
+	return R_NilValue;
 }
 
 /*

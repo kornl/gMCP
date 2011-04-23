@@ -17,7 +17,7 @@ Version 0.6-3 (??-???-2011, Rev. ???)
   nrow, ncol and force
   
 - Graphs without epsilon edges can be processed by a
-  much faster procedure written in C
+  much faster procedure written in C.
   
 - We use package highlight for the manuals.
 
@@ -38,11 +38,13 @@ Version 0.6-3 (??-???-2011, Rev. ???)
     Hommel et al. (2007)
 
 - Most example graphs have a description and
-  graph attributes "description" are shown in the GUI
+  graph attributes "description" are shown in the GUI.
 
 - First data file: hydroquinone
 
-- Improved compatibility for R 2.8
+- simConfint also returns the point estimates as second column.
+
+- Improved compatibility for R 2.8.
 
 - New HTML file References.html accessible from the GUI.
 
