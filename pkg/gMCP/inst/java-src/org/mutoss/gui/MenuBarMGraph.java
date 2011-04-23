@@ -326,7 +326,7 @@ Stuttgart, 1995; 3–18.
         	loadGraph("createGraphForImprovedParallelGatekeeping()");
         } else if (e.getActionCommand().equals("bretzEtAl")) {       	
         	loadGraph("createGraphFromBretzEtAl()");
-        } else if (e.getActionCommand().equals("bretzEtAl2")) {       	
+        } else if (e.getActionCommand().equals("bretzEtAl3")) {       	
         	loadGraph("createGraph2FromBretzEtAl()");
         } else if (e.getActionCommand().equals("hommelEtAl")) {       	
         	loadGraph("createGraphFromHommelEtAl()");

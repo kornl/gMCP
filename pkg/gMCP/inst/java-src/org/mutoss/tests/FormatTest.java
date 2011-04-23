@@ -5,6 +5,8 @@ import java.text.DecimalFormat;
 public class FormatTest {
 	
 	public static void main(String[] args) {
+		System.out.println("\\alpha");
+		System.out.println("\\alpha".replaceAll("\\\\", "\\\\\\\\"));
 		DecimalFormat format = new DecimalFormat("#.####");
 		System.out.println(format.format(0.0001));
 		System.out.println(format.format(0.9999));		

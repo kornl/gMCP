@@ -59,12 +59,12 @@ public class EdgeWeight {
 				String s = keys.nextElement();
 				replaceStr = replaceStr.replaceAll(s, ""+ht.get(s));
 			}
-			replaceStr = replaceStr.replaceAll("\\\\epsilon", "e");
-			weight = RControl.getR().eval("gMCP:::parseEpsPolynom(\""+replaceStr+"\")").asRNumeric().getData();
+			replaceStr = replaceStr.replaceAll("\\\\epsilon", "epsilon");
+			weight = RControl.getR().eval("gMCP:::parseEpsPolynom(\""+replaceStr.replaceAll("\\\\", "\\\\\\\\")+"\")").asRNumeric().getData();
 			return weight;
 		} catch (Exception e) {
-			logger.warn("Error parsing edge weight:\n"+e.getMessage(), e);
-			return new double[] {};
+			logger.warn("Error parsing edge weight:\n"+e.getMessage());
+			return new double[] {Double.NaN};
 		}
 	}
 	
@@ -83,16 +83,17 @@ public class EdgeWeight {
 	};
 	
 	public List<String> getVariables() {
+		String replaceStr = weightStr;
 		Vector<String> variables = new Vector<String>();
 		for (int i=0; i<greek.length; i++) {
-			weightStr = weightStr.replaceAll(greekLaTeX[i], ""+greek[i]);
-			if (weightStr.lastIndexOf(greek[i])!=-1) {
+			replaceStr = replaceStr.replaceAll(greekLaTeX[i], ""+greek[i]);
+			if (replaceStr.lastIndexOf(greek[i])!=-1) {
 				variables.add(""+greek[i]);
 			}
 		}
 		for (int i=0; i<26; i++) {
 			char l = (char) ('a' + i);
-			if (weightStr.lastIndexOf(l)!=-1) {
+			if (replaceStr.lastIndexOf(l)!=-1) {
 				variables.add(""+l);
 			}				
 		}		
