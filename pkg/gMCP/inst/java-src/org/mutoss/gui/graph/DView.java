@@ -3,11 +3,13 @@ package org.mutoss.gui.graph;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.Insets;
 
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextArea;
+import javax.swing.ScrollPaneConstants;
 
 import org.mutoss.gui.CreateGraphGUI;
 
@@ -32,7 +34,9 @@ public class DView extends JTabbedPane {
 		description.setLayout(new GridBagLayout());
 		JTextArea jta = getTextArea(s, true);
 		GridBagConstraints c = getConstraints();
-		description.add(new JScrollPane(jta), c);
+		JScrollPane sp = new JScrollPane(jta);
+		sp.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+		description.add(sp, c);
 		insertTab("Description", null, description, "Description", 0);
 		setSelectedComponent(description);
 	}
@@ -48,7 +52,9 @@ public class DView extends JTabbedPane {
 		analysis.setLayout(new GridBagLayout());
 		JTextArea jta = getTextArea(s, false);
 		GridBagConstraints c = getConstraints();
-		analysis.add(new JScrollPane(jta), c);
+		JScrollPane sp = new JScrollPane(jta);
+		sp.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+		analysis.add(sp, c);
 		insertTab("Analysis", null, analysis, "Analysis", this.getComponentCount());
 		setSelectedComponent(analysis);
 	}
@@ -56,6 +62,7 @@ public class DView extends JTabbedPane {
 	public JTextArea getTextArea(String s, boolean editable) {
 		JTextArea jta = new JTextArea(s);
 		jta.setFont(new Font("Monospaced", Font.PLAIN, 12));
+		jta.setMargin(new Insets(5,5,5,5));
 		jta.setLineWrap(true);
 		jta.setEditable(editable);
 		jta.setWrapStyleWord(true);

@@ -124,7 +124,7 @@ public class CreateGraphGUI extends JFrame implements WindowListener, AbortListe
 	
 	private void makeContent() {
 		dfp.getTable().setDefaultEditor(EdgeWeight.class, new CellEditorE(agc));
-		splitPane1 = new JSplitPane(JSplitPane.VERTICAL_SPLIT, agc, new JScrollPane(dview));
+		splitPane1 = new JSplitPane(JSplitPane.VERTICAL_SPLIT, agc, dview);
 		
 		splitPane2 = new JSplitPane(JSplitPane.VERTICAL_SPLIT, new JScrollPane(dfp), new JScrollPane(pview));
 		

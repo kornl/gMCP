@@ -108,6 +108,8 @@ public class MenuBarMGraph extends JMenuBar implements ActionListener {
 		subMenu.add(makeMenuItem("Graph III (for power analysis) from Bretz et al. (2009)", "bretzEtAl3"));
 		subMenu.addSeparator();
 		subMenu.add(makeMenuItem("Graph from Hommel et al. (2007)", "hommelEtAl"));
+		subMenu.addSeparator();
+		subMenu.add(makeMenuItem("Graph for a drug clinical trial from Maurer et al. (1995)", "maurer1995"));
 		menu.add(subMenu);
 		/*
 		Common test procedures
@@ -314,19 +316,21 @@ Stuttgart, 1995; 3–18.
         	//VariableNameDialog vnd = new VariableNameDialog(control.getGraphGUI());
         	createLastUsed();        	
         } else if (e.getActionCommand().equals("bht")) {
-        	new NumberOfHypotheses(control.getGraphGUI(), this, "createBonferroniHolmGraph");        	
+        	new NumberOfHypotheses(control.getGraphGUI(), this, "BonferroniHolmGraph");        	
         } else if (e.getActionCommand().equals("pg")) {       	
-        	loadGraph("createGraphForParallelGatekeeping()");
+        	loadGraph("graphForParallelGatekeeping()");
         } else if (e.getActionCommand().equals("pgi")) {       	
-        	loadGraph("createGraphForImprovedParallelGatekeeping()");
+        	loadGraph("graphForImprovedParallelGatekeeping()");
         } else if (e.getActionCommand().equals("bretzEtAl")) {       	
-        	loadGraph("createGraphFromBretzEtAl()");
+        	loadGraph("graphFromBretzEtAl2009()");
         } else if (e.getActionCommand().equals("bretzEtAl3")) {       	
-        	loadGraph("createGraph2FromBretzEtAl()");
+        	loadGraph("graph2FromBretzEtAl2009()");
         } else if (e.getActionCommand().equals("hommelEtAl")) {       	
-        	loadGraph("createGraphFromHommelEtAl()");
-        } else if (e.getActionCommand().equals("hung")) {       	
-        	loadGraph("createGraphFromHungEtWang()");
+        	loadGraph("graphFromHommelEtAl2007()");
+        } else if (e.getActionCommand().equals("hung")) { 	
+        	loadGraph("graphFromHungEtWang2010()");
+        } else if (e.getActionCommand().equals("maurer1995")) {     	
+        	loadGraph("graphFromMaurerEtAl1995()");
         } else if (e.getActionCommand().equals("showLog")) {    	
         	showLog();
         } else if (e.getActionCommand().equals("reportError")) {       	
