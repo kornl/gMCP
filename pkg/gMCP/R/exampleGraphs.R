@@ -149,7 +149,7 @@ graphForImprovedParallelGatekeeping <- function() {
 	return(graph)	
 }
 
-createGraph2FromBretzEtAl <- function() {
+graph2FromBretzEtAl2009 <- function() {
 	# Nodes:
 	weights <- rep(c(1/2,0), each=2)	
 	hnodes <- paste("H", 1:4, sep="")
@@ -204,6 +204,47 @@ graphFromHungEtWang2010 <- function() {
 	nodeRenderInfo(graph) <- list(nodeX=nodeX, nodeY=nodeY)
 	return(graph)
 }
+
+graphFromMaurerEtAl1995 <- function() {
+	# Nodes:
+	weights <- c(1,0,0,0,0)	
+	hnodes <- paste("H", 1:5, sep="")
+	# Edges:
+	edges <- vector("list", length=4)
+	edges[[1]] <- list(edges=c("H2"), weights=1)
+	edges[[2]] <- list(edges=c("H3"), weights=1)
+	edges[[3]] <- list(edges=c("H4","H5"), weights=c(1/2,1/2))
+	edges[[4]] <- list()#edges=c("H5"), weights=1)
+	edges[[5]] <- list()#edges=c("H4"), weights=1)
+	names(edges)<-hnodes
+	# Graph creation
+	graph <- new("graphMCP", nodes=hnodes, edgeL=edges, weights=weights)
+	# Visualization settings
+	nodeX <- c(100, 200, 300, 400, 400)
+	nodeY <- c(100, 100, 100, 50, 150)
+	names(nodeX) <- hnodes
+	names(nodeY) <- hnodes
+	nodeRenderInfo(graph) <- list(nodeX=nodeX, nodeY=nodeY)
+	attr(graph, "description") <- paste("Graph representing a procedure in drug clinical trials (from Maurer et al. 1995, Scenario 1)",
+			"",
+			"In a univariate one-way design a drug A is compared against placebo and two positive control drugs B and C.",
+			"",
+			"The order of importance is that first the sensitivity has to be shown, i.e. that drug B and C are better than placebo. Than the efficacy of A vs. placebo is tested and if this can be shown, it is tested (with Bonferroni correction) whether A is superior to drug B or C.",
+			"",
+			"These hypotheses are represented in the graph as follows:",
+			"H1: drug B better than placebo",
+			"H2: drug C better than placebo",
+			"H3: drug A better than placebo",
+			"H4: drug A better than drug B",
+			"H5: drug A better than drug C",
+			"(Maurer et al. actually test H1 and H2 with the intersection-union principle, but since this does not translate into our graphical approach, we use a more powerful fixed sequence test to establish the sensitivity.)",
+			"Note that you could improve the test procedure by using a Bonferroni-Holm correction instead of the Bonferroni correction in the last step by adding an edge from H4 to H5 with weight 1 and vice versa.",
+			"",
+			"Literature:",
+			"W. Maurer, L. Hothorn, W. Lehmacher: Multiple comparisons in drug clinical trials and preclinical assays: a-priori ordered hypotheses. In Biometrie in der chemisch-pharmazeutischen Industrie, Vollmar J (ed.). Fischer Verlag: Stuttgart, 1995; 3-18.", sep="\n")	
+	return(graph)	
+}
+
 
 exampleGraph <- function(graph, ...) {
 	switch(graph,

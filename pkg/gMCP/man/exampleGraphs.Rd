@@ -1,11 +1,13 @@
 \name{Example Graphs}
+\alias{exampleGraph}
 \alias{BonferroniHolmGraph}
 \alias{graphFromBretzEtAl2009}
-\alias{createGraph2FromBretzEtAl}
+\alias{graph2FromBretzEtAl2009}
 \alias{graphForParallelGatekeeping}
 \alias{graphForImprovedParallelGatekeeping}
 \alias{graphFromHommelEtAl2007}
 \alias{graphFromHungEtWang2010}
+\alias{graphFromMaurerEtAl1995}
 \title{
 	Functions that create different example graphs
 }
@@ -18,11 +20,12 @@
 \usage{
 	BonferroniHolmGraph(n)
 	graphFromBretzEtAl2009()
-	createGraph2FromBretzEtAl()
+	graph2FromBretzEtAl2009()
 	graphFromHommelEtAl2007()
 	graphForParallelGatekeeping()
 	graphForImprovedParallelGatekeeping()
 	graphFromHungEtWang2010()
+	graphFromMaurerEtAl1995()
 }
 
 \arguments{
