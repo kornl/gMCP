@@ -1,11 +1,11 @@
 \name{Example Graphs}
-\alias{createBonferroniHolmGraph}
-\alias{createGraphFromBretzEtAl}
+\alias{BonferroniHolmGraph}
+\alias{graphFromBretzEtAl2009}
 \alias{createGraph2FromBretzEtAl}
-\alias{createGraphForParallelGatekeeping}
-\alias{createGraphForImprovedParallelGatekeeping}
-\alias{createGraphFromHommelEtAl}
-\alias{createGraphFromHungEtWang}
+\alias{graphForParallelGatekeeping}
+\alias{graphForImprovedParallelGatekeeping}
+\alias{graphFromHommelEtAl2007}
+\alias{graphFromHungEtWang2010}
 \title{
 	Functions that create different example graphs
 }
@@ -16,13 +16,13 @@
 	You can look at the function body with \code{\link{body}} and see how the graph is built.
 }
 \usage{
-	createBonferroniHolmGraph(n)
-	createGraphFromBretzEtAl()
+	BonferroniHolmGraph(n)
+	graphFromBretzEtAl2009()
 	createGraph2FromBretzEtAl()
-	createGraphFromHommelEtAl()
-	createGraphForParallelGatekeeping()
-	createGraphForImprovedParallelGatekeeping()
-	createGraphFromHungEtWang()
+	graphFromHommelEtAl2007()
+	graphForParallelGatekeeping()
+	graphForImprovedParallelGatekeeping()
+	graphFromHungEtWang2010()
 }
 
 \arguments{
@@ -32,26 +32,26 @@
 }
 \details{
   \describe{
-	\item{\code{createBonferroniHolmGraph}}{
+	\item{\code{BonferroniHolmGraph}}{
 		Returns a graph that represents a Bonferroni-Holm adjustment.
 		The result is a complete graph, where all nodes have the same weights and each edge weight is \eqn{\frac{1}{n-1}}{1/(n-1)}.
 	}
-	\item{\code{createGraphFromBretzEtAl}}{
+	\item{\code{graphFromBretzEtAl2009}}{
 		Example graph in figure 2 from Bretz et al. See references (Bretz et al. 2009).
 	}
 	\item{\code{createGraph2FromBretzEtAl}}{
 		Example graph in figure 6 from Bretz et al. See references (Bretz et al. 2009).
 	}
-	\item{\code{createGraphFromBretzEtAl}}{
+	\item{\code{graphFromBretzEtAl2009}}{
 		Example graph from Hommel et al. See references (Hommel et al. 2007).
 	}
-	\item{\code{createGraphForParallelGatekeeping}}{
+	\item{\code{graphForParallelGatekeeping}}{
 		Example graph for parallel gatekeeping. See references (Dmitrienko et al. 2003).
 	}
-	\item{\code{createGraphForImprovedParallelGatekeeping}}{
+	\item{\code{graphForImprovedParallelGatekeeping}}{
 		Example graph for improved parallel gatekeeping. See references (Hommel et al. 2007).
 	}
-	\item{\code{createGraphFromHungEtWang}}{
+	\item{\code{graphFromHungEtWang2010}}{
 	    Example graph from Hung et Wang. See references (Hung et Wang 2010).
 	}
   }	
@@ -77,7 +77,7 @@ Kornelius Rohmeyer \email{rohmeyer@small-projects.de}
 
 \examples{
 
-g <- createBonferroniHolmGraph(5)
+g <- BonferroniHolmGraph(5)
 
 \dontrun{
 # If Rgraphviz is installed, we can take a look at the graph:

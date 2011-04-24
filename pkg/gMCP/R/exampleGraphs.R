@@ -1,4 +1,4 @@
-createBonferroniHolmGraph <- function(n) {
+BonferroniHolmGraph <- function(n) {
 	if (missing(n)) { stop("Please provide the number of hypotheses as parameter n.") }
 	weights <- rep(1/n, n)
 	hnodes <- paste("H", 1:n, sep="")
@@ -30,7 +30,7 @@ createBonferroniHolmGraph <- function(n) {
 	return(BonferroniHolmGraph)
 }
 
-createGraphFromBretzEtAl <- function() {
+graphFromBretzEtAl2009 <- function() {
 	# Nodes:
 	weights <- rep(c(1/3,0), each=3)	
 	hnodes <- paste("H", rep(1:3, 2), rep(1:2, each=3), sep="")
@@ -72,7 +72,7 @@ createGraphFromBretzEtAl <- function() {
 }
 
 
-createGraphFromHommelEtAl <- function() {
+graphFromHommelEtAl2007 <- function() {
 	# Nodes:
 	weights <- c(rep(1/3, 3), rep(0,4))	
 	hnodes <- c("E1", "QoL", "E2", "D1", "D2", "D3", "D4")
@@ -111,7 +111,7 @@ createGraphFromHommelEtAl <- function() {
 	return(graph)	
 }
 
-createGraphForParallelGatekeeping <- function() {
+graphForParallelGatekeeping <- function() {
 	# Nodes:
 	weights <- rep(c(1/2,0), each=2)	
 	hnodes <- paste("H", 1:4, sep="")
@@ -138,8 +138,8 @@ createGraphForParallelGatekeeping <- function() {
 	return(graph)	
 }
 
-createGraphForImprovedParallelGatekeeping <- function() {
-	graph <- createGraphForParallelGatekeeping()
+graphForImprovedParallelGatekeeping <- function() {
+	graph <- graphForParallelGatekeeping()
 	graph <- addEdge("H3", "H1", graph, 0)
 	edgeData(graph, "H3", "H1", "epsilon") <- list(1)	
 	graph <- addEdge("H4", "H2", graph, 0)
@@ -176,7 +176,7 @@ createGraph2FromBretzEtAl <- function() {
 	return(graph)
 }
 
-createGraphFromHungEtWang <- function() {
+graphFromHungEtWang2010 <- function() {
 	# Nodes:
 	weights <- rep(c(1/2,0), each=2)	
 	hnodes <- c("H_{1,NI}","H_{1,S}","H_{2,NI}","H_{2,S}")
@@ -207,9 +207,9 @@ createGraphFromHungEtWang <- function() {
 
 exampleGraph <- function(graph, ...) {
 	switch(graph,
-			Hommel=createGraphFromHommelEtAl(),
-			Bretz=createGraphFromBretzEtAl(),
-			ParallelGatekeeping=createGraphForParallelGatekeeping(),
-			ImprovedParallelGatekeeping=createGraphForImprovedParallelGatekeeping(),
-			BonferroniHolm=createBonferroniHolmGraph(...))
+			Hommel=graphFromHommelEtAl2007(),
+			Bretz=graphFromBretzEtAl2009(),
+			ParallelGatekeeping=graphForParallelGatekeeping(),
+			ImprovedParallelGatekeeping=graphForImprovedParallelGatekeeping(),
+			BonferroniHolm=BonferroniHolmGraph(...))
 }

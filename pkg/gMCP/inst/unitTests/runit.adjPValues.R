@@ -8,15 +8,15 @@ checkAdjPValues <- function(graph, pvalues) {
 
 test.adjPValues <- function() {
 	# Bonferroni-Holm
-	graph <- createBonferroniHolmGraph(3)
+	graph <- BonferroniHolmGraph(3)
 	pvalues <- c(0.01, 0.02, 0.05)
 	checkAdjPValues(graph, pvalues)
 	# Improved Parallel Gatekeeping
-	graph <- createGraphForImprovedParallelGatekeeping()
+	graph <- graphForImprovedParallelGatekeeping()
 	pvalues <- c(0.01, 0.01, 0.03, 0.04)
 	checkAdjPValues(graph, pvalues)
 	# Parallel Gatekeeping
-	graph <- createGraphForParallelGatekeeping()
+	graph <- graphForParallelGatekeeping()
 	pvalues <- c(0.01, 0.01, 0.03, 0.04)
 	checkAdjPValues(graph, pvalues)
 }

@@ -34,7 +34,7 @@
 }
 \examples{
 
-graph <- createGraphForImprovedParallelGatekeeping()
+graph <- graphForImprovedParallelGatekeeping()
 graph
 substituteEps(graph, eps=0.01)
 

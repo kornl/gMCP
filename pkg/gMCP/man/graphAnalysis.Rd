@@ -40,7 +40,7 @@
 }
 \examples{
 
-g <- createBonferroniHolmGraph(5)
+g <- BonferroniHolmGraph(5)
 
 graphAnalysis(g)
 

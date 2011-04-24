@@ -63,7 +63,7 @@ We use the following Java libraries:
 %\code{\link[mutoss:Mutoss]{Mutoss}}
 %}
 \examples{
-g5 <- createBonferroniHolmGraph(5)
+g5 <- BonferroniHolmGraph(5)
 \dontrun{
 graphGUI("g5")}
 gMCP(g5, pvalues=c(0.1,0.2,0.4,0.4,0.4))

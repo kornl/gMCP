@@ -71,7 +71,7 @@
 }
 \examples{
 
-g <- createBonferroniHolmGraph(5)
+g <- BonferroniHolmGraph(5)
 
 graph2latex(g)
 

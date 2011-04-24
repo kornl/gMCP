@@ -83,7 +83,7 @@ Kornelius Rohmeyer \email{rohmeyer@small-projects.de}
 }
 \examples{
 
-g <- createBonferroniHolmGraph(5)
+g <- BonferroniHolmGraph(5)
 
 gMCP(g, pvalues=c(0.01, 0.02, 0.04, 0.04, 0.7))
 

@@ -44,7 +44,7 @@ Statistics in Medicine 2009 vol. 28 issue 4 page 586-604.
 }
 \examples{
 
-g <- createBonferroniHolmGraph(5)
+g <- BonferroniHolmGraph(5)
 
 rejectNode(g, "H1")
 

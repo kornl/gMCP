@@ -1,7 +1,7 @@
 High priority:
 ==============
 
-- Flag 1+epsilon as line sum
+- Flag 1+epsilon>1 in line sum
 - round adjusted p-Values up
 - standard examples
 - Think about "-Xrs" - see paragraph below.
@@ -12,6 +12,8 @@ High priority:
 Medium priority:
 ================
 
+- Does Indefinite ProgressPanel slow the calculation significantly down ?!?
+- Visualization of CI
 - graphAnalysis: Graph can be optimal despite the fact that some nodes are not accessible from others
 - Warn user when sum of edge weights is bigger than 1
 - Check mutator methods for errors (alpha > 1, edge weights > 1)
@@ -23,9 +25,9 @@ Medium priority:
 - LookNFeel is not kept between sessions (also first call of options result in strange LookNFeel message)
 - Edge labels should be fixed and placed by user or free and adjust to moving nodes
 - Improve speed when loading graphs
-- Test everything when graph is loaded on startup (e.g. is description shown?)
 - Check for / think about conflicts: "JAVAGD_CLASS_NAME"="org/mutoss/gui/JavaGD"
 - Look-up-table for "as.character(fractions(x))" on Java side
+- cacheSweave for Florians Rnw?
 
 Additional features / low priority:
 ===================================

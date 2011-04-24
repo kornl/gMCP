@@ -72,14 +72,14 @@ ssd <- c("H1"=0.8759528, "H2"=1.291310, "H3"=0.8570892)
 
 pval <- c(0.01260, 0.05154, 0.02124)/2
 
-simConfint(createBonferroniHolmGraph(3), pvalues=pval, 
+simConfint(BonferroniHolmGraph(3), pvalues=pval, 
 		confint=function(node, alpha) {
 			c(est[node]-qt(1-alpha,df=9)*ssd[node]/sqrt(10), Inf)
 		}, estimates=est, alpha=0.025, mu=0, alternative="greater")
 
 # Note that the sample standard deviations in the following call
 # will be calculated from the pvalues and estimates.
-ci <- simConfint(createBonferroniHolmGraph(3), pvalues=pval, 
+ci <- simConfint(BonferroniHolmGraph(3), pvalues=pval, 
 		confint="t", df=9, estimates=est, alpha=0.025, alternative="greater")
 ci
 	

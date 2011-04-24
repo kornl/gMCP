@@ -47,8 +47,12 @@ Version 0.6-3 (??-???-2011, Rev. ???)
 - Improved compatibility for R 2.8.
 
 - New HTML file References.html accessible from the GUI.
+ 
+- Unified loading of graphs.
 
-Version 0.6-2 (16-Apr-2011, Rev. 679)
+
+
+Version 0.6-2 (24-Apr-2011, Rev. 679)
 =====================================
 
 - New dependency: xtable 
@@ -81,6 +85,7 @@ Version 0.6-2 (16-Apr-2011, Rev. 679)
   
 - GUI deals a lot better with rounding errors.  
 
+ 58 files changed, 1072 insertions(+), 596 deletions(-)
 
 Version 0.6-1 (09-Apr-2011, Rev. 589)
 =====================================

@@ -18,7 +18,7 @@ test.graphMCP <- function() {
 	checkException(new("graphMCP", nodes=hypotheses, edgeL=edL, alpha=c(-1,1,1)))
 	checkException(new("graphMCP", nodes=hypotheses, edgeL=edL, alpha=c(0.5,0.5,0.5)))
 	
-	bhG5 <- createBonferroniHolmGraph(5)
+	bhG5 <- BonferroniHolmGraph(5)
 	
 	checkEquals(gMCP:::getWeights(bhG5),
 				structure(c(0.2, 0.2, 0.2, 0.2, 0.2),
@@ -31,7 +31,7 @@ test.graphMCP <- function() {
 }
 
 test.bonferroniHolm <- function() {	
-	bhG3 <- createBonferroniHolmGraph(3)
+	bhG3 <- BonferroniHolmGraph(3)
 	checkEquals(edges(bhG3), structure(list(H1 = c("H2", "H3"), 
 							               H2 = c("H1", "H3"), 
 										   H3 = c("H1", "H2")), 
@@ -43,7 +43,7 @@ test.bonferroniHolm <- function() {
 }
 
 test.gMCP <- function() {
-	bhG3 <- createBonferroniHolmGraph(3)
+	bhG3 <- BonferroniHolmGraph(3)
 	pvalues <- c(0.1, 0.2, 0.3)
 	names(pvalues) <- nodes(bhG3)
 	checkTrue(gMCP:::canBeRejected(bhG3, "H1", alpha=0.6, pvalues)) 
@@ -57,13 +57,13 @@ test.gMCP <- function() {
 }
 
 test.adjPValues <- function() {
-	adjPValues <- gMCP:::adjPValues(createBonferroniHolmGraph(3), c(0.02,0.055,0.012))@adjPValues
+	adjPValues <- gMCP:::adjPValues(BonferroniHolmGraph(3), c(0.02,0.055,0.012))@adjPValues
 	checkEquals(adjPValues, 
 			structure(c(0.04, 0.055, 0.036), .Names = c("H1", "H2", "H3")))
 }
 
 test.gMCPBretzEtAl <- function() {
-	graph <- createGraphFromBretzEtAl()
+	graph <- graphFromBretzEtAl2009()
 	pvalues <- c(0.1, 0.008, 0.005, 0.15, 0.04, 0.006)
 	result <- gMCP(graph, pvalues)
 	last <- result@graphs[[4]]	
@@ -87,7 +87,7 @@ test.gMCPBretzEtAl <- function() {
 }
 
 test.gMCPImprovedParallelGatekeeping <- function() {
-	graph <- createGraphForImprovedParallelGatekeeping()
+	graph <- graphForImprovedParallelGatekeeping()
 	graph <- rejectNode(graph, "H1")
 	checkEquals(edgeWeights(graph), structure(list(
 							H1 = numeric(0),
@@ -105,7 +105,7 @@ test.gMCPImprovedParallelGatekeeping <- function() {
 }
 
 test.only.no.error <- function() {
-	graph <- createBonferroniHolmGraph(3)
+	graph <- BonferroniHolmGraph(3)
 	pvalues <- c(0.1, 0.2, 0.3)
 	graph2latex(graph)
 	gMCPReport(graph)

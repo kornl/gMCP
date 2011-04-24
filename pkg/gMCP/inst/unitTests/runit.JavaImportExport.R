@@ -1,5 +1,5 @@
 test.importExport <- function() {
-	graph <- createGraphFromBretzEtAl()
+	graph <- graphFromBretzEtAl2009()
 	
 	# Unfortunately this fails with   
 	# ERROR in test.importExport: Error in .jnew("org.mutoss.tests.TestImportExport", "graph", "graphExport") : 
