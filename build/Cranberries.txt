@@ -486,4 +486,66 @@ Diff between gMCP versions 0.6-0 dated 2011-04-06 and 0.6-1 dated 2011-04-09
  gMCP-0.6-1/gMCP/man/gMCP-package.Rd                                                  |    7 
  43 files changed, 666 insertions(+), 248 deletions(-)
  
+ Diff between gMCP versions 0.6-1 dated 2011-04-09 and 0.6-2 dated 2011-04-24
+
+ gMCP-0.6-1/gMCP/inst/doc/pictures/niceGraph.png                                      |only
+ gMCP-0.6-1/gMCP/inst/doc/pictures/pngExport.png                                      |only
+ gMCP-0.6-1/gMCP/inst/doc/pictures/uglyGraph.png                                      |only
+ gMCP-0.6-1/gMCP/inst/java-src/org/mutoss/gui/graph/VS.java                           |only
+ gMCP-0.6-2/gMCP/DESCRIPTION                                                          |    8 
+ gMCP-0.6-2/gMCP/INSTALL                                                              |    8 
+ gMCP-0.6-2/gMCP/NAMESPACE                                                            |    1 
+ gMCP-0.6-2/gMCP/NEWS                                                                 |   43 +
+ gMCP-0.6-2/gMCP/R/analysis.R                                                         |only
+ gMCP-0.6-2/gMCP/R/exampleGraphs.R                                                    |    3 
+ gMCP-0.6-2/gMCP/R/gMCP.R                                                             |   10 
+ gMCP-0.6-2/gMCP/R/graph2latex.R                                                      |   19 
+ gMCP-0.6-2/gMCP/R/graphMCP.R                                                         |   34 -
+ gMCP-0.6-2/gMCP/R/helperGUI.R                                                        |   35 +
+ gMCP-0.6-2/gMCP/R/misc.R                                                             |   29 -
+ gMCP-0.6-2/gMCP/TODO                                                                 |   71 ++-
+ gMCP-0.6-2/gMCP/inst/doc/correlated.pdf                                              |binary
+ gMCP-0.6-2/gMCP/inst/doc/gMCP.Rnw                                                    |  136 ++++--
+ gMCP-0.6-2/gMCP/inst/doc/gMCP.pdf                                                    |binary
+ gMCP-0.6-2/gMCP/inst/doc/pictures/CIDialog.png                                       |only
+ gMCP-0.6-2/gMCP/inst/doc/pictures/IndefiniteProgressBar.png                          |only
+ gMCP-0.6-2/gMCP/inst/doc/pictures/correlated.png                                     |binary
+ gMCP-0.6-2/gMCP/inst/doc/pictures/example.png                                        |binary
+ gMCP-0.6-2/gMCP/inst/java-src/org/mutoss/config/Configuration.java                   |   17 
+ gMCP-0.6-2/gMCP/inst/java-src/org/mutoss/config/GeneralConfig.java                   |   12 
+ gMCP-0.6-2/gMCP/inst/java-src/org/mutoss/gui/CreateGraphGUI.java                     |   58 ++
+ gMCP-0.6-2/gMCP/inst/java-src/org/mutoss/gui/ErrorDialogSGTK.java                    |   85 +--
+ gMCP-0.6-2/gMCP/inst/java-src/org/mutoss/gui/MenuBarMGraph.java                      |  193 ++++++--
+ gMCP-0.6-2/gMCP/inst/java-src/org/mutoss/gui/RControl.java                           |   15 
+ gMCP-0.6-2/gMCP/inst/java-src/org/mutoss/gui/contrasts/LevelOrderListener.java       |    2 
+ gMCP-0.6-2/gMCP/inst/java-src/org/mutoss/gui/datatable/CellEditorE.java              |    7 
+ gMCP-0.6-2/gMCP/inst/java-src/org/mutoss/gui/datatable/CellEditorEps.java            |    2 
+ gMCP-0.6-2/gMCP/inst/java-src/org/mutoss/gui/datatable/EpsilonTableCellRenderer.java |    2 
+ gMCP-0.6-2/gMCP/inst/java-src/org/mutoss/gui/datatable/RDataFrameRef.java            |    6 
+ gMCP-0.6-2/gMCP/inst/java-src/org/mutoss/gui/dialogs/DialogConfIntEstVar.java        |  100 +++-
+ gMCP-0.6-2/gMCP/inst/java-src/org/mutoss/gui/dialogs/RObjectLoadingDialog.java       |only
+ gMCP-0.6-2/gMCP/inst/java-src/org/mutoss/gui/dialogs/TextFileViewer.java             |   22 
+ gMCP-0.6-2/gMCP/inst/java-src/org/mutoss/gui/dialogs/VariableNameDialog.java         |   11 
+ gMCP-0.6-2/gMCP/inst/java-src/org/mutoss/gui/graph/Edge.java                         |   91 ++--
+ gMCP-0.6-2/gMCP/inst/java-src/org/mutoss/gui/graph/EdgeWeight.java                   |   53 +-
+ gMCP-0.6-2/gMCP/inst/java-src/org/mutoss/gui/graph/GraphMCP.java                     |   22 
+ gMCP-0.6-2/gMCP/inst/java-src/org/mutoss/gui/graph/GraphView.java                    |  103 +++-
+ gMCP-0.6-2/gMCP/inst/java-src/org/mutoss/gui/graph/NetList.java                      |  222 +++++-----
+ gMCP-0.6-2/gMCP/inst/java-src/org/mutoss/gui/graph/Node.java                         |   73 +--
+ gMCP-0.6-2/gMCP/inst/java-src/org/mutoss/gui/graph/PPanel.java                       |   34 -
+ gMCP-0.6-2/gMCP/inst/java-src/org/mutoss/gui/graph/PView.java                        |   57 +-
+ gMCP-0.6-2/gMCP/inst/java-src/org/mutoss/gui/graph/PrintableObject.java              |    8 
+ gMCP-0.6-2/gMCP/inst/java-src/org/mutoss/gui/graph/UpdateEdge.java                   |    1 
+ gMCP-0.6-2/gMCP/inst/java-src/org/mutoss/gui/options/GeneralPanel.java               |   33 -
+ gMCP-0.6-2/gMCP/inst/java-src/org/mutoss/gui/options/OptionsDialog.java              |   20 
+ gMCP-0.6-2/gMCP/inst/java-src/org/mutoss/tests/FormatTest.java                       |only
+ gMCP-0.6-2/gMCP/inst/java-src/org/mutoss/tests/TestImportExport.java                 |    7 
+ gMCP-0.6-2/gMCP/inst/java/afcommons.jar                                              |binary
+ gMCP-0.6-2/gMCP/inst/java/gsrmtp.jar                                                 |binary
+ gMCP-0.6-2/gMCP/man/confint.Rd                                                       |    8 
+ gMCP-0.6-2/gMCP/man/gMCP.Rd                                                          |    2 
+ gMCP-0.6-2/gMCP/man/gMCPReport.Rd                                                    |    5 
+ gMCP-0.6-2/gMCP/man/graphAnalysis.Rd                                                 |only
+ 58 files changed, 1072 insertions(+), 596 deletions(-)
+ 
  
