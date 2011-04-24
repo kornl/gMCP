@@ -89,6 +89,10 @@ public class GraphView extends JPanel implements ActionListener {
 		add("Center", sPane);
     }
 	
+	public void setGraphName(String name) {
+		this.name = name;
+	}
+
 	public JPanel getNorthPanel() {
 		JPanel panel = new JPanel();
 		panel.setLayout(new BorderLayout());

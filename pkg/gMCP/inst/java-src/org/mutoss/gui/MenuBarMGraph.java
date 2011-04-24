@@ -35,7 +35,6 @@ import org.mutoss.gui.dialogs.RObjectLoadingDialog;
 import org.mutoss.gui.dialogs.TextFileViewer;
 import org.mutoss.gui.dialogs.VariableNameDialog;
 import org.mutoss.gui.graph.GraphView;
-import org.mutoss.gui.graph.NetList;
 import org.mutoss.gui.options.OptionsDialog;
 
 public class MenuBarMGraph extends JMenuBar implements ActionListener {
@@ -244,13 +243,9 @@ Stuttgart, 1995; 3–18.
 		return item;
 	}
 
-
 	public void loadGraph(String string) {
-		NetList nl = control.getNL();		
-		newGraph();
-		boolean matrix = RControl.getR().eval("is.matrix("+string+")").asRLogical().getData()[0];
-		RControl.getR().eval(nl.initialGraph + " <- placeNodes("+ (matrix?"matrix2graph(":"(")+ string + "))");
-		nl.loadGraph();
+		control.getNL().loadGraph(string);
+		control.setGraphName(string);
 		control.getMainFrame().validate();
 	}
 

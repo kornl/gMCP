@@ -30,7 +30,7 @@ public class DView extends JTabbedPane {
 		remove(description);
 		description = new JPanel();
 		description.setLayout(new GridBagLayout());
-		JTextArea jta = getTextArea(s);
+		JTextArea jta = getTextArea(s, true);
 		GridBagConstraints c = getConstraints();
 		description.add(new JScrollPane(jta), c);
 		insertTab("Description", null, description, "Description", 0);
@@ -46,18 +46,18 @@ public class DView extends JTabbedPane {
 		remove(analysis);
 		analysis = new JPanel();
 		analysis.setLayout(new GridBagLayout());
-		JTextArea jta = getTextArea(s);
+		JTextArea jta = getTextArea(s, false);
 		GridBagConstraints c = getConstraints();
 		analysis.add(new JScrollPane(jta), c);
 		insertTab("Analysis", null, analysis, "Analysis", this.getComponentCount());
 		setSelectedComponent(analysis);
 	}
 	
-	public JTextArea getTextArea(String s) {
+	public JTextArea getTextArea(String s, boolean editable) {
 		JTextArea jta = new JTextArea(s);
 		jta.setFont(new Font("Monospaced", Font.PLAIN, 12));
 		jta.setLineWrap(true);
-		jta.setEditable(false);
+		jta.setEditable(editable);
 		jta.setWrapStyleWord(true);
 		return jta;
 	}

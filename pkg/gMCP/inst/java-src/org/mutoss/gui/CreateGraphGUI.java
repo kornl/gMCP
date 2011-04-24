@@ -27,14 +27,12 @@ import org.mutoss.gui.datatable.DataTable;
 import org.mutoss.gui.datatable.RDataFrameRef;
 import org.mutoss.gui.graph.DView;
 import org.mutoss.gui.graph.EdgeWeight;
-import org.mutoss.gui.graph.GraphMCP;
 import org.mutoss.gui.graph.GraphView;
 import org.mutoss.gui.graph.PView;
 import org.rosuda.REngine.JRI.JRIEngine;
 
 public class CreateGraphGUI extends JFrame implements WindowListener, AbortListener {
 	
-	GraphMCP graph;
 	GraphView agc;
 	PView pview;
 	DView dview;
@@ -72,10 +70,11 @@ public class CreateGraphGUI extends JFrame implements WindowListener, AbortListe
 		pview = new PView(this);
 		dview = new DView(this);
 		dfp = new DataFramePanel(new RDataFrameRef());
-		agc = new GraphView(graph, this);
-		setJMenuBar(new MenuBarMGraph(agc));
+		agc = new GraphView(graph, this);  // NetList object is created here.	
+		setJMenuBar(new MenuBarMGraph(agc));		
 		makeContent();
-		this.graph = new GraphMCP(graph, agc.getNL());
+		
+		agc.getNL().loadGraph(graph);
 		
 		if (pvalues.length>0) getPView().setPValues(ArrayUtils.toObject(pvalues));
 		glassPane = new InfiniteProgressPanel(this, "Calculating");
@@ -87,7 +86,7 @@ public class CreateGraphGUI extends JFrame implements WindowListener, AbortListe
 		splitPane1.setDividerLocation(0.75);
 		splitPane2.setDividerLocation(0.5);		
 		
-		//TODO What kind of strange workaround is that?!?
+		//TODO Is there really no better way than this kind of strange workaround?!?
 		javax.swing.SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
 				try {

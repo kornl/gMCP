@@ -287,6 +287,8 @@ public class NetList extends JPanel implements MouseMotionListener, MouseListene
 		GraphMCP graph = new GraphMCP(initialGraph, this);
 		if (graph.getDescription()!=null) {
 			control.getDView().setDescription(graph.getDescription());
+		} else {
+			control.getDView().setDescription("");
 		}
 		control.getPView().restorePValues();
 		this.updateGUI = true;
@@ -629,6 +631,14 @@ public class NetList extends JPanel implements MouseMotionListener, MouseListene
 			}
 		}
 		return -1;
+	}
+
+	public void loadGraph(String string) {
+		control.stopTesting();
+		reset();
+		boolean matrix = RControl.getR().eval("is.matrix("+string+")").asRLogical().getData()[0];
+		RControl.getR().eval(initialGraph + " <- placeNodes("+ (matrix?"matrix2graph(":"(")+ string + "))");
+		loadGraph();
 	}
 	
 }
