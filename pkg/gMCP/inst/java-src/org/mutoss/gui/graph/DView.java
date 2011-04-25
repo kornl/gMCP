@@ -11,10 +11,13 @@ import javax.swing.JTabbedPane;
 import javax.swing.JTextArea;
 import javax.swing.ScrollPaneConstants;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.mutoss.gui.CreateGraphGUI;
 
 public class DView extends JTabbedPane {
 
+	private static final Log logger = LogFactory.getLog(DView.class);
 	CreateGraphGUI control;
 	JPanel description = null;
 	JTextArea jtaDescription = null;
@@ -23,6 +26,9 @@ public class DView extends JTabbedPane {
 	
 	public DView(CreateGraphGUI control) {
 		this.control = control;	
+		setDescription("Enter a description for the graph.");
+		setAnalysis("");
+		setSelectedComponent(description);
 	}
 	
 	public void setDescription(String s) {
@@ -44,7 +50,6 @@ public class DView extends JTabbedPane {
 		}
 		jtaDescription.setText(s);
 		jtaDescription.setCaretPosition(0);
-		//setSelectedComponent(description);
 	}
 
 	public void setAnalysis(String s) {
@@ -66,7 +71,6 @@ public class DView extends JTabbedPane {
 		}
 		jtaAnalysis.setText(s);
 		jtaAnalysis.setCaretPosition(0);
-		//setSelectedComponent(analysis);
 	}
 	
 	public JTextArea getTextArea(String s, boolean editable) {
@@ -88,6 +92,14 @@ public class DView extends JTabbedPane {
 		c.ipadx=0; c.ipady=0;
 		c.weightx=1; c.weighty=1;
 		return c;
+	}
+
+	public String getDescription() {
+		String descr = jtaDescription.getText();
+		descr = descr.replaceAll("\n", "\\\\n");
+		descr = descr.replaceAll("\"", "\\\\\"");
+		logger.debug("descr: ("+descr+")");
+		return descr;
 	}
 	
 }

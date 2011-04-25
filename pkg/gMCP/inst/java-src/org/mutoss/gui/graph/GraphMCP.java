@@ -86,7 +86,7 @@ public class GraphMCP {
 			try {
 				description = RControl.getR().eval("attr("+name+", \"description\")").asRChar().getData()[0];
 			} catch (Exception e) {
-				description = null;
+				description = "Enter a description for the graph.";
 			}
 		}
 		for (Node k : knoten) {
