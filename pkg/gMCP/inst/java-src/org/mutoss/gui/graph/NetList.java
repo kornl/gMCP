@@ -283,6 +283,8 @@ public class NetList extends JPanel implements MouseMotionListener, MouseListene
 	}
 
 	public void loadGraph() {
+		control.stopTesting();
+		reset();
 		this.updateGUI = false;
 		GraphMCP graph = new GraphMCP(initialGraph, this);
 		if (graph.getDescription()!=null) {
@@ -295,6 +297,12 @@ public class NetList extends JPanel implements MouseMotionListener, MouseListene
 		graphHasChanged();
 		revalidate();
 		repaint();
+	}
+
+	public void loadGraph(String string) {
+		boolean matrix = RControl.getR().eval("is.matrix("+string+")").asRLogical().getData()[0];
+		RControl.getR().eval(initialGraph + " <- placeNodes("+ (matrix?"matrix2graph(":"(")+ string + "))");
+		loadGraph();
 	}
 	
 	public void mouseClicked(MouseEvent e) {}
@@ -499,8 +507,7 @@ public class NetList extends JPanel implements MouseMotionListener, MouseListene
 	
 	public String saveGraphWithoutVariables(String graphName, boolean verbose) {
 		Set<String> variables = getAllVariables();
-		/*if (!Configuration.getInstance().getGeneralConfig().useEpsApprox()) */
-		{
+		if (!Configuration.getInstance().getGeneralConfig().useEpsApprox())	{
 			variables.remove("ε");
 		}
 
@@ -632,14 +639,6 @@ public class NetList extends JPanel implements MouseMotionListener, MouseListene
 			}
 		}
 		return -1;
-	}
-
-	public void loadGraph(String string) {
-		control.stopTesting();
-		reset();
-		boolean matrix = RControl.getR().eval("is.matrix("+string+")").asRLogical().getData()[0];
-		RControl.getR().eval(initialGraph + " <- placeNodes("+ (matrix?"matrix2graph(":"(")+ string + "))");
-		loadGraph();
 	}
 	
 }

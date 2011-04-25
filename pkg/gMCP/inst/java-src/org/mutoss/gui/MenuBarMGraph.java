@@ -80,8 +80,8 @@ public class MenuBarMGraph extends JMenuBar implements ActionListener {
 		menu.add(subMenu);
 		
 		subMenu = new JMenu("3 unstructured hypotheses");
-		subMenu.add(makeMenuItem("Improved fallback procedure I", "fallbackI"));
-		subMenu.add(makeMenuItem("Improved fallback procedure II", "fallbackII"));
+		subMenu.add(makeMenuItem("Improved fallback procedure I", "fallbackI", false));
+		subMenu.add(makeMenuItem("Improved fallback procedure II", "fallbackII", false));
 		menu.add(subMenu);		
 		
 		subMenu = new JMenu("2 primary & 2 secondary hypotheses");		
@@ -176,6 +176,7 @@ Stuttgart, 1995; 3–18.
 		menu.addSeparator();
 		menu.add(makeMenuItem("Log", "showLog", KeyEvent.VK_L));
 		menu.add(makeMenuItem("Report error", "reportError", KeyEvent.VK_R));
+		menu.add(makeMenuItem("Submit your own graph to gMCP archive", "submitGraph", false));
 		if (System.getProperty("eclipse") != null) {		
 			menu.add(makeMenuItem("Debug console", "debugConsole", KeyEvent.VK_D));
 		}
@@ -313,7 +314,6 @@ Stuttgart, 1995; 3–18.
         	loadGraph();
         } else if (e.getActionCommand().equals("load graph from R")) {
         	new RObjectLoadingDialog(control.getGraphGUI());
-        	//VariableNameDialog vnd = new VariableNameDialog(control.getGraphGUI());
         	createLastUsed();        	
         } else if (e.getActionCommand().equals("bht")) {
         	new NumberOfHypotheses(control.getGraphGUI(), this, "BonferroniHolmGraph");        	
@@ -385,7 +385,8 @@ Stuttgart, 1995; 3–18.
         } else if (e.getActionCommand().equals("changeGraphLayout")) {
         	notYetSupported();
         } else if (e.getActionCommand().equals("replaceVariables")) {
-        	notYetSupported();
+        	control.getNL().saveGraphWithoutVariables(control.getNL().initialGraph, false);
+        	control.getNL().loadGraph();
         } 
 	}
 	

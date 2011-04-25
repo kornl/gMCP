@@ -187,8 +187,9 @@ public class GraphView extends JPanel implements ActionListener {
 			getNL().statusBar.setText("Click on the graph panel to place the node.");
 		} else if (e.getSource().equals(buttonConfInt)) {
 			if (!getNL().isTesting()) {
-				getNL().saveGraph();
 				getPView().savePValues();
+				getNL().saveGraphWithoutVariables(getNL().initialGraph, false);
+	        	getNL().loadGraph();
 			}
 			if (getNL().getKnoten().size()==0) {
 				JOptionPane.showMessageDialog(parent, "Please create first a graph.", "Please create first a graph.", JOptionPane.ERROR_MESSAGE);
@@ -214,7 +215,9 @@ public class GraphView extends JPanel implements ActionListener {
 			}
 		} else if (e.getSource().equals(buttonStart)) {
 			if (!getNL().isTesting()) {
-				parent.glassPane.start();
+				getNL().saveGraphWithoutVariables(getNL().initialGraph, false);
+	        	getNL().loadGraph();
+				parent.glassPane.start();				
 				startTesting();
 				correlation = parent.getPView().getCorrelation();
 				SwingWorker<Void, Void> worker = new SwingWorker<Void, Void>() {
@@ -239,7 +242,8 @@ public class GraphView extends JPanel implements ActionListener {
 				JOptionPane.showMessageDialog(parent, "Please create first a graph.", "Please create first a graph.", JOptionPane.ERROR_MESSAGE);				
 			} else {
 				if (!getNL().isTesting()) {
-					getNL().saveGraph();
+					getNL().saveGraphWithoutVariables(getNL().initialGraph, false);
+		        	getNL().loadGraph();
 					getPView().savePValues();
 				}
 				parent.glassPane.start();

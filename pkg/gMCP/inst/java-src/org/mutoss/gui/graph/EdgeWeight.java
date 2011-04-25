@@ -57,7 +57,15 @@ public class EdgeWeight {
 			if (weight!=null) return weight;
 			for (Enumeration<String> keys = ht.keys() ; keys.hasMoreElements() ;) {
 				String s = keys.nextElement();
-				replaceStr = replaceStr.replaceAll(s, ""+ht.get(s));
+				for (int i=0; i <greek.length; i++) {
+					if ((""+greek[i]).equals(s)) {
+						replaceStr = replaceStr.replaceAll(""+greekLaTeX[i], ""+ht.get(s));		
+					}
+				}								
+			}
+			for (Enumeration<String> keys = ht.keys() ; keys.hasMoreElements() ;) {
+				String s = keys.nextElement();
+				replaceStr = replaceStr.replaceAll(s, ""+ht.get(s));				
 			}
 			replaceStr = replaceStr.replaceAll("\\\\epsilon", "epsilon");
 			weight = RControl.getR().eval("gMCP:::parseEpsPolynom(\""+replaceStr.replaceAll("\\\\", "\\\\\\\\")+"\")").asRNumeric().getData();
