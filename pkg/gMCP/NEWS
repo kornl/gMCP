@@ -18,6 +18,8 @@ Version 0.6-3 (??-???-2011, Rev. ???)
 - Function placeNodes is now exported with new parameters:
   nrow, ncol and force
   
+- Layout of graph can be changed automatically from the GUI.
+  
 - Graphs without epsilon edges can be processed by a
   much faster procedure written in C.
   
