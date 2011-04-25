@@ -17,7 +17,9 @@ public class DView extends JTabbedPane {
 
 	CreateGraphGUI control;
 	JPanel description = null;
+	JTextArea jtaDescription = null;
 	JPanel analysis = null;
+	JTextArea jtaAnalysis = null;
 	
 	public DView(CreateGraphGUI control) {
 		this.control = control;	
@@ -29,16 +31,20 @@ public class DView extends JTabbedPane {
 			description = null;
 			return;
 		}
-		remove(description);
-		description = new JPanel();
-		description.setLayout(new GridBagLayout());
-		JTextArea jta = getTextArea(s, true);
-		GridBagConstraints c = getConstraints();
-		JScrollPane sp = new JScrollPane(jta);
-		sp.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-		description.add(sp, c);
-		insertTab("Description", null, description, "Description", 0);
-		setSelectedComponent(description);
+		if (description == null) {		
+			description = new JPanel();
+			jtaDescription = getTextArea(s, true);
+			description.setLayout(new GridBagLayout());			
+			GridBagConstraints c = getConstraints();
+			JScrollPane sp = new JScrollPane(jtaDescription);
+			sp.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+			description.add(sp, c);
+			insertTab("Description", null, description, "Description", 0);
+			return;
+		}
+		jtaDescription.setText(s);
+		jtaDescription.setCaretPosition(0);
+		//setSelectedComponent(description);
 	}
 
 	public void setAnalysis(String s) {
@@ -47,16 +53,20 @@ public class DView extends JTabbedPane {
 			analysis = null;
 			return;
 		}
-		remove(analysis);
-		analysis = new JPanel();
-		analysis.setLayout(new GridBagLayout());
-		JTextArea jta = getTextArea(s, false);
-		GridBagConstraints c = getConstraints();
-		JScrollPane sp = new JScrollPane(jta);
-		sp.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-		analysis.add(sp, c);
-		insertTab("Analysis", null, analysis, "Analysis", this.getComponentCount());
-		setSelectedComponent(analysis);
+		if (analysis == null) {		
+			analysis = new JPanel();
+			analysis.setLayout(new GridBagLayout());
+			jtaAnalysis = getTextArea(s, false);
+			GridBagConstraints c = getConstraints();
+			JScrollPane sp = new JScrollPane(jtaAnalysis);
+			sp.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+			analysis.add(sp, c);
+			insertTab("Analysis", null, analysis, "Analysis", this.getComponentCount());
+			return;
+		}
+		jtaAnalysis.setText(s);
+		jtaAnalysis.setCaretPosition(0);
+		//setSelectedComponent(analysis);
 	}
 	
 	public JTextArea getTextArea(String s, boolean editable) {
@@ -66,6 +76,7 @@ public class DView extends JTabbedPane {
 		jta.setLineWrap(true);
 		jta.setEditable(editable);
 		jta.setWrapStyleWord(true);
+		jta.setCaretPosition(0);
 		return jta;
 	}
 	
