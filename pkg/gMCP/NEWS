@@ -42,7 +42,7 @@ Version 0.6-3 (??-???-2011, Rev. ???)
 - Most example graphs have a description and
   graph attributes "description" are shown in the GUI.
 
-- First data file: hydroquinone
+- First data files: hydroquinone and simvastatin
 
 - simConfint also returns the point estimates as second column.
 

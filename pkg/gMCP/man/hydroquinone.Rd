@@ -8,7 +8,7 @@
     four doses (30, 50, 75, 100 mg hydroquinone / kg) of hydroquinone 
     and an active control (C+) (with 25 mg/kg cyclophosphamide).
 }
-\usage{hydroquinone}
+\usage{data(hydroquinone)}
 \format{A data frame with 31 observations on the following 2 variables:
 \describe{
     \item{group}{A factor with levels "C-", "30 mg/kg", "50 mg/kg", "75 mg/kg", "100 mg/kg" and "C+" specifying the groups.}
