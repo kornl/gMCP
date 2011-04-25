@@ -37,7 +37,7 @@ Version 0.6-3 (??-???-2011, Rev. ???)
   
   - Graphs from Hung and Wang (2010), Bauer et al. (2001), 
     Bretz et al. (2011), Bretz et al. (2009) and 
-    Hommel et al. (2007)
+    Hommel et al. (2007), Maurer et al. (1995)
 
 - Most example graphs have a description and
   graph attributes "description" are shown in the GUI.
