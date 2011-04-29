@@ -26,6 +26,10 @@ BonferroniHolmGraph <- function(n) {
 		}
 	}
 	attr(BonferroniHolmGraph, "description") <- paste("Graph representing the Bonferroni-Holm-Procedure", 
+			"",
+			"Most powerful test procedure that treats all hypotheses equally.",
+			"The graph is a complete graph, where all nodes have the same weights and each edge weight is 1/(n-1).",
+			"",
 			"Literature: Holm, S. (1979). A simple sequentally rejective multiple test procedure. Scandinavian Journal of Statistics 6, 65-70.", sep="\n")
 	return(BonferroniHolmGraph)
 }
@@ -68,6 +72,9 @@ graphFromBretzEtAl2009 <- function() {
 	edgeData(graph, "H32", "H21", "labelY") <- 250	
 	edgeData(graph, "H22", "H31", "labelX") <- 350
 	edgeData(graph, "H22", "H31", "labelY") <- 250	
+	attr(graph, "description") <- paste("Graph representing ", 
+			"",
+			"Literature: .", sep="\n")
 	return(graph)	
 }
 
@@ -108,6 +115,9 @@ graphFromHommelEtAl2007 <- function() {
 			edgeData(graph, n1, n2, "labelY") <- y
 		}
 	}
+	attr(graph, "description") <- paste("Graph representing ", 
+			"",
+			"Literature: .", sep="\n")
 	return(graph)	
 }
 
@@ -135,6 +145,9 @@ graphForParallelGatekeeping <- function() {
 	edgeData(graph, "H1", "H4", "labelY") <- 150
 	edgeData(graph, "H2", "H3", "labelX") <- 250
 	edgeData(graph, "H2", "H3", "labelY") <- 150
+	attr(graph, "description") <- paste("Graph representing ", 
+			"",
+			"Literature: .", sep="\n")
 	return(graph)	
 }
 
@@ -146,6 +159,9 @@ graphForImprovedParallelGatekeeping <- function() {
 	edgeData(graph, "H4", "H2", "epsilon") <- list(1)
 	edgeData(graph, "H3", "H4", "epsilon") <- list(-1)
 	edgeData(graph, "H4", "H3", "epsilon") <- list(-1)
+	attr(graph, "description") <- paste("Graph representing ", 
+			"",
+			"Literature: .", sep="\n")
 	return(graph)	
 }
 
@@ -173,6 +189,9 @@ graph2FromBretzEtAl2009 <- function() {
 	names(nodeX) <- hnodes
 	names(nodeY) <- hnodes
 	nodeRenderInfo(graph) <- list(nodeX=nodeX, nodeY=nodeY)
+	attr(graph, "description") <- paste("Graph representing ", 
+			"",
+			"Literature: .", sep="\n")
 	return(graph)
 }
 
@@ -202,6 +221,9 @@ graphFromHungEtWang2010 <- function() {
 	names(nodeX) <- hnodes
 	names(nodeY) <- hnodes
 	nodeRenderInfo(graph) <- list(nodeX=nodeX, nodeY=nodeY)
+	attr(graph, "description") <- paste("Graph representing ", 
+			"",
+			"Literature: .", sep="\n")
 	return(graph)
 }
 
@@ -245,6 +267,19 @@ graphFromMaurerEtAl1995 <- function() {
 	return(graph)	
 }
 
+cycleGraph <- function(nodes, weights) {
+	# Edges:
+	n <- length(nodes)
+	edges <- vector("list", length=n)
+	for (i in 1:n-1) {
+		edges[[i]] <- list(edges=nodes[i+1], weights=weights[i])
+	}	
+	edges[[n]] <- list(edges=nodes[1], weights=weights[n])
+	names(edges)<-nodes
+	# Graph creation
+	graph <- new("graphMCP", nodes=nodes, edgeL=edges, weights=weights)
+	return(graph)
+}
 
 exampleGraph <- function(graph, ...) {
 	switch(graph,

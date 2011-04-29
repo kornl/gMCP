@@ -8,6 +8,7 @@
 \alias{graphFromHommelEtAl2007}
 \alias{graphFromHungEtWang2010}
 \alias{graphFromMaurerEtAl1995}
+\alias{cycleGraph}
 \title{
 	Functions that create different example graphs
 }
@@ -26,11 +27,18 @@
 	graphForImprovedParallelGatekeeping()
 	graphFromHungEtWang2010()
 	graphFromMaurerEtAl1995()
+	cycleGraph(nodes, weights)
 }
 
 \arguments{
   \item{n}{
 	Number of hypotheses.
+  }
+  \item{nodes}{
+  	Character vector of node names.
+  }
+  \item{weights}{
+  	Numeric vector of node weights.
   }
 }
 \details{
@@ -57,6 +65,12 @@
 	\item{\code{graphFromHungEtWang2010}}{
 	    Example graph from Hung et Wang. See references (Hung et Wang 2010).
 	}
+	\item{\code{graphFromMaurerEtAl1995}}{
+	    Example graph from Maurer et al. See references (Hung et al. 1995).
+	}
+	\item{\code{cycleGraph}}{
+		Cycle graph. The weight \code{weights[i]} specifies the edge weight from node i to node i+1 for i=1,...,n-1 and weight[n] from node n to node 1. 
+	}
   }	
 }
 \value{
@@ -73,6 +87,8 @@ Statistics in Medicine 2009 vol. 28 issue 4 page 586-604. \url{http://www.meduni
 Hommel, G., Bretz, F. und Maurer, W. (2007). Powerful short-cuts for multiple testing procedures with special reference to gatekeeping strategies. Statistics in Medicine, 26(22), 4063-4073.
 
 Hung H.M.J., Wang S.-J. (2010). Challenges to multiple testing in clinical trials. Biometrical Journal 52, 747-756.
+
+W. Maurer, L. Hothorn, W. Lehmacher: Multiple comparisons in drug clinical trials and preclinical assays: a-priori ordered hypotheses. In Biometrie in der chemisch-pharmazeutischen Industrie, Vollmar J (ed.). Fischer Verlag: Stuttgart, 1995; 3-18.
 }
 \author{
 Kornelius Rohmeyer \email{rohmeyer@small-projects.de}

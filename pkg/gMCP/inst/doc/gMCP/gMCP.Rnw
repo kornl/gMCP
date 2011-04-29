@@ -54,7 +54,7 @@
 \begin{document}
 
 % \VignetteIndexEntry{A Graphical Approach to Weighted Multiple Test Procedures}
-% \VignetteDepends{}
+% \VignetteDepends{coin}
 
 \title{gMCP - an R package for a graphical approach to weighted multiple test procedures} 
 
@@ -754,6 +754,24 @@ In this subsection we show how to use gMCP to reproduce the results of the paper
 <<echo=TRUE, size=scriptsize>>=
 
 data(hydroquinone)
+
+pvalues <- c() 
+x <- hydroquinone$micronuclei[hydroquinone$group=="C-"]
+for (dose in c("30 mg/kg", "50 mg/kg", "75 mg/kg", "100 mg/kg", "C+")) {
+	y <- hydroquinone$micronuclei[hydroquinone$group==dose]
+	result <- wilcox.test(x, y, alternative="less", correct=TRUE)
+	pvalues <- c(result$p.value,  pvalues)
+}
+pvalues
+
+library(coin)
+pvalues <- c() 
+for (dose in c("30 mg/kg", "50 mg/kg", "75 mg/kg", "100 mg/kg", "C+")) {
+	subdata <- droplevels(hydroquinone[hydroquinone$group %in% c("C-", dose),])
+	result <- wilcox_test(micronuclei ~ group, data=subdata, distribution="exact")
+	pvalues <- c(pvalue(result), pvalues)
+}
+pvalues
 
 @
 \normalsize

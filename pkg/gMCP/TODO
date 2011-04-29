@@ -19,6 +19,7 @@ High priority:
 Medium priority:
 ================
 
+- If Error Report sending fails, give user the option to send the log files as zip file
 - Does Indefinite ProgressPanel slow the calculation significantly down ?!?
 - Visualization of CI
 - graphAnalysis: Graph can be optimal despite the fact that some nodes are not accessible from others

@@ -22,5 +22,6 @@ export(graphFromHungEtWang2010)
 export(graphFromMaurerEtAl1995)
 export(graphForParallelGatekeeping)
 export(graphForImprovedParallelGatekeeping)
+export(cycleGraph)
 
 export(generateWeights, generateBounds, generateTest)
