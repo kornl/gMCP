@@ -11,7 +11,7 @@ exportMethods(plot, print, getWeights, setWeights, getRejected, getXCoordinates,
 export(graphGUI)
 export(gMCP, rejectNode, substituteEps, placeNodes)
 export(gMCPReport, graph2latex)
-export(matrix2graph, graph2matrix, bdiagNA)
+export(matrix2graph, graph2matrix, bdiagNA, joinGraphs)
 export(graphAnalysis)
 
 export(BonferroniHolmGraph)

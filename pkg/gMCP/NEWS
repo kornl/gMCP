@@ -54,7 +54,7 @@ Version 0.6-3 (??-???-2011, Rev. ???)
  
 - Unified loading of graphs.
 
-
+- New function: joinGraphs
 
 Version 0.6-2 (24-Apr-2011, Rev. 679)
 =====================================

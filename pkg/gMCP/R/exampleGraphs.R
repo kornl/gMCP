@@ -27,7 +27,7 @@ BonferroniHolmGraph <- function(n) {
 	}
 	attr(BonferroniHolmGraph, "description") <- paste("Graph representing the Bonferroni-Holm-Procedure", 
 			"",
-			"Most powerful test procedure that treats all hypotheses equally.",
+			"Most powerful test procedure (without further assumptions) that treats all hypotheses equally.",
 			"The graph is a complete graph, where all nodes have the same weights and each edge weight is 1/(n-1).",
 			"",
 			"Literature: Holm, S. (1979). A simple sequentally rejective multiple test procedure. Scandinavian Journal of Statistics 6, 65-70.", sep="\n")
@@ -221,9 +221,14 @@ graphFromHungEtWang2010 <- function() {
 	names(nodeX) <- hnodes
 	names(nodeY) <- hnodes
 	nodeRenderInfo(graph) <- list(nodeX=nodeX, nodeY=nodeY)
-	attr(graph, "description") <- paste("Graph representing ", 
+	attr(graph, "description") <- paste("Graph representing the procedure from Hung and Wang (2010)",
 			"",
-			"Literature: .", sep="\n")
+			"H_{1,NI} : Non-inferiority of the primary endpoint",
+			"H_{1,S}  : Superiority of the primary endpoint",
+			"H_{2,NI} : Non-inferiority of the secondary endpoint",
+			"H_{2,S}  : Superiority of the secondary endpoint",
+			"",
+			"Literature: Hung H.M.J., Wang S.-J. (2010). Challenges to multiple testing in clinical trials. Biometrical Journal 52, 747-756.", sep="\n")
 	return(graph)
 }
 
@@ -259,7 +264,9 @@ graphFromMaurerEtAl1995 <- function() {
 			"H3: drug A better than placebo",
 			"H4: drug A better than drug B",
 			"H5: drug A better than drug C",
+			"",
 			"(Maurer et al. apply the intersection-union principle to H1 and H2 to test sensitivity, so sensitivity is shown if and only if H1 and H2 are both rejected.)",
+			"",
 			"Note that you could improve the test procedure by using a Bonferroni-Holm correction instead of the Bonferroni correction in the last step by adding an edge from H4 to H5 with weight 1 and vice versa.",
 			"",
 			"Literature:",
@@ -281,6 +288,30 @@ cycleGraph <- function(nodes, weights) {
 	return(graph)
 }
 
+gatekeepingGraph <- function(n, type=c("serial", "parallel", "imporved parallel"), weights=rep(1/n, n)) {
+	# Nodes:
+	hnodes <- paste("H", 1:(2*n), sep="")
+	# Edges:
+	edges <- vector("list", length=4)
+	for (i in 1:n) {
+		
+	}
+	names(edges)<-hnodes
+	# Graph creation
+	graph <- new("graphMCP", nodes=hnodes, edgeL=edges, weights=c(weights, rep(0, n)))
+	# Visualization settings
+	nodeX <- c(100, 200, 300, 400, 400)
+	nodeY <- c(100, 100, 100, 50, 150)
+	names(nodeX) <- hnodes
+	names(nodeY) <- hnodes
+	nodeRenderInfo(graph) <- list(nodeX=nodeX, nodeY=nodeY)
+	attr(graph, "description") <- paste("Graph representing ",
+			"",
+			"Literature:",
+			"W. Maurer, L. Hothorn, W. Lehmacher: Multiple comparisons in drug clinical trials and preclinical assays: a-priori ordered hypotheses. In Biometrie in der chemisch-pharmazeutischen Industrie, Vollmar J (ed.). Fischer Verlag: Stuttgart, 1995; 3-18.", sep="\n")	
+	return(graph)
+}
+
 exampleGraph <- function(graph, ...) {
 	switch(graph,
 			Hommel=graphFromHommelEtAl2007(),
@@ -288,4 +319,40 @@ exampleGraph <- function(graph, ...) {
 			ParallelGatekeeping=graphForParallelGatekeeping(),
 			ImprovedParallelGatekeeping=graphForImprovedParallelGatekeeping(),
 			BonferroniHolm=BonferroniHolmGraph(...))
+}
+
+joinGraphs <- function(graph1, graph2, xOffset=0, yOffset=200) {
+	m1 <- graph2matrix(graph1)
+	m2 <- graph2matrix(graph2)
+	m <- bdiagNA(m1,m2)
+	m[is.na(m)] <- 0
+	nNames <- c(nodes(graph1), nodes(graph2))
+	d <- duplicated(nNames)
+	if(any(d)) {
+		warning(paste(c("The two graphs have the following identical nodes: ", paste(nNames[d], collapse=", "), ". The nodes of the second graph will be renamed."), sep=""))
+		nodes2 <- nodes(graph2)
+		i <- 1
+		for (x in nNames[d]) {
+			while (any(nNames==paste("H",i, sep=""))) {
+				i <- i + 1
+			}
+			nodes2[nodes2==x] <- paste("H",i, sep="")
+			i <- i + 1
+		}
+		nNames <- c(nodes(graph1), nodes2)
+	}
+	rownames(m) <- nNames
+	colnames(m) <- nNames
+	graph <- matrix2graph(m)	
+	weights <- c(getWeights(graph1), getWeights(graph2))
+	if (sum(weights)>1) {
+		weights <- weights / sum(weights)
+	}
+	graph <- setWeights(graph, weights=weights)
+	nodeX <- c(getXCoordinates(graph1), getXCoordinates(graph2) + xOffset) 
+	nodeY <- c(getYCoordinates(graph1), getYCoordinates(graph2) + yOffset) 
+	names(nodeX) <- nNames
+	names(nodeY) <- nNames
+	nodeRenderInfo(graph) <- list(nodeX=nodeX, nodeY=nodeY)
+	return(graph)
 }
