@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.lang.reflect.Method;
 import java.net.URI;
 import java.util.List;
+import java.util.Set;
 
 import javax.imageio.ImageIO;
 import javax.swing.JFileChooser;
@@ -384,6 +385,10 @@ Stuttgart, 1995; 3–18.
         } else if (e.getActionCommand().equals("changeGraphLayout")) {
         	notYetSupported();
         } else if (e.getActionCommand().equals("replaceVariables")) {
+        	Set<String> variables = control.getNL().getAllVariables();
+        	if (variables.isEmpty() || (variables.size()==1 && variables.contains("ε"))) {
+        		JOptionPane.showMessageDialog(control.getMainFrame(), "No variables to replace!", "No variables to replace!", JOptionPane.INFORMATION_MESSAGE);
+        	}
         	control.getNL().saveGraphWithoutVariables(control.getNL().initialGraph, false);
         	control.getNL().loadGraph();
         } 
