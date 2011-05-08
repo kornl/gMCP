@@ -425,7 +425,7 @@ method \texttt{gMCP}:
 \scriptsize
 <<echo=TRUE,keep.source=TRUE, size=scriptsize>>=
 
-graph <- graphFromBretzEtAl2009()
+graph <- graphFromBretzEtAl2011()
 
 # We can reject a single node:
 print(rejectNode(graph, "H11"))

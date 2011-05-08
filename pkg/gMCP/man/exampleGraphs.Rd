@@ -1,8 +1,8 @@
 \name{Example Graphs}
 \alias{exampleGraph}
 \alias{BonferroniHolmGraph}
-\alias{graphFromBretzEtAl2009}
-\alias{graph2FromBretzEtAl2009}
+\alias{graphFromBretzEtAl2011}
+\alias{graph2FromBretzEtAl2011}
 \alias{graphForParallelGatekeeping}
 \alias{graphForImprovedParallelGatekeeping}
 \alias{graphFromHommelEtAl2007}
@@ -20,12 +20,12 @@
 }
 \usage{
 	BonferroniHolmGraph(n)
-	graphFromBretzEtAl2009()
-	graph2FromBretzEtAl2009()
-	graphFromHommelEtAl2007()
 	graphForParallelGatekeeping()
 	graphForImprovedParallelGatekeeping()
+	graphFromBretzEtAl2011()
+	graph2FromBretzEtAl2011()
 	graphFromHungEtWang2010()
+	graphFromHommelEtAl2007()
 	graphFromMaurerEtAl1995()
 	cycleGraph(nodes, weights)
 }
@@ -47,13 +47,13 @@
 		Returns a graph that represents a Bonferroni-Holm adjustment.
 		The result is a complete graph, where all nodes have the same weights and each edge weight is \eqn{\frac{1}{n-1}}{1/(n-1)}.
 	}
-	\item{\code{graphFromBretzEtAl2009}}{
-		Example graph in figure 2 from Bretz et al. See references (Bretz et al. 2009).
+	\item{\code{graphFromBretzEtAl2011}}{
+		Example graph in figure 2 from Bretz et al. See references (Bretz et al. 2011).
 	}
-	\item{\code{createGraph2FromBretzEtAl}}{
-		Example graph in figure 6 from Bretz et al. See references (Bretz et al. 2009).
+	\item{\code{graph2FromBretzEtAl2011}}{
+		Example graph in figure 6 from Bretz et al. See references (Bretz et al. 2011).
 	}
-	\item{\code{graphFromBretzEtAl2009}}{
+	\item{\code{graphFromHommelEtAl2007}}{
 		Example graph from Hommel et al. See references (Hommel et al. 2007).
 	}
 	\item{\code{graphForParallelGatekeeping}}{
@@ -81,8 +81,10 @@ Holm, S. (1979). A simple sequentally rejective multiple test procedure. Scandin
 
 Dmitrienko, A., Offen, W., Westfall, P.H. (2003). Gatekeeping strategies for clinical trials that do not require all primary effects to be significant. Statistics in Medicine. 22, 2387-2400.
 
-Frank Bretz, Willi Maurer, Werner Brannath, Martin Posch: A graphical approach to sequentially rejective multiple test procedures.
+Bretz, F., Maurer, W., Brannath, W., Posch, M.: A graphical approach to sequentially rejective multiple test procedures.
 Statistics in Medicine 2009 vol. 28 issue 4 page 586-604. \url{http://www.meduniwien.ac.at/fwf_adaptive/papers/bretz_2009_22.pdf}
+
+Bretz, F., Maurer, W. and Hommel, G. (2011), Test and power considerations for multiple endpoint analyses using sequentially rejective graphical procedures. Statistics in Medicine, 30: n/a.
 
 Hommel, G., Bretz, F. und Maurer, W. (2007). Powerful short-cuts for multiple testing procedures with special reference to gatekeeping strategies. Statistics in Medicine, 26(22), 4063-4073.
 

@@ -63,7 +63,7 @@ test.adjPValues <- function() {
 }
 
 test.gMCPBretzEtAl <- function() {
-	graph <- graphFromBretzEtAl2009()
+	graph <- graphFromBretzEtAl2011()
 	pvalues <- c(0.1, 0.008, 0.005, 0.15, 0.04, 0.006)
 	result <- gMCP(graph, pvalues)
 	last <- result@graphs[[4]]	

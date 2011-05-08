@@ -37,5 +37,5 @@ gMCP.pdf: gMCP/gMCP.Rnw
 	bibtex gMCP
 	makeindex -s myIndex.ist gMCP.idx
 	$(RSCRIPT) -e "tools::texi2dvi( 'gMCP.tex', pdf = TRUE, clean = TRUE, index = FALSE )"
-	rm -fr gMCP.tex gMCP.bbl gMCP.blg gMCP.aux gMCP.out gMCP.log gMCP.ilg gMCP.ind
+	rm -fr gMCP.tex gMCP.bbl gMCP.blg gMCP.aux gMCP.out gMCP.log gMCP.ilg gMCP.ind gMCP-*.pdf
 	cp -f gMCP/gMCP-fake.Rnw gMCP.Rnw

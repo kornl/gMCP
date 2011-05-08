@@ -34,7 +34,7 @@ BonferroniHolmGraph <- function(n) {
 	return(BonferroniHolmGraph)
 }
 
-graphFromBretzEtAl2009 <- function() {
+graphFromBretzEtAl2011 <- function() {
 	# Nodes:
 	weights <- rep(c(1/3,0), each=3)	
 	hnodes <- paste("H", rep(1:3, 2), rep(1:2, each=3), sep="")
@@ -72,9 +72,15 @@ graphFromBretzEtAl2009 <- function() {
 	edgeData(graph, "H32", "H21", "labelY") <- 250	
 	edgeData(graph, "H22", "H31", "labelX") <- 350
 	edgeData(graph, "H22", "H31", "labelY") <- 250	
-	attr(graph, "description") <- paste("Graph representing ", 
+	attr(graph, "description") <- paste("Graph representing the procedure from Bretz et al. (2011) - Figure 2", 
 			"",
-			"Literature: .", sep="\n")
+			"H11, H21 and H31 represent three primary hypotheses and H21, H22 and H23 the associated secondary hypotheses.",
+			"",			
+			"A secondary hypothesis is only tested if the associated primary hypotheses is rejected.",
+			"",
+			"Since in this example it is preferred to reject two adjacent hypotheses (like H11 and H21 instead of H11 and H31) there are only edges between adjacent nodes.",
+			"",
+			"Literature: Bretz, F., Maurer, W. and Hommel, G. (2011), Test and power considerations for multiple endpoint analyses using sequentially rejective graphical procedures. Statistics in Medicine, 30: n/a.", sep="\n")
 	return(graph)	
 }
 
@@ -165,7 +171,7 @@ graphForImprovedParallelGatekeeping <- function() {
 	return(graph)	
 }
 
-graph2FromBretzEtAl2009 <- function() {
+graph2FromBretzEtAl2011 <- function() {
 	# Nodes:
 	weights <- rep(c(1/2,0), each=2)	
 	hnodes <- paste("H", 1:4, sep="")
@@ -188,11 +194,12 @@ graph2FromBretzEtAl2009 <- function() {
 	nodeY <- rep(c(100, 300), each=2)
 	names(nodeX) <- hnodes
 	names(nodeY) <- hnodes
-	nodeRenderInfo(graph) <- list(nodeX=nodeX, nodeY=nodeY)
-	attr(graph, "description") <- paste("Graph representing ", 
+	nodeRenderInfo(graph) <- list(nodeX=nodeX, nodeY=nodeY)	
+	attr(graph, "description") <- paste("Graph representing the procedure from Bretz et al. (2011) - Figure 6", 
 			"",
-			"Literature: .", sep="\n")
-	return(graph)
+			"Literature: Bretz, F., Maurer, W. and Hommel, G. (2011), Test and power considerations for multiple endpoint analyses using sequentially rejective graphical procedures. Statistics in Medicine, 30: n/a.", sep="\n")
+	return(graph)	
+	
 }
 
 graphFromHungEtWang2010 <- function() {
