@@ -629,7 +629,7 @@ No $\epsilon$-edges are allowed.
   \centering   
 <<echo=FALSE,results=tex>>=
 
-cat(graph2latex(graph2FromBretzEtAl2009(), scale=0.7, fontsize="tiny"))
+cat(graph2latex(graph2FromBretzEtAl2011(), scale=0.7, fontsize="tiny"))
 
 @
   \caption{\label{powergraph} Graph from Bretz et al. (2009)}
@@ -642,7 +642,7 @@ cat(graph2latex(graph2FromBretzEtAl2009(), scale=0.7, fontsize="tiny"))
 \scriptsize
 <<echo=TRUE, keep.source=TRUE, size=scriptsize>>=
 
-graph <- graph2FromBretzEtAl2009()
+graph <- graph2FromBretzEtAl2011()
 graph
 
 @

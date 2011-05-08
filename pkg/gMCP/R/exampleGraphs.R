@@ -121,9 +121,12 @@ graphFromHommelEtAl2007 <- function() {
 			edgeData(graph, n1, n2, "labelY") <- y
 		}
 	}
-	attr(graph, "description") <- paste("Graph representing ", 
+	attr(graph, "description") <- paste("Graph representing the procedure from Hommel et al. (2007)", 
 			"",
-			"Literature: .", sep="\n")
+			"In this clinical trial example three primary endpoints are investigated: QoL (Quality of Life score), E1 and E2.",
+			"If QoL is rejected, four secondary hypotheses D1, D2, D3 and D4 should also be tested.",
+			"",
+			"Literature: Hommel, G., Bretz, F. und Maurer, W. (2007). Powerful short-cuts for multiple testing procedures with special reference to gatekeeping strategies. Statistics in Medicine, 26(22), 4063-4073.", sep="\n")
 	return(graph)	
 }
 
@@ -151,9 +154,9 @@ graphForParallelGatekeeping <- function() {
 	edgeData(graph, "H1", "H4", "labelY") <- 150
 	edgeData(graph, "H2", "H3", "labelX") <- 250
 	edgeData(graph, "H2", "H3", "labelY") <- 150
-	attr(graph, "description") <- paste("Graph representing ", 
+	attr(graph, "description") <- paste("Graph representing a parallel gatekeeping procedure", 
 			"",
-			"Literature: .", sep="\n")
+			"Literature: Dmitrienko, A., Offen, W., Westfall, P.H. (2003). Gatekeeping strategies for clinical trials that do not require all primary effects to be significant. Statistics in Medicine. 22, 2387-2400.", sep="\n")
 	return(graph)	
 }
 
@@ -165,9 +168,9 @@ graphForImprovedParallelGatekeeping <- function() {
 	edgeData(graph, "H4", "H2", "epsilon") <- list(1)
 	edgeData(graph, "H3", "H4", "epsilon") <- list(-1)
 	edgeData(graph, "H4", "H3", "epsilon") <- list(-1)
-	attr(graph, "description") <- paste("Graph representing ", 
+	attr(graph, "description") <- paste("Graph representing an improved parallel gatekeeping procedure", 
 			"",
-			"Literature: .", sep="\n")
+			"Literature: Bretz, F., Maurer, W., Brannath, W., Posch, M.: A graphical approach to sequentially rejective multiple test procedures. Statistics in Medicine 2009 vol. 28 issue 4 page 586-604. URL: http://www.meduniwien.ac.at/fwf_adaptive/papers/bretz_2009_22.pdf .", sep="\n")
 	return(graph)	
 }
 
@@ -312,10 +315,9 @@ gatekeepingGraph <- function(n, type=c("serial", "parallel", "imporved parallel"
 	names(nodeX) <- hnodes
 	names(nodeY) <- hnodes
 	nodeRenderInfo(graph) <- list(nodeX=nodeX, nodeY=nodeY)
-	attr(graph, "description") <- paste("Graph representing ",
+	attr(graph, "description") <- paste("Graph representing ...",
 			"",
-			"Literature:",
-			"W. Maurer, L. Hothorn, W. Lehmacher: Multiple comparisons in drug clinical trials and preclinical assays: a-priori ordered hypotheses. In Biometrie in der chemisch-pharmazeutischen Industrie, Vollmar J (ed.). Fischer Verlag: Stuttgart, 1995; 3-18.", sep="\n")	
+			"Literature:", sep="\n")	
 	return(graph)
 }
 
