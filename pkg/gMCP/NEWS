@@ -18,30 +18,14 @@ Version 0.6-3 (??-???-2011, Rev. ???)
 - Function placeNodes is now exported with new parameters:
   nrow, ncol and force
   
-- Layout of graph can be changed automatically from the GUI.
-  
-- Graphs without epsilon edges can be processed by a
-  much faster procedure written in C.
-  
 - We use package highlight for the manuals.
 
 - New example graphs:
+   
+  - Graphs from Hung and Wang (2010) and 
+    Bretz et al. (2011)
 
-  - Fixed sequence test
-  
-  - Fallback procedure
-  
-  - Improved fallback procedure
-  
-  - Truncated Holm procedure
-  
-  - Successive graphs
-  
-  - Graphs from Hung and Wang (2010), Bauer et al. (2001), 
-    Bretz et al. (2011), Bretz et al. (2009) and 
-    Hommel et al. (2007), Maurer et al. (1995)
-
-- Most example graphs have a description and
+- All example graphs have a description and
   graph attributes "description" are shown in the GUI.
 
 - First data files: hydroquinone and simvastatin
