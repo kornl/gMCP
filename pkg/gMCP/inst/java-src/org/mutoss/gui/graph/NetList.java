@@ -157,7 +157,7 @@ public class NetList extends JPanel implements MouseMotionListener, MouseListene
 			try {
 				String graphName = ".tmpGraph" + (new Date()).getTime();
 				saveGraph(graphName, false);
-				analysis = RControl.getR().eval("graphAnalysis("+graphName+")").asRChar().getData()[0];
+				analysis = RControl.getR().eval("graphAnalysis("+graphName+", file=tempfile())").asRChar().getData()[0];
 			} catch (Exception e) {
 				// We simply set the analysis to null - that's fine.
 			}
