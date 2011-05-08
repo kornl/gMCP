@@ -590,7 +590,7 @@ public class NetList extends JPanel implements MouseMotionListener, MouseListene
 			if (eps!=null) {
 				RControl.getR().evalVoid("edgeData("+graphName+", \""+e.from.getName()+"\", \""+e.to.getName()+"\", \"epsilon\") <- list("+eps+")");
 			}
-			System.out.println("Weight is: "+e.getW(ht)[0]);
+			logger.debug("Weight is: "+e.getW(ht)[0]);
 			if (((Double)e.getW(ht)[0]).isNaN()) {
 				RControl.getR().evalVoid("edgeData("+graphName+", \""+e.from.getName()+"\", \""+e.to.getName()+"\", \"variableWeight\") <- \""+e.getWS().replaceAll("\\\\", "\\\\\\\\")+"\"");
 			}
