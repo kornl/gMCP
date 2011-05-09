@@ -66,10 +66,10 @@
 	    Example graph from Hung et Wang. See references (Hung et Wang 2010).
 	}
 	\item{\code{graphFromMaurerEtAl1995}}{
-	    Example graph from Maurer et al. See references (Hung et al. 1995).
+	    Example graph from Maurer et al. See references (Maurer et al. 1995).
 	}
 	\item{\code{cycleGraph}}{
-		Cycle graph. The weight \code{weights[i]} specifies the edge weight from node i to node i+1 for i=1,...,n-1 and weight[n] from node n to node 1. 
+		Cycle graph. The weight \code{weights[i]} specifies the edge weight from node \eqn{i}{i} to node \eqn{i+1}{i+1} for \eqn{i=1,\ldots,n-1}{i=1,...,n-1} and \code{weight[n]} from node \eqn{n}{n} to node 1. 
 	}
   }	
 }
