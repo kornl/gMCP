@@ -324,7 +324,7 @@ gatekeepingGraph <- function(n, type=c("serial", "parallel", "imporved parallel"
 exampleGraph <- function(graph, ...) {
 	switch(graph,
 			Hommel=graphFromHommelEtAl2007(),
-			Bretz=graphFromBretzEtAl2009(),
+			Bretz=graphFromBretzEtAl2011(),
 			ParallelGatekeeping=graphForParallelGatekeeping(),
 			ImprovedParallelGatekeeping=graphForImprovedParallelGatekeeping(),
 			BonferroniHolm=BonferroniHolmGraph(...))

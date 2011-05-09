@@ -1,4 +1,12 @@
 
+Version 0.6-4 (??-???-2011, Rev. ???)
+=====================================
+
+- Layout of graph can be changed automatically from the GUI.
+  
+- Graphs without epsilon edges can be processed by a
+  much faster procedure written in C.
+
 Version 0.6-3 (08-Mai-2011, Rev. 767)
 =====================================
 
