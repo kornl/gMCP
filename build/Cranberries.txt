@@ -548,4 +548,81 @@ Diff between gMCP versions 0.6-0 dated 2011-04-06 and 0.6-1 dated 2011-04-09
  gMCP-0.6-2/gMCP/man/graphAnalysis.Rd                                                 |only
  58 files changed, 1072 insertions(+), 596 deletions(-)
  
- 
+ Diff between gMCP versions 0.6-2 dated 2011-04-24 and 0.6-3 dated 2011-05-09
+
+ gMCP-0.6-2/gMCP/inst/doc/correlated.Rnw                                              |only
+ gMCP-0.6-2/gMCP/inst/doc/correlated.pdf                                              |only
+ gMCP-0.6-3/gMCP/DESCRIPTION                                                          |   11 
+ gMCP-0.6-3/gMCP/INSTALL                                                              |   41 
+ gMCP-0.6-3/gMCP/NAMESPACE                                                            |   18 
+ gMCP-0.6-3/gMCP/NEWS                                                                 |   46 
+ gMCP-0.6-3/gMCP/R/closure.R                                                          |   21 
+ gMCP-0.6-3/gMCP/R/exampleGraphs.R                                                    |  233 +++
+ gMCP-0.6-3/gMCP/R/gMCP.R                                                             |    2 
+ gMCP-0.6-3/gMCP/R/graph2latex.R                                                      |    2 
+ gMCP-0.6-3/gMCP/R/graphMCP.R                                                         |   16 
+ gMCP-0.6-3/gMCP/R/helperGUI.R                                                        |   28 
+ gMCP-0.6-3/gMCP/R/misc.R                                                             |    4 
+ gMCP-0.6-3/gMCP/R/onLoad.R                                                           |   13 
+ gMCP-0.6-3/gMCP/R/plotInfiniteCI.R                                                   |only
+ gMCP-0.6-3/gMCP/R/startGUIs.R                                                        |    2 
+ gMCP-0.6-3/gMCP/TODO                                                                 |   36 
+ gMCP-0.6-3/gMCP/data                                                                 |only
+ gMCP-0.6-3/gMCP/inst/References.html                                                 |only
+ gMCP-0.6-3/gMCP/inst/doc/AQuickStart.Rnw                                             |only
+ gMCP-0.6-3/gMCP/inst/doc/AQuickStart.pdf                                             |only
+ gMCP-0.6-3/gMCP/inst/doc/Makefile                                                    |only
+ gMCP-0.6-3/gMCP/inst/doc/gMCP                                                        |only
+ gMCP-0.6-3/gMCP/inst/doc/gMCP.Rnw                                                    |  709 ----------
+ gMCP-0.6-3/gMCP/inst/doc/gMCP.pdf                                                    |binary
+ gMCP-0.6-3/gMCP/inst/doc/literatur.bib                                               |  499 ++++++-
+ gMCP-0.6-3/gMCP/inst/doc/myIndex.ist                                                 |only
+ gMCP-0.6-3/gMCP/inst/doc/parametric.Rnw                                              |only
+ gMCP-0.6-3/gMCP/inst/doc/parametric.pdf                                              |only
+ gMCP-0.6-3/gMCP/inst/doc/pictures/rjavaicon64.png                                    |only
+ gMCP-0.6-3/gMCP/inst/doc/pictures/variableEditor.png                                 |only
+ gMCP-0.6-3/gMCP/inst/java-src/org/mutoss/config/GeneralConfig.java                   |    8 
+ gMCP-0.6-3/gMCP/inst/java-src/org/mutoss/gui/CreateGraphGUI.java                     |   46 
+ gMCP-0.6-3/gMCP/inst/java-src/org/mutoss/gui/ErrorDialogSGTK.java                    |    1 
+ gMCP-0.6-3/gMCP/inst/java-src/org/mutoss/gui/JavaGD.java                             |only
+ gMCP-0.6-3/gMCP/inst/java-src/org/mutoss/gui/MenuBarMGraph.java                      |  228 ++-
+ gMCP-0.6-3/gMCP/inst/java-src/org/mutoss/gui/RControl.java                           |    4 
+ gMCP-0.6-3/gMCP/inst/java-src/org/mutoss/gui/datatable/EpsilonTableCellRenderer.java |    9 
+ gMCP-0.6-3/gMCP/inst/java-src/org/mutoss/gui/dialogs/TextFileViewer.java             |    2 
+ gMCP-0.6-3/gMCP/inst/java-src/org/mutoss/gui/dialogs/VariableDialog.java             |    6 
+ gMCP-0.6-3/gMCP/inst/java-src/org/mutoss/gui/graph/DView.java                        |only
+ gMCP-0.6-3/gMCP/inst/java-src/org/mutoss/gui/graph/Edge.java                         |   94 -
+ gMCP-0.6-3/gMCP/inst/java-src/org/mutoss/gui/graph/EdgeWeight.java                   |   48 
+ gMCP-0.6-3/gMCP/inst/java-src/org/mutoss/gui/graph/GraphMCP.java                     |   15 
+ gMCP-0.6-3/gMCP/inst/java-src/org/mutoss/gui/graph/GraphView.java                    |   18 
+ gMCP-0.6-3/gMCP/inst/java-src/org/mutoss/gui/graph/NetList.java                      |   82 -
+ gMCP-0.6-3/gMCP/inst/java-src/org/mutoss/gui/graph/Node.java                         |    5 
+ gMCP-0.6-3/gMCP/inst/java-src/org/mutoss/gui/graph/PPanel.java                       |    8 
+ gMCP-0.6-3/gMCP/inst/java-src/org/mutoss/gui/graph/UpdateNode.java                   |    3 
+ gMCP-0.6-3/gMCP/inst/java-src/org/mutoss/gui/power                                   |only
+ gMCP-0.6-3/gMCP/inst/java-src/org/mutoss/tests/FormatTest.java                       |    2 
+ gMCP-0.6-3/gMCP/inst/java-src/org/mutoss/tests/TestImportExport.java                 |   22 
+ gMCP-0.6-3/gMCP/inst/java/gsrmtp.jar                                                 |binary
+ gMCP-0.6-3/gMCP/inst/java/jhlir.jar                                                  |binary
+ gMCP-0.6-3/gMCP/inst/unitTests/runit.JavaImportExport.R                              |    2 
+ gMCP-0.6-3/gMCP/inst/unitTests/runit.adjPValues.R                                    |    6 
+ gMCP-0.6-3/gMCP/inst/unitTests/runit.fastgMCP.R                                      |only
+ gMCP-0.6-3/gMCP/inst/unitTests/runit.graphGMCP.R                                     |   14 
+ gMCP-0.6-3/gMCP/inst/unitTests/runit.misc.R                                          |    4 
+ gMCP-0.6-3/gMCP/man/confint.Rd                                                       |   46 
+ gMCP-0.6-3/gMCP/man/exampleGraphs.Rd                                                 |   75 -
+ gMCP-0.6-3/gMCP/man/gMCP-package.Rd                                                  |    2 
+ gMCP-0.6-3/gMCP/man/gMCP.Rd                                                          |    6 
+ gMCP-0.6-3/gMCP/man/gMCPReport.Rd                                                    |    2 
+ gMCP-0.6-3/gMCP/man/graph2latex.Rd                                                   |    2 
+ gMCP-0.6-3/gMCP/man/graphAnalysis.Rd                                                 |    2 
+ gMCP-0.6-3/gMCP/man/graphGUI.Rd                                                      |    2 
+ gMCP-0.6-3/gMCP/man/graphMCP.Rd                                                      |    4 
+ gMCP-0.6-3/gMCP/man/hydroquinone.Rd                                                  |only
+ gMCP-0.6-3/gMCP/man/joinGraphs.Rd                                                    |only
+ gMCP-0.6-3/gMCP/man/placeNodes.Rd                                                    |only
+ gMCP-0.6-3/gMCP/man/rejectNode.Rd                                                    |    2 
+ gMCP-0.6-3/gMCP/man/simvastatin.Rd                                                   |only
+ gMCP-0.6-3/gMCP/man/substituteEps.Rd                                                 |    2 
+ gMCP-0.6-3/gMCP/src/gMCP.c                                                           |   62 
+ 75 files changed, 1398 insertions(+), 1117 deletions(-)
