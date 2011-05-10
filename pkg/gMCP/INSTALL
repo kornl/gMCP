@@ -3,6 +3,19 @@ unproblematic for Linux and Windows users.  However two of the
 packages gMCP depends on or suggests can be tricky to install on
 non-windows machines.
 
+graph:
+======
+
+Since R 2.13 the package graph is not found any more on CRAN,
+but is still available from bioconductor:
+
+http://www.bioconductor.org/packages/release/bioc/html/graph.html
+
+Install it via
+
+    source("http://www.bioconductor.org/biocLite.R")
+    biocLite("graph")
+
 rJava:
 ======
 

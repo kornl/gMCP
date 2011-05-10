@@ -16,14 +16,15 @@ graphGUI <- function(graph="createdGraph", pvalues=numeric(0), grid=0, debug=FAL
 			graph <- make.names(deparse(stack.fun[[1]][[2]]))
 			warning(paste("We guess you wanted to use graphGUI(\"",graph,"\")",sep=""))
 		}
-	}
-	if (exists(graph, envir=globalenv())) {
-		if ("graphMCP" %in% class(get(graph, envir=globalenv()))) {
-			if (length(nodeRenderInfo(get(graph, envir=globalenv())))==0) {
-				assign(graph, placeNodes(get(graph, envir=globalenv())), envir=globalenv())
+	} else {
+		if (exists(graph, envir=globalenv())) {
+			if ("graphMCP" %in% class(get(graph, envir=globalenv()))) {
+				if (length(nodeRenderInfo(get(graph, envir=globalenv())))==0) {
+					assign(graph, placeNodes(get(graph, envir=globalenv())), envir=globalenv())
+				}
+			} else {
+				stop(paste("The variable",graph,"already exists and is no graphMCP object."))
 			}
-		} else {
-			warning(paste("The variable",graph,"already exists and is no graphMCP object."))
 		}
 	}
 	invisible(.jnew("org/mutoss/gui/CreateGraphGUI", make.names(graph), pvalues, debug, grid))	

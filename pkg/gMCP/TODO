@@ -2,7 +2,6 @@ Critical (blocks new release):
 ==============================
 
 - Remove edges if weight is 0 due to variable replacement
-- load example graph and use default for saving (that is graphFrom...() and will cause an error)
 
 High priority:
 ==============

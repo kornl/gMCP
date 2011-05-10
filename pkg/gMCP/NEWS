@@ -7,7 +7,8 @@ Version 0.6-4 (??-???-2011, Rev. ???)
 - Graphs without epsilon edges can be processed by a
   much faster procedure written in C.
 
-Version 0.6-3 (08-Mai-2011, Rev. 767)
+
+Version 0.6-3 (09-May-2011, Rev. 767)
 =====================================
 
 - New dependency: JavaGD, MCPAN
@@ -48,6 +49,12 @@ Version 0.6-3 (08-Mai-2011, Rev. 767)
 
 - New function: joinGraphs
 
+- It looks like JavaGD is not available for Solaris?
+  Anyone out there using this OS with gMCP?
+
+75 files changed, 1398 insertions(+), 1117 deletions(-)
+
+
 Version 0.6-2 (24-Apr-2011, Rev. 679)
 =====================================
 
@@ -82,6 +89,7 @@ Version 0.6-2 (24-Apr-2011, Rev. 679)
 - GUI deals a lot better with rounding errors.  
 
  58 files changed, 1072 insertions(+), 596 deletions(-)
+
 
 Version 0.6-1 (09-Apr-2011, Rev. 589)
 =====================================
