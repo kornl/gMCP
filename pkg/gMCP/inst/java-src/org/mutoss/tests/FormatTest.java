@@ -1,10 +1,12 @@
 package org.mutoss.tests;
 
+import java.io.File;
 import java.text.DecimalFormat;
 
 public class FormatTest {
 	
 	public static void main(String[] args) {
+		System.out.println(new File("test.dat").getAbsolutePath());
 		System.out.println("\\alpha");
 		System.out.println("\\alpha".replaceAll("\\\\", "\\\\\\\\"));
 		DecimalFormat format = new DecimalFormat("#.####");
