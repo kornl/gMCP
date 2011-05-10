@@ -322,9 +322,9 @@ Stuttgart, 1995; 3–18.
         } else if (e.getActionCommand().equals("pgi")) {       	
         	loadGraph("graphForImprovedParallelGatekeeping()");
         } else if (e.getActionCommand().equals("bretzEtAl")) {       	
-        	loadGraph("graphFromBretzEtAl2009()");
+        	loadGraph("graphFromBretzEtAl2011()");
         } else if (e.getActionCommand().equals("bretzEtAl3")) {       	
-        	loadGraph("graph2FromBretzEtAl2009()");
+        	loadGraph("graph2FromBretzEtAl2011()");
         } else if (e.getActionCommand().equals("hommelEtAl")) {       	
         	loadGraph("graphFromHommelEtAl2007()");
         } else if (e.getActionCommand().equals("hung")) { 	

@@ -74,7 +74,9 @@ public class CreateGraphGUI extends JFrame implements WindowListener, AbortListe
 		setJMenuBar(new MenuBarMGraph(agc));		
 		makeContent();
 		
-		agc.getNL().loadGraph(graph);
+		if (RControl.getR().eval("exists(\""+graph+"\")").asRLogical().getData()[0]) {
+			agc.getNL().loadGraph(graph);
+		}
 		
 		if (pvalues.length>0) getPView().setPValues(ArrayUtils.toObject(pvalues));
 		glassPane = new InfiniteProgressPanel(this, "Calculating");
