@@ -487,7 +487,8 @@ Stuttgart, 1995; 3–18.
 					RControl.getR().evalVoid(control.result+" <- gMCP("+control.getNL().initialGraph+control.getGMCPOptions()+")");
 					control.resultUpToDate = true;
 				}
-				RControl.getR().eval("gMCPReport("+control.result+", file=\""+f.getAbsolutePath()+"\")");
+				String filename = f.getAbsolutePath().replaceAll("\\\\", "\\\\\\\\");
+				RControl.getR().eval("gMCPReport("+control.result+", file=\""+filename+"\")");
 				control.getMainFrame().glassPane.stop();
 				return null;
 			}  
@@ -598,7 +599,8 @@ Stuttgart, 1995; 3–18.
         Configuration.getInstance().setClassProperty(this.getClass(), "RObjDirectory", f.getParent());
         try {            	
         	//((ControlMGraph) control).getNL().loadFromXML(f);
-    		String loadedGraph = RControl.getR().eval("load(file=\""+f.getAbsolutePath()+"\")").asRChar().getData()[0];
+        	String filename = f.getAbsolutePath().replaceAll("\\\\", "\\\\\\\\"); 
+    		String loadedGraph = RControl.getR().eval("load(file=\""+filename+"\")").asRChar().getData()[0];
     		loadGraph(loadedGraph);
     		Configuration.getInstance().getGeneralConfig().addGraph(f.getAbsolutePath());
         	createLastUsed();
@@ -628,8 +630,9 @@ Stuttgart, 1995; 3–18.
             try {
             	VariableNameDialog vnd = new VariableNameDialog(control.getGraphGUI(), control.getGraphName());            	
             	String name = vnd.getName();
-            	control.getNL().saveGraph(name, false); 
-            	RControl.getR().eval("save("+name+", file=\""+f.getAbsolutePath()+"\")");        		
+            	name = control.getNL().saveGraph(name, false); 
+            	String filename = f.getAbsolutePath().replaceAll("\\\\", "\\\\\\\\");            	
+            	RControl.getR().eval("save("+name+", file=\""+filename+"\")");        		
             	JOptionPane.showMessageDialog(control.getMainFrame(), "Exported graph to R object '"+name+"' and saved this to \n'" + f.getAbsolutePath() + "'.", "Saved graph", JOptionPane.INFORMATION_MESSAGE);
             	Configuration.getInstance().getGeneralConfig().addGraph(f.getAbsolutePath());
             	createLastUsed();

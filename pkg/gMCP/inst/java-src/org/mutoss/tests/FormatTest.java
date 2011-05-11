@@ -6,7 +6,7 @@ import java.text.DecimalFormat;
 public class FormatTest {
 	
 	public static void main(String[] args) {
-		System.out.println(new File("test.dat").getAbsolutePath());
+		System.out.println(new File("test.dat").getAbsolutePath().replaceAll("\\\\", "\\\\\\\\"));
 		System.out.println("\\alpha");
 		System.out.println("\\alpha".replaceAll("\\\\", "\\\\\\\\"));
 		DecimalFormat format = new DecimalFormat("#.####");
