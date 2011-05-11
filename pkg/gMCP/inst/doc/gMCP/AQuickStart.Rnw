@@ -72,9 +72,21 @@ This guick start guide only describes the steps to start the GUI.
 
 If you not already have R then download the installer from the following URL and use it to install the latest version of R: \url{http://cran.r-project.org/bin/windows/base/release.htm}
 
-\begin{minipage}{0.50\textwidth}
+\begin{minipage}{0.60\textwidth}
 
-Open R and type \texttt{install.packages("gMCP")} into the R Console, select an arbitrary mirror and gMCP will be downloaded and installed.\\
+Open R and type 
+%\texttt{install.packages("gMCP")} into the R Console, select an arbitrary mirror and gMCP will be downloaded and installed.\\
+the following commands into the R Console (and select an arbitrary mirror when asked for one):
+
+%\scriptsize
+<<echo=TRUE,eval=F>>=
+
+source("http://www.bioconductor.org/biocLite.R")
+biocLite("graph")
+install.packages("gMCP")
+
+@
+%\normalsize
 
 From now on you can start the gMCP graphical user interface by entering the following commands into the R Console:
 
@@ -88,7 +100,7 @@ graphGUI()
 %\normalsize
 
 \end{minipage}
-\begin{minipage}{0.50\textwidth}
+\begin{minipage}{0.40\textwidth}
 \begin{flushright}
 \includegraphics[width=0.9\textwidth]{pictures/FullFeaturedGUI.png}
 \end{flushright}

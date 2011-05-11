@@ -6,6 +6,7 @@ Critical (blocks new release):
 High priority:
 ==============
 
+- Check LaTeX export with variables and epsilon polynoms.
 - Flag 1+epsilon>1 in line sum
 - round adjusted p-Values up
 - standard examples

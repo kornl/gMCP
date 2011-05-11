@@ -98,8 +98,20 @@ likely still change in future versions.
 
 \subsection{Installation}
 
-Open R and type \texttt{install.packages("gMCP")} into the R Console,
-select an arbitrary mirror and gMCP will be downloaded and installed.
+Open R and type %\texttt{install.packages("gMCP")} 
+the following commands into the R Console:
+
+%\scriptsize
+<<echo=TRUE,eval=F>>=
+
+source("http://www.bioconductor.org/biocLite.R")
+biocLite("graph")
+install.packages("gMCP")
+
+@
+%\normalsize
+
+Select an arbitrary mirror and gMCP will be downloaded and installed.
 
 From now on you can load the gMCP package by entering \texttt{library(gMCP)} into the R Console.
 

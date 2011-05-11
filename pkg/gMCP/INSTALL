@@ -1,5 +1,5 @@
 The installation of gMCP via install.packages("gMCP") should be
-unproblematic for Linux and Windows users.  However two of the
+unproblematic for Linux and Windows users.  However three of the
 packages gMCP depends on or suggests can be tricky to install on
 non-windows machines.
 
@@ -55,7 +55,7 @@ Compatibility for R 2.8.0
 gMCP is still compatible with R 2.8.0 but not extensively tested.
 
 Please install the dependencies manually:
-install.packages(c("rJava", "MASS", "PolynomF", "multcomp", "graph", "gtools", "xtable", "plotrix", "JavaGD"))
+install.packages(c("rJava", "MASS", "PolynomF", "multcomp", "graph", "gtools", "xtable", "MCPAN", "JavaGD"))
 and build the current gMCP package from source for your system 
 or use a build for a current version (apart from the help pages everything should work).  
 
