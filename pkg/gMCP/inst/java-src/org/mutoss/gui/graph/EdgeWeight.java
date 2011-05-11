@@ -109,10 +109,14 @@ public class EdgeWeight {
 	}
 
 	public String getLaTeXStr() {
-		if (weight != null) {
-			return RControl.getR().eval("gMCP:::getLaTeXFraction("+weight+")").asRChar().getData()[0];
+		if (weight != null && weight.length==1) {
+			return RControl.getR().eval("gMCP:::getLaTeXFraction("+weight[0]+")").asRChar().getData()[0];
 		}
-		return weightStr.replace("ε", "$\\epsilon$");
+		String replaceStr = weightStr;
+		for (int i=0; i<greek.length; i++) {
+			replaceStr = replaceStr.replaceAll(""+greek[i], greekLaTeX[i]);
+		}
+		return replaceStr;
 	}
 	
 }

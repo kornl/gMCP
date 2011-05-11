@@ -267,7 +267,7 @@ public class NetList extends JPanel implements MouseMotionListener, MouseListene
 			String to = "bend left="+getEdges().get(i).getBendLeft();
 			String weight = getEdges().get(i).getWLaTeX();			
 			String pos = format.format(getEdges().get(i).getPos()).replace(",", ".");
-			latex += "\\draw [->,line width=1pt] ("+node1.getName().replace("_", "-")+") to["+to+"] node[pos="+pos+",above,fill=blue!20] {"+weight+"} ("+node2.getName().replace("_", "-")+");\n";
+			latex += "\\draw [->,line width=1pt] ("+node1.getName().replace("_", "-")+") to["+to+"] node[pos="+pos+",above,fill=blue!20] {$"+weight+"$} ("+node2.getName().replace("_", "-")+");\n";
 
 		}
 		latex += "\\end{tikzpicture}\n\n";
