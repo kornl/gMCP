@@ -1,4 +1,11 @@
 
+Version 0.6-5 (12-May-2011, Rev. 782)
+=====================================
+
+- Graphs without epsilon edges can be processed by a
+  much faster procedure written in C.
+
+
 Version 0.6-4 (12-May-2011, Rev. 782)
 =====================================
 
