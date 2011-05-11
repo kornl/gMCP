@@ -33,6 +33,7 @@ import org.jdesktop.swingworker.SwingWorker;
 import org.mutoss.config.Configuration;
 import org.mutoss.gui.dialogs.NumberOfHypotheses;
 import org.mutoss.gui.dialogs.RObjectLoadingDialog;
+import org.mutoss.gui.dialogs.RearrangeNodesDialog;
 import org.mutoss.gui.dialogs.TextFileViewer;
 import org.mutoss.gui.dialogs.VariableNameDialog;
 import org.mutoss.gui.graph.GraphView;
@@ -383,7 +384,7 @@ Stuttgart, 1995; 3–18.
 						"Error loading values from R", JOptionPane.ERROR_MESSAGE);
 			} 
         } else if (e.getActionCommand().equals("changeGraphLayout")) {
-        	notYetSupported();
+        	new RearrangeNodesDialog(control.getMainFrame());
         } else if (e.getActionCommand().equals("replaceVariables")) {
         	Set<String> variables = control.getNL().getAllVariables();
         	if (variables.isEmpty() || (variables.size()==1 && variables.contains("ε"))) {
