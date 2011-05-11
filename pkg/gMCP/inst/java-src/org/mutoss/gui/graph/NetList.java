@@ -594,6 +594,9 @@ public class NetList extends JPanel implements MouseMotionListener, MouseListene
 			if (((Double)e.getW(ht)[0]).isNaN()) {
 				RControl.getR().evalVoid("edgeData("+graphName+", \""+e.from.getName()+"\", \""+e.to.getName()+"\", \"variableWeight\") <- \""+e.getWS().replaceAll("\\\\", "\\\\\\\\")+"\"");
 			}
+			if (e.getW(ht)[0]==0 && e.getW(ht).length==1) {
+				RControl.getR().evalVoid(graphName +" <- removeEdge(\""+e.from.getName()+"\", \""+e.to.getName()+"\","+graphName+")");
+			}			
 		}	
 		RControl.getR().evalVoid("attr("+graphName+", \"description\") <- \""+ control.getDView().getDescription()+"\"");
 		if (verbose) { JOptionPane.showMessageDialog(null, "The graph as been exported to R under ther variable name:\n\n"+graphName, "Saved as \""+graphName+"\"", JOptionPane.INFORMATION_MESSAGE); }
