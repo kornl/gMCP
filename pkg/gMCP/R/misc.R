@@ -17,7 +17,7 @@ checkValidWeights <- function(weights) {
 parseEpsPolynom <- function(s) {
 	env <- new.env(parent = baseenv())
 	assign("epsilon", polynom(), envir=env)
-	p <- try(eval(parse(text=s), envir=env))
+	p <- try(eval(parse(text=s), envir=env), silent = TRUE)
 	if (class(p)=="try-error") {
 		stop("String does not represent a polynom in epsilon.")
 	}
