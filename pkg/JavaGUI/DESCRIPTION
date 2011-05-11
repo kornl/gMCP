@@ -1,0 +1,12 @@
+Package: JavaGUI
+Type: Package
+Title: A package 
+Version: 0.1-0
+Author: Kornelius Rohmeyer
+Maintainer: Kornelius Rohmeyer <rohmeyer@small-projects.de>
+Description: This package provides functions and a graphical user interface for graphical described multiple test procedures.
+Depends: R (>= 2.8.0), rJava (>= 0.6-3), JavaGD
+SystemRequirements: Java (>= 5.0) 
+License: GPL (>= 2)
+LazyLoad: yes
+URL: http://gsrmtp.r-forge.r-project.org/
