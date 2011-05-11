@@ -1,13 +1,23 @@
 
-Version 0.6-4 (??-???-2011, Rev. ???)
+Version 0.6-4 (??-May-2011, Rev. ???)
 =====================================
+
+- Fixed bug with saving and loading on Windows.
+
+- Fixed bug with two graphs that could not be loaded.
+
+- Fixed bug that the GUI expected a valid graph object on 
+  start up.
+  
+- Updated documentation that the graph package is not
+  available any more on CRAN. 
 
 - Layout of graph can be changed automatically from the GUI.
   
 - Graphs without epsilon edges can be processed by a
   much faster procedure written in C.
 
-
+  
 Version 0.6-3 (09-May-2011, Rev. 767)
 =====================================
 

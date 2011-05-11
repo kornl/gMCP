@@ -67,7 +67,17 @@ placeNodes <- function(graph, nrow, ncol, byrow = TRUE, force = FALSE) {
 		names(nodeX) <- nodes(graph)
 		names(nodeY) <- nodes(graph)
 		nodeRenderInfo(graph) <- list(nodeX=nodeX, nodeY=nodeY)
-	}
+		for (node in nodes(graph)) {
+			edgeL <- edgeWeights(graph)[[node]]	
+			if (length(edgeL)!=0) {
+				for (i in 1:length(edgeL)) {
+					to <- names(edgeL[i])
+					edgeData(graph, node, to, "labelX") <- -100
+					edgeData(graph, node, to, "labelY") <- -100
+				}
+			}
+		}
+	}	
 	return(graph)	
 }
 
