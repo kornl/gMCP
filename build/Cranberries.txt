@@ -626,3 +626,30 @@ Diff between gMCP versions 0.6-0 dated 2011-04-06 and 0.6-1 dated 2011-04-09
  gMCP-0.6-3/gMCP/man/substituteEps.Rd                                                 |    2 
  gMCP-0.6-3/gMCP/src/gMCP.c                                                           |   62 
  75 files changed, 1398 insertions(+), 1117 deletions(-)
+ 
+Diff between gMCP versions 0.6-3 dated 2011-05-09 and 0.6-4 dated 2011-05-11
+
+ DESCRIPTION                                                    |    6 +-
+ INSTALL                                                        |   17 +++++-
+ NEWS                                                           |   28 +++++++++-
+ R/exampleGraphs.R                                              |    2 
+ R/helperGUI.R                                                  |   12 +++-
+ R/misc.R                                                       |    2 
+ R/startGUIs.R                                                  |   15 ++---
+ TODO                                                           |    7 +-
+ inst/build.xml                                                 |    2 
+ inst/doc/AQuickStart.pdf                                       |binary
+ inst/doc/gMCP.pdf                                              |binary
+ inst/doc/gMCP/AQuickStart.Rnw                                  |   18 +++++-
+ inst/doc/gMCP/gMCP.Rnw                                         |   16 +++++
+ inst/doc/parametric.pdf                                        |binary
+ inst/java-src/org/mutoss/gui/CreateGraphGUI.java               |    4 +
+ inst/java-src/org/mutoss/gui/MenuBarMGraph.java                |   18 +++---
+ inst/java-src/org/mutoss/gui/dialogs/RearrangeNodesDialog.java |only
+ inst/java-src/org/mutoss/gui/graph/EdgeWeight.java             |   10 ++-
+ inst/java-src/org/mutoss/gui/graph/NetList.java                |    5 +
+ inst/java-src/org/mutoss/tests/FormatTest.java                 |    2 
+ inst/java/gsrmtp.jar                                           |binary
+ man/exampleGraphs.Rd                                           |    4 -
+ 22 files changed, 130 insertions(+), 38 deletions(-)
+ 

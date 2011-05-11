@@ -5,6 +5,8 @@ Version 0.6-5 (??-???-2011, Rev. ???)
 - Graphs without epsilon edges can be processed by a
   much faster procedure written in C.
 
+- New dependency: JavaGUI
+  This package contains now all the third party libraries.
 
 Version 0.6-4 (12-May-2011, Rev. 782)
 =====================================
@@ -23,6 +25,8 @@ Version 0.6-4 (12-May-2011, Rev. 782)
   available any more on CRAN. 
 
 - Layout of graph can be changed automatically from the GUI.
+
+ 22 files changed, 130 insertions(+), 38 deletions(-)
 
   
 Version 0.6-3 (09-May-2011, Rev. 767)
