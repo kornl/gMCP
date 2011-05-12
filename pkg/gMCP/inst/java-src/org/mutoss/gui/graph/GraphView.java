@@ -205,9 +205,9 @@ public class GraphView extends JPanel implements ActionListener {
 							resultUpToDate = true;
 						}
 						double[] alpha = RControl.getR().eval(""+getPView().getTotalAlpha()+"*getWeights("+result+")").asRNumeric().getData();
-						boolean[] rejected = RControl.getR().eval("getRejected("+result+")").asRLogical().getData();						
-						new DialogConfIntEstVar(parent, nl, rejected, alpha);						
+						boolean[] rejected = RControl.getR().eval("getRejected("+result+")").asRLogical().getData();
 						parent.glassPane.stop();
+						new DialogConfIntEstVar(parent, nl, rejected, alpha);
 						return null;
 					}  
 				};
@@ -228,8 +228,8 @@ public class GraphView extends JPanel implements ActionListener {
 							resultUpToDate = true;
 						}
 						boolean[] rejected = RControl.getR().eval(result+"@rejected").asRLogical().getData();				
-						new RejectedDialog(parent, rejected, parent.getGraphView().getNL().getKnoten());
 						parent.glassPane.stop();
+						new RejectedDialog(parent, rejected, parent.getGraphView().getNL().getKnoten());
 						return null;
 					}  
 				};
@@ -257,8 +257,8 @@ public class GraphView extends JPanel implements ActionListener {
 							resultUpToDate = true;
 						}
 						double[] adjPValues = RControl.getR().eval(result+"@adjPValues").asRNumeric().getData();
-						new AdjustedPValueDialog(parent, getPView().pValues, adjPValues, getNL().getKnoten());
 						parent.glassPane.stop();
+						new AdjustedPValueDialog(parent, getPView().pValues, adjPValues, getNL().getKnoten());
 						return null;
 					}  
 				};

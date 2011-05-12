@@ -112,6 +112,23 @@ public class RControl {
 		return getR().eval("exists(\""+obj+"\")").asRLogical().getData()[0];
 	}
 
+	public static String getRString(double[] x) {
+		String s = "c(";
+		for (int i=0; i<x.length; i++) {
+			double v = x[i];
+			if (v == Double.NEGATIVE_INFINITY) {
+				s += "-Inf,";
+			} else if (v == Double.POSITIVE_INFINITY) {
+				s += "Inf,";
+			} else if (v == Double.NaN){
+				s += "NaN,";
+			} else {
+				s += v+",";
+			}			
+		}
+		return s.substring(0, s.length()-1)+")";
+	}
+
 }
 
 class LoggingOutputStream extends ByteArrayOutputStream { 

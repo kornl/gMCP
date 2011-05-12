@@ -26,7 +26,9 @@ import javax.swing.event.DocumentListener;
 
 import org.af.commons.widgets.validate.RealTextField;
 import org.af.commons.widgets.validate.ValidationException;
+import org.af.jhlir.call.RNumeric;
 import org.mutoss.config.Configuration;
+import org.mutoss.gui.JavaGDPanel;
 import org.mutoss.gui.RControl;
 import org.mutoss.gui.graph.NetList;
 import org.mutoss.gui.graph.Node;
@@ -78,12 +80,14 @@ public class DialogConfIntEstVar extends JDialog implements ActionListener, Chan
 		
 		c.gridy++;
 		
+		RControl.getR().eval("JavaGD()");
+		
 		getContentPane().add(new JScrollPane(getCIPanel()), c);
 		
 		c.gridy++;
 		c.weighty=1;
 		
-		//getContentPane().add(new ConfIntPlot(this), c);
+		getContentPane().add(new JavaGDPanel(), c);
 		
 		pack();
 		setLocationRelativeTo(p);
@@ -128,47 +132,60 @@ public class DialogConfIntEstVar extends JDialog implements ActionListener, Chan
 	boolean[] rejected;
 	double[] alpha;	
 
-	private void calculateCI() {	
-			for (int i=0; i<nl.getKnoten().size(); i++) {
-				Double lb, ub;
-				String d1 = "qnorm(";
-				String d2 = ",)";			
+	private void calculateCI() {
+		
+		int n = nl.getKnoten().size();
+		double[] rLB = new double[n];
+		double[] rUB = new double[n];
+		double[] rEst = new double[n];
+		
+		for (int i=0; i<n; i++) {
+			Double lb, ub;
+			String d1 = "qnorm(";
+			String d2 = ",)";			
 
-				if (dist.get(i).getSelectedItem().equals(dists[1])) {
-					d1 = "qt(";
-					d2 = ","+Integer.parseInt(df.get(i).getValue().toString())+")";
-				}
-
-				if (alt.get(i).getSelectedItem().equals("greater")) {	
-					lb = RControl.getR().eval(d1+alpha[i]+d2).asRNumeric().getData()[0];				
-					ub = Double.POSITIVE_INFINITY;
-				} else if (alt.get(i).getSelectedItem().equals("less")) {
-					lb = Double.NEGATIVE_INFINITY;
-					ub = RControl.getR().eval(d1+(1-alpha[i])+d2).asRNumeric().getData()[0];				
-				} else {
-					lb = RControl.getR().eval(d1+alpha[i]/2+d2).asRNumeric().getData()[0];
-					ub = RControl.getR().eval(d1+(1-alpha[i]/2)+d2).asRNumeric().getData()[0];
-				}
-
-				try {
-					Double ste = var.get(i).getValidatedValue();
-					Double pEst = est.get(i).getValidatedValue();
-					double lb2 = pEst+lb*ste;
-					double ub2 = pEst+ub*ste;
-					if (alt.get(i).getSelectedItem().equals("greater")) {
-						if (rejected[i]) {
-							lb2 = Math.max(lb2, 0);
-						}
-					} else if (alt.get(i).getSelectedItem().equals("less")) {
-						if (rejected[i]) {
-							ub2 = Math.min(ub2, 0);
-						}
-					}
-					ci.get(i).setText("]"+format.format(lb2)+","+format.format(ub2)+"[");
-				} catch (ValidationException e) {
-					ci.get(i).setText("Please specify a real decimal number for the estimate!");
-				}
+			if (dist.get(i).getSelectedItem().equals(dists[1])) {
+				d1 = "qt(";
+				d2 = ","+Integer.parseInt(df.get(i).getValue().toString())+")";
 			}
+
+			if (alt.get(i).getSelectedItem().equals("greater")) {	
+				lb = RControl.getR().eval(d1+alpha[i]+d2).asRNumeric().getData()[0];				
+				ub = Double.POSITIVE_INFINITY;
+			} else if (alt.get(i).getSelectedItem().equals("less")) {
+				lb = Double.NEGATIVE_INFINITY;
+				ub = RControl.getR().eval(d1+(1-alpha[i])+d2).asRNumeric().getData()[0];				
+			} else {
+				lb = RControl.getR().eval(d1+alpha[i]/2+d2).asRNumeric().getData()[0];
+				ub = RControl.getR().eval(d1+(1-alpha[i]/2)+d2).asRNumeric().getData()[0];
+			}
+
+			try {
+				Double ste = var.get(i).getValidatedValue();
+				Double pEst = est.get(i).getValidatedValue();				
+				double lb2 = pEst+lb*ste;
+				double ub2 = pEst+ub*ste;
+				if (alt.get(i).getSelectedItem().equals("greater")) {
+					if (rejected[i]) {
+						lb2 = Math.max(lb2, 0);
+					}
+				} else if (alt.get(i).getSelectedItem().equals("less")) {
+					if (rejected[i]) {
+						ub2 = Math.min(ub2, 0);
+					}
+				}
+				rLB[i]  = lb2;
+				rUB[i]  = ub2;
+				rEst[i] = pEst;
+				ci.get(i).setText("]"+format.format(lb2)+","+format.format(ub2)+"[");
+			} catch (ValidationException e) {
+				ci.get(i).setText("Please specify a real decimal number for the estimate!");
+			}
+		}
+		
+		RControl.getR().eval("plotCII("+RControl.getRString(rEst)+", "
+				+RControl.getRString(rLB)+", "
+				+RControl.getRString(rUB)+")");
 	}
 
 	DecimalFormat format = Configuration.getInstance().getGeneralConfig().getDecFormat();
