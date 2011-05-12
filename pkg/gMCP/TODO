@@ -1,7 +1,7 @@
 Critical (blocks new release):
 ==============================
 
-- Nothing critical
+- Think about JavaGD devices. (User wants to plot in R Console etc.)
 
 High priority:
 ==============
@@ -22,7 +22,7 @@ Medium priority:
 
 - If Error Report sending fails, give user the option to send the log files as zip file
 - Does Indefinite ProgressPanel slow the calculation significantly down ?!?
-- Visualization of CI
+- Improve visualization of CI (estimates should be a named vector)
 - graphAnalysis: Graph can be optimal despite the fact that some nodes are not accessible from others
 - Warn user when sum of edge weights is bigger than 1
 - Check mutator methods for errors (alpha > 1, edge weights > 1)
@@ -42,7 +42,6 @@ Medium priority:
 Additional features / low priority:
 ===================================
 
-- Disable/Enable in RearrangeNodesDialog & exact row and column calculations. 
 - Do we really need PolynomF and gtools and xtable as dependencies?
 - Don't create global variable like .tmpGraph etc.
 - Report generation in GUI (and respect the option whether to show rejected null hypothesis)
