@@ -4,28 +4,20 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.text.DecimalFormat;
 import java.util.Date;
-import java.util.List;
-import java.util.Vector;
 
 import javax.swing.ButtonGroup;
-import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JDialog;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JRadioButton;
 import javax.swing.JSpinner;
-import javax.swing.JTextField;
 import javax.swing.SpinnerNumberModel;
 
 import org.af.commons.widgets.buttons.OkCancelButtonPane;
-import org.mutoss.config.Configuration;
 import org.mutoss.gui.CreateGraphGUI;
 import org.mutoss.gui.RControl;
 import org.mutoss.gui.graph.GraphView;
-import org.mutoss.gui.graph.Node;
 
 public class RearrangeNodesDialog extends JDialog implements ActionListener {
 
@@ -55,6 +47,8 @@ public class RearrangeNodesDialog extends JDialog implements ActionListener {
 		ButtonGroup group = new ButtonGroup();
 	    group.add(jrbCircle);
 	    group.add(jrbMatrix);
+	    jrbCircle.addActionListener(this);
+	    jrbMatrix.addActionListener(this);
 		
 		int n = mainFrame.getGraphView().getNL().getKnoten().size();
 		tfRows = new JSpinner(new SpinnerNumberModel(Math.round(Math.sqrt(n)), 1, n, 1));
@@ -77,6 +71,10 @@ public class RearrangeNodesDialog extends JDialog implements ActionListener {
 		getContentPane().add(tfCols, c);
 		c.gridy++;c.gridx=0;
 		
+		c.gridx=1;
+		getContentPane().add(jByRow, c);
+		c.gridy++;c.gridx=0;
+		
 		c.gridx = 1; c.gridwidth = 2;
 		pane.addActionListener(this);
 		getContentPane().add(pane, c);
@@ -89,6 +87,9 @@ public class RearrangeNodesDialog extends JDialog implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
+		if (e.getSource() == jrbCircle || e.getSource() == jrbMatrix) {
+			enableButtons(jrbMatrix.isSelected()); 
+		}
 		if (e.getActionCommand().equals(OkCancelButtonPane.OK_CMD)) {			
 			String rows = tfRows.getModel().getValue().toString();
 			String cols = tfCols.getModel().getValue().toString();
@@ -98,8 +99,17 @@ public class RearrangeNodesDialog extends JDialog implements ActionListener {
 			control.getNL().saveGraph(graphName, false);
 			RControl.getR().eval(graphName +" <- placeNodes("+graphName+layout+", force = TRUE)");
 			control.getNL().loadGraph(graphName);
+			dispose();
 		}
-		dispose();		
+		if (e.getActionCommand().equals(OkCancelButtonPane.CANCEL_CMD)) {
+			dispose();
+		}
+	}
+
+	private void enableButtons(boolean selected) {
+		tfRows.setEnabled(selected);
+		tfCols.setEnabled(selected);
+		jByRow.setEnabled(selected);
 	}
 
 }
