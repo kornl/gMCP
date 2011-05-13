@@ -1,6 +1,0 @@
-package org.mutoss.gui.contrasts;
-
-import org.af.commons.widgets.lists.SplitList;
-
-public class LevelOrderSL extends SplitList<String> {
-}
