@@ -1,7 +1,7 @@
 Package: JavaGUI
 Type: Package
 Title: Guide and useful libraries for building a Java based GUI under R
-Version: 0.1-0
+Version: 0.1-1
 Author: Kornelius Rohmeyer
 Maintainer: Kornelius Rohmeyer <rohmeyer@small-projects.de>
 Description: Guide and useful libraries for building a Java based GUI under R
