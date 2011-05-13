@@ -38,7 +38,7 @@ public class RControl {
 	protected RControl(boolean debug) {
 		if (!LoggingSystem.alreadyInitiated()) {
 			LoggingSystem.init(
-					"/org/mutoss/gui/commons-logging.properties",
+					"/org/af/gMCP/gui/commons-logging.properties",
 					System.getProperty("eclipse") == null && !debug,
 					System.getProperty("eclipse") != null || debug,
 					new ApplicationLog());

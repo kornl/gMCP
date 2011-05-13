@@ -238,7 +238,7 @@ public class PView extends JPanel implements KeyListener, ActionListener {
 		
 		try {
 			refresh = new JButton(new ImageIcon(ImageIO.read(DesktopPaneBG.class
-					.getResource("/org/mutoss/gui/graph/images/update24.png"))));
+					.getResource("/org/af/gMCP/gui/graph/images/update24.png"))));
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

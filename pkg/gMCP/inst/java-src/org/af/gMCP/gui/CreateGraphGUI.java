@@ -45,7 +45,7 @@ public class CreateGraphGUI extends JFrame implements WindowListener, AbortListe
 		Locale.setDefault(Locale.US);
 		JComponent.setDefaultLocale(Locale.US); 
 		RControl.getRControl(debug);
-		Localizer.getInstance().addResourceBundle("org.mutoss.gui.ResourceBundle");
+		Localizer.getInstance().addResourceBundle("org.af.gMCP.gui.ResourceBundle");
 		if (grid>0) {
 			Configuration.getInstance().getGeneralConfig().setGridSize((int)grid);
 		}
@@ -59,7 +59,7 @@ public class CreateGraphGUI extends JFrame implements WindowListener, AbortListe
 		Configuration.getInstance().getGeneralConfig().setNumberOfStarts(n+1);		
 		logger.info("gMCP start No. "+n+1);
 		
-		setIconImage((new ImageIcon(getClass().getResource("/org/mutoss/gui/graph/images/rjavaicon64.png"))).getImage());
+		setIconImage((new ImageIcon(getClass().getResource("/org/af/gMCP/gui/graph/images/rjavaicon64.png"))).getImage());
 		
 		// Fenster in der Mitte des Bildschirms platzieren mit inset = 50 Pixeln Rand.
 		int inset = 50;

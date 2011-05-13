@@ -110,35 +110,35 @@ public class GraphView extends JPanel implements ActionListener {
 			
 			buttonNewVertex = new JButton(
 					new ImageIcon(ImageIO.read(DesktopPaneBG.class
-											.getResource("/org/mutoss/gui/graph/images/vertex.png"))));
+											.getResource("/org/af/gMCP/gui/graph/images/vertex.png"))));
 			toolPanel.add(buttonNewVertex);
 			buttonNewVertex.addActionListener(this);
 			buttonNewVertex.setToolTipText("new vertex");
 			
 			buttonNewEdge = new JButton(
 					new ImageIcon(ImageIO.read(DesktopPaneBG.class
-											.getResource("/org/mutoss/gui/graph/images/edge.png"))));
+											.getResource("/org/af/gMCP/gui/graph/images/edge.png"))));
 			toolPanel.add(buttonNewEdge);
 			buttonNewEdge.addActionListener(this);
 			buttonNewEdge.setToolTipText("new edge");
 			
 			buttonZoomOut = new JButton(
 					new ImageIcon(ImageIO.read(DesktopPaneBG.class
-											.getResource("/org/mutoss/gui/graph/images/zoom_out.png"))));
+											.getResource("/org/af/gMCP/gui/graph/images/zoom_out.png"))));
 			toolPanel.add(buttonZoomOut);
 			buttonZoomOut.addActionListener(this);
 			buttonZoomOut.setToolTipText("zoom out");
 			
 			buttonZoomIn = new JButton(
 					new ImageIcon(ImageIO.read(DesktopPaneBG.class
-											.getResource("/org/mutoss/gui/graph/images/zoom_in.png"))));
+											.getResource("/org/af/gMCP/gui/graph/images/zoom_in.png"))));
 			toolPanel.add(buttonZoomIn);
 			buttonZoomIn.addActionListener(this);
 			buttonZoomIn.setToolTipText("zoom in");
 			
 			buttonStart = new JButton(
 					new ImageIcon(ImageIO.read(DesktopPaneBG.class
-											.getResource("/org/mutoss/gui/graph/images/StartTesting.png"))));
+											.getResource("/org/af/gMCP/gui/graph/images/StartTesting.png"))));
 			toolPanel.add(buttonStart);
 			buttonStart.addActionListener(this);
 			buttonStart.setEnabled(false);
@@ -146,7 +146,7 @@ public class GraphView extends JPanel implements ActionListener {
 			
 			buttonadjPval = new JButton(
 					new ImageIcon(ImageIO.read(DesktopPaneBG.class
-											.getResource("/org/mutoss/gui/graph/images/adjPval.png"))));
+											.getResource("/org/af/gMCP/gui/graph/images/adjPval.png"))));
 			toolPanel.add(buttonadjPval);			
 			buttonadjPval.addActionListener(this);
 			buttonadjPval.setEnabled(false);
@@ -154,7 +154,7 @@ public class GraphView extends JPanel implements ActionListener {
 			
 			buttonConfInt = new JButton(
 					new ImageIcon(ImageIO.read(DesktopPaneBG.class
-											.getResource("/org/mutoss/gui/graph/images/confint2.png"))));
+											.getResource("/org/af/gMCP/gui/graph/images/confint2.png"))));
 			toolPanel.add(buttonConfInt);
 			buttonConfInt.addActionListener(this);
 			buttonConfInt.setEnabled(false);
