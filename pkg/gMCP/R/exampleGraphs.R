@@ -124,7 +124,7 @@ graphFromHommelEtAl2007 <- function() {
 	attr(graph, "description") <- paste("Graph representing the procedure from Hommel et al. (2007)", 
 			"",
 			"In this clinical trial example three primary endpoints are investigated: QoL (Quality of Life score), E1 and E2.",
-			"If QoL is rejected, four secondary hypotheses D1, D2, D3 and D4 should also be tested.",
+			"If QoL is rejected, four secondary hypotheses D1, D2, D3 and D4 are also be tested.",
 			"",
 			"Literature: Hommel, G., Bretz, F. und Maurer, W. (2007). Powerful short-cuts for multiple testing procedures with special reference to gatekeeping strategies. Statistics in Medicine, 26(22), 4063-4073.", sep="\n")
 	return(graph)	

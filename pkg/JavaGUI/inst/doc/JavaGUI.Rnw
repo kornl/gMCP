@@ -1,0 +1,42 @@
+\documentclass[a4paper, 10pt]{article}
+\usepackage[T1]{fontenc}
+\usepackage{url}
+\usepackage{Sweave}
+\usepackage{graphicx}
+\usepackage{tikz}
+\usetikzlibrary{snakes,arrows,shapes}
+\usepackage[margin=0.9in]{geometry}
+\usepackage{url}
+\usepackage{hyperref}
+\usepackage{listings}
+\usepackage{xspace}
+\usepackage[numbers]{natbib}
+%\usepackage[left=3cm,right=3cm,top=2cm,bottom=2cm]{geometry}
+\usepackage{amsmath,amsthm,amsfonts,amssymb}
+\bibliographystyle{plainnat}
+\setlength{\parindent}{0mm}
+\setlength{\parskip}{1mm}
+\newcommand{\commentout}[1]{}
+
+\begin{document}
+
+% \VignetteIndexEntry{A Package with useful libraries for Java GUIs}
+
+\title{JavaGUI - A Package with useful libraries for Java GUIs} 
+
+\author{Kornelius Rohmeyer}
+
+\maketitle
+
+\section{Introduction}
+
+This package provides functions and graphical user interfaces for
+graph based multiple test procedures.  These graphs define a weighting
+strategy for all subsets of null hypotheses and following the closed
+test procedure weighted tests can be performed on these subsets
+leading to a multiple test procedure controlling the family wise error
+rate in the strong sense. In some cases shortcuts are available, for
+example the weighted Bonferroni procedure leads to a sequentially
+rejective multiple test procedure.
+
+\end{document}

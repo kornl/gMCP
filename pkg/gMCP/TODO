@@ -23,7 +23,7 @@ Medium priority:
 
 - If Error Report sending fails, give user the option to send the log files as zip file
 - Does Indefinite ProgressPanel slow the calculation significantly down ?!?
-- Improve visualization of CI (estimates should be a named vector)
+- Improve visualization of CI (estimates should be a named vector - 0 estimates are often a strange choice - patch plotCII?)
 - graphAnalysis: Graph can be optimal despite the fact that some nodes are not accessible from others
 - Warn user when sum of edge weights is bigger than 1
 - Check mutator methods for errors (alpha > 1, edge weights > 1)
