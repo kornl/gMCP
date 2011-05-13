@@ -1,4 +1,4 @@
-package org.af.gMCP.gui;
+package org.mutoss.gui;
 
 import java.awt.Component;
 import java.awt.GridBagConstraints;
