@@ -27,5 +27,5 @@ graphGUI <- function(graph="createdGraph", pvalues=numeric(0), grid=0, debug=FAL
 			}
 		}
 	}
-	invisible(.jnew("org/mutoss/gui/CreateGraphGUI", make.names(graph), pvalues, debug, grid))	
+	invisible(.jnew("org/af/gMCP/gui/CreateGraphGUI", make.names(graph), pvalues, debug, grid))	
 }
