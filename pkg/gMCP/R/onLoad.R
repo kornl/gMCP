@@ -55,4 +55,20 @@
 			}
 		}
 	}
+	
+	if(!require("graph", character.only=TRUE)) {
+		if (interactive()) {
+			cat("Required package graph is missing.\n")
+			answer <- readline("Do you want to install it (y/N)? ")
+			if (substr(answer, 1, 1) %in% c("y","Y")) {
+				source("http://bioconductor.org/biocLite.R")
+				biocLite("graph")
+				require("graph")
+			} else {
+				warning("Please install package graph from Bioconductor to use gMCP!")
+			}
+		} else {
+			warning("Please install package graph from Bioconductor to use gMCP!")
+		}
+	}
 }  
