@@ -56,6 +56,9 @@
 		}
 	}
 	
+	# UNFORTUNATELY THIS DOES NOT WORK, SINCE THE LOADING FAILS EARLIER (graph as suggest would be a workaround):
+	# If only install.packages("gMCP") is called, the package graph is still missing.
+	# For these people (who did not follow the install instructions) we install the graph package:
 	if(!require("graph", character.only=TRUE)) {
 		if (interactive()) {
 			cat("Required package graph is missing.\n")
