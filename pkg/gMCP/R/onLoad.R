@@ -20,7 +20,7 @@
 		}		
 	}
 	
-	classes <- system.file("java", package = "JavaGUI", lib.loc = NULL)
+	classes <- system.file("java", package = "CommonJavaJars", lib.loc = NULL)
 	if (nchar(classes)) {
 		.jaddClassPath(classes)
 		jars <- grep(".*\\.jar", list.files(classes, full.names = TRUE), TRUE, value = TRUE)
@@ -31,7 +31,7 @@
 	
 	# If we have a rJava version < 0.8-3 load JRIEngine.jar and REngine.jar
     if (!is.null(sessionInfo()$otherPkgs$rJava$Version) && sessionInfo()$otherPkgs$rJava$Version < "0.8-3") {
-		classes <- system.file("R28", package = "gMCP", lib.loc = NULL)
+		classes <- system.file("R28", package = "CommonJavaJars", lib.loc = NULL)
 		if (nchar(classes)) {
 			.jaddClassPath(classes)
 			jars <- grep(".*\\.jar", list.files(classes, full.names = TRUE), TRUE, value = TRUE)

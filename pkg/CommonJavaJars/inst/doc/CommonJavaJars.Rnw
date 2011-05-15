@@ -28,10 +28,37 @@
 
 %\maketitle
 
-\section{Introduction}
+<<echo=FALSE,results=hide>>=
+
+options(width=140)
+options(prompt=" ", continue=" ")
+options(digits=4)
+
+@
+
+\section*{CommonJavaJars - A Package with useful libraries for Java GUIs}
+
+To reduce the package size of other R packages with Java GUIs and to reduce jar file conflicts,
+this package provides a few commonly used Java packages.
+
+You should be able to load them by calling similar code 
+as the following in the \texttt{.onLoad} function of your package:
+
+<<echo=TRUE,eval=F>>=
+
+classes <- system.file("java", package = "JavaGD", lib.loc = NULL)
+if (nchar(classes)) {
+	.jaddClassPath(classes)
+	jars <- grep(".*\\.jar", list.files(classes, full.names = TRUE), TRUE, value = TRUE)
+	if (length(jars)) { 
+		.jaddClassPath(jars)
+	}		
+}
+
+@
 
 We provide the following Java libraries:
-\itemize{
+\begin{itemize}
  \item Apache Commons Logging under the Apache License, Version 2.0, January 2004, \url{http://commons.apache.org/logging/}, Copyright 2001-2007 The Apache Software Foundation 
  \item Apache jog4j under Apache License 2.0, \url{http://logging.apache.org/log4j/}, Copyright 2007 The Apache Software Foundation
  \item Apache Commons Lang under  Apache License 2.0, \url{http://commons.apache.org/lang/}, Copyright 2001-2011 The Apache Software Foundation
@@ -48,6 +75,6 @@ We provide the following Java libraries:
  \item SGTK under BSD License, \url{http://www.algorithm-forge.com/rjavaclient/}, Copyright (c) 2007-2010 by Bernd Bischl and Kornelius Rohmeyer 
  \item MySQL-Connector under GPL 2, \url{http://www.mysql.com/downloads/connector/j/}, Copyright (c) 2000, 2010 by Oracle and/or its affiliates
  \item JRIEngine and REngine under GPL-2, \url{http://www.rforge.net/rJava/}, Copyright 2010 by Simon Urbanek 
- } 
+\end{itemize} 
 
 \end{document}
