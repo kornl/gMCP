@@ -1,12 +1,12 @@
-Package: JavaGUI
+Package: CommonJavaJars
 Type: Package
-Title: Guide and useful libraries for building a Java based GUI under R
+Title: Useful libraries for building a Java based GUI under R
 Version: 0.1-1
 Author: Kornelius Rohmeyer
 Maintainer: Kornelius Rohmeyer <rohmeyer@small-projects.de>
-Description: Guide and useful libraries for building a Java based GUI under R
+Description: Useful libraries for building a Java based GUI under R
 Depends: R (>= 2.8.0), rJava (>= 0.6-3), JavaGD
 SystemRequirements: Java (>= 5.0) 
-License: GPL (>= 2)
+License: GPL-2
 LazyLoad: yes
 URL: http://gsrmtp.r-forge.r-project.org/
