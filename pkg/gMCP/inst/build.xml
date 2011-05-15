@@ -30,7 +30,7 @@
 	        <fileset dir="${content.root}/../../../build">
 	        	<include name="*.jar"/>	        		        	
 	        </fileset>
-		<fileset dir="${content.root}/../inst/java">
+		<fileset dir="${content.root}/../../CommonJavaJars/inst/java">
 		      	<include name="*.jar"/>	        		        	
 	    </fileset>
 	</path> 
