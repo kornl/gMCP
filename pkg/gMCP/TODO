@@ -4,6 +4,7 @@ Critical (blocks new release):
 - Think about JavaGD devices. (User wants to plot in R Console etc.)
 - Does Deducer interfere with "-Xrs" or JavaGD? (When is .onLoad executed?)  
 - Variable handling on command line gMCP!
+- Decide whether JHLIR should go into JavaGUI.
 
 High priority:
 ==============
@@ -44,6 +45,8 @@ Medium priority:
 Additional features / low priority:
 ===================================
 
+- What exactly are the consequences, if we set "Encoding: UTF-8" in the description file?
+  - Are there other possibilities to pretty-print the \epsilon, etc.? (Most likely not worth the work.)
 - Do we really need PolynomF and gtools and xtable as dependencies?
 - Don't create global variable like .tmpGraph etc.
 - Report generation in GUI (and respect the option whether to show rejected null hypothesis)
