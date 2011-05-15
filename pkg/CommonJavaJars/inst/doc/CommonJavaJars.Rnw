@@ -39,14 +39,14 @@ options(digits=4)
 \section*{CommonJavaJars - A Package with useful libraries for Java GUIs}
 
 To reduce the package size of other R packages with Java GUIs and to reduce jar file conflicts,
-this package provides a few commonly used Java packages.
+this package provides a few commonly used Java libraries.
 
 You should be able to load them by calling similar code 
 as the following in the \texttt{.onLoad} function of your package:
 
 <<echo=TRUE,eval=F>>=
 
-classes <- system.file("java", package = "JavaGD", lib.loc = NULL)
+classes <- system.file("java", package = "CommonJavaJars", lib.loc = NULL)
 if (nchar(classes)) {
 	.jaddClassPath(classes)
 	jars <- grep(".*\\.jar", list.files(classes, full.names = TRUE), TRUE, value = TRUE)
