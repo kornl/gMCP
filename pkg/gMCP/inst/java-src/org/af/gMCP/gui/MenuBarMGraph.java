@@ -82,8 +82,8 @@ public class MenuBarMGraph extends JMenuBar implements ActionListener {
 		menu.add(subMenu);
 		
 		subMenu = new JMenu("3 unstructured hypotheses");
-		subMenu.add(makeMenuItem("Improved fallback procedure I", "fallbackI", false));
-		subMenu.add(makeMenuItem("Improved fallback procedure II", "fallbackII", false));
+		subMenu.add(makeMenuItem("Improved fallback procedure I", "fallbackI"));
+		subMenu.add(makeMenuItem("Improved fallback procedure II", "fallbackII"));
 		menu.add(subMenu);		
 		
 		subMenu = new JMenu("2 primary & 2 secondary hypotheses");		
@@ -332,6 +332,10 @@ Stuttgart, 1995; 3–18.
         	loadGraph("graphFromHungEtWang2010()");
         } else if (e.getActionCommand().equals("maurer1995")) {     	
         	loadGraph("graphFromMaurerEtAl1995()");
+        } else if (e.getActionCommand().equals("fallbackI")) {     	
+        	loadGraph("improvedFallbackGraphI()");
+        } else if (e.getActionCommand().equals("fallbackII")) {     	
+        	loadGraph("improvedFallbackGraphII()");
         } else if (e.getActionCommand().equals("showLog")) {    	
         	showLog();
         } else if (e.getActionCommand().equals("reportError")) {       	
