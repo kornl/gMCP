@@ -49,8 +49,6 @@ We provide the following Java libraries:
  } 
 }
 \keyword{ package }
-\keyword{ graphs }
-\keyword{ htest }
 
 \examples{
 

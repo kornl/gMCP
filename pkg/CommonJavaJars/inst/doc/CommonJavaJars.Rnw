@@ -45,7 +45,7 @@ You should be able to load them by calling the rJava \texttt{.jpackage} function
 
 <<echo=TRUE,eval=F>>=
 
-.jpackage(CommonJavaJars, jars=c("forms-1.2.0.jar", "iText-2.1.4.jar"))
+.jpackage("CommonJavaJars", jars=c("forms-1.2.0.jar", "iText-2.1.4.jar"))
 
 @
 

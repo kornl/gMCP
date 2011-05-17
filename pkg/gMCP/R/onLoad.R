@@ -1,8 +1,8 @@
 .onLoad <- function(libname, pkgname) {
 	.jinit(parameters="-Xrs")
 	.jpackage(pkgname)	
-	.jpackage(JavaGD)
-	.jpackage(CommonJavaJars)
+	.jpackage("JavaGD")
+	.jpackage("CommonJavaJars")
 	
 	# The following few lines are based on the code of the rJava .jpackage function
 	classes <- system.file("jri", package = "rJava", lib.loc = NULL)
