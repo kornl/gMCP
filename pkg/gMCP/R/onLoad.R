@@ -1,26 +1,11 @@
 .onLoad <- function(libname, pkgname) {
 	.jinit(parameters="-Xrs")
-	.jpackage(pkgname)
-
+	.jpackage(pkgname)	
+	.jpackage(JavaGD)
+	.jpackage(CommonJavaJars)
+	
+	# The following few lines are based on the code of the rJava .jpackage function
 	classes <- system.file("jri", package = "rJava", lib.loc = NULL)
-	if (nchar(classes)) {
-		.jaddClassPath(classes)
-		jars <- grep(".*\\.jar", list.files(classes, full.names = TRUE), TRUE, value = TRUE)
-		if (length(jars)) { 
-			.jaddClassPath(jars)
-		}		
-	}
-	
-	classes <- system.file("java", package = "JavaGD", lib.loc = NULL)
-	if (nchar(classes)) {
-		.jaddClassPath(classes)
-		jars <- grep(".*\\.jar", list.files(classes, full.names = TRUE), TRUE, value = TRUE)
-		if (length(jars)) { 
-			.jaddClassPath(jars)
-		}		
-	}
-	
-	classes <- system.file("java", package = "CommonJavaJars", lib.loc = NULL)
 	if (nchar(classes)) {
 		.jaddClassPath(classes)
 		jars <- grep(".*\\.jar", list.files(classes, full.names = TRUE), TRUE, value = TRUE)

@@ -20,9 +20,9 @@
 
 \begin{document}
 
-% \VignetteIndexEntry{A Package with useful libraries for Java GUIs}
+% \VignetteIndexEntry{A package with useful libraries for Java GUIs}
 
-\title{CommonJavaJars - A Package with useful libraries for Java GUIs} 
+\title{CommonJavaJars - A package with useful libraries for Java GUIs} 
 
 \author{Kornelius Rohmeyer}
 
@@ -36,24 +36,16 @@ options(digits=4)
 
 @
 
-\section*{CommonJavaJars - A Package with useful libraries for Java GUIs}
+\section*{CommonJavaJars - A package with useful libraries for Java GUIs}
 
 To reduce the package size of other R packages with Java GUIs and to reduce jar file conflicts,
 this package provides a few commonly used Java libraries.
 
-You should be able to load them by calling similar code 
-as the following in the \texttt{.onLoad} function of your package:
+You should be able to load them by calling the rJava \texttt{.jpackage} function (a good place is most likely the \texttt{.onLoad} function of your package):
 
 <<echo=TRUE,eval=F>>=
 
-classes <- system.file("java", package = "CommonJavaJars", lib.loc = NULL)
-if (nchar(classes)) {
-	.jaddClassPath(classes)
-	jars <- grep(".*\\.jar", list.files(classes, full.names = TRUE), TRUE, value = TRUE)
-	if (length(jars)) { 
-		.jaddClassPath(jars)
-	}		
-}
+.jpackage(CommonJavaJars, jars=c("forms-1.2.0.jar", "iText-2.1.4.jar"))
 
 @
 
