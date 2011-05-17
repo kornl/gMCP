@@ -8,6 +8,8 @@
 \alias{graphFromHommelEtAl2007}
 \alias{graphFromHungEtWang2010}
 \alias{graphFromMaurerEtAl1995}
+\alias{improvedFallbackGraphI}
+\alias{improvedFallbackGraphII}
 \alias{cycleGraph}
 \title{
 	Functions that create different example graphs
@@ -27,6 +29,8 @@
 	graphFromHungEtWang2010()
 	graphFromHommelEtAl2007()
 	graphFromMaurerEtAl1995()
+	improvedFallbackGraphI(weights=rep(1/3, 3))
+	improvedFallbackGraphII(weights=rep(1/3, 3))
 	cycleGraph(nodes, weights)
 }
 
@@ -48,28 +52,34 @@
 		The result is a complete graph, where all nodes have the same weights and each edge weight is \eqn{\frac{1}{n-1}}{1/(n-1)}.
 	}
 	\item{\code{graphFromBretzEtAl2011}}{
-		Example graph in figure 2 from Bretz et al. See references (Bretz et al. 2011).
+		Graph in figure 2 from Bretz et al. See references (Bretz et al. 2011).
 	}
 	\item{\code{graph2FromBretzEtAl2011}}{
-		Example graph in figure 6 from Bretz et al. See references (Bretz et al. 2011).
+		Graph in figure 6 from Bretz et al. See references (Bretz et al. 2011).
 	}
 	\item{\code{graphFromHommelEtAl2007}}{
-		Example graph from Hommel et al. See references (Hommel et al. 2007).
+		Graph from Hommel et al. See references (Hommel et al. 2007).
 	}
 	\item{\code{graphForParallelGatekeeping}}{
-		Example graph for parallel gatekeeping. See references (Dmitrienko et al. 2003).
+		Graph for parallel gatekeeping. See references (Dmitrienko et al. 2003).
 	}
 	\item{\code{graphForImprovedParallelGatekeeping}}{
-		Example graph for improved parallel gatekeeping. See references (Hommel et al. 2007).
+		Graph for improved parallel gatekeeping. See references (Hommel et al. 2007).
 	}
 	\item{\code{graphFromHungEtWang2010}}{
-	    Example graph from Hung et Wang. See references (Hung et Wang 2010).
+	    Graph from Hung et Wang. See references (Hung et Wang 2010).
 	}
 	\item{\code{graphFromMaurerEtAl1995}}{
-	    Example graph from Maurer et al. See references (Maurer et al. 1995).
+	    Graph from Maurer et al. See references (Maurer et al. 1995).
 	}
 	\item{\code{cycleGraph}}{
 		Cycle graph. The weight \code{weights[i]} specifies the edge weight from node \eqn{i}{i} to node \eqn{i+1}{i+1} for \eqn{i=1,\ldots,n-1}{i=1,...,n-1} and \code{weight[n]} from node \eqn{n}{n} to node 1. 
+	}
+	\item{\code{improvedFallbackGraphI}}{
+	    Graph for the improved Fallback Procedure by Wiens & Dmitrienko. See references (Wiens et Dmitrienko 2005).
+	}
+	\item{\code{improvedFallbackGraphII}}{
+	    Graph for the improved Fallback Procedure by Hommel & Bretz. See references (Hommel et Bretz 2008).
 	}
   }	
 }
@@ -88,9 +98,13 @@ Bretz, F., Maurer, W. and Hommel, G. (2011), Test and power considerations for m
 
 Hommel, G., Bretz, F. und Maurer, W. (2007). Powerful short-cuts for multiple testing procedures with special reference to gatekeeping strategies. Statistics in Medicine, 26(22), 4063-4073.
 
+Hommel, G., Bretz, F. (2008): Aesthetics and power considerations in multiple testing - a contradiction? Biometrical Journal 50:657-666.
+
 Hung H.M.J., Wang S.-J. (2010). Challenges to multiple testing in clinical trials. Biometrical Journal 52, 747-756.
 
 W. Maurer, L. Hothorn, W. Lehmacher: Multiple comparisons in drug clinical trials and preclinical assays: a-priori ordered hypotheses. In Biometrie in der chemisch-pharmazeutischen Industrie, Vollmar J (ed.). Fischer Verlag: Stuttgart, 1995; 3-18.
+
+Wiens, B.L., Dmitrienko, A. (2005): The fallback procedure for evaluating a single family of hypotheses. Journal of Biopharmaceutical Statistics 15:929-942.
 }
 \author{
 Kornelius Rohmeyer \email{rohmeyer@small-projects.de}

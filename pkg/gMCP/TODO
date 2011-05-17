@@ -4,7 +4,6 @@ Critical (blocks new release):
 - Think about JavaGD devices. (User wants to plot in R Console etc.)
 - Does Deducer interfere with "-Xrs" or JavaGD? (When is .onLoad executed?)  
 - Variable handling on command line gMCP!
-- Decide whether JHLIR should go into JavaGUI.
 
 High priority:
 ==============
@@ -19,6 +18,7 @@ High priority:
 - Variable node weights
 - matrix2graph, graph2matrix have to deal with character matrices in case of variable graphs
 - When not using JLaTeXMath graphs with variables are not shown and saved(?) correctly
+- Compare improvedFallbackGraphII with literature
 
 Medium priority:
 ================

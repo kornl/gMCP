@@ -5,7 +5,7 @@ Version 0.6-5 (??-???-2011, Rev. ???)
 - Graphs without epsilon edges can be processed by a
   much faster procedure written in C.
 
-- New dependency: JavaGUI
+- New dependency: CommonJavaJars
   This package contains now all the third party libraries.
   
 - Improved placeNodes dialog.
