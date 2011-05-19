@@ -345,7 +345,7 @@ Stuttgart, 1995; 3–18.
         } else if (e.getActionCommand().equals("showAppHelp")) {
         	showFile("doc/gMCP.pdf");       	 	
         } else if (e.getActionCommand().equals("showParametric")) {
-        	showFile("doc/correlated.pdf");       	 	
+        	showFile("doc/parametric.pdf");       	 	
         } else if (e.getActionCommand().equals("showManual")) {
         	showURL("http://cran.at.r-project.org/web/packages/gMCP/gMCP.pdf");
         } else if (e.getActionCommand().equals("showReferences")) {
@@ -415,7 +415,7 @@ Stuttgart, 1995; 3–18.
 	}
 
 	public void showFile(String s) {
-		File f = new File(RControl.getR().eval("system.file(\""+s+"\", package=\"gMCP\")").asRChar().getData()[0]);
+		File f = new File(RControl.getR().eval("system.file(\""+s+"\", package=\"gMCP\")").asRChar().getData()[0].replace('\\', '/'));
 		if (OSTools.isWindows() && s.indexOf('.') == -1) {
 			try {
 				f = FileTransfer.copyFile(f, new File(System.getProperty("java.io.tmpdir"), f.getName()+"TXT"));

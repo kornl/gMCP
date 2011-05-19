@@ -280,7 +280,7 @@ public class GraphView extends JPanel implements ActionListener {
 		buttonNewEdge.setEnabled(true);
 		try {
 			buttonStart.setIcon(new ImageIcon(ImageIO.read(DesktopPaneBG.class
-					.getResource("/org/mutoss/gui/graph/images/StartTesting.png"))));
+					.getResource("/org/af/gMCP/gui/graph/images/StartTesting.png"))));
 		} catch (IOException ex) {
 			ErrorHandler.getInstance().makeErrDialog(ex.getMessage(), ex);
 		}
@@ -296,7 +296,7 @@ public class GraphView extends JPanel implements ActionListener {
 			buttonNewVertex.setEnabled(false);
 			buttonNewEdge.setEnabled(false);				
 			buttonStart.setIcon(new ImageIcon(ImageIO.read(DesktopPaneBG.class
-					.getResource("/org/mutoss/gui/graph/images/Reset.png"))));
+					.getResource("/org/af/gMCP/gui/graph/images/Reset.png"))));
 		} catch (Exception ex) {
 			ErrorHandler.getInstance().makeErrDialog(ex.getMessage(), ex);
 		} 
