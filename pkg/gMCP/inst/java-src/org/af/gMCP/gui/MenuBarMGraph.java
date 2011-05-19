@@ -415,7 +415,7 @@ Stuttgart, 1995; 3–18.
 	}
 
 	public void showFile(String s) {
-		File f = new File(RControl.getR().eval("system.file(\""+s+"\", package=\"gMCP\")").asRChar().getData()[0].replace('\\', '/'));
+		File f = new File(RControl.getR().eval("system.file(\""+s+"\", package=\"gMCP\")").asRChar().getData()[0]);
 		if (OSTools.isWindows() && s.indexOf('.') == -1) {
 			try {
 				f = FileTransfer.copyFile(f, new File(System.getProperty("java.io.tmpdir"), f.getName()+"TXT"));
@@ -434,7 +434,7 @@ Stuttgart, 1995; 3–18.
 			} catch (Exception exc) {			
 				logger.warn("No Desktop class in Java 5 or URI error.");
 				if (f.getName().toLowerCase().endsWith(".html") || f.getName().toLowerCase().endsWith(".htm")) {
-					RControl.getR().eval("browseURL(\"file://"+f.getAbsolutePath()+"\")");
+					RControl.getR().eval("browseURL(\"file://"+f.getAbsolutePath().replace('\\', '/')+"\")");
 					return;
 				}
 				try {
