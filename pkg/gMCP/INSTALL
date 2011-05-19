@@ -1,7 +1,6 @@
 The installation of gMCP via install.packages("gMCP") should be
-unproblematic for Linux and Windows users.  However three of the
-packages gMCP depends on or suggests can be tricky to install on
-non-windows machines.
+unproblematic. However three of the packages gMCP depends on or 
+suggests perhaps need more attention:
 
 graph:
 ======
@@ -39,7 +38,7 @@ Rgraphviz:
 For visualization the method renderGraph from package Rgraphviz can be
 used, which uses the graphviz library.  Therefore you need to install
 the libraries and headers necessary to link graphviz library routines
-into the Rgraphviz package.  For example on Debian/Ubuntu you need to
+into the Rgraphviz package. For example on Debian/Ubuntu you need to
 install the package libgraphviz-dev beforehand:
 
 sudo apt-get install libgraphviz-dev
