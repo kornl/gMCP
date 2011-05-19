@@ -7,13 +7,16 @@ Version 0.6-5 (??-???-2011, Rev. ???)
 
 - New dependency: CommonJavaJars
   This package contains now all the third party libraries.
-  
+
+- New example graphs:
+  -Two versions of improved fallback procedures
+
 - Improved placeNodes dialog.
 
 - JavaGD plot is shown in CI dialog.
 
 
-Version 0.6-4 (12-May-2011, Rev. 782)
+Version 0.6-4 (11-May-2011, Rev. 782)
 =====================================
 
 - Fixed bug with saving and loading on Windows.

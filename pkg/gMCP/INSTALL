@@ -56,8 +56,9 @@ gMCP is still compatible with R 2.8.0 but not extensively tested.
 
 Please install the dependencies manually:
 install.packages(c("rJava", "MASS", "PolynomF", "multcomp", "graph", "gtools", "xtable", "MCPAN", "JavaGD"))
-and build the current gMCP package from source for your system 
-or use a build for a current version (apart from the help pages everything should work).  
+and download gMCP from 
+http://algorithm-forge.com/gMCPforR28/ 
+or (if it's not up-to-date on the site) build the current gMCP package from source for your system.  
 
 If you run into any problems, please write us an email at:
 

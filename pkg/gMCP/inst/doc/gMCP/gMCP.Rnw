@@ -39,6 +39,8 @@
 \newcommand{\Z}{\ensuremath{\mathbb{Z}}\xspace}
 \newcommand{\NN}{\ensuremath{\mathbb{N}_0}\xspace}
 \newcommand{\N}{\ensuremath{\mathbb{N}}\xspace}
+\newcommand{\sF}{\ensuremath{\mathcal{F}}\xspace}
+\newcommand{\Pot}{\ensuremath{\mathfrak{Pot}}\xspace}
 
 \DeclareMathOperator{\range}{range}
 
@@ -803,6 +805,11 @@ boxplot(micronuclei~group, data=hydroquinone)
 \begin{appendix} 
 
 \section{Appendix - Multiple Testing Basics}
+
+Let $\Theta$ be a parameter space indexing a family of probabilities $\{P_\theta\;|\;\theta\in\Theta\}$
+and $(\Omega, \sF, P_\theta)$ the associated probability spaces.
+For a family of null hypotheses $H_i\subset\Theta$, $i\in\{1,\ldots,n\}=:I$ a multiple test procedure
+is defined as a family of $(\sF, \Pot(\{0,1\}^n))$-measurable functions $\{\phi_J:\; \Omega \rightarrow \{0,1\}^n\;|\;J\subset I\}$.
 
 This section is work in progress.
 
