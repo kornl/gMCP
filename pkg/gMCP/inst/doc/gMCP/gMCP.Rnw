@@ -47,6 +47,7 @@
 \newcommand{\skp}[1]{\left\langle#1\right\rangle}
 
 \renewcommand{\epsilon}{\varepsilon}
+\renewcommand{\phi}{\varphi}
 
 \newenvironment{Proof}{\par\noindent\upshape\textit{Proof. }\nopagebreak}{\qed\par}
 
@@ -808,13 +809,19 @@ boxplot(micronuclei~group, data=hydroquinone)
 
 Let $\Theta$ be a parameter space indexing a family of probabilities $\{P_\theta\;|\;\theta\in\Theta\}$
 and $(\Omega, \sF, P_\theta)$ the associated probability spaces.
-For a family of null hypotheses $H_i\subset\Theta$, $i\in\{1,\ldots,n\}=:I$ a multiple test procedure
+For a family of null hypotheses $H_i\subset\Theta$, $i\in\{1,\ldots,n\}=:I$ a multiple test procedure $\phi$
 is defined as a family of $(\sF, \Pot(\{0,1\}^n))$-measurable functions $\{\phi_J:\; \Omega \rightarrow \{0,1\}^n\;|\;J\subset I\}$.
+
+\begin{Def}
+  Let $H_J:=\bigcap_{j\in J} H_j$. The multiple test procedure $\phi$ controls the \emph{familywise error rate at level $\alpha$ in the weak sense} if 
+  \[\forall \theta\in H_I: \; P_\theta(\phi_J=1\text{ for some }J\subset I)\leq\alpha.\]
+  The multiple test procedure $\phi$ controls the \emph{familywise error rate at level $\alpha$ in the strong sense} if 
+  \[\forall \theta\in\Theta: \; P_\theta(\phi_J=1\text{ and }\theta\in H_J\text{ for some }J\subset I)\leq\alpha.\]
+\end{Def}
 
 This section is work in progress.
 
 \subsection{Closed testing principle}\index{Closed testing principle}
-
 
 \subsection{Partitioning principle}\index{Partitioning principle}
 
