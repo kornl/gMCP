@@ -364,9 +364,10 @@ improvedFallbackGraphII <- function(weights=rep(1/3, 3)) {
 	edgeData(graph, "H2", "H1", "epsilon") <- list(-1)
 	edgeData(graph, "H2", "H3", "epsilon") <- list(1)
 	graph <- placeNodes(graph, nrow=1, ncol=3)
-	attr(graph, "description") <- paste("Improved Fallback Method II by Hommel & Bretz",
+	attr(graph, "description") <- paste("Improved Fallback Method II by Hommel & Bretz (?)",
 			"",
-			"Literature: G. Hommel, F. Bretz (2008): Aesthetics and power considerations in multiple testing - a contradiction? Biometrical Journal 50:657-666.", sep="\n")
+			"Literature: Bretz, F., Maurer, W. and Hommel, G. (2011), Test and power considerations for multiple endpoint analyses using sequentially rejective graphical procedures. Statistics in Medicine, 30: n/a.",
+			"TODO: Check reference: G. Hommel, F. Bretz (2008): Aesthetics and power considerations in multiple testing - a contradiction? Biometrical Journal 50:657-666.", sep="\n")
 	edgeData(graph, "H3", "H1", "labelX") <- 300
 	edgeData(graph, "H3", "H1", "labelY") <- 200
 	return(graph)
