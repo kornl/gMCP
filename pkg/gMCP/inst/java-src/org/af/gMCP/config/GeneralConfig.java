@@ -147,6 +147,22 @@ public class GeneralConfig extends SpecificConfig {
 		setProperty("useJLaTeXMath", ""+useJLaTeXMath);
 	}
 	
+	public boolean checkOnline() {
+		return Boolean.parseBoolean(getProperty("checkOnline", "true"));
+	}
+	
+	public void setCheckOnline(boolean checkOnline) {
+		setProperty("checkOnline", ""+checkOnline);
+	}
+	
+	public boolean reminderNewVersion() {
+		return Boolean.parseBoolean(getProperty("reminderNewVersion", "true"));
+	}
+	
+	public void setReminderNewVersion(boolean reminderNewVersion) {
+		setProperty("reminderNewVersion", ""+reminderNewVersion);
+	}
+	
 	public void setVersionNumber(String version) {
 		setProperty("gMCPversion", version);
 	}
