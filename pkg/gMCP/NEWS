@@ -1,19 +1,20 @@
 
-Version 0.6-5 (??-???-2011, Rev. ???)
+Version 0.6-5 (26-May-2011, Rev. 825)
 =====================================
-
-- Graphs without epsilon edges can be processed by a
-  much faster procedure written in C.
 
 - New dependency: CommonJavaJars
   This package contains now all the third party libraries.
 
 - New example graphs:
-  -Two versions of improved fallback procedures
+  - Two versions of improved fallback procedures
 
 - Improved placeNodes dialog.
 
 - JavaGD plot is shown in CI dialog.
+
+- Fixed bug with directory separators on Windows.
+
+- Initialize the Java VM only if it is not initialized already.
 
 
 Version 0.6-4 (11-May-2011, Rev. 782)

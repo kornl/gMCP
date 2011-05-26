@@ -1,5 +1,5 @@
-Critical (blocks new release):
-==============================
+Critical:
+=========
 
 - Think about JavaGD devices. (User wants to plot in R Console etc.)
 - Does Deducer interfere with "-Xrs" or JavaGD? (When is .onLoad executed?)  
