@@ -1,5 +1,7 @@
 .onLoad <- function(libname, pkgname) {
-	.jinit(parameters="-Xrs")
+	if (!.jniInitialized) {
+		.jinit(parameters="-Xrs")
+	}
 	.jpackage(pkgname)	
 	.jpackage("JavaGD")
 	.jpackage("CommonJavaJars")
