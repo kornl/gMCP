@@ -283,6 +283,11 @@ edges[["H22"]] <- list(edges=c("H11","H31"), weights=c(1/2, 1/2))
 edges[["H32"]] <- list(edges="H21", weights=1)
 graph <- new("graphMCP", nodes=hnodes, edgeL=edges, weights=weights)
 
+m <- rbind(H1=c("0",         "0",         "0.5",         "0.5"),
+		   H2=c("0",         "0",         "0.5",         "0.5"),
+		   H3=c("\\epsilon", "0",         "0",           "1-\\epsilon"),
+		   H4=c("0",         "\\epsilon", "1-\\epsilon", "0"))
+
 @
 \normalsize
 

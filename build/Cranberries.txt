@@ -653,3 +653,52 @@ Diff between gMCP versions 0.6-3 dated 2011-05-09 and 0.6-4 dated 2011-05-11
  man/exampleGraphs.Rd                                           |    4 -
  22 files changed, 130 insertions(+), 38 deletions(-)
  
+Diff between gMCP versions 0.6-4 dated 2011-05-11 and 0.6-5 dated 2011-05-26
+
+ gMCP-0.6-4/gMCP/inst/R28                                                        |only
+ gMCP-0.6-4/gMCP/inst/java-src/org/mutoss/config                                 |only
+ gMCP-0.6-4/gMCP/inst/java-src/org/mutoss/gui/AboutDialog.java                   |only
+ gMCP-0.6-4/gMCP/inst/java-src/org/mutoss/gui/CreateGraphGUI.java                |only
+ gMCP-0.6-4/gMCP/inst/java-src/org/mutoss/gui/DebugTextConsole.java              |only
+ gMCP-0.6-4/gMCP/inst/java-src/org/mutoss/gui/ErrorDialogSGTK.java               |only
+ gMCP-0.6-4/gMCP/inst/java-src/org/mutoss/gui/MenuBarMGraph.java                 |only
+ gMCP-0.6-4/gMCP/inst/java-src/org/mutoss/gui/RControl.java                      |only
+ gMCP-0.6-4/gMCP/inst/java-src/org/mutoss/gui/ResourceBundle.properties          |only
+ gMCP-0.6-4/gMCP/inst/java-src/org/mutoss/gui/commons-logging-verbose.properties |only
+ gMCP-0.6-4/gMCP/inst/java-src/org/mutoss/gui/commons-logging.properties         |only
+ gMCP-0.6-4/gMCP/inst/java-src/org/mutoss/gui/contrasts                          |only
+ gMCP-0.6-4/gMCP/inst/java-src/org/mutoss/gui/datatable                          |only
+ gMCP-0.6-4/gMCP/inst/java-src/org/mutoss/gui/dialogs                            |only
+ gMCP-0.6-4/gMCP/inst/java-src/org/mutoss/gui/graph                              |only
+ gMCP-0.6-4/gMCP/inst/java-src/org/mutoss/gui/options                            |only
+ gMCP-0.6-4/gMCP/inst/java-src/org/mutoss/gui/power                              |only
+ gMCP-0.6-4/gMCP/inst/java-src/org/mutoss/tests                                  |only
+ gMCP-0.6-4/gMCP/inst/java/afcommons.jar                                         |only
+ gMCP-0.6-4/gMCP/inst/java/commons-lang-2.6.jar                                  |only
+ gMCP-0.6-4/gMCP/inst/java/commons-logging-1.1.1.jar                             |only
+ gMCP-0.6-4/gMCP/inst/java/forms-1.2.0.jar                                       |only
+ gMCP-0.6-4/gMCP/inst/java/iText-2.1.4.jar                                       |only
+ gMCP-0.6-4/gMCP/inst/java/jhlir.jar                                             |only
+ gMCP-0.6-4/gMCP/inst/java/jlatexmath-0.9.4.jar                                  |only
+ gMCP-0.6-4/gMCP/inst/java/jxlayer.jar                                           |only
+ gMCP-0.6-4/gMCP/inst/java/log4j-1.2.15.jar                                      |only
+ gMCP-0.6-4/gMCP/inst/java/swing-worker-1.1.jar                                  |only
+ gMCP-0.6-5/gMCP/DESCRIPTION                                                     |   12 +-
+ gMCP-0.6-5/gMCP/INSTALL                                                         |   18 +---
+ gMCP-0.6-5/gMCP/NAMESPACE                                                       |    1 
+ gMCP-0.6-5/gMCP/NEWS                                                            |   22 ++++
+ gMCP-0.6-5/gMCP/R/exampleGraphs.R                                               |   45 +++++++++-
+ gMCP-0.6-5/gMCP/R/onLoad.R                                                      |   42 ++++++---
+ gMCP-0.6-5/gMCP/R/startGUIs.R                                                   |    2 
+ gMCP-0.6-5/gMCP/TODO                                                            |   17 ++-
+ gMCP-0.6-5/gMCP/inst/build.xml                                                  |    2 
+ gMCP-0.6-5/gMCP/inst/doc/AQuickStart.pdf                                        |binary
+ gMCP-0.6-5/gMCP/inst/doc/gMCP.pdf                                               |binary
+ gMCP-0.6-5/gMCP/inst/doc/gMCP/gMCP.Rnw                                          |   16 +++
+ gMCP-0.6-5/gMCP/inst/doc/parametric.pdf                                         |binary
+ gMCP-0.6-5/gMCP/inst/doc/pictures/FullFeaturedGUI.png                           |binary
+ gMCP-0.6-5/gMCP/inst/java-src/org/af                                            |only
+ gMCP-0.6-5/gMCP/inst/java-src/org/mutoss/gui/JavaGDPanel.java                   |only
+ gMCP-0.6-5/gMCP/inst/java/gsrmtp.jar                                            |binary
+ gMCP-0.6-5/gMCP/man/exampleGraphs.Rd                                            |   28 ++++--
+ 46 files changed, 157 insertions(+), 48 deletions(-)

@@ -4,6 +4,8 @@ Version 0.6-6 (??-???-2011, Rev. ???)
 
 - Graphs without epsilon edges can be processed by a
   much faster procedure written in C.
+  
+- matrix2graph & graph2matrix deal better with variable edges. 
 
 
 Version 0.6-5 (26-May-2011, Rev. 825)
@@ -22,6 +24,8 @@ Version 0.6-5 (26-May-2011, Rev. 825)
 - Fixed bug with directory separators on Windows.
 
 - Initialize the Java VM only if it is not initialized already.
+
+ 46 files changed, 157 insertions(+), 48 deletions(-)
 
 
 Version 0.6-4 (11-May-2011, Rev. 782)
