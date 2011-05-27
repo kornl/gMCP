@@ -1,6 +1,7 @@
 matrix2graph <- function(m, weights=rep(1/dim(m)[1],dim(m)[1])) {
 	# Checking for 0 on diagonal:
-	if (!all(TRUE == all.equal(unname(diag(m)), rep(0, length(diag(m)))))) {
+	if (!(all(TRUE == all.equal(unname(diag(m)), rep(0, length(diag(m)))))
+	   || all(TRUE == all.equal(unname(diag(m)), rep("0", length(diag(m))))))) {
 		warning("Matrix has a diagonal not equal to zero. Loops are not allowed.")
 		diag(m) <- rep(0, length(diag(m)))
 	}
@@ -17,7 +18,16 @@ matrix2graph <- function(m, weights=rep(1/dim(m)[1],dim(m)[1])) {
 	for (i in 1:length(hnodes)) {
 		for (j in 1:length(hnodes)) {
 			if (m[i,j]!=0) {
-				graph <- addEdge(hnodes[i], hnodes[j], graph, m[i,j])
+				weight <- try(parseEpsPolynom(gsub("\\\\epsilon", "epsilon", m[i,j])), silent = TRUE)
+				if (class(weight) == "try-error") {
+					graph <- addEdge(hnodes[i], hnodes[j], graph, NaN)
+					edgeData(graph, hnodes[i], hnodes[j], "variableWeight") <- m[i,j]
+				} else { 
+					graph <- addEdge(hnodes[i], hnodes[j], graph, weight[1])
+					if (length(weight)>1) {
+						edgeData(graph, hnodes[i], hnodes[j], "epsilon") <- list(weight[2:length(weight)])
+					}
+				}
 			}
 		}
 	}
@@ -30,7 +40,7 @@ graph2matrix <- function(graph) {
 	colnames(m) <- hnodes
 	rownames(m) <- hnodes
 	for (i in 1:length(hnodes)) {
-		for (j in 1:length(hnodes)) {			
+		for (j in 1:length(hnodes)) { 
 			m[i,j] <- getEdgeWeight(graph, i, j)
 		}
 	}
