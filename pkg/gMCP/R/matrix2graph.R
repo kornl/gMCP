@@ -31,7 +31,7 @@ graph2matrix <- function(graph) {
 	rownames(m) <- hnodes
 	for (i in 1:length(hnodes)) {
 		for (j in 1:length(hnodes)) {			
-			m[i,j] <- getWeight(graph, hnodes[i], hnodes[j])
+			m[i,j] <- getEdgeWeight(graph, i, j)
 		}
 	}
 	return(m)

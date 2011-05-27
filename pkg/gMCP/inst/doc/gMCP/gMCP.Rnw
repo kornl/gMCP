@@ -675,6 +675,21 @@ This subsection is work in progress, but fortunately the options in figure \ref{
   \caption{\label{optionsDialog} You can configure many things in the option dialog.}
 \end{figure}
 
+\subsubsection{Privacy}
+
+The GUI is able to connect to our server to
+\begin{enumerate}
+  \item check whether a new version of gMCP exists,  
+  \item send a wishlist if the user chooses to,
+%  \item submit/load a graph to the online archive 
+  \item send bug reports if an error occurs.
+\end{enumerate}
+
+Only in the last case of a bug report some information about your computer
+is collected that can be reviewed by the user before sending the bug report.
+If you do not agree with sending this data, simply don't send a problematic bug report
+or if you never want to send bug reports, disable the option in the options menu. 
+
 \subsection{Import/Exports}\index{import}\index{export}
 
 This subsection is work in progress, but fortunately the menu entries in figure \ref{fileMenu} should be fairly self-explanatory.

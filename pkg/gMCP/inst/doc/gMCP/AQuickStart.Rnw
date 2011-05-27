@@ -118,6 +118,8 @@ parallel gatekeeping, improved parallel gatekeeping, truncated Holm procedure an
 After you have created or loaded your graph you can start the test procedure and 
 calculate confidence intervals or adjusted p-values by using the last three buttons of the icon panel.
 
-For all further questions take a look at the help menu or mail us at: \href{mailto:help@small-projects.de}{\texttt{help@small-projects.de}}
+For all further questions take a look at the help menu, the \href{http://cran.r-project.org/web/packages/gMCP/gMCP.pdf}{manual} or mail us at: 
+
+\begin{center}\href{mailto:help@small-projects.de}{\texttt{help@small-projects.de}}\end{center}
 
 \end{document}

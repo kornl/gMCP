@@ -206,6 +206,20 @@ setMethod("show", "graphMCP",
 		}
 )
 
+getEdgeWeight <- function(graph, i, j) {
+	from <- nodes(graph)[i]
+	to   <- nodes(graph)[j]
+	weight <- try(unlist(edgeData(graph, from, to, "weight")), silent = TRUE)
+	if (class(weight) == "try-error") {
+		return(0)
+	}
+	p <- unname(unlist(edgeData(graph, from, to, "epsilon")))
+	if (!is.nan(weight) && (length(p)==0 || isTRUE(all.equal(p, rep(0,length(p)))))) {
+		return(weight)
+	}
+	return(getWeightStr(graph, from, to))
+}
+
 getWeightStr <- function(graph, from, to, LaTeX=FALSE) {	
 	weight <- unlist(edgeData(graph, from, to, "weight"))
 	p <- unlist(edgeData(graph, from, to, "epsilon"))
