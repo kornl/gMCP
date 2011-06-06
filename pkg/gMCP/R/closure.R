@@ -8,6 +8,6 @@ fastgMCP <- function(m, w, p, a) {
 	}	
 	result <- .C("cgMCP", oldM=as.double(m), oldW=as.double(w), 
 			p=as.double(p), a=as.double(a), n=as.integer(n), 
-			m = double(n*n), w = double(n), DUP=FALSE)
-	return(list(m=matrix(result$m, nrow=n), w=result$w))	
+			s=double(n), m = double(n*n), w = double(n), DUP=FALSE)
+	return(list(m=matrix(result$m, nrow=n), w=result$w, rejected=(result$s==1)))	
 }

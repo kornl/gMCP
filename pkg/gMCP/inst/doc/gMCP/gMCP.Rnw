@@ -13,6 +13,8 @@
 \usepackage{tabularx}
 \usepackage{makeidx}\makeindex
 \usepackage[numbers]{natbib}
+\usepackage{algorithmic} 
+\usepackage{algorithm}
 %\usepackage[left=3cm,right=3cm,top=2cm,bottom=2cm]{geometry}
 \usepackage{amsmath,amsthm,amsfonts,amssymb}
 \bibliographystyle{plainnat}
@@ -70,6 +72,10 @@
 \newpage
 
 \tableofcontents
+
+\listofalgorithms
+\listoffigures
+\listoftables
 
 % Bibliotheken
 <<echo=FALSE,results=hide>>=
@@ -229,6 +235,25 @@ gMCP(graph, pvalues=c(0.01,0.07,0.02), alpha=0.05)
 
 @
 \normalsize
+
+\section{Basic Theoretical Background}
+
+\begin{algorithm}
+\caption{Removing node $i$, passing the weight and updating the graph edges}
+\label{rmNodeAlg}
+\begin{algorithmic}
+\FOR{$l \in I$} 
+  \STATE $w_l \gets w_l+w_i\cdot g_{il}$
+  \FOR{$k \in I$}    
+    \IF{$l \neq k$ \textbf{and} $g_{lj}\cdot g_{jl}\neq1$}
+      \STATE $g_{lk} \gets \frac{g_{lk}+g_{lj}\cdot g_{jk}}{1-g_{lj}\cdot g_{jl}}$
+    \ELSE
+      \STATE $g_{lk} \gets 0$
+    \ENDIF    
+  \ENDFOR
+\ENDFOR
+\end{algorithmic}
+\end{algorithm}
 
 \section{Creating the graph}
 
@@ -867,14 +892,14 @@ This section is work in progress.
 
 
 
-\addcontentsline{toc}{section}{Symbolverzeichnis}
-\section*{Symbolverzeichnis}\footnotesize
+\addcontentsline{toc}{section}{Table of Symbols}
+\section*{Table of Symbols}\footnotesize
 %\twocolumn[\section{Symbolverzeichnis}]
 \begin{tabularx}{\textwidth}{lX}
-\multicolumn{2}{l}{\textbf{Mengen}}\\
-\R& Menge der reellen Zahlen\\
-\NN& die natürlichen Zahlen mit 0\\
-$\Pot(X)$ & Potenzmenge von $X$, d.h. Menge alle Teilmengen von $X$\\
+\multicolumn{2}{l}{\textbf{Sets}}\\
+\R& Set of real numbers\\
+\NN& Set of natural numbers (including 0)\\
+$\Pot(X)$ & Power set of set $X$, i.e. the set of all subsets of $X$\\
 \\
 %\multicolumn{2}{l}{\textbf{Relationen}}\\
 %$X\Subset Y$& $X$ ist relativ kompakt in $Y$\\
