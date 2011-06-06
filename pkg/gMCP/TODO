@@ -18,6 +18,7 @@ High priority:
 - Variable node weights
 - When not using JLaTeXMath graphs with variables are not shown and saved(?) correctly
 - Compare improvedFallbackGraphII with literature
+- useC produces "Final graph after 1 steps:" - simple count the number of rejected hypotheses
 
 Medium priority:
 ================

@@ -89,7 +89,7 @@ setMethod("setWeights", c("graphMCP"),
 			if (missing(node)) {
 				node <- nodes(object)
 			}
-			nodeData(object, nodes(object), "nodeWeight") <- weights			
+			nodeData(object, node, "nodeWeight") <- weights			
 			return(object)
 		})
 
@@ -143,6 +143,17 @@ setMethod("getRejected", c("gMCPResult"), function(object, node, ...) {
 				return(rejected[node])
 			}
 			return(rejected)
+		})
+
+setGeneric("setRejected", function(object, rejected, node, ...) standardGeneric("setRejected"))
+
+setMethod("setRejected", c("graphMCP"),
+		function(object, rejected, node, ...) {
+			if (missing(node)) {
+				node <- nodes(object)
+			}
+			nodeData(object, node, "rejected") <- rejected			
+			return(object)
 		})
 
 setGeneric("getXCoordinates", function(graph, node) standardGeneric("getXCoordinates"))
