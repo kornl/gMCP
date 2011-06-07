@@ -5,7 +5,13 @@ Version 0.6-6 (??-???-2011, Rev. ???)
 - Graphs without epsilon edges can be processed by a
   much faster procedure written in C.
   
-- matrix2graph & graph2matrix deal better with variable edges. 
+- matrix2graph & graph2matrix deal better with variable edges.
+
+- Hopefully setDividerLocation works now always correct, i.e. 
+  the graph panel will always use 2/3 of the screen.
+  
+- The GUI will (optionally) look for a newer version of 
+  gMCP on CRAN.
 
 
 Version 0.6-5 (26-May-2011, Rev. 825)
