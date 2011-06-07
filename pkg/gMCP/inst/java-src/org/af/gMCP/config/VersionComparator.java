@@ -56,10 +56,10 @@ public class VersionComparator {
     
     //TODO Put into another thread:
 	public void getOnlineVersion() {
-		if (Configuration.getInstance().getGeneralConfig().checkOnline()) {
-			try {
+		try {
+			if (Configuration.getInstance().getGeneralConfig().checkOnline()) {		
 				String stopString = "Version "+Configuration.getInstance().getGeneralConfig().getVersionNumber();				
-				URL url = new URL("http://www.algorithm-forge.com/gMCP/version");
+				URL url = new URL("http://www.algorithm-forge.com/gMCP/version.php?time="+Configuration.getInstance().getGeneralConfig().getRandomID());
 				URL newsURL = new URL("http://cran.r-project.org/web/packages/gMCP/NEWS");
 				logger.info("Get version from "+url.toString());
 				URLConnection conn = url.openConnection();
@@ -67,15 +67,15 @@ public class VersionComparator {
 						new InputStreamReader(
 								conn.getInputStream()));			
 				onlineversionstring = in.readLine();			
-				in.close();
-			} catch (IOException e) {
-				logger.error(e.getMessage(), e);
+				in.close();			
+				onlineversion = SVNVersions.parseInt(onlineversionstring);
+
+				if (Configuration.getInstance().getGeneralConfig().reminderNewVersion()) {
+
+				}
 			}
-			onlineversion = SVNVersions.parseInt(onlineversionstring);
-			
-			if (Configuration.getInstance().getGeneralConfig().reminderNewVersion()) {
-				
-			}
+		} catch (Exception e) {
+			logger.error(e.getMessage(), e);
 		}
 	}
 	

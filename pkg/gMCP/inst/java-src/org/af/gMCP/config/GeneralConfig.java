@@ -3,6 +3,7 @@ package org.af.gMCP.config;
 import java.io.File;
 import java.text.DecimalFormat;
 import java.util.List;
+import java.util.Random;
 import java.util.Vector;
 
 public class GeneralConfig extends SpecificConfig {
@@ -169,6 +170,17 @@ public class GeneralConfig extends SpecificConfig {
 
 	public String getVersionNumber() {
 		return getProperty("gMCPversion", "<= 0.6.0");
+	}
+
+	public void setRandomID() {
+		setProperty("randomID", ""+Math.abs((new Random()).nextInt()));
+	}
+
+	public String getRandomID() {
+		if (getProperty("randomID", "NOT_SET_YET").equals("NOT_SET_YET")) {
+			setRandomID();
+		}
+		return getProperty("randomID");
 	}
 	
 	public List<String> getLatestGraphs() {

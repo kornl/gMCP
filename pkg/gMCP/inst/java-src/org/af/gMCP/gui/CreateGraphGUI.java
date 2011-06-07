@@ -60,13 +60,7 @@ public class CreateGraphGUI extends JFrame implements WindowListener, AbortListe
 		logger.info("gMCP start No. "+n+1);
 		
 		setIconImage((new ImageIcon(getClass().getResource("/org/af/gMCP/gui/graph/images/rjavaicon64.png"))).getImage());
-		
-		// Fenster in der Mitte des Bildschirms platzieren mit inset = 50 Pixeln Rand.
-		int inset = 50;
-		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-		setBounds(inset, inset,
-				screenSize.width  - inset*2,
-				screenSize.height - inset*2);
+				
 		addWindowListener(this);
 
 		pview = new PView(this);
@@ -85,13 +79,20 @@ public class CreateGraphGUI extends JFrame implements WindowListener, AbortListe
 	    setGlassPane(glassPane);
 	    glassPane.addAbortListener(this);
 
+	    // Fenster in der Mitte des Bildschirms platzieren mit inset = 50 Pixeln Rand.
+		int inset = 50;
+		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+		setBounds(inset, inset,
+				screenSize.width  - inset*2,
+				screenSize.height - inset*2);
+
 		setVisible(true);
 		//splitPane.setDividerLocation(0.5);
 		splitPane1.setDividerLocation(0.75);
 		splitPane2.setDividerLocation(0.5);		
 		
 		//TODO Is there really no better way than this kind of strange workaround?!?
-		javax.swing.SwingUtilities.invokeLater(new Runnable() {
+		/*javax.swing.SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
 				try {
 					Thread.sleep(500);
@@ -101,7 +102,7 @@ public class CreateGraphGUI extends JFrame implements WindowListener, AbortListe
 				splitPane1.setDividerLocation(0.75);
 				splitPane2.setDividerLocation(0.5);		
 			}
-		});	
+		});	*/
 	}
 	
 	/**
