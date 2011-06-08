@@ -57,7 +57,6 @@ public class VersionComparator {
         }
     }
     
-    //TODO Put into another thread:
 	public void getOnlineVersion() {
 		try {
 			if (Configuration.getInstance().getGeneralConfig().checkOnline()) {		

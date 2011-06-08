@@ -489,6 +489,7 @@ public class NetList extends JPanel implements MouseMotionListener, MouseListene
 		newVertex = false;
 		newEdge = false;
 		zoom = 1.00;
+		control.getDView().setDescription("Enter a description for the graph.");
 		graphHasChanged();
 	}
 

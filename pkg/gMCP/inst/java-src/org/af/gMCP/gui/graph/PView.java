@@ -127,8 +127,8 @@ public class PView extends JPanel implements KeyListener, ActionListener {
 		panel.add(alphaLabel, cc.xy(2, row));    	
     	panel.add(totalAlpha, cc.xy(4, row));
     	
-    	//updateLabels();
-		panel.revalidate();
+    	updateLabels();
+		panel.revalidate();		
 		removeAll();		
 		add(panel, c);
 		c.gridy++;
@@ -137,20 +137,19 @@ public class PView extends JPanel implements KeyListener, ActionListener {
 	}
 	
 	public void updateLabels() {
-		double alpha = 0;
+		double weight = 0;
 		for (PPanel p : panels) {
 			if (!p.rejected) {
-				alpha += p.w;
+				weight += p.w;
 			}
 		}
-		String text = "Sum of weights: "+Configuration.getInstance().getGeneralConfig().getDecFormat().format(alpha);
-		if (alpha>1.0001) {
+		String text = "Sum of weights: "+Configuration.getInstance().getGeneralConfig().getDecFormat().format(weight);
+		if (weight>1.0001) {
 			statusLabel.setForeground(Color.RED);
 			text += "; The total weight is greater 1!";
 		} else {
 			statusLabel.setForeground(Color.BLACK);
-		}
-		
+		}		
 		statusLabel.setText(text);
 	}
 
