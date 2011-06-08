@@ -7,6 +7,8 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.util.StringTokenizer;
 
+import javax.swing.JOptionPane;
+
 import org.af.commons.widgets.vi.SVNVersions;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -32,8 +34,8 @@ public class VersionComparator {
         if (v1.equals(v2))
             return 0;
 
-        StringTokenizer st1 = new StringTokenizer(v1, ".");
-        StringTokenizer st2 = new StringTokenizer(v2, ".");
+        StringTokenizer st1 = new StringTokenizer(v1, ".-");
+        StringTokenizer st2 = new StringTokenizer(v2, ".-");
 
         String tok1 = null, tok2 = null;
         while (true) {
@@ -47,6 +49,7 @@ public class VersionComparator {
             } else {
                 return +1;
             }
+            logger.debug("Comparing token "+tok1+" vs. "+tok2+".");
             int v = Integer.parseInt(tok1) - Integer.parseInt(tok2);
             if (v != 0) {
                 return v;
@@ -70,8 +73,12 @@ public class VersionComparator {
 				in.close();			
 				onlineversion = SVNVersions.parseInt(onlineversionstring);
 
-				if (Configuration.getInstance().getGeneralConfig().reminderNewVersion()) {
-
+				if (Configuration.getInstance().getGeneralConfig().reminderNewVersion() && compare(onlineversionstring, Configuration.getInstance().getGeneralConfig().getVersionNumber())>0) {					
+					String message = "The newest version on CRAN is "+onlineversionstring+". "+
+									 "Your version is "+Configuration.getInstance().getGeneralConfig().getVersionNumber()+".\n"+
+									 "If you want to update, please restart R and use install.packages(\"gMCP\").\n"+
+									 "Please note that you can not update gMCP while it is loaded.";
+					JOptionPane.showMessageDialog(null, message, "New version available!", JOptionPane.INFORMATION_MESSAGE);
 				}
 			}
 		} catch (Exception e) {

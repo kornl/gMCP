@@ -18,6 +18,7 @@ import org.af.commons.errorhandling.ErrorHandler;
 import org.af.commons.widgets.InfiniteProgressPanel;
 import org.af.commons.widgets.InfiniteProgressPanel.AbortListener;
 import org.af.gMCP.config.Configuration;
+import org.af.gMCP.config.VersionComparator;
 import org.af.gMCP.gui.datatable.CellEditorE;
 import org.af.gMCP.gui.datatable.DataFramePanel;
 import org.af.gMCP.gui.datatable.DataTable;
@@ -79,7 +80,7 @@ public class CreateGraphGUI extends JFrame implements WindowListener, AbortListe
 	    setGlassPane(glassPane);
 	    glassPane.addAbortListener(this);
 
-	    // Fenster in der Mitte des Bildschirms platzieren mit inset = 50 Pixeln Rand.
+	    // Place the frame in the middle of the screen with a border of inset = 50 pixel.
 		int inset = 50;
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 		setBounds(inset, inset,
@@ -87,22 +88,20 @@ public class CreateGraphGUI extends JFrame implements WindowListener, AbortListe
 				screenSize.height - inset*2);
 
 		setVisible(true);
-		//splitPane.setDividerLocation(0.5);
 		splitPane1.setDividerLocation(0.75);
 		splitPane2.setDividerLocation(0.5);		
 		
-		//TODO Is there really no better way than this kind of strange workaround?!?
-		/*javax.swing.SwingUtilities.invokeLater(new Runnable() {
+		// If this causes trouble look again at the following bug work around:
+		// http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=6409815
+		// or perhaps try something like this:
+		// http://www.jguru.com/faq/view.jsp?EID=27191
+
+		javax.swing.SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
-				try {
-					Thread.sleep(500);
-				} catch (InterruptedException e) {
-					logger.warn("Interrupted: "+e.getMessage(), e);
-				}
-				splitPane1.setDividerLocation(0.75);
-				splitPane2.setDividerLocation(0.5);		
+				VersionComparator vc = new VersionComparator();
+				vc.getOnlineVersion();
 			}
-		});	*/
+		});	
 	}
 	
 	/**
