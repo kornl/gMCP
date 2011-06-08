@@ -122,10 +122,13 @@ install.packages("gMCP")
 
 Select an arbitrary mirror and gMCP will be downloaded and installed.
 
-From now on you can load the gMCP package by entering \texttt{library(gMCP)} into the R Console.
+From now on you can load the gMCP package by entering
+\texttt{library(gMCP)} into the R Console.
 
-If you run into problems, see \url{http://cran.r-project.org/web/packages/gMCP/INSTALL} or write
-us an email at \href{mailto:help@small-projects.de}{\texttt{help@small-projects.de}}.
+If you run into problems, see
+\url{http://cran.r-project.org/web/packages/gMCP/INSTALL} or write us
+an email at
+\href{mailto:help@small-projects.de}{\texttt{help@small-projects.de}}.
 
 \subsection{Example and diving in}
 
@@ -290,10 +293,11 @@ specifies the initial allocation of the significance level alpha to the individu
 hypotheses.  Declaration of the nodes and edges is inherited from
 class \texttt{graphNEL}.}.
 
-The most convenient way to create a graph in R is to use the functions \texttt{matrix2graph}\index{matrix2graph} and \texttt{setWeights}\index{setWeights}.
-As an example we create the graph from Bretz et
-al. \cite{bretzEtAl2009power} that you can see in figure
-\ref{exampleGraphBretz}.
+The most convenient way to create a graph in R is to use the functions
+\texttt{matrix2graph}\index{matrix2graph} and
+\texttt{setWeights}\index{setWeights}.  As an example we create the
+graph from Bretz et al. \cite{bretzEtAl2009power} that you can see in
+figure \ref{exampleGraphBretz}.
 
 
 \scriptsize
@@ -475,8 +479,8 @@ cat(graph2latex(result@graphs[[4]], scale=0.7, fontsize="tiny"))
   \caption{\label{finalstate}Final graph from the test procedure after rejection of $H_{21}$, $H_{31}$ and $H_{32}$.}
 \end{figure}
 
-The command \texttt{gMCPReport}\index{report generation} generates a full report of the testing
-procedure:
+The command \texttt{gMCPReport}\index{report generation} generates a
+full report of the testing procedure:
 
 \scriptsize
 <<echo=TRUE, size=scriptsize>>=
@@ -681,7 +685,8 @@ graph
 
 \subsection{Options}\index{options}
 
-This subsection is work in progress, but fortunately the options in figure \ref{optionsDialog} should be fairly self-explanatory.
+This subsection is work in progress, but fortunately the options in
+figure \ref{optionsDialog} should be fairly self-explanatory.
 
 \begin{figure}[ht]
   \centering    
@@ -706,11 +711,13 @@ or if you never want to send bug reports, disable the option in the options menu
 
 \subsection{Import/Exports}\index{import}\index{export}
 
-This subsection is work in progress, but fortunately the menu entries in figure \ref{fileMenu} should be fairly self-explanatory.
+This subsection is work in progress, but fortunately the menu entries
+in figure \ref{fileMenu} should be fairly self-explanatory.
 
-You can export graphs to png files.
-The background of these png files will be made transperant, so that they will fit into whichever document you insert them.
-Note that some image viewers visualize transparency with a checkerboard pattern.
+You can export graphs to png files.  The background of these png files
+will be made transperant, so that they will fit into whichever
+document you insert them.  Note that some image viewers visualize
+transparency with a checkerboard pattern.
 
 \begin{figure}[ht]
   \centering    
@@ -894,8 +901,6 @@ $\skp{\cdot,\cdot}$ & standard direct product $\skp{x,y}=\sum_{j=1}^nx_j\cdot y_
 $\id_X$ & identity on $X$, i.e.\ $\id_X:\;X\rightarrow X,\;x\mapsto x$\\
 %\\
 %\multicolumn{2}{l}{\textbf{Andere Symbole}}\\
-%$\hookrightarrow$& Abbildungspfeil, der zusätzlich die Injektivität der Abbildung anzeigt\\
-%$\twoheadrightarrow$& Abbildungspfeil, der zusätzlich die Surjektivität der Abbildung anzeigt\\
 \end{tabularx}
 %\onecolumn
 
