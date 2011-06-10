@@ -213,5 +213,15 @@ public class GeneralConfig extends SpecificConfig {
 	public void setNumberOfStarts(int i) {
 		setProperty("NumberOfStarts", ""+i);
 	}
+
+	public String getTimesSymbol() {
+		/* "", "*", "\\cdot", "\\times" */
+		return getProperty("getTimesSymbol", "");
+	}
+	
+	public void setTimesSymbol(String s) {
+		/* "", "*", "\\cdot", "\\times" */
+		setProperty("getTimesSymbol", s);
+	}
 	
 }

@@ -19,6 +19,7 @@ High priority:
 - When not using JLaTeXMath graphs with variables are not shown and saved(?) correctly
 - Compare improvedFallbackGraphII with literature
 - useC produces "Final graph after 1 steps:" - simple count the number of rejected hypotheses
+- allow "(1-\gamma)/2" as edge weight (I guess it's fine, but only wrong formated by JLateXMath)
 
 Medium priority:
 ================

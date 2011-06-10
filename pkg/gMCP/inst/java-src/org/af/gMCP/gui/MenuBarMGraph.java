@@ -110,7 +110,7 @@ public class MenuBarMGraph extends JMenuBar implements ActionListener {
 		subMenu.addSeparator();
 		subMenu.add(makeMenuItem("Graph from Hommel et al. (2007)", "hommelEtAl"));
 		subMenu.addSeparator();
-		subMenu.add(makeMenuItem("Graph for a drug clinical trial from Maurer et al. (1995)", "maurer1995"));
+		subMenu.add(makeMenuItem("Drug clinical trial example (serial gatekeeping) from Maurer et al. (1995)", "maurer1995"));
 		menu.add(subMenu);
 		/*
 		Common test procedures
