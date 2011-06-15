@@ -12,7 +12,12 @@ Version 0.6-6 (??-???-2011, Rev. ???)
   
 - The GUI will (optionally) look for a newer version of 
   gMCP on CRAN.
+  
+- Fractions like (1-a)/(1+b) are now shown with the 
+  correct layout in the GUI.
 
+- Power simulation code is influenced by Bjoern Bornkamp
+  and code he has written, therefore he is our third author.
 
 Version 0.6-5 (26-May-2011, Rev. 825)
 =====================================

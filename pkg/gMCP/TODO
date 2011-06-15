@@ -24,6 +24,7 @@ High priority:
 Medium priority:
 ================
 
+- readRDS/saveRDS instead of load/save?
 - If Error Report sending fails, give user the option to send the log files as zip file
 - Does Indefinite ProgressPanel slow the calculation significantly down ?!?
 - Improve visualization of CI (estimates should be a named vector - 0 estimates are often a strange choice - patch plotCII?)
