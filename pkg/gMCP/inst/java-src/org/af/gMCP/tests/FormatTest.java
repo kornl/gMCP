@@ -9,6 +9,7 @@ public class FormatTest {
 		System.out.println(new File("test.dat").getAbsolutePath().replaceAll("\\\\", "\\\\\\\\"));
 		System.out.println("\\alpha");
 		System.out.println("\\alpha".replaceAll("\\\\", "\\\\\\\\"));
+		System.out.println("2^(1+2)".replaceAll("\\(", "{(").replaceAll("\\)", ")}"));
 		DecimalFormat format = new DecimalFormat("#.####");
 		System.out.println(format.format(0.0001));
 		System.out.println(format.format(0.9999));		

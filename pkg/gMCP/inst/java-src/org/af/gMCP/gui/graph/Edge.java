@@ -180,10 +180,6 @@ public class Edge {
 		}
 	}
 
-	/*public Double getW() {
-		return ew.;
-	}*/
-
 	String getWS() {		
 		return ew.toString();
 	}
@@ -285,8 +281,6 @@ public class Edge {
 
 	/**
 	 * This function takes a string and creates a TeXIcon from this.
-	 * Things like "2^(1+2)" or even "2*2/4" will cause Exceptions or give false results.
-	 * This function is only meant to be for polynomials. 
 	 * @param s String to be parsed.
 	 * @return
 	 */
@@ -299,7 +293,6 @@ public class Edge {
 			s.replaceAll("ε", "\\varepsilon");	
 			s.replaceAll(" ", "");
 			for (int i=0;i<s.length(); i++) {
-				System.out.println("S: "+s+" ; i: "+i+"");
 				String c = ""+s.charAt(i);	
 				if (c.equals("(")) openBracket++;				
 				if (c.equals(")")) openBracket--;				
@@ -331,7 +324,9 @@ public class Edge {
 			} else {
 				latex += s;
 			}			
-			s.replaceAll("\\*", Configuration.getInstance().getGeneralConfig().getTimesSymbol());			
+			latex = latex.replaceAll("\\*", Configuration.getInstance().getGeneralConfig().getTimesSymbol());			
+			latex = latex.replaceAll("\\(", "{(");
+			latex = latex.replaceAll("\\)", ")}");
 			logger.debug("LaTeX string:"+latex);		
 			TeXFormula formula = new TeXFormula(latex);//
 			formula = new TeXFormula("\\mathbf{"+latex+"}");
@@ -344,28 +339,6 @@ public class Edge {
 		}		
 	}
 	
-	private static int getNextOperator(String s) {
-		int min = s.length()+1;
-		int i = s.indexOf("+");
-		if (i!=-1) {
-			min = i;
-		}
-		i = s.indexOf("-");
-		if (i!=-1 && min>i) {
-			min = i;
-		}
-		i = s.indexOf("*");
-		if (i!=-1 && min>i) {
-			min = i;
-		}
-		i = s.indexOf("/");
-		if (i!=-1 && min>i) {
-			min = i;
-		}
-		if (min==s.length()+1) return -1;
-		return min;
-	}
-
 	public void setK1(int k1) {
 		double correction = 0;
 		/*if (frc != null) {					
