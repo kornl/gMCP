@@ -10,7 +10,7 @@ w.dunnet <- function(w,cr,al=.05){
   error <- function(cb) {
     e <- sum(sapply(conn,function(edx){
       if(length(edx)>1){
-        return((1-pmvnorm(lower=-Inf,upper=qnorm(1-(w[edx]*cb*al)),corr=cr[edx,edx])))
+        return((1-pmvnorm(lower=-Inf,upper=qnorm(1-(w[edx]*cb*al)),corr=cr[edx,edx],abseps=10^-5)))
       } else {
         return((w[edx]*cb*al))
       }
@@ -23,6 +23,44 @@ w.dunnet <- function(w,cr,al=.05){
   return(qnorm(1-(w*cb*al)))
 }
 
+p.dunnet <- function(p,cr,w){
+  if(length(cr)>1){
+    conn <- connComp(as(!is.na(cr),'graphNEL'))
+  } else {
+    conn <- 1
+  }
+  lconn <- sapply(conn,length)
+  conn <- lapply(conn,as.numeric)
+  e <- sapply(1:length(p),function(i){
+    sum(sapply(conn,function(edx){
+      if(length(edx)>1){
+        return((1-pmvnorm(lower=-Inf,upper=qnorm(1-pmin(1,(w[edx]*p[i]/w[i]))),corr=cr[edx,edx],abseps=10^-5)))
+      } else {
+        return((w[edx]*p[i]/w[i]))
+      }
+    }))})
+
+  e <- pmin(e,1)
+  e
+}
+
+pvals.dunnet <- function(h,cr,p) {
+#  if(a > .5){
+#    stop("alpha levels above .5 are not supported")
+#  }
+  n <- length(h)
+  I <- h[1:(n/2)]
+  w <- h[((n/2)+1):n]
+  hw <- sapply(w,function(x) !isTRUE(all.equal(x,0)))
+  e <- which(I>0 & hw)
+  zb <- rep(NA,n/2)
+  if(length(e) == 0){
+    return(zb)
+  }
+  zb[e] <- p.dunnet(p[e],cr[e,e],w[e])
+  zb[which(I>0 & !hw)] <- 1
+  return(zb)
+}
 
 b.dunnet <- function(h,cr,a) {
 #  if(a > .5){
@@ -41,6 +79,8 @@ b.dunnet <- function(h,cr,a) {
   zb[which(I>0 & !hw)] <- Inf
   return(zb)
 }
+
+
 
 mtp.weights <- function(h,g,w){
   ## recursively compute weights for a given graph and intersection hypothesis

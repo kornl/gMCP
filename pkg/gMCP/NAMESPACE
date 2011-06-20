@@ -25,4 +25,4 @@ export(graphForImprovedParallelGatekeeping)
 export(improvedFallbackGraphI, improvedFallbackGraphII)
 export(cycleGraph)
 
-export(generateWeights, generateBounds, generateTest)
+export(generateWeights, generateBounds, generateTest, generatePvals)
