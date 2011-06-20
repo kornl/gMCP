@@ -1,4 +1,5 @@
 \documentclass[10pt]{article}
 %\VignetteIndexEntry{A Graphical Approach to Weighted Multiple Test Procedures}
 \begin{document}
+This is a fake Rnw file.
 \end{document}
