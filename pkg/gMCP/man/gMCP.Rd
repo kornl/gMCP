@@ -52,7 +52,6 @@ An object of class \code{gMCPResult}, more specifically a list with elements
 \item{pvalues }{ p-values}
 \item{rejected }{ logical whether hyptheses could be rejected}
 \item{adjPValues }{ adjusted p-values}
-If a correlation matrix is passed only the slots \code{pvalues} and \code{rejected} are set.
 }
 \references{
 Frank Bretz, Willi Maurer, Werner Brannath, Martin Posch:

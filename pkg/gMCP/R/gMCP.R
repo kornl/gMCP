@@ -49,12 +49,15 @@ gMCP <- function(graph, pvalues, test, correlation, alpha=0.05,
 				rejected <- rep(FALSE,length(w))
 				names(rejected) <- nodes(graph)
 			} else {
-				myTest <- generateTest(Gm, w, correlation, alpha)
-				zScores <- -qnorm(pvalues)
-				rejected <- myTest(zScores)
+				#myTest <- generateTest(Gm, w, correlation, alpha)
+				#zScores <- -qnorm(pvalues)
+				#rejected <- myTest(zScores)
+                                adjP <- generatePvals(Gm,w,correlation,pvalues)
+                                rejected <- adjP <= alpha
+                                names(adjP) <- nodes(graph)
 				names(rejected) <- nodes(graph)
 			}
-			return(new("gMCPResult", graphs=sequence, alpha=alpha, pvalues=pvalues, rejected=rejected, adjPValues=numeric(0)))
+			return(new("gMCPResult", graphs=sequence, alpha=alpha, pvalues=pvalues, rejected=rejected, adjPValues=adjP))
 		}
 	}
 }
