@@ -88,14 +88,29 @@ public class CreateGraphGUI extends JFrame implements WindowListener, AbortListe
 				screenSize.height - inset*2);
 
 		setVisible(true);
-		splitPane1.setDividerLocation(0.75);
-		splitPane2.setDividerLocation(0.5);		
+		splitPane1.setResizeWeight(0.75);//.setDividerLocation(0.75);
+		splitPane2.setResizeWeight(0.5);//.setDividerLocation(0.5);		
 		
 		// If this causes trouble look again at the following bug work around:
 		// http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=6409815
 		// or perhaps try something like this:
 		// http://www.jguru.com/faq/view.jsp?EID=27191
 
+		//TODO Is there really no better way than this kind of strange workaround?!?
+		/* javax.swing.SwingUtilities.invokeLater(new Runnable() {
+			public void run() {
+				for (int i=0; i<10; i++) {
+					try {
+						Thread.sleep(500);
+					} catch (InterruptedException e) {
+						logger.warn("Interrupted: "+e.getMessage(), e);
+					}				
+					splitPane1.setDividerLocation(0.75);
+					splitPane2.setDividerLocation(0.5);
+				}
+			}
+		});	*/
+		
 		javax.swing.SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
 				VersionComparator vc = new VersionComparator();
