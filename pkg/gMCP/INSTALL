@@ -9,7 +9,7 @@ biocLite("graph")
 install.packages("gMCP")
 
 The installation of gMCP via install.packages("gMCP") should be
-unproblematic. However two of the packages gMCP depends on or 
+unproblematic. However one of the packages gMCP depends on or 
 suggests perhaps need more attention:
 
 rJava:
@@ -28,6 +28,20 @@ For Unix:
 
 Most likely you will have to run the command "R CMD javareconf" with
 root permissions to let R find your java compiler and headers.
+
+
+General Troubleshooting:
+========================
+
+Warning: unable to move temporary installation 'XYZ' to 'ZYX'
+
+If you get this warning while installing or updating packages,
+most likely some other Windows program is accessing the newly installed 
+files and prevents R to move them to the correct place.
+Often simply trying to install the package a second time works.
+Otherwise try to pause your antivirus programs or search indexing 
+(like Google Desktop Search) while installing the packages.
+
 
 Rgraphviz:
 ==========
