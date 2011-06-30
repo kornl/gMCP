@@ -1,13 +1,17 @@
 package org.af.gMCP.config;
 
+import java.awt.Frame;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.StringTokenizer;
 
+import javax.swing.JDialog;
 import javax.swing.JOptionPane;
+import javax.swing.JTextArea;
 
 import org.af.commons.widgets.vi.SVNVersions;
 import org.apache.commons.logging.Log;
@@ -16,12 +20,27 @@ import org.apache.commons.logging.LogFactory;
 /**
  * Compares two version strings. Separators should only be points, e.g. 2.7.1 or 0.1.15
  */
-public class VersionComparator {
+public class VersionComparator extends JDialog {
 	
 	protected static Log logger = LogFactory.getLog(VersionComparator.class);
 	
-	static String onlineversionstring;
-	static int onlineversion;
+	static String onlineversion;
+	
+	public VersionComparator(String txt, String longMessage, String version, String onlineVersion) {
+		super((Frame)null, "New version available!");
+		getContentPane().setLayout(new GridBagLayout());
+		
+		GridBagConstraints c = new GridBagConstraints();
+		
+		c.fill = GridBagConstraints.HORIZONTAL;		
+		c.gridx=0; c.gridy=0;
+		c.gridwidth = 1; c.gridheight = 1;
+		c.ipadx=10; c.ipady=10;
+		c.weightx=1; c.weighty=1;
+		
+		JTextArea jta1 = new JTextArea(txt);
+		JTextArea jta2 = new JTextArea(txt);
+	}
 	
     /**
      * Compares two version strings. Separators should only be points, e.g. 2.7.1 or 0.1.15
@@ -57,27 +76,34 @@ public class VersionComparator {
         }
     }
     
-	public void getOnlineVersion() {
+	public static void getOnlineVersion() {
 		try {
-			if (Configuration.getInstance().getGeneralConfig().checkOnline()) {		
-				String stopString = "Version "+Configuration.getInstance().getGeneralConfig().getVersionNumber();				
-				URL url = new URL("http://www.algorithm-forge.com/gMCP/version.php?time="+Configuration.getInstance().getGeneralConfig().getRandomID());
+			if (Configuration.getInstance().getGeneralConfig().checkOnline()) {
+				String version = Configuration.getInstance().getGeneralConfig().getVersionNumber();
+				String rversion = Configuration.getInstance().getGeneralConfig().getRVersionNumber();								
+				URL url = new URL("http://www.algorithm-forge.com/gMCP/version.php?R="+rversion
+						+"&gMCP="+version
+						+"&time="+Configuration.getInstance().getGeneralConfig().getRandomID());
 				URL newsURL = new URL("http://cran.r-project.org/web/packages/gMCP/NEWS");
 				logger.info("Get version from "+url.toString());
 				URLConnection conn = url.openConnection();
-				BufferedReader in = new BufferedReader(
-						new InputStreamReader(
-								conn.getInputStream()));			
-				onlineversionstring = in.readLine();			
-				in.close();			
-				onlineversion = SVNVersions.parseInt(onlineversionstring);
+				BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));			
+				onlineversion = in.readLine();
+				String line;
+				String txt = "";
+				while ((line = in.readLine()) != null) {
+					if (line.equals("END")) break;
+					txt += line + "\n"; 
+				}
+				in.close();
 
-				if (Configuration.getInstance().getGeneralConfig().reminderNewVersion() && compare(onlineversionstring, Configuration.getInstance().getGeneralConfig().getVersionNumber())>0) {					
-					String message = "The newest version on CRAN is "+onlineversionstring+". "+
-									 "Your version is "+Configuration.getInstance().getGeneralConfig().getVersionNumber()+".\n"+
+				if (Configuration.getInstance().getGeneralConfig().reminderNewVersion() && compare(onlineversion, Configuration.getInstance().getGeneralConfig().getVersionNumber())>0) {					
+					String message = "The newest version on CRAN is "+onlineversion+". "+
+									 "Your version is "+version+".\n"+
 									 "If you want to update, please restart R and use install.packages(\"gMCP\").\n"+
 									 "Please note that you can not update gMCP while it is loaded.";
-					JOptionPane.showMessageDialog(null, message, "New version available!", JOptionPane.INFORMATION_MESSAGE);
+					//JOptionPane.showMessageDialog(null, message, "New version available!", JOptionPane.INFORMATION_MESSAGE);
+					new VersionComparator(message, txt, version, onlineversion);
 				}
 			}
 		} catch (Exception e) {

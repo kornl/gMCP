@@ -30,7 +30,6 @@ import org.af.gMCP.config.Configuration;
 import org.af.gMCP.gui.RControl;
 import org.af.gMCP.gui.graph.NetList;
 import org.af.gMCP.gui.graph.Node;
-import org.af.jhlir.call.RNumeric;
 import org.mutoss.gui.JavaGDPanel;
 
 public class DialogConfIntEstVar extends JDialog implements ActionListener, ChangeListener, DocumentListener {

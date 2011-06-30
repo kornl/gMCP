@@ -171,6 +171,15 @@ public class GeneralConfig extends SpecificConfig {
 	public String getVersionNumber() {
 		return getProperty("gMCPversion", "<= 0.6.0");
 	}
+	
+	public void setRVersionNumber(String version) {
+		setProperty("Rversion", version);
+	}
+
+	public String getRVersionNumber() {
+		return getProperty("Rversion", "unknown");
+	}
+
 
 	public void setRandomID() {
 		setProperty("randomID", ""+Math.abs((new Random()).nextInt()));

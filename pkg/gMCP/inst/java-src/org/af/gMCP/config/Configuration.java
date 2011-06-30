@@ -15,7 +15,7 @@ public class Configuration {
 	protected static Log logger = LogFactory.getLog(Configuration.class);
     protected Preferences prefs;
     protected static Configuration instance = null;
-    private String projectName;
+    private String projectName = "gMCP";
     private final String keyPrefix;
     public final static String NOTFOUND = "___NOT_FOUND___";
 
@@ -27,9 +27,6 @@ public class Configuration {
         prefs = Preferences.userRoot();
         keyPrefix = projectName + ".";
     }
-
-    public final static String TOXICOLOGY = "toxicology";
-    public final static String DOSERESPONSE = "doseresponse";
 
     /**
      * Configuration is a Singleton.
@@ -96,9 +93,6 @@ public class Configuration {
     public String getProjectName() {
         return projectName;
     }
-
-    public final static String LOCALINSTALL = "local-install";
-	public static final String UNIFIEDCLIENT = "unified-client";
 
 	public GeneralConfig getGeneralConfig() {
         return new GeneralConfig(this);
