@@ -2,18 +2,15 @@ BonferroniHolmGraph <- function(n) {
 	if (missing(n)) { stop("Please provide the number of hypotheses as parameter n.") }
 	weights <- rep(1/n, n)
 	hnodes <- paste("H", 1:n, sep="")
-	edges <- vector("list", length=n)
-	for(i in 1:n) {
-		edges[[i]] <- list(edges=hnodes[(1:n)[-i]], weights=rep(1/(n-1),n-1))
-	}
-	names(edges)<-hnodes
-	BonferroniHolmGraph <- new("graphMCP", nodes=hnodes, edgeL=edges, weights=weights)
+	m <- matrix(1/(n-1), nrow=n, ncol=n)
+	diag(m) <- 0
+	rownames(m) <- colnames(m) <- hnodes
+	BonferroniHolmGraph <- new("graphMCP", m=m, weights=weights)
 	# Visualization settings
 	nodeX <- 100+(0:(n-1))*200
-	nodeY <- rep(200, n)
-	names(nodeX) <- hnodes
-	names(nodeY) <- hnodes
-	nodeRenderInfo(BonferroniHolmGraph) <- list(nodeX=nodeX, nodeY=nodeY)	
+	nodeY <- rep(200, n)	
+	BonferroniHolmGraph@nodeData$X <- nodeX
+	BonferroniHolmGraph@nodeData$Y <- nodeY		
 	# Label settings
 	for (i in 1:n) {
 		n1 <- hnodes[i]
@@ -21,7 +18,7 @@ BonferroniHolmGraph <- function(n) {
 			n2 <- hnodes[j]
 			x <- ((i+j)*200-200)/2
 			y <- 200 + ((i-j)*50)
-			edgeData(BonferroniHolmGraph, n1, n2, "labelX") <- x
+			edgeData(BonferroniHolmGraph, n1, n2, "labelX") <- x			
 			edgeData(BonferroniHolmGraph, n1, n2, "labelY") <- y
 		}
 	}
@@ -35,26 +32,20 @@ BonferroniHolmGraph <- function(n) {
 }
 
 graphFromBretzEtAl2011 <- function() {
-	# Nodes:
-	weights <- rep(c(1/3,0), each=3)	
-	hnodes <- paste("H", rep(1:3, 2), rep(1:2, each=3), sep="")
-	# Edges:
-	edges <- vector("list", length=6)
-	edges[[1]] <- list(edges=c("H21","H12"), weights=rep(1/2, 2))
-	edges[[2]] <- list(edges=c("H11","H31","H22"), weights=rep(1/3, 3))
-	edges[[3]] <- list(edges=c("H21","H32"), weights=rep(1/2, 2))
-	edges[[4]] <- list(edges="H21", weights=1)
-	edges[[5]] <- list(edges=c("H11","H31"), weights=rep(1/2, 2))
-	edges[[6]] <- list(edges="H21", weights=1)
-	names(edges)<-hnodes
+	# M:
+	m <- rbind(H11=c(0,   0.5, 0,   0.5, 0,   0  ),
+			H21=c(1/3, 0,   1/3, 0,   1/3, 0  ),
+			H31=c(0,   0.5, 0,   0,   0,   0.5),
+			H12=c(0,   1,   0,   0,   0,   0  ),
+			H22=c(0.5, 0,   0.5, 0,   0,   0  ),
+			H32=c(0,   1,   0,   0,   0,   0  ))	
 	# Graph creation
-	graph <- new("graphMCP", nodes=hnodes, edgeL=edges, weights=weights)
+	graph <- new("graphMCP", m=m, weights=weights)
 	# Visualization settings
 	nodeX <- rep(c(100, 300, 500), 2)
 	nodeY <- rep(c(100, 300), each=3)
-	names(nodeX) <- hnodes
-	names(nodeY) <- hnodes
-	nodeRenderInfo(graph) <- list(nodeX=nodeX, nodeY=nodeY)
+	graph@nodeData$X <- nodeX
+	graph@nodeData$Y <- nodeY	
 	# Label placement
 	edgeData(graph, "H11", "H21", "labelX") <- 200
 	edgeData(graph, "H11", "H21", "labelY") <- 80	
@@ -104,9 +95,8 @@ graphFromHommelEtAl2007 <- function() {
 	# Visualization settings
 	nodeX <- c(200, 400, 600, 100, 300, 500, 700)
 	nodeY <- c(100, 100, 100, 300, 300, 300, 300)
-	names(nodeX) <- hnodes
-	names(nodeY) <- hnodes
-	nodeRenderInfo(graph) <- list(nodeX=nodeX, nodeY=nodeY)
+	graph@nodeData$X <- nodeX
+	graph@nodeData$Y <- nodeY	
 	for (i in 1:4) {
 		n1 <- hnodes[3+i]
 		edgeData(graph, n1, "E1", "epsilon") <- list(1)
@@ -146,9 +136,8 @@ graphForParallelGatekeeping <- function() {
 	# Visualization settings
 	nodeX <- rep(c(100, 300), 2)
 	nodeY <- rep(c(100, 300), each=2)
-	names(nodeX) <- hnodes
-	names(nodeY) <- hnodes
-	nodeRenderInfo(graph) <- list(nodeX=nodeX, nodeY=nodeY)
+	graph@nodeData$X <- nodeX
+	graph@nodeData$Y <- nodeY	
 	# Label placement
 	edgeData(graph, "H1", "H4", "labelX") <- 150
 	edgeData(graph, "H1", "H4", "labelY") <- 150
@@ -195,9 +184,8 @@ graph2FromBretzEtAl2011 <- function() {
 	# Visualization settings
 	nodeX <- rep(c(100, 300), 2)
 	nodeY <- rep(c(100, 300), each=2)
-	names(nodeX) <- hnodes
-	names(nodeY) <- hnodes
-	nodeRenderInfo(graph) <- list(nodeX=nodeX, nodeY=nodeY)	
+	graph@nodeData$X <- nodeX
+	graph@nodeData$Y <- nodeY	
 	attr(graph, "description") <- paste("Graph representing the procedure from Bretz et al. (2011) - Figure 6", 
 			"",
 			"Literature: Bretz, F., Maurer, W. and Hommel, G. (2011), Test and power considerations for multiple endpoint analyses using sequentially rejective graphical procedures. Statistics in Medicine, 30: n/a.", sep="\n")
@@ -228,9 +216,8 @@ graphFromHungEtWang2010 <- function() {
 	# Visualization settings
 	nodeX <- rep(c(100, 300), 2)
 	nodeY <- rep(c(100, 300), each=2)
-	names(nodeX) <- hnodes
-	names(nodeY) <- hnodes
-	nodeRenderInfo(graph) <- list(nodeX=nodeX, nodeY=nodeY)
+	graph@nodeData$X <- nodeX
+	graph@nodeData$Y <- nodeY	
 	attr(graph, "description") <- paste("Graph representing the procedure from Hung and Wang (2010)",
 			"",
 			"H_{1,NI} : Non-inferiority of the primary endpoint",
@@ -259,9 +246,8 @@ graphFromMaurerEtAl1995 <- function() {
 	# Visualization settings
 	nodeX <- c(100, 200, 300, 400, 400)
 	nodeY <- c(100, 100, 100, 50, 150)
-	names(nodeX) <- hnodes
-	names(nodeY) <- hnodes
-	nodeRenderInfo(graph) <- list(nodeX=nodeX, nodeY=nodeY)
+	graph@nodeData$X <- nodeX
+	graph@nodeData$Y <- nodeY	
 	attr(graph, "description") <- paste("Graph representing a procedure in drug clinical trials (from Maurer et al. 1995, Scenario 1)",
 			"",
 			"In a univariate one-way design a drug A is compared against placebo and two positive control drugs B and C.",
@@ -312,9 +298,8 @@ gatekeepingGraph <- function(n, type=c("serial", "parallel", "imporved parallel"
 	# Visualization settings
 	nodeX <- c(100, 200, 300, 400, 400)
 	nodeY <- c(100, 100, 100, 50, 150)
-	names(nodeX) <- hnodes
-	names(nodeY) <- hnodes
-	nodeRenderInfo(graph) <- list(nodeX=nodeX, nodeY=nodeY)
+	graph@nodeData$X <- nodeX
+	graph@nodeData$Y <- nodeY
 	attr(graph, "description") <- paste("Graph representing ...",
 			"",
 			"Literature:", sep="\n")	
@@ -405,6 +390,7 @@ joinGraphs <- function(graph1, graph2, xOffset=0, yOffset=200) {
 	nodeY <- c(getYCoordinates(graph1), getYCoordinates(graph2) + yOffset) 
 	names(nodeX) <- nNames
 	names(nodeY) <- nNames
-	nodeRenderInfo(graph) <- list(nodeX=nodeX, nodeY=nodeY)
+	graph@nodeData$X <- nodeX
+	graph@nodeData$Y <- nodeY
 	return(graph)
 }

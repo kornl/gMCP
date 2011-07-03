@@ -1,5 +1,20 @@
 
-Version 0.6-6 (03-Jul-2011, Rev. ???)
+Version 0.7-0 (??-???-2011, Rev. ???)
+=====================================
+
+- Package "graph" is no longer a dependency.
+  Class definition of graphMCP has changed and is no
+  longer a subclass of graphNEL. Code is provided to
+  update old serialized (saved) objects.  
+
+- The GUI will (optionally) look for a newer version of 
+  gMCP on CRAN.
+
+- Power simulation code is influenced by Bjoern Bornkamp
+  and code he has written, therefore he is our third author.
+
+  
+Version 0.6-6 (03-Jul-2011, Rev. 860)
 =====================================
 
 - Adjusted p-values are calculated also in the parametric case.

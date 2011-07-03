@@ -74,7 +74,7 @@
 
 \tableofcontents
 
-% Bibliotheken
+% Bibliotheken - Chunk 1
 <<echo=FALSE,results=hide>>=
 
 library(gMCP)
@@ -107,23 +107,23 @@ likely still change in future versions.
 
 \subsection{Installation}
 
-Open R and type %\texttt{install.packages("gMCP")} 
-the following commands into the R Console:
-
+Open R and type \texttt{install.packages("gMCP")}, 
+%the following commands into the R Console:
 %\scriptsize
-<<echo=TRUE,eval=F>>=
-
-source("http://www.bioconductor.org/biocLite.R")
-biocLite("graph")
-install.packages("gMCP")
-
-@
+%<<echo=TRUE,eval=F>>=
+%
+%source("http://www.bioconductor.org/biocLite.R")
+%biocLite("graph")
+%install.packages("gMCP")
+%
+%@
 %\normalsize
-
-Select an arbitrary mirror and gMCP will be downloaded and installed.
+%
+select an arbitrary mirror and gMCP will be downloaded and installed.
 
 From now on you can load the gMCP package by entering
 \texttt{library(gMCP)} into the R Console.
+The graphical user interface is started with the command \texttt{graphGUI()}.
 
 If you run into problems, see
 \url{http://cran.r-project.org/web/packages/gMCP/INSTALL} or write us
@@ -157,6 +157,7 @@ and edges have weights.
 
 \begin{figure}[ht]
   \centering
+% Chunk 2
 <<echo=FALSE,results=tex>>=
 
 graph <- BonferroniHolmGraph(3)
@@ -190,6 +191,7 @@ edge weights.
 
 \begin{figure}[ht]
   \centering
+% Chunk 3
 <<echo=FALSE,results=tex>>=
 
 graph <- BonferroniHolmGraph(3)
@@ -210,6 +212,7 @@ cat(graph2latex(graph, scale=0.7, fontsize="tiny", nodeTikZ="minimum size=1.2cm"
 Let's reproduce this with the \texttt{gMCP} package. We start R and enter:
 
 \scriptsize
+% Chunk 4
 <<echo=TRUE, size=scriptsize>>=
 
 library(gMCP)
@@ -227,6 +230,7 @@ test procedure and can sequentially reject all three hypotheses.
 If we don't want to use the GUI we can also use R:
 
 \scriptsize
+% Chunk 5
 <<echo=TRUE, size=scriptsize>>=
 
 library(gMCP)
@@ -264,19 +268,7 @@ must be created.
   \centering   
 <<echo=FALSE,results=tex>>=
 
-hnodes <- c("H11", "H21", "H31", "H12", "H22", "H32")
-weights <- c(1/3, 1/3, 1/3, 0, 0, 0)
-edges <- list()
-edges[["H11"]] <- list(edges=c("H21","H12"), weights=c(1/2, 1/2))
-edges[["H21"]] <- list(edges=c("H11","H31","H22"), weights=c(1/3, 1/3, 1/3))
-edges[["H31"]] <- list(edges=c("H21","H32"), weights=c(1/2, 1/2))
-edges[["H12"]] <- list(edges="H21", weights=1)
-edges[["H22"]] <- list(edges=c("H11","H31"), weights=c(1/2, 1/2))
-edges[["H32"]] <- list(edges="H21", weights=1)
-graph <- new("graphMCP", nodes=hnodes, edgeL=edges, weights=weights)
-nodeX <- c(H11=100, H21=300, H31=500, H12=100, H22=300, H32=500)
-nodeY <- c(H11=100, H21=100, H31=100, H12=300, H22=300, H32=300)
-nodeRenderInfo(graph) <- list(nodeX=nodeX, nodeY=nodeY)	
+graph <- graphFromBretzEtAl2011()
 cat(graph2latex(graph, scale=0.7, fontsize="tiny"))
 
 @
@@ -284,14 +276,6 @@ cat(graph2latex(graph, scale=0.7, fontsize="tiny"))
 \end{figure}
 
 \subsection{Using R}
-
-We build upon the package \texttt{graph} \cite{graph}, more precisely
-we declare a new class \texttt{graphMCP} that is a subclass of
-\texttt{graphNEL}\footnote{The \texttt{initialize} method of this subclass
-differs only in an extra argument \texttt{weights} for the nodes that
-specifies the initial allocation of the significance level alpha to the individual
-hypotheses.  Declaration of the nodes and edges is inherited from
-class \texttt{graphNEL}.}.
 
 The most convenient way to create a graph in R is to use the functions
 \texttt{matrix2graph}\index{matrix2graph} and

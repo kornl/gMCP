@@ -12,8 +12,8 @@ graph2latex <- function(graph, package="TikZ", scale=1, alpha=0.05, pvalues,
 	#tikz <- paste(tikz, "\\tikzset{help lines/.style=very thin}", paste="\n")	
 	for (node in nodes(graph)) {
 		nodeColor <- ifelse(getRejected(graph, node),"red!80", "green!80")
-		x <- nodeRenderInfo(graph)$nodeX[node]*scale
-		y <- nodeRenderInfo(graph)$nodeY[node]*scale
+		x <- graph@nodeData$X[node]*scale
+		y <- graph@nodeData$Y[node]*scale
 		#alpha <- format(getWeights(graph,node), digits=3, drop0trailing=TRUE)
 		weight <- getLaTeXFraction(getWeights(graph,node))
 		if (weight == 1) {
@@ -35,16 +35,14 @@ graph2latex <- function(graph, package="TikZ", scale=1, alpha=0.05, pvalues,
 		tikz <- paste(tikz, nodeLine,sep="\n")			
 	}
 	# A second loop for the edges is necessary:
-	for (node in nodes(graph)) {
-		edgeL <- edgeWeights(graph)[[node]]	
-		if (length(edgeL)!=0) {
-			for (i in 1:length(edgeL)) {	
-				# The following to lines test whether the edge in opposite direction exists:
-				weight <- try(edgeData(graph, names(edgeL[i]), node,"weight"), silent = TRUE)
-				to <- ifelse(class(weight)=="try-error", "auto", "bend left=15")			
+	for (i in nodes(graph)) {
+		for (j in nodes(graph)) {
+			if (graph@m[i,j]!=0) {
+				# The following to lines test whether the edge in opposite direction exists:				
+				to <- ifelse(graph@m[j,i]==0, "auto", "bend left=15")
 				#weight <- ifelse(edgeL[i]==0, "\\epsilon", getLaTeXFraction(edgeL[i])) # format(edgeL[i], digits=3, drop0trailing=TRUE))
-				weight <- getWeightStr(graph, node, names(edgeL[i]), LaTeX=TRUE) 
-				edgeLine <- paste("\\draw [->,line width=1pt] (",node,") to[",to,"] node[",labelTikZ,"] {$",weight,"$} (",names(edgeL[i]),");",sep="")
+				weight <- getWeightStr(graph, i, j, LaTeX=TRUE) 
+				edgeLine <- paste("\\draw [->,line width=1pt] (",i,") to[",to,"] node[",labelTikZ,"] {$",weight,"$} (",j,");",sep="")
 				tikz <- paste(tikz, edgeLine,sep="\n")
 			}
 		}

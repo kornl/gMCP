@@ -1,7 +1,6 @@
 useDynLib(gMCP)
 
 import(utils)
-import(graph)
 import(rJava)
 importFrom(graphics, plot)
 

@@ -41,7 +41,7 @@ getEdges <- function(graph){
 }
 
 placeNodes <- function(graph, nrow, ncol, byrow = TRUE, force = FALSE) {
-	if (length(nodeRenderInfo(graph))==0 || force) {
+	if (is.null(graph@nodeData$X)==0 || force) {
 		n <- length(nodes(graph))
 		if (missing(nrow) && missing(ncol)) {		
 			v <- (1:n)/n*2*pi
@@ -61,22 +61,17 @@ placeNodes <- function(graph, nrow, ncol, byrow = TRUE, force = FALSE) {
 				nodeX <- rep(((1:ncol)-1)*200+100, each = nrow)
 				nodeY <- rep(((1:nrow)-1)*200+100, ncol)
 			}
-		}		
-		nodeX <- nodeX[1:n]
-		nodeY <- nodeY[1:n]
-		names(nodeX) <- nodes(graph)
-		names(nodeY) <- nodes(graph)
-		nodeRenderInfo(graph) <- list(nodeX=nodeX, nodeY=nodeY)
-		for (node in nodes(graph)) {
-			edgeL <- edgeWeights(graph)[[node]]	
-			if (length(edgeL)!=0) {
-				for (i in 1:length(edgeL)) {
-					to <- names(edgeL[i])
-					edgeData(graph, node, to, "labelX") <- -100
-					edgeData(graph, node, to, "labelY") <- -100
+		}
+		graph@nodeData$X <- nodeX[1:n]
+		graph@nodeData$Y <- nodeY[1:n]
+		for (i in nodes(graph)) {
+			for (j in nodes(graph)) {
+				if (graph@m[i,j]!=0) {
+					edgeData(graph, i, j, "labelX") <- -100
+					edgeData(graph, i, j, "labelY") <- -100
 				}
 			}
-		}
+		}		
 	}	
 	return(graph)	
 }
