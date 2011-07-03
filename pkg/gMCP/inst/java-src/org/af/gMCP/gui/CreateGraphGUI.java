@@ -18,6 +18,7 @@ import org.af.commons.errorhandling.ErrorHandler;
 import org.af.commons.widgets.InfiniteProgressPanel;
 import org.af.commons.widgets.InfiniteProgressPanel.AbortListener;
 import org.af.gMCP.config.Configuration;
+import org.af.gMCP.config.VersionComparator;
 import org.af.gMCP.gui.datatable.CellEditorE;
 import org.af.gMCP.gui.datatable.DataFramePanel;
 import org.af.gMCP.gui.datatable.DataTable;
@@ -113,11 +114,11 @@ public class CreateGraphGUI extends JFrame implements WindowListener, AbortListe
 			}
 		}).start();
 		
-		/* javax.swing.SwingUtilities.invokeLater(new Runnable() {
+		javax.swing.SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
 				 VersionComparator.getOnlineVersion();
 			}
-		});	*/
+		});
 	}
 	
 	/**
