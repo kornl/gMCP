@@ -1,6 +1,8 @@
 
-Version 0.6-6 (??-???-2011, Rev. ???)
+Version 0.6-6 (03-Jul-2011, Rev. ???)
 =====================================
+
+- Adjusted p-values are calculated also in the parametric case.
 
 - Graphs without epsilon edges can be processed by a
   much faster procedure written in C.
@@ -10,17 +12,11 @@ Version 0.6-6 (??-???-2011, Rev. ???)
 - Hopefully setDividerLocation works now always correct, i.e. 
   the graph panel will always use 2/3 of the screen.
   
-- The GUI will (optionally) look for a newer version of 
-  gMCP on CRAN.
-  
 - Fractions like (1-a)/(1+b) are now shown with the 
   correct layout in the GUI.
 
-- Power simulation code is influenced by Bjoern Bornkamp
-  and code he has written, therefore he is our third author.
-  
 - Speed up due to reduced Java/R communication.
-  More results are now cached in a Hashtable.   
+  (More results are now cached in a Hashtable.)   
 
 Version 0.6-5 (26-May-2011, Rev. 825)
 =====================================
