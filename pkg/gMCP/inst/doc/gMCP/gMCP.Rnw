@@ -266,6 +266,7 @@ must be created.
 
 \begin{figure}[ht]
   \centering   
+% Chunk 6
 <<echo=FALSE,results=tex>>=
 
 graph <- graphFromBretzEtAl2011()

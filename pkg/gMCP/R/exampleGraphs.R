@@ -40,6 +40,7 @@ graphFromBretzEtAl2011 <- function() {
 			H22=c(0.5, 0,   0.5, 0,   0,   0  ),
 			H32=c(0,   1,   0,   0,   0,   0  ))	
 	# Graph creation
+	weights <- c(1/3, 1/3, 1/3, 0, 0, 0)
 	graph <- new("graphMCP", m=m, weights=weights)
 	# Visualization settings
 	nodeX <- rep(c(100, 300, 500), 2)
