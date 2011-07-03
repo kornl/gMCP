@@ -3,6 +3,7 @@ package org.af.gMCP.gui;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.PrintStream;
+import java.util.Hashtable;
 
 import org.af.commons.errorhandling.ErrorHandler;
 import org.af.commons.logging.ApplicationLog;
@@ -74,8 +75,14 @@ public class RControl {
 		if (System.getProperty("eclipse") == null && !debug) System.setOut(new PrintStream(new LoggingOutputStream(logger), true));
 	}
 	
+	static Hashtable<String, String> fractions = new Hashtable<String, String>(); 
+	
 	public static String getFraction(Double d, int cycles) {
-		return RControl.getR().eval("as.character(fractions("+d+(cycles==-1?"":", cycles="+cycles)+"))").asRChar().getData()[0];		
+		String result = fractions.get(""+d+":"+cycles);
+		if (result != null) return result;
+		result = RControl.getR().eval("as.character(fractions("+d+(cycles==-1?"":", cycles="+cycles)+"))").asRChar().getData()[0];
+		fractions.put(""+d+":"+cycles, result);
+		return result;
 	}
 	
 	public static String getFraction(Double d, boolean useUnicode) {
@@ -103,7 +110,7 @@ public class RControl {
 		if (f.equals("5/8")) return("⅝");
 		if (f.equals("7/8")) return("⅞");*/
 		return f;
-	}
+	} 
 
 	public static String getFraction(Double d) {
 		return getFraction(d, -1);
