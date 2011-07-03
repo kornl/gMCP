@@ -16,7 +16,7 @@
 \alias{getYCoordinates,graphMCP-method}
 \alias{addEdge}
 \alias{addEdge,character,character,graphMCP,character-method}
-\alias{addEdge,character,character,graphNEL,numeric-method}
+\alias{addEdge,character,character,graphMCP,numeric-method}
 \title{Class graphMCP}
 \description{A graphMCP object describes a sequentially rejective multiple test procedure.}
 \section{Slots}{  

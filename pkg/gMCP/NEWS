@@ -17,6 +17,8 @@ Version 0.7-0 (??-???-2011, Rev. ???)
 Version 0.6-6 (03-Jul-2011, Rev. 860)
 =====================================
 
+- Fixed a bug in the GUI that deleted often p-values.
+
 - Adjusted p-values are calculated also in the parametric case.
 
 - Graphs without epsilon edges can be processed by a

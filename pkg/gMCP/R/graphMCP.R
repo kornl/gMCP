@@ -17,8 +17,8 @@ setMethod("initialize", "graphMCP",
 			.Object@nodeData <- nodeData
 			.Object@edgeData <- edgeData
 			if(is.null(graph@nodeData$rejected)) {
-				graph@nodeData$rejected <- rep(FALSE, dim(m)[0])
-				names(graph@nodeData$rejected) <- rownames(m)
+				.Object@nodeData$rejected <- rep(FALSE, dim(m)[0])
+				names(.Object@nodeData$rejected) <- rownames(m)
 			}
 			validObject(.Object)
 			return(.Object)
