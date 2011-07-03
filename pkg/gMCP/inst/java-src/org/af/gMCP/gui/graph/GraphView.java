@@ -190,6 +190,7 @@ public class GraphView extends JPanel implements ActionListener {
 				getPView().savePValues();
 				getNL().saveGraphWithoutVariables(getNL().initialGraph, false);
 	        	getNL().loadGraph();
+	        	getPView().restorePValues();
 			}
 			if (getNL().getKnoten().size()==0) {
 				JOptionPane.showMessageDialog(parent, "Please create first a graph.", "Please create first a graph.", JOptionPane.ERROR_MESSAGE);
@@ -215,8 +216,10 @@ public class GraphView extends JPanel implements ActionListener {
 			}
 		} else if (e.getSource().equals(buttonStart)) {
 			if (!getNL().isTesting()) {
+				getPView().savePValues();
 				getNL().saveGraphWithoutVariables(getNL().initialGraph, false);
 	        	getNL().loadGraph();
+	        	getPView().restorePValues();
 				parent.glassPane.start();				
 				startTesting();
 				correlation = parent.getPView().getCorrelation();
@@ -242,9 +245,10 @@ public class GraphView extends JPanel implements ActionListener {
 				JOptionPane.showMessageDialog(parent, "Please create first a graph.", "Please create first a graph.", JOptionPane.ERROR_MESSAGE);				
 			} else {
 				if (!getNL().isTesting()) {
-					getNL().saveGraphWithoutVariables(getNL().initialGraph, false);
-		        	getNL().loadGraph();
 					getPView().savePValues();
+					getNL().saveGraphWithoutVariables(getNL().initialGraph, false);
+		        	getNL().loadGraph();					
+					getPView().restorePValues();
 				}
 				parent.glassPane.start();
 				//startTesting();
@@ -336,7 +340,7 @@ public class GraphView extends JPanel implements ActionListener {
 
 	public void enableButtons(Boolean enabled) {
 		buttonadjPval.setEnabled(enabled);
-		buttonConfInt.setEnabled(enabled);
+		if (getPView().jrbNoCorrelation.isSelected()) buttonConfInt.setEnabled(enabled);
 		buttonStart.setEnabled(enabled);
 	}
 

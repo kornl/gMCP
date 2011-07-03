@@ -10,10 +10,8 @@ import java.net.URLConnection;
 import java.util.StringTokenizer;
 
 import javax.swing.JDialog;
-import javax.swing.JOptionPane;
 import javax.swing.JTextArea;
 
-import org.af.commons.widgets.vi.SVNVersions;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
