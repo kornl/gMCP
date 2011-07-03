@@ -18,6 +18,9 @@ Version 0.6-6 (??-???-2011, Rev. ???)
 
 - Power simulation code is influenced by Bjoern Bornkamp
   and code he has written, therefore he is our third author.
+  
+- Speed up due to reduced Java/R communication.
+  More results are now cached in a Hashtable.   
 
 Version 0.6-5 (26-May-2011, Rev. 825)
 =====================================

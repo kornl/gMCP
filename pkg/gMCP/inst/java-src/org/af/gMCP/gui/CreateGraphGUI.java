@@ -89,8 +89,10 @@ public class CreateGraphGUI extends JFrame implements WindowListener, AbortListe
 				screenSize.height - inset*2);
 
 		setVisible(true);
-		splitPane1.setResizeWeight(0.75);//.setDividerLocation(0.75);
-		splitPane2.setResizeWeight(0.5);//.setDividerLocation(0.5);		
+		splitPane1.setDividerLocation(0.75);
+		splitPane2.setDividerLocation(0.5);
+		splitPane1.setResizeWeight(0.75);
+		splitPane2.setResizeWeight(0.5);		
 		
 		// If this causes trouble look again at the following bug work around:
 		// http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=6409815
@@ -98,19 +100,21 @@ public class CreateGraphGUI extends JFrame implements WindowListener, AbortListe
 		// http://www.jguru.com/faq/view.jsp?EID=27191
 
 		//TODO Is there really no better way than this kind of strange workaround?!?
-		/* javax.swing.SwingUtilities.invokeLater(new Runnable() {
+		Thread t = new Thread(new Runnable() {
 			public void run() {
-				for (int i=0; i<10; i++) {
+				for (int i=0; i<6; i++) {
 					try {
-						Thread.sleep(500);
+						Thread.sleep(1000);
 					} catch (InterruptedException e) {
 						logger.warn("Interrupted: "+e.getMessage(), e);
 					}				
 					splitPane1.setDividerLocation(0.75);
 					splitPane2.setDividerLocation(0.5);
+					System.out.println("setDividerLocation "+i);
 				}
 			}
-		});	*/
+		});
+		t.start();
 		
 		javax.swing.SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
@@ -137,18 +141,15 @@ public class CreateGraphGUI extends JFrame implements WindowListener, AbortListe
 		});		
 	}
 	
-	JSplitPane splitPane;
-	JSplitPane splitPane1;
-	JSplitPane splitPane2;
+	JSplitPaneBugWorkAround splitPane;
+	JSplitPaneBugWorkAround splitPane1;
+	JSplitPaneBugWorkAround splitPane2;
 	
 	private void makeContent() {
 		dfp.getTable().setDefaultEditor(EdgeWeight.class, new CellEditorE(agc));
-		splitPane1 = new JSplitPane(JSplitPane.VERTICAL_SPLIT, agc, dview);
-		
-		splitPane2 = new JSplitPane(JSplitPane.VERTICAL_SPLIT, new JScrollPane(dfp), new JScrollPane(pview));
-		
-		splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, splitPane1, splitPane2);
-		
+		splitPane1 = new JSplitPaneBugWorkAround(JSplitPane.VERTICAL_SPLIT, agc, dview);		
+		splitPane2 = new JSplitPaneBugWorkAround(JSplitPane.VERTICAL_SPLIT, new JScrollPane(dfp), new JScrollPane(pview));		
+		splitPane = new JSplitPaneBugWorkAround(JSplitPane.HORIZONTAL_SPLIT, splitPane1, splitPane2);		
 		getContentPane().add(splitPane);		
 	}
 
