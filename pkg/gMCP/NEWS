@@ -14,7 +14,7 @@ Version 0.7-0 (??-???-2011, Rev. ???)
   and code he has written, therefore he is our third author.
 
   
-Version 0.6-6 (03-Jul-2011, Rev. 860)
+Version 0.6-6 (04-Jul-2011, Rev. 860)
 =====================================
 
 - Fixed a bug in the GUI that deleted often p-values.
@@ -33,7 +33,10 @@ Version 0.6-6 (03-Jul-2011, Rev. 860)
   correct layout in the GUI.
 
 - Speed up due to reduced Java/R communication.
-  (More results are now cached in a Hashtable.)   
+  (More results are now cached in a Hashtable.)
+  
+ 48 files changed, 559 insertions(+), 279 deletions(-)
+  
 
 Version 0.6-5 (26-May-2011, Rev. 825)
 =====================================

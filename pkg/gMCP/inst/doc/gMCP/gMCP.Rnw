@@ -286,6 +286,7 @@ figure \ref{exampleGraphBretz}.
 
 
 \scriptsize
+% Chunk 7
 <<echo=TRUE, size=scriptsize>>=
 
 m <- rbind(H11=c(0,   0.5, 0,   0.5, 0,   0  ),
@@ -304,6 +305,7 @@ graph <- setWeights(graph, c(1/3, 1/3, 1/3, 0, 0, 0))
 Let's print the newly created graph:
 
 \scriptsize
+% Chunk 8
 <<echo=TRUE, size=scriptsize>>=
 
 print(graph)
@@ -317,11 +319,11 @@ x- and y-coordinates in the renderInfo.  (We are compatible to the
 renderInfo usage from package Rgraphviz \cite{Rgraphviz}.)
 
 \scriptsize
+% Chunk 9
 <<echo=TRUE, size=scriptsize>>=
 
-nodeX <- c(H11=100, H21=300, H31=500, H12=100, H22=300, H32=500)
-nodeY <- c(H11=100, H21=100, H31=100, H12=300, H22=300, H32=300)
-nodeRenderInfo(graph) <- list(nodeX=nodeX, nodeY=nodeY)	
+graph@nodeData$X <- c(H11=100, H21=300, H31=500, H12=100, H22=300, H32=500)
+graph@nodeData$Y <- c(H11=100, H21=100, H31=100, H12=300, H22=300, H32=300)	
 
 @
 \normalsize
@@ -330,6 +332,7 @@ For placement of the nodes in a matrix pattern, the function \texttt{placeNodes}
 The following code does the same as the three lines of R code above.  
 
 \scriptsize
+% Chunk 10
 <<echo=TRUE, size=scriptsize>>=
 
 graph <- placeNodes(graph, nrow=2)
@@ -347,6 +350,7 @@ Let's take a look at the graph in {\LaTeX} rendered with TikZ
 \scriptsize
 %\lstset{language=[LaTeX]TeX}
 %\begin{lstlisting}
+% Chunk 11
 <<echo=TRUE, size=scriptsize>>=
 
 cat(graph2latex(graph))
@@ -361,6 +365,7 @@ place the label for the edge from \texttt{H1} to \texttt{H2} at
 position (200, 80):
 
 \scriptsize
+% Chunk 12
 <<echo=TRUE, size=scriptsize>>=
 
 edgeData(graph, "H11", "H21", "labelX") <- 200
@@ -385,6 +390,7 @@ edit.
 % available from the R command line.
 
 \scriptsize
+% Chunk 13
 <<echo=TRUE, size=scriptsize>>=
 
 graphGUI("graph")
@@ -436,6 +442,7 @@ You can either specify each rejection step yourself or simply use the
 method \texttt{gMCP}:
 
 \scriptsize
+% Chunk 14
 <<echo=TRUE,keep.source=TRUE, size=scriptsize>>=
 
 graph <- graphFromBretzEtAl2011()
@@ -456,6 +463,7 @@ We can create a TikZ graphic from the last graph with
 
 \begin{figure}[ht]
   \centering   
+% Chunk 15
 <<echo=FALSE,results=tex>>=
 
 cat(graph2latex(result@graphs[[4]], scale=0.7, fontsize="tiny"))
@@ -468,6 +476,7 @@ The command \texttt{gMCPReport}\index{report generation} generates a
 full report of the testing procedure:
 
 \scriptsize
+% Chunk 16
 <<echo=TRUE, size=scriptsize>>=
 
 gMCPReport(result, "Report.tex")
@@ -479,6 +488,7 @@ gMCPReport(result, "Report.tex")
 
 Also adjusted p-values and simultaneous confidence intervals can be computed.
 
+% Chunk 17
 <<echo=FALSE,results=hide>>=
 
 d1 <- c(1.68005156523844, 1.95566697423700, 0.00137860945822299, 0.660052238622464, 
@@ -521,6 +531,7 @@ $\Sexpr{format(pval[3])}$.  We want to adjust for multiple testing
 by using the Bonferroni-Holm-Procedure with $\alpha=0.025$.
 
 \scriptsize
+% Chunk 18
 <<echo=TRUE, keep.source=TRUE, size=scriptsize>>=
 
 # Estimates:
@@ -587,6 +598,7 @@ e.g.\ \texttt{1-2*\textbackslash epsilon+1/3*\textbackslash epsilon\^{}2} for $1
 \begin{figure}[ht]
   \centering
   \begin{tikzpicture}[scale=0.7]
+% Chunk 19
 <<echo=FALSE,results=tex>>=
 
 cat(graph2latex(graphForParallelGatekeeping(), scale=0.7, fontsize="tiny", nodeTikZ="minimum size=1.2cm", tikzEnv=FALSE))
@@ -622,6 +634,7 @@ If $g_{lj}g_{jl}==1$ still $g_{lk}<-0$.
 
 
 \scriptsize
+% Chunk 20
 <<echo=TRUE, keep.source=TRUE, size=scriptsize>>=
 
 m <- rbind(H1=c(0,           0,           0.5,           0.5          ),
@@ -644,7 +657,8 @@ gMCP(graph, pvalues=c(0.02, 0.04, 0.01, 0.02), eps=0.001)
 No $\epsilon$-edges are allowed.
 
 \begin{figure}[ht]
-  \centering   
+  \centering
+% Chunk 21
 <<echo=FALSE,results=tex>>=
 
 cat(graph2latex(graph2FromBretzEtAl2011(), scale=0.7, fontsize="tiny"))
@@ -658,6 +672,7 @@ cat(graph2latex(graph2FromBretzEtAl2011(), scale=0.7, fontsize="tiny"))
 \includegraphics[width=5cm]{pictures/variableEditor.png}
 
 \scriptsize
+% Chunk 22
 <<echo=TRUE, keep.source=TRUE, size=scriptsize>>=
 
 graph <- graph2FromBretzEtAl2011()
@@ -737,7 +752,8 @@ Let's start with this graph in figure \ref{uglygraph}:
 \normalsize
 
 \begin{figure}[ht]
-  \centering   
+  \centering
+% Chunk 23
 <<echo=FALSE,results=tex>>=
 
 cat(graph2latex(result@graphs[[3]], pvalues=pvalues, scale=0.7, fontsize="tiny"))
@@ -787,6 +803,7 @@ In this subsection we show how to use gMCP to reproduce the results of the paper
 \cite{bauer1998testing}
 
 \scriptsize
+% Chunk 24
 <<echo=TRUE, size=scriptsize>>=
 
 data(hydroquinone)
@@ -814,6 +831,7 @@ pvalues
 
 \begin{figure}[ht]
 \begin{center}
+% Chunk 25
 <<echo=FALSE,fig=TRUE,width=8,height=6>>=
 
 data(hydroquinone)

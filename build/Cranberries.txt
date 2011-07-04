@@ -702,3 +702,55 @@ Diff between gMCP versions 0.6-4 dated 2011-05-11 and 0.6-5 dated 2011-05-26
  gMCP-0.6-5/gMCP/inst/java/gsrmtp.jar                                            |binary
  gMCP-0.6-5/gMCP/man/exampleGraphs.Rd                                            |   28 ++++--
  46 files changed, 157 insertions(+), 48 deletions(-)
+ 
+Diff between gMCP versions 0.6-5 dated 2011-05-26 and 0.6-6 dated 2011-07-04
+
+ DESCRIPTION                                                         |    8 
+ INSTALL                                                             |   39 +-
+ NAMESPACE                                                           |    2 
+ NEWS                                                                |   21 +
+ R/closure.R                                                         |    4 
+ R/convertFromOldClassDefinition.R                                   |only
+ R/gACT-internal.R                                                   |   42 ++
+ R/gMCP.R                                                            |   54 +--
+ R/generatePvals.R                                                   |only
+ R/graphMCP.R                                                        |   27 +
+ R/matrix2graph.R                                                    |   18 -
+ R/misc.R                                                            |   12 
+ R/onLoad.R                                                          |   21 -
+ R/subVariables.R                                                    |only
+ TODO                                                                |    7 
+ inst/doc/AQuickStart.Rnw                                            |    1 
+ inst/doc/AQuickStart.pdf                                            |binary
+ inst/doc/Makefile                                                   |    2 
+ inst/doc/gMCP.Rnw                                                   |    1 
+ inst/doc/gMCP.pdf                                                   |binary
+ inst/doc/gMCP/AQuickStart-fake.Rnw                                  |    1 
+ inst/doc/gMCP/AQuickStart.Rnw                                       |    4 
+ inst/doc/gMCP/gMCP-fake.Rnw                                         |    1 
+ inst/doc/gMCP/gMCP.Rnw                                              |  168 +++++++---
+ inst/doc/gMCP/parametric-fake.Rnw                                   |    1 
+ inst/doc/parametric.Rnw                                             |    1 
+ inst/doc/parametric.pdf                                             |binary
+ inst/java-src/org/af/gMCP/config/Configuration.java                 |    8 
+ inst/java-src/org/af/gMCP/config/GeneralConfig.java                 |   47 ++
+ inst/java-src/org/af/gMCP/config/VersionComparator.java             |   76 +++-
+ inst/java-src/org/af/gMCP/gui/CreateGraphGUI.java                   |   67 ++-
+ inst/java-src/org/af/gMCP/gui/JSplitPaneBugWorkAround.java          |only
+ inst/java-src/org/af/gMCP/gui/MenuBarMGraph.java                    |    2 
+ inst/java-src/org/af/gMCP/gui/RControl.java                         |   11 
+ inst/java-src/org/af/gMCP/gui/dialogs/DialogConfIntEstVar.java      |    1 
+ inst/java-src/org/af/gMCP/gui/dialogs/GraphSendToArchiveDialog.java |    4 
+ inst/java-src/org/af/gMCP/gui/dialogs/NewVersionDialog.java         |only
+ inst/java-src/org/af/gMCP/gui/graph/Edge.java                       |  102 ++----
+ inst/java-src/org/af/gMCP/gui/graph/GraphView.java                  |   10 
+ inst/java-src/org/af/gMCP/gui/graph/NetList.java                    |    1 
+ inst/java-src/org/af/gMCP/gui/graph/PView.java                      |   19 -
+ inst/java-src/org/af/gMCP/tests/FormatTest.java                     |    1 
+ inst/java/gsrmtp.jar                                                |binary
+ inst/unitTests/runit.fastgMCP.R                                     |   11 
+ inst/unitTests/runit.misc.R                                         |   10 
+ man/gMCP.Rd                                                         |    8 
+ man/generatePvals.Rd                                                |only
+ src/gMCP.c                                                          |   25 +
+ 48 files changed, 559 insertions(+), 279 deletions(-)
