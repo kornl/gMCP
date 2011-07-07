@@ -46,8 +46,10 @@ gMCP <- function(graph, pvalues, test, correlation, alpha=0.05,
 			Gm <- graph2matrix(graph)
 			w <- getWeights(graph)
 			if( all(w==0) ) {
+                                adjP <- rep(1,length(w))
 				rejected <- rep(FALSE,length(w))
 				names(rejected) <- nodes(graph)
+                                names(adjP) <- nodes(graph)
 			} else {
 				#myTest <- generateTest(Gm, w, correlation, alpha)
 				#zScores <- -qnorm(pvalues)
