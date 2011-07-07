@@ -112,7 +112,7 @@ gMCP(G,p,corr=C,alpha=.05)
 
 
 ## this works now (we set a high alpha to get some rejections)
-gMCP(G,p,corr='Dunnett',a=.5)
+gMCP(G,p,correlation='Dunnett',alpha=.5)
 
 ## there WAS some problem with finding the right output function
 replicate(10,  gMCP(G,p,corr=C))
@@ -125,8 +125,8 @@ state2 <- list()
 out <- simsims(1000,20,a=.5)
 
 ## round of errors 
-load('unirootbug.Rd')
-gMCP(state2$graphMCP,state1$p,corr=state2$cor,al=1)
+#load('unirootbug.Rd')
+#gMCP(state2$graphMCP,state1$p,corr=state2$cor,al=1)
 
 
 ## at the moment this throws an

@@ -53,7 +53,7 @@ bdiagNA <- function(...) {
 		return(matrix(nrow=0, ncol=0))
 	if (nargs() == 1 && !is.list(...)) 
 		return(as.matrix(...))
-	asList <- if (nargs() == 1 && is.list(...)) ... else list(...)
+	asList <- if (nargs() == 1 && is.list(...)) list(...)[[1]] else list(...)
 	if (length(asList) == 1) 
 		return(as.matrix(asList[[1]]))
 	n <- 0
