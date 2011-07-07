@@ -1,6 +1,6 @@
 w.dunnet <- function(w,cr,al=.05){
   if(length(cr)>1){
-    conn <- connComp(as.graph(!is.na(cr)))
+    conn <- conn.comp(cr)
   } else {
     conn <- 1
   }
@@ -25,7 +25,7 @@ w.dunnet <- function(w,cr,al=.05){
 
 p.dunnet <- function(p,cr,w){
   if(length(cr)>1){
-    conn <- connComp(as(!is.na(cr),'graphNEL'))
+    conn <- conn.comp(cr)
   } else {
     conn <- 1
   }
@@ -116,9 +116,9 @@ mtp.edges <- function(h,g,w){
   }
 }
 
-as.graph <- function(m,...){
-  as(m,'graphNEL',...)
-}
+## as.graph <- function(m,...){
+##   as(m,'graphNEL',...)
+## }
 
 myRowSums <- function(x,...){
   if(is.null(dim(x))){
@@ -130,6 +130,29 @@ myRowSums <- function(x,...){
   }
 }
 
+
+
+conn.comp <- function(m){
+  N <- 1:ncol(m)
+  M <- numeric(0)
+  out <- list()
+  while(length(N)>0){
+    Q <- setdiff(N,M)[1]
+    while(length(Q)>0){
+      w <- Q[1]
+      M <- c(M,w)
+      Q <- setdiff(unique(c(Q,which(!is.na(m[w,])))),M)
+    }
+    out <- c(out,list(M))
+    N <- setdiff(N,M)
+    M <- numeric(0)
+  }
+  return(out)
+}
+
+## entwurf einer fehlermeldung
+## if(any(is.na(m[M,M])))
+##   stop("Incomplete correlation matrix detected. Please make sure that all pairwise correlations are specified")
 
 ################################ Test stuff
 
