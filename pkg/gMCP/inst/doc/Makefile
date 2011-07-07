@@ -1,7 +1,7 @@
 
 ## This file is based on the Makefile from Rcpp (under GPL ≥ 2)
 
-all: pdfclean
+all: pdf
 
 pdf: AQuickStart.pdf gMCP.pdf parametric.pdf
 
