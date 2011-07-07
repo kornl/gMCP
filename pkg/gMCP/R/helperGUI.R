@@ -8,7 +8,9 @@ getEdges <- function(graph){
 	weightStrL <- character(0)
 	for (from in nodes(graph)) {
 		for (to in nodes(graph)) {
-			if (is.na(as.numeric(graph@m[from, to])) || as.numeric(graph@m[from, to])!=0) {				
+			options(warn=-1)
+			if (is.na(as.numeric(graph@m[from, to])) || as.numeric(graph@m[from, to])!=0) {	
+				options(warn=0)			
 				x <- try(unlist(edgeData(graph, from, to, "labelX")), silent = TRUE)
 				if (class(x)!="try-error" && !is.null(x)) {
 					labelx <- c(labelx, x)
@@ -25,9 +27,9 @@ getEdges <- function(graph){
 				fromL <- c(fromL, from)
 				toL <- c(toL, to)
 				options(warn=-1)
-				weightL <- c(weightL, as.numeric(graph@m[from, to]))
-				options(warn=0)
+				weightL <- c(weightL, as.numeric(graph@m[from, to]))				
 				curve <- (is.na(as.numeric(graph@m[to, from])) || as.numeric(graph@m[to, from])!=0)
+				options(warn=0)
 				curveL <- c(curveL, curve)
 				weightStrL <- c(weightStrL, graph@m[from, to])
 			}
