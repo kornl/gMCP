@@ -112,6 +112,13 @@ setMethod("getWeights", c("gMCPResult"),
 			return(getWeights(graph, node))
 		})
 
+setGeneric("nodes", function(object, ...) standardGeneric("nodes"))
+
+setMethod("nodes", c("graphMCP"),
+		function(object, ...) {						
+			return(rownames(object@m))
+		})
+
 setGeneric("addEdge", function(from, to, graph, weights) standardGeneric("addEdge"))
 			
 setMethod("addEdge", signature=signature(from="character", to="character",
