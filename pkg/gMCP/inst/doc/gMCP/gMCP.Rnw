@@ -466,7 +466,8 @@ We can create a TikZ graphic from the last graph with
 % Chunk 15
 <<echo=FALSE,results=tex>>=
 
-cat(graph2latex(result@graphs[[4]], scale=0.7, fontsize="tiny"))
+#TODO Enable this again.
+#cat(graph2latex(result@graphs[[4]], scale=0.7, fontsize="tiny"))
 
 @
   \caption{\label{finalstate}Final graph from the test procedure after rejection of $H_{21}$, $H_{31}$ and $H_{32}$.}

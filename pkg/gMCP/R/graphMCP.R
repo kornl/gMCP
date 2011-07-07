@@ -147,6 +147,9 @@ setReplaceMethod("edgeData",
 			self
 		})
 
+setGeneric("nodeData", function(self, n, attr) standardGeneric("nodeData"))
+setGeneric("nodeData<-", function(self, n, attr, value) standardGeneric("nodeData<-"))
+
 setGeneric("getRejected", function(object, node, ...) standardGeneric("getRejected"))
 
 setMethod("getRejected", c("graphMCP"), function(object, node, ...) {

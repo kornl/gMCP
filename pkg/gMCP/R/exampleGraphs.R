@@ -8,7 +8,7 @@ BonferroniHolmGraph <- function(n) {
 	BonferroniHolmGraph <- new("graphMCP", m=m, weights=weights)
 	# Visualization settings
 	nodeX <- 100+(0:(n-1))*200
-	nodeY <- rep(200, n)	
+	nodeY <- rep(200, n)
 	BonferroniHolmGraph@nodeData$X <- nodeX
 	BonferroniHolmGraph@nodeData$Y <- nodeY		
 	# Label settings
@@ -126,14 +126,14 @@ graphForParallelGatekeeping <- function() {
 	weights <- rep(c(1/2,0), each=2)	
 	hnodes <- paste("H", 1:4, sep="")
 	# Edges:
-	edges <- vector("list", length=4)
-	edges[[1]] <- list(edges=c("H3","H4"), weights=rep(1/2, 2))
-	edges[[2]] <- list(edges=c("H3","H4"), weights=rep(1/2, 2))
-	edges[[3]] <- list(edges=c("H4"), weights=1)
-	edges[[4]] <- list(edges=c("H3"), weights=1)
-	names(edges)<-hnodes
+	m <- rbind(
+		c(0, 0, 0.5, 0.5),
+		c(0, 0, 0.5, 0.5),
+		c(0, 0, 0.0, 1.0),
+		c(0, 0, 1.0, 0.0))
+	rownames(m) <- colnames(m) <- hnodes 
 	# Graph creation
-	graph <- new("graphMCP", nodes=hnodes, edgeL=edges, weights=weights)
+	graph <- new("graphMCP", m=m, weights=weights)
 	# Visualization settings
 	nodeX <- rep(c(100, 300), 2)
 	nodeY <- rep(c(100, 300), each=2)
@@ -152,12 +152,10 @@ graphForParallelGatekeeping <- function() {
 
 graphForImprovedParallelGatekeeping <- function() {
 	graph <- graphForParallelGatekeeping()
-	graph <- addEdge("H3", "H1", graph, 0)
-	edgeData(graph, "H3", "H1", "epsilon") <- list(1)	
-	graph <- addEdge("H4", "H2", graph, 0)
-	edgeData(graph, "H4", "H2", "epsilon") <- list(1)
-	edgeData(graph, "H3", "H4", "epsilon") <- list(-1)
-	edgeData(graph, "H4", "H3", "epsilon") <- list(-1)
+	graph <- addEdge("H3", "H1", graph, "\\epsilon")
+	graph <- addEdge("H4", "H2", graph, "\\epsilon")
+	graph <- addEdge("H3", "H4", graph, "1-\\epsilon")
+	graph <- addEdge("H4", "H3", graph, "1-\\epsilon")
 	attr(graph, "description") <- paste("Graph representing an improved parallel gatekeeping procedure", 
 			"",
 			"Literature: Bretz, F., Maurer, W., Brannath, W., Posch, M.: A graphical approach to sequentially rejective multiple test procedures. Statistics in Medicine 2009 vol. 28 issue 4 page 586-604. URL: http://www.meduniwien.ac.at/fwf_adaptive/papers/bretz_2009_22.pdf .", sep="\n")
@@ -169,14 +167,14 @@ graph2FromBretzEtAl2011 <- function() {
 	weights <- rep(c(1/2,0), each=2)	
 	hnodes <- paste("H", 1:4, sep="")
 	# Edges:
-	edges <- vector("list", length=4)
-	edges[[1]] <- list(edges=c("H2","H3"), weights=c(NaN, NaN)) # c(γ, 1-γ)
-	edges[[2]] <- list(edges=c("H1","H4"), weights=c(NaN, NaN)) # c(δ, 1-δ)
-	edges[[3]] <- list(edges=c("H2"), weights=1)
-	edges[[4]] <- list(edges=c("H1"), weights=1)
-	names(edges)<-hnodes
+	m <- rbind(
+		c("0",      "\\gamma","1-\\gamma","0"),
+		c("\\delta","0",      "0",        "1-\\delta"),
+		c("0",      "1",      "0",        "0"),       
+		c("1",      "0",      "0",        "0"))     
+	rownames(m) <- colnames(m) <- hnodes 
 	# Graph creation
-	graph <- new("graphMCP", nodes=hnodes, edgeL=edges, weights=weights)
+	graph <- new("graphMCP", m=m, weights=weights)
 	# Set edge weights with variables
 	edgeData(graph, "H1", "H2", "variableWeight") <- "\\gamma"
 	edgeData(graph, "H1", "H3", "variableWeight") <- "1-\\gamma"
