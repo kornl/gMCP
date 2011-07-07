@@ -25,11 +25,11 @@ getEdges <- function(graph){
 				fromL <- c(fromL, from)
 				toL <- c(toL, to)
 				options(warn=-1)
-				weightL <- c(weightL, as.numeric(graph@m[to, from]))
+				weightL <- c(weightL, as.numeric(graph@m[from, to]))
 				options(warn=0)
 				curve <- (is.na(as.numeric(graph@m[to, from])) || as.numeric(graph@m[to, from])!=0)
 				curveL <- c(curveL, curve)
-				weightStrL <- c(weightStrL, graph@m[to, from])
+				weightStrL <- c(weightStrL, graph@m[from, to])
 			}
 		}
 	}

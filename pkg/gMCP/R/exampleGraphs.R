@@ -91,7 +91,6 @@ graphFromHommelEtAl2007 <- function() {
 		c("\\epsilon", "0", "\\epsilon", "1/3-2/3*\\epsilon", "1/3-2/3*\\epsilon", "0",                 "1/3-2/3*\\epsilon"),
 		c("\\epsilon", "0", "\\epsilon", "1/3-2/3*\\epsilon", "1/3-2/3*\\epsilon", "1/3-2/3*\\epsilon", "0"))
 	rownames(m) <- colnames(m) <- hnodes
-	names(edges)<-hnodes
 	# Graph creation
 	graph <- new("graphMCP", m=m, weights=weights)
 	# Visualization settings
