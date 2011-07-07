@@ -82,17 +82,18 @@ graphFromHommelEtAl2007 <- function() {
 	weights <- c(rep(1/3, 3), rep(0,4))	
 	hnodes <- c("E1", "QoL", "E2", "D1", "D2", "D3", "D4")
 	# Edges:
-	edges <- vector("list", length=7)
-	edges[[1]] <- list(edges="QoL", weights=1)
-	edges[[2]] <- list(edges=c("D1","D2","D3","D4"), weights=rep(1/4, 4))
-	edges[[3]] <- list(edges="QoL", weights=1)	
-	edges[[4]] <- list(edges=c("E1","E2"), weights=c(0, 0))
-	edges[[5]] <- list(edges=c("E1","E2"), weights=c(0, 0))
-	edges[[6]] <- list(edges=c("E1","E2"), weights=c(0, 0))
-	edges[[7]] <- list(edges=c("E1","E2"), weights=c(0, 0))
+	m <- rbind(                 
+		c("0",         "1", "0",         "0",                 "0",                 "0",                 "0"                ),
+		c("0",         "0", "0",         "0.25",              "0.25",              "0.25",              "0.25"             ),
+		c("0",         "1", "0",         "0",                 "0",                 "0",                 "0"                ),
+		c("\\epsilon", "0", "\\epsilon", "0",                 "1/3-2/3*\\epsilon", "1/3-2/3*\\epsilon", "1/3-2/3*\\epsilon"),
+		c("\\epsilon", "0", "\\epsilon", "1/3-2/3*\\epsilon", "0",                 "1/3-2/3*\\epsilon", "1/3-2/3*\\epsilon"),
+		c("\\epsilon", "0", "\\epsilon", "1/3-2/3*\\epsilon", "1/3-2/3*\\epsilon", "0",                 "1/3-2/3*\\epsilon"),
+		c("\\epsilon", "0", "\\epsilon", "1/3-2/3*\\epsilon", "1/3-2/3*\\epsilon", "1/3-2/3*\\epsilon", "0"))
+	rownames(m) <- colnames(m) <- hnodes
 	names(edges)<-hnodes
 	# Graph creation
-	graph <- new("graphMCP", nodes=hnodes, edgeL=edges, weights=weights)
+	graph <- new("graphMCP", m=m, weights=weights)
 	# Visualization settings
 	nodeX <- c(200, 400, 600, 100, 300, 500, 700)
 	nodeY <- c(100, 100, 100, 300, 300, 300, 300)
@@ -175,11 +176,6 @@ graph2FromBretzEtAl2011 <- function() {
 	rownames(m) <- colnames(m) <- hnodes 
 	# Graph creation
 	graph <- new("graphMCP", m=m, weights=weights)
-	# Set edge weights with variables
-	edgeData(graph, "H1", "H2", "variableWeight") <- "\\gamma"
-	edgeData(graph, "H1", "H3", "variableWeight") <- "1-\\gamma"
-	edgeData(graph, "H2", "H1", "variableWeight") <- "\\delta"
-	edgeData(graph, "H2", "H4", "variableWeight") <- "1-\\delta"
 	# Visualization settings
 	nodeX <- rep(c(100, 300), 2)
 	nodeY <- rep(c(100, 300), each=2)
@@ -197,22 +193,14 @@ graphFromHungEtWang2010 <- function() {
 	weights <- rep(c(1/2,0), each=2)	
 	hnodes <- c("H_{1,NI}","H_{1,S}","H_{2,NI}","H_{2,S}")
 	# Edges:
-	edges <- vector("list", length=4)
-	edges[[1]] <- list(edges=c("H_{1,S}","H_{2,NI}"), weights=c(NaN, NaN)) # c(nu, 1-nu)
-	edges[[2]] <- list(edges=c("H_{2,NI}","H_{2,S}"), weights=c(NaN, NaN)) # c(tau, 1-tau)
-	edges[[3]] <- list(edges=c("H_{1,S}","H_{2,S}"), weights=c(NaN, NaN))  # c(omega, 1-omega)
-	edges[[4]] <- list()
-	names(edges)<-hnodes
+	m <- rbind(  
+		c("0",     "\\nu",    "1-\\nu", "0"),        
+		c("0",     "0",       "\\tau",  "1-\\tau"),  
+		c("0",     "\\omega", "0",      "1-\\omega"),
+		c("0",     "0",       "0",      "0"))
+	rownames(m) <- colnames(m) <- hnodes 
 	# Graph creation
-	graph <- new("graphMCP", nodes=hnodes, edgeL=edges, weights=weights)
-	# Set edge weights with variables
-	edgeData(graph, "H_{1,NI}", "H_{1,S}", "variableWeight") <- "\\nu"
-	edgeData(graph, "H_{1,NI}", "H_{2,NI}", "variableWeight") <- "1-\\nu"
-	edgeData(graph, "H_{1,S}", "H_{2,NI}", "variableWeight") <- "\\tau"
-	edgeData(graph, "H_{1,S}", "H_{2,S}", "variableWeight") <- "1-\\tau"
-	edgeData(graph, "H_{2,NI}", "H_{1,S}", "variableWeight") <- "\\omega"
-	edgeData(graph, "H_{2,NI}", "H_{2,S}", "variableWeight") <- "1-\\omega"
-	# Visualization settings
+	graph <- new("graphMCP", m=m, weights=weights)
 	nodeX <- rep(c(100, 300), 2)
 	nodeY <- rep(c(100, 300), each=2)
 	graph@nodeData$X <- nodeX
@@ -233,15 +221,15 @@ graphFromMaurerEtAl1995 <- function() {
 	weights <- c(1,0,0,0,0)	
 	hnodes <- paste("H", 1:5, sep="")
 	# Edges:
-	edges <- vector("list", length=4)
-	edges[[1]] <- list(edges=c("H2"), weights=1)
-	edges[[2]] <- list(edges=c("H3"), weights=1)
-	edges[[3]] <- list(edges=c("H4","H5"), weights=c(1/2,1/2))
-	edges[[4]] <- list()#edges=c("H5"), weights=1)
-	edges[[5]] <- list()#edges=c("H4"), weights=1)
-	names(edges)<-hnodes
+	m <- rbind( 
+		c(0, 1, 0, 0.0, 0.0),
+		c(0, 0, 1, 0.0, 0.0),
+		c(0, 0, 0, 0.5, 0.5),
+		c(0, 0, 0, 0.0, 0.0),
+		c(0, 0, 0, 0.0, 0.0))
+	rownames(m) <- colnames(m) <- hnodes 
 	# Graph creation
-	graph <- new("graphMCP", nodes=hnodes, edgeL=edges, weights=weights)
+	graph <- new("graphMCP", m=m, weights=weights)
 	# Visualization settings
 	nodeX <- c(100, 200, 300, 400, 400)
 	nodeY <- c(100, 100, 100, 50, 150)
@@ -318,13 +306,13 @@ improvedFallbackGraphI <- function(weights=rep(1/3, 3)) {
 	# Nodes:
 	hnodes <- paste("H", 1:3, sep="")
 	# Edges:
-	edges <- vector("list", length=3)
-	edges[[1]] <- list(edges=c("H2"), weights=1)
-	edges[[2]] <- list(edges=c("H3"), weights=1)
-	edges[[3]] <- list(edges=c("H1","H2"), weights=c(1/2,1/2))
-	names(edges)<-hnodes
+	m <- rbind( 
+		c(0.0, 1.0,  0),
+		c(0.0, 0.0,  1),
+		c(0.5, 0.5,  0))
+	rownames(m) <- colnames(m) <- hnodes 
 	# Graph creation
-	graph <- new("graphMCP", nodes=hnodes, edgeL=edges, weights=weights)	
+	graph <- new("graphMCP", m=m, weights=weights)
 	graph <- placeNodes(graph, nrow=1, ncol=3)
 	attr(graph, "description") <- paste("Improved Fallback Method I by Wiens & Dmitrienko",
 			"",
@@ -338,15 +326,13 @@ improvedFallbackGraphII <- function(weights=rep(1/3, 3)) {
 	# Nodes:
 	hnodes <- paste("H", 1:3, sep="")
 	# Edges:
-	edges <- vector("list", length=3)
-	edges[[1]] <- list(edges=c("H2"), weights=1)
-	edges[[2]] <- list(edges=c("H1","H3"), weights=c(1,0))
-	edges[[3]] <- list(edges=c("H1"), weights=1)
-	names(edges)<-hnodes	
+	m <- rbind(         
+		c("0",           "1", "0"        ),
+		c("1-\\epsilon", "0", "\\epsilon"),
+		c("1",           "0", "0"        ))
+	rownames(m) <- colnames(m) <- hnodes 
 	# Graph creation
-	graph <- new("graphMCP", nodes=hnodes, edgeL=edges, weights=weights)
-	edgeData(graph, "H2", "H1", "epsilon") <- list(-1)
-	edgeData(graph, "H2", "H3", "epsilon") <- list(1)
+	graph <- new("graphMCP", m=m, weights=weights)
 	graph <- placeNodes(graph, nrow=1, ncol=3)
 	attr(graph, "description") <- paste("Improved Fallback Method II by Hommel & Bretz (?)",
 			"",

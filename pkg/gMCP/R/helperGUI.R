@@ -10,13 +10,13 @@ getEdges <- function(graph){
 		for (to in nodes(graph)) {
 			if (is.na(as.numeric(graph@m[from, to])) || as.numeric(graph@m[from, to])!=0) {				
 				x <- try(unlist(edgeData(graph, from, to, "labelX")), silent = TRUE)
-				if (class(x)!="try-error") {
+				if (class(x)!="try-error" && !is.null(x)) {
 					labelx <- c(labelx, x)
 				} else {
 					labelx <- c(labelx, -100)
 				}
 				y <- try(unlist(edgeData(graph, from, to, "labelY")), silent = TRUE)
-				if (class(y)!="try-error") {
+				if (class(y)!="try-error" && !is.null(y)) {
 					labely <- c(labely, y)
 				} else {
 					labely <- c(labely, -100)
@@ -37,7 +37,7 @@ getEdges <- function(graph){
 }
 
 placeNodes <- function(graph, nrow, ncol, byrow = TRUE, force = FALSE) {
-	if (is.null(graph@nodeData$X)==0 || force) {
+	if (is.null(graph@nodeData$X) || force) {
 		n <- length(nodes(graph))
 		if (missing(nrow) && missing(ncol)) {		
 			v <- (1:n)/n*2*pi
