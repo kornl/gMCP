@@ -549,41 +549,20 @@ public class NetList extends JPanel implements MouseMotionListener, MouseListene
 		RControl.getR().evalVoid(".gsrmtVar <- list()");
 		RControl.getR().evalVoid(".gsrmtVar$alpha <- c("+alpha+")");
 		RControl.getR().evalVoid(".gsrmtVar$hnodes <- c("+nodeStr+")");
-		RControl.getR().evalVoid(".gsrmtVar$edges <- vector(\"list\", length="+nodes.size()+")");
-		RControl.getR().evalVoid("names(.gsrmtVar$edges)<-.gsrmtVar$hnodes");
-		for (int i=nodes.size()-1; i>=0; i--) {
-			Node n = nodes.get(i);
-			String edgeL = "";
-			String weights = "";
-			for (Edge e : edges) {				
-				if (e.from == n) {
-					edgeL += "\""+e.to.getName()+"\",";
-					weights += e.getW(ht)[0] +",";
-				}
-			}
-			if (edgeL.length()!=0) {
-				edgeL = edgeL.substring(0, edgeL.length()-1);
-				weights = weights.substring(0, weights.length()-1);			
-				RControl.getR().evalVoid(".gsrmtVar$edges[["+(i+1)+"]] <- list(edges=c("+edgeL+"), weights=c("+weights+"))");
-			} else {
-				RControl.getR().evalVoid(".gsrmtVar$edges[["+(i+1)+"]] <- list(edges=character(0), weights=numeric(0))");
-			}
-		}		
-
-		RControl.getR().evalVoid(graphName+" <- new(\"graphMCP\", nodes=.gsrmtVar$hnodes, edgeL=.gsrmtVar$edges, weights=.gsrmtVar$alpha)");
-		//TODO remove this stupid workaround.
-		RControl.getR().evalVoid(graphName+" <- gMCP:::stupidWorkAround("+graphName+")");
+		RControl.getR().evalVoid(".gsrmtVar$m <- matrix(0, nrow="+nodes.size()+", ncol="+nodes.size()+")");
+		RControl.getR().evalVoid("rownames(.gsrmtVar$m) <- colnames(.gsrmtVar$m) <- .gsrmtVar$hnodes");
+		for (Edge e : edges) {
+			RControl.getR().evalVoid(".gsrmtVar$m[\""+e.from.getName()+"\",\""+e.to.getName()+"\"] <- \""+ e.getWS() +"\"");
+		}
+		RControl.getR().evalVoid(graphName+" <- new(\"graphMCP\", m=.gsrmtVar$m, weights=.gsrmtVar$alpha)");
 		for (int i=nodes.size()-1; i>=0; i--) {
 			Node n = nodes.get(i);
 			if (n.isRejected()) {
 				RControl.getR().evalVoid("nodeData("+graphName+", \""+n.getName()+"\", \"rejected\") <- TRUE");
 			}
 		}
-		RControl.getR().evalVoid(".gsrmtVar$nodeX <- c("+x+")");
-		RControl.getR().evalVoid(".gsrmtVar$nodeY <- c("+y+")");
-		RControl.getR().evalVoid("names(.gsrmtVar$nodeX) <- .gsrmtVar$hnodes");
-		RControl.getR().evalVoid("names(.gsrmtVar$nodeY) <- .gsrmtVar$hnodes");
-		RControl.getR().evalVoid("nodeRenderInfo("+graphName+") <- list(nodeX=.gsrmtVar$nodeX, nodeY=.gsrmtVar$nodeY)");
+		RControl.getR().evalVoid(graphName+"@nodeData$X <- c("+x+")");
+		RControl.getR().evalVoid(graphName+"@nodeData$Y <- c("+y+")");
 		for (Edge e : edges) {				
 			RControl.getR().evalVoid("edgeData("+graphName+", \""+e.from.getName()+"\", \""+e.to.getName()+"\", \"labelX\") <- "+(e.k1-Node.getRadius()));
 			RControl.getR().evalVoid("edgeData("+graphName+", \""+e.from.getName()+"\", \""+e.to.getName()+"\", \"labelY\") <- "+(e.k2-Node.getRadius()));
