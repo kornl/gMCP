@@ -142,21 +142,34 @@ setGeneric("edgeData<-", function(self, from, to, attr, value) standardGeneric("
 setMethod("edgeData", signature(self="graphMCP", from="character", to="character",
 				attr="character"),
 		function(self, from, to, attr) {
-			self@edgeData[[from]][[to]][[attr]]
+			self@edgeData[[attr]][from, to]
 		})
 
 setReplaceMethod("edgeData",
-		signature(self="graphMCP", from="character", to="character",
-				attr="character", value="ANY"),
+		signature(self="graphMCP", from="character", to="character", attr="character", value="ANY"),
 		function(self, from, to, attr, value) {
-			if (is.null(self@edgeData[[from]])) self@edgeData[[from]] <- list()			
-			if (is.null(self@edgeData[[from]][[to]])) self@edgeData[[from]][[to]] <- list()
-			self@edgeData[[from]][[to]][[attr]] <- value			
+			if (is.null(self@edgeData[[attr]])) self@edgeData[[attr]] <- matrix(FALSE, nrow=dim(self@m)[1], ncol=dim(self@m)[2])			
+			rownames(self@edgeData[[attr]]) <- colnames(self@edgeData[[attr]]) <- nodes(self)
+			self@edgeData[[attr]][from, to] <- value		
 			self
 		})
 
 setGeneric("nodeData", function(self, n, attr) standardGeneric("nodeData"))
 setGeneric("nodeData<-", function(self, n, attr, value) standardGeneric("nodeData<-"))
+
+setMethod("nodeData", signature(self="graphMCP", n="character", attr="character"),
+		function(self, n, attr) {
+			self@nodeData[[attr]][n]
+		})
+
+setReplaceMethod("nodeData",
+		signature(self="graphMCP", n="character", attr="character", value="ANY"),
+		function(self, n, attr, value) {
+			self@nodedatalogical(length = 0)
+			if (is.null(self@nodeData[[attr]])) self@nodeData[[attrfrom]] <- logical(length=length(nodes(self)))
+			self@nodeData[[attr]][n] <- value			
+			self
+		})
 
 setGeneric("getRejected", function(object, node, ...) standardGeneric("getRejected"))
 
@@ -231,8 +244,7 @@ setMethod("show", "graphMCP",
 				cat(paste("Sum of weight: ",sum(getWeights(object)),"\n", sep=""))
 			}			
 			for (node in nodes(object)) {
-			# TODO
-			#	cat(paste(node, " (",ifelse(unlist(nodeData(object, node, "rejected")),"rejected","not rejected"),", weight=",format(unlist(nodeData(object, node, "nodeWeight")), digits=4, drop0trailing=TRUE),")\n", sep=""))	
+				cat(paste(node, " (",ifelse(nodeData(object, node, "rejected"),"rejected","not rejected"),", weight=",format(object@weights[node], digits=4, drop0trailing=TRUE),")\n", sep=""))
 			}
 			printEdge <- FALSE;
 			for (i in nodes(object)) {

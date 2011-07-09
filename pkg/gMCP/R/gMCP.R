@@ -103,11 +103,21 @@ adjPValues <- function(graph, pvalues, verbose=FALSE) {
 }
 
 rejectNode <- function(graph, node, verbose=FALSE) {
-
-	# TODO (Remember: Keep alpha & do we need to copy the graph?)
-	graph@weights[node] <- 0	
-	graph@nodeData$rejected[node] <- TRUE
-	
+	weights <- graph@weights
+	graph@weights <- weights+weights[node]*graph@m[node,]
+	m <- graph@m	
+	for (i in nodes(graph)) {
+		if (m[i, node]*m[node, i]<1) {
+			graph@m[i,] <- (m[i,]+m[i,node]*m[node,])/(1-m[i,node]*m[node,i]) 
+		} else {
+			graph@m[i,] <- 0
+		}
+	}
+	diag(graph@m) <- 0
+	graph@m[node,] <- 0
+	graph@m[, node] <- 0
+	if (!all(m[node,]==0)) graph@weights[node] <- 0	
+	graph@nodeData$rejected[node] <- TRUE	
 	return(graph)
 }
 

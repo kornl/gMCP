@@ -18,5 +18,5 @@ names(pvalues) <- nodes(bretzG)
 verbose <- TRUE
 result <- gMCP(bretzG, pvalues)
 
-#graph <- graphForImprovedParallelGatekeeping()
+graph <- graphForImprovedParallelGatekeeping()
 

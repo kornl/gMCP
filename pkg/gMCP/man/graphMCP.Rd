@@ -17,6 +17,16 @@
 \alias{addEdge}
 \alias{addEdge,character,character,graphMCP,character-method}
 \alias{addEdge,character,character,graphMCP,numeric-method}
+\alias{nodes}
+\alias{nodes,graphMCP-method}
+\alias{edgeData}
+\alias{edgeData<-}
+\alias{edgeData,graphMCP,character,character,character-method}
+\alias{edgeData<-,graphMCP,character,character,character-method}
+\alias{nodeData}
+\alias{nodeData<-}
+\alias{nodeData,graphMCP,character,character-method}
+\alias{nodeData<-,graphMCP,character,character-method}
 \title{Class graphMCP}
 \description{A graphMCP object describes a sequentially rejective multiple test procedure.}
 \section{Slots}{  
@@ -58,20 +68,23 @@ Class \code{graph}, by class \code{graphNEL}, distance 2.
 }
 \examples{
 
-hnodes <- c("H11", "H21", "H31", "H12", "H22", "H32")
-weights <- c(1/3, 1/3, 1/3, 0, 0, 0)
-edges <- list()
-edges[["H11"]] <- list(edges=c("H21","H12"), weights=c(1/2, 1/2))
-edges[["H21"]] <- list(edges=c("H11","H31","H22"), weights=c(1/3, 1/3, 1/3))
-edges[["H31"]] <- list(edges=c("H21","H32"), weights=c(1/2, 1/2))
-edges[["H12"]] <- list(edges="H21", weights=1)
-edges[["H22"]] <- list(edges=c("H11","H31"), weights=c(1/2, 1/2))
-edges[["H32"]] <- list(edges="H21", weights=1)
-graph <- new("graphMCP", nodes=hnodes, edgeL=edges, weights=weights)
+m <- rbind(H11=c(0,   0.5, 0,   0.5, 0,   0  ),
+			H21=c(1/3, 0,   1/3, 0,   1/3, 0  ),
+			H31=c(0,   0.5, 0,   0,   0,   0.5),
+			H12=c(0,   1,   0,   0,   0,   0  ),
+			H22=c(0.5, 0,   0.5, 0,   0,   0  ),
+			H32=c(0,   1,   0,   0,   0,   0  ))	
 
-nodeX <- c(H11=10, H21=20, H31=30, H12=10, H22=20, H32=30)
-nodeY <- c(H11=20, H21=20, H31=20, H12=10, H22=10, H32=10)
-nodeRenderInfo(graph) <- list(nodeX=nodeX, nodeY=nodeY)	
+weights <- c(1/3, 1/3, 1/3, 0, 0, 0)
+
+# Graph creation
+graph <- new("graphMCP", m=m, weights=weights)
+
+# Visualization settings
+nodeX <- rep(c(100, 300, 500), 2)
+nodeY <- rep(c(100, 300), each=3)
+graph@nodeData$X <- nodeX
+graph@nodeData$Y <- nodeY	
 
 getWeights(graph)
 

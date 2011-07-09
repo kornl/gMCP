@@ -1,4 +1,5 @@
 randomMCPGraph <- function(V=letters[1:10], M=1:4, p=0.2) {	
+	#TODO create random graph
 	g <- randomGraph(V, M, p)
 	edgeDataDefaults(g, "epsilon") <- list(0)
 	class(g) <- "graphMCP"
@@ -28,7 +29,7 @@ isValidGraph <- function(g, alpha=0.05) {
 	return(TRUE)
 }
 
-test.randomGraph <- function() {
+randomGraph <- function() {
 	set.seed(1234)
 	for (i in 1:4) {
 		g <- randomMCPGraph(letters[1:10])
