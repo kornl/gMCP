@@ -12,8 +12,8 @@ graph2latex <- function(graph, package="TikZ", scale=1, alpha=0.05, pvalues,
 	#tikz <- paste(tikz, "\\tikzset{help lines/.style=very thin}", paste="\n")	
 	for (node in nodes(graph)) {
 		nodeColor <- ifelse(getRejected(graph, node),"red!80", "green!80")
-		x <- getXCoordinates(graph)*scale
-		y <- getYCoordinates(graph)*scale
+		x <- getXCoordinates(graph, node)*scale
+		y <- getYCoordinates(graph, node)*scale
 		#alpha <- format(getWeights(graph,node), digits=3, drop0trailing=TRUE)
 		weight <- getLaTeXFraction(getWeights(graph,node))
 		if (weight == 1) {
