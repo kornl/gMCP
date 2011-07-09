@@ -75,18 +75,7 @@ If you not already have R then download the installer from the following URL and
 \begin{minipage}{0.60\textwidth}
 
 Open R and type 
-%\texttt{install.packages("gMCP")} into the R Console, select an arbitrary mirror and gMCP will be downloaded and installed.\\
-the following commands into the R Console (and select an arbitrary mirror when asked for one):
-
-%\scriptsize
-<<echo=TRUE,eval=F>>=
-
-source("http://www.bioconductor.org/biocLite.R")
-biocLite("graph")
-install.packages("gMCP")
-
-@
-%\normalsize
+\texttt{install.packages("gMCP")} into the R Console, select an arbitrary mirror and gMCP will be downloaded and installed.
 
 From now on you can start the gMCP graphical user interface by entering the following commands into the R Console:
 

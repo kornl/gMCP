@@ -20,6 +20,7 @@ High priority:
 - Compare improvedFallbackGraphII with literature
 - useC produces "Final graph after 1 steps:" - simple count the number of rejected hypotheses
 - allow "(1-\gamma)/2" as edge weight (I guess it's fine, but only wrong formated by JLateXMath)
+- think about naming of rows, cols, weights … but I guess it'll be the advise to use just the mutator methods or if you want to avoid this overhead a warning that you should know what you are doing…
 
 Medium priority:
 ================

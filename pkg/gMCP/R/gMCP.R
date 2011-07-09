@@ -46,17 +46,17 @@ gMCP <- function(graph, pvalues, test, correlation, alpha=0.05,
 			Gm <- graph2matrix(graph)
 			w <- getWeights(graph)
 			if( all(w==0) ) {
-                                adjP <- rep(1,length(w))
+                adjP <- rep(1,length(w))
 				rejected <- rep(FALSE,length(w))
 				names(rejected) <- nodes(graph)
-                                names(adjP) <- nodes(graph)
+                names(adjP) <- nodes(graph)
 			} else {
 				#myTest <- generateTest(Gm, w, correlation, alpha)
 				#zScores <- -qnorm(pvalues)
 				#rejected <- myTest(zScores)
-                                adjP <- generatePvals(Gm,w,correlation,pvalues)
-                                rejected <- adjP <= alpha
-                                names(adjP) <- nodes(graph)
+                adjP <- generatePvals(Gm,w,correlation,pvalues)
+                rejected <- adjP <= alpha
+                names(adjP) <- nodes(graph)
 				names(rejected) <- nodes(graph)
 			}
 			return(new("gMCPResult", graphs=sequence, alpha=alpha, pvalues=pvalues, rejected=rejected, adjPValues=adjP))
@@ -105,8 +105,7 @@ adjPValues <- function(graph, pvalues, verbose=FALSE) {
 rejectNode <- function(graph, node, verbose=FALSE) {
 
 	# TODO (Remember: Keep alpha & do we need to copy the graph?)
-	graph@weights[node] <- 0
-	
+	graph@weights[node] <- 0	
 	graph@nodeData$rejected[node] <- TRUE
 	
 	return(graph)

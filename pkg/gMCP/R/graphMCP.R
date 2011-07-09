@@ -13,6 +13,7 @@ setMethod("initialize", "graphMCP",
 			}			
 			colnames(m) <- rownames(m)
 			.Object@m <- m
+			names(weights) <- rownames(m)
 			.Object@weights <- weights
 			.Object@nodeData <- nodeData
 			.Object@edgeData <- edgeData

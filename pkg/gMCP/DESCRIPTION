@@ -1,6 +1,6 @@
 Package: gMCP
 Type: Package
-Title: A graphical approach to sequentially rejective multiple test procedures
+Title: Graph Based Multiple Comparison Procedures
 Version: 0.7-0
 Author: Kornelius Rohmeyer, Florian Klinglmueller, Bjoern Bornkamp
 Maintainer: Kornelius Rohmeyer <rohmeyer@small-projects.de>

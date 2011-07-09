@@ -2,29 +2,30 @@ PLEASE USE R 2.12 OR A NEWER VERSION OF R, IF AVAILABLE.
 IF YOU NEED gMCP FOR AN OLDER VERSION OF R, PLEASE CONTACT US!
 (For R 2.8 compatibility see instructions below.)
 
-To install gMCP use the following commands:
+If you run into any problems, please write us an email at:
 
-source("http://www.bioconductor.org/biocLite.R")
-biocLite("graph")
-install.packages("gMCP")
+help@small-projects.de
 
 The installation of gMCP via install.packages("gMCP") should be
-unproblematic. However one of the packages gMCP depends on or 
-suggests perhaps need more attention:
+unproblematic. However one of the packages gMCP depends on perhaps 
+needs more attention (most likely on Unix systems):
 
 rJava:
 ======
 
+gMCP requires Java >= 5.0 - if it is not already installed,
+download and install it from: http://www.java.com/en/download/
+
 Follow the instructions of rJava.
 
-For Windows:
+Troubleshooting for Windows:
 
 If you run into a "MSVCR71.dll is missing" please try updating your
 rJava installation (install.packages("rJava")) or add your JAVA_HOME
 directory (something like "C:\Program Files\Java\jre6\bin\") to your
 PATH.
 
-For Unix:
+Troubleshooting for Unix:
 
 Most likely you will have to run the command "R CMD javareconf" with
 root permissions to let R find your java compiler and headers.
@@ -42,9 +43,17 @@ Often simply trying to install the package a second time works.
 Otherwise try to pause your antivirus programs or search indexing 
 (like Google Desktop Search) while installing the packages.
 
+Package graph:
+==============
 
-Rgraphviz:
-==========
+To install the package graph for further graph analysis, start R and enter:
+
+source("http://bioconductor.org/biocLite.R")
+biocLite("graph")
+
+
+Package Rgraphviz:
+==================
 
 For visualization the method renderGraph from package Rgraphviz can be
 used, which uses the graphviz library.  Therefore you need to install
@@ -58,6 +67,7 @@ To install Rgraphviz, start R and enter:
 
 source("http://bioconductor.org/biocLite.R")
 biocLite("Rgraphviz")
+
 
 Compatibility for R 2.8.0
 =========================
