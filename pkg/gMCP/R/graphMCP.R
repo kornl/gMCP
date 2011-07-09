@@ -165,8 +165,7 @@ setMethod("nodeData", signature(self="graphMCP", n="character", attr="character"
 setReplaceMethod("nodeData",
 		signature(self="graphMCP", n="character", attr="character", value="ANY"),
 		function(self, n, attr, value) {
-			self@nodedatalogical(length = 0)
-			if (is.null(self@nodeData[[attr]])) self@nodeData[[attrfrom]] <- logical(length=length(nodes(self)))
+			if (is.null(self@nodeData[[attr]])) self@nodeData[[attr]] <- logical(length=length(nodes(self)))
 			self@nodeData[[attr]][n] <- value			
 			self
 		})
