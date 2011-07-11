@@ -186,7 +186,7 @@ fixedSequence <- function(n) {
 }
 
 simpleSuccessiveI <- function() {
-	graph <- generalSuccessiveGraph()
+	graph <- generalSuccessive()
 	graph <- replaceVariables(graph, variables=list("\\\\gamma"=0, "\\\\delta"=0))
 	attr(graph, "description") <- paste("General successive graph from Bretz et al. (2011), Figure 3", 
 			"",
@@ -195,7 +195,7 @@ simpleSuccessiveI <- function() {
 }
 
 simpleSuccessiveII <- function() {
-	graph <- generalSuccessiveGraph()
+	graph <- generalSuccessive()
 	graph <- replaceVariables(graph, variables=list("\\\\gamma"=1/2, "\\\\delta"=1/2))
 	attr(graph, "description") <- paste("General successive graph from Bretz et al. (2011), Figure 6", 
 			"",

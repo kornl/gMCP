@@ -665,7 +665,7 @@ cat(graph2latex(generalSuccessive(), scale=0.7, fontsize="tiny"))
 % Chunk 22
 <<echo=TRUE, keep.source=TRUE, size=scriptsize>>=
 
-graph <- graph2FromBretzEtAl2011()
+graph <- generalSuccessive()
 graph
 
 @
