@@ -8,6 +8,20 @@ Critical:
 High priority:
 ==============
 
+- On Windows: Autoresize of the adjacency matrix does often not work.
+- Sample sizes for correlation matrices
+- Test report creation - does not seem to work
+- Stop little movements of nodes and edges when double clicked
+- Adjacency table is enabled even in test mode
+- "Reject and pass \alpha" does not make sense in the parametric case
+- Option "Show fractions" has no influence on TextFields for weights etc
+- What happens if we start the GUI a second time?
+- Why is matrix(c(0,1/2,0,0),2)) loose half an alpha?
+- Example graphs from Ferber?
+- In CI-Dialog (remember less / greater)
+- In CI-Dialog (initial weights instead of alpha are displayed - this are two errors)
+- Mark cell content (if one clicks and type, one often wants to overwrite)
+- Display edges > 1 and < 0. (Also: -1E0)
 - Check LaTeX export with variables and epsilon polynoms.
 - Flag 1+epsilon>1 in line sum
 - round adjusted p-Values up

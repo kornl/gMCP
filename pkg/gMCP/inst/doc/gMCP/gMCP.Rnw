@@ -651,7 +651,7 @@ No $\epsilon$-edges are allowed.
 % Chunk 21
 <<echo=FALSE,results=tex>>=
 
-cat(graph2latex(graph2FromBretzEtAl2011(), scale=0.7, fontsize="tiny"))
+cat(graph2latex(generalSuccessive(), scale=0.7, fontsize="tiny"))
 
 @
   \caption{\label{powergraph} Graph from Bretz et al. (2009)}

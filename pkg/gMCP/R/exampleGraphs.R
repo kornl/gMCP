@@ -185,7 +185,7 @@ fixedSequence <- function(n) {
 	return(graph)
 }
 
-simpleSuccessiveGraphI <- function() {
+simpleSuccessiveI <- function() {
 	graph <- generalSuccessiveGraph()
 	graph <- replaceVariables(graph, variables=list("\\\\gamma"=0, "\\\\delta"=0))
 	attr(graph, "description") <- paste("General successive graph from Bretz et al. (2011), Figure 3", 
@@ -194,7 +194,7 @@ simpleSuccessiveGraphI <- function() {
 	return(graph)
 }
 
-simpleSuccessiveGraphII <- function() {
+simpleSuccessiveII <- function() {
 	graph <- generalSuccessiveGraph()
 	graph <- replaceVariables(graph, variables=list("\\\\gamma"=1/2, "\\\\delta"=1/2))
 	attr(graph, "description") <- paste("General successive graph from Bretz et al. (2011), Figure 6", 
@@ -227,7 +227,7 @@ truncatedHolm <- function() {
 	return(graph)
 }
 
-generalSuccessiveGraph <- function(weights=c(1/2,1/2)) {
+generalSuccessive <- function(weights=c(1/2,1/2)) {
 	if (length(weights)!=2) stop("Please specify the weights for H1 and H2 and only these.")
 	# Nodes:
 	weights <- c(weights, 0, 0)

@@ -12,6 +12,15 @@ Version 0.7-0 (??-???-2011, Rev. ???)
 
 - Power simulation code from our third author Bjoern Bornkamp
 
+- lattice graphs for power simulations
+
+- New example graphs:
+
+  - general and simple successive graphs
+  - fallback procedure
+  - truncated holm (special case)
+  - 
+
   
 Version 0.6-6 (04-Jul-2011, Rev. 860)
 =====================================
