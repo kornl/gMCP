@@ -90,11 +90,11 @@ public class MenuBarMGraph extends JMenuBar implements ActionListener {
 		subMenu.add(makeMenuItem("Parallel Gatekeeping with 4 Hypotheses", "pg"));
 		subMenu.add(makeMenuItem("Improved Parallel Gatekeeping with 4 Hypotheses", "pgi"));
 		subMenu.addSeparator();
-		subMenu.add(makeMenuItem("Truncated Holm procedure", "truncHolm", false));
+		subMenu.add(makeMenuItem("Truncated Holm procedure", "truncHolm"));
 		subMenu.addSeparator();
-		subMenu.add(makeMenuItem("General successive graph", "gSuccessive", false));
-		subMenu.add(makeMenuItem("Simple successive graph I", "successiveI", false));
-		subMenu.add(makeMenuItem("Simple successive graph II", "successiveII", false));
+		subMenu.add(makeMenuItem("General successive graph", "gSuccessive"));
+		subMenu.add(makeMenuItem("   Simple successive graph I", "successiveI"));
+		subMenu.add(makeMenuItem("   Simple successive graph II", "successiveII"));
 		subMenu.addSeparator();
 		subMenu.add(makeMenuItem("Graph from Hung and Wang (2010)", "hung"));
 		menu.add(subMenu);
@@ -332,6 +332,14 @@ Stuttgart, 1995; 3–18.
         	loadGraph("graphFromHungEtWang2010()");
         } else if (e.getActionCommand().equals("maurer1995")) {     	
         	loadGraph("graphFromMaurerEtAl1995()");
+        } else if (e.getActionCommand().equals("truncHolm")) {     	
+        	loadGraph("truncatedHolm()");
+        } else if (e.getActionCommand().equals("gSuccessive")) {     	
+        	loadGraph("generalSuccessive()");
+        } else if (e.getActionCommand().equals("successiveI")) {     	
+        	loadGraph("simpleSuccessiveI()");
+        } else if (e.getActionCommand().equals("successiveII")) {     	
+        	loadGraph("simpleSuccessiveII()");
         } else if (e.getActionCommand().equals("fallbackI")) {     	
         	loadGraph("improvedFallbackGraphI()");
         } else if (e.getActionCommand().equals("fallbackII")) {     	
