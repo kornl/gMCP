@@ -10,8 +10,7 @@ Version 0.7-0 (??-???-2011, Rev. ???)
 - The GUI will (optionally) look for a newer version of 
   gMCP on CRAN.
 
-- Power simulation code is influenced by Bjoern Bornkamp
-  and code he has written, therefore he is our third author.
+- Power simulation code from our third author Bjoern Bornkamp
 
   
 Version 0.6-6 (04-Jul-2011, Rev. 860)
