@@ -109,6 +109,7 @@ public class MenuBarMGraph extends JMenuBar implements ActionListener {
 		subMenu.add(makeMenuItem("Graph II from Bretz et al. (2011)", "bretzEtAl3"));
 		subMenu.addSeparator();
 		subMenu.add(makeMenuItem("Graph from Hommel et al. (2007)", "hommelEtAl"));
+		subMenu.add(makeMenuItem("Graph from Hommel et al. (2007) simplified", "hommelEtAlSimple"));
 		subMenu.addSeparator();
 		subMenu.add(makeMenuItem("Drug clinical trial example (serial gatekeeping) from Maurer et al. (1995)", "maurer1995"));
 		menu.add(subMenu);
@@ -625,6 +626,7 @@ Stuttgart, 1995; 3–18.
 	private void saveGraph() {
 		JFileChooser fc = new JFileChooser(Configuration.getInstance().getClassProperty(this.getClass(), "RObjDirectory"));		
         fc.setFileSelectionMode(JFileChooser.FILES_ONLY);
+        fc.setDialogType(JFileChooser.SAVE_DIALOG);
         fc.setFileFilter(new FileFilter() {
 			public boolean accept(File f) {
 				if (f.isDirectory()) return true;
