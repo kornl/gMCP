@@ -22,9 +22,9 @@ BonferroniHolmGraph <- function(n) {
 			edgeData(BonferroniHolmGraph, n1, n2, "labelY") <- y
 		}
 	}
-	attr(BonferroniHolmGraph, "description") <- paste("Graph representing the Bonferroni-Holm-Procedure", 
+	attr(BonferroniHolmGraph, "description") <- paste("Graph representing the (unweighted) Bonferroni-Holm-Procedure", 
 			"",
-			"Most powerful test procedure (without further assumptions) that treats all hypotheses equally.",
+			#"Most powerful test procedure (without further assumptions) that treats all hypotheses equally.",
 			"The graph is a complete graph, where all nodes have the same weights and each edge weight is 1/(n-1).",
 			"",
 			"Literature: Holm, S. (1979). A simple sequentally rejective multiple test procedure. Scandinavian Journal of Statistics 6, 65-70.", sep="\n")
@@ -162,9 +162,75 @@ graphForImprovedParallelGatekeeping <- function() {
 	return(graph)	
 }
 
-graph2FromBretzEtAl2011 <- function() {
+fixedSequence <- function(n) {
+	if (missing(n)) { stop("Please provide the number of hypotheses as parameter n.") }
+	weights <- c(1, rep(0, n-1))
+	hnodes <- paste("H", 1:n, sep="")
+	m <- matrix(0, nrow=n, ncol=n)
+	for (i in 2:n) {
+		m[i-1,i] <- 1
+	}
+	rownames(m) <- colnames(m) <- hnodes
+	graph <- new("graphMCP", m=m, weights=weights)
+	# Visualization settings
+	nodeX <- 100+(0:(n-1))*200
+	nodeY <- rep(200, n)
+	graph@nodeData$X <- nodeX
+	graph@nodeData$Y <- nodeY		
+	attr(graph, "description") <- paste("Graph representing the fixed sequence test", 
+			"",
+			"Literature:  Maurer W., Hothorn L., Lehmacher W.: Multiple comparisons in drug clinical trials and preclinical assays: a-priori ordered hypotheses. In Biometrie in der chemisch-pharmazeutischen Industrie, Vollmar J (ed.). Fischer Verlag: Stuttgart, 1995; 3–18.",
+            "",
+			"Westfall P.H., Krishen A.: Optimally weighted, fixed sequence, and gatekeeping multiple testing procedures. Journal of Statistical Planning and Inference 2001; 99:25–40.", sep="\n")
+	return(graph)
+}
+
+simpleSuccessiveGraphI <- function() {
+	graph <- generalSuccessiveGraph()
+	graph <- replaceVariables(graph, variables=list("\\\\gamma"=0, "\\\\delta"=0))
+	attr(graph, "description") <- paste("General successive graph from Bretz et al. (2011), Figure 3", 
+			"",
+			"Literature: Bretz, F., Maurer, W. and Hommel, G. (2011), Test and power considerations for multiple endpoint analyses using sequentially rejective graphical procedures. Statistics in Medicine, 30: n/a.", sep="\n")
+	return(graph)
+}
+
+simpleSuccessiveGraphII <- function() {
+	graph <- generalSuccessiveGraph()
+	graph <- replaceVariables(graph, variables=list("\\\\gamma"=1/2, "\\\\delta"=1/2))
+	attr(graph, "description") <- paste("General successive graph from Bretz et al. (2011), Figure 6", 
+			"",
+			"Literature: Bretz, F., Maurer, W. and Hommel, G. (2011), Test and power considerations for multiple endpoint analyses using sequentially rejective graphical procedures. Statistics in Medicine, 30: n/a.", sep="\n")
+	return(graph)
+}
+
+truncatedHolm <- function() {
 	# Nodes:
-	weights <- rep(c(1/2,0), each=2)	
+	weights <- c(1/2, 1/2, 0, 0)
+	hnodes <- paste("H", 1:4, sep="")
+	# Edges:
+	m <- rbind(
+			c("0",      "\\gamma","(1-\\gamma)/2", "(1-\\gamma)/2"),
+			c("\\gamma","0",      "(1-\\gamma)/2", "(1-\\gamma)/2"),
+			c("0",      "0",      "0",             "1"),       
+			c("0",      "0",      "1",             "0"))     
+	rownames(m) <- colnames(m) <- hnodes 
+	# Graph creation
+	graph <- new("graphMCP", m=m, weights=weights)
+	# Visualization settings
+	nodeX <- rep(c(100, 300), 2)
+	nodeY <- rep(c(100, 300), each=2)
+	graph@nodeData$X <- nodeX
+	graph@nodeData$Y <- nodeY	
+	attr(graph, "description") <- paste("Example of the Truncated Holm Procedure", 
+			"",
+			"Literature: Bretz, F., Maurer, W. and Hommel, G. (2011), Test and power considerations for multiple endpoint analyses using sequentially rejective graphical procedures. Statistics in Medicine, 30: n/a.", sep="\n")
+	return(graph)
+}
+
+generalSuccessiveGraph <- function(weights=c(1/2,1/2)) {
+	if (length(weights)!=2) stop("Please specify the weights for H1 and H2 and only these.")
+	# Nodes:
+	weights <- c(weights, 0, 0)
 	hnodes <- paste("H", 1:4, sep="")
 	# Edges:
 	m <- rbind(
@@ -180,12 +246,13 @@ graph2FromBretzEtAl2011 <- function() {
 	nodeY <- rep(c(100, 300), each=2)
 	graph@nodeData$X <- nodeX
 	graph@nodeData$Y <- nodeY	
-	attr(graph, "description") <- paste("Graph representing the procedure from Bretz et al. (2011) - Figure 6", 
+	attr(graph, "description") <- paste("General successive graph from Bretz et al. (2011), Figure 6", 
 			"",
 			"Literature: Bretz, F., Maurer, W. and Hommel, G. (2011), Test and power considerations for multiple endpoint analyses using sequentially rejective graphical procedures. Statistics in Medicine, 30: n/a.", sep="\n")
 	return(graph)	
-	
+		
 }
+
 
 graphFromHungEtWang2010 <- function() {
 	# Nodes:
@@ -333,10 +400,10 @@ improvedFallbackGraphII <- function(weights=rep(1/3, 3)) {
 	# Graph creation
 	graph <- new("graphMCP", m=m, weights=weights)
 	graph <- placeNodes(graph, nrow=1, ncol=3)
-	attr(graph, "description") <- paste("Improved Fallback Method II by Hommel & Bretz (?)",
+	attr(graph, "description") <- paste("Improved Fallback Method II by Hommel & Bretz",
 			"",
 			"Literature: Bretz, F., Maurer, W. and Hommel, G. (2011), Test and power considerations for multiple endpoint analyses using sequentially rejective graphical procedures. Statistics in Medicine, 30: n/a.",
-			"TODO: Check reference: G. Hommel, F. Bretz (2008): Aesthetics and power considerations in multiple testing - a contradiction? Biometrical Journal 50:657-666.", sep="\n")
+			"G. Hommel, F. Bretz (2008): Aesthetics and power considerations in multiple testing - a contradiction? Biometrical Journal 50:657-666.", sep="\n")
 	edgeData(graph, "H3", "H1", "labelX") <- 300
 	edgeData(graph, "H3", "H1", "labelY") <- 200
 	return(graph)

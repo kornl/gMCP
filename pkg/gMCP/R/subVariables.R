@@ -19,9 +19,22 @@ replaceVariables <-function(graph, variables=list()) {
 			"\\\\theta", "\\\\iota", "\\\\kappa", "\\\\lambda", "\\\\mu", "\\\\nu", "\\\\xi", 
 			"\\\\omicron", "\\\\pi", "\\\\rho", "\\\\sigma", "\\\\tau", "\\\\nu", "\\\\phi",
 			"\\\\chi", "\\\\psi", "\\\\omega")
-	if(interactive()) {
-		
-	} else {
-		
+	
+	for (g in greek) {
+		if (length(grep(g, graph@m))!=0) {
+			if (is.null(answer <- variables[[g]])) {
+				if(interactive()) {
+					answer <- readline(paste("Value for variable ",g,"? ", sep=""))
+				} else {
+					stop(paste("Value for variable",g,"not specified."))
+				}
+			}
+			graph@m <- gsub(g, answer, graph@m) 
+		}
 	}
+	graph@m <- matrix(sapply(graph@m, function(x) {
+						result <- try(eval(parse(text=x)), silent=TRUE);
+						ifelse(class(result)=="try-error",NA,result)
+					}), nrow=length(nodes(graph)))
+	return(graph)
 }
