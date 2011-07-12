@@ -28,4 +28,6 @@ export(graphForImprovedParallelGatekeeping)
 export(improvedFallbackGraphI, improvedFallbackGraphII)
 export(cycleGraph)
 
+export(extractPower, calcPower, graphTest, rqmvnorm)
+
 export(generateWeights, generateBounds, generateTest, generatePvals)

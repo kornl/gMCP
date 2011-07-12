@@ -8,6 +8,7 @@ Critical:
 High priority:
 ==============
 
+- Some edge labels like for parallel gatekeeping are set to small values (0?)
 - On Windows: Autoresize of the adjacency matrix does often not work.
 - Sample sizes for correlation matrices
 - Test report creation - does not seem to work
@@ -22,6 +23,7 @@ High priority:
 - In CI-Dialog (initial weights instead of alpha are displayed - this are two errors)
 - Mark cell content (if one clicks and type, one often wants to overwrite)
 - Display edges > 1 and < 0. (Also: -1E0)
+- Make node and edge creation sticky until another button is clicked (but do not place nodes above other nodes)
 - Check LaTeX export with variables and epsilon polynoms.
 - Flag 1+epsilon>1 in line sum
 - round adjusted p-Values up

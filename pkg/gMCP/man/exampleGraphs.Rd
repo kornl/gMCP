@@ -11,6 +11,13 @@
 \alias{improvedFallbackGraphI}
 \alias{improvedFallbackGraphII}
 \alias{cycleGraph}
+\alias{fixedSequence}
+\alias{generalSuccessive}
+\alias{simpleSuccessiveI}
+\alias{simpleSuccessiveII}
+\alias{truncatedHolm}
+\alias{BretzEtAl2009Fig8}
+\alias{fallBack}
 \title{
 	Functions that create different example graphs
 }
@@ -32,6 +39,13 @@
 	improvedFallbackGraphI(weights=rep(1/3, 3))
 	improvedFallbackGraphII(weights=rep(1/3, 3))
 	cycleGraph(nodes, weights)
+	fixedSequence(n)
+	fallBack(weights)
+	generalSuccessive()
+	simpleSuccessiveI()
+	simpleSuccessiveII()
+	truncatedHolm()
+	BretzEtAl2009Fig8()
 }
 
 \arguments{

@@ -32,9 +32,11 @@ replaceVariables <-function(graph, variables=list()) {
 			graph@m <- gsub(g, answer, graph@m) 
 		}
 	}
-	graph@m <- matrix(sapply(graph@m, function(x) {
+	m <- matrix(sapply(graph@m, function(x) {
 						result <- try(eval(parse(text=x)), silent=TRUE);
 						ifelse(class(result)=="try-error",NA,result)
 					}), nrow=length(nodes(graph)))
+	rownames(m) <- colnames(m) <- nodes(graph)
+	graph@m <- m
 	return(graph)
 }

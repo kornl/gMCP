@@ -77,6 +77,41 @@ graphFromBretzEtAl2011 <- function() {
 }
 
 
+BretzEtAl2009Fig8 <- function() {
+	# M:
+	m <- rbind(c(0,     0,   0,   1,   0,   0  ),
+		 	   c(0,     0,   0,   0,   1,   0  ),
+			   c(0,     0,   0,   0,   0,   1  ),
+			   c(0,   0.5, 0.5,   0,   0,   0  ),
+			   c(0.5,   0, 0.5,   0,   0,   0  ),
+			   c(0.5, 0.5,   0,   0,   0,   0  ))
+	rownames(m) <- colnames(m) <- paste("H_{",rep(c("E","S"),each=3),1:3,"}",sep="")
+	# Graph creation
+	weights <- c(1/3, 1/3, 1/3, 0, 0, 0)
+	graph <- new("graphMCP", m=m, weights=weights)
+	# Visualization settings
+	nodeX <- rep(c(100, 300, 500), 2)
+	nodeY <- rep(c(100, 300), each=3)
+	graph@nodeData$X <- nodeX
+	graph@nodeData$Y <- nodeY	
+	# Label placement
+	edgeData(graph, "H11", "H21", "labelX") <- 200
+	edgeData(graph, "H11", "H21", "labelY") <- 80	
+	edgeData(graph, "H31", "H21", "labelX") <- 400
+	edgeData(graph, "H31", "H21", "labelY") <- 80	
+		
+	attr(graph, "description") <- paste("Graph representing the procedure from Bretz et al. (2011) - Figure 2", 
+			"",
+			"H11, H21 and H31 represent three primary hypotheses and H21, H22 and H23 the associated secondary hypotheses.",
+			"",			
+			"A secondary hypothesis is only tested if the associated primary hypotheses is rejected.",
+			"",
+			"Since in this example it is preferred to reject two adjacent hypotheses (like H11 and H21 instead of H11 and H31) there are only edges between adjacent nodes.",
+			"",
+			"Literature: Bretz, F., Maurer, W. and Hommel, G. (2011), Test and power considerations for multiple endpoint analyses using sequentially rejective graphical procedures. Statistics in Medicine, 30: n/a.", sep="\n")
+	return(graph)	
+}
+
 graphFromHommelEtAl2007 <- function() {
 	# Nodes:
 	weights <- c(rep(1/3, 3), rep(0,4))	
@@ -162,9 +197,9 @@ graphForImprovedParallelGatekeeping <- function() {
 	return(graph)	
 }
 
-fixedSequence <- function(n) {
-	if (missing(n)) { stop("Please provide the number of hypotheses as parameter n.") }
-	weights <- c(1, rep(0, n-1))
+fallBack <- function(weights) {
+	if (missing(weights)) { stop("Please provide weights.") }
+	n <- length(weights)
 	hnodes <- paste("H", 1:n, sep="")
 	m <- matrix(0, nrow=n, ncol=n)
 	for (i in 2:n) {
@@ -177,6 +212,18 @@ fixedSequence <- function(n) {
 	nodeY <- rep(200, n)
 	graph@nodeData$X <- nodeX
 	graph@nodeData$Y <- nodeY		
+	attr(graph, "description") <- paste("Graph representing the fixed sequence test", 
+			"",
+			"Literature:  Maurer W., Hothorn L., Lehmacher W.: Multiple comparisons in drug clinical trials and preclinical assays: a-priori ordered hypotheses. In Biometrie in der chemisch-pharmazeutischen Industrie, Vollmar J (ed.). Fischer Verlag: Stuttgart, 1995; 3–18.",
+			"",
+			"Westfall P.H., Krishen A.: Optimally weighted, fixed sequence, and gatekeeping multiple testing procedures. Journal of Statistical Planning and Inference 2001; 99:25–40.", sep="\n")
+	return(graph)
+}
+
+fixedSequence <- function(n) {
+	if (missing(n)) { stop("Please provide the number of hypotheses as parameter n.") }
+	weights <- c(1, rep(0, n-1))
+	graph <- fallBack(weights)		
 	attr(graph, "description") <- paste("Graph representing the fixed sequence test", 
 			"",
 			"Literature:  Maurer W., Hothorn L., Lehmacher W.: Multiple comparisons in drug clinical trials and preclinical assays: a-priori ordered hypotheses. In Biometrie in der chemisch-pharmazeutischen Industrie, Vollmar J (ed.). Fischer Verlag: Stuttgart, 1995; 3–18.",
@@ -249,8 +296,7 @@ generalSuccessive <- function(weights=c(1/2,1/2)) {
 	attr(graph, "description") <- paste("General successive graph from Bretz et al. (2011), Figure 6", 
 			"",
 			"Literature: Bretz, F., Maurer, W. and Hommel, G. (2011), Test and power considerations for multiple endpoint analyses using sequentially rejective graphical procedures. Statistics in Medicine, 30: n/a.", sep="\n")
-	return(graph)	
-		
+	return(graph)		
 }
 
 
