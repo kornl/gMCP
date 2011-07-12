@@ -9,6 +9,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.lang.reflect.Method;
 import java.net.URI;
+import java.util.Hashtable;
 import java.util.List;
 import java.util.Set;
 
@@ -27,7 +28,7 @@ import org.af.commons.logging.LoggingSystem;
 import org.af.commons.logging.widgets.DetailsDialog;
 import org.af.commons.tools.OSTools;
 import org.af.gMCP.config.Configuration;
-import org.af.gMCP.gui.dialogs.NumberOfHypotheses;
+import org.af.gMCP.gui.dialogs.ParameterDialog;
 import org.af.gMCP.gui.dialogs.RObjectLoadingDialog;
 import org.af.gMCP.gui.dialogs.RearrangeNodesDialog;
 import org.af.gMCP.gui.dialogs.TextFileViewer;
@@ -277,9 +278,13 @@ public class MenuBarMGraph extends JMenuBar implements ActionListener {
         	new RObjectLoadingDialog(control.getGraphGUI());
         	createLastUsed();        	
         } else if (e.getActionCommand().equals("bht")) {
-        	new NumberOfHypotheses(control.getGraphGUI(), this, "BonferroniHolmGraph");        	
+        	Hashtable<String,Object> ht = new Hashtable<String,Object>();
+        	ht.put("n", new int[] {1,4,10});
+        	new ParameterDialog(control.getGraphGUI(), ht, this, "BonferroniHolmGraph");        	
         } else if (e.getActionCommand().equals("fixedSequence")) {
-        	new NumberOfHypotheses(control.getGraphGUI(), this, "fixedSequence");        	
+        	Hashtable<String,Object> ht = new Hashtable<String,Object>();
+        	ht.put("n", new int[] {1,4,20});
+        	new ParameterDialog(control.getGraphGUI(), ht, this, "fixedSequence");        	
         } else if (e.getActionCommand().equals("pg")) {       	
         	loadGraph("graphForParallelGatekeeping()");
         } else if (e.getActionCommand().equals("pgi")) {       	
