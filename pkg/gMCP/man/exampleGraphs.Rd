@@ -2,7 +2,6 @@
 \alias{exampleGraph}
 \alias{BonferroniHolmGraph}
 \alias{graphFromBretzEtAl2011}
-\alias{graph2FromBretzEtAl2011}
 \alias{graphForParallelGatekeeping}
 \alias{graphForImprovedParallelGatekeeping}
 \alias{graphFromHommelEtAl2007}
@@ -32,7 +31,6 @@
 	graphForParallelGatekeeping()
 	graphForImprovedParallelGatekeeping()
 	graphFromBretzEtAl2011()
-	graph2FromBretzEtAl2011()
 	graphFromHungEtWang2010()
 	graphFromHommelEtAl2007()
 	graphFromMaurerEtAl1995()
@@ -41,7 +39,7 @@
 	cycleGraph(nodes, weights)
 	fixedSequence(n)
 	fallBack(weights)
-	generalSuccessive()
+	generalSuccessive(weights = c(1/2, 1/2))
 	simpleSuccessiveI()
 	simpleSuccessiveII()
 	truncatedHolm()
@@ -67,9 +65,6 @@
 	}
 	\item{\code{graphFromBretzEtAl2011}}{
 		Graph in figure 2 from Bretz et al. See references (Bretz et al. 2011).
-	}
-	\item{\code{graph2FromBretzEtAl2011}}{
-		Graph in figure 6 from Bretz et al. See references (Bretz et al. 2011).
 	}
 	\item{\code{graphFromHommelEtAl2007}}{
 		Graph from Hommel et al. See references (Hommel et al. 2007).
