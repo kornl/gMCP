@@ -77,8 +77,8 @@ public class MenuBarMGraph extends JMenuBar implements ActionListener {
 
 		JMenu subMenu = new JMenu("Common test procedures for any number of hypotheses");		
 		subMenu.add(makeMenuItem("Bonferroni-Holm procedure", "bht"));
-		subMenu.add(makeMenuItem("Fixed sequence test", "fixedSequence", false));
-		subMenu.add(makeMenuItem("Fallback procedure", "fallback", false));
+		subMenu.add(makeMenuItem("Fixed sequence test", "fixedSequence"));
+		subMenu.add(makeMenuItem("Fallback procedure", "fallback"));
 		menu.add(subMenu);
 		
 		subMenu = new JMenu("3 unstructured hypotheses");
@@ -98,66 +98,25 @@ public class MenuBarMGraph extends JMenuBar implements ActionListener {
 		subMenu.addSeparator();
 		subMenu.add(makeMenuItem("Graph from Hung and Wang (2010)", "hung"));
 		menu.add(subMenu);
-		
-		/*subMenu = new JMenu("3 primary & 2 secondary hypotheses");		
+
+		subMenu = new JMenu("3 primary & 3 secondary hypotheses");		
 		subMenu.add(makeMenuItem("Graph from Bauer et al. (2001)", "bauer", false));
-		subMenu.add(makeMenuItem("Graph from Bretz et al. (2011)", "bretEtAl4", false));
-		menu.add(subMenu);*/
+		subMenu.add(makeMenuItem("Graph from Bretz et al. (2011)", "bretEtAl3", false));
+		menu.add(subMenu);
+		
+		subMenu = new JMenu("2 primary & 2 secondary & 2 tertiary hypotheses");		
+		subMenu.add(makeMenuItem("Graph from Bretz et al. (2009)", "bretEtAl", false));
+		subMenu.add(makeMenuItem("Graph from Bretz et al. (2009)", "bretEtAl1", false));
+		subMenu.add(makeMenuItem("Graph from Bretz et al. (2009)", "bretEtAl2", false));
+		menu.add(subMenu);
 		
 		subMenu = new JMenu("Miscellaneous");		
-		subMenu.add(makeMenuItem("Graph I from Bretz et al. (2011)", "bretzEtAl"));		
-		subMenu.add(makeMenuItem("Graph II from Bretz et al. (2011)", "bretzEtAl3"));
-		subMenu.addSeparator();
 		subMenu.add(makeMenuItem("Graph from Hommel et al. (2007)", "hommelEtAl"));
 		subMenu.add(makeMenuItem("Graph from Hommel et al. (2007) simplified", "hommelEtAlSimple"));
 		subMenu.addSeparator();
 		subMenu.add(makeMenuItem("Drug clinical trial example (serial gatekeeping) from Maurer et al. (1995)", "maurer1995"));
 		menu.add(subMenu);
-		/*
-		Common test procedures
-		  Bonferroni-Holm procedure [Input: "Number of hypotheses"] (1)
-		  Fixed sequence test [Input: "Number of hypotheses"] (2, 3)
-		  Fallback procedure [Input: "Number of hypotheses"; "Initial weights"] (4)
-		3 unstructured hypotheses
-		  Improved fallback procedure - 1 [Input: "Initial weights"] (5)
-		  Improved fallback procedure - 2 [Input: "Initial weights"] (6)
-		2 primary & 2 secondary hypotheses
-		  Parallel gatekeeper (7)
-		  Improved parallel gatekeeper (8)
-		  Truncated Holm procedure (9)
-		  General successive graph [Input: w, omega, tau] (10)
-		    Simple successive graph - 1 (11, 12)
-		    Simple successive graph - 2 (11)
-		  Hung and Wang (2010) [Input: omega, tau, nu] (13)
-		3 primary & 2 secondary hypotheses
-		  Bauer et al. (2001) (14)
-		  Bretz et al. (2011) (10)
-		2 primary & 3 secondary hypotheses
-		  Bretz et al. (2009) - 1 (8)
-		  Bretz et al. (2009) - 2 (8)
-		  Bretz et al. (2009) - 3 (8)
-		Others
-		  Hommel et al. (2007), simplified (15)
-		  
-References:
-(1) Holm S. A simple sequentally rejective multiple test procedure. Scandinavian Journal of Statistics 1979; 6:65–70.
-(2) Maurer W, Hothorn L, Lehmacher W. Multiple comparisons in drug clinical trials and preclinical assays: a-priori ordered hypotheses. In Biometrie in der chemisch-pharmazeutischen Industrie, Vollmar J (ed.). Fischer Verlag:
-Stuttgart, 1995; 3–18.
-(3) Westfall PH, Krishen A. Optimally weighted, fixed sequence, and gatekeeping multiple testing procedures. Journal of Statistical Planning and Inference 2001; 99:25–40.
-(4) Wiens BL. A fixed sequence Bonferroni procedure for testing multiple endpoints. Pharmaceutical Statistics 2003; 2:211–215.
-(5) Wiens BL, Dmitrienko A. The fallback procedure for evaluating a single family of hypotheses. Journal of Biopharmaceutical Statistics 2005; 15:929–942.
-(6) Hommel G, Bretz F. Aesthetics and power considerations in multiple testing—a contradiction? Biometrical Journal 2008; 50:657–666.
-(7) Dmitrienko A, Offen WW, Westfall PH. Gatekeeping strategies for clinical trials that do not require all primary effects to be significant. Statistics in Medicine 2003; 22:2387–2400.
-(8) Bretz F, Maurer W, Brannath W, Posch M. A graphical approach to sequentially rejective multiple test procedures. Statistics in Medicine 2009; 28:586--604.
-(9) Dmitrienko A, Tamhane A, Wiens B. General multi-stage gatekeeping procedures. Biometrical Journal 2008; 50:667–677.
-(10) Bretz F, Maurer W, Hommel G Test and power considerations for multiple endpoint analyses using sequentially rejective graphical procedures. Statistics in Medicine 2011; (in press).
-(11) Maurer W, Glimm E, Bretz F. Multiple and repeated testing of primary, co-primary and secondary hypotheses. Statistics in Biopharmaceutical Reserach 2011; (in press).
-(12) Bretz, Posch, Glimm, Klinglmueller, Maurer, Rohmeyer (2012) Graphical approaches for multiple comparison procedures using weighted Bonferroni, Simes or parametric tests. Biometrical Journal (in press).
-(13) Hung HMJ, Wang SJ. Challenges to multiple testing in clinical trials. Biometrical Journal 2010; (in press).
-(14) Bauer P, Brannath W, Posch M. Multiple testing for identifying effective and safe treatments. Biometrical Journal 2001; 43:605–616.
-(15) Hommel G, Bretz F, Maurer W. Powerful short-cuts for multiple testing procedures with special reference to gatekeeping strategies. Statistics in Medicine 2007; 26:4063–4073. 
-		   */
-
+		
 		add(menu);
 
 		menu = new JMenu("Analysis");
@@ -319,6 +278,8 @@ Stuttgart, 1995; 3–18.
         	createLastUsed();        	
         } else if (e.getActionCommand().equals("bht")) {
         	new NumberOfHypotheses(control.getGraphGUI(), this, "BonferroniHolmGraph");        	
+        } else if (e.getActionCommand().equals("fixedSequence")) {
+        	new NumberOfHypotheses(control.getGraphGUI(), this, "fixedSequence");        	
         } else if (e.getActionCommand().equals("pg")) {       	
         	loadGraph("graphForParallelGatekeeping()");
         } else if (e.getActionCommand().equals("pgi")) {       	
