@@ -98,6 +98,7 @@ public class MenuBarMGraph extends JMenuBar implements ActionListener {
 		subMenu.add(makeMenuItem("   Simple successive graph II", "successiveII"));
 		subMenu.addSeparator();
 		subMenu.add(makeMenuItem("Graph from Hung and Wang (2010)", "hung"));
+		subMenu.add(makeMenuItem("Graph from Huque, Alosh and Bhore (2011)", "huque"));
 		menu.add(subMenu);
 
 		subMenu = new JMenu("3 primary & 3 secondary hypotheses");		
@@ -297,6 +298,8 @@ public class MenuBarMGraph extends JMenuBar implements ActionListener {
         	loadGraph("graphFromHommelEtAl2007()");
         } else if (e.getActionCommand().equals("hung")) { 	
         	loadGraph("graphFromHungEtWang2010()");
+        } else if (e.getActionCommand().equals("huque")) { 	
+        	loadGraph("HuqueAloshEtBhore2011()");
         } else if (e.getActionCommand().equals("maurer1995")) {     	
         	loadGraph("graphFromMaurerEtAl1995()");
         } else if (e.getActionCommand().equals("truncHolm")) {     	

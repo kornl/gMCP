@@ -52,7 +52,7 @@ public class DialogConfIntEstVar extends JDialog implements ActionListener, Chan
 	JFrame p;
 	
 	public DialogConfIntEstVar(JFrame p, NetList nl, boolean[] rejected, double[] alpha) {		
-		super(p, "Confidence intervals");
+		super(p, "Confidence intervals", true);
 		this.p = p;
 		this.nl = nl;
 		this.alpha = alpha;
