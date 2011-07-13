@@ -27,6 +27,7 @@ export(graphForParallelGatekeeping)
 export(graphForImprovedParallelGatekeeping)
 export(improvedFallbackGraphI, improvedFallbackGraphII)
 export(cycleGraph)
+export(HuqueAloshEtBhore2011)
 
 export(extractPower, calcPower, graphTest, rqmvnorm)
 

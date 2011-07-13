@@ -17,6 +17,7 @@
 \alias{truncatedHolm}
 \alias{BretzEtAl2009Fig8}
 \alias{fallBack}
+\alias{HuqueAloshEtBhore2011}
 \title{
 	Functions that create different example graphs
 }
@@ -32,6 +33,7 @@
 	graphForImprovedParallelGatekeeping()
 	graphFromBretzEtAl2011()
 	graphFromHungEtWang2010()
+	HuqueAloshEtBhore2011()
 	graphFromHommelEtAl2007()
 	graphFromMaurerEtAl1995()
 	improvedFallbackGraphI(weights=rep(1/3, 3))

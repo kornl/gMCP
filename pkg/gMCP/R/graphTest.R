@@ -1,18 +1,15 @@
 graphTest <- function(pvalues, alphas = NULL, G = NULL, graph = NULL,
-                      verbose = FALSE){
+                      alpha = 0.05, verbose = FALSE){
 
   usegraph <- !is.null(graph)
   if(usegraph & (class(graph) != "graphMCP"))
-    stop("graph needs to an object of class graphMCP")
-  if(usegraph & !is.null(alphas))
+    stop("graph needs to be an object of class graphMCP")
+  if(usegraph & ((!is.null(alphas)||!is.null(G))))
     stop("either graph or alphas and G need to be specified")
-  if(usegraph & !is.null(G))
-    stop("either graph or alphas and G need to be specified")
-  if(usegraph){
+  if(usegraph) {
     ## get alpha vector and transition matrix
-    ll <- convert(graph)
-    alphas <- ll$alphas
-    G <- ll$G
+    alphas <- graph@weights * alpha
+    G <- graph@m
   }
     
   nH <- ifelse(!is.matrix(pvalues), length(pvalues), ncol(pvalues))

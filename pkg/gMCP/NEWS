@@ -1,5 +1,5 @@
 
-Version 0.7-0 (??-???-2011, Rev. ???)
+Version 0.7-0 (??-Jul-2011, Rev. 9??)
 =====================================
 
 - Package "graph" is no longer a dependency.
@@ -20,6 +20,8 @@ Version 0.7-0 (??-???-2011, Rev. ???)
   - fallback procedure
   - truncated holm (special case)
   - 
+
+- CI dialog is modal.
 
   
 Version 0.6-6 (04-Jul-2011, Rev. 860)

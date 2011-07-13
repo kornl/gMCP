@@ -299,10 +299,21 @@ generalSuccessive <- function(weights=c(1/2,1/2)) {
 	return(graph)		
 }
 
+HuqueAloshEtBhore2011 <- function() {
+	graph <- graphFromHungEtWang2010()
+	graph <- replaceVariables(graph, variables=list("\\\\nu"=1/2, "\\\\omega"=1/2, "\\\\tau"=0))
+	rownames(graph@m) <- colnames(graph@m) <- paste("H", 1:4, sep="")
+	graph@m["H4","H2"] <- 1
+	attr(graph, "description") <- paste("Graph representing the procedure from Huque, Alosh and Bhore (2011)", 
+			"",
+			"Literature: Huque, M.F. and Alosh, M. and Bhore, R. (2011), Addressing Multiplicity Issues of a Composite Endpoint and Its Components in Clinical Trials. Journal of Biopharmaceutical Statistics, 21: 610-634.", sep="\n")
+	return(graph)	
+}
+
 
 graphFromHungEtWang2010 <- function() {
 	# Nodes:
-	weights <- rep(c(1/2,0), each=2)	
+	weights <- c(1,0,0,0)	
 	hnodes <- c("H_{1,NI}","H_{1,S}","H_{2,NI}","H_{2,S}")
 	# Edges:
 	m <- rbind(  
