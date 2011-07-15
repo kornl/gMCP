@@ -16,6 +16,7 @@ import javax.swing.text.StyleConstants;
 
 import org.af.commons.widgets.WidgetFactory;
 import org.af.commons.widgets.buttons.OKButtonPane;
+import org.af.gMCP.config.Configuration;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -31,7 +32,7 @@ public class AboutDialog extends JDialog implements ActionListener {
     
 	
     public AboutDialog(JFrame parent) {
-    	super(parent, "About gMCP-GUI");
+    	super(parent, "About gMCP-GUI "+Configuration.getInstance().getGeneralConfig().getVersionNumber());
 
         jtAbout.setStyledDocument(getDocument());
         jtAbout.setEditable(false);

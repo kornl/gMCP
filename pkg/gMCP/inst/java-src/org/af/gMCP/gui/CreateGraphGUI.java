@@ -53,6 +53,7 @@ public class CreateGraphGUI extends JFrame implements WindowListener, AbortListe
 		try {		
 			Configuration.getInstance().getGeneralConfig().setRVersionNumber(RControl.getR().eval("paste(R.version$major,R.version$minor,sep=\".\")").asRChar().getData()[0]);
 			Configuration.getInstance().getGeneralConfig().setVersionNumber(RControl.getR().eval("gMCP:::gMCPVersion()").asRChar().getData()[0]);
+			this.setTitle("gMCP GUI "+Configuration.getInstance().getGeneralConfig().getVersionNumber());
 		} catch (Exception e) {
 			// This is no vital information and will fail for e.g. R 2.8.0, so no error handling here...
 			logger.warn("Package version could not be set:\n"+e.getMessage());
