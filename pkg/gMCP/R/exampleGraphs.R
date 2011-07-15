@@ -135,12 +135,9 @@ HommelEtAl2007 <- function() {
 	graph@nodeData$Y <- nodeY	
 	for (i in 1:4) {
 		n1 <- hnodes[3+i]
-		edgeData(graph, n1, "E1", "epsilon") <- list(1)
-		edgeData(graph, n1, "E2", "epsilon") <- list(1)
 		for (j in (1:4)[-i]) {
 			n2 <- hnodes[3+j]
-			graph <- addEdge(n1, n2, graph, 1/3)
-			edgeData(graph, n1, n2, "epsilon") <- list(-2/3)	
+			graph <- addEdge(n1, n2, graph, 1/3)	
 			x <- ((i+j)*200-200)/2+sign(i-j)*30
 			y <- 300 + ((abs(i-j)-1)*60)+sign(i-j)*10+10
 			edgeData(graph, n1, n2, "labelX") <- x
@@ -153,6 +150,7 @@ HommelEtAl2007 <- function() {
 			"If QoL is rejected, four secondary hypotheses D1, D2, D3 and D4 are also be tested.",
 			"",
 			"Literature: Hommel, G., Bretz, F. und Maurer, W. (2007). Powerful short-cuts for multiple testing procedures with special reference to gatekeeping strategies. Statistics in Medicine, 26(22), 4063-4073.", sep="\n")
+	attr(graph, "pvalues") <- c(0.097, 0.015, 0.005, 0.006, 0.004, 0.008, 0.04)
 	return(graph)	
 }
 
@@ -197,7 +195,7 @@ improvedParallelGatekeeping <- function() {
 	return(graph)	
 }
 
-fallBack <- function(weights) {
+fallback <- function(weights) {
 	if (missing(weights)) { stop("Please provide weights.") }
 	n <- length(weights)
 	hnodes <- paste("H", 1:n, sep="")
@@ -208,8 +206,8 @@ fallBack <- function(weights) {
 	rownames(m) <- colnames(m) <- hnodes
 	graph <- new("graphMCP", m=m, weights=weights)
 	# Visualization settings
-	nodeX <- 100+(0:(n-1))*200
-	nodeY <- rep(200, n)
+	nodeX <- 50+(0:(n-1))*150
+	nodeY <- rep(100, n)
 	graph@nodeData$X <- nodeX
 	graph@nodeData$Y <- nodeY		
 	attr(graph, "description") <- paste("Graph representing the fixed sequence test", 
@@ -223,7 +221,7 @@ fallBack <- function(weights) {
 fixedSequence <- function(n) {
 	if (missing(n)) { stop("Please provide the number of hypotheses as parameter n.") }
 	weights <- c(1, rep(0, n-1))
-	graph <- fallBack(weights)		
+	graph <- fallback(weights)		
 	attr(graph, "description") <- paste("Graph representing the fixed sequence test", 
 			"",
 			"Literature:  Maurer W., Hothorn L., Lehmacher W.: Multiple comparisons in drug clinical trials and preclinical assays: a-priori ordered hypotheses. In Biometrie in der chemisch-pharmazeutischen Industrie, Vollmar J (ed.). Fischer Verlag: Stuttgart, 1995; 3-18.",
@@ -442,6 +440,10 @@ improvedFallbackI <- function(weights=rep(1/3, 3)) {
 			"Literature: B.L. Wiens, A. Dmitrienko (2005): The fallback procedure for evaluating a single family of hypotheses. Journal of Biopharmaceutical Statistics 15:929-942.", sep="\n")
 	edgeData(graph, "H3", "H1", "labelX") <- 300
 	edgeData(graph, "H3", "H1", "labelY") <- 200
+	edgeData(graph, "H2", "H3", "labelX") <- 400
+	edgeData(graph, "H2", "H3", "labelY") <- 100
+	edgeData(graph, "H3", "H2", "labelX") <- 400
+	edgeData(graph, "H3", "H2", "labelY") <- 135	
 	return(graph)
 } 
 
@@ -460,9 +462,14 @@ improvedFallbackII <- function(weights=rep(1/3, 3)) {
 	attr(graph, "description") <- paste("Improved Fallback Method II by Hommel & Bretz",
 			"",
 			"Literature: Bretz, F., Maurer, W. and Hommel, G. (2011), Test and power considerations for multiple endpoint analyses using sequentially rejective graphical procedures. Statistics in Medicine, 30: n/a.",
+			"",
 			"G. Hommel, F. Bretz (2008): Aesthetics and power considerations in multiple testing - a contradiction? Biometrical Journal 50:657-666.", sep="\n")
 	edgeData(graph, "H3", "H1", "labelX") <- 300
 	edgeData(graph, "H3", "H1", "labelY") <- 200
+	edgeData(graph, "H1", "H2", "labelX") <- 200
+	edgeData(graph, "H1", "H2", "labelY") <- 100
+	edgeData(graph, "H2", "H1", "labelX") <- 200
+	edgeData(graph, "H2", "H1", "labelY") <- 135	
 	return(graph)
 } 
 

@@ -1,6 +1,6 @@
 graphAnalysis <- function(graph, file="") {
 	result <- ""
-	if (FALSE) { #TODO reenable this
+	if (FALSE){ # require("graph")) { F&%§$k! 
 		accessible <- acc(graph, nodes(graph))
 		for (i in names(accessible)) {
 			missingNodes <- c()
@@ -19,6 +19,10 @@ graphAnalysis <- function(graph, file="") {
 		} else {
 			
 		}
+	} else {
+		result <- paste("Install package \"graph\" for graph analysis:",
+				"source(\"http://www.bioconductor.org/biocLite.R\")",
+				"biocLite(\"graph\")", sep="\n");
 	}
 	cat(result, file=file)
 	return(invisible(result))
