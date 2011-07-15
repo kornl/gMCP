@@ -29,7 +29,8 @@ Cools, R., Kuo, F. Y., and Nuyens, D. (2006) Constructing embedded
 lattice rules for multivariate integration. SIAM Journal of Scientific
 Computing, 28, 2162-2188.
 }
-\author{ Bjoern Bornkamp }
+\author{ Bjoern Bornkamp. We thank Dr. Frances Kuo for the permission to use the generating vectors
+ (order 2 lattice rule) obtained from her website \url{http://web.maths.unsw.edu.au/~fkuo/lattice/}.}
 \examples{
 sims <- rqmvnorm(100, mean = 1:2, sigma = diag(2))
 plot(sims)
