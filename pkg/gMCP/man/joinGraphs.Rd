@@ -46,8 +46,8 @@
 }
 \examples{
 
-g1 <- BonferroniHolmGraph(2)
-g2 <- BonferroniHolmGraph(3)
+g1 <- BonferroniHolm(2)
+g2 <- BonferroniHolm(3)
 
 joinGraphs(g1, g2)
 

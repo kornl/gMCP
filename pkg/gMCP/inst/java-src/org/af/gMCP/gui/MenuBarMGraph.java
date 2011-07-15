@@ -281,27 +281,27 @@ public class MenuBarMGraph extends JMenuBar implements ActionListener {
         } else if (e.getActionCommand().equals("bht")) {
         	Hashtable<String,Object> ht = new Hashtable<String,Object>();
         	ht.put("n", new int[] {1,4,10});
-        	new ParameterDialog(control.getGraphGUI(), ht, this, "BonferroniHolmGraph");        	
+        	new ParameterDialog(control.getGraphGUI(), ht, this, "BonferroniHolm");        	
         } else if (e.getActionCommand().equals("fixedSequence")) {
         	Hashtable<String,Object> ht = new Hashtable<String,Object>();
         	ht.put("n", new int[] {1,4,20});
         	new ParameterDialog(control.getGraphGUI(), ht, this, "fixedSequence");        	
         } else if (e.getActionCommand().equals("pg")) {       	
-        	loadGraph("graphForParallelGatekeeping()");
+        	loadGraph("parallelGatekeeping()");
         } else if (e.getActionCommand().equals("pgi")) {       	
-        	loadGraph("graphForImprovedParallelGatekeeping()");
+        	loadGraph("improvedParallelGatekeeping()");
         } else if (e.getActionCommand().equals("bretzEtAl")) {       	
-        	loadGraph("graphFromBretzEtAl2011()");
+        	loadGraph("BretzEtAl2011()");
         } else if (e.getActionCommand().equals("bretzEtAl3")) {       	
         	loadGraph("graph2FromBretzEtAl2011()");
         } else if (e.getActionCommand().equals("hommelEtAl")) {       	
-        	loadGraph("graphFromHommelEtAl2007()");
+        	loadGraph("HommelEtAl2007()");
         } else if (e.getActionCommand().equals("hung")) { 	
-        	loadGraph("graphFromHungEtWang2010()");
+        	loadGraph("HungEtWang2010()");
         } else if (e.getActionCommand().equals("huque")) { 	
         	loadGraph("HuqueAloshEtBhore2011()");
         } else if (e.getActionCommand().equals("maurer1995")) {     	
-        	loadGraph("graphFromMaurerEtAl1995()");
+        	loadGraph("MaurerEtAl1995()");
         } else if (e.getActionCommand().equals("truncHolm")) {     	
         	loadGraph("truncatedHolm()");
         } else if (e.getActionCommand().equals("gSuccessive")) {     	
@@ -311,9 +311,9 @@ public class MenuBarMGraph extends JMenuBar implements ActionListener {
         } else if (e.getActionCommand().equals("successiveII")) {     	
         	loadGraph("simpleSuccessiveII()");
         } else if (e.getActionCommand().equals("fallbackI")) {     	
-        	loadGraph("improvedFallbackGraphI()");
+        	loadGraph("improvedFallbackI()");
         } else if (e.getActionCommand().equals("fallbackII")) {     	
-        	loadGraph("improvedFallbackGraphII()");
+        	loadGraph("improvedFallbackII()");
         } else if (e.getActionCommand().equals("showLog")) {    	
         	showLog();
         } else if (e.getActionCommand().equals("reportError")) {       	

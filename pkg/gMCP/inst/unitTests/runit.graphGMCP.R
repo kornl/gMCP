@@ -5,7 +5,7 @@ test.graphMCP <- function() {
 	gR <- new("graphMCP", m=m, weights=c(0.1, 0.1, 0.1, 0))
 	
 	
-	bhG5 <- BonferroniHolmGraph(5)
+	bhG5 <- BonferroniHolm(5)
 	
 	checkEquals(getWeights(bhG5),
 				structure(c(0.2, 0.2, 0.2, 0.2, 0.2),
@@ -14,14 +14,14 @@ test.graphMCP <- function() {
 }
 
 test.bonferroniHolm <- function() {	
-	bhG3 <- BonferroniHolmGraph(3)				   
+	bhG3 <- BonferroniHolm(3)				   
 	result <- gMCP(bhG3, pvalues=c(0.1, 0.3, 0.7), alpha=0.6)
 	checkEquals(gMCP:::getRejected(result@graphs[[3]]),
 			structure(c(TRUE, TRUE, FALSE), .Names = c("H1", "H2", "H3")))
 }
 
 test.gMCP <- function() {
-	bhG3 <- BonferroniHolmGraph(3)
+	bhG3 <- BonferroniHolm(3)
 	pvalues <- c(0.1, 0.2, 0.3)
 	names(pvalues) <- nodes(bhG3)
 	checkTrue(gMCP:::canBeRejected(bhG3, "H1", alpha=0.6, pvalues)) 
@@ -35,13 +35,13 @@ test.gMCP <- function() {
 }
 
 test.adjPValues <- function() {
-	adjPValues <- gMCP:::adjPValues(BonferroniHolmGraph(3), c(0.02,0.055,0.012))@adjPValues
+	adjPValues <- gMCP:::adjPValues(BonferroniHolm(3), c(0.02,0.055,0.012))@adjPValues
 	checkEquals(adjPValues, 
 			structure(c(0.04, 0.055, 0.036), .Names = c("H1", "H2", "H3")))
 }
 
 test.gMCPBretzEtAl <- function() {
-	graph <- graphFromBretzEtAl2011()
+	graph <- BretzEtAl2011()
 	pvalues <- c(0.1, 0.008, 0.005, 0.15, 0.04, 0.006)
 	result <- gMCP(graph, pvalues)
 	last <- result@graphs[[4]]	
@@ -50,7 +50,7 @@ test.gMCPBretzEtAl <- function() {
 }
 
 test.gMCPParallelGatekeeping <- function() {
-	graph <- graphForParallelGatekeeping()
+	graph <- parallelGatekeeping()
 	graph <- rejectNode(graph, "H1")
 	
 	graph <- rejectNode(graph, "H4")
@@ -58,7 +58,7 @@ test.gMCPParallelGatekeeping <- function() {
 }
 
 test.only.no.error <- function() {
-	graph <- BonferroniHolmGraph(3)
+	graph <- BonferroniHolm(3)
 	pvalues <- c(0.1, 0.2, 0.3)
 	graph2latex(graph)
 	gMCPReport(graph)

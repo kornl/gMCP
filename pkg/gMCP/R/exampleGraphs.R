@@ -1,16 +1,16 @@
-BonferroniHolmGraph <- function(n) {
+BonferroniHolm <- function(n) {
 	if (missing(n)) { stop("Please provide the number of hypotheses as parameter n.") }
 	weights <- rep(1/n, n)
 	hnodes <- paste("H", 1:n, sep="")
 	m <- matrix(1/(n-1), nrow=n, ncol=n)
 	diag(m) <- 0
 	rownames(m) <- colnames(m) <- hnodes
-	BonferroniHolmGraph <- new("graphMCP", m=m, weights=weights)
+	BonferroniHolm <- new("graphMCP", m=m, weights=weights)
 	# Visualization settings
 	nodeX <- 100+(0:(n-1))*200
 	nodeY <- rep(200, n)
-	BonferroniHolmGraph@nodeData$X <- nodeX
-	BonferroniHolmGraph@nodeData$Y <- nodeY		
+	BonferroniHolm@nodeData$X <- nodeX
+	BonferroniHolm@nodeData$Y <- nodeY		
 	# Label settings
 	for (i in 1:n) {
 		n1 <- hnodes[i]
@@ -18,20 +18,20 @@ BonferroniHolmGraph <- function(n) {
 			n2 <- hnodes[j]
 			x <- ((i+j)*200-200)/2
 			y <- 200 + ((i-j)*50)
-			edgeData(BonferroniHolmGraph, n1, n2, "labelX") <- x			
-			edgeData(BonferroniHolmGraph, n1, n2, "labelY") <- y
+			edgeData(BonferroniHolm, n1, n2, "labelX") <- x			
+			edgeData(BonferroniHolm, n1, n2, "labelY") <- y
 		}
 	}
-	attr(BonferroniHolmGraph, "description") <- paste("Graph representing the (unweighted) Bonferroni-Holm-Procedure", 
+	attr(BonferroniHolm, "description") <- paste("Graph representing the (unweighted) Bonferroni-Holm-Procedure", 
 			"",
 			#"Most powerful test procedure (without further assumptions) that treats all hypotheses equally.",
 			"The graph is a complete graph, where all nodes have the same weights and each edge weight is 1/(n-1).",
 			"",
 			"Literature: Holm, S. (1979). A simple sequentally rejective multiple test procedure. Scandinavian Journal of Statistics 6, 65-70.", sep="\n")
-	return(BonferroniHolmGraph)
+	return(BonferroniHolm)
 }
 
-graphFromBretzEtAl2011 <- function() {
+BretzEtAl2011 <- function() {
 	# M:
 	m <- rbind(H11=c(0,   0.5, 0,   0.5, 0,   0  ),
 			H21=c(1/3, 0,   1/3, 0,   1/3, 0  ),
@@ -112,7 +112,7 @@ BretzEtAl2009Fig8 <- function() {
 	return(graph)	
 }
 
-graphFromHommelEtAl2007 <- function() {
+HommelEtAl2007 <- function() {
 	# Nodes:
 	weights <- c(rep(1/3, 3), rep(0,4))	
 	hnodes <- c("E1", "QoL", "E2", "D1", "D2", "D3", "D4")
@@ -156,7 +156,7 @@ graphFromHommelEtAl2007 <- function() {
 	return(graph)	
 }
 
-graphForParallelGatekeeping <- function() {
+parallelGatekeeping <- function() {
 	# Nodes:
 	weights <- rep(c(1/2,0), each=2)	
 	hnodes <- paste("H", 1:4, sep="")
@@ -185,8 +185,8 @@ graphForParallelGatekeeping <- function() {
 	return(graph)	
 }
 
-graphForImprovedParallelGatekeeping <- function() {
-	graph <- graphForParallelGatekeeping()
+improvedParallelGatekeeping <- function() {
+	graph <- parallelGatekeeping()
 	graph <- addEdge("H3", "H1", graph, "\\epsilon")
 	graph <- addEdge("H4", "H2", graph, "\\epsilon")
 	graph <- addEdge("H3", "H4", graph, "1-\\epsilon")
@@ -300,7 +300,7 @@ generalSuccessive <- function(weights=c(1/2,1/2)) {
 }
 
 HuqueAloshEtBhore2011 <- function() {
-	graph <- graphFromHungEtWang2010()
+	graph <- HungEtWang2010()
 	graph <- replaceVariables(graph, variables=list("\\\\nu"=1/2, "\\\\omega"=1/2, "\\\\tau"=0))
 	rownames(graph@m) <- colnames(graph@m) <- paste("H", 1:4, sep="")
 	graph@m["H4","H2"] <- 1
@@ -311,7 +311,7 @@ HuqueAloshEtBhore2011 <- function() {
 }
 
 
-graphFromHungEtWang2010 <- function() {
+HungEtWang2010 <- function() {
 	# Nodes:
 	weights <- c(1,0,0,0)	
 	hnodes <- c("H_{1,NI}","H_{1,S}","H_{2,NI}","H_{2,S}")
@@ -339,7 +339,7 @@ graphFromHungEtWang2010 <- function() {
 	return(graph)
 }
 
-graphFromMaurerEtAl1995 <- function() {
+MaurerEtAl1995 <- function() {
 	# Nodes:
 	weights <- c(1,0,0,0,0)	
 	hnodes <- paste("H", 1:5, sep="")
@@ -394,7 +394,7 @@ cycleGraph <- function(nodes, weights) {
 	return(graph)
 }
 
-gatekeepingGraph <- function(n, type=c("serial", "parallel", "imporved parallel"), weights=rep(1/n, n)) {
+gatekeeping <- function(n, type=c("serial", "parallel", "imporved parallel"), weights=rep(1/n, n)) {
 	# Nodes:
 	hnodes <- paste("H", 1:(2*n), sep="")
 	# Edges:
@@ -418,14 +418,14 @@ gatekeepingGraph <- function(n, type=c("serial", "parallel", "imporved parallel"
 
 exampleGraph <- function(graph, ...) {
 	switch(graph,
-			Hommel=graphFromHommelEtAl2007(),
-			Bretz=graphFromBretzEtAl2011(),
-			ParallelGatekeeping=graphForParallelGatekeeping(),
-			ImprovedParallelGatekeeping=graphForImprovedParallelGatekeeping(),
-			BonferroniHolm=BonferroniHolmGraph(...))
+			Hommel=HommelEtAl2007(),
+			Bretz=BretzEtAl2011(),
+			ParallelGatekeeping=parallelGatekeeping(),
+			ImprovedParallelGatekeeping=improvedParallelGatekeeping(),
+			BonferroniHolm=BonferroniHolm(...))
 }
 
-improvedFallbackGraphI <- function(weights=rep(1/3, 3)) {
+improvedFallbackI <- function(weights=rep(1/3, 3)) {
 	# Nodes:
 	hnodes <- paste("H", 1:3, sep="")
 	# Edges:
@@ -445,7 +445,7 @@ improvedFallbackGraphI <- function(weights=rep(1/3, 3)) {
 	return(graph)
 } 
 
-improvedFallbackGraphII <- function(weights=rep(1/3, 3)) {
+improvedFallbackII <- function(weights=rep(1/3, 3)) {
 	# Nodes:
 	hnodes <- paste("H", 1:3, sep="")
 	# Edges:

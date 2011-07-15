@@ -10,7 +10,8 @@ Version 0.7-0 (??-Jul-2011, Rev. 9??)
 - The GUI will (optionally) look for a newer version of 
   gMCP on CRAN.
 
-- Power simulation code from our third author Bjoern Bornkamp
+- Power simulation code from our third author
+  Bjoern Bornkamp.
 
 - lattice graphs for power simulations
 
@@ -20,6 +21,8 @@ Version 0.7-0 (??-Jul-2011, Rev. 9??)
   - fallback procedure
   - truncated holm (special case)
   - 
+
+- Renaming to give existing example graphs simpler names.
 
 - CI dialog is modal.
 

@@ -25,7 +25,7 @@ public class TestImportExport {
 		RCallServicesREngine r = RControl.getRControl(true).getR();
 		//r.eval("library(gMCP)");
 		//r.eval("graph <- createGraphFromBretzEtAl()");
-		//r.eval("graph <- graphForImprovedParallelGatekeeping()");
+		//r.eval("graph <- improvedParallelGatekeeping()");
 		new TestImportExport("graph","graphExport");
 	}
 
