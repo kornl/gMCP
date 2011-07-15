@@ -286,6 +286,11 @@ public class MenuBarMGraph extends JMenuBar implements ActionListener {
         	Hashtable<String,Object> ht = new Hashtable<String,Object>();
         	ht.put("n", new int[] {1,4,20});
         	new ParameterDialog(control.getGraphGUI(), ht, this, "fixedSequence");        	
+        }  else if (e.getActionCommand().equals("fallback")) {
+        	Hashtable<String,Object> ht = new Hashtable<String,Object>();
+        	ht.put("n", new int[] {1,4,20});
+        	ht.put("weights", new double[] {0.25, 0.25, 0.25, 0.25});
+        	new ParameterDialog(control.getGraphGUI(), ht, this, "fallback");        	
         } else if (e.getActionCommand().equals("pg")) {       	
         	loadGraph("parallelGatekeeping()");
         } else if (e.getActionCommand().equals("pgi")) {       	

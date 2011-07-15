@@ -13,6 +13,7 @@ import java.awt.event.MouseMotionListener;
 import java.awt.image.BufferedImage;
 import java.text.DecimalFormat;
 import java.util.Date;
+import java.util.Enumeration;
 import java.util.HashSet;
 import java.util.Hashtable;
 import java.util.Set;
@@ -282,27 +283,31 @@ public class NetList extends JPanel implements MouseMotionListener, MouseListene
 		return testingStarted;
 	}
 
-	public void loadGraph() {
+	public GraphMCP loadGraph() {
 		control.stopTesting();
 		reset();
 		this.updateGUI = false;
 		GraphMCP graph = new GraphMCP(initialGraph, this);
-		if (graph.getDescription()!=null) {
-			control.getDView().setDescription(graph.getDescription());
-		} else {
-			control.getDView().setDescription("");
-		}
 		control.getPView().restorePValues();
 		this.updateGUI = true;
 		graphHasChanged();
 		revalidate();
 		repaint();
+		return graph;
 	}
 
 	public void loadGraph(String string) {
 		boolean matrix = RControl.getR().eval("is.matrix("+string+")").asRLogical().getData()[0];
 		RControl.getR().eval(initialGraph + " <- placeNodes("+ (matrix?"matrix2graph(":"(")+ string + "))");
-		loadGraph();
+		GraphMCP graph = loadGraph();	
+		if (graph.getDescription()!=null) {
+			control.getDView().setDescription(graph.getDescription());
+		} else {
+			control.getDView().setDescription("");
+		}		
+		if (graph.pvalues!=null && graph.pvalues.length>1) {
+			control.getPView().setPValues(graph.pvalues);
+		}
 	}
 	
 	public void mouseClicked(MouseEvent e) {}
@@ -527,15 +532,25 @@ public class NetList extends JPanel implements MouseMotionListener, MouseListene
 		return saveGraph(graphName, verbose, new Hashtable<String,Double>());
 	}
 	
-	public String saveGraph(String graphName, boolean verbose, Hashtable<String,Double> ht) {
-		
-		graphName = RControl.getR().eval("make.names(\""+graphName+"\")").asRChar().getData()[0];
-		
+	public String getRList(Hashtable<String,Double> ht) {
+		// For use in replaceVariables <-function(graph, variables=list())
+		String list = "list(";
+		Enumeration<String> keys = ht.keys();
+		for (; keys.hasMoreElements();) {
+			String key = keys.nextElement();
+			list += key+"="+ht.get(key);
+		}
+		return list.substring(0, list.length()-1)+")";			
+	}
+	
+	public String saveGraph(String graphName, boolean verbose, Hashtable<String,Double> ht) {		
+		graphName = RControl.getR().eval("make.names(\""+graphName+"\")").asRChar().getData()[0];		
 		String alpha = "";
 		String nodeStr = "";
 		String x = "";
 		String y = "";
 		for (Node n : nodes) {
+			//alpha += "\""+n.getWS() +"\",";
 			alpha += n.getWeight() +",";
 			nodeStr += "\""+n.getName() +"\","; 
 			x += n.getX() + ",";
@@ -566,16 +581,12 @@ public class NetList extends JPanel implements MouseMotionListener, MouseListene
 		for (Edge e : edges) {				
 			RControl.getR().evalVoid("edgeData("+graphName+", \""+e.from.getName()+"\", \""+e.to.getName()+"\", \"labelX\") <- "+(e.k1-Node.getRadius()));
 			RControl.getR().evalVoid("edgeData("+graphName+", \""+e.from.getName()+"\", \""+e.to.getName()+"\", \"labelY\") <- "+(e.k2-Node.getRadius()));
-			String eps = e.getEpsilonString(null);
-			if (eps!=null) {
-				RControl.getR().evalVoid("edgeData("+graphName+", \""+e.from.getName()+"\", \""+e.to.getName()+"\", \"epsilon\") <- list("+eps+")");
-			}
 			logger.debug("Weight is: "+e.getW(ht)[0]);
 			if (((Double)e.getW(ht)[0]).isNaN()) {
 				RControl.getR().evalVoid("edgeData("+graphName+", \""+e.from.getName()+"\", \""+e.to.getName()+"\", \"variableWeight\") <- \""+e.getWS().replaceAll("\\\\", "\\\\\\\\")+"\"");
 			}
 			if (e.getW(ht)[0]==0 && e.getW(ht).length==1) {
-				RControl.getR().evalVoid(graphName +" <- removeEdge(\""+e.from.getName()+"\", \""+e.to.getName()+"\","+graphName+")");
+				RControl.getR().evalVoid(graphName +"@m[\""+e.from.getName()+"\", \""+e.to.getName()+"\"] <- 0");
 			}			
 		}	
 		RControl.getR().evalVoid("attr("+graphName+", \"description\") <- \""+ control.getDView().getDescription()+"\"");

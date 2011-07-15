@@ -18,6 +18,7 @@ public class GraphMCP {
 	NetList nl;
 	
 	String description;
+	double[] pvalues = null;
 
 	public GraphMCP(String name, NetList nl) {
 		this.name = name;
@@ -87,6 +88,11 @@ public class GraphMCP {
 				description = RControl.getR().eval("attr("+name+", \"description\")").asRChar().getData()[0];
 			} catch (Exception e) {
 				description = "Enter a description for the graph.";
+			}
+			try {
+				pvalues = RControl.getR().eval("attr("+name+", \"pvalues\")").asRNumeric().getData();
+			} catch (Exception e) {
+				// Nothing to do here.
 			}
 		}
 		for (Node k : knoten) {

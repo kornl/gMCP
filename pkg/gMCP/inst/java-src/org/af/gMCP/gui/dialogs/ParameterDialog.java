@@ -1,8 +1,12 @@
 package org.af.gMCP.gui.dialogs;
 
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Hashtable;
+import java.util.List;
+import java.util.Vector;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -11,26 +15,32 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSpinner;
+import javax.swing.JTextField;
 import javax.swing.SpinnerNumberModel;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 import org.af.gMCP.gui.MenuBarMGraph;
 
 import com.jgoodies.forms.layout.CellConstraints;
 import com.jgoodies.forms.layout.FormLayout;
 
-public class ParameterDialog extends JDialog implements ActionListener {
+public class ParameterDialog extends JDialog implements ActionListener, ChangeListener {
 
 	MenuBarMGraph mbar;
 	String command;
 	JButton ok = new JButton("Ok");
 	JSpinner spinnerN;
 	JPanel weightsPanel;
+	Hashtable<String,Object> parameters;
+	List<JTextField> weightsV = new Vector<JTextField>();
 
 	public ParameterDialog(JFrame parent, Hashtable<String,Object> parameters, MenuBarMGraph menuBarMGraph, String command) {
 		super(parent, "Number of Hypotheses", true);
 		setLocationRelativeTo(parent);
 		this.mbar = menuBarMGraph;
 		this.command = command;
+		this.parameters = parameters;
 		
         String cols = "5dlu, pref, 5dlu, fill:pref:grow, 5dlu";
         String rows = "5dlu, pref, 5dlu";
@@ -54,6 +64,7 @@ public class ParameterDialog extends JDialog implements ActionListener {
         	int[] n = (int[]) parameters.get("n");
 
         	spinnerN = new JSpinner(new SpinnerNumberModel(n[1], n[0], n[2], 1));    	
+        	spinnerN.addChangeListener(this);
 
         	getContentPane().add(new JLabel("Number of hypotheses:"),     cc.xy(2, row));
         	getContentPane().add(spinnerN, cc.xy(4, row));        
@@ -64,14 +75,35 @@ public class ParameterDialog extends JDialog implements ActionListener {
 
         if (parameters.get("weights")!=null) {
 
-        	int[] weights = (int[]) parameters.get("weights");
+        	double[] weights = (double[]) parameters.get("weights");
         	weightsPanel = new JPanel();
+        	GridBagConstraints c = new GridBagConstraints();
+    		
+    		c.fill = GridBagConstraints.BOTH;	
+    		c.gridx=0; c.gridy=0;
+    		c.gridwidth = 1; c.gridheight = 1;
+    		c.ipadx=5; c.ipady=5;
+    		c.weightx=1; c.weighty=1;
+    		
+    		weightsPanel.setLayout(new GridBagLayout());
         	
-        	int n = (weights[0]==-1?Integer.parseInt(spinnerN.getModel().getValue().toString()):weights[0]);
+        	int n = (weights.length==0?Integer.parseInt(spinnerN.getModel().getValue().toString()):weights.length);
+        	
+        	for (int i=0;i<n;i++) {        		
+        		weightsV.add(new JTextField(weights.length!=0?""+weights[i]:"0"));
+        		weightsPanel.add(new JLabel("H"+(i+1)), c);
+        		c.gridx++;
+        		weightsPanel.add(weightsV.get(i), c);
+        		c.gridx=0;c.gridy++;
+        	}
         	
         	JScrollPane sp = new JScrollPane(weightsPanel);
-        	getContentPane().add(sp, cc.xyw(4, row, 3));
+        	getContentPane().add(sp, cc.xyw(2, row, 3));
+        	
+        	row += 2;
         }
+        
+        
         getContentPane().add(ok, cc.xy(4, row));
         ok.addActionListener(this);        
         
@@ -81,7 +113,53 @@ public class ParameterDialog extends JDialog implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		mbar.loadGraph(command+"("+spinnerN.getModel().getValue()+")");
+		String command = this.command+"(";
+		if (parameters.get("n")!=null && parameters.get("weights")==null) {
+			command += "n="+spinnerN.getModel().getValue()+",";
+		}
+		if (parameters.get("weights")!=null) {
+			command += "w=c(";
+			for (JTextField tf : weightsV) {
+				command += tf.getText()+",";
+			}
+			command = command.substring(0, command.length()-1)+"),";
+		}
+		mbar.loadGraph(command.substring(0, command.length()-1)+")");
 		dispose();
+	}
+
+	@Override
+	public void stateChanged(ChangeEvent e) {		
+		if (parameters.get("weights")!=null && parameters.get("n")!=null) {
+			int n = Integer.parseInt(spinnerN.getModel().getValue().toString());
+			
+			if (weightsV.size()<n) {
+				for(int i=weightsV.size(); i<n; i++)
+					weightsV.add(new JTextField("0"));
+			}
+			if (weightsV.size()>n) {
+				for(int i=n; i<weightsV.size(); i++)
+					weightsV.remove(i);
+			}
+			weightsPanel.revalidate();
+        	weightsPanel.removeAll();
+        	GridBagConstraints c = new GridBagConstraints();
+    		
+    		c.fill = GridBagConstraints.BOTH;	
+    		c.gridx=0; c.gridy=0;
+    		c.gridwidth = 1; c.gridheight = 1;
+    		c.ipadx=5; c.ipady=5;
+    		c.weightx=1; c.weighty=1;
+    		
+    		weightsPanel.setLayout(new GridBagLayout());
+        	
+        	for (int i=0;i<n;i++) {      	
+        		weightsPanel.add(new JLabel("H"+(i+1)), c);
+        		c.gridx++;
+        		weightsPanel.add(weightsV.get(i), c);
+        		c.gridx=0;c.gridy++;
+        	}        
+        	weightsPanel.revalidate();
+        }		
 	}	
 }
