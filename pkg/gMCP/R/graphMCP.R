@@ -148,7 +148,7 @@ setMethod("edgeData", signature(self="graphMCP", from="character", to="character
 setReplaceMethod("edgeData",
 		signature(self="graphMCP", from="character", to="character", attr="character", value="ANY"),
 		function(self, from, to, attr, value) {
-			if (is.null(self@edgeData[[attr]])) self@edgeData[[attr]] <- matrix(FALSE, nrow=dim(self@m)[1], ncol=dim(self@m)[2])			
+			if (is.null(self@edgeData[[attr]])) self@edgeData[[attr]] <- matrix(NA, nrow=dim(self@m)[1], ncol=dim(self@m)[2])			
 			rownames(self@edgeData[[attr]]) <- colnames(self@edgeData[[attr]]) <- nodes(self)
 			self@edgeData[[attr]][from, to] <- value		
 			self

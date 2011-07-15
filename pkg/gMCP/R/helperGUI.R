@@ -12,13 +12,13 @@ getEdges <- function(graph){
 			if (is.na(as.numeric(graph@m[from, to])) || as.numeric(graph@m[from, to])!=0) {	
 				options(warn=0)			
 				x <- try(unlist(edgeData(graph, from, to, "labelX")), silent = TRUE)
-				if (class(x)!="try-error" && !is.null(x)) {
+				if (class(x)!="try-error" && !is.null(x) && !is.na(x)) {
 					labelx <- c(labelx, x)
 				} else {
 					labelx <- c(labelx, -100)
 				}
 				y <- try(unlist(edgeData(graph, from, to, "labelY")), silent = TRUE)
-				if (class(y)!="try-error" && !is.null(y)) {
+				if (class(y)!="try-error" && !is.null(y) && !is.na(y)) {
 					labely <- c(labely, y)
 				} else {
 					labely <- c(labely, -100)
