@@ -6,13 +6,13 @@ extractPower <- function(x){
        PowAtlst1 = atleast1)
 }
 
-calcPower <- function(alphas, G, mean = rep(0, nrow(sigma)),
+calcPower <- function(weights, alpha, G, mean = rep(0, nrow(sigma)),
                       sigma = diag(length(mean)),corr = NULL,
                       nSim = 10000, seed = 4711, type = c("quasirandom", "pseudorandom")){
   type <- match.arg(type)
   sims <- rqmvnorm(nSim, mean = mean, sigma = sigma, corr = corr,
                    seed = seed, type = type)
   pvals <- pnorm(sims, lower.tail = FALSE)
-  out <- graphTest(pvals, alphas, G)
+  out <- graphTest(pvals, weights, alpha, G)
   extractPower(out)
 }

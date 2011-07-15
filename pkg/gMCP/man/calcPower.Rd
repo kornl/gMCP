@@ -8,13 +8,14 @@
   hypotheses as well as the expected number of rejections.
 }
 \usage{
-  calcPower(alphas, G, mean = rep(0, nrow(sigma)),
+  calcPower(weights, alpha, G, mean = rep(0, nrow(sigma)),
             sigma = diag(length(mean)),corr = NULL,
             nSim = 10000, seed = 4711,
             type = c("quasirandom", "pseudorandom"))
 }
 \arguments{
-  \item{alphas}{ Level of initial significance levels, see graphTest function. }
+  \item{weights}{ Initial weight levels for the test procedure, see graphTest function. }
+  \item{alpha}{ Overall alpha level of the procedure, see graphTest function. }
   \item{G}{ Matrix determining the graph underlying the test
     procedure. Note that the diagonal need to contain only 0s, while the
     rows need to sum to 1. When multiple graphs should be used this
@@ -55,7 +56,7 @@
 ## reproduce example from Stat Med paper (Bretz et al. 2010, Table I)
 ## first only consider line 2 of Table I
 ## significance levels
-alpha <- c(0.0125, 0.0125, 0, 0)
+weights <- c(1/2, 1/2, 0, 0)
 ## graph
 G <- rbind(c(0, 0.5, 0.5, 0),
            c(0.5, 0, 0, 0.5),
@@ -67,13 +68,13 @@ corMat <- rbind(c(1, 0.5, 0.5, 0.5/2),
                 c(0.5,0.5/2,1,0.5),
                 c(0.5/2,0.5,0.5,1))
 theta <- c(3, 0, 0, 0)
-calcPower(alpha, G, theta, corMat, seed = 4711, nSim = 100000)
+calcPower(weights, alpha=0.025, G, theta, corMat, seed = 4711, nSim = 100000)
 
 
 ## now reproduce all 14 simulation scenarios
 ## different graphs
-alpha1 <- c(rep(0.0125, 12), 0.025, 0.025)
-alpha2 <- c(rep(0.0125, 12), 0, 0)
+weights1 <- c(rep(1/2, 12), 1, 1)
+weights2 <- c(rep(1/2, 12), 0, 0)
 eps <- 0.01
 gam1 <- c(rep(0.5, 10), 1-eps, 0, 0, 0)
 gam2 <- gam1
@@ -90,13 +91,13 @@ simfunc <- function(nSim, a1, a2, g1, g2, rh, t1, t2, t3, t4, Gr){
   G <- rbind(c(0, g1, 1-g1, 0), c(g2, 0, 0, 1-g2), c(0, 1, 0, 0), c(1, 0, 0, 0))
   corMat <- rbind(c(1, 0.5, rh, rh/2), c(0.5,1,rh/2,rh), c(rh,rh/2,1,0.5), c(rh/2,rh,0.5,1))
   mean <- c(t1, t2, t3, t4)
-  calcPower(al, G, mean, corr = corMat, seed = 4711, nSim = nSim)
+  calcPower(al, alpha=0.025, G, mean, corr = corMat, seed = 4711, nSim = nSim)
 }
 
 ## calculate power for all 14 scenarios
 outList <- list()
 for(i in 1:14){
-  outList[[i]] <- simfunc(10000, alpha1[i], alpha2[i], gam1[i], gam2[i], rho[i], th1[i], th2[i], th3[i], th4[i])
+  outList[[i]] <- simfunc(10000, weights1[i], weights2[i], gam1[i], gam2[i], rho[i], th1[i], th2[i], th3[i], th4[i])
 }
 
 ## summarize data as in Stat Med paper Table I 
