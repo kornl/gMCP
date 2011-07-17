@@ -24,7 +24,7 @@ public class Node {
 	private String name;
 	boolean drag = false;
 	NetList nl;
-	private String weight;
+	private double weight;
 	private String stringW = "";
 	private Color color = Color.WHITE;
 	boolean rejected = false;
@@ -41,13 +41,13 @@ public class Node {
 	
 	TeXIcon iconName, iconWeight;
 
-	public Node(String name, int x, int y, String weight, NetList vs) {
+	public Node(String name, int x, int y, double alpha, NetList vs) {
 		count++;
 		this.nl = vs;
 		setName(name);
 		setX(x);
 		setY(y);		
-		setWeight(weight, null);		
+		setWeight(alpha, null);		
 	}
 	
 	public int getX() {
@@ -119,7 +119,7 @@ public class Node {
 		}
 	}
 	
-	String getWS() {		
+	private String getWS() {		
 		return stringW;
 	}
 
@@ -134,10 +134,19 @@ public class Node {
 				* (y / nl.getZoom() - this.y - r) <= (r * r));
 	}
 
-	public void setWeight(String w, NodeListener me) {
-		this.weight = w;
+	public void setWeight(double w, NodeListener me) {
+		this.weight = w;	
+		DecimalFormat format = Configuration.getInstance().getGeneralConfig().getDecFormat();
+		if (!Configuration.getInstance().getGeneralConfig().showFractions()) {
+			stringW = format.format(w);
+		} else {
+			stringW = RControl.getFraction(w, 5);
+			if (stringW.length()>7) {
+				stringW = format.format(w);
+			}
+		}
 		
-		setVisualWeight();
+		iconWeight = Edge.getTeXIcon(this.nl.control.getGraphGUI(), stringW, (int) (14 * nl.getZoom()));
 		
 		for (NodeListener l : listener) {
 			if (me!=l) {
@@ -148,24 +157,7 @@ public class Node {
 		nl.repaint();
 	}
 
-	private void setVisualWeight() {
-
-		DecimalFormat format = Configuration.getInstance().getGeneralConfig().getDecFormat();
-		if (!Configuration.getInstance().getGeneralConfig().showFractions()) {
-			stringW = format.format(weight);
-		} else {
-			stringW = RControl.getFraction(weight, 5);
-			if (stringW.length()>7) {
-				stringW = format.format(weight);
-			}
-		}
-		
-		iconWeight = Edge.getTeXIcon(this.nl.control.getGraphGUI(), stringW, (int) (14 * nl.getZoom()));
-
-		
-	}
-
-	public String getWeight() {
+	public double getWeight() {
 		return weight;
 	}
 

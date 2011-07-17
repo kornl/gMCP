@@ -1,12 +1,15 @@
 package org.af.gMCP.gui.datatable;
 
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
+
 import javax.swing.DefaultCellEditor;
 import javax.swing.JTextField;
 
 import org.af.gMCP.gui.graph.EdgeWeight;
 import org.af.gMCP.gui.graph.GraphView;
 
-public class CellEditorEps extends DefaultCellEditor {
+public class CellEditorEps extends DefaultCellEditor implements FocusListener {
 	
 	GraphView agc;
 
@@ -23,6 +26,7 @@ public class CellEditorEps extends DefaultCellEditor {
 		s = s.replace(',','.');
 		oldVal = new EdgeWeight(s);
 		((JTextField)getComponent()).setText(oldVal.toString());
+		((JTextField)getComponent()).addFocusListener(this);	 
     }
 
     public EdgeWeight getCellEditorValue() {
@@ -31,5 +35,17 @@ public class CellEditorEps extends DefaultCellEditor {
     	agc.updateEdge(row, col, oldVal); 
     	return oldVal;
     }
+    
+	@Override
+	public void focusGained(FocusEvent e) {}
 
+	@Override
+	public void focusLost(FocusEvent e) {
+		try {
+			stopCellEditing();
+		} catch(Exception ex) {
+			// Nothing to do
+		}
+	}
+    
 }

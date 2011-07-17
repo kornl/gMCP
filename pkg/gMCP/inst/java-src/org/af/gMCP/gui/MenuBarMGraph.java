@@ -61,7 +61,8 @@ public class MenuBarMGraph extends JMenuBar implements ActionListener {
 		fmenu.add(makeMenuItem("Save Graph to RData file", "save graph"));		
 		fmenu.addSeparator();
 		fmenu.add(makeMenuItem("Export Graph to PNG Image", "export graph image", KeyEvent.VK_P));
-		fmenu.add(makeMenuItem("Export Graph to LaTeX File", "export graph latex", KeyEvent.VK_L));
+		fmenu.add(makeMenuItem("Export Graph to LaTeX File", "export graph latex", KeyEvent.VK_A));
+		fmenu.add(makeMenuItem("Show LaTeX Code for Graph", "show graph latex", KeyEvent.VK_C));
 		fmenu.addSeparator();
 		fmenu.add(makeMenuItem("Save LaTeX Report", "save latex report", KeyEvent.VK_R));
 		JMenuItem item = makeMenuItem("Save PDF Report", "save pdf");
@@ -268,6 +269,8 @@ public class MenuBarMGraph extends JMenuBar implements ActionListener {
         	saveGraphImage();
         } else if (e.getActionCommand().equals("export graph latex")) {       	
         	exportLaTeXGraph();
+        } else if (e.getActionCommand().equals("show graph latex")) {       	
+        	showLaTeXGraph();
         } else if (e.getActionCommand().equals("save pdf")) {  
         	notYetSupported();
         	//savePDF();
@@ -512,6 +515,11 @@ public class MenuBarMGraph extends JMenuBar implements ActionListener {
 	
 	public void exportLaTeXGraph() {
 		writeLaTeX(control.getNL().getLaTeX());
+	}
+	
+	
+	public void showLaTeXGraph() {
+		new TextFileViewer(control.getGraphGUI(), "LaTeX code", control.getNL().getLaTeX());
 	}
 	
 	public String LATEX_BEGIN_DOCUMENT = "\\documentclass[11pt]{article}\n"+

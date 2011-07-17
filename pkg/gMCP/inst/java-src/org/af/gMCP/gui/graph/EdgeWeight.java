@@ -51,10 +51,10 @@ public class EdgeWeight {
 		return weightStr;
 	}
 	
-	public double[] getWeight(Hashtable<String,Double> ht) {
+	public double getWeight(Hashtable<String,Double> ht) {
 		try {
 			String replaceStr = weightStr;
-			if (weight!=null) return weight;
+			if (weight!=null) return weight[0];
 			for (Enumeration<String> keys = ht.keys() ; keys.hasMoreElements() ;) {
 				String s = keys.nextElement();
 				for (int i=0; i <greek.length; i++) {
@@ -69,10 +69,10 @@ public class EdgeWeight {
 			}
 			replaceStr = replaceStr.replaceAll("\\\\epsilon", "epsilon");
 			weight = RControl.getR().eval("gMCP:::parseEpsPolynom(\""+replaceStr.replaceAll("\\\\", "\\\\\\\\")+"\")").asRNumeric().getData();
-			return weight;
+			return weight[0];
 		} catch (Exception e) {
 			logger.warn("Error parsing edge weight:\n"+e.getMessage());
-			return new double[] {Double.NaN};
+			return Double.NaN;
 		}
 	}
 	
@@ -89,6 +89,13 @@ public class EdgeWeight {
 			'ο', 'π', 'ρ', 'σ', 'τ', 'υ', 'φ',
 			'χ', 'ψ', 'ω'
 	};
+	
+	public static String UTF2LaTeX(char greekC) {
+		for (int i=0; i<greek.length; i++) {
+			if (greekC == greek[i]) return greekLaTeX[i];
+		}
+		return "Error";
+	}
 	
 	public List<String> getVariables() {
 		String replaceStr = weightStr;

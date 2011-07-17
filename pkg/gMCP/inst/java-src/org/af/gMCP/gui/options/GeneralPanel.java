@@ -104,6 +104,7 @@ public class GeneralPanel extends OptionsPanel implements ActionListener {
         useEpsApprox = new JCheckBox("Use epsilon approximation");
         useEpsApprox.setSelected(conf.getGeneralConfig().useEpsApprox());
         useEpsApprox.addActionListener(this);
+        useEpsApprox.setEnabled(false);
     }
 
     private void doTheLayout() {

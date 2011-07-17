@@ -94,11 +94,8 @@ public class OptionsDialog extends JDialog implements ActionListener {
                 if  (e.getActionCommand().equals(OkApplyCancelButtonPane.OK_CMD)) {
                 	dispose();
                 }
-                for (Edge edge : parent.getGraphView().getNL().getEdges()) {
-                	double[] weight = edge.getW(null);
-                	if (weight.length==1) {
-                		edge.setW(weight[0]);
-                	}
+                for (Edge edge : parent.getGraphView().getNL().getEdges()) {                	
+                	//TODO Update edge weights
                 }
                 for (Node node : parent.getGraphView().getNL().getKnoten()) {
                 	node.setWeight(node.getWeight(), null);

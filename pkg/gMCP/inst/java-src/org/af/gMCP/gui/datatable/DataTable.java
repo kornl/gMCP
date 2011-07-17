@@ -41,7 +41,7 @@ public class DataTable extends JTable {
                 super.getScrollableTracksViewportWidth();
     }
 
-    public String getColumnVar(int col) {
+    public String getColumnVar(int col) {    	
         return getModel().getColumnName(col);
     }
 }

@@ -381,27 +381,11 @@ public class Edge {
 		return ew.getVariables();
 	}
 
-	public double[] getW(Hashtable<String, Double> ht) {
+	public double getW(Hashtable<String, Double> ht) {
 		return ew.getWeight(ht);
 	}
 	
 	public EdgeWeight getEdgeWeight() {
 		return ew;
-	}
-
-	public String getEpsilonString(Hashtable<String, Double> ht) {
-		double[] w = ew.getWeight(ht);
-		if (w.length<2) {
-			return null;
-		}
-		String s = "c(";
-		for (int i=1; i<w.length; i++) {
-			s += w[i];
-			if (i!=w.length-1) {
-				s += ", ";
-			}
-		}
-		s += ")";
-		return s;
 	}
 }

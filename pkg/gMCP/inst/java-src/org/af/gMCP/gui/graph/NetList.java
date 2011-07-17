@@ -523,7 +523,11 @@ public class NetList extends JPanel implements MouseMotionListener, MouseListene
 			ht = vd.getHT();
 		} else if (variables.size()==1 && variables.contains("ε")){
 			ht.put("ε", Configuration.getInstance().getGeneralConfig().getEpsilon());
-		}
+		}		
+		graphName = RControl.getR().eval("make.names(\""+graphName+"\")").asRChar().getData()[0];
+		saveGraph(graphName, verbose, null);
+		RControl.getR().eval(graphName+"<- gMCP:::replaceVariables("+graphName+", variables="+getRVariableList(ht)+")");
+		loadGraph(graphName);
 		return saveGraph(graphName, verbose, ht);
 	}
 	
@@ -532,15 +536,15 @@ public class NetList extends JPanel implements MouseMotionListener, MouseListene
 		return saveGraph(graphName, verbose, new Hashtable<String,Double>());
 	}
 	
-	public String getRList(Hashtable<String,Double> ht) {
+	public String getRVariableList(Hashtable<String,Double> ht) {
 		// For use in replaceVariables <-function(graph, variables=list())
 		String list = "list(";
 		Enumeration<String> keys = ht.keys();
 		for (; keys.hasMoreElements();) {
 			String key = keys.nextElement();
-			list += key+"="+ht.get(key);
+			list += "\""+EdgeWeight.UTF2LaTeX(key.charAt(0)).replaceAll("\\\\", "\\\\\\\\")+"\"="+ht.get(key)+",";
 		}
-		return list.substring(0, list.length()-1)+")";			
+		return list.substring(0, list.length()>1?list.length()-1:list.length())+")";			
 	}
 	
 	public String saveGraph(String graphName, boolean verbose, Hashtable<String,Double> ht) {		
@@ -581,11 +585,11 @@ public class NetList extends JPanel implements MouseMotionListener, MouseListene
 		for (Edge e : edges) {				
 			RControl.getR().evalVoid("edgeData("+graphName+", \""+e.from.getName()+"\", \""+e.to.getName()+"\", \"labelX\") <- "+(e.k1-Node.getRadius()));
 			RControl.getR().evalVoid("edgeData("+graphName+", \""+e.from.getName()+"\", \""+e.to.getName()+"\", \"labelY\") <- "+(e.k2-Node.getRadius()));
-			logger.debug("Weight is: "+e.getW(ht)[0]);
-			if (((Double)e.getW(ht)[0]).isNaN()) {
+			logger.debug("Weight is: "+e.getW(ht));
+			if (((Double)e.getW(ht)).isNaN()) {
 				RControl.getR().evalVoid("edgeData("+graphName+", \""+e.from.getName()+"\", \""+e.to.getName()+"\", \"variableWeight\") <- \""+e.getWS().replaceAll("\\\\", "\\\\\\\\")+"\"");
 			}
-			if (e.getW(ht)[0]==0 && e.getW(ht).length==1) {
+			if (e.getW(ht)==0) {
 				RControl.getR().evalVoid(graphName +"@m[\""+e.from.getName()+"\", \""+e.to.getName()+"\"] <- 0");
 			}			
 		}	
