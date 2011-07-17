@@ -38,7 +38,6 @@ High priority:
 - think about naming of rows, cols, weights … but I guess it'll be the advise to use just the mutator methods or if you want to avoid this overhead a warning that you should know what you are doing…
 - remember entries for \tau, \nu, \gamma
 - export function replaceVariables
-- test graph2latex for graph from Hung et Wang
 
 Medium priority:
 ================

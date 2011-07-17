@@ -16,7 +16,7 @@
 \alias{simpleSuccessiveII}
 \alias{truncatedHolm}
 \alias{BretzEtAl2009Fig8}
-\alias{fallBack}
+\alias{fallback}
 \alias{HuqueAloshEtBhore2011}
 \title{
 	Functions that create different example graphs
@@ -40,7 +40,7 @@
 	improvedFallbackII(weights=rep(1/3, 3))
 	cycleGraph(nodes, weights)
 	fixedSequence(n)
-	fallBack(weights)
+	fallback(weights)
 	generalSuccessive(weights = c(1/2, 1/2))
 	simpleSuccessiveI()
 	simpleSuccessiveII()
