@@ -1,6 +1,7 @@
 graphAnalysis <- function(graph, file="") {
 	result <- ""
 	if (require("graph")) { 
+		graph <- new("graphAM", adjMat=graph@m)
 		accessible <- acc(graph, nodes(graph))
 		for (i in names(accessible)) {
 			missingNodes <- c()
