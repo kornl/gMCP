@@ -43,5 +43,7 @@
 		}
 	}
 	
+	require("graph")
+	
 	# packageStartupMessage or cat for furter information (package incompatibilities / updates)
 }  

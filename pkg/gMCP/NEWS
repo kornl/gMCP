@@ -26,6 +26,9 @@ Version 0.7-0 (??-Jul-2011, Rev. 9??)
 
 - CI dialog is modal.
 
+- LaTeX-Code can be shown in Dialog and does not have 
+  to be saved in a file.
+
   
 Version 0.6-6 (04-Jul-2011, Rev. 860)
 =====================================

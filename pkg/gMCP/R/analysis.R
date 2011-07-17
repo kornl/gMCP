@@ -1,6 +1,6 @@
 graphAnalysis <- function(graph, file="") {
 	result <- ""
-	if (FALSE){ # require("graph")) { F&%§$k! 
+	if (require("graph")) { 
 		accessible <- acc(graph, nodes(graph))
 		for (i in names(accessible)) {
 			missingNodes <- c()

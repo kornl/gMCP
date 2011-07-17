@@ -36,6 +36,9 @@ High priority:
 - When not using JLaTeXMath graphs with variables are not shown and saved(?) correctly
 - useC produces "Final graph after 1 steps:" - simple count the number of rejected hypotheses
 - think about naming of rows, cols, weights … but I guess it'll be the advise to use just the mutator methods or if you want to avoid this overhead a warning that you should know what you are doing…
+- remember entries for \tau, \nu, \gamma
+- export function replaceVariables
+- test graph2latex for graph from Hung et Wang
 
 Medium priority:
 ================
