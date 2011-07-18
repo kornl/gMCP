@@ -8,6 +8,7 @@ import java.util.Hashtable;
 import org.af.commons.errorhandling.ErrorHandler;
 import org.af.commons.logging.ApplicationLog;
 import org.af.commons.logging.LoggingSystem;
+import org.af.gMCP.config.Configuration;
 import org.af.jhlir.backends.rengine.RCallServicesREngine;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -81,7 +82,12 @@ public class RControl {
 		String result = fractions.get(""+d+":"+cycles);
 		if (result != null) return result;
 		result = RControl.getR().eval("as.character(fractions("+d+(cycles==-1?"":", cycles="+cycles)+"))").asRChar().getData()[0];
-		fractions.put(""+d+":"+cycles, result);
+		boolean accurate = RControl.getR().eval("abs("+d+"-"+result+")<"+Configuration.getInstance().getGeneralConfig().getAccuracy()).asRLogical().getData()[0];
+		if (!accurate) {
+			//result = "~"+result; 
+			result = RControl.getR().eval("as.character("+d+")").asRChar().getData()[0];
+		}
+		fractions.put(d+":"+cycles, result);
 		return result;
 	}
 	

@@ -39,7 +39,7 @@ public class EdgeWeight {
 				weightStr = format.format(weight);
 			}
 		} else {
-			if (weight!=0 && weight < Math.pow(0.1, Configuration.getInstance().getGeneralConfig().getDigits())) {
+			if (weight!=0 && weight < Math.pow(0.1, 4)) {
 				weightStr = formatSmall.format(weight);
 			} else {
 				weightStr = RControl.getFraction(weight, true);
@@ -67,11 +67,11 @@ public class EdgeWeight {
 				String s = keys.nextElement();
 				replaceStr = replaceStr.replaceAll(s, ""+ht.get(s));				
 			}
-			replaceStr = replaceStr.replaceAll("\\\\epsilon", "epsilon");
-			weight = RControl.getR().eval("gMCP:::parseEpsPolynom(\""+replaceStr.replaceAll("\\\\", "\\\\\\\\")+"\")").asRNumeric().getData();
+			System.out.println("Evaluating: "+replaceStr);
+			weight = RControl.getR().eval(replaceStr).asRNumeric().getData();
 			return weight[0];
 		} catch (Exception e) {
-			logger.warn("Error parsing edge weight:\n"+e.getMessage());
+			//logger.warn("Error parsing edge weight:\n"+e.getMessage());
 			return Double.NaN;
 		}
 	}

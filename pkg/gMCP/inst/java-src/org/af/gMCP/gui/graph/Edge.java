@@ -76,7 +76,7 @@ public class Edge {
 			} else {
 				alpha = Math.atan(-y/x)/(Math.PI*2)*360+((x<0)?180:0);
 			}
-			alpha = alpha + 10;
+			alpha = alpha + 15;
 			k1 = x1 + (int)(Math.cos(alpha*(Math.PI*2)/360)*d/2);
 			k2 = y1 - (int)(Math.sin(alpha*(Math.PI*2)/360)*d/2);
 		} else {

@@ -142,7 +142,7 @@ public class Node {
 		} else {
 			stringW = RControl.getFraction(w, 5);
 			if (stringW.length()>7) {
-				stringW = format.format(w);
+				stringW = "\\sim "+format.format(w);
 			}
 		}
 		

@@ -232,5 +232,9 @@ public class GeneralConfig extends SpecificConfig {
 		/* "", "*", "\\cdot", "\\times" */
 		setProperty("getTimesSymbol", s);
 	}
+
+	public double getAccuracy() {
+		return Double.parseDouble(getProperty("fractionAccuracy", "0.000001"));		
+	}
 	
 }
