@@ -144,6 +144,10 @@ BretzEtAl2009b <- function() {
 	graph <- new("graphMCP", m=m, weights=weights)
 	# Visualization settings	
 	graph <- placeNodes(graph, nrow=3, ncol=2)	
+	edgeData(graph, "H_{12}", "H_{22}", "labelX") <- 200
+	edgeData(graph, "H_{12}", "H_{22}", "labelY") <- 260	
+	edgeData(graph, "H_{22}", "H_{12}", "labelX") <- 200
+	edgeData(graph, "H_{22}", "H_{12}", "labelY") <- 340	
 	# Label placement
 	attr(graph, "description") <- paste("Graph from Bretz et al. (2009) - Figure 14", 
 			"",
