@@ -29,5 +29,6 @@ export(cycleGraph)
 export(HuqueAloshEtBhore2011)
 
 export(extractPower, calcPower, graphTest, rqmvnorm)
+export(plotSimCI)
 
 export(generateWeights, generateBounds, generateTest, generatePvals)

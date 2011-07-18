@@ -83,7 +83,7 @@ ci <- simConfint(BonferroniHolm(3), pvalues=pval,
 		confint="t", df=9, estimates=est, alpha=0.025, alternative="greater")
 ci
 	
-plotCII(ci[,2], ci[,1], ci[,3])
+plotSimCI(ci[,2], ci[,1], ci[,3])
 
 }
 \keyword{ htest }
