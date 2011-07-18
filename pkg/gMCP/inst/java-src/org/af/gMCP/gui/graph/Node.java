@@ -31,6 +31,8 @@ public class Node {
 
 	public static int r = 25;
 	
+	static DecimalFormat formatSmall = new DecimalFormat("#.###E0");
+	
 	int lastFontSize = 14;
 
 	public static void setRadius(int radius) {
@@ -140,9 +142,13 @@ public class Node {
 		if (!Configuration.getInstance().getGeneralConfig().showFractions()) {
 			stringW = format.format(w);
 		} else {
-			stringW = RControl.getFraction(w, 5);
-			if (stringW.length()>7) {
-				stringW = "\\sim "+format.format(w);
+			if (weight!=0 && weight < Math.pow(0.1, 3)) {
+				stringW = formatSmall.format(weight);
+			} else {
+				stringW = RControl.getFraction(w, 5);
+				if (stringW.length()>7) {
+					stringW = "\\sim "+format.format(w);
+				}
 			}
 		}
 		

@@ -443,8 +443,7 @@ public class MenuBarMGraph extends JMenuBar implements ActionListener {
 						JOptionPane.showMessageDialog(control.getMainFrame(), "Please open and read the following file:\n"+f.getAbsolutePath(), "Could not find appropriate viewer", JOptionPane.WARNING_MESSAGE);
 					}
 				} catch (Exception e1) {
-					logger.error(e1.getMessage());
-					e1.printStackTrace();
+					logger.error(e1.getMessage(), e1);					
 					JOptionPane.showMessageDialog(control.getMainFrame(), "Please open and read the following file:\n"+f.getAbsolutePath(), "Could not find appropriate viewer", JOptionPane.WARNING_MESSAGE);
 				}
 
@@ -552,7 +551,7 @@ public class MenuBarMGraph extends JMenuBar implements ActionListener {
     			pr.makePDF(f);
     		} catch( Exception ex ) {
     			JOptionPane.showMessageDialog(this, "Saving pdf report to '" + f.getAbsolutePath() + "' failed: " + ex.getMessage(), "Saving failed.", JOptionPane.ERROR_MESSAGE);
-    			ex.printStackTrace();
+    			//ex.printStackTrace();
     		}
         }
 	}

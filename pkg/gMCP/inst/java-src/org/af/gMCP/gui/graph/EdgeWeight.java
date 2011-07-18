@@ -21,7 +21,6 @@ public class EdgeWeight {
 	static DecimalFormat formatSmall = new DecimalFormat("#.###E0");
 	
 	public EdgeWeight(String weightStr) {
-		//weightStr =	weightStr.replace('e', 'ε');
 		this.weightStr = weightStr;
 	}
 	
@@ -39,7 +38,7 @@ public class EdgeWeight {
 				weightStr = format.format(weight);
 			}
 		} else {
-			if (weight!=0 && weight < Math.pow(0.1, 4)) {
+			if (weight!=0 && weight < Math.pow(0.1, 3)) {
 				weightStr = formatSmall.format(weight);
 			} else {
 				weightStr = RControl.getFraction(weight, true);
@@ -67,7 +66,6 @@ public class EdgeWeight {
 				String s = keys.nextElement();
 				replaceStr = replaceStr.replaceAll(s, ""+ht.get(s));				
 			}
-			System.out.println("Evaluating: "+replaceStr);
 			weight = RControl.getR().eval(replaceStr).asRNumeric().getData();
 			return weight[0];
 		} catch (Exception e) {
@@ -117,6 +115,15 @@ public class EdgeWeight {
 
 	public String getLaTeXStr() {
 		if (weight != null && weight.length==1) {
+			String weightStr;
+			if (weight[0] !=0 && weight[0] < Math.pow(0.1, 3.1)) {
+				weightStr = formatSmall.format(weight[0]);
+				if (weightStr.indexOf("E-")!=-1) {
+					weightStr = weightStr.replaceAll("E-", "}{10^{");
+					weightStr = "\\frac{"+weightStr+"}}";
+				}
+				return weightStr;
+			}
 			return RControl.getR().eval("gMCP:::getLaTeXFraction("+weight[0]+")").asRChar().getData()[0];
 		}
 		String replaceStr = weightStr;

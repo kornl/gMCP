@@ -286,53 +286,59 @@ public class Edge {
 	 */
 	public static TeXIcon getTeXIcon(JFrame parent, String s, int points) {
 		String latex = "";
-		try {				
-			int openBracket = 0;
-			boolean waitingForDenominator = false;
-			String nominator = "";			
-			s.replaceAll("ε", "\\varepsilon");	
-			s.replaceAll(" ", "");
-			for (int i=0;i<s.length(); i++) {
-				String c = ""+s.charAt(i);	
-				if (c.equals("(")) openBracket++;				
-				if (c.equals(")")) openBracket--;				
-				if ( (c.equals("+") || c.equals("-") || c.equals("*") || 
-						(c.equals(")") &&  (i+1)<s.length() && !(s.charAt(i+1)+"").equals("/")) ) && openBracket == 0) {
-					String start = s.substring(0, i+1);										
-					if (waitingForDenominator) {
-						if (c.equals(")")) {
-							latex += "\\frac{"+nominator+"}{"+start+"}";
-						} else {
-							latex += "\\frac{"+nominator+"}{"+start.substring(0, i)+"}"+c;
-						}
-						waitingForDenominator = false;
-					} else {
-						latex += start;
-					}
-					s = s.substring(i+1, s.length());
-					i=-1;
-				}
-				if (c.equals("/")) {					
-					nominator = s.substring(0, i);
-					s = s.substring(i+1, s.length());
-					i=-1;
-					waitingForDenominator = true;
-				}
-			}
-			if (waitingForDenominator) {
-				latex += "\\frac{"+nominator+"}{"+s+"}";				
+		try {	
+			if (s.indexOf("E-")!=-1) {
+				latex = s.replaceAll("E-", "}{10^{");
+				latex = "\\frac{"+latex+"}}";
 			} else {
-				latex += s;
-			}			
-			latex = latex.replaceAll("\\*", Configuration.getInstance().getGeneralConfig().getTimesSymbol());			
-			latex = latex.replaceAll("\\(", "{(");
-			latex = latex.replaceAll("\\)", ")}");
+				int openBracket = 0;
+				boolean waitingForDenominator = false;
+				String nominator = "";			
+				s.replaceAll("ε", "\\varepsilon");	
+				s.replaceAll(" ", "");
+				for (int i=0;i<s.length(); i++) {
+					String c = ""+s.charAt(i);	
+					if (c.equals("(")) openBracket++;				
+					if (c.equals(")")) openBracket--;				
+					if ( (c.equals("+") || c.equals("-") || c.equals("*") || 
+							(c.equals(")") &&  (i+1)<s.length() && !(s.charAt(i+1)+"").equals("/")) ) && openBracket == 0) {
+						String start = s.substring(0, i+1);										
+						if (waitingForDenominator) {
+							if (c.equals(")")) {
+								latex += "\\frac{"+nominator+"}{"+start+"}";
+							} else {
+								latex += "\\frac{"+nominator+"}{"+start.substring(0, i)+"}"+c;
+							}
+							waitingForDenominator = false;
+						} else {
+							latex += start;
+						}
+						s = s.substring(i+1, s.length());
+						i=-1;
+					}
+					if (c.equals("/")) {					
+						nominator = s.substring(0, i);
+						s = s.substring(i+1, s.length());
+						i=-1;
+						waitingForDenominator = true;
+					}
+				}
+				if (waitingForDenominator) {
+					latex += "\\frac{"+nominator+"}{"+s+"}";				
+				} else {
+					latex += s;
+				}			
+				latex = latex.replaceAll("\\*", Configuration.getInstance().getGeneralConfig().getTimesSymbol());			
+				latex = latex.replaceAll("\\(", "{(");
+				latex = latex.replaceAll("\\)", ")}");
+			}
 			logger.debug("LaTeX string:"+latex);		
 			TeXFormula formula = new TeXFormula(latex);//
 			formula = new TeXFormula("\\mathbf{"+latex+"}");
 			return formula.createTeXIcon(TeXConstants.ALIGN_CENTER, points);
 		} catch(Exception e) {
-			e.printStackTrace();
+			//e.printStackTrace();
+			//System.out.println("Error: "+latex);
 			JOptionPane.showMessageDialog(parent, "Invalid weight string:\n"+latex+"\nError:\n"+e.getMessage(), "Invalid input", JOptionPane.ERROR_MESSAGE);
 			TeXFormula formula = new TeXFormula("Syntax Error");
 			return formula.createTeXIcon(TeXConstants.ALIGN_CENTER, points); 

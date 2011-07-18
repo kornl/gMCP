@@ -245,8 +245,7 @@ public class PView extends JPanel implements KeyListener, ActionListener {
 			refresh = new JButton(new ImageIcon(ImageIO.read(DesktopPaneBG.class
 					.getResource("/org/af/gMCP/gui/graph/images/update24.png"))));
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			logger.error("IOError that should never happen.", e);
 		}
 		refresh.setToolTipText("search again for matrices in R");
 		

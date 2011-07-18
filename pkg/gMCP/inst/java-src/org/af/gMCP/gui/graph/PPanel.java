@@ -188,11 +188,13 @@ public class PPanel implements ActionListener, KeyListener, NodeListener, FocusL
 
 	@Override
 	public void focusLost(FocusEvent e) {
-		keyTyped(null);
-		if (e.getSource()==wTF && !testing) {
-			wTF.setText(RControl.getFraction(w));
+		if (wTF.isEditable()) {
+			keyTyped(null);
+			if (e.getSource()==wTF && !testing) {
+				wTF.setText(RControl.getFraction(w));
+			}
+			updateMe(true);
 		}
-		updateMe(true);
 	}	
 
 }
