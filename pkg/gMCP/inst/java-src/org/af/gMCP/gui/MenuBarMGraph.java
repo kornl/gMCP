@@ -108,9 +108,9 @@ public class MenuBarMGraph extends JMenuBar implements ActionListener {
 		menu.add(subMenu);
 		
 		subMenu = new JMenu("2 primary & 2 secondary & 2 tertiary hypotheses");		
-		subMenu.add(makeMenuItem("Graph from Bretz et al. (2009)", "bretzEtAl2009a"));
-		subMenu.add(makeMenuItem("Graph from Bretz et al. (2009)", "bretzEtAl2009b"));
-		subMenu.add(makeMenuItem("Graph from Bretz et al. (2009)", "bretzEtAl2009c"));
+		subMenu.add(makeMenuItem("Graph from Bretz et al. (2009), Figure 14a", "bretzEtAl2009a"));
+		subMenu.add(makeMenuItem("Graph from Bretz et al. (2009), Figure 14b", "bretzEtAl2009b"));
+		subMenu.add(makeMenuItem("Graph from Bretz et al. (2009), Figure 15", "bretzEtAl2009c"));
 		menu.add(subMenu);
 		
 		subMenu = new JMenu("Miscellaneous");		

@@ -334,7 +334,8 @@ public class Edge {
 			}
 			logger.debug("LaTeX string:"+latex);		
 			TeXFormula formula = new TeXFormula(latex);//
-			formula = new TeXFormula("\\mathbf{"+latex+"}");
+			formula = new TeXFormula("\\mathbf{"+latex+"}");			
+			if (latex.indexOf("frac")==-1 && latex.length()>4) points = (int) (points*0.7);
 			return formula.createTeXIcon(TeXConstants.ALIGN_CENTER, points);
 		} catch(Exception e) {
 			//e.printStackTrace();

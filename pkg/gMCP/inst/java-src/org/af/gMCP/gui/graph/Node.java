@@ -108,7 +108,7 @@ public class Node {
 			if (lastFontSize != (int) (14 * nl.getZoom())) {
 				lastFontSize = (int) (14 * nl.getZoom());
 				iconWeight = Edge.getTeXIcon(this.nl.control.getGraphGUI(), stringW, lastFontSize);
-				TeXFormula formula = new TeXFormula("\\mathbf{"+name+"}"); 
+				TeXFormula formula = new TeXFormula("\\mathbf{"+name+"}");
 				iconName = formula.createTeXIcon(TeXConstants.ALIGN_CENTER, lastFontSize);
 			}
 			iconName.paintIcon(Edge.panel, g2d,
