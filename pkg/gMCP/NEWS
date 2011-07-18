@@ -20,7 +20,7 @@ Version 0.7-0 (18-Jul-2011, Rev. 925)
 
 - New dependency: lattice graphics for power simulations
 
-- Not longer a dependency: gtools, xtable
+- Not longer a dependency: gtools, xtable, MCPAN
 
 - New example graphs:
 

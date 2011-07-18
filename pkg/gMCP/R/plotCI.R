@@ -2,51 +2,55 @@
 # Code taken (and adapted) from package MCPAN under GPL.
 # Authors: Frank Schaarschmidt, Daniel Gerhard, Martin Sill
 #
-
-plotSimCI <-
-		function(estimate, lower=NULL, upper=NULL, alternative=c("two.sided","less","greater"),
-				lines=NULL, lineslty=2, lineslwd=1, linescol="black",
-				CIvert=FALSE, CIlty = 1, CIlwd=1, CIcex=1, CIcol="black", CIlength=NULL,
-				HL=TRUE, ...)
-{
-	if(HL){
-		old.par <- par(no.readonly=TRUE)
-	}
+plotSimCI <- function(ci) {	
 	
-	aargs <- list(...)
+	estimate = ci[,2]
+	lower=ci[,1] 
+	upper=ci[,3]
+	
+	alternative="two.sided"#=c("two.sided","less","greater") TODO Check this.
+	lines=NULL
+	lineslty=2
+	lineslwd=1
+	linescol="black"
+	CIlty = 1
+	CIlwd=1
+	CIcex=1
+	CIcol="black"
+	CIlength=NULL
+
+	old.par <- par(no.readonly=TRUE)
+	
+	aargs <- list()
 	
 # check input variables
 	
-	if(length(estimate)<1 | (!is.numeric(estimate)&!is.integer(estimate)))
-	{stop("Argument estimate should be a numeric vector")}
+	if(length(estimate)<1 | (!is.numeric(estimate)&!is.integer(estimate))) {
+		stop("Argument estimate should be a numeric vector")
+	}
 	
 	k<-length(estimate)
 	num <- 1:k
 	
-	if(is.null(names(estimate)))
-	{compn <- paste("C", num, sep="")}
-	else{compn <- names(estimate)}
-	
-	if(!is.null(lower))
-	{
-		if(!is.numeric(lower)&!is.integer(lower))
-		{stop("Argument lower should be a numeric vector")}
-		if(length(lower)!=k)
-		{stop("Argument lower should be a vector of the same length as estimate!")}
+	if(is.null(names(estimate))) {
+		compn <- paste("C", num, sep="")
+	} else {
+		compn <- names(estimate)
 	}
 	
-	if(!is.null(upper))
-	{
+	if(!is.null(lower))	{
+		if(!is.numeric(lower)&!is.integer(lower)) stop("Argument lower should be a numeric vector")
+		if(length(lower)!=k) stop("Argument lower should be a vector of the same length as estimate!")
+	}
+	
+	if(!is.null(upper))	{
 		if(!is.numeric(upper)&!is.integer(upper))
 		{stop("Argument upper should be a numeric vector")}
 		if(length(upper)!=k)
 		{stop("Argument upper should be a vector of the same length as estimate!")}
 	}
 	
-	alternative<-match.arg(alternative)
-	
-	if(!is.null(lines))
-	{
+	if(!is.null(lines))	{
 		if(!is.numeric(lines)&!is.integer(lines))
 		{stop("Argument lines should be a numeric vector")}
 	}
@@ -73,26 +77,22 @@ plotSimCI <-
 				uplot <- max(c(allexist, lines))
 			},
 			
-			"less"=
-					{
-						
-						allpoints<-c(estimate, upper)
-						if(all(!is.finite(allpoints))){stop("Arguments estimate and upper contain only infinity or missing values!")}
-						allexist<-allpoints[is.finite(allpoints)]
-						lplot <- min(c(lines, allexist)) 
-						uplot <- max(c(allexist, lines))
-					},
+			"less"={						
+				allpoints<-c(estimate, upper)
+				if(all(!is.finite(allpoints))){stop("Arguments estimate and upper contain only infinity or missing values!")}
+				allexist<-allpoints[is.finite(allpoints)]
+				lplot <- min(c(lines, allexist)) 
+				uplot <- max(c(allexist, lines))
+			},
 			
-			"greater"=
-					{
-						
-						allpoints<-c(lower, estimate)
-						if(all(!is.finite(allpoints))){stop("Arguments estimate and lower contain only infinity or missing values!")}
-						allexist<-allpoints[is.finite(allpoints)]
-						lplot <- min(c(lines, allexist)) 
-						uplot <- max(c(lines, allexist))
-						
-					})
+			"greater"={
+				allpoints<-c(lower, estimate)
+				if(all(!is.finite(allpoints))){stop("Arguments estimate and lower contain only infinity or missing values!")}
+				allexist<-allpoints[is.finite(allpoints)]
+				lplot <- min(c(lines, allexist)) 
+				uplot <- max(c(lines, allexist))
+				
+			})
 	
 # Define the final plot ranges:
 	
@@ -102,19 +102,17 @@ plotSimCI <-
 # define the type of interval drawn,
 # appropriate for unbounded CI
 	
-	switch(alternative,
-			
-			"two.sided"={
-				
-				if(is.null(lower)){lower<-rep(llplot,k); code<-rep(2,k)
+	switch(alternative,			
+			"two.sided"={				
+				if(is.null(lower)){
+					lower<-rep(llplot,k); code<-rep(2,k)
 					warning("No lower limits specified!")
 				}
 				else{
-					if(is.null(upper)){upper<-rep(uuplot,k); code<-rep(1,k)
+					if(is.null(upper)){
+						upper<-rep(uuplot,k); code<-rep(1,k)
 						warning("No upper limits specified!")
-					}
-					else{
-						
+					} else {
 						code<-rep(3,k)
 						
 						infl<-!is.finite(lower)
@@ -133,7 +131,8 @@ plotSimCI <-
 			"less"={
 				code<-rep(2,k)
 				
-				if(is.null(upper)){upper<-rep(uuplot,k); code<-rep(0,k)
+				if(is.null(upper)){
+					upper<-rep(uuplot,k); code<-rep(0,k)
 					warning("No upper limits specified although alternative='less'!")
 				}
 				
@@ -146,7 +145,8 @@ plotSimCI <-
 			"greater"={
 				code<-rep(1,k)
 				
-				if(is.null(lower)){lower<-rep(llplot,k); code<-rep(0,k)
+				if(is.null(lower)){
+					lower<-rep(llplot,k); code<-rep(0,k)
 					warning("No lower limits specified although alternative='greater'!")
 				}
 				
@@ -158,186 +158,74 @@ plotSimCI <-
 	
 # Define the defaults for main, sub, ylab, xlab:
 	
-	if (is.null(aargs$main)) {aargs$main<-""} 
-	if (is.null(aargs$sub)) {aargs$sub<-""}
-	if (is.null(aargs$ylab)) {aargs$ylab<-""} 
-	if (is.null(aargs$xlab)) {aargs$xlab<-""}
+	aargs$main<-"" 
+	aargs$sub<-""
+	aargs$ylab<-"" 
+	aargs$xlab<-""
 	
 # Box arguments
 	
-	bargs<-list()
-	if(is.null(aargs$bty)){BTY<-"o"}
-	else{BTY<-aargs$bty}
+	BTY<-"o"
 	
-# plot function for vertical CI:
+	plot.new()
 	
-	if(CIvert==TRUE)
-	{
-		
-		if(HL)
-		{
-			plot.new()
+	# adjust margin under the x axis according to length of comparison names
+	ywidth<- 1.5 * max(strwidth(compn, units = "inches", cex = par("cex.axis"))) 
+	
+	if (mymai[2] < ywidth) mymai[2] <- ywidth
+	
+	par(mai=mymai, new=TRUE)
+	
+	rnum<-rev(num)
+	
+	aargs$y<-rnum
+	aargs$x<-estimate
+	aargs$axes<-FALSE
+	
+	aargs$xlim<-c(llplot, uuplot)
+	aargs$type<-"p"
+	aargs$pch<-16
+	aargs$cex<-CIcex
+	
+	do.call("plot", aargs)
+	
+	axis(side = 2, at = rnum, labels=compn, las=2)
+	axis(side = 1)
+	box(bty=BTY)
+	
+	abline(h=num, col="lightgrey", lty=3)
+	
+	abline(v=lines, lty=lineslty, lwd=lineslwd, col=linescol)
+	
+	if(is.null(CIlength)) arrlength<-1/(k*2)
+	
+	switch(alternative,
 			
-			# adjust margin under the x axis according to length of comparison names
-			
-			xwidth<- 1.5 * max(strwidth(compn, units = "inches", cex = par("cex.axis"))) 
-			
-			if (mymai[1] < xwidth) 
-				mymai[1] <- xwidth
-			par(mai=mymai, new=TRUE)
-		}
-		aargs$x<-num
-		aargs$y<-estimate
-		aargs$axes<-FALSE
-		
-		if(is.null(aargs$ylim)){aargs$ylim<-c(llplot, uuplot)}
-		if(is.null(aargs$type)){aargs$type<-"p"}
-		if(is.null(aargs$pch)){aargs$pch<-16}
-		if(is.null(aargs$cex)){aargs$cex<-CIcex}
-		
-		do.call("plot", aargs)
-		
-		axis(side = 1, at = num, labels=compn, las=2, ... )
-		axis(side=2, las=2, ...)
-		box(bty=BTY)
-		
-		abline(v=num, col="lightgrey", lty=3)
-		
-		if(!is.null(lines))
-		{
-			abline(h=lines, lty=lineslty, lwd=lineslwd, col=linescol)
-		}
-		
-		if(is.null(CIlength))
-		{
-			
-			arrlength<-1/(k*2)
-			
-#if(k<25)
-# {arrlength<-0.08}
-#else
-# {arrlength<-0.05}
-		}
-		else{
-			arrlength<-CIlength
-		}
-		
-		switch(alternative,
-				
-				"two.sided"={
+			"two.sided"={
+				for(i in 1:length(num))	{
 					
-					for(i in 1:length(num))
-					{
-						arrows(x0=num[i], x1=num[i], y0=lower[i], y1=upper[i],
-								length = arrlength, angle = 90, code = code[i],
-								col = CIcol[i], lty = CIlty[i], lwd = CIlwd[i])
-						
-					}
-				},
-				
-				"less"={
-					for(i in 1:length(num))
-					{
-						arrows(x0=num[i], x1=num[i], y0=llplot, y1=upper[i],
-								length = arrlength, angle = 90, code = code[i],
-								col = CIcol[i], lty = CIlty[i], lwd = CIlwd[i])
-					}
-				},
-				
-				"greater"={
+					arrows(y0=rnum[i], y1=rnum[i], x0=lower[i], x1=upper[i],
+							length = arrlength, angle = 90, code = code[i],
+							col = CIcol[i], lty = CIlty[i], lwd = CIlwd[i])
 					
-					for(i in 1:length(num))
-					{
-						arrows(x0=num[i], x1=num[i], y0=lower[i], y1=uuplot,
-								length = arrlength, angle = 90, code = code[i],
-								col = CIcol[i], lty = CIlty[i], lwd = CIlwd[i])
-					}
 				}
-		)
-		
-		
-	}
-	
-	
-# plot function for horizontal CI:
-	
-	
-	if(CIvert==FALSE)
-	{
-		if(HL)
-		{
-			plot.new()
+			},
 			
-			# adjust margin under the x axis according to length of comparison names
-			ywidth<- 1.5 * max(strwidth(compn, units = "inches", cex = par("cex.axis"))) 
+			"less"={
+				for(i in 1:length(num))	{
+					arrows(y0=rnum[i], y1=rnum[i], x0=llplot, x1=upper[i],
+							length = arrlength, angle = 90, code = code[i],
+							col = CIcol[i], lty = CIlty[i], lwd = CIlwd[i])
+				}
+			},
 			
-			if (mymai[2] < ywidth) 
-				mymai[2] <- ywidth
-			par(mai=mymai, new=TRUE)
-		}
-		
-		rnum<-rev(num)
-		
-		aargs$y<-rnum
-		aargs$x<-estimate
-		aargs$axes<-FALSE
-		
-		if(is.null(aargs$xlim)){aargs$xlim<-c(llplot, uuplot)}
-		if(is.null(aargs$type)){aargs$type<-"p"}
-		if(is.null(aargs$pch)){aargs$pch<-16}
-		if(is.null(aargs$cex)){aargs$cex<-CIcex}
-		
-		do.call("plot", aargs)
-		
-		axis(side = 2, at = rnum, labels=compn, las=2, ...)
-		axis(side = 1, ...)
-		box(bty=BTY)
-		
-		abline(h=num, col="lightgrey", lty=3)
-		
-		abline(v=lines, lty=lineslty, lwd=lineslwd, col=linescol)
-		
-		if(is.null(CIlength))
-		{
-			arrlength<-1/(k*2)
-		}
-		
-		switch(alternative,
-				
-				"two.sided"={
-					for(i in 1:length(num))
-					{
-						
-						arrows(y0=rnum[i], y1=rnum[i], x0=lower[i], x1=upper[i],
-								length = arrlength, angle = 90, code = code[i],
-								col = CIcol[i], lty = CIlty[i], lwd = CIlwd[i])
-						
-					}
-				},
-				
-				"less"={
-					for(i in 1:length(num))
-					{
-						arrows(y0=rnum[i], y1=rnum[i], x0=llplot, x1=upper[i],
-								length = arrlength, angle = 90, code = code[i],
-								col = CIcol[i], lty = CIlty[i], lwd = CIlwd[i])
-					}
-				},
-				
-				"greater"={
-					for(i in 1:length(num))
-					{
-						arrows(y0=rnum[i], y1=rnum[i], x0=lower[i], x1=uuplot,
-								length = arrlength, angle = 90, code = code[i],
-								col = CIcol[i], lty = CIlty[i], lwd = CIlwd[i])
-					}
-				})
-		
-		
-	}
+			"greater"={
+				for(i in 1:length(num))	{
+					arrows(y0=rnum[i], y1=rnum[i], x0=lower[i], x1=uuplot,
+							length = arrlength, angle = 90, code = code[i],
+							col = CIcol[i], lty = CIlty[i], lwd = CIlwd[i])
+				}
+			})	
 	
-	if(HL){
-		par(old.par)
-	}
-	
+	par(old.par)	
 }
