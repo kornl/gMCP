@@ -95,22 +95,22 @@ public class MenuBarMGraph extends JMenuBar implements ActionListener {
 		subMenu.add(makeMenuItem("Truncated Holm procedure", "truncHolm"));
 		subMenu.addSeparator();
 		subMenu.add(makeMenuItem("General successive graph", "gSuccessive"));
-		subMenu.add(makeMenuItem("   Simple successive graph I", "successiveI"));
-		subMenu.add(makeMenuItem("   Simple successive graph II", "successiveII"));
+		subMenu.add(makeMenuItem("   Simple successive graph I from Maurer et al. (2011)", "successiveI"));
+		subMenu.add(makeMenuItem("   Simple successive graph II from Maurer et al. (2011)", "successiveII"));
 		subMenu.addSeparator();
 		subMenu.add(makeMenuItem("Graph from Hung and Wang (2010)", "hung"));
 		subMenu.add(makeMenuItem("Graph from Huque, Alosh and Bhore (2011)", "huque"));
 		menu.add(subMenu);
 
 		subMenu = new JMenu("3 primary & 3 secondary hypotheses");		
-		subMenu.add(makeMenuItem("Graph from Bauer et al. (2001)", "bauer", false));
-		subMenu.add(makeMenuItem("Graph from Bretz et al. (2011)", "bretEtAl3", false));
+		subMenu.add(makeMenuItem("Graph from Bauer et al. (2001)", "bauer"));
+		subMenu.add(makeMenuItem("Graph from Bretz et al. (2011)", "bretzEtAl"));
 		menu.add(subMenu);
 		
 		subMenu = new JMenu("2 primary & 2 secondary & 2 tertiary hypotheses");		
-		subMenu.add(makeMenuItem("Graph from Bretz et al. (2009)", "bretEtAl", false));
-		subMenu.add(makeMenuItem("Graph from Bretz et al. (2009)", "bretEtAl1", false));
-		subMenu.add(makeMenuItem("Graph from Bretz et al. (2009)", "bretEtAl2", false));
+		subMenu.add(makeMenuItem("Graph from Bretz et al. (2009)", "bretzEtAl2009a"));
+		subMenu.add(makeMenuItem("Graph from Bretz et al. (2009)", "bretzEtAl2009b"));
+		subMenu.add(makeMenuItem("Graph from Bretz et al. (2009)", "bretzEtAl2009c"));
 		menu.add(subMenu);
 		
 		subMenu = new JMenu("Miscellaneous");		
@@ -298,12 +298,20 @@ public class MenuBarMGraph extends JMenuBar implements ActionListener {
         	loadGraph("parallelGatekeeping()");
         } else if (e.getActionCommand().equals("pgi")) {       	
         	loadGraph("improvedParallelGatekeeping()");
+        } else if (e.getActionCommand().equals("bauer")) {       	
+        	loadGraph("BauerEtAl2001()");
         } else if (e.getActionCommand().equals("bretzEtAl")) {       	
         	loadGraph("BretzEtAl2011()");
-        } else if (e.getActionCommand().equals("bretzEtAl3")) {       	
-        	loadGraph("graph2FromBretzEtAl2011()");
-        } else if (e.getActionCommand().equals("hommelEtAl")) {       	
+        } else if (e.getActionCommand().equals("bretzEtAl2009a")) {       	
+        	loadGraph("BretzEtAl2009a()");
+        } else if (e.getActionCommand().equals("bretzEtAl2009b")) {       	
+        	loadGraph("BretzEtAl2009b()");
+        } else if (e.getActionCommand().equals("bretzEtAl2009c")) {       	
+        	loadGraph("BretzEtAl2009c()");
+        } else if (e.getActionCommand().equals("hommelEtAl")) {      	
         	loadGraph("HommelEtAl2007()");
+        } else if (e.getActionCommand().equals("hommelEtAlSimple")) {       	
+        	loadGraph("HommelEtAl2007Simple()");
         } else if (e.getActionCommand().equals("hung")) { 	
         	loadGraph("HungEtWang2010()");
         } else if (e.getActionCommand().equals("huque")) { 	
@@ -597,6 +605,7 @@ public class MenuBarMGraph extends JMenuBar implements ActionListener {
         	//((ControlMGraph) control).getNL().loadFromXML(f);
         	String filename = f.getAbsolutePath().replaceAll("\\\\", "\\\\\\\\"); 
     		String loadedGraph = RControl.getR().eval("load(file=\""+filename+"\")").asRChar().getData()[0];
+    		RControl.getR().eval(loadedGraph+ "<- gMCP:::updateGraphToNewClassDefinition("+loadedGraph+")");
     		loadGraph(loadedGraph);
     		Configuration.getInstance().getGeneralConfig().addGraph(f.getAbsolutePath());
         	createLastUsed();

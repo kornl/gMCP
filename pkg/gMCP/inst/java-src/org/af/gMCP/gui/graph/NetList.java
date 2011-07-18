@@ -544,7 +544,7 @@ public class NetList extends JPanel implements MouseMotionListener, MouseListene
 			String key = keys.nextElement();
 			list += "\""+EdgeWeight.UTF2LaTeX(key.charAt(0)).replaceAll("\\\\", "\\\\\\\\")+"\"="+ht.get(key)+",";
 		}
-		return list.substring(0, list.length()>1?list.length()-1:list.length())+")";			
+		return list.substring(0, list.length()>5?list.length()-1:list.length())+")";			
 	}
 	
 	public String saveGraph(String graphName, boolean verbose, Hashtable<String,Double> ht) {		
