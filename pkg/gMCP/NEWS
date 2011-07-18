@@ -1,5 +1,5 @@
 
-Version 0.7-0 (??-Jul-2011, Rev. 9??)
+Version 0.7-0 (18-Jul-2011, Rev. 925)
 =====================================
 
 - Package "graph" is no longer a dependency.
@@ -8,9 +8,6 @@ Version 0.7-0 (??-Jul-2011, Rev. 9??)
   gMCP:::updateGraphToNewClassDefinition(object)
   is provided to update old serialized (saved) objects.
   The GUI will use this function on its own if necessary.
-
-- The GUI will (optionally) look for a newer version of 
-  gMCP on CRAN.
 
 - Power simulation code from our third author
   Bjoern Bornkamp.

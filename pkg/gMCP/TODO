@@ -7,8 +7,6 @@ Critical:
 
 High priority:
 ==============
-- Give references in menu for Successive Graphs.
-- More fairness regarding the Maurer et al. example ("improved" - what does the paper cover)
 - Some edge labels like for parallel gatekeeping are set to small values (0?)
 - On Windows: Autoresize of the adjacency matrix does often not work.
 - Sample sizes for correlation matrices
@@ -41,7 +39,9 @@ High priority:
 - does something in Björns C code trigger the following false-positive:
 Possible MalWare 'W32/NewMalware-Generic-8d27-f554' found in '5832765_287X_AZ-D_PA3__gMCP.dll'. Heuristics score: 336 
 - remember focus on description vs. graph analysis
-- test whetjer description is always saved
+- test whether description is always saved
+- More fairness regarding the Maurer et al. example ("improved" - what does the paper cover)
+
 
 Medium priority:
 ================
