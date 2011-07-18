@@ -2,7 +2,7 @@ generateWeights <-
 function(g,w){
   ## comute all intersection hypotheses and corresponding weights for a given graph
   n <- length(w)
-  intersect <- (permutations(2,n,repeats.allowed=TRUE)-1)[-1,]
+  intersect <- (permutations(n))[-1,]
   g <- apply(intersect,1,function(i) list(int=i,
                                           w=mtp.weights(i,g,w),
                                           g=mtp.edges(i,g,w)
@@ -12,3 +12,6 @@ function(g,w){
   t(m)
 }
 
+permutations(n) <- function(n) {
+	outer((1:(2^n))-1, (n:1)-1, FUN=function(x,y) {(x%/%2^y)%%2})
+}
