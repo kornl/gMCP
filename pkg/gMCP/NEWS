@@ -39,6 +39,8 @@ Version 0.7-0 (??-Jul-2011, Rev. 9??)
   
 - Function graphGUI has a new parameter:
   experimentalFeatures=FALSE
+  Set this to TRUE for experimental features like power 
+  analysis in future versions. 
   
     
 Version 0.6-6 (04-Jul-2011, Rev. 860)

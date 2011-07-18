@@ -245,7 +245,7 @@ HommelEtAl2007Simple <- function() {
 			"If QoL is rejected, four secondary hypotheses D1, D2, D3 and D4 are also be tested.",
 			"",
 			"Literature: Hommel, G., Bretz, F. und Maurer, W. (2007). Powerful short-cuts for multiple testing procedures with special reference to gatekeeping strategies. Statistics in Medicine, 26(22), 4063-4073.", sep="\n")
-	attr(graph, "pvalues") <- c(0.097, 0.015, 0.005, 0.006, 0.004, 0.008, 0.04)
+	attr(graph, "pvalues") <- c(0.015, 0.097, 0.005, 0.006, 0.004, 0.008, 0.04)
 	return(graph)	
 }
 
