@@ -4,8 +4,10 @@ Version 0.7-0 (??-Jul-2011, Rev. 9??)
 
 - Package "graph" is no longer a dependency.
   Class definition of graphMCP has changed and is no
-  longer a subclass of graphNEL. Code is provided to
-  update old serialized (saved) objects.  
+  longer a subclass of graphNEL. The function
+  gMCP:::updateGraphToNewClassDefinition(object)
+  is provided to update old serialized (saved) objects.
+  The GUI will use this function on its own if necessary.
 
 - The GUI will (optionally) look for a newer version of 
   gMCP on CRAN.
@@ -13,26 +15,32 @@ Version 0.7-0 (??-Jul-2011, Rev. 9??)
 - Power simulation code from our third author
   Bjoern Bornkamp.
 
-- lattice graphs for power simulations
+- New dependency: lattice graphics for power simulations
 
 - New example graphs:
 
-  - general and simple successive graphs
+  - general and simple Successive Graphs
   - fixedSequence
-  - fallback procedure
-  - truncated holm (special case)
+  - Fallback Procedure
+  - Truncated Holm (special case)
   - BauerEtAl2001
   - HuqueAloshEtBhore2011
   - BretzEtAl2009a/b/c
 
-- Renaming to give existing example graphs simpler names.
+- Renaming of older example graphs to simpler names.
 
 - CI dialog is modal.
 
 - LaTeX-Code can be shown in Dialog and does not have 
   to be saved in a file.
 
+- PValues can be attached to graphMCP objects as an 
+  attribute "pvalues".
   
+- Function graphGUI has a new parameter:
+  experimentalFeatures=FALSE
+  
+    
 Version 0.6-6 (04-Jul-2011, Rev. 860)
 =====================================
 

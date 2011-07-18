@@ -77,7 +77,14 @@ setMethod("plot", "gMCPResult",
 			# TODO Show visualization of graph			
 		})
 
-setGeneric("nodes", function(object, ...) standardGeneric("nodes"))
+if (!require(graph)) {
+	setGeneric("nodes", function(object, ...) standardGeneric("nodes"))
+	setGeneric("addEdge", function(from, to, graph, weights) standardGeneric("addEdge"))
+	setGeneric("edgeData", function(self, from, to, attr) standardGeneric("edgeData"))
+	setGeneric("edgeData<-", function(self, from, to, attr, value) standardGeneric("edgeData<-"))
+	setGeneric("nodeData", function(self, n, attr) standardGeneric("nodeData"))
+	setGeneric("nodeData<-", function(self, n, attr, value) standardGeneric("nodeData<-"))
+}
 
 setMethod("nodes", c("graphMCP"),
 		function(object, ...) {			
@@ -113,15 +120,6 @@ setMethod("getWeights", c("gMCPResult"),
 			return(getWeights(graph, node))
 		})
 
-setGeneric("nodes", function(object, ...) standardGeneric("nodes"))
-
-setMethod("nodes", c("graphMCP"),
-		function(object, ...) {						
-			return(rownames(object@m))
-		})
-
-setGeneric("addEdge", function(from, to, graph, weights) standardGeneric("addEdge"))
-			
 setMethod("addEdge", signature=signature(from="character", to="character",
 				graph="graphMCP", weights="character"),
 		function(from, to, graph, weights) {
@@ -135,9 +133,6 @@ setMethod("addEdge", signature=signature(from="character", to="character",
 			graph@m[from, to] <- weights
 			graph
 		})
-
-setGeneric("edgeData", function(self, from, to, attr) standardGeneric("edgeData"))
-setGeneric("edgeData<-", function(self, from, to, attr, value) standardGeneric("edgeData<-"))
 
 setMethod("edgeData", signature(self="graphMCP", from="character", to="character",
 				attr="character"),
@@ -153,9 +148,6 @@ setReplaceMethod("edgeData",
 			self@edgeData[[attr]][from, to] <- value		
 			self
 		})
-
-setGeneric("nodeData", function(self, n, attr) standardGeneric("nodeData"))
-setGeneric("nodeData<-", function(self, n, attr, value) standardGeneric("nodeData<-"))
 
 setMethod("nodeData", signature(self="graphMCP", n="character", attr="character"),
 		function(self, n, attr) {

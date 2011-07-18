@@ -38,6 +38,10 @@ High priority:
 - think about naming of rows, cols, weights … but I guess it'll be the advise to use just the mutator methods or if you want to avoid this overhead a warning that you should know what you are doing…
 - remember entries for \tau, \nu, \gamma
 - export function replaceVariables
+- does something in Björns C code trigger the following false-positive:
+Possible MalWare 'W32/NewMalware-Generic-8d27-f554' found in '5832765_287X_AZ-D_PA3__gMCP.dll'. Heuristics score: 336 
+- remember focus on description vs. graph analysis
+- test whetjer description is always saved
 
 Medium priority:
 ================

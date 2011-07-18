@@ -2,7 +2,7 @@ graphAnalysis <- function(graph, file="") {
 	result <- ""
 	if (require("graph")) { 
 		hnodes <- nodes(graph)
-		graph <- new("graphAM", adjMat=graph@m, edgemode="directed")
+		graph <- as(new("graphAM", adjMat=graph@m, edgemode="directed"), "graphNEL")
 		accessible <- acc(graph, hnodes)
 		for (i in names(accessible)) {
 			missingNodes <- c()
@@ -23,14 +23,17 @@ graphAnalysis <- function(graph, file="") {
 		}
 	} else {
 		result <- paste("Install package \"graph\" for graph analysis:",
+				"",
 				"source(\"http://www.bioconductor.org/biocLite.R\")",
-				"biocLite(\"graph\")", sep="\n");
+				"biocLite(\"graph\")",
+				"",
+				"and restart R.", sep="\n");
 	}
 	cat(result, file=file)
 	return(invisible(result))
 }
 
-acc <- function(graph) {
+accessible <- function(graph) {
 	m <- graph@m
 	m <- ifelse(!is.na(as.num(m)) && as.num(m) != 0, 0, 1)
 	for (i in nodes(graph)) {

@@ -8,7 +8,7 @@
 	Starts a graphical user interface for the creation of SRMTP graphs.
 }
 \usage{
-	graphGUI(graph="createdGraph", pvalues=numeric(0), grid=0, debug=FALSE)
+	graphGUI(graph="createdGraph", pvalues=numeric(0), grid=0, debug=FALSE, experimentalFeatures=FALSE)
 }
 
 \arguments{
@@ -26,6 +26,9 @@
   }
   \item{debug}{
 	Logical. If \code{TRUE} debug output is printed to the R console.
+  }
+  \item{experimentalFeatures}{
+	Logical. If \code{TRUE} some unfinished / little tested experimental features are available in the GUI.
   }
 }
 \details{

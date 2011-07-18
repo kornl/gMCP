@@ -21,3 +21,6 @@ graph
 substituteEps(graph, eps=0.001)
 
 gMCP(graph, pvalues=c(0.02, 0.04, 0.01, 0.02), eps=0.001)
+
+graph <-  as(new("graphAM", adjMat=matrix(c(0,1,0,0,0,1,0,0,0), nrow=3), edgemode="directed"), "graphNEL")
+acc(graph, c("n1", "n2", "n3"))
