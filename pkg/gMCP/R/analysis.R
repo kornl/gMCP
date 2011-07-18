@@ -1,8 +1,9 @@
 graphAnalysis <- function(graph, file="") {
 	result <- ""
 	if (require("graph")) { 
+		hnodes <- nodes(graph)
 		graph <- new("graphAM", adjMat=graph@m, edgemode="directed")
-		accessible <- acc(graph, nodes(graph))
+		accessible <- acc(graph, hnodes)
 		for (i in names(accessible)) {
 			missingNodes <- c()
 			for (n in nodes(graph)) {

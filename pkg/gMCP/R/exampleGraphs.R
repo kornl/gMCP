@@ -231,12 +231,12 @@ HommelEtAl2007Simple <- function() {
 	# Graph creation
 	graph <- new("graphMCP", m=m, weights=weights)
 	# Visualization settings
-	nodeX <- c(200, 400, 600,  50, 150, 250, 350)
+	nodeX <- c(200, 350, 450,  50, 150, 250, 350)
 	nodeY <- c(150, 150, 150, 350, 350, 350, 350)
 	graph@nodeData$X <- nodeX
 	graph@nodeData$Y <- nodeY
 	
-	edgeData(graph, "E2", "QoL", "labelX") <- 500
+	edgeData(graph, "E2", "QoL", "labelX") <- 350
 	edgeData(graph, "E2", "QoL", "labelY") <- 100
 	
 	attr(graph, "description") <- paste("Simplified graph representing the procedure from Hommel et al. (2007)", 
@@ -284,13 +284,13 @@ improvedParallelGatekeeping <- function() {
 	graph <- addEdge("H4", "H2", graph, "\\epsilon")
 	graph <- addEdge("H3", "H4", graph, "1-\\epsilon")
 	graph <- addEdge("H4", "H3", graph, "1-\\epsilon")
-	edgeData(graph, "H1", "H3", "labelX") <- 80
+	edgeData(graph, "H1", "H3", "labelX") <- 100
 	edgeData(graph, "H1", "H3", "labelY") <- 200
-	edgeData(graph, "H2", "H4", "labelX") <- 120
+	edgeData(graph, "H2", "H4", "labelX") <- 300
 	edgeData(graph, "H2", "H4", "labelY") <- 200
-	edgeData(graph, "H3", "H1", "labelX") <- 280
+	edgeData(graph, "H3", "H1", "labelX") <-  70
 	edgeData(graph, "H3", "H1", "labelY") <- 200
-	edgeData(graph, "H4", "H2", "labelX") <- 320
+	edgeData(graph, "H4", "H2", "labelX") <- 330
 	edgeData(graph, "H4", "H2", "labelY") <- 200
 	attr(graph, "description") <- paste("Graph representing an improved parallel gatekeeping procedure", 
 			"",
