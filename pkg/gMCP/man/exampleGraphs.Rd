@@ -5,6 +5,7 @@
 \alias{parallelGatekeeping}
 \alias{improvedParallelGatekeeping}
 \alias{HommelEtAl2007}
+\alias{HommelEtAl2007Simple}
 \alias{HungEtWang2010}
 \alias{MaurerEtAl1995}
 \alias{improvedFallbackI}
@@ -15,9 +16,12 @@
 \alias{simpleSuccessiveI}
 \alias{simpleSuccessiveII}
 \alias{truncatedHolm}
-\alias{BretzEtAl2009Fig8}
 \alias{fallback}
 \alias{HuqueAloshEtBhore2011}
+\alias{BauerEtAl2001}
+\alias{BretzEtAl2009a}
+\alias{BretzEtAl2009b}
+\alias{BretzEtAl2009c}
 \title{
 	Functions that create different example graphs
 }
@@ -35,6 +39,7 @@
 	HungEtWang2010()
 	HuqueAloshEtBhore2011()
 	HommelEtAl2007()
+	HommelEtAl2007Simple()
 	MaurerEtAl1995()
 	improvedFallbackI(weights=rep(1/3, 3))
 	improvedFallbackII(weights=rep(1/3, 3))
@@ -45,7 +50,10 @@
 	simpleSuccessiveI()
 	simpleSuccessiveII()
 	truncatedHolm()
-	BretzEtAl2009Fig8()
+	BauerEtAl2001()
+	BretzEtAl2009a()
+	BretzEtAl2009b()
+	BretzEtAl2009c()
 }
 
 \arguments{

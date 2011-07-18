@@ -76,16 +76,16 @@ BretzEtAl2011 <- function() {
 	return(graph)	
 }
 
-
-BretzEtAl2009Fig8 <- function() {
+BauerEtAl2001 <- function() {
 	# M:
-	m <- rbind(c(0,     0,   0,   1,   0,   0  ),
-		 	   c(0,     0,   0,   0,   1,   0  ),
-			   c(0,     0,   0,   0,   0,   1  ),
-			   c(0,   0.5, 0.5,   0,   0,   0  ),
-			   c(0.5,   0, 0.5,   0,   0,   0  ),
-			   c(0.5, 0.5,   0,   0,   0,   0  ))
-	rownames(m) <- colnames(m) <- paste("H_{",rep(c("E","S"),each=3),1:3,"}",sep="")
+	hnodes <- c("H_{E_1}","H_{E_2}","H_{E_3}","H_{S_1}","H_{S_2}","H_{S_3}")
+	m <- rbind(c(0,    0,  0, 1, 0, 0),
+			   c(0,    0,  0, 0, 1, 0),
+			   c(0,    0,  0, 0, 0, 1),
+			   c(0,  1/2,1/2, 0, 0, 0),
+			   c(1/2,  0,1/2, 0, 0, 0),
+			   c(1/2,1/2,  0, 0, 0, 0))
+	rownames(m) <- colnames(m) <- hnodes
 	# Graph creation
 	weights <- c(1/3, 1/3, 1/3, 0, 0, 0)
 	graph <- new("graphMCP", m=m, weights=weights)
@@ -95,20 +95,84 @@ BretzEtAl2009Fig8 <- function() {
 	graph@nodeData$X <- nodeX
 	graph@nodeData$Y <- nodeY	
 	# Label placement
-	edgeData(graph, "H11", "H21", "labelX") <- 200
-	edgeData(graph, "H11", "H21", "labelY") <- 80	
-	edgeData(graph, "H31", "H21", "labelX") <- 400
-	edgeData(graph, "H31", "H21", "labelY") <- 80	
-		
+	edgeData(graph, "H_{S_1}", "H_{E_3}", "labelX") <- 200
+	edgeData(graph, "H_{S_1}", "H_{E_3}", "labelY") <- 100	
+	edgeData(graph, "H_{S_3}", "H_{E_1}", "labelX") <- 400
+	edgeData(graph, "H_{S_3}", "H_{E_1}", "labelY") <- 100	
 	attr(graph, "description") <- paste("Graph representing the procedure from Bretz et al. (2011) - Figure 2", 
 			"",
-			"H11, H21 and H31 represent three primary hypotheses and H21, H22 and H23 the associated secondary hypotheses.",
-			"",			
-			"A secondary hypothesis is only tested if the associated primary hypotheses is rejected.",
+			"Literature: Bauer P., Brannath W., Posch M.: Multiple testing for identifying effective and safe treatments. Biometrical Journal 2001; 43:605-616.",
+			"", 
+			"Bretz F., Maurer W., Brannath W., Posch M.: A graphical approach to sequentially rejective multiple test procedures. Statistics in Medicine 2009; 28:586-604. Figure 8.", sep="\n")
+	return(graph)	
+}
+
+BretzEtAl2009a <- function() {
+	# M:
+	hnodes <- c("H_{11}","H_{21}","H_{12}","H_{22}","H_{13}","H_{23}")
+	m <- rbind(c(0,    0,  1, 0, 0, 0),
+			c(0,    0,  0, 1, 0, 0),
+			c(0,    0,  0, 0, 1, 0),
+			c(0,    0,  0, 0, 0, 1),
+			c(  0,  1,  0, 0, 0, 0),
+			c(  1,  0,  0, 0, 0, 0))
+	rownames(m) <- colnames(m) <- hnodes
+	# Graph creation
+	weights <- c(1/2, 1/2, 0, 0, 0, 0)
+	graph <- new("graphMCP", m=m, weights=weights)
+	# Visualization settings	
+	graph <- placeNodes(graph, nrow=3, ncol=2)	
+	# Label placement
+	attr(graph, "description") <- paste("Graph from Bretz et al. (2009) - Figure 14", 
 			"",
-			"Since in this example it is preferred to reject two adjacent hypotheses (like H11 and H21 instead of H11 and H31) there are only edges between adjacent nodes.",
+			"Literature: Bretz F., Maurer W., Brannath W., Posch M.: A graphical approach to sequentially rejective multiple test procedures. Statistics in Medicine 2009; 28:586-604. Figure 14.", sep="\n")
+	return(graph)	
+}
+
+BretzEtAl2009b <- function() {
+	# M:
+	hnodes <- c("H_{11}","H_{21}","H_{12}","H_{22}","H_{13}","H_{23}")
+	m <- rbind(c(0,    1/2,  1/2, 0, 0, 0),
+			c(1/2,    0,  0, 1/2, 0, 0),
+			c(0,    0,  0, 1/2, 1/2, 0),
+			c(0,    0,  1/2, 0, 0, 1/2),
+			c(  0,  1,  0, 0, 0, 0),
+			c(  1,  0,  0, 0, 0, 0))
+	rownames(m) <- colnames(m) <- hnodes
+	# Graph creation
+	weights <- c(1/2, 1/2, 0, 0, 0, 0)
+	graph <- new("graphMCP", m=m, weights=weights)
+	# Visualization settings	
+	graph <- placeNodes(graph, nrow=3, ncol=2)	
+	# Label placement
+	attr(graph, "description") <- paste("Graph from Bretz et al. (2009) - Figure 14", 
 			"",
-			"Literature: Bretz, F., Maurer, W. and Hommel, G. (2011), Test and power considerations for multiple endpoint analyses using sequentially rejective graphical procedures. Statistics in Medicine, 30: n/a.", sep="\n")
+			"Literature: Bretz F., Maurer W., Brannath W., Posch M.: A graphical approach to sequentially rejective multiple test procedures. Statistics in Medicine 2009; 28:586-604. Figure 14.", sep="\n")
+	return(graph)	
+}
+
+BretzEtAl2009c <- function() {
+	# M:
+	hnodes <- c("H_{11}","H_{21}","H_{12}","H_{22}","H_{13}","H_{23}")
+	m <- rbind(c(0,    1/2,  1/2, 0, 0, 0),
+			   c(0,    0,  "1-\\epsilon", "\\epsilon", 0, 0),
+			   c(0,    "1-\\epsilon",  0, 0, "\\epsilon", 0),
+			   c(0,    0,  0, 0, "1-\\epsilon", "\\epsilon"),
+			   c(  0,  0,  0, "1-\\epsilon", 0, "\\epsilon"),
+			   c(  0,  0,  0, 0, 0, 0))
+	rownames(m) <- colnames(m) <- hnodes
+	# Graph creation
+	weights <- c(1, 0, 0, 0, 0, 0)
+	graph <- new("graphMCP", m=m, weights=weights)
+	# Visualization settings	
+	nodeX <- c(200, 300, 100, 300, 100, 200)
+	nodeY <- c(100, 200, 200, 300, 300, 400)
+	graph@nodeData$X <- nodeX
+	graph@nodeData$Y <- nodeY	
+	# Label placement
+	attr(graph, "description") <- paste("Graph from Bretz et al. (2009) - Figure 15", 
+			"",
+			"Literature: Bretz F., Maurer W., Brannath W., Posch M.: A graphical approach to sequentially rejective multiple test procedures. Statistics in Medicine 2009; 28:586-604. Figure 15.", sep="\n")
 	return(graph)	
 }
 
@@ -154,6 +218,37 @@ HommelEtAl2007 <- function() {
 	return(graph)	
 }
 
+
+HommelEtAl2007Simple <- function() {
+	# Nodes:
+	weights <- c(rep(1/3, 3), rep(0,4))	
+	# Edges:
+	m <- structure(c(0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
+					0, 0, 0, 0, 0.25, 0, 0, 0, 0, 0, 0, 0.25, 0, 0, 0, 0, 0, 0, 0.25, 
+					0, 0, 0, 0, 0, 0, 0.25, 0, 0, 0, 0, 0, 0), .Dim = c(7L, 7L), .Dimnames = list(
+					c("QoL", "E1", "E2", "D1", "D2", "D3", "D4"), c("QoL", "E1", 
+							"E2", "D1", "D2", "D3", "D4"))) 
+	# Graph creation
+	graph <- new("graphMCP", m=m, weights=weights)
+	# Visualization settings
+	nodeX <- c(200, 400, 600,  50, 150, 250, 350)
+	nodeY <- c(150, 150, 150, 350, 350, 350, 350)
+	graph@nodeData$X <- nodeX
+	graph@nodeData$Y <- nodeY
+	
+	edgeData(graph, "E2", "QoL", "labelX") <- 500
+	edgeData(graph, "E2", "QoL", "labelY") <- 100
+	
+	attr(graph, "description") <- paste("Simplified graph representing the procedure from Hommel et al. (2007)", 
+			"",
+			"In this clinical trial example three primary endpoints are investigated: QoL (Quality of Life score), E1 and E2.",
+			"If QoL is rejected, four secondary hypotheses D1, D2, D3 and D4 are also be tested.",
+			"",
+			"Literature: Hommel, G., Bretz, F. und Maurer, W. (2007). Powerful short-cuts for multiple testing procedures with special reference to gatekeeping strategies. Statistics in Medicine, 26(22), 4063-4073.", sep="\n")
+	attr(graph, "pvalues") <- c(0.097, 0.015, 0.005, 0.006, 0.004, 0.008, 0.04)
+	return(graph)	
+}
+
 parallelGatekeeping <- function() {
 	# Nodes:
 	weights <- rep(c(1/2,0), each=2)	
@@ -177,7 +272,7 @@ parallelGatekeeping <- function() {
 	edgeData(graph, "H1", "H4", "labelY") <- 150
 	edgeData(graph, "H2", "H3", "labelX") <- 250
 	edgeData(graph, "H2", "H3", "labelY") <- 150
-	attr(graph, "description") <- paste("Graph representing a parallel gatekeeping procedure", 
+	attr(graph, "description") <- paste("Graph representing a parallel gatekeeping procedure from Dmitrienko et al. (2003) Table I", 
 			"",
 			"Literature: Dmitrienko, A., Offen, W., Westfall, P.H. (2003). Gatekeeping strategies for clinical trials that do not require all primary effects to be significant. Statistics in Medicine. 22, 2387-2400.", sep="\n")
 	return(graph)	
@@ -189,6 +284,14 @@ improvedParallelGatekeeping <- function() {
 	graph <- addEdge("H4", "H2", graph, "\\epsilon")
 	graph <- addEdge("H3", "H4", graph, "1-\\epsilon")
 	graph <- addEdge("H4", "H3", graph, "1-\\epsilon")
+	edgeData(graph, "H1", "H3", "labelX") <- 80
+	edgeData(graph, "H1", "H3", "labelY") <- 200
+	edgeData(graph, "H2", "H4", "labelX") <- 120
+	edgeData(graph, "H2", "H4", "labelY") <- 200
+	edgeData(graph, "H3", "H1", "labelX") <- 280
+	edgeData(graph, "H3", "H1", "labelY") <- 200
+	edgeData(graph, "H4", "H2", "labelX") <- 320
+	edgeData(graph, "H4", "H2", "labelY") <- 200
 	attr(graph, "description") <- paste("Graph representing an improved parallel gatekeeping procedure", 
 			"",
 			"Literature: Bretz, F., Maurer, W., Brannath, W., Posch, M.: A graphical approach to sequentially rejective multiple test procedures. Statistics in Medicine 2009 vol. 28 issue 4 page 586-604. URL: http://www.meduniwien.ac.at/fwf_adaptive/papers/bretz_2009_22.pdf .", sep="\n")
@@ -212,9 +315,9 @@ fallback <- function(weights) {
 	graph@nodeData$Y <- nodeY		
 	attr(graph, "description") <- paste("Graph representing the fixed sequence test", 
 			"",
-			"Literature:  Maurer W., Hothorn L., Lehmacher W.: Multiple comparisons in drug clinical trials and preclinical assays: a-priori ordered hypotheses. In Biometrie in der chemisch-pharmazeutischen Industrie, Vollmar J (ed.). Fischer Verlag: Stuttgart, 1995; 3-18.",
+			"Literature: Wiens B.L.: A fixed sequence Bonferroni procedure for testing multiple endpoints. Pharmaceutical Statistics 2003; 2: 211-215.",
 			"",
-			"Westfall P.H., Krishen A.: Optimally weighted, fixed sequence, and gatekeeping multiple testing procedures. Journal of Statistical Planning and Inference 2001; 99:25-40.", sep="\n")
+			"Bretz F., Maurer W., Brannath W., Posch M.: A graphical approach to sequentially rejective multiple test procedures. Statistics in Medicine 2009; 28:586-604.", sep="\n")
 	return(graph)
 }
 
@@ -233,18 +336,20 @@ fixedSequence <- function(n) {
 simpleSuccessiveI <- function() {
 	graph <- generalSuccessive()
 	graph <- replaceVariables(graph, variables=list("\\\\gamma"=0, "\\\\delta"=0))
-	attr(graph, "description") <- paste("General successive graph from Bretz et al. (2011), Figure 3", 
+	attr(graph, "description") <- paste("Simple successive graph from Maurer et al. (2011)", 
 			"",
-			"Literature: Bretz, F., Maurer, W. and Hommel, G. (2011), Test and power considerations for multiple endpoint analyses using sequentially rejective graphical procedures. Statistics in Medicine, 30: n/a.", sep="\n")
+			"Literature: Maurer W., Glimm E., Bretz F.: Multiple and repeated testing of primary, co-primary and secondary hypotheses. Statistics in Biopharmaceutical Reserach 2011; (in press).",
+			"",
+			"F. Bretz, M. Posch, E. Glimm, F. Klinglmueller, W. Maurer, K. Rohmeyer (2011), Graphical approaches for multiple comparison procedures using weighted Bonferroni, Simes or parametric tests. To be published. Figure 12.", sep="\n")
 	return(graph)
 }
 
 simpleSuccessiveII <- function() {
 	graph <- generalSuccessive()
 	graph <- replaceVariables(graph, variables=list("\\\\gamma"=1/2, "\\\\delta"=1/2))
-	attr(graph, "description") <- paste("General successive graph from Bretz et al. (2011), Figure 6", 
+	attr(graph, "description") <- paste("Simple successive graph from Maurer et al. (2011)", 
 			"",
-			"Literature: Bretz, F., Maurer, W. and Hommel, G. (2011), Test and power considerations for multiple endpoint analyses using sequentially rejective graphical procedures. Statistics in Medicine, 30: n/a.", sep="\n")
+			"Literature: Maurer W., Glimm E., Bretz F.: Multiple and repeated testing of primary, co-primary and secondary hypotheses. Statistics in Biopharmaceutical Reserach 2011; (in press).", sep="\n")
 	return(graph)
 }
 
@@ -268,7 +373,9 @@ truncatedHolm <- function() {
 	graph@nodeData$Y <- nodeY	
 	attr(graph, "description") <- paste("Example of the Truncated Holm Procedure", 
 			"",
-			"Literature: Bretz, F., Maurer, W. and Hommel, G. (2011), Test and power considerations for multiple endpoint analyses using sequentially rejective graphical procedures. Statistics in Medicine, 30: n/a.", sep="\n")
+			"Literature: Dmitrienko A, Tamhane A, Wiens B. General multi-stage gatekeeping procedures. Biometrical Journal 2008; 50:667-677.",
+			"",
+			"F. Bretz, M. Posch, E. Glimm, F. Klinglmueller, W. Maurer, K. Rohmeyer (2011), Graphical approaches for multiple comparison procedures using weighted Bonferroni, Simes or parametric tests. To be published. Figure 5.", sep="\n")
 	return(graph)
 }
 
@@ -437,7 +544,9 @@ improvedFallbackI <- function(weights=rep(1/3, 3)) {
 	graph <- placeNodes(graph, nrow=1, ncol=3)
 	attr(graph, "description") <- paste("Improved Fallback Method I by Wiens & Dmitrienko",
 			"",
-			"Literature: B.L. Wiens, A. Dmitrienko (2005): The fallback procedure for evaluating a single family of hypotheses. Journal of Biopharmaceutical Statistics 15:929-942.", sep="\n")
+			"Literature: B.L. Wiens, A. Dmitrienko (2005): The fallback procedure for evaluating a single family of hypotheses. Journal of Biopharmaceutical Statistics 15:929-942.",
+			"",
+			"Bretz, F., Maurer, W. and Hommel, G. (2011), Test and power considerations for multiple endpoint analyses using sequentially rejective graphical procedures. Statistics in Medicine, 30: n/a.", sep="\n")
 	edgeData(graph, "H3", "H1", "labelX") <- 300
 	edgeData(graph, "H3", "H1", "labelY") <- 200
 	edgeData(graph, "H2", "H3", "labelX") <- 400
@@ -461,9 +570,9 @@ improvedFallbackII <- function(weights=rep(1/3, 3)) {
 	graph <- placeNodes(graph, nrow=1, ncol=3)
 	attr(graph, "description") <- paste("Improved Fallback Method II by Hommel & Bretz",
 			"",
-			"Literature: Bretz, F., Maurer, W. and Hommel, G. (2011), Test and power considerations for multiple endpoint analyses using sequentially rejective graphical procedures. Statistics in Medicine, 30: n/a.",
+			"Literature: G. Hommel, F. Bretz (2008): Aesthetics and power considerations in multiple testing - a contradiction? Biometrical Journal 50:657-666.",
 			"",
-			"G. Hommel, F. Bretz (2008): Aesthetics and power considerations in multiple testing - a contradiction? Biometrical Journal 50:657-666.", sep="\n")
+			"Bretz, F., Maurer, W. and Hommel, G. (2011), Test and power considerations for multiple endpoint analyses using sequentially rejective graphical procedures. Statistics in Medicine, 30: n/a.", sep="\n")
 	edgeData(graph, "H3", "H1", "labelX") <- 300
 	edgeData(graph, "H3", "H1", "labelY") <- 200
 	edgeData(graph, "H1", "H2", "labelX") <- 200

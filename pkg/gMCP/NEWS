@@ -18,9 +18,12 @@ Version 0.7-0 (??-Jul-2011, Rev. 9??)
 - New example graphs:
 
   - general and simple successive graphs
+  - fixedSequence
   - fallback procedure
   - truncated holm (special case)
-  - 
+  - BauerEtAl2001
+  - HuqueAloshEtBhore2011
+  - BretzEtAl2009a/b/c
 
 - Renaming to give existing example graphs simpler names.
 

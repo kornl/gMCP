@@ -1,4 +1,5 @@
 updateGraphToNewClassDefinition <- function(object) {
+	if (!class(try(object@m, silent=TRUE))=="try-error") return(object)
 	requireLibrary("graph")
 	nodes <- object@nodes
 	edges <- object@edgeL
