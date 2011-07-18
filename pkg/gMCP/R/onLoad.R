@@ -4,7 +4,14 @@
 	}
 	.jpackage(pkgname)	
 	.jpackage("JavaGD")
-	.jpackage("CommonJavaJars")
+	
+	jars <- c("afcommons.jar", "commons-collections-3.2.1.jar", "commons-lang-2.6.jar", 
+			"commons-logging-1.1.1.jar", "commons-validator-1.3.1.jar", "forms-1.2.0.jar", 
+			"iText-2.1.4.jar", "jlatexmath-0.9.4.jar", "jxlayer.jar", 
+			"log4j-1.2.15.jar", "mysql-connector-java-5.1.16-bin.jar", "poi-3.6-20091214.jar", 
+			"swing-worker-1.1.jar")
+	
+	.jpackage("CommonJavaJars", jars=jars)
 	
 	# The following few lines are based on the code of the rJava .jpackage function
 	classes <- system.file("jri", package = "rJava", lib.loc = NULL)
