@@ -66,13 +66,13 @@ gMCPReport <- function(object, file="", ...) {
 		report <- paste(report, "\\subsection*{Initial graph}", sep="\n")
 		report <- paste(report, graph2latex(object@graphs[[1]], ..., pvalues=object@pvalues), sep="\n")
 		report <- paste(report, "\\subsection*{P-Values}", sep="\n")
-		report <- paste(report, print(xtable(t(as.matrix(object@pvalues))),include.rownames=FALSE, file=tempfile()), sep="\n")	
+		report <- paste(report, createTable(object@pvalues), sep="\n")	
 		if (length(object@adjPValues)>0) {
 			report <- paste(report, "\\subsection*{Adjusted p-values}", sep="\n")
-			report <- paste(report, print(xtable(t(as.matrix(object@adjPValues))),include.rownames=FALSE, file=tempfile()), sep="\n")	
+			report <- paste(report, createTable(object@adjPValues), sep="\n")	
 		}
 		report <- paste(report, paste("\\subsection*{Rejected Hypotheses with $\\alpha=",object@alpha,"$}", sep=""), sep="\n")
-		report <- paste(report, print(xtable(t(as.matrix(object@rejected))),include.rownames=FALSE, file=tempfile()), sep="\n")
+		report <- paste(report, createTable(object@rejected), sep="\n")
 		if (length(object@graphs)>1) {
 			for(i in 2:length(object@graphs)) {
 				report <- paste(report, paste("\\subsection*{Graph in Step ",i,"}", sep=""), sep="\n")
@@ -87,6 +87,22 @@ gMCPReport <- function(object, file="", ...) {
 	} 
 	report <- paste(report, "\\end{document}", sep="\n")
 	cat(report, file=file)
+}
+
+createTable <- function(vector) {
+	table <- paste("\\begin{table}[ht]",
+	"\\begin{center}", sep="\n")
+	table <- paste(table, 
+		"\n\\begin{tabular}{",paste(rep("r",length(vector)),collapse=""),"}\n",
+		"\\hline\n", sep="")
+    values <- paste(vector, collapse="&")
+	if (is.numeric(vector)) values <- paste(sprintf("%.5f", vector), collapse="&")
+	table <- paste(table, "\n", paste(names(vector), collapse="&"), " \\\\\n\\hline\n ", values, "\\\\\n\\hline\n ", sep="") 
+	table <- paste(table, 
+		"\\end{tabular}",
+		"\\end{center}",
+		"\\end{table}", sep="\n");
+	return(table)
 }
 
 LaTeXHeader <- function() {

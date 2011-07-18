@@ -12,6 +12,6 @@ function(g,w){
   t(m)
 }
 
-permutations(n) <- function(n) {
+permutations <- function(n) {
 	outer((1:(2^n))-1, (n:1)-1, FUN=function(x,y) {(x%/%2^y)%%2})
 }
