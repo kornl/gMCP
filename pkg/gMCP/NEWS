@@ -5,7 +5,7 @@ Version 0.7-1 (??-???-2011, Rev. ???)
 - The GUI will (optionally) look for a newer version of 
   gMCP on CRAN.
 
-Version 0.7-0 (18-Jul-2011, Rev. 925)
+Version 0.7-0 (18-Jul-2011, Rev. 932)
 =====================================
 
 - Package "graph" is no longer a dependency.

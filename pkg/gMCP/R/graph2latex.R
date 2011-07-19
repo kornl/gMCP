@@ -71,8 +71,10 @@ gMCPReport <- function(object, file="", ...) {
 			report <- paste(report, "\\subsection*{Adjusted p-values}", sep="\n")
 			report <- paste(report, createTable(object@adjPValues), sep="\n")	
 		}
-		report <- paste(report, paste("\\subsection*{Rejected Hypotheses with $\\alpha=",object@alpha,"$}", sep=""), sep="\n")
-		report <- paste(report, createTable(object@rejected), sep="\n")
+		if (length(object@rejected)>0) {
+			report <- paste(report, paste("\\subsection*{Rejected Hypotheses with $\\alpha=",object@alpha,"$}", sep=""), sep="\n")
+			report <- paste(report, createTable(object@rejected), sep="\n")
+		}
 		if (length(object@graphs)>1) {
 			for(i in 2:length(object@graphs)) {
 				report <- paste(report, paste("\\subsection*{Graph in Step ",i,"}", sep=""), sep="\n")
