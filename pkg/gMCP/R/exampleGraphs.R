@@ -204,8 +204,7 @@ HommelEtAl2007 <- function() {
 	for (i in 1:4) {
 		n1 <- hnodes[3+i]
 		for (j in (1:4)[-i]) {
-			n2 <- hnodes[3+j]
-			graph <- addEdge(n1, n2, graph, 1/3)	
+			n2 <- hnodes[3+j]			
 			x <- ((i+j)*200-200)/2+sign(i-j)*30
 			y <- 300 + ((abs(i-j)-1)*60)+sign(i-j)*10+10
 			edgeData(graph, n1, n2, "labelX") <- x

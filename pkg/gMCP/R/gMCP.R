@@ -1,6 +1,6 @@
 gMCP <- function(graph, pvalues, test, correlation, alpha=0.05, 
 		approxEps=TRUE, eps=10^(-3), ..., useC=FALSE, verbose=FALSE) {	
-	if (approxEps) {
+	if (approxEps && !is.numeric(graph@m)) {
 		graph <- substituteEps(graph, eps=eps)
 	}
 	#if (!is.numeric(graph@m)) {
