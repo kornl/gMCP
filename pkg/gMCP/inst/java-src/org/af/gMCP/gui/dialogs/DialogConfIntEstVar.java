@@ -182,9 +182,9 @@ public class DialogConfIntEstVar extends JDialog implements ActionListener, Chan
 			}
 		}
 		
-		RControl.getR().eval("plotCII("+RControl.getRString(rEst)+", "
-				+RControl.getRString(rLB)+", "
-				+RControl.getRString(rUB)+")");
+		RControl.getR().eval("plotSimCI(cbind("+RControl.getRString(rLB)+", "
+				+RControl.getRString(rEst)+", "
+				+RControl.getRString(rUB)+"))");
 	}
 
 	DecimalFormat format = Configuration.getInstance().getGeneralConfig().getDecFormat();
