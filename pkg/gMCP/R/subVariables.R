@@ -13,7 +13,6 @@ substituteEps <- function(graph, eps=10^(-4)) {
 	return(graph)
 }
 
-
 replaceVariables <-function(graph, variables=list()) {
 	greek <- c("\\\\alpha", "\\\\beta", "\\\\gamma", "\\\\delta", "\\\\epsilon", "\\\\zeta", "\\\\eta", 
 			"\\\\theta", "\\\\iota", "\\\\kappa", "\\\\lambda", "\\\\mu", "\\\\nu", "\\\\xi", 
@@ -32,6 +31,10 @@ replaceVariables <-function(graph, variables=list()) {
 			graph@m <- gsub(g, answer, graph@m) 
 		}
 	}
+	return(parse2numeric(graph))
+}
+
+parse2numeric <- function(graph) {
 	m <- matrix(sapply(graph@m, function(x) {
 						result <- try(eval(parse(text=x)), silent=TRUE);
 						ifelse(class(result)=="try-error",NA,result)

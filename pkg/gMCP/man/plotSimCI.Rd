@@ -27,5 +27,5 @@ ci <- simConfint(BonferroniHolm(3), pvalues=pval,
 plotSimCI(ci)
 
 }
-\author{Frank Schaarschmidt}
+\author{Code adapted from plotCII from Frank Schaarschmidt}
 \keyword{ hplot }

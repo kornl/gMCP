@@ -1,9 +1,12 @@
 gMCP <- function(graph, pvalues, test, correlation, alpha=0.05, 
-		approxEps=TRUE, eps=10^(-3), ..., useC=FALSE, verbose=FALSE) {
-	sequence <- list(graph)
+		approxEps=TRUE, eps=10^(-3), ..., useC=FALSE, verbose=FALSE) {	
 	if (approxEps) {
 		graph <- substituteEps(graph, eps=eps)
 	}
+	#if (!is.numeric(graph@m)) {
+	#	graph <- parse2numeric(graph) # TODO ask for variables
+	#}
+	sequence <- list(graph)
 	if (length(pvalues)!=length(nodes(graph))) {
 		stop("Length of pvalues must equal number of nodes.")
 	}
@@ -29,7 +32,8 @@ gMCP <- function(graph, pvalues, test, correlation, alpha=0.05,
 				graph <- rejectNode(graph, node, verbose)
 				sequence <- c(sequence, graph)
 			}	
-			return(new("gMCPResult", graphs=sequence, alpha=alpha, pvalues=pvalues, rejected=getRejected(graph), adjPValues=numeric(0))) # adjPValues(sequence[[1]], pvalues, verbose)@adjPValues))
+			adjPValues <- adjPValues(sequence[[1]], pvalues, verbose)@adjPValues
+			return(new("gMCPResult", graphs=sequence, alpha=alpha, pvalues=pvalues, rejected=getRejected(graph), adjPValues=adjPValues))
 		}
 	} else if (missing(test) && !missing(correlation)) {
 		# Calling the code from Florian
