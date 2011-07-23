@@ -6,6 +6,10 @@ If you run into any problems, please write us an email at:
 
 help@small-projects.de
 
+gMCP requires Java >= 5.0 - most likely it is already installed on 
+your computer. If it is not, download and install it from: 
+http://www.java.com/en/download/
+
 The installation of gMCP via install.packages("gMCP") should be
 unproblematic. However one of the packages gMCP depends on perhaps 
 needs more attention (most likely on Unix systems):
@@ -13,17 +17,7 @@ needs more attention (most likely on Unix systems):
 rJava:
 ======
 
-gMCP requires Java >= 5.0 - if it is not already installed,
-download and install it from: http://www.java.com/en/download/
-
 Follow the instructions of rJava.
-
-Troubleshooting for Windows:
-
-If you run into a "MSVCR71.dll is missing" please try updating your
-rJava installation (install.packages("rJava")) or add your JAVA_HOME
-directory (something like "C:\Program Files\Java\jre6\bin\") to your
-PATH.
 
 Troubleshooting for Unix:
 
@@ -34,14 +28,29 @@ root permissions to let R find your java compiler and headers.
 General Troubleshooting:
 ========================
 
-Warning: unable to move temporary installation 'XYZ' to 'ZYX'
-
+ * "Warning: unable to move temporary installation 'XYZ' to 'ZYX'"
 If you get this warning while installing or updating packages,
 most likely some other Windows program is accessing the newly installed 
 files and prevents R to move them to the correct place.
 Often simply trying to install the package a second time works.
 Otherwise try to pause your antivirus programs or search indexing 
 (like Google Desktop Search) while installing the packages.
+
+ * If you run into a "MSVCR71.dll is missing" please try updating your
+rJava installation (install.packages("rJava")) or add your JAVA_HOME
+directory (something like "C:\Program Files\Java\jre6\bin\") to your
+PATH.
+
+ * If "rJava.dll" can not be loaded or the "jvm.dll" can not be found
+try setting JAVA_HOME in R before loading rJava or gMCP:
+
+Sys.setenv(JAVA_HOME="C:/Program Files/Java/jre6/")
+
+(Please check that this is the correct path on your system for your Java 6 installation and adapt it otherwise.)
+
+ * "Error in .jinit() : unable to find the basic String class"
+It looks like you have an ancient Java version (Java 1.4 is from 2002!) prior to Java 1.5 installed that is used.
+Please try to tell rJava to use the newer version of Java by setting JAVA_HOME accordingly as described in the previous paragraph.
 
 Package graph:
 ==============
