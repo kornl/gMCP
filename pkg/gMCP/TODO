@@ -47,6 +47,11 @@ Medium priority:
 ================
 - mcp.c: In function ‘graphproc’:
   mcp.c:43:2: warning: implicit declaration of function ‘Rprintf’
+- ~/workspace/gMCP/pkg/gMCP/src$ gcc -I/usr/share/R/include -Wunused -fpic  -std=gnu99 -O3 -pipe  -g -c mcp.c -o mcp.o
+  mcp.c: In function ‘graphproc’:
+  mcp.c:20:16: warning: unused variable ‘count’
+  mcp.c: In function ‘graphmult’:
+  mcp.c:124:9: warning: unused variable ‘j’
 - https://twitter.com/#!/hadleywickham: "@revodavid noooooooooooo. don't use strings + parse + eval. use calls + substitute + eval #rstats (there's also an R news article on macros)"
 - readRDS/saveRDS instead of load/save?
 - If Error Report sending fails, give user the option to send the log files as zip file
