@@ -92,6 +92,29 @@ Additional features / low priority:
   Would increase size by 717 kByte.
 - Whishlist dialog.
 - RMySQL as suggest?
+- suppressPackageStartupMessages
+
+     ‘.First.lib’ is called when a package without a name space is
+     attached by ‘library’.  (For packages with name spaces see
+     ‘.onLoad’.)  It is called with two arguments, the name of the
+     library directory where the package was found (i.e., the
+     corresponding element of ‘lib.loc’), and the name of the package.
+     It is a good place to put calls to ‘library.dynam’ which are
+     needed when loading a package into this function (don't call
+     ‘library.dynam’ directly, as this will not work if the package is
+     not installed in a standard location).  ‘.First.lib’ is invoked
+     after the search path interrogated by ‘search()’ has been updated,
+     so ‘as.environment(match("package:name", search()))’ will return
+     the environment in which the package is stored.  If calling
+     ‘.First.lib’ gives an error the loading of the package is
+     abandoned, and the package will be unavailable.  Similarly, if the
+     option ‘".First.lib"’ has a list element with the package's name,
+     this element is called in the same manner as ‘.First.lib’ when the
+     package is attached.  This mechanism allows the user to set
+     package ‘load hooks’ in addition to startup code as provided by
+     the package maintainers, but ‘setHook’ is preferred.
+
+For the conventions for files NEWS and ChangeLog in the GNU project see http://www.gnu.org/prep/standards/standards.html#Documentation. 
 
 @Apple - is this a problem?
 
