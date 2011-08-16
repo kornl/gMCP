@@ -1,0 +1,92 @@
+\name{doInterim}
+\alias{doInterim}
+
+\title{
+	EXPERIMENTAL: Evaluate conditional errors at interim for a pre-planned
+	graphical procedure
+}
+\description{
+	Computes partial conditional errors (PCE) for a pre-planned graphical
+	procedure geven information fractions and first stage
+	z-scores. - Implementation of adaptive procedures is still in an
+	early stage and may change in the near future
+}
+\usage{
+	doInterim(graph, z1, v, alpha = .025)
+}
+
+\arguments{
+  \item{graph}{
+	A graph of class \code{\link{graphMCP}}.
+  }
+  \item{z1}{
+  	A numeric vector giving first stage z-scores.
+  } 
+  \item{v}{
+        A numeric vector giving the proportions of pre-planned
+  measurements collected up to the interim analysis. Will be recycled of
+  length different than the number of elementary hypotheses.
+  }
+  \item{alpha}{
+  	A numeric specifying the maximal allowed type one error rate.
+  }
+}
+\details{
+	For details see the given references.
+}
+\value{
+An object of class \code{gPADInterim}, more specifically a list with elements
+\item{Aj }{ a matrix of PCEs for all elementary hypotheses in each
+  intersection hypothesis}
+\item{BJ }{ a numeric vector giving sum of PCEs per intersection hypothesis}				
+\item{preplanned }{ Pre planned test represented by an object of class \code{\link{graphMCP}}}
+}
+\references{
+Frank Bretz, Willi Maurer, Werner Brannath, Martin Posch:
+A graphical approach to sequentially rejective multiple test procedures.
+Statistics in Medicine 2009 vol. 28 issue 4 page 586-604. 
+\url{http://www.meduniwien.ac.at/fwf_adaptive/papers/bretz_2009_22.pdf}
+
+Bretz F., Posch M., Glimm E., Klinglmueller F., Maurer W., Rohmeyer K. (2011):
+Graphical approaches for multiple endpoint problems using weighted Bonferroni, Simes or parametric tests - to appear.
+
+Posch M, Futschik A (2008): A Uniform Improvement of Bonferroni-Type Tests
+by Sequential Tests JASA 103/481, 299-308
+
+Posch M, Maurer W, Bretz F (2010): Type I error rate control in adaptive designs
+for confirmatory clinical trials with treatment selection at interim
+Pharm Stat 10/2, 96-104
+}
+\author{
+Florian Klinglmueller \email{float@lefant.net}
+}
+
+%% ~Make other sections like Warning with \section{Warning }{....} ~
+
+\seealso{
+\code{\link{graphMCP}}
+}
+\examples{
+
+## Simple successive graph (Maurer et al. 2011)
+## two treatments two hierarchically ordered endpoints
+a <- .025
+G <- simpleSuccessiveI()
+## some z-scores:
+
+p1=c(.1,.12,.21,.16)
+z1 <- qnorm(1-p1)
+p2=c(.04,1,.14,1)
+z2 <- qnorm(1-p2)
+v <- c(1/2,1/3,1/2,1/3)
+
+intA <- doInterim(G,z1,v)
+
+## select only the first treatment 
+fTest <- secondStageTest(intA,c(1,0,1,0))
+
+
+}
+\keyword{ htest }
+\keyword{ graphs }
+
