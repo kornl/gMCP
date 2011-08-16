@@ -4,7 +4,7 @@ import(utils)
 import(rJava)
 importFrom(graphics, plot)
 
-exportClasses(graphMCP, gMCPResult)
+exportClasses(graphMCP, gMCPResult, gPADInterim)
 exportMethods(plot, print, getWeights, setWeights, getRejected, getXCoordinates, getYCoordinates, simConfint, addEdge, edgeData, "edgeData<-", nodeData, "nodeData<-", nodes)
 
 export(graphGUI)
@@ -32,3 +32,5 @@ export(extractPower, calcPower, graphTest, rqmvnorm)
 export(plotSimCI)
 
 export(generateWeights, generateBounds, generateTest, generatePvals)
+
+export(doInterim,secondStageTest)
