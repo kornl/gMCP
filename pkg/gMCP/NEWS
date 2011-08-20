@@ -4,7 +4,7 @@ Version 0.7-1 (??-???-2011, Rev. ???)
 
 - The GUI will (optionally) look for a newer version of 
   gMCP on CRAN.
-
+  
 Version 0.7-0 (18-Jul-2011, Rev. 932)
 =====================================
 
@@ -44,8 +44,10 @@ Version 0.7-0 (18-Jul-2011, Rev. 932)
   
 - Function graphGUI has a new parameter:
   experimentalFeatures=FALSE
-  Set this to TRUE for experimental features like power 
-  analysis in future versions. 
+  Set this to TRUE for experimental features like the
+  following: 
+
+- Code for adaptive procedures (marked as experimental).
   
     
 Version 0.6-6 (04-Jul-2011, Rev. 860)
