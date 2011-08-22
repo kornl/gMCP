@@ -2,8 +2,9 @@ extractPower <- function(x){
   pow <- colMeans(x)
   avgPow <- sum(x)/nrow(x)
   atleast1 <- mean(rowSums(x)>0)
+  allPow <- mean(rowSums(x)==dim(x)[2])
   list(LocalPower = pow, ExpRejections = avgPow,
-       PowAtlst1 = atleast1)
+       PowAtlst1 = atleast1, RejectAll = allPow)
 }
 
 calcPower <- function(weights, alpha, G, mean = rep(0, nrow(sigma)),

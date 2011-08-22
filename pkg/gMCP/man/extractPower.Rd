@@ -2,8 +2,8 @@
 \alias{extractPower}
 \title{ Calculate power values }
 \description{
-  Calculates local power values, expected number of rejections and the
-  power to reject at least one hypothesis.
+  Calculates local power values, expected number of rejections, the
+  power to reject at least one hypothesis and the power to reject all hypotheses.
 }
 \usage{
 extractPower(x)
@@ -17,8 +17,9 @@ extractPower(x)
   \item{LocPower }{A numeric giving the local powers for the hypotheses}
   \item{ExpNrRej }{The expected number of rejections}
   \item{PowAtlst1 }{The power to reject at least one hypothesis}
+  \item{RejectAll }{The power to reject all hypotheses}
 }
-\author{ Bjoern Bornkamp }
+\author{ Bjoern Bornkamp, Kornelius Rohmeyer }
 
 \keyword{ htest }
 

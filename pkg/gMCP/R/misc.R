@@ -90,3 +90,7 @@ requireLibrary <- function(package) {
 		}
 	}
 }
+
+triangle <- function(min, peak, max) {
+	
+}
