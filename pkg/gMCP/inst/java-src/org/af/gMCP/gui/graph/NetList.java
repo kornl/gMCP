@@ -40,6 +40,10 @@ public class NetList extends JPanel implements MouseMotionListener, MouseListene
 	protected Vector<Edge> edges = new Vector<Edge>();
 	protected Vector<Node> nodes = new Vector<Node>();
 	
+	public Vector<Node> getNodes() {
+		return nodes;
+	}
+
 	Node firstVertex;	
 	boolean firstVertexSelected = false;
 	
