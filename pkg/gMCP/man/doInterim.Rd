@@ -1,6 +1,5 @@
 \name{doInterim}
 \alias{doInterim}
-\alias{secondStageTest}
 \title{
 	EXPERIMENTAL: Evaluate conditional errors at interim for a pre-planned
 	graphical procedure
@@ -13,7 +12,6 @@
 }
 \usage{
 	doInterim(graph, z1, v, alpha = .025)
-	secondStageTest(interim, select, matchCE=TRUE, zWeights="reject", G2=interim@preplanned)
 }
 
 \arguments{
@@ -30,21 +28,6 @@
   }
   \item{alpha}{
   	A numeric specifying the maximal allowed type one error rate.
-  }
-  \item{interim}{
-  	A gPADInterim object, e.g. the result of a call to \code{doInterim}. 
-  }
-  \item{select}{
-    A numeric vector.
-  }
-  \item{matchCE}{
-    A logical scalar.
-  }
-  \item{zWeights}{
-  	One of the following: "reject", "accept" or "strict".
-  }
-  \item{G2}{
-  	Object of class \code{\link{graphMCP}} specifying the preplanned graphical procedure.
   }
 }
 \details{
