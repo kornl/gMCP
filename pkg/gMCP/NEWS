@@ -15,12 +15,12 @@ Version 0.7-0 (18-Jul-2011, Rev. 932)
   is provided to update old serialized (saved) objects.
   The GUI will use this function on its own if necessary.
 
-- Power simulation code from our third author
-  Bjoern Bornkamp.
+- Also not longer a dependency: gtools, xtable, MCPAN
 
 - New dependency: lattice graphics for power simulations
 
-- Not longer a dependency: gtools, xtable, MCPAN
+- Power simulation code from our third author
+  Bjoern Bornkamp.
 
 - New example graphs:
 
@@ -44,8 +44,9 @@ Version 0.7-0 (18-Jul-2011, Rev. 932)
   
 - Function graphGUI has a new parameter:
   experimentalFeatures=FALSE
-  Set this to TRUE for experimental features like the
-  following: 
+  Set this to TRUE for experimental features like the following: 
+
+- Power analysis in GUI.
 
 - Code for adaptive procedures (marked as experimental).
   
