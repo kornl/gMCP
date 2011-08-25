@@ -236,5 +236,12 @@ public class GeneralConfig extends SpecificConfig {
 	public double getAccuracy() {
 		return Double.parseDouble(getProperty("fractionAccuracy", "0.000001"));		
 	}
-	
+
+	public void setExperimental(boolean b) {
+		setProperty("experimentalFeatures", ""+b);
+	}
+	public boolean experimentalFeatures() {
+		return Boolean.parseBoolean(getProperty("experimentalFeatures", "true"));
+	}
+		
 }

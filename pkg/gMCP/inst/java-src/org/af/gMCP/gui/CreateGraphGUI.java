@@ -41,7 +41,7 @@ public class CreateGraphGUI extends JFrame implements WindowListener, AbortListe
 	public InfiniteProgressPanel glassPane;
 	protected static Log logger = LogFactory.getLog(CreateGraphGUI.class);
 	
-	public CreateGraphGUI(String graph, double[] pvalues, boolean debug, double grid) {
+	public CreateGraphGUI(String graph, double[] pvalues, boolean debug, double grid, boolean experimentalFeatures) {
 		super("gMCP GUI");
 		Locale.setDefault(Locale.US);
 		JComponent.setDefaultLocale(Locale.US); 
@@ -50,6 +50,7 @@ public class CreateGraphGUI extends JFrame implements WindowListener, AbortListe
 		if (grid>0) {
 			Configuration.getInstance().getGeneralConfig().setGridSize((int)grid);
 		}
+		Configuration.getInstance().getGeneralConfig().setExperimental(true);
 		try {		
 			Configuration.getInstance().getGeneralConfig().setRVersionNumber(RControl.getR().eval("paste(R.version$major,R.version$minor,sep=\".\")").asRChar().getData()[0]);
 			Configuration.getInstance().getGeneralConfig().setVersionNumber(RControl.getR().eval("gMCP:::gMCPVersion()").asRChar().getData()[0]);
@@ -135,7 +136,7 @@ public class CreateGraphGUI extends JFrame implements WindowListener, AbortListe
 		CreateGraphGUI.grid = grid;
 		javax.swing.SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
-				new CreateGraphGUI(CreateGraphGUI.graphStr, new double[] {}, CreateGraphGUI.debug, CreateGraphGUI.grid);
+				new CreateGraphGUI(CreateGraphGUI.graphStr, new double[] {}, CreateGraphGUI.debug, CreateGraphGUI.grid, true);
 			}
 		});		
 	}
@@ -153,7 +154,7 @@ public class CreateGraphGUI extends JFrame implements WindowListener, AbortListe
 	}
 
 	public static void main(String[] args) {
-		new CreateGraphGUI("graph", new double[] {}, true,  10);
+		new CreateGraphGUI("graph", new double[] {}, true,  10, true);
 	}
 
 	public void windowActivated(WindowEvent e) {}

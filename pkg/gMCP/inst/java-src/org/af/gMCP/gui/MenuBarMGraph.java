@@ -127,8 +127,10 @@ public class MenuBarMGraph extends JMenuBar implements ActionListener {
 		menu.setMnemonic(KeyEvent.VK_A);
 
 		menu.add(makeMenuItem("Graph analysis", "graphAnalysis"));
-		menu.addSeparator();
-		menu.add(makeMenuItem("Power analysis", "powerAnalysis"));		
+		if (Configuration.getInstance().getGeneralConfig().experimentalFeatures()) {
+			menu.addSeparator();
+			menu.add(makeMenuItem("Power analysis", "powerAnalysis"));		
+		}
 
 		add(menu);
 
@@ -146,9 +148,11 @@ public class MenuBarMGraph extends JMenuBar implements ActionListener {
 			menu.add(makeMenuItem("Debug console", "debugConsole", KeyEvent.VK_D));
 		}
 		menu.setMnemonic(KeyEvent.VK_E);
-		menu.addSeparator();
-		menu.add(makeMenuItem("Entangled Graphs", "entangledGraphs", false));
-		menu.add(makeMenuItem("Adaptive Designs", "adaptiveDesigns", false));			
+		if (Configuration.getInstance().getGeneralConfig().experimentalFeatures()) {
+			menu.addSeparator();
+			menu.add(makeMenuItem("Entangled Graphs", "entangledGraphs", false));
+			menu.add(makeMenuItem("Adaptive Designs", "adaptiveDesigns", false));
+		}
 		add(menu);
 
 		menu = new JMenu("Help");
