@@ -50,7 +50,7 @@ public class CreateGraphGUI extends JFrame implements WindowListener, AbortListe
 		if (grid>0) {
 			Configuration.getInstance().getGeneralConfig().setGridSize((int)grid);
 		}
-		Configuration.getInstance().getGeneralConfig().setExperimental(true);
+		Configuration.getInstance().getGeneralConfig().setExperimental(experimentalFeatures);
 		try {		
 			Configuration.getInstance().getGeneralConfig().setRVersionNumber(RControl.getR().eval("paste(R.version$major,R.version$minor,sep=\".\")").asRChar().getData()[0]);
 			Configuration.getInstance().getGeneralConfig().setVersionNumber(RControl.getR().eval("gMCP:::gMCPVersion()").asRChar().getData()[0]);

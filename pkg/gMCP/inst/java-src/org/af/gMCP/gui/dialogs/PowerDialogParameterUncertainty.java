@@ -16,6 +16,7 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 import org.af.gMCP.gui.CreateGraphGUI;
+import org.af.gMCP.gui.RControl;
 import org.af.gMCP.gui.graph.Node;
 
 import com.jgoodies.forms.layout.CellConstraints;
@@ -92,7 +93,24 @@ public class PowerDialogParameterUncertainty extends JDialog implements ActionLi
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-
+		String weights = parent.getGraphView().getNL().getGraphName() + "@weights";
+		double alpha = parent.getPView().getTotalAlpha();
+		String G = parent.getGraphView().getNL().getGraphName() + "@m";
+		double[] means = new double[nodes.size()];
+		for (int i=0; i<means.length; i++) {
+			means[i] = Double.parseDouble(jtl.get(i).getText());
+		}
+		String mean = RControl.getRString(means);
+		RControl.getR().eval(parent.getGraphView().getNL().getGraphName()+"<-gMCP:::parse2numeric("+parent.getGraphView().getNL().getGraphName()+")");
+		RControl.getR().eval(".powerResult <- calcPower(weights="+weights+", alpha="+alpha+", G="+G+", mean="+mean+
+                      //","+"sigma = diag(length(mean)),corr = NULL,"+
+                      //"nSim = 10000, seed = 4711, type = c(\"quasirandom\", \"pseudorandom\")"+
+				")");
+		double[] localPower = RControl.getR().eval(".powerResult$LocalPower").asRNumeric().getData();
+		double expRejections = RControl.getR().eval(".powerResult$ExpRejections").asRNumeric().getData()[0];
+		double powAtlst1 = RControl.getR().eval(".powerResult$PowAtlst1").asRNumeric().getData()[0];
+		double rejectAll = RControl.getR().eval(".powerResult$RejectAll").asRNumeric().getData()[0];
+		parent.getGraphView().getNL().setPower(localPower, expRejections, powAtlst1, rejectAll);
 		dispose();
 	}	
 	

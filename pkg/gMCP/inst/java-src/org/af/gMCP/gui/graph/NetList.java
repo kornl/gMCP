@@ -10,6 +10,8 @@ import java.awt.RenderingHints;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+import java.awt.font.FontRenderContext;
+import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.text.DecimalFormat;
 import java.util.Date;
@@ -57,6 +59,8 @@ public class NetList extends JPanel implements MouseMotionListener, MouseListene
 	public boolean testingStarted = false;
 
 	double zoom = 1.00;
+	
+	static DecimalFormat format = new DecimalFormat("#.####");
 
 	public NetList(JLabel statusBar, GraphView graphview) {
 		this.statusBar = statusBar;
@@ -448,6 +452,29 @@ public class NetList extends JPanel implements MouseMotionListener, MouseListene
 		for (Edge edge : edges) {
 			edge.paintEdgeLabel(g);			
 		}
+		
+		if (expRejections != null && powAtlst1 != null && rejectAll != null) {
+			Graphics2D g2d = (Graphics2D) g;
+			g2d.setFont(new Font("Arial", Font.PLAIN, (int) (12 * getZoom())));
+			
+			String s = "Expected number of rejections: " + format.format(expRejections);			
+			
+			g2d.drawString(s ,
+					(float) (( 10 ) * getZoom()),
+					(float) (( 20 ) * getZoom())); 
+			
+			s = "Prob. to reject at least one hyp.: " + format.format(powAtlst1);		
+			
+			g2d.drawString(s ,
+					(float) (( 10 ) * getZoom()),
+					(float) (( 20+30 ) * getZoom())); 
+			
+			s = "Prob. to reject all hypotheses: " + format.format(rejectAll);		
+			
+			g2d.drawString(s ,
+					(float) (( 10 ) * getZoom()),
+					(float) (( 20+30*2 ) * getZoom())); 
+		}
 	}
 	
 	/**
@@ -642,6 +669,26 @@ public class NetList extends JPanel implements MouseMotionListener, MouseListene
 			}
 		}
 		return -1;
+	}
+
+	public String getGraphName() {
+		saveGraph(".tmpGraph", false);
+		return ".tmpGraph";
+	}
+
+	Double expRejections = null;
+	Double powAtlst1 = null;
+	Double rejectAll = null;
+	
+	public void setPower(double[] localPower, double expRejections,
+			double powAtlst1, double rejectAll) {
+		for (int i=0; i<localPower.length; i++) {
+			this.nodes.get(i).setLocalPower(localPower[i]);			
+		}
+		this.expRejections = expRejections;
+		this.powAtlst1 = powAtlst1;
+		this.rejectAll = rejectAll;
+		this.repaint();
 	}
 	
 }

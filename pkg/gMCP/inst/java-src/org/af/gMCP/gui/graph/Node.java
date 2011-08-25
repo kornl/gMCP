@@ -31,6 +31,7 @@ public class Node {
 
 	public static int r = 25;
 	
+	static DecimalFormat format = new DecimalFormat("#.####");
 	static DecimalFormat formatSmall = new DecimalFormat("#.###E0");
 	
 	int lastFontSize = 14;
@@ -75,6 +76,8 @@ public class Node {
 	public void paintYou(Graphics g) {
 		if (rejected && !Configuration.getInstance().getGeneralConfig().showRejected()) return;
 		Graphics2D g2d = (Graphics2D) g;
+		g2d.setFont(new Font("Arial", Font.PLAIN, (int) (12 * nl.getZoom())));		
+		FontRenderContext frc = g2d.getFontRenderContext();		
 		Rectangle2D rc;
 		g2d.setColor(getColor());
 		// if (this.fix) {	g2d.setColor(new Color(50, 255, 50)); }		
@@ -91,9 +94,15 @@ public class Node {
 				r * 2 * nl.getZoom());
 		g2d.draw(e);
 
-		if (!Configuration.getInstance().getGeneralConfig().useJLaTeXMath()) {
-			g2d.setFont(new Font("Arial", Font.PLAIN, (int) (12 * nl.getZoom())));
-			FontRenderContext frc = g2d.getFontRenderContext();
+		if (localPower != null) {			
+			String s = format.format(localPower);
+			rc = g2d.getFont().getStringBounds(s, frc);
+			g2d.drawString(s ,
+					(float) ((x + r) * nl.getZoom() - rc.getWidth() / 2),
+					(float) ((y + 2.5 * r) * nl.getZoom())); 
+		}
+		
+		if (!Configuration.getInstance().getGeneralConfig().useJLaTeXMath()) {			
 
 			rc = g2d.getFont().getStringBounds(name, frc);
 			g2d.drawString(name, 
@@ -119,6 +128,7 @@ public class Node {
 					(int) ((x + r) * nl.getZoom() - iconWeight.getIconWidth() / 2), 
 					(int) ((y + 1.1 * r) * nl.getZoom()));
 		}
+		
 	}
 	
 	private String getWS() {		
@@ -199,6 +209,12 @@ public class Node {
 	public void reject() {
 		color = Color.MAGENTA;
 		rejected = true;
+	}
+
+	Double localPower = null;
+	
+	public void setLocalPower(double d) {
+		localPower = d;	
 	}
 
 }
