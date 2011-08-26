@@ -50,9 +50,9 @@
 		}
 	}
 	
-	options(warn=-1)
+	#options(warn=-1)
 	#require("graph")
-	options(warn=0)
+	#options(warn=0)
 	
 	# packageStartupMessage or cat for furter information (package incompatibilities / updates)
 }  
