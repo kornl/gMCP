@@ -17,7 +17,7 @@ int aind(int row, int col, int layer, int nrow){
 void graphproc(double *h, double *a, double *G,
 	       double *p, int *nH, double *G1,
 	       int *nGraphs, int *print){
-  int grId,i,j,count,rej,dm,sumrej=0,nG;
+  int grId,i,j,rej,dm,sumrej=0,nG;
   double asum,tmp;
   dm = *nH;
   nG = *nGraphs;
@@ -121,7 +121,7 @@ void graphmult(double *hmat, double *hwork,
 	       double *pmat, double *pwork,
 	       int *nCount, int *nH, 
 	       int *nGraphs, int *print){
-  int i,j,count;
+  int i,count;
   
   for(count = 0; count < *nCount; count++){
     for(i = 0; i < *nH; i++){
