@@ -49,7 +49,8 @@ Medium priority:
 ================
 - mcp.c: In function ‘graphproc’:
   mcp.c:43:2: warning: implicit declaration of function ‘Rprintf’
-- ~/workspace/gMCP/pkg/gMCP/src$ gcc -I/usr/share/R/include -Wunused -fpic  -std=gnu99 -O3 -pipe  -g -c mcp.c -o mcp.o
+- Contact Björn:
+  ~/workspace/gMCP/pkg/gMCP/src$ gcc -I/usr/share/R/include -Wunused -fpic  -std=gnu99 -O3 -pipe  -g -c mcp.c -o mcp.o
   mcp.c: In function ‘graphproc’:
   mcp.c:20:16: warning: unused variable ‘count’
   mcp.c: In function ‘graphmult’:
