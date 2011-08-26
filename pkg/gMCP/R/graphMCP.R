@@ -313,3 +313,40 @@ setMethod("simConfint", c("graphMCP"), function(object, pvalues, confint, altern
 			colnames(m) <- c("lower bound", "estimate", "upper bound")
 			return(m)
 		})
+
+
+setClass("gPADInterim",
+		representation(Aj="matrix",
+				BJ="numeric",
+				z1="numeric",
+				v="numeric",
+				preplanned="graphMCP",
+				alpha="numeric"),
+		validity=function(object) validPartialCEs(object))
+
+setMethod("print", "gPADInterim",
+		function(x, ...) {
+			callNextMethod(x, ...)
+			
+		})
+
+
+setMethod("show","gPADInterim",
+		function(object) {
+			cat("Pre-planned graphical MCP at level:",object@alpha,"\n")
+			show(object@preplanned)
+			n <- length(object@z1)
+			cat("Proportion of pre-planned measurements\n collected up to interim:\n")
+			v <- object@v
+			names(v) <- paste('H',1:n,sep='')
+			cat("Z-scores computed at interim\n")
+			z1 <- object@z1
+			names(z1) <- paste('H',1:n,sep='')
+			print(z1)
+			cat("\n Interim PCE's by intersection\n")
+			tab <- round(cbind(object@Aj,object@BJ),3)
+			rownames(tab) <- to.intersection(1:nrow(tab))
+			colnames(tab) <- c(paste('A(',1:n,')',sep=''),'BJ')
+			print(tab)
+		}
+)
