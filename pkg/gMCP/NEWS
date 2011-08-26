@@ -1,9 +1,14 @@
 
-Version 0.7-1 (??-???-2011, Rev. ???)
+Version 0.7-2 (??-???-2011, Rev. ???)
 =====================================
 
 - The GUI will (optionally) look for a newer version of 
   gMCP on CRAN.
+  
+Version 0.7-1 (26-Aug-2011, Rev. 954)
+=====================================
+
+- Bugfix: 0.7-0 could not be loaded without package graph.
   
 Version 0.7-0 (26-Aug-2011, Rev. 951)
 =====================================
