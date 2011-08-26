@@ -453,7 +453,7 @@ public class NetList extends JPanel implements MouseMotionListener, MouseListene
 		
 		if (expRejections != null && powAtlst1 != null && rejectAll != null) {
 			Graphics2D g2d = (Graphics2D) g;
-			g2d.setFont(new Font("Arial", Font.PLAIN, (int) (12 * getZoom())));
+			g2d.setFont(new Font("Arial", Font.BOLD, (int) (12 * getZoom())));
 			
 			String s = "Expected number of rejections: " + format.format(expRejections);			
 			

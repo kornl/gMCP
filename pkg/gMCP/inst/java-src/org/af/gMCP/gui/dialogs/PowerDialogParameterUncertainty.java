@@ -38,10 +38,10 @@ public class PowerDialogParameterUncertainty extends JDialog implements ActionLi
 		nodes = parent.getGraphView().getNL().getNodes();
 		
 		jta.setText("Specify one of the following:\n"+
-				"- if the test statistic follows a t-distribution, enter the non-centrality parameter µ*sqrt(n)/σ\n"+
+				/*"- if the test statistic follows a t-distribution, enter the non-centrality parameter µ*sqrt(n)/σ\n"+
 				"  (µ=difference of real mean and mean under null hypothesis, n=sample size, σ=standard deviation)\n"+
 				"- triangle(min, peak, max)\n"+
-				"- rnorm(1, mean=0.5, sd=1)\n"+
+				"- rnorm(1, mean=0.5, sd=1)\n"+*/
 				"");
 				
         String cols = "5dlu, pref, 5dlu, fill:pref:grow, 5dlu";
