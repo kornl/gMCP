@@ -3,8 +3,8 @@ updateGraphToNewClassDefinition <- function(object) {
 	requireLibrary("graph")
 	nodes <- object@nodes
 	edges <- object@edgeL
-	eData <- object@edgeAttr@data
-	nData <- object@nodeAttr@data
+	eData <- object@edgeData@data
+	nData <- object@nodeData@data
 	renderInfo <- object@renderInfo
 	m <- matrix(0, nrow=length(nodes), ncol=length(nodes))
 	edgeAttr <- list()
