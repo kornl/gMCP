@@ -1,6 +1,8 @@
 graphAnalysis <- function(graph, file="") {
 	result <- ""
-	if (require("graph")) { 
+	options(warn=-1)
+	if (require("graph")) {
+		options(warn=0)
 		hnodes <- nodes(graph)
 		graph <- as(new("graphAM", adjMat=graph@m, edgemode="directed"), "graphNEL")
 		accessible <- acc(graph, hnodes)
@@ -22,6 +24,7 @@ graphAnalysis <- function(graph, file="") {
 			
 		}
 	} else {
+		options(warn=0)
 		result <- paste("Install package \"graph\" for graph analysis:",
 				"",
 				"source(\"http://www.bioconductor.org/biocLite.R\")",

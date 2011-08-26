@@ -77,7 +77,9 @@ setMethod("plot", "gMCPResult",
 			# TODO Show visualization of graph			
 		})
 
-if (!require(graph)) {
+options(warn=-1)
+if (!require("graph")) {
+	options(warn=0)
 	setGeneric("nodes", function(object, ...) standardGeneric("nodes"))
 	setGeneric("addEdge", function(from, to, graph, weights) standardGeneric("addEdge"))
 	setGeneric("edgeData", function(self, from, to, attr) standardGeneric("edgeData"))
@@ -85,6 +87,7 @@ if (!require(graph)) {
 	setGeneric("nodeData", function(self, n, attr) standardGeneric("nodeData"))
 	setGeneric("nodeData<-", function(self, n, attr, value) standardGeneric("nodeData<-"))
 }
+options(warn=0)
 
 setMethod("nodes", c("graphMCP"),
 		function(object, ...) {			
