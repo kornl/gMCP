@@ -19,6 +19,11 @@ Version 0.7-0 (27-Aug-2011, Rev. 951)
 
 - New dependency: lattice graphics for power simulations
 
+- Due to S4-methods and the optional "graph" package a lot
+  of renaming has taken place:
+  addEdge -> setEdge, edgeData -> edgeAttr, 
+  nodeData -> nodeAttr, nodes -> getNodes 
+
 - Power simulation code from our third author
   Bjoern Bornkamp.
 

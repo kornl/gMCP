@@ -10,7 +10,7 @@ graph2latex <- function(graph, package="TikZ", scale=1, alpha=0.05, pvalues,
 		tikz <- ""
 	}
 	#tikz <- paste(tikz, "\\tikzset{help lines/.style=very thin}", paste="\n")	
-	for (node in nodes(graph)) {
+	for (node in getNodes(graph)) {
 		nodeColor <- ifelse(getRejected(graph, node),fill$reject, fill$retain)
 		x <- getXCoordinates(graph, node)*scale
 		y <- getYCoordinates(graph, node)*scale
@@ -24,7 +24,7 @@ graph2latex <- function(graph, package="TikZ", scale=1, alpha=0.05, pvalues,
 		double <- ""
 		if (!missing(pvalues)) {
 			if (is.null(names(pvalues))) {
-				names(pvalues) <- nodes(graph)
+				names(pvalues) <- getNodes(graph)
 			}
 			if (canBeRejected(graph, node, alpha, pvalues)) { double <- "double," }
 		}		
@@ -35,8 +35,8 @@ graph2latex <- function(graph, package="TikZ", scale=1, alpha=0.05, pvalues,
 		tikz <- paste(tikz, nodeLine,sep="\n")			
 	}
 	# A second loop for the edges is necessary:
-	for (i in nodes(graph)) {
-		for (j in nodes(graph)) {
+	for (i in getNodes(graph)) {
+		for (j in getNodes(graph)) {
 			if (graph@m[i,j]!=0) {
 				# The following to lines test whether the edge in opposite direction exists:				
 				to <- ifelse(graph@m[j,i]==0, "auto", "bend left=15")

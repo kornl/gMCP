@@ -7,11 +7,11 @@ gMCP <- function(graph, pvalues, test, correlation, alpha=0.05,
 	#	graph <- parse2numeric(graph) # TODO ask for variables
 	#}
 	sequence <- list(graph)
-	if (length(pvalues)!=length(nodes(graph))) {
+	if (length(pvalues)!=length(getNodes(graph))) {
 		stop("Length of pvalues must equal number of nodes.")
 	}
 	if (is.null(names(pvalues))) {
-		names(pvalues) <- nodes(graph)
+		names(pvalues) <- getNodes(graph)
 	}
 	if (missing(test) && (missing(correlation) || length(pvalues)==1)) {
 		# Bonferroni-based test procedure
@@ -52,16 +52,16 @@ gMCP <- function(graph, pvalues, test, correlation, alpha=0.05,
 			if( all(w==0) ) {
                 adjP <- rep(1,length(w))
 				rejected <- rep(FALSE,length(w))
-				names(rejected) <- nodes(graph)
-                names(adjP) <- nodes(graph)
+				names(rejected) <- getNodes(graph)
+                names(adjP) <- getNodes(graph)
 			} else {
 				#myTest <- generateTest(Gm, w, correlation, alpha)
 				#zScores <- -qnorm(pvalues)
 				#rejected <- myTest(zScores)
                 adjP <- generatePvals(Gm,w,correlation,pvalues)
                 rejected <- adjP <= alpha
-                names(adjP) <- nodes(graph)
-				names(rejected) <- nodes(graph)
+                names(adjP) <- getNodes(graph)
+				names(rejected) <- getNodes(graph)
 			}
 			return(new("gMCPResult", graphs=sequence, alpha=alpha, pvalues=pvalues, rejected=rejected, adjPValues=adjP))
 		}
@@ -77,18 +77,18 @@ getBalancedDesign <- function (correlation, numberOfPValues) {
 }
 
 adjPValues <- function(graph, pvalues, verbose=FALSE) {
-	if (length(pvalues)!=length(nodes(graph))) {
+	if (length(pvalues)!=length(getNodes(graph))) {
 		stop("Length of pvalues must equal number of nodes.")
 	}
 	if (is.null(names(pvalues))) {
-		names(pvalues) <- nodes(graph)
+		names(pvalues) <- getNodes(graph)
 	}
 	# TODO for graphs with sum(weights)<1 (do we want to allow this) this will give wrong results
-	if (sum(getWeights(graph))>0) setWeights(graph, getWeights(graph)/sum(getWeights(graph)), nodes(graph))
-	adjPValues <- rep(0, length(nodes(graph)))
-	names(adjPValues) <- nodes(graph)	
-	J <- nodes(graph)
-	names(J) <- nodes(graph)
+	if (sum(getWeights(graph))>0) setWeights(graph, getWeights(graph)/sum(getWeights(graph)), getNodes(graph))
+	adjPValues <- rep(0, length(getNodes(graph)))
+	names(adjPValues) <- getNodes(graph)	
+	J <- getNodes(graph)
+	names(J) <- getNodes(graph)
 	sequence <- list(graph)
 	pmax <- 0
 	while(length(J) >= 1) {
@@ -110,7 +110,7 @@ rejectNode <- function(graph, node, verbose=FALSE) {
 	weights <- graph@weights
 	graph@weights <- weights+weights[node]*graph@m[node,]
 	m <- graph@m	
-	for (i in nodes(graph)) {
+	for (i in getNodes(graph)) {
 		if (m[i, node]*m[node, i]<1) {
 			graph@m[i,] <- (m[i,]+m[i,node]*m[node,])/(1-m[i,node]*m[node,i]) 
 		} else {
@@ -131,6 +131,6 @@ getRejectableNode <- function(graph, alpha, pvalues) {
 	x[graph@nodeAttr$rejected] <- NaN
 	i <- which.max(x)
 	if (length(i)==0) return(NULL)
-	if (x[i]>1 | all.equal(unname(x[i]),1)[1]==TRUE) {return(nodes(graph)[i])}
+	if (x[i]>1 | all.equal(unname(x[i]),1)[1]==TRUE) {return(getNodes(graph)[i])}
 	return(NULL)	 
 }

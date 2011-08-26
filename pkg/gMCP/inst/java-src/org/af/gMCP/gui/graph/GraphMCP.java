@@ -34,7 +34,7 @@ public class GraphMCP {
 
 	protected void loadGraph(String name) {
 		if ( RControl.getR().eval("exists(\""+name+"\")").asRLogical().getData()[0] ) {
-			String[] nodes = RControl.getR().eval("nodes("+name+")").asRChar().getData();
+			String[] nodes = RControl.getR().eval("getNodes("+name+")").asRChar().getData();
 			double[] alpha = RControl.getR().eval("getWeights("+name+")").asRNumeric().getData();
 			double[] x = RControl.getR().eval("getXCoordinates("+name+")").asRNumeric().getData();
 			double[] y = RControl.getR().eval("getYCoordinates("+name+")").asRNumeric().getData();

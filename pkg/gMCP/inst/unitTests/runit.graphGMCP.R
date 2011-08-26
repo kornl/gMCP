@@ -23,7 +23,7 @@ test.bonferroniHolm <- function() {
 test.gMCP <- function() {
 	bhG3 <- BonferroniHolm(3)
 	pvalues <- c(0.1, 0.2, 0.3)
-	names(pvalues) <- nodes(bhG3)
+	names(pvalues) <- getNodes(bhG3)
 	checkTrue(gMCP:::canBeRejected(bhG3, "H1", alpha=0.6, pvalues)) 
 	checkTrue(gMCP:::canBeRejected(bhG3, "H2", alpha=0.6, pvalues)) 
 	checkTrue(!gMCP:::canBeRejected(bhG3, "H3", alpha=0.6, pvalues)) 
@@ -45,7 +45,7 @@ test.gMCPBretzEtAl <- function() {
 	pvalues <- c(0.1, 0.008, 0.005, 0.15, 0.04, 0.006)
 	result <- gMCP(graph, pvalues)
 	last <- result@graphs[[4]]	
-	checkEquals(unname(unlist(nodeAttr(last, nodes(last), "rejected"))),
+	checkEquals(unname(unlist(nodeAttr(last, getNodes(last), "rejected"))),
 			c(FALSE, TRUE, TRUE, FALSE, FALSE, TRUE))
 }
 

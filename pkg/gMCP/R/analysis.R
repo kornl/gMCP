@@ -3,7 +3,7 @@ graphAnalysis <- function(graph, file="") {
 	options(warn=-1)
 	if (require("graph")) {
 		options(warn=0)
-		hnodes <- nodes(graph)
+		hnodes <- getNodes(graph)
 		graph <- as(new("graphAM", adjMat=graph@m, edgemode="directed"), "graphNEL")
 		accessible <- acc(graph, hnodes)
 		for (i in names(accessible)) {
@@ -39,7 +39,7 @@ graphAnalysis <- function(graph, file="") {
 accessible <- function(graph) {
 	m <- graph@m
 	m <- ifelse(!is.na(as.num(m)) && as.num(m) != 0, 0, 1)
-	for (i in nodes(graph)) {
+	for (i in getNodes(graph)) {
 		
 	}
 }

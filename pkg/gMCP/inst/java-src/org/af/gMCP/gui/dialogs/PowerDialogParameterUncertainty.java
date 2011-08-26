@@ -35,7 +35,7 @@ public class PowerDialogParameterUncertainty extends JDialog implements ActionLi
 		super(parent, "Power Simulation - specify probability distribution of test statistics", true);
 		setLocationRelativeTo(parent);
 		this.parent = parent;
-		nodes = parent.getGraphView().getNL().getNodes();
+		nodes = parent.getGraphView().getNL().getgetNodes();
 		
 		jta.setText("Specify one of the following:\n"+
 				/*"- if the test statistic follows a t-distribution, enter the non-centrality parameter µ*sqrt(n)/σ\n"+

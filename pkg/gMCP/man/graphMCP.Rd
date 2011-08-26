@@ -17,8 +17,8 @@
 \alias{setEdge}
 \alias{setEdge,character,character,graphMCP,character-method}
 \alias{setEdge,character,character,graphMCP,numeric-method}
-\alias{nodes}
-\alias{nodes,graphMCP-method}
+\alias{getNodes}
+\alias{getNodes,graphMCP-method}
 \alias{edgeAttr}
 \alias{edgeAttr<-}
 \alias{edgeAttr,graphMCP,character,character,character-method}

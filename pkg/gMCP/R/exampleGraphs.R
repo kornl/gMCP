@@ -590,11 +590,11 @@ joinGraphs <- function(graph1, graph2, xOffset=0, yOffset=200) {
 	m2 <- graph2matrix(graph2)
 	m <- bdiagNA(m1,m2)
 	m[is.na(m)] <- 0
-	nNames <- c(nodes(graph1), nodes(graph2))
+	nNames <- c(getNodes(graph1), getNodes(graph2))
 	d <- duplicated(nNames)
 	if(any(d)) {
 		warning(paste(c("The two graphs have the following identical nodes: ", paste(nNames[d], collapse=", "), ". The nodes of the second graph will be renamed."), sep=""))
-		nodes2 <- nodes(graph2)
+		nodes2 <- getNodes(graph2)
 		i <- 1
 		for (x in nNames[d]) {
 			while (any(nNames==paste("H",i, sep=""))) {
@@ -603,7 +603,7 @@ joinGraphs <- function(graph1, graph2, xOffset=0, yOffset=200) {
 			nodes2[nodes2==x] <- paste("H",i, sep="")
 			i <- i + 1
 		}
-		nNames <- c(nodes(graph1), nodes2)
+		nNames <- c(getNodes(graph1), nodes2)
 	}
 	rownames(m) <- nNames
 	colnames(m) <- nNames

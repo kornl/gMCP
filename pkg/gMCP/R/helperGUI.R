@@ -6,8 +6,8 @@ getEdges <- function(graph){
 	labely <- numeric(0)
 	curveL <- logical(0)
 	weightStrL <- character(0)
-	for (from in nodes(graph)) {
-		for (to in nodes(graph)) {
+	for (from in getNodes(graph)) {
+		for (to in getNodes(graph)) {
 			options(warn=-1)
 			if (is.na(as.numeric(graph@m[from, to])) || as.numeric(graph@m[from, to])!=0) {	
 				options(warn=0)			
@@ -40,17 +40,17 @@ getEdges <- function(graph){
 
 placeNodes <- function(graph, nrow, ncol, byrow = TRUE, force = FALSE) {
 	if (is.null(graph@nodeAttr$X) || force) {
-		n <- length(nodes(graph))
+		n <- length(getNodes(graph))
 		if (missing(nrow) && missing(ncol)) {		
 			v <- (1:n)/n*2*pi
 			nodeX <- 300 + 250*sin(v)
 			nodeY <- 300 + 250*cos(v)			
 		} else {
 			if (missing(nrow)) {
-				nrow <- ceiling(length(nodes(graph))/ncol)
+				nrow <- ceiling(length(getNodes(graph))/ncol)
 			}
 			if (missing(ncol)) {
-				ncol <- ceiling(length(nodes(graph))/nrow)
+				ncol <- ceiling(length(getNodes(graph))/nrow)
 			}
 			if (byrow) {
 				nodeX <- rep(((1:ncol)-1)*200+100, nrow)
@@ -62,8 +62,8 @@ placeNodes <- function(graph, nrow, ncol, byrow = TRUE, force = FALSE) {
 		}
 		graph@nodeAttr$X <- nodeX[1:n]
 		graph@nodeAttr$Y <- nodeY[1:n]
-		for (i in nodes(graph)) {
-			for (j in nodes(graph)) {
+		for (i in getNodes(graph)) {
+			for (j in getNodes(graph)) {
 				if (graph@m[i,j]!=0) {
 					edgeAttr(graph, i, j, "labelX") <- -100
 					edgeAttr(graph, i, j, "labelY") <- -100

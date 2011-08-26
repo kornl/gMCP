@@ -7,6 +7,7 @@ Critical:
 
 High priority:
 ==============
+- Give feedback for old objects and missing graph package in GUI
 - Remove warnings: es gibt kein Paket names 'graph'
 - Some edge labels like for parallel gatekeeping are set to small values (0?)
 - On Windows: Autoresize of the adjacency matrix does often not work.
