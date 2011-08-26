@@ -102,16 +102,16 @@ convert <- function(g){
 	alphas <- numeric(nH)
 	G <- matrix(0, nrow = nH, ncol = nH)
 	for(i in 1:nH){
-		alphas[i] <- g@nodeData@data[[i]]$alpha
+		alphas[i] <- g@nodeAttr@data[[i]]$alpha
 	}
 	names(alphas) <- Hnams
 	
-	nams <- names(g@edgeData)
+	nams <- names(g@edgeAttr)
 	for(nam in nams){
 		nam2 <- strsplit(nam, "\\|")
 		indx <- grep(nam2[[1]][1], Hnams)
 		indy <- grep(nam2[[1]][2], Hnams)
-		wgt <- g@edgeData@data[[nam]]$weight
+		wgt <- g@edgeAttr@data[[nam]]$weight
 		G[indx, indy] <- wgt
 	}
 	dimnames(G) <- list(Hnams, Hnams)

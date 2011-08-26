@@ -89,7 +89,7 @@ public class NetList extends JPanel implements MouseMotionListener, MouseListene
 		addNode(new Node(name, x, y, 0d, this));		
 	}
 
-	public void addEdge(Edge e) {
+	public void setEdge(Edge e) {
 		Edge old = null;
 		for (Edge e2 : edges) {
 			if (e2.from == e.from && e2.to == e.to) {
@@ -106,15 +106,15 @@ public class NetList extends JPanel implements MouseMotionListener, MouseListene
 		graphHasChanged();
 	}
 
-	public void addEdge(Node von, Node nach) {
-		addEdge(von, nach, 1d);		
+	public void setEdge(Node von, Node nach) {
+		setEdge(von, nach, 1d);		
 	}
 	
-	public void addEdge(Node von, Node nach, Double w) {	
-		addEdge(von, nach, new EdgeWeight(w));
+	public void setEdge(Node von, Node nach, Double w) {	
+		setEdge(von, nach, new EdgeWeight(w));
 	}
 
-	public void addEdge(Node von, Node nach, EdgeWeight w) {
+	public void setEdge(Node von, Node nach, EdgeWeight w) {
 		Integer x = null;
 		Integer y = null;
 		boolean curve = false;
@@ -359,7 +359,7 @@ public class NetList extends JPanel implements MouseMotionListener, MouseListene
 				if (secondVertex == null || secondVertex == firstVertex) {
 					return;
 				}
-				addEdge(firstVertex, secondVertex);
+				setEdge(firstVertex, secondVertex);
 				newEdge = false;
 				firstVertexSelected = false;
 				statusBar.setText(GraphView.STATUSBAR_DEFAULT);
@@ -607,17 +607,17 @@ public class NetList extends JPanel implements MouseMotionListener, MouseListene
 		for (int i=nodes.size()-1; i>=0; i--) {
 			Node n = nodes.get(i);
 			if (n.isRejected()) {
-				RControl.getR().evalVoid("nodeData("+graphName+", \""+n.getName()+"\", \"rejected\") <- TRUE");
+				RControl.getR().evalVoid("nodeAttr("+graphName+", \""+n.getName()+"\", \"rejected\") <- TRUE");
 			}
 		}
-		RControl.getR().evalVoid(graphName+"@nodeData$X <- c("+x+")");
-		RControl.getR().evalVoid(graphName+"@nodeData$Y <- c("+y+")");
+		RControl.getR().evalVoid(graphName+"@nodeAttr$X <- c("+x+")");
+		RControl.getR().evalVoid(graphName+"@nodeAttr$Y <- c("+y+")");
 		for (Edge e : edges) {				
-			RControl.getR().evalVoid("edgeData("+graphName+", \""+e.from.getName()+"\", \""+e.to.getName()+"\", \"labelX\") <- "+(e.k1-Node.getRadius()));
-			RControl.getR().evalVoid("edgeData("+graphName+", \""+e.from.getName()+"\", \""+e.to.getName()+"\", \"labelY\") <- "+(e.k2-Node.getRadius()));
+			RControl.getR().evalVoid("edgeAttr("+graphName+", \""+e.from.getName()+"\", \""+e.to.getName()+"\", \"labelX\") <- "+(e.k1-Node.getRadius()));
+			RControl.getR().evalVoid("edgeAttr("+graphName+", \""+e.from.getName()+"\", \""+e.to.getName()+"\", \"labelY\") <- "+(e.k2-Node.getRadius()));
 			logger.debug("Weight is: "+e.getW(ht));
 			if (((Double)e.getW(ht)).isNaN()) {
-				RControl.getR().evalVoid("edgeData("+graphName+", \""+e.from.getName()+"\", \""+e.to.getName()+"\", \"variableWeight\") <- \""+e.getWS().replaceAll("\\\\", "\\\\\\\\")+"\"");
+				RControl.getR().evalVoid("edgeAttr("+graphName+", \""+e.from.getName()+"\", \""+e.to.getName()+"\", \"variableWeight\") <- \""+e.getWS().replaceAll("\\\\", "\\\\\\\\")+"\"");
 			}
 			if (e.getW(ht)==0) {
 				RControl.getR().evalVoid(graphName +"@m[\""+e.from.getName()+"\", \""+e.to.getName()+"\"] <- 0");

@@ -11,13 +11,13 @@ getEdges <- function(graph){
 			options(warn=-1)
 			if (is.na(as.numeric(graph@m[from, to])) || as.numeric(graph@m[from, to])!=0) {	
 				options(warn=0)			
-				x <- try(unlist(edgeData(graph, from, to, "labelX")), silent = TRUE)
+				x <- try(unlist(edgeAttr(graph, from, to, "labelX")), silent = TRUE)
 				if (class(x)!="try-error" && !is.null(x) && !is.na(x)) {
 					labelx <- c(labelx, x)
 				} else {
 					labelx <- c(labelx, -100)
 				}
-				y <- try(unlist(edgeData(graph, from, to, "labelY")), silent = TRUE)
+				y <- try(unlist(edgeAttr(graph, from, to, "labelY")), silent = TRUE)
 				if (class(y)!="try-error" && !is.null(y) && !is.na(y)) {
 					labely <- c(labely, y)
 				} else {
@@ -39,7 +39,7 @@ getEdges <- function(graph){
 }
 
 placeNodes <- function(graph, nrow, ncol, byrow = TRUE, force = FALSE) {
-	if (is.null(graph@nodeData$X) || force) {
+	if (is.null(graph@nodeAttr$X) || force) {
 		n <- length(nodes(graph))
 		if (missing(nrow) && missing(ncol)) {		
 			v <- (1:n)/n*2*pi
@@ -60,13 +60,13 @@ placeNodes <- function(graph, nrow, ncol, byrow = TRUE, force = FALSE) {
 				nodeY <- rep(((1:nrow)-1)*200+100, ncol)
 			}
 		}
-		graph@nodeData$X <- nodeX[1:n]
-		graph@nodeData$Y <- nodeY[1:n]
+		graph@nodeAttr$X <- nodeX[1:n]
+		graph@nodeAttr$Y <- nodeY[1:n]
 		for (i in nodes(graph)) {
 			for (j in nodes(graph)) {
 				if (graph@m[i,j]!=0) {
-					edgeData(graph, i, j, "labelX") <- -100
-					edgeData(graph, i, j, "labelY") <- -100
+					edgeAttr(graph, i, j, "labelX") <- -100
+					edgeAttr(graph, i, j, "labelY") <- -100
 				}
 			}
 		}		
@@ -77,11 +77,11 @@ placeNodes <- function(graph, nrow, ncol, byrow = TRUE, force = FALSE) {
 # I guess I simply don't understand how the graph package is supposed to be used.
 # Or they have a bug. I have contacted them but got no response. Therefore I still use this stupid work-around:
 stupidWorkAround <- function(graph) {
-	if (length(graph@edgeData@data)>0) {
-		for (i in 1:length(graph@edgeData@data)) {
-			if (length(graph@edgeData@data[[i]])>0) {
-				for (j in 1:length(graph@edgeData@data[[i]])){
-					graph@edgeData@data[[i]][[j]] <- unname(graph@edgeData@data[[i]][[j]])
+	if (length(graph@edgeAttr@data)>0) {
+		for (i in 1:length(graph@edgeAttr@data)) {
+			if (length(graph@edgeAttr@data[[i]])>0) {
+				for (j in 1:length(graph@edgeAttr@data[[i]])){
+					graph@edgeAttr@data[[i]][[j]] <- unname(graph@edgeAttr@data[[i]][[j]])
 				}
 			}
 		}

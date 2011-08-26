@@ -14,27 +14,27 @@
 \alias{getXCoordinates,graphMCP-method}
 \alias{getYCoordinates}
 \alias{getYCoordinates,graphMCP-method}
-\alias{addEdge}
-\alias{addEdge,character,character,graphMCP,character-method}
-\alias{addEdge,character,character,graphMCP,numeric-method}
+\alias{setEdge}
+\alias{setEdge,character,character,graphMCP,character-method}
+\alias{setEdge,character,character,graphMCP,numeric-method}
 \alias{nodes}
 \alias{nodes,graphMCP-method}
-\alias{edgeData}
-\alias{edgeData<-}
-\alias{edgeData,graphMCP,character,character,character-method}
-\alias{edgeData<-,graphMCP,character,character,character-method}
-\alias{nodeData}
-\alias{nodeData<-}
-\alias{nodeData,graphMCP,character,character-method}
-\alias{nodeData<-,graphMCP,character,character-method}
+\alias{edgeAttr}
+\alias{edgeAttr<-}
+\alias{edgeAttr,graphMCP,character,character,character-method}
+\alias{edgeAttr<-,graphMCP,character,character,character-method}
+\alias{nodeAttr}
+\alias{nodeAttr<-}
+\alias{nodeAttr,graphMCP,character,character-method}
+\alias{nodeAttr<-,graphMCP,character,character-method}
 \title{Class graphMCP}
 \description{A graphMCP object describes a sequentially rejective multiple test procedure.}
 \section{Slots}{  
   \describe{    
     \item{\code{m}:}{A matrix.}
     \item{\code{weights}:}{A numeric.}        
-    \item{\code{edgeData}:}{A list for edge attributes.}
-    \item{\code{nodeData}:}{A list for node attributes.}
+    \item{\code{edgeAttr}:}{A list for edge attributes.}
+    \item{\code{nodeAttr}:}{A list for node attributes.}
   }
 }
 \section{Extends}{
@@ -56,9 +56,9 @@ Class \code{graph}, by class \code{graphNEL}, distance 2.
     \item{getYCoordinates}{\code{signature(object = "graphMCP")}: 
       A method for getting the y coordinates of the graph
       If a second optional argument \code{node} is specified, only for these nodes the x coordinates will be returned.}
-    \item{addEdge}{\code{signature(from="character", to="character", graph="graphNEL", weights="numeric")}: 
+    \item{setEdge}{\code{signature(from="character", to="character", graph="graphNEL", weights="numeric")}: 
       A method for adding new edges with the given weights.}
-    \item{addEdge}{\code{signature(from="character", to="character", graph="graphMCP", weights="character")}: 
+    \item{setEdge}{\code{signature(from="character", to="character", graph="graphMCP", weights="character")}: 
       A method for adding new edges with the given weights.}
   }
 }
@@ -83,8 +83,8 @@ graph <- new("graphMCP", m=m, weights=weights)
 # Visualization settings
 nodeX <- rep(c(100, 300, 500), 2)
 nodeY <- rep(c(100, 300), each=3)
-graph@nodeData$X <- nodeX
-graph@nodeData$Y <- nodeY	
+graph@nodeAttr$X <- nodeX
+graph@nodeAttr$Y <- nodeY	
 
 getWeights(graph)
 

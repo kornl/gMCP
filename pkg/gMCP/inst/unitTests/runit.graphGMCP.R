@@ -45,7 +45,7 @@ test.gMCPBretzEtAl <- function() {
 	pvalues <- c(0.1, 0.008, 0.005, 0.15, 0.04, 0.006)
 	result <- gMCP(graph, pvalues)
 	last <- result@graphs[[4]]	
-	checkEquals(unname(unlist(nodeData(last, nodes(last), "rejected"))),
+	checkEquals(unname(unlist(nodeAttr(last, nodes(last), "rejected"))),
 			c(FALSE, TRUE, TRUE, FALSE, FALSE, TRUE))
 }
 

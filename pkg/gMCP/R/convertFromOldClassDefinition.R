@@ -3,12 +3,12 @@ updateGraphToNewClassDefinition <- function(object) {
 	requireLibrary("graph")
 	nodes <- object@nodes
 	edges <- object@edgeL
-	eData <- object@edgeData@data
-	nData <- object@nodeData@data
+	eData <- object@edgeAttr@data
+	nData <- object@nodeAttr@data
 	renderInfo <- object@renderInfo
 	m <- matrix(0, nrow=length(nodes), ncol=length(nodes))
-	edgeData <- list()
-	nodeData <- list()
+	edgeAttr <- list()
+	nodeAttr <- list()
 	w <- c()
 	rejected <- c()
 	for (n in nodes) {
@@ -16,11 +16,11 @@ updateGraphToNewClassDefinition <- function(object) {
 		rejected <- c(rejected, (!is.null(nData[[n]]$rejected)) && nData[[n]]$rejected)
 	}
 	names (w) <- names(rejected) <- nodes
-	nodeData$rejected <- rejected
-	nodeData$X <- renderInfo@nodes$nodeX
-	names(nodeData$X) <- nodes
-	nodeData$Y <- renderInfo@nodes$nodeY
-	names(nodeData$Y) <- nodes
+	nodeAttr$rejected <- rejected
+	nodeAttr$X <- renderInfo@nodes$nodeX
+	names(nodeAttr$X) <- nodes
+	nodeAttr$Y <- renderInfo@nodes$nodeY
+	names(nodeAttr$Y) <- nodes
 	for (i in 1:length(edges)) {
 		indices <- edges[i][[1]]$edges	
 		for(j in indices) {
@@ -34,15 +34,15 @@ updateGraphToNewClassDefinition <- function(object) {
 			if (!is.null(d$epsilon)) {
 				m[i,j] <- makeEpsilonString(d$weight, d$epsilon)	
 			}
-			if (is.null(edgeData[[nodes[i]]])) edgeData[[nodes[i]]] <- list()
+			if (is.null(edgeAttr[[nodes[i]]])) edgeAttr[[nodes[i]]] <- list()
 			if (!any(is.null(c(d$labelX, d$labelY)))) {
-				if (is.null(edgeData[[nodes[i]]][[nodes[j]]])) edgeData[[nodes[i]]][[nodes[j]]] <- list()
-				edgeData[[nodes[i]]][[nodes[j]]]$coordinates <- c(d$labelX, d$labelY)
+				if (is.null(edgeAttr[[nodes[i]]][[nodes[j]]])) edgeAttr[[nodes[i]]][[nodes[j]]] <- list()
+				edgeAttr[[nodes[i]]][[nodes[j]]]$coordinates <- c(d$labelX, d$labelY)
 			}
 		}		
 	}
 	rownames(m) <- colnames(m) <- nodes
-	return(new("graphMCP", m=m, weights=w, edgeData=edgeData, nodeData=nodeData))
+	return(new("graphMCP", m=m, weights=w, edgeAttr=edgeAttr, nodeAttr=nodeAttr))
 }
 
 makeEpsilonString <- function(weight, p) {	

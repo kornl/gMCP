@@ -99,7 +99,7 @@ public class GraphMCP {
 			nl.addNode(k);
 		}		
 		for (Edge e : edges) {
-			nl.addEdge(e);
+			nl.setEdge(e);
 		}
 	}
 

@@ -311,8 +311,8 @@ renderInfo usage from package Rgraphviz \cite{Rgraphviz}.)
 % Chunk 9
 <<echo=TRUE, size=scriptsize>>=
 
-graph@nodeData$X <- c(H11=100, H21=300, H31=500, H12=100, H22=300, H32=500)
-graph@nodeData$Y <- c(H11=100, H21=100, H31=100, H12=300, H22=300, H32=300)	
+graph@nodeAttr$X <- c(H11=100, H21=300, H31=500, H12=100, H22=300, H32=500)
+graph@nodeAttr$Y <- c(H11=100, H21=100, H31=100, H12=300, H22=300, H32=300)	
 
 @
 \normalsize
@@ -357,8 +357,8 @@ position (200, 80):
 % Chunk 12
 <<echo=TRUE, size=scriptsize>>=
 
-edgeData(graph, "H11", "H21", "labelX") <- 200
-edgeData(graph, "H11", "H21", "labelY") <- 80
+edgeAttr(graph, "H11", "H21", "labelX") <- 200
+edgeAttr(graph, "H11", "H21", "labelY") <- 80
 
 @
 \normalsize

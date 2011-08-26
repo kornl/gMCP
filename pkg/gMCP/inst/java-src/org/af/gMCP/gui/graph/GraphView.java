@@ -328,12 +328,12 @@ public class GraphView extends JPanel implements ActionListener {
 			int x = e.getK1();
 			int y = e.getK2();			
 			if (!weight.toString().equals("0")) {
-				getNL().addEdge(new Edge(getNL().getKnoten().get(from), getNL().getKnoten().get(to), weight, getNL(), x, y));
+				getNL().setEdge(new Edge(getNL().getKnoten().get(from), getNL().getKnoten().get(to), weight, getNL(), x, y));
 			} else {
 				getNL().removeEdge(e);
 			}
 		} else {
-			getNL().addEdge(getNL().getKnoten().get(from), getNL().getKnoten().get(to), weight);
+			getNL().setEdge(getNL().getKnoten().get(from), getNL().getKnoten().get(to), weight);
 		}
 		getNL().repaint();		
 	}

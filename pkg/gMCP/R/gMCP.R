@@ -121,14 +121,14 @@ rejectNode <- function(graph, node, verbose=FALSE) {
 	graph@m[node,] <- 0
 	graph@m[, node] <- 0
 	if (!all(m[node,]==0)) graph@weights[node] <- 0	
-	graph@nodeData$rejected[node] <- TRUE	
+	graph@nodeAttr$rejected[node] <- TRUE	
 	return(graph)
 }
 
 getRejectableNode <- function(graph, alpha, pvalues) {
 	x <- getWeights(graph)*alpha/pvalues
 	x[pvalues==0] <- 1
-	x[graph@nodeData$rejected] <- NaN
+	x[graph@nodeAttr$rejected] <- NaN
 	i <- which.max(x)
 	if (length(i)==0) return(NULL)
 	if (x[i]>1 | all.equal(unname(x[i]),1)[1]==TRUE) {return(nodes(graph)[i])}

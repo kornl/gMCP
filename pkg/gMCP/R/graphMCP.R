@@ -2,12 +2,12 @@
 setClass("graphMCP",	
 		representation(m="matrix", 
 				weights="numeric", 
-				nodeData="list", 
-				edgeData="list"),
+				nodeAttr="list", 
+				edgeAttr="list"),
 		validity=function(object) validWeightedGraph(object))
 
 setMethod("initialize", "graphMCP",
-		function(.Object, m, weights, nodeData=list(), edgeData=list()) {			
+		function(.Object, m, weights, nodeAttr=list(), edgeAttr=list()) {			
 			if (length(weights)) {			
 				checkValidWeights(weights)
 			}			
@@ -15,11 +15,11 @@ setMethod("initialize", "graphMCP",
 			.Object@m <- m
 			names(weights) <- rownames(m)
 			.Object@weights <- weights
-			.Object@nodeData <- nodeData
-			.Object@edgeData <- edgeData
-			if(is.null(.Object@nodeData$rejected)) {
-				.Object@nodeData$rejected <- rep(FALSE, dim(m)[1])
-				names(.Object@nodeData$rejected) <- rownames(m)
+			.Object@nodeAttr <- nodeAttr
+			.Object@edgeAttr <- edgeAttr
+			if(is.null(.Object@nodeAttr$rejected)) {
+				.Object@nodeAttr$rejected <- rep(FALSE, dim(m)[1])
+				names(.Object@nodeAttr$rejected) <- rownames(m)
 			}
 			validObject(.Object)
 			return(.Object)
@@ -42,7 +42,7 @@ setMethod("print", "gMCPResult",
 		function(x, ...) {
 			callNextMethod(x, ...)
 			#for (node in nodes(x)) {
-			#	cat(paste(node, " (",ifelse(unlist(nodeData(x, node, "rejected")),"rejected","not rejected"),", alpha=",format(unlist(nodeData(x, node, "nodeWeight")), digits=4 ,drop0trailing=TRUE),")\n", sep=""))	
+			#	cat(paste(node, " (",ifelse(unlist(nodeAttr(x, node, "rejected")),"rejected","not rejected"),", alpha=",format(unlist(nodeAttr(x, node, "nodeWeight")), digits=4 ,drop0trailing=TRUE),")\n", sep=""))	
 			#}
 			#cat(paste("alpha=",paste(format(getWeights(x), digits=4 ,drop0trailing=TRUE),collapse="+"),"=",sum(getWeights(x)),"\n", sep=""))			
 		})
@@ -81,11 +81,11 @@ setMethod("plot", "gMCPResult",
 #if (!require("graph")) {
 #	options(warn=0)
 	setGeneric("nodes", function(object, ...) standardGeneric("nodes"))
-	setGeneric("addEdge", function(from, to, graph, weights) standardGeneric("addEdge"))
-	setGeneric("edgeData", function(self, from, to, attr) standardGeneric("edgeData"))
-	setGeneric("edgeData<-", function(self, from, to, attr, value) standardGeneric("edgeData<-"))
-	setGeneric("nodeData", function(self, n, attr) standardGeneric("nodeData"))
-	setGeneric("nodeData<-", function(self, n, attr, value) standardGeneric("nodeData<-"))
+	setGeneric("setEdge", function(from, to, graph, weights) standardGeneric("setEdge"))
+	setGeneric("edgeAttr", function(self, from, to, attr) standardGeneric("edgeAttr"))
+	setGeneric("edgeAttr<-", function(self, from, to, attr, value) standardGeneric("edgeAttr<-"))
+	setGeneric("nodeAttr", function(self, n, attr) standardGeneric("nodeAttr"))
+	setGeneric("nodeAttr<-", function(self, n, attr, value) standardGeneric("nodeAttr<-"))
 #}
 #options(warn=0)
 
@@ -123,52 +123,52 @@ setMethod("getWeights", c("gMCPResult"),
 			return(getWeights(graph, node))
 		})
 
-setMethod("addEdge", signature=signature(from="character", to="character",
+setMethod("setEdge", signature=signature(from="character", to="character",
 				graph="graphMCP", weights="character"),
 		function(from, to, graph, weights) {
 			graph@m[from, to] <- weights
 			graph
 		})
 
-setMethod("addEdge", signature=signature(from="character", to="character",
+setMethod("setEdge", signature=signature(from="character", to="character",
 				graph="graphMCP", weights="numeric"),
 		function(from, to, graph, weights) {
 			graph@m[from, to] <- weights
 			graph
 		})
 
-setMethod("edgeData", signature(self="graphMCP", from="character", to="character",
+setMethod("edgeAttr", signature(self="graphMCP", from="character", to="character",
 				attr="character"),
 		function(self, from, to, attr) {
-			self@edgeData[[attr]][from, to]
+			self@edgeAttr[[attr]][from, to]
 		})
 
-setReplaceMethod("edgeData",
+setReplaceMethod("edgeAttr",
 		signature(self="graphMCP", from="character", to="character", attr="character", value="ANY"),
 		function(self, from, to, attr, value) {
-			if (is.null(self@edgeData[[attr]])) self@edgeData[[attr]] <- matrix(NA, nrow=dim(self@m)[1], ncol=dim(self@m)[2])			
-			rownames(self@edgeData[[attr]]) <- colnames(self@edgeData[[attr]]) <- nodes(self)
-			self@edgeData[[attr]][from, to] <- value		
+			if (is.null(self@edgeAttr[[attr]])) self@edgeAttr[[attr]] <- matrix(NA, nrow=dim(self@m)[1], ncol=dim(self@m)[2])			
+			rownames(self@edgeAttr[[attr]]) <- colnames(self@edgeAttr[[attr]]) <- nodes(self)
+			self@edgeAttr[[attr]][from, to] <- value		
 			self
 		})
 
-setMethod("nodeData", signature(self="graphMCP", n="character", attr="character"),
+setMethod("nodeAttr", signature(self="graphMCP", n="character", attr="character"),
 		function(self, n, attr) {
-			self@nodeData[[attr]][n]
+			self@nodeAttr[[attr]][n]
 		})
 
-setReplaceMethod("nodeData",
+setReplaceMethod("nodeAttr",
 		signature(self="graphMCP", n="character", attr="character", value="ANY"),
 		function(self, n, attr, value) {
-			if (is.null(self@nodeData[[attr]])) self@nodeData[[attr]] <- logical(length=length(nodes(self)))
-			self@nodeData[[attr]][n] <- value			
+			if (is.null(self@nodeAttr[[attr]])) self@nodeAttr[[attr]] <- logical(length=length(nodes(self)))
+			self@nodeAttr[[attr]][n] <- value			
 			self
 		})
 
 setGeneric("getRejected", function(object, node, ...) standardGeneric("getRejected"))
 
 setMethod("getRejected", c("graphMCP"), function(object, node, ...) {
-			rejected <- object@nodeData$rejected
+			rejected <- object@nodeAttr$rejected
 			if (!missing(node)) {
 				return(rejected[node])
 			}
@@ -190,14 +190,14 @@ setMethod("setRejected", c("graphMCP"),
 			if (missing(node)) {
 				node <- nodes(object)
 			}
-			object@nodeData$rejected[node] <- rejected			
+			object@nodeAttr$rejected[node] <- rejected			
 			return(object)
 		})
 
 setGeneric("getXCoordinates", function(graph, node) standardGeneric("getXCoordinates"))
 
 setMethod("getXCoordinates", c("graphMCP"), function(graph, node) {
-			x <- graph@nodeData$X
+			x <- graph@nodeAttr$X
 			names(x) <- nodes(graph)
 			if (!missing(node)) {
 				return(x[node])
@@ -208,7 +208,7 @@ setMethod("getXCoordinates", c("graphMCP"), function(graph, node) {
 setGeneric("getYCoordinates", function(graph, node) standardGeneric("getYCoordinates"))
 
 setMethod("getYCoordinates", c("graphMCP"), function(graph, node) {
-			y <- graph@nodeData$Y
+			y <- graph@nodeAttr$Y
 			names(y) <- nodes(graph)
 			if (!missing(node)) {
 				return(y[node])
@@ -224,7 +224,7 @@ setMethod("print", "graphMCP",
 		function(x, ...) {
 			callNextMethod(x, ...)
 			#for (node in nodes(x)) {
-			#	cat(paste(node, " (",ifelse(unlist(nodeData(x, node, "rejected")),"rejected","not rejected"),", alpha=",format(unlist(nodeData(x, node, "nodeWeight")), digits=4 ,drop0trailing=TRUE),")\n", sep=""))	
+			#	cat(paste(node, " (",ifelse(unlist(nodeAttr(x, node, "rejected")),"rejected","not rejected"),", alpha=",format(unlist(nodeAttr(x, node, "nodeWeight")), digits=4 ,drop0trailing=TRUE),")\n", sep=""))	
 			#}
 			#cat(paste("alpha=",paste(format(getWeights(x), digits=4 ,drop0trailing=TRUE),collapse="+"),"=",sum(getWeights(x)),"\n", sep=""))			
 		})
@@ -238,7 +238,7 @@ setMethod("show", "graphMCP",
 				cat(paste("Sum of weight: ",sum(getWeights(object)),"\n", sep=""))
 			}			
 			for (node in nodes(object)) {
-				cat(paste(node, " (",ifelse(nodeData(object, node, "rejected"),"rejected","not rejected"),", weight=",format(object@weights[node], digits=4, drop0trailing=TRUE),")\n", sep=""))
+				cat(paste(node, " (",ifelse(nodeAttr(object, node, "rejected"),"rejected","not rejected"),", weight=",format(object@weights[node], digits=4, drop0trailing=TRUE),")\n", sep=""))
 			}
 			printEdge <- FALSE;
 			for (i in nodes(object)) {
