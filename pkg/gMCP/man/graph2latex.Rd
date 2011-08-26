@@ -12,7 +12,7 @@
 	fontsize=c("tiny","scriptsize", "footnotesize", "small",
 		"normalsize", "large", "Large", "LARGE", "huge", "Huge"), 
 		nodeTikZ, labelTikZ="near start,above,fill=blue!20",
-		tikzEnv=TRUE, offset=c(0,0))
+		tikzEnv=TRUE, offset=c(0,0),fill=list(reject="red!80",retain="green!80"))
 }
 
 \arguments{
@@ -50,6 +50,10 @@
   \item{offset}{
   	A numeric of length 2 specifying the x and y offset in the TikZ environment.
   }
+  \item{fill}{
+        A list containing 2 elements \code{reject} and \code{retain}
+  specifying node fill colour of rejected and retained (or not yet
+  rejected) nodes. }
 }
 \details{
 	For details see the given references.

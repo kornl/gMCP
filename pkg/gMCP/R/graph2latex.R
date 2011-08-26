@@ -2,7 +2,7 @@ graph2latex <- function(graph, package="TikZ", scale=1, alpha=0.05, pvalues,
 		fontsize=c("tiny","scriptsize", "footnotesize", "small",
 		"normalsize", "large", "Large", "LARGE", "huge", "Huge"),
 		nodeTikZ, labelTikZ="near start,above,fill=blue!20",
-		tikzEnv=TRUE, offset=c(0,0)) {
+		tikzEnv=TRUE, offset=c(0,0),fill=list(reject="red!80",retain="green!80")) {
 	graph <- placeNodes(graph)
 	if (tikzEnv) {
 		tikz <- paste("\\begin{tikzpicture}[scale=",scale,"]", sep="")
@@ -11,7 +11,7 @@ graph2latex <- function(graph, package="TikZ", scale=1, alpha=0.05, pvalues,
 	}
 	#tikz <- paste(tikz, "\\tikzset{help lines/.style=very thin}", paste="\n")	
 	for (node in nodes(graph)) {
-		nodeColor <- ifelse(getRejected(graph, node),"red!80", "green!80")
+		nodeColor <- ifelse(getRejected(graph, node),fill$reject, fill$retain)
 		x <- getXCoordinates(graph, node)*scale
 		y <- getYCoordinates(graph, node)*scale
 		#alpha <- format(getWeights(graph,node), digits=3, drop0trailing=TRUE)
