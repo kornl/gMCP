@@ -2,6 +2,13 @@ PLEASE USE R 2.12 OR A NEWER VERSION OF R, IF AVAILABLE.
 IF YOU NEED gMCP FOR AN OLDER VERSION OF R, PLEASE CONTACT US!
 (For R 2.8 compatibility see instructions below.)
 
+If you have not R already installed, you can download it
+bundled with gMCP and all dependencies from:
+
+ http://www.algorithm-forge.com/gMCP/R_with_gMCP.zip 
+ Unzipping it and a double click on the gMCP shortcut will
+ bring up an R console with an automatically started gMCP GUI.
+
 If you run into any problems, please write us an email at:
 
 help@small-projects.de
@@ -46,11 +53,15 @@ try setting JAVA_HOME in R before loading rJava or gMCP:
 
 Sys.setenv(JAVA_HOME="C:/Program Files/Java/jre6/")
 
-(Please check that this is the correct path on your system for your Java 6 installation and adapt it otherwise.)
+(Please check that this is the correct path on your system for your 
+Java 6 installation and adapt it otherwise.)
 
  * "Error in .jinit() : unable to find the basic String class"
-It looks like you have an ancient Java version (Java 1.4 is from 2002!) prior to Java 1.5 installed that is used.
-Please try to tell rJava to use the newer version of Java by setting JAVA_HOME accordingly as described in the previous paragraph.
+It looks like you have an ancient Java version installed (Java 1.4 is 
+from 2002!) that is used.
+Please check that Java >= 1.5 is installed and try to tell rJava to use 
+this newer version of Java by setting JAVA_HOME accordingly as described 
+in the previous paragraph.
 
 Package graph:
 ==============
