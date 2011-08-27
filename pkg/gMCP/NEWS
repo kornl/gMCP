@@ -5,7 +5,7 @@ Version 0.7-1 (??-???-2011, Rev. ???)
 - The GUI will (optionally) look for a newer version of 
   gMCP on CRAN.
   
-Version 0.7-0 (27-Aug-2011, Rev. 964)
+Version 0.7-0 (26-Aug-2011, Rev. 964)
 =====================================
 
 - Package "graph" is no longer a dependency.
@@ -54,6 +54,8 @@ Version 0.7-0 (27-Aug-2011, Rev. 964)
 - Power analysis in GUI.
 
 - Code for adaptive procedures (marked as experimental).
+
+ 85 files changed, 2152 insertions(+), 1663 deletions(-)
   
     
 Version 0.6-6 (04-Jul-2011, Rev. 860)
