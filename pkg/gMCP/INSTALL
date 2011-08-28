@@ -6,7 +6,7 @@ If you have not R already installed, you can download it
 bundled with gMCP and all dependencies from:
 
  http://www.algorithm-forge.com/gMCP/R_with_gMCP.zip 
- Unzipping it and a double click on the gMCP shortcut will
+ Unzipping it and a double click on the R.exe in folder bin to
  bring up an R console with an automatically started gMCP GUI.
 
 If you run into any problems, please write us an email at:
