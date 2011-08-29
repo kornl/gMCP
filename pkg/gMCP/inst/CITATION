@@ -8,13 +8,14 @@ note <- sprintf("R package version %s", meta$Version)
 citEntry(entry = "manual",
          title = "{gMCP}: Graph Based Multiple Test Procedures",
          author = personList(as.person("Kornelius Rohmeyer"), 
-                             as.person("Florian Klinglmueller")),                              
+                             as.person("Florian Klinglmueller"),
+                             as.person("Bjoern Bornkamp")),                              
          year = year,
          note = note,
          url = "http://CRAN.R-project.org/package=gMCP",
 
          textVersion =
-         paste("Kornelius Rohmeyer, Florian Klinglmueller",
+         paste("Kornelius Rohmeyer, Florian Klinglmueller, Bjoern Bornkamp",
    	       sprintf("(%s).", year),	 
                "gMCP: Graph Based Multiple Test Procedures.",
 	       paste(note, ".", sep = ""),

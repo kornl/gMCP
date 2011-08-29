@@ -83,7 +83,7 @@ Additional features / low priority:
 
 - What exactly are the consequences, if we set "Encoding: UTF-8" in the description file?
   - Are there other possibilities to pretty-print the \epsilon, etc.? (Most likely not worth the work.)
-- Do we really need PolynomF and gtools and xtable as dependencies?
+- Do we really need PolynomF as dependencies?
 - Don't create global variable like .tmpGraph etc.
 - Report generation in GUI (and respect the option whether to show rejected null hypothesis)
 - PNG export cuts edges in rare cases. (But already improved!)
