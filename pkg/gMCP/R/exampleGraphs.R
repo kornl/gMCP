@@ -382,6 +382,14 @@ truncatedHolm <- function() {
 	return(graph)
 }
 
+# From Maurer, Glimm and Bretz 2011:
+# A graph generates a successive procedure if
+# - initially has weights 0 on all secondary hypotheses
+# - the only edges with positive weight leading into a secondary
+#   hypothesis are those originating at its parent primary hypotheses
+# - and there are no edges leading from a secondary hypothesis to
+#   another secondary hypothesis that has not the same parents.
+
 generalSuccessive <- function(weights=c(1/2,1/2)) {
 	if (length(weights)!=2) stop("Please specify the weights for H1 and H2 and only these.")
 	# Nodes:
