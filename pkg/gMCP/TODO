@@ -4,9 +4,12 @@ Critical:
 - Think about JavaGD devices. (User wants to plot in R Console etc.)
 - Does Deducer interfere JavaGD? (When is .onLoad executed?)  
 - Variable handling on command line gMCP!
+- Make JavaGD only a suggest (Solaris and generally safer)
 
 High priority:
 ==============
+- Check for missing suggested packages (JavaGD, graph) 
+  and ask on startup whether they should be installed and name the features that are otherwise missing.
 - Give feedback for old objects and missing graph package in GUI
 - Remove warnings: es gibt kein Paket names 'graph'
 - Some edge labels like for parallel gatekeeping are set to small values (0?)

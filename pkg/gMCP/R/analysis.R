@@ -1,7 +1,7 @@
 graphAnalysis <- function(graph, file="") {
 	result <- ""
 	options(warn=-1)
-	if (require("graph")) {
+	if (require("graph", quietly=TRUE)) {
 		options(warn=0)
 		hnodes <- getNodes(graph)
 		graph <- as(new("graphAM", adjMat=graph@m, edgemode="directed"), "graphNEL")

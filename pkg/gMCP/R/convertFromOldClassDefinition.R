@@ -1,4 +1,4 @@
-updateGraphToNewClassDefinition <- function(object) {
+updateGraphToNewClassDefinition <- function(object, askToInstallGraph=TRUE) {
 	if (!class(try(object@m, silent=TRUE))=="try-error") return(object)
 	requireLibrary("graph")
 	nodes <- object@nodes
