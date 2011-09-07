@@ -339,6 +339,7 @@ setMethod("show","gPADInterim",
 			cat("Proportion of pre-planned measurements\n collected up to interim:\n")
 			v <- object@v
 			names(v) <- paste('H',1:n,sep='')
+                        print(v)
 			cat("Z-scores computed at interim\n")
 			z1 <- object@z1
 			names(z1) <- paste('H',1:n,sep='')
