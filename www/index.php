@@ -55,5 +55,9 @@ echo $contents; } ?>
 <!-- <p><a href=""><img src="FullFeaturedGUI.png" width="50%" height="50%" border="0" alt=""></a></p> -->
 <p><img src="FullFeaturedGUI.png" border="0" alt=""></p>
 
+<p>And we have lots of example graphs:</p>
+
+<p><a href="ExampleGraphsWallpaper2.jpg"><img width="500" src="ExampleGraphsWallpaper2.jpg" border="0" alt=""></a></p>
+
 </body>
 </html>
