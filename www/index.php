@@ -52,8 +52,7 @@ echo $contents; } ?>
 
 <p> You can find the <strong>project summary page</strong> <a href="http://<?php echo $domain; ?>/projects/<?php echo $group_name; ?>/"><strong>here</strong></a>. </p>
 
-<!-- <p><a href=""><img src="FullFeaturedGUI.png" width="50%" height="50%" border="0" alt=""></a></p> -->
-<p><img src="FullFeaturedGUI.png" border="0" alt=""></p>
+<p><img src="GUI.png" border="0" alt=""></p>
 
 <p>And we have lots of example graphs:</p>
 
