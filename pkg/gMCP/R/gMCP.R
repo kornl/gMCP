@@ -16,7 +16,7 @@ gMCP <- function(graph, pvalues, test, correlation, alpha=0.05,
 	if (missing(test) && (missing(correlation) || length(pvalues)==1)) {
 		# Bonferroni-based test procedure
 		m <- graph2matrix(graph)
-		if (useC && !is.numeric(m)) {
+		if (useC && !is.numeric(m)) { # TODO Why this warning and btw. nothing is done in this case.
 			warning("Option useC=TRUE will be ignored since graph contains epsilons or variables.")			
 		} else if (useC) {
 			w <- getWeights(graph)
@@ -64,6 +64,48 @@ gMCP <- function(graph, pvalues, test, correlation, alpha=0.05,
 				names(rejected) <- getNodes(graph)
 			}
 			return(new("gMCPResult", graphs=sequence, alpha=alpha, pvalues=pvalues, rejected=rejected, adjPValues=adjP))
+		}
+	} else if (test=="Simes") {		
+		m <- graph2matrix(graph)
+		if (all(pvalues>alpha)) {
+			return(new("gMCPResult", graphs=sequence, alpha=alpha, pvalues=pvalues, rejected=getRejected(graph)))
+		}
+		if (all(pvalues<=alpha)) {
+			rejected <- rep(TRUE, dim(m)[1])
+			names(rejected) <- getNodes(graph)
+			return(new("gMCPResult", graphs=sequence, alpha=alpha, pvalues=pvalues, rejected=rejected))
+		}
+		while(!is.null(node <- getRejectableNode(graph, alpha, pvalues))) {
+			if (verbose) cat(paste("Node \"",node,"\" can be rejected.\n",sep=""))
+			graph <- rejectNode(graph, node, verbose)
+			sequence <- c(sequence, graph)
+		}
+		n <- sum(!getRejected(graph))
+		if (n<2) {
+			return(new("gMCPResult", graphs=sequence, alpha=alpha, pvalues=pvalues, rejected=getRejected(graph)))
+		} else {		
+			graph2 <- subGraph(graph, !getRejected(graph))
+			allSubsets <- permutations(length(getNodes(graph2)))
+			result <- cbind(allSubsets, 0)
+			weights <- generateWeights(graph2@m, getWeights(graph2))[,(n+1:n)]
+			for (i in 1:dim(allSubset)[1]) {
+				subset <- allSubsets[i,]
+				if(!all(subset==0)) {
+					J <- which(subset!=0)
+					Jj <- subset!=0 & pvalues <= pvalues[j]
+					for (j in J) {
+						if (pvalues[j]<=alpha*sum(weights[i, Jj])) {
+							result[i, n+1] <- 1
+						}
+					}					
+				} 
+			}
+			for (i in 1:n) {
+				if (all(result[result[,i]==1,n+1]==1)) {
+					graph <- rejectNode(graph)
+				}
+			}
+			return(new("gMCPResult", graphs=sequence, alpha=alpha, pvalues=pvalues, rejected=getRejected(graph)))
 		}
 	}
 }

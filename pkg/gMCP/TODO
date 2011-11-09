@@ -81,6 +81,12 @@ Medium priority:
 - Check for / think about conflicts: "JAVAGD_CLASS_NAME"="org/mutoss/gui/JavaGD"
 - placeNodes drops nodes to the top left if rows*columns is smaller than the number of nodes.
 
+Lade nötiges Paket: graph
+Warnmeldung:
+In library(package, lib.loc = lib.loc, character.only = TRUE, logical.return = TRUE,  :
+  es gibt kein Paket namens ‘graph’
+
+
 Additional features / low priority:
 ===================================
 

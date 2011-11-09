@@ -868,18 +868,10 @@ will control the familywise error rate at level $\alpha\in]0,1[$ in
 Denote the ordered p-values by $p^{(1)}<p^{(2)}<\ldots<p^{(m)}$ 
 and the corresponding hypotheses by $H^{(1)},H^{(2)},\ldots, H^{(m)}$.
 
-Reject $H_0$ if
-\[p^{(j)}\leq\frac{j\alpha}{n}\quad\text{for some $1\leq j\leq m$}.\]
+Reject $H^{(j)}$ if
+\[p^{(j)}\leq\frac{j\alpha}{n}\quad\text{for $1\leq j\leq m$}.\]
 
 For independent tests the FWER is controlled at level $\alpha$.
-\end{Theorem}
-
-\begin{Theorem}[Weighted Simes Procedure]\index{Weighted Simes Procedure} 
-Benjamini and Hochberg (1997)
-
-Let $\sum_{k=1}^m w_k = m$ and reject $H_0$ if
-\[p^{(j)}\leq\frac{\sum_{k=1}^jw_[{(k)}}{m}\cdot\alpha\quad\text{for some $1\leq j\leq m$}.\]
-
 \end{Theorem}
 
 \end{appendix}
