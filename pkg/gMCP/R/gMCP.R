@@ -81,7 +81,7 @@ gMCP <- function(graph, pvalues, test, correlation, alpha=0.05,
 			sequence <- c(sequence, graph)
 		}
 		n <- sum(!getRejected(graph))
-		if (n<2) {
+		if (n<3) {
 			return(new("gMCPResult", graphs=sequence, alpha=alpha, pvalues=pvalues, rejected=getRejected(graph)))
 		} else {		
 			graph2 <- subGraph(graph, !getRejected(graph))
