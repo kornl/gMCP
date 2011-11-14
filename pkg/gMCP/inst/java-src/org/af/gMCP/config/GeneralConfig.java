@@ -156,6 +156,14 @@ public class GeneralConfig extends SpecificConfig {
 		setProperty("checkOnline", ""+checkOnline);
 	}
 	
+	public boolean tellAboutCheckOnline() {
+		return Boolean.parseBoolean(getProperty("tellAboutCheckOnline", "false"));
+	}
+	
+	public void setTellAboutCheckOnline(boolean checkOnline) {
+		setProperty("tellAboutCheckOnline", ""+checkOnline);
+	}
+	
 	public boolean reminderNewVersion() {
 		return Boolean.parseBoolean(getProperty("reminderNewVersion", "true"));
 	}

@@ -1,8 +1,12 @@
 package org.af.gMCP.config;
 
+import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Frame;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.URL;
@@ -10,34 +14,59 @@ import java.net.URLConnection;
 import java.util.StringTokenizer;
 
 import javax.swing.JDialog;
+import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
+import org.af.commons.widgets.buttons.OKButtonPane;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 /**
  * Compares two version strings. Separators should only be points, e.g. 2.7.1 or 0.1.15
  */
-public class VersionComparator extends JDialog {
+public class VersionComparator extends JDialog implements ActionListener {
 	
 	protected static Log logger = LogFactory.getLog(VersionComparator.class);
 	
 	static String onlineversion;
 	
-	public VersionComparator(String txt, String longMessage, String version, String onlineVersion) {
+	public VersionComparator(String longMessage, String txt, String news, String version, String onlineVersion) {
 		super((Frame)null, "New version available!");
 		getContentPane().setLayout(new GridBagLayout());
 		
 		GridBagConstraints c = new GridBagConstraints();
 		
-		c.fill = GridBagConstraints.HORIZONTAL;		
+		c.fill = GridBagConstraints.BOTH;		
 		c.gridx=0; c.gridy=0;
 		c.gridwidth = 1; c.gridheight = 1;
 		c.ipadx=10; c.ipady=10;
-		c.weightx=1; c.weighty=1;
+		c.weightx=1; c.weighty=0;
 		
 		JTextArea jta1 = new JTextArea(txt);
-		JTextArea jta2 = new JTextArea(txt);
+		JTextArea jta2 = new JTextArea(longMessage);
+		JTextArea jta3 = new JTextArea(news);
+		jta3.setFont(new Font("Monospaced", Font.PLAIN, 8));
+		
+		if (txt.length()>3) {  
+			(getContentPane()).add(jta1, c);
+			c.gridy++;
+		}
+		(getContentPane()).add(jta2, c);
+		c.gridy++; c.weighty=1;
+		JScrollPane js = new JScrollPane(jta3);
+		(getContentPane()).add(js, c);
+		c.gridy++; c.weighty=0;
+		OKButtonPane ok = new OKButtonPane();
+		ok.addActionListener(this);
+		(getContentPane()).add(ok, c);
+		
+		getContentPane().setPreferredSize(new Dimension(800, 600));
+		
+		pack();	
+		
+	    setLocationRelativeTo(null);
+	    
+		setVisible(true);
 	}
 	
     /**
@@ -94,14 +123,27 @@ public class VersionComparator extends JDialog {
 					txt += line + "\n"; 
 				}
 				in.close();
+				
+				logger.info("Get news from "+url.toString());
+				conn = newsURL.openConnection();
+				in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+				String news = "";
+				while ((line = in.readLine()) != null) {
+					if (line.equals("END")) break;
+					news += line + "\n"; 
+				}
+				in.close();
 
-				if (Configuration.getInstance().getGeneralConfig().reminderNewVersion() && compare(onlineversion, Configuration.getInstance().getGeneralConfig().getVersionNumber())>0) {					
+				if (Configuration.getInstance().getGeneralConfig().reminderNewVersion() && compare(onlineversion, Configuration.getInstance().getGeneralConfig().getVersionNumber())>0) 
+				{					
 					String message = "The newest version on CRAN is "+onlineversion+". "+
 									 "Your version is "+version+".\n"+
 									 "If you want to update, please restart R and use install.packages(\"gMCP\").\n"+
-									 "Please note that you can not update gMCP while it is loaded.";
+									 "Please note that you can not update gMCP while it is loaded.\n" +
+									 "" +
+									 "NEWS:";
 					//JOptionPane.showMessageDialog(null, message, "New version available!", JOptionPane.INFORMATION_MESSAGE);
-					new VersionComparator(message, txt, version, onlineversion);
+					new VersionComparator(message, txt, news, version, onlineversion);
 				}
 			}
 		} catch (Exception e) {
@@ -109,5 +151,9 @@ public class VersionComparator extends JDialog {
 		}
 	}
 	
+	@Override
+	public void actionPerformed(ActionEvent e) {		
+		dispose();		
+	}
 	
 }

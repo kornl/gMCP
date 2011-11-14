@@ -1,22 +1,19 @@
 package org.af.gMCP.gui;
 
-import java.awt.Color;
 import java.awt.Container;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JScrollPane;
 import javax.swing.JTextPane;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.DefaultStyledDocument;
-import javax.swing.text.SimpleAttributeSet;
-import javax.swing.text.StyleConstants;
 
 import org.af.commons.widgets.WidgetFactory;
 import org.af.commons.widgets.buttons.OKButtonPane;
 import org.af.gMCP.config.Configuration;
+import org.af.gMCP.gui.dialogs.InfoDialog;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -24,7 +21,7 @@ import org.apache.commons.logging.LogFactory;
  * Displays Information about the program, its licenses, used libraries,
  * their licenses, the web site ...
  */
-public class AboutDialog extends JDialog implements ActionListener {
+public class AboutDialog extends InfoDialog implements ActionListener {
 	private static Log logger = LogFactory.getLog(AboutDialog.class);
     private static final long serialVersionUID = 1L;
     
@@ -63,52 +60,7 @@ public class AboutDialog extends JDialog implements ActionListener {
     	return doc;
     }
     
-    /**
-     * Return the SimpleAttributeSet for a level 1 headline.
-     * @return The SimpleAttributeSet for a level 1 headline.
-     */
-    public static SimpleAttributeSet getH1() {
-    	SimpleAttributeSet attr = new SimpleAttributeSet();
-		StyleConstants.setFontFamily(attr, "SansSerif");
-        StyleConstants.setFontSize(attr, 14);
-        StyleConstants.setBold(attr, true);
-        StyleConstants.setAlignment(attr, StyleConstants.ALIGN_CENTER);        
-        return attr;
-    }
-    
-    /**
-     * Return the SimpleAttributeSet for a level 1 headline.
-     * @return The SimpleAttributeSet for a level 1 headline.
-     */
-    public static SimpleAttributeSet getC() {
-    	SimpleAttributeSet attr = new SimpleAttributeSet();
-        StyleConstants.setAlignment(attr, StyleConstants.ALIGN_CENTER);        
-        return attr;
-    }
-    
-    /**
-     * Return the SimpleAttributeSet for normal text.
-     * @return The SimpleAttributeSet for normal text.
-     */
-    public static SimpleAttributeSet getT() {
-    	SimpleAttributeSet attr = new SimpleAttributeSet();
-		StyleConstants.setFontFamily(attr, "SansSerif");
-        StyleConstants.setFontSize(attr, 12);
-        return attr;
-    }
-    
-    /**
-     * Return the SimpleAttributeSet for hyperlinks.
-     * @return The SimpleAttributeSet for hyperlinks.
-     */
-    public static SimpleAttributeSet getLink() {
-    	SimpleAttributeSet attr = new SimpleAttributeSet();
-		StyleConstants.setFontFamily(attr, "SansSerif");
-        StyleConstants.setFontSize(attr, 12);
-        StyleConstants.setForeground(attr, new Color(0,0,160));
-        StyleConstants.setUnderline(attr, true);
-        return attr;
-    }
+
     
 	/**
 	 * Evaluates ActionEvents.

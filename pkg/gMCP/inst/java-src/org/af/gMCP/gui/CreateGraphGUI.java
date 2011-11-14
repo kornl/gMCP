@@ -23,6 +23,7 @@ import org.af.gMCP.gui.datatable.CellEditorE;
 import org.af.gMCP.gui.datatable.DataFramePanel;
 import org.af.gMCP.gui.datatable.DataTable;
 import org.af.gMCP.gui.datatable.RDataFrameRef;
+import org.af.gMCP.gui.dialogs.TellAboutOnlineUpate;
 import org.af.gMCP.gui.graph.DView;
 import org.af.gMCP.gui.graph.EdgeWeight;
 import org.af.gMCP.gui.graph.GraphView;
@@ -121,6 +122,11 @@ public class CreateGraphGUI extends JFrame implements WindowListener, AbortListe
 				 VersionComparator.getOnlineVersion();
 			}
 		});
+		
+		if (!Configuration.getInstance().getGeneralConfig().tellAboutCheckOnline()) {
+			new TellAboutOnlineUpate(this);
+			Configuration.getInstance().getGeneralConfig().setTellAboutCheckOnline(true);
+		}
 	}
 	
 	/**
