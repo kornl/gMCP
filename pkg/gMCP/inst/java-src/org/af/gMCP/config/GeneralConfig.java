@@ -251,5 +251,12 @@ public class GeneralConfig extends SpecificConfig {
 	public boolean experimentalFeatures() {
 		return Boolean.parseBoolean(getProperty("experimentalFeatures", "true"));
 	}
+
+	public void setVerbose(boolean b) {
+		setProperty("verbose", ""+b);
+	}
+	public boolean verbose() {
+		return Boolean.parseBoolean(getProperty("verbose", "true"));
+	}
 		
 }

@@ -54,7 +54,7 @@ echo $contents; } ?>
 
 <p><img src="GUI.png" border="0" alt=""></p>
 
-<p>And we have lots of example graphs:</p>
+<p>With lots of example graphs:</p>
 
 <p><a href="ExampleGraphsWallpaper2.jpg"><img width="500" src="ExampleGraphsWallpaper2.jpg" border="0" alt=""></a></p>
 

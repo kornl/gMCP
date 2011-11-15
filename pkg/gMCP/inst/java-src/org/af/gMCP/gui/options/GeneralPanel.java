@@ -47,6 +47,7 @@ public class GeneralPanel extends OptionsPanel implements ActionListener {
     private JCheckBox useEpsApprox;
     private JCheckBox useJLaTeXMath;
     private JCheckBox checkOnlineForUpdate;
+    private JCheckBox verbose;
     
 	JFrame parent;
 
@@ -109,6 +110,9 @@ public class GeneralPanel extends OptionsPanel implements ActionListener {
         useEpsApprox.setSelected(conf.getGeneralConfig().useEpsApprox());
         useEpsApprox.addActionListener(this);
         useEpsApprox.setEnabled(false);
+        
+        checkOnlineForUpdate = new JCheckBox("Verbose output");
+        checkOnlineForUpdate.setSelected(conf.getGeneralConfig().verbose());
     }
 
     private void doTheLayout() {
@@ -116,7 +120,7 @@ public class GeneralPanel extends OptionsPanel implements ActionListener {
         Localizer loc = Localizer.getInstance();
         JPanel p1 = new JPanel();
         String cols = "pref, 5dlu, fill:pref:grow";
-        String rows = "pref, 5dlu, pref, 5dlu, pref, 5dlu, pref, 5dlu, pref, 5dlu, pref, 5dlu, pref, 5dlu, pref, 5dlu, pref, 5dlu, pref, 5dlu, pref, 5dlu, pref, 5dlu, pref";
+        String rows = "pref, 5dlu, pref, 5dlu, pref, 5dlu, pref, 5dlu, pref, 5dlu, pref, 5dlu, pref, 5dlu, pref, 5dlu, pref, 5dlu, pref, 5dlu, pref, 5dlu, pref, 5dlu, pref, 5dlu, pref";
         
         FormLayout layout = new FormLayout(cols, rows);
         p1.setLayout(layout);
@@ -171,6 +175,10 @@ public class GeneralPanel extends OptionsPanel implements ActionListener {
         row += 2;        
         
         p1.add(showFractions, cc.xyw(1, row, 3));    
+        
+        row += 2;        
+        
+        p1.add(verbose, cc.xyw(1, row, 3));    
         
         row += 2;        
         
@@ -236,6 +244,7 @@ public class GeneralPanel extends OptionsPanel implements ActionListener {
        	conf.getGeneralConfig().setUseEpsApprox(useEpsApprox.isSelected());       	
        	conf.getGeneralConfig().setUseJLaTeXMath(useJLaTeXMath.isSelected());
        	conf.getGeneralConfig().setCheckOnline(checkOnlineForUpdate.isSelected());
+       	conf.getGeneralConfig().setVerbose(verbose.isSelected());
         try {
             LookAndFeel currentLF = UIManager.getLookAndFeel();
             logger.info("Selected LooknFeel:" + getLooknFeel());
