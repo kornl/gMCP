@@ -8,5 +8,6 @@ test.Simes <- function() {
 	g <- matrix2graph(m, w)
 	result1 <- gMCP(g, pvalues=p1, test="Simes", alpha=a)
 	result2 <- gMCP(g, pvalues=p2, test="Simes", alpha=a)
-	checkEquals(result1$rejected, c(TRUE, TRUE, FALSE, FALSE))
+	checkEquals(unname(result1@rejected), c(TRUE, TRUE, FALSE, FALSE))
+	checkEquals(unname(result2@rejected), c(TRUE, TRUE, TRUE, TRUE))
 }

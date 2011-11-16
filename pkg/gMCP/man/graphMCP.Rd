@@ -8,6 +8,8 @@
 \alias{getWeights,graphMCP-method}
 \alias{setWeights}
 \alias{setWeights,graphMCP-method}
+\alias{setRejected<-}
+\alias{setRejected<-,graphMCP-method}
 \alias{getRejected}
 \alias{getRejected,graphMCP-method}
 \alias{getXCoordinates}

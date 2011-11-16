@@ -183,24 +183,24 @@ setMethod("getRejected", c("gMCPResult"), function(object, node, ...) {
 			return(rejected)
 		})
 
-setGeneric("setRejected", function(object, rejected, node, ...) standardGeneric("setRejected"))
-setGeneric("setRejected<-", function(object, rejected, node, ...) standardGeneric("setRejected<-"))
+setGeneric("setRejected", function(object, node, value) standardGeneric("setRejected"))
+setGeneric("setRejected<-", function(object, node, value) standardGeneric("setRejected<-"))
 
 setMethod("setRejected", c("graphMCP"),
-		function(object, rejected, node, ...) {
+		function(object, node, value) {
 			if (missing(node)) {
 				node <- getNodes(object)
 			}
-			object@nodeAttr$rejected[node] <- rejected			
+			object@nodeAttr$rejected[node] <- value			
 			return(object)
 		})
 
 setReplaceMethod("setRejected", c("graphMCP"),
-		function(object, rejected, node, ...) {
+		function(object, node, value) {
 			if (missing(node)) {
 				node <- getNodes(object)
 			}
-			object@nodeAttr$rejected[node] <- rejected			
+			object@nodeAttr$rejected[node] <- value			
 			return(object)
 		})
 

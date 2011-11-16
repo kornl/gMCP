@@ -5,7 +5,7 @@ Version 0.7-1 (??-???-2011, Rev. ???)
 - The GUI will (optionally) look for a newer version of 
   gMCP on CRAN.
   
-- New function "subGraph" for creating subgraphs.
+- New function "subGraph" for the creation of subgraphs.
   
 Version 0.7-0 (26-Aug-2011, Rev. 964)
 =====================================

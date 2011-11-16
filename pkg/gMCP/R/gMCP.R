@@ -88,8 +88,8 @@ gMCP <- function(graph, pvalues, test, correlation, alpha=0.05,
 			allSubsets <- permutations(length(getNodes(graph2)))
 			result <- cbind(allSubsets, 0)
 			weights <- generateWeights(graph2@m, getWeights(graph2))[,(n+1:n)]
-			if (verbose) explanation <- rep("", dim(allSubset)[1])
-			for (i in 1:dim(allSubset)[1]) {
+			if (verbose) explanation <- rep("not rejected", dim(allSubsets)[1])
+			for (i in 1:dim(allSubsets)[1]) {
 				subset <- allSubsets[i,]
 				if(!all(subset==0)) {
 					J <- which(subset!=0)
@@ -97,7 +97,9 @@ gMCP <- function(graph, pvalues, test, correlation, alpha=0.05,
 					for (j in J) {
 						if (pvalues[j]<=alpha*sum(weights[i, Jj])) {
 							result[i, n+1] <- 1
-							if (verbose) 
+							if (verbose) {
+								cat(pvalues[j],"<=",alpha,"*(",paste(weights[i, Jj],collapse ="+"),")=",sum(weights[i, Jj]))
+							}
 						}
 					}					
 				} 
