@@ -81,7 +81,8 @@ b.dunnet <- function(h,cr,a) {
 }
 
 
-
+# w = vector of weights
+# h = binary vector (0,1)
 mtp.weights <- function(h,g,w){
   ## recursively compute weights for a given graph and intersection hypothesis
   if(sum(h)==length(h)){

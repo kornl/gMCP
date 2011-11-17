@@ -85,20 +85,24 @@ gMCP <- function(graph, pvalues, test, correlation, alpha=0.05,
 			return(new("gMCPResult", graphs=sequence, alpha=alpha, pvalues=pvalues, rejected=getRejected(graph)))
 		} else {		
 			graph2 <- subGraph(graph, !getRejected(graph))
-			allSubsets <- permutations(length(getNodes(graph2)))
+			pvalues2 <- pvalues[!getRejected(graph)]
+			allSubsets <- permutations(length(getNodes(graph2)))[-1,]
 			result <- cbind(allSubsets, 0)
-			weights <- generateWeights(graph2@m, getWeights(graph2))[,(n+1:n)]
+			weights <- generateWeights(graph2@m, getWeights(graph2))[,(n+(1:n))]
 			if (verbose) explanation <- rep("not rejected", dim(allSubsets)[1])
 			for (i in 1:dim(allSubsets)[1]) {
 				subset <- allSubsets[i,]
 				if(!all(subset==0)) {
-					J <- which(subset!=0)
-					Jj <- subset!=0 & pvalues <= pvalues[j]
+					J <- which(subset!=0)	
+					explanation[i] <- paste("Subset {",paste(J,collapse=","),"}: ",explanation[i], sep="")				
 					for (j in J) {
-						if (pvalues[j]<=alpha*sum(weights[i, Jj])) {
+						Jj <- subset!=0 & (pvalues2 <= pvalues2[j])
+						#cat("j: ",j, ", Jj: ",Jj,"\n")
+						#cat("p_",j,"=",pvalues2[j],"<=a*(p_",paste(which(Jj),collapse ="+p_"),")=",alpha,"*(",paste(weights[i, Jj],collapse ="+"),")=",sum(weights[i, Jj]),"\n")
+						if (pvalues2[j]<=alpha*sum(weights[i, Jj])) {
 							result[i, n+1] <- 1
 							if (verbose) {
-								cat(pvalues[j],"<=",alpha,"*(",paste(weights[i, Jj],collapse ="+"),")=",sum(weights[i, Jj]))
+								explanation[i] <- paste("Subset {",paste(J,collapse=","),"}: ", pvalues2[j],"<=",alpha,"*(",paste(weights[i, Jj],collapse ="+"),")=",alpha*sum(weights[i, Jj]),sep="")
 							}
 						}
 					}					
@@ -109,7 +113,9 @@ gMCP <- function(graph, pvalues, test, correlation, alpha=0.05,
 					graph <- rejectNode(graph)
 				}
 			}
-			return(new("gMCPResult", graphs=sequence, alpha=alpha, pvalues=pvalues, rejected=getRejected(graph)))
+			result <- new("gMCPResult", graphs=sequence, alpha=alpha, pvalues=pvalues, rejected=getRejected(graph))
+			if (verbose) attr(result, "txt") <- paste(explanation, collapse="\n")
+			return(result)
 		}
 	}
 }

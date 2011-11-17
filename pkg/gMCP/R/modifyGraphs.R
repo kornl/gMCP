@@ -43,7 +43,7 @@ subGraph <- function(graph, subset) {
 	w <- getWeights(graph)
 	rejected <- getRejected(graph)
 	if (is.character(subset)) {
-		subGraph <- matrix2graph(m[subset,subset], w)
+		subGraph <- matrix2graph(m[subset,subset], w[subset])
 		setRejected(subGraph, getNodes(subGraph)) <- rejected[subset]
 		return(subGraph)
 	} else {

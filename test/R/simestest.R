@@ -1,0 +1,7 @@
+library(gMCP)
+graph <- BonferroniHolm(5)
+r <- gMCP(graph, pvalues=c(0.01,0.02,0.03,0.04,0.06), test="Simes", verbose=TRUE)
+cat(attr(r, "txt"))
+gMCP(graph, pvalues=c(0.01,0.02,0.03,0.04,0.06))
+graph2 <- subGraph(graph, c(FALSE, TRUE, TRUE, TRUE, TRUE))
+generateWeights(graph2@m, getWeights(graph2))
