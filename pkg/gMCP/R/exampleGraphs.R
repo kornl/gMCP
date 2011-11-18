@@ -499,14 +499,11 @@ MaurerEtAl1995 <- function() {
 cycleGraph <- function(nodes, weights) {
 	# Edges:
 	n <- length(nodes)
-	edges <- vector("list", length=n)
-	for (i in 1:n-1) {
-		edges[[i]] <- list(edges=nodes[i+1], weights=weights[i])
-	}	
-	edges[[n]] <- list(edges=nodes[1], weights=weights[n])
-	names(edges)<-nodes
+	m <- diag(n)
+	m <- rbind(m[2:n,],m[1,])
+	rownames(m) <- colnames(m) <- nodes 	
 	# Graph creation
-	graph <- new("graphMCP", nodes=nodes, edgeL=edges, weights=weights)
+	graph <- new("graphMCP", m=m, weights=weights)
 	return(graph)
 }
 

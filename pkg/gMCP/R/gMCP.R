@@ -4,9 +4,10 @@ gMCP <- function(graph, pvalues, test, correlation, alpha=0.05,
 	if (approxEps && !is.numeric(graph@m)) {
 		graph <- substituteEps(graph, eps=eps)
 	}
-	#if (!is.numeric(graph@m)) {
-	#	graph <- parse2numeric(graph) # TODO ask for variables
-	#}
+	if (!is.numeric(graph@m)) {
+		stop("Graph seems to contain variables - please use function replaceVariables.")
+		#graph <- parse2numeric(graph) # TODO ask for variables
+	}
 	sequence <- list(graph)
 	if (length(pvalues)!=length(getNodes(graph))) {
 		stop("Length of pvalues must equal number of nodes.")
@@ -97,7 +98,9 @@ gMCP <- function(graph, pvalues, test, correlation, alpha=0.05,
 		if (n<3) {
 			result <- new("gMCPResult", graphs=sequence, alpha=alpha, pvalues=pvalues, rejected=getRejected(graph))
 			if (verbose) {
-				output <- paste(output, "Only two hypotheses remaining.", sep="\n")
+				if (n==2) output <- paste(output, "Only two hypotheses remaining.", sep="\n")
+				if (n==1) output <- paste(output, "Only one hypothesis remaining.", sep="\n")
+				if (n==0) output <- paste(output, "Everything allready rejected.", sep="\n")
 				cat(output,"\n")
 				attr(result, "output") <- output
 			}
