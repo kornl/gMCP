@@ -128,7 +128,7 @@ gMCP <- function(graph, pvalues, test, correlation, alpha=0.05,
 			}
 			for (i in 1:n) {
 				if (all(result[result[,i]==1,n+1]==1)) {
-					graph <- rejectNode(graph)
+					graph <- rejectNode(graph, getNodes(graph2)[i])
 				}
 			}
 			result <- new("gMCPResult", graphs=sequence, alpha=alpha, pvalues=pvalues, rejected=getRejected(graph))
