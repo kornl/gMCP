@@ -231,6 +231,7 @@ public class PView extends JPanel implements KeyListener, ActionListener {
 	protected JRadioButton jrbNoCorrelation = new JRadioButton("No Information about correlations");
     protected JRadioButton jrbStandardCorrelation = new JRadioButton("Select a standard correlation");
     protected JRadioButton jrbRCorrelation = new JRadioButton("Select an R correlation matrix");
+    protected JRadioButton jrbSimes = new JRadioButton("Correlation applicable for Simes test");
 
     protected JComboBox jcbCorString;
     protected JComboBox jcbCorObject;
@@ -270,13 +271,15 @@ public class PView extends JPanel implements KeyListener, ActionListener {
 	    group.add(jrbNoCorrelation);
 	    group.add(jrbStandardCorrelation);
 	    group.add(jrbRCorrelation);
+	    group.add(jrbSimes);
 
 	    jrbNoCorrelation.addActionListener(this);
 	    jrbStandardCorrelation.addActionListener(this);
 	    jrbRCorrelation.addActionListener(this);
+	    jrbSimes.addActionListener(this);
 		
         String cols = "5dlu, pref, 5dlu, fill:pref:grow, 5dlu, pref, 5dlu";
-        String rows = "5dlu, pref, 5dlu, pref, 5dlu, pref, 5dlu, pref, 5dlu";
+        String rows = "5dlu, pref, 5dlu, pref, 5dlu, pref, 5dlu, pref, 5dlu, pref, 5dlu";
         
         FormLayout layout = new FormLayout(cols, rows);
         correlatedPanel.setLayout(layout);
@@ -296,6 +299,11 @@ public class PView extends JPanel implements KeyListener, ActionListener {
         correlatedPanel.add(jrbRCorrelation,     cc.xy(2, row));
         correlatedPanel.add(jcbCorObject, cc.xy(4, row));
         correlatedPanel.add(refresh, cc.xy(6, row));  
+        
+        row += 2;
+        
+        correlatedPanel.add(jrbSimes,     cc.xy(2, row));
+                
         refresh.addActionListener(this);
         
         return correlatedPanel;
@@ -318,22 +326,27 @@ public class PView extends JPanel implements KeyListener, ActionListener {
 		} else if (e.getSource()==jrbNoCorrelation) {
 			if (parent.getGraphView().getNL().getKnoten().size()>0) {
 				parent.getGraphView().buttonConfInt.setEnabled(true);
-				//parent.getGraphView().buttonadjPval.setEnabled(true);
+				parent.getGraphView().buttonadjPval.setEnabled(true);
 			}
 		} else if (e.getSource()==jrbStandardCorrelation || e.getSource()==jrbRCorrelation) {
 			parent.getGraphView().buttonConfInt.setEnabled(false);
-			//parent.getGraphView().buttonadjPval.setEnabled(false);
+			parent.getGraphView().buttonadjPval.setEnabled(true);
+		} else if (e.getSource()==jrbSimes) {
+			parent.getGraphView().buttonConfInt.setEnabled(false);
+			parent.getGraphView().buttonadjPval.setEnabled(false);
 		}
 	}
 
-	public String getCorrelation() {
-		String correlation = "";
+	public String getParameters() {
+		String param = "";
 		if (jrbStandardCorrelation.isSelected()) {
-			correlation = ", correlation=\""+jcbCorString.getSelectedItem()+"\"";
+			param = ", correlation=\""+jcbCorString.getSelectedItem()+"\"";
 		} else if (jrbRCorrelation.isSelected()) {
-			correlation = ", correlation="+jcbCorObject.getSelectedItem()+"";
+			param = ", correlation="+jcbCorObject.getSelectedItem()+"";
+		} else if (jrbSimes.isSelected()) {
+			param = ", test=\"Simes\"";
 		}
-		return correlation;
+		return param;
 	}
 	
 }

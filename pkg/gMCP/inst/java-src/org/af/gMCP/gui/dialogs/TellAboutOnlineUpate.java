@@ -33,10 +33,10 @@ public class TellAboutOnlineUpate extends InfoDialog implements ActionListener {
 		getContentPane().setLayout(new GridBagLayout());
 		
 		GridBagConstraints c = new GridBagConstraints();
-		
-		 jtAbout.setStyledDocument(getDocument());
-	     jtAbout.setEditable(false);
-	     
+
+		jtAbout.setStyledDocument(getDocument());
+		jtAbout.setEditable(false);
+
 		c.fill = GridBagConstraints.HORIZONTAL;		
 		c.gridx=0; c.gridy=0;
 		c.gridwidth = 1; c.gridheight = 1;

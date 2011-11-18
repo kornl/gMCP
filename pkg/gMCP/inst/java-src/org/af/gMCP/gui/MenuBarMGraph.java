@@ -489,7 +489,7 @@ public class MenuBarMGraph extends JMenuBar implements ActionListener {
 		}
 		control.getMainFrame().glassPane.start();
 		//startTesting();
-		correlation = control.getPView().getCorrelation();
+		correlation = control.getPView().getParameters();
 		SwingWorker<Void, Void> worker = new SwingWorker<Void, Void>() {
 			@Override
 			protected Void doInBackground() throws Exception {

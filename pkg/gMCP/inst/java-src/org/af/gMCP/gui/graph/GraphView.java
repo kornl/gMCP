@@ -197,7 +197,7 @@ public class GraphView extends JPanel implements ActionListener {
 			} else {
 				parent.glassPane.start();
 				//startTesting();
-				correlation = parent.getPView().getCorrelation();
+				correlation = parent.getPView().getParameters();
 				SwingWorker<Void, Void> worker = new SwingWorker<Void, Void>() {
 					@Override
 					protected Void doInBackground() throws Exception {
@@ -222,7 +222,7 @@ public class GraphView extends JPanel implements ActionListener {
 	        	getPView().restorePValues();
 				parent.glassPane.start();				
 				startTesting();
-				correlation = parent.getPView().getCorrelation();
+				correlation = parent.getPView().getParameters();
 				SwingWorker<Void, Void> worker = new SwingWorker<Void, Void>() {
 					@Override
 					protected Void doInBackground() throws Exception {
@@ -230,9 +230,13 @@ public class GraphView extends JPanel implements ActionListener {
 							RControl.getR().evalVoid(result+" <- gMCP("+getNL().initialGraph+getGMCPOptions()+")");
 							resultUpToDate = true;
 						}
-						boolean[] rejected = RControl.getR().eval(result+"@rejected").asRLogical().getData();				
+						boolean[] rejected = RControl.getR().eval(result+"@rejected").asRLogical().getData();
+						String output = null;
+						if (RControl.getR().eval("!is.null(attr("+result+", \"output\"))").asRLogical().getData()[0]) {
+							output = RControl.getR().eval("attr("+result+", \"output\")").asRChar().getData()[0];
+						}
 						parent.glassPane.stop();
-						new RejectedDialog(parent, rejected, parent.getGraphView().getNL().getKnoten());
+						new RejectedDialog(parent, rejected, parent.getGraphView().getNL().getKnoten(), output);
 						return null;
 					}  
 				};
@@ -252,7 +256,7 @@ public class GraphView extends JPanel implements ActionListener {
 				}
 				parent.glassPane.start();
 				//startTesting();
-				correlation = parent.getPView().getCorrelation();
+				correlation = parent.getPView().getParameters();
 				SwingWorker<Void, Void> worker = new SwingWorker<Void, Void>() {
 					@Override
 					protected Void doInBackground() throws Exception {						
@@ -345,7 +349,10 @@ public class GraphView extends JPanel implements ActionListener {
 	}
 
 	public String getGMCPOptions() {
-		return ","+getPView().getPValuesString()+ correlation+", alpha="+getPView().getTotalAlpha()+", eps="+Configuration.getInstance().getGeneralConfig().getEpsilon();
+		return ","+getPView().getPValuesString()+ correlation
+			+", alpha="+getPView().getTotalAlpha()
+			+", eps="+Configuration.getInstance().getGeneralConfig().getEpsilon()
+			+", verbose="+(Configuration.getInstance().getGeneralConfig().verbose()?"TRUE":"FALSE");
 	}
 
 	public DView getDView() {
