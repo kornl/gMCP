@@ -13,7 +13,6 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
-import javax.swing.JTextPane;
 
 import org.af.gMCP.gui.graph.Node;
 
@@ -53,8 +52,8 @@ public class RejectedDialog extends JDialog implements ActionListener {
 			jta.setText(output);
 			c.gridx=0; c.weighty=1; c.gridwidth = 2;
 			jta.setFont(new Font("Monospaced", Font.PLAIN, 12));
-			jta.setLineWrap(true);
-			jta.setWrapStyleWord(true);
+			jta.setLineWrap(false);
+			//jta.setWrapStyleWord(true);
 			(getContentPane()).add(new JScrollPane(jta), c);
 			c.gridy++;
 		}		
@@ -63,9 +62,11 @@ public class RejectedDialog extends JDialog implements ActionListener {
 		jb.addActionListener(this);
 		(getContentPane()).add(jb, c);
 		
-		if (jta.getRows()>2) {
+		if (jta.getRows()> 2) {
+			//System.out.println("setSize!!!");
 			this.setSize(800, 600);
 		} else {
+			//System.out.println("pack");
 			pack();
 		}
 		
