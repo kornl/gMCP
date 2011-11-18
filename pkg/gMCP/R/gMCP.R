@@ -1,5 +1,6 @@
 gMCP <- function(graph, pvalues, test, correlation, alpha=0.05, 
 		approxEps=TRUE, eps=10^(-3), ..., useC=FALSE, verbose=FALSE) {	
+	output <- ""
 	if (approxEps && !is.numeric(graph@m)) {
 		graph <- substituteEps(graph, eps=eps)
 	}
@@ -70,7 +71,7 @@ gMCP <- function(graph, pvalues, test, correlation, alpha=0.05,
 		if (all(pvalues>alpha)) {
 			result <- new("gMCPResult", graphs=sequence, alpha=alpha, pvalues=pvalues, rejected=getRejected(graph))
 			if (verbose) {
-				output <- "All remaining p-values above alpha."
+				output <- "All p-values above alpha."
 				cat(output,"\n")
 				attr(result, "output") <- output
 			}
@@ -81,14 +82,14 @@ gMCP <- function(graph, pvalues, test, correlation, alpha=0.05,
 			names(rejected) <- getNodes(graph)
 			result <- new("gMCPResult", graphs=sequence, alpha=alpha, pvalues=pvalues, rejected=rejected)
 			if (verbose) {
-				output <- "All remaining p-values below alpha."
+				output <- "All p-values below alpha."
 				cat(output,"\n")
 				attr(result, "output") <- output
 			}
 			return(result)
 		}
 		while(!is.null(node <- getRejectableNode(graph, alpha, pvalues))) {
-			if (verbose) cat(paste("Node \"",node,"\" can be rejected.\n",sep=""))
+			output <- paste(output, paste("Node \"",node,"\" can be rejected by Bonferroni based test.\n",sep=""), sep="\n")
 			graph <- rejectNode(graph, node, verbose)
 			sequence <- c(sequence, graph)
 		}
@@ -96,13 +97,14 @@ gMCP <- function(graph, pvalues, test, correlation, alpha=0.05,
 		if (n<3) {
 			result <- new("gMCPResult", graphs=sequence, alpha=alpha, pvalues=pvalues, rejected=getRejected(graph))
 			if (verbose) {
-				output <- "Only two hypotheses remaining."
+				output <- paste(output, "Only two hypotheses remaining.", sep="\n")
 				cat(output,"\n")
 				attr(result, "output") <- output
 			}
 			return(result)
-		} else {		
+		} else {			
 			graph2 <- subGraph(graph, !getRejected(graph))
+			output <- paste(output, "Remaining hypotheses (new numeration):", paste(1:length(getNodes(graph2)),": ", getNodes(graph2), sep="",collapse="\n"), sep="\n")
 			pvalues2 <- pvalues[!getRejected(graph)]
 			allSubsets <- permutations(length(getNodes(graph2)))[-1,]
 			result <- cbind(allSubsets, 0)
@@ -133,7 +135,7 @@ gMCP <- function(graph, pvalues, test, correlation, alpha=0.05,
 			}
 			result <- new("gMCPResult", graphs=sequence, alpha=alpha, pvalues=pvalues, rejected=getRejected(graph))
 			if (verbose) {
-				output <- paste(explanation, collapse="\n")
+				output <- paste(output, paste(explanation, collapse="\n"), sep="\n")
 				cat(output,"\n")
 				attr(result, "output") <- output
 			}
