@@ -11,3 +11,39 @@ test.Simes <- function() {
 	checkEquals(unname(result1@rejected), c(TRUE, TRUE, FALSE, FALSE))
 	checkEquals(unname(result2@rejected), c(TRUE, TRUE, TRUE, TRUE))
 }
+
+checkWeights <- function(graph, pvalues) {
+	# Compares the weights of the gMCP-R-code, gMCP-C-code, power-C-code and parametric-R-code
+	
+}
+
+test.checkWeights <- function() {
+	graphs <- list(BonferroniHolm(5),
+			parallelGatekeeping(),
+			improvedParallelGatekeeping(),
+			BretzEtAl2011(),
+			HungEtWang2010(),
+			HuqueAloshEtBhore2011(),
+			HommelEtAl2007(),
+			HommelEtAl2007Simple(),
+			MaurerEtAl1995(),
+			improvedFallbackI(weights=rep(1/3, 3)),
+			improvedFallbackII(weights=rep(1/3, 3)),
+			cycleGraph(nodes, weights),
+			fixedSequence(n),
+			fallback(weights),
+			generalSuccessive(weights = c(1/2, 1/2)),
+			simpleSuccessiveI(),
+			simpleSuccessiveII(),
+			truncatedHolm(),
+			BauerEtAl2001(),
+			BretzEtAl2009a(),
+			BretzEtAl2009b(),
+			BretzEtAl2009c())
+	for (graph in graphs) {		
+		p <- gMCP:::permutations(length(getNodes(graph)))
+		for (i in 1:(dim(p)[1])) {
+			checkWeights(graph, p[i,])
+		}
+	}
+}
