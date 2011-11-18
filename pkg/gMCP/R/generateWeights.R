@@ -15,3 +15,7 @@ function(g,w){
 permutations <- function(n) {
 	outer((1:(2^n))-1, (n:1)-1, FUN=function(x,y) {(x%/%2^y)%%2})
 }
+
+weightsForAllIntersections <- function(graph) {
+	return(generateWeights(graph@m, graph@weights))
+}
