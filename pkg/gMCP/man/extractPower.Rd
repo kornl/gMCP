@@ -14,6 +14,7 @@ extractPower(x, f=list())
   \item{f}{ List of user defined power functions. If one is interested
     in the power to reject hypotheses 1 and 3 one could specify
     \code{function(x) {x[1] && x[3]}}
+  }
 }
 \value{
   A list containg at least the following three elements
