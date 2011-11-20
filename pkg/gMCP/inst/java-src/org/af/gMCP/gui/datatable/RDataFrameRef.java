@@ -55,4 +55,15 @@ public class RDataFrameRef {
 		logger.info("Data has "+getRowCount()+" rows and "+getColumnCount()+" columns now.");
 	}
 
+	public String getRMatrix() {
+		String m = "matrix(c(";
+		for (int i=0; i < getRowCount(); i++) {
+			for (int j=0; j < getColumnCount(); j++) {
+				m += data.get(i).get(j)+((i == getRowCount() -1 && j == getColumnCount() -1)?"":",");
+			}
+		}
+		m += "), nrow="+getRowCount()+")";
+		return m;
+	}
+
 }

@@ -16,10 +16,12 @@ public class CellEditorEps extends DefaultCellEditor implements FocusListener {
     private EdgeWeight oldVal;
     int row;
     int col;
+    DataTable dt;
     
-    public CellEditorEps(GraphView agc, int row, int col, String s) {
+    public CellEditorEps(GraphView agc, DataTable dt, int row, int col, String s) {
         super(new JTextField());
 		this.agc = agc;
+		this.dt = dt;
 		this.row = row;
 		this.col = col;
 		// TODO: WHY DO I NEED THIS s.replace(',','.'); Yes - I know, this looks simple, but there are strange things out there.
@@ -32,7 +34,12 @@ public class CellEditorEps extends DefaultCellEditor implements FocusListener {
     public EdgeWeight getCellEditorValue() {
     	String s = ((JTextField)getComponent()).getText();
     	oldVal = new EdgeWeight(s);
-    	agc.updateEdge(row, col, oldVal); 
+    	if (agc!=null) { 
+    		agc.updateEdge(row, col, oldVal); 
+    	} else {
+    		dt.getModel().setValueAt(oldVal, row, col);
+    		dt.getModel().setValueAt(oldVal, col, row);
+    	}
     	return oldVal;
     }
     

@@ -12,9 +12,11 @@ import org.af.gMCP.gui.graph.GraphView;
 public class CellEditorE extends AbstractCellEditor implements TableCellEditor {
     private DefaultCellEditor ed;
     GraphView agc;
+    DataTable dt;
     
-    public CellEditorE(GraphView agc) {    	
+    public CellEditorE(GraphView agc, DataTable dt) {    	
     	this.agc = agc;
+    	this.dt = dt;
     }
 
     public Object getCellEditorValue() {
@@ -24,7 +26,7 @@ public class CellEditorE extends AbstractCellEditor implements TableCellEditor {
     public Component getTableCellEditorComponent(JTable table, Object value,
                                                  boolean isSelected, int row, int col) {
         
-        ed = new CellEditorEps(agc, row, col, value.toString());
+        ed = new CellEditorEps(agc, dt, row, col, value.toString());
         
         ed.addCellEditorListener(table);
         return ed.getComponent();
