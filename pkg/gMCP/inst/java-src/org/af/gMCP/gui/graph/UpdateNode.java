@@ -83,7 +83,7 @@ public class UpdateNode extends JDialog implements ActionListener {
 		}
 		node.setWeight(w, null);
 		int which = netzListe.whichNode(tfname.getText());
-		if (which == -1 || netzListe.getKnoten().get(which) == node) {
+		if (which == -1 || netzListe.getNodes().get(which) == node) {
 			node.setName(tfname.getText());
 			dispose();
 		} else {

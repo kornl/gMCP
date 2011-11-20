@@ -324,7 +324,7 @@ public class PView extends JPanel implements KeyListener, ActionListener {
 				jcbCorObject.addItem(s);
 			}
 		} else if (e.getSource()==jrbNoCorrelation) {
-			if (parent.getGraphView().getNL().getKnoten().size()>0) {
+			if (parent.getGraphView().getNL().getNodes().size()>0) {
 				parent.getGraphView().buttonConfInt.setEnabled(true);
 				parent.getGraphView().buttonadjPval.setEnabled(true);
 			}

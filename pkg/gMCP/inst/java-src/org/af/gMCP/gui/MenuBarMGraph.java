@@ -265,7 +265,7 @@ public class MenuBarMGraph extends JMenuBar implements ActionListener {
         } else if (e.getActionCommand().equals("save graph")) {       	
         	saveGraph();
         } else if (e.getActionCommand().equals("save graph to R")) {
-        	if (control.getNL().getKnoten().size()==0) {
+        	if (control.getNL().getNodes().size()==0) {
         		JOptionPane.showMessageDialog(control.getMainFrame(), "Will not save empty graph.", "Saving to R failed.", JOptionPane.ERROR_MESSAGE);
         		return;
         	}
@@ -366,7 +366,7 @@ public class MenuBarMGraph extends JMenuBar implements ActionListener {
         } else if (e.getActionCommand().equals("debugConsole")) {
         	RControl.console.setVisible(true);
         } else if (e.getActionCommand().equals("graphAnalysis")) {
-        	if (control.getNL().getKnoten().size()==0) {
+        	if (control.getNL().getNodes().size()==0) {
         		JOptionPane.showMessageDialog(control.getMainFrame(), "Graph is empty!", "Graph is empty!", JOptionPane.ERROR_MESSAGE);
         		return;
         	}
@@ -374,7 +374,7 @@ public class MenuBarMGraph extends JMenuBar implements ActionListener {
         	String text = RControl.getR().eval("graphAnalysis(.tmpGraph, file=tempfile())").asRChar().getData()[0];
         	new TextFileViewer(control.getMainFrame(), "Graph analysis", text);
         } else if (e.getActionCommand().equals("powerAnalysis")) {
-        	if (control.getNL().getKnoten().size()==0) {
+        	if (control.getNL().getNodes().size()==0) {
         		JOptionPane.showMessageDialog(control.getMainFrame(), "Graph is empty!", "Graph is empty!", JOptionPane.ERROR_MESSAGE);
         		return;
         	}
@@ -383,7 +383,7 @@ public class MenuBarMGraph extends JMenuBar implements ActionListener {
         	VariableNameDialog vnd = new VariableNameDialog(control.getGraphGUI(), "");     
 			try {
 				double[] data = RControl.getR().eval(vnd.getName()).asRNumeric().getData();
-				if (data.length!=control.getNL().getKnoten().size()) {
+				if (data.length!=control.getNL().getNodes().size()) {
 					JOptionPane.showMessageDialog(this, "Number of hypotheses and values do not match.", 
 							"Number of hypotheses and values do not match", JOptionPane.ERROR_MESSAGE);
 					return;
@@ -467,7 +467,7 @@ public class MenuBarMGraph extends JMenuBar implements ActionListener {
 	File f;
 	
 	public void exportLaTeXReport() {
-		if (control.getNL().getKnoten().size()==0) {
+		if (control.getNL().getNodes().size()==0) {
     		JOptionPane.showMessageDialog(control.getMainFrame(), "Can not create report for empty graph.", "Can not create report for empty graph.", JOptionPane.ERROR_MESSAGE);
     		return;
     	}

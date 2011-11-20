@@ -40,10 +40,10 @@ public class PowerDialogParameterUncertainty extends JDialog implements ActionLi
 		super(parent, "Power Simulation - specify probability distribution of test statistics", true);
 		setLocationRelativeTo(parent);
 		this.parent = parent;
-		nodes = parent.getGraphView().getNL().getgetNodes();
+		nodes = parent.getGraphView().getNL().getNodes();
 		
 		RDataFrameRef df = new RDataFrameRef();
-		for (Node n: parent.getGraphView().getNL().getgetNodes()) {
+		for (Node n: parent.getGraphView().getNL().getNodes()) {
 			df.addRowCol(n.getName());
 			df.setValue(df.getColumnCount()-1, df.getColumnCount()-1, new EdgeWeight(1));
 		}		

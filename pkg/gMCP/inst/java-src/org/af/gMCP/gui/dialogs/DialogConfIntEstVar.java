@@ -106,8 +106,8 @@ public class DialogConfIntEstVar extends JDialog implements ActionListener, Chan
 		
 		panel.setLayout(new GridBagLayout());	
 		
-		for (int i=0; i<nl.getKnoten().size(); i++) {
-			Node node = nl.getKnoten().get(i);
+		for (int i=0; i<nl.getNodes().size(); i++) {
+			Node node = nl.getNodes().get(i);
 			c.gridx=0;
 			
 			JLabel hypothesis = new JLabel(node.getName()+":");			
@@ -133,7 +133,7 @@ public class DialogConfIntEstVar extends JDialog implements ActionListener, Chan
 
 	private void calculateCI() {
 		
-		int n = nl.getKnoten().size();
+		int n = nl.getNodes().size();
 		double[] rLB = new double[n];
 		double[] rUB = new double[n];
 		double[] rEst = new double[n];
@@ -218,7 +218,7 @@ public class DialogConfIntEstVar extends JDialog implements ActionListener, Chan
 		panel.add(new JLabel("Alternative"), c);
 		c.gridy++;
 		
-		for (Node node : nl.getKnoten()) {
+		for (Node node : nl.getNodes()) {
 			c.gridx=0;
 			
 			JLabel hypothesis = new JLabel(node.getName()+":");			

@@ -192,7 +192,7 @@ public class GraphView extends JPanel implements ActionListener {
 	        	getNL().loadGraph();
 	        	getPView().restorePValues();
 			}
-			if (getNL().getKnoten().size()==0) {
+			if (getNL().getNodes().size()==0) {
 				JOptionPane.showMessageDialog(parent, "Please create first a graph.", "Please create first a graph.", JOptionPane.ERROR_MESSAGE);
 			} else {
 				parent.glassPane.start();
@@ -236,7 +236,7 @@ public class GraphView extends JPanel implements ActionListener {
 							output = RControl.getR().eval("attr("+result+", \"output\")").asRChar().getData()[0];
 						}
 						parent.glassPane.stop();
-						new RejectedDialog(parent, rejected, parent.getGraphView().getNL().getKnoten(), output);
+						new RejectedDialog(parent, rejected, parent.getGraphView().getNL().getNodes(), output);
 						return null;
 					}  
 				};
@@ -245,7 +245,7 @@ public class GraphView extends JPanel implements ActionListener {
 				stopTesting();
 			}
 		} else if (e.getSource().equals(buttonadjPval)) {
-			if (getNL().getKnoten().size()==0) {
+			if (getNL().getNodes().size()==0) {
 				JOptionPane.showMessageDialog(parent, "Please create first a graph.", "Please create first a graph.", JOptionPane.ERROR_MESSAGE);				
 			} else {
 				if (!getNL().isTesting()) {
@@ -266,7 +266,7 @@ public class GraphView extends JPanel implements ActionListener {
 						}
 						double[] adjPValues = RControl.getR().eval(result+"@adjPValues").asRNumeric().getData();
 						parent.glassPane.stop();
-						new AdjustedPValueDialog(parent, getPView().pValues, adjPValues, getNL().getKnoten());
+						new AdjustedPValueDialog(parent, getPView().pValues, adjPValues, getNL().getNodes());
 						return null;
 					}  
 				};
@@ -327,17 +327,17 @@ public class GraphView extends JPanel implements ActionListener {
 
 	public void updateEdge(int from, int to, EdgeWeight weight) {
 		logger.info("Adding Edge from "+from+" to "+to+" with weight "+weight.toString()+".");
-		Edge e = getNL().findEdge(getNL().getKnoten().get(from), getNL().getKnoten().get(to));
+		Edge e = getNL().findEdge(getNL().getNodes().get(from), getNL().getNodes().get(to));
 		if (e!=null) {
 			int x = e.getK1();
 			int y = e.getK2();			
 			if (!weight.toString().equals("0")) {
-				getNL().setEdge(new Edge(getNL().getKnoten().get(from), getNL().getKnoten().get(to), weight, getNL(), x, y));
+				getNL().setEdge(new Edge(getNL().getNodes().get(from), getNL().getNodes().get(to), weight, getNL(), x, y));
 			} else {
 				getNL().removeEdge(e);
 			}
 		} else {
-			getNL().setEdge(getNL().getKnoten().get(from), getNL().getKnoten().get(to), weight);
+			getNL().setEdge(getNL().getNodes().get(from), getNL().getNodes().get(to), weight);
 		}
 		getNL().repaint();		
 	}

@@ -97,7 +97,7 @@ public class OptionsDialog extends JDialog implements ActionListener {
                 for (Edge edge : parent.getGraphView().getNL().getEdges()) {                	
                 	//TODO Update edge weights
                 }
-                for (Node node : parent.getGraphView().getNL().getKnoten()) {
+                for (Node node : parent.getGraphView().getNL().getNodes()) {
                 	node.setWeight(node.getWeight(), null);
                 }
                 parent.repaint();

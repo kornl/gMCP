@@ -39,10 +39,6 @@ public class NetList extends JPanel implements MouseMotionListener, MouseListene
 	
 	protected Vector<Edge> edges = new Vector<Edge>();
 	protected Vector<Node> nodes = new Vector<Node>();
-	
-	public Vector<Node> getgetNodes() {
-		return nodes;
-	}
 
 	Node firstVertex;	
 	boolean firstVertexSelected = false;
@@ -102,7 +98,7 @@ public class NetList extends JPanel implements MouseMotionListener, MouseListene
 		}
 		if (old != null) edges.remove(old);
 		edges.add(e);
-		control.getDataTable().getModel().setValueAt(e.getEdgeWeight(), getKnoten().indexOf(e.from), getKnoten().indexOf(e.to));
+		control.getDataTable().getModel().setValueAt(e.getEdgeWeight(), getNodes().indexOf(e.from), getNodes().indexOf(e.to));
 		graphHasChanged();
 	}
 
@@ -139,7 +135,7 @@ public class NetList extends JPanel implements MouseMotionListener, MouseListene
 			}
 			edges.lastElement().curve = curve;
 		}
-		control.getDataTable().getModel().setValueAt(w, getKnoten().indexOf(von), getKnoten().indexOf(nach));
+		control.getDataTable().getModel().setValueAt(w, getNodes().indexOf(von), getNodes().indexOf(nach));
 		graphHasChanged();
 	}
 
@@ -252,7 +248,7 @@ public class NetList extends JPanel implements MouseMotionListener, MouseListene
 
 	}
 	
-	public Vector<Node> getKnoten() {
+	public Vector<Node> getNodes() {
 		return nodes;
 	}
 	
@@ -261,8 +257,8 @@ public class NetList extends JPanel implements MouseMotionListener, MouseListene
 		String latex = "";
 		double scale=0.5;
 		latex += "\\begin{tikzpicture}[scale="+scale+"]";
-		for (int i = 0; i < getKnoten().size(); i++) {
-			Node node = getKnoten().get(i);
+		for (int i = 0; i < getNodes().size(); i++) {
+			Node node = getNodes().get(i);
 			latex += "\\node ("+node.getName().replace("_", "-")+") at ("+node.getX()+"bp,"+(-node.getY())+"bp)\n";
 			String nodeColor = "green!80";
 			if (node.isRejected()) {nodeColor = "red!80";}
@@ -492,7 +488,7 @@ public class NetList extends JPanel implements MouseMotionListener, MouseListene
 			}
 		}
 		edges.remove(edge);
-		control.getDataTable().getModel().setValueAt(new EdgeWeight(0), getKnoten().indexOf(edge.from), getKnoten().indexOf(edge.to));
+		control.getDataTable().getModel().setValueAt(new EdgeWeight(0), getNodes().indexOf(edge.from), getNodes().indexOf(edge.to));
 		graphHasChanged();
 	}
 
@@ -503,7 +499,7 @@ public class NetList extends JPanel implements MouseMotionListener, MouseListene
 				edges.remove(e);
 			}
 		}
-		control.getDataTable().getModel().delRowCol(getKnoten().indexOf(node));
+		control.getDataTable().getModel().delRowCol(getNodes().indexOf(node));
 		nodes.remove(node);
 		control.getPView().removePPanel(node);
 		if (nodes.size()==0) {
@@ -515,8 +511,8 @@ public class NetList extends JPanel implements MouseMotionListener, MouseListene
 
 	public void reset() {
 		edges.removeAllElements();
-		for (int i=getKnoten().size()-1; i>=0; i--) {
-			removeNode(getKnoten().get(i));
+		for (int i=getNodes().size()-1; i>=0; i--) {
+			removeNode(getNodes().get(i));
 		}
 		statusBar.setText(GraphView.STATUSBAR_DEFAULT);
 		firstVertexSelected = false;

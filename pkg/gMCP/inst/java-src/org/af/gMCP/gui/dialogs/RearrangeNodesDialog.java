@@ -50,7 +50,7 @@ public class RearrangeNodesDialog extends JDialog implements ActionListener {
 	    jrbCircle.addActionListener(this);
 	    jrbMatrix.addActionListener(this);
 		
-		int n = mainFrame.getGraphView().getNL().getKnoten().size();
+		int n = mainFrame.getGraphView().getNL().getNodes().size();
 		tfRows = new JSpinner(new SpinnerNumberModel(Math.round(Math.sqrt(n)), 1, n, 1));
 		tfCols = new JSpinner(new SpinnerNumberModel(Math.round(Math.sqrt(n)+1), 1, n, 1));
 		
