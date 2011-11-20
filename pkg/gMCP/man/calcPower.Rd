@@ -11,7 +11,7 @@
   calcPower(weights, alpha, G, mean = rep(0, nrow(sigma)),
             sigma = diag(length(mean)),corr = NULL,
             nSim = 10000, seed = 4711,
-            type = c("quasirandom", "pseudorandom"))
+            type = c("quasirandom", "pseudorandom"), f=list())
 }
 \arguments{
   \item{weights}{ Initial weight levels for the test procedure, see graphTest function. }
@@ -31,7 +31,10 @@
   \item{nSim}{ Monte Carlo sample size. If type = "quasirandom" this
     number is rounded up to the next power of 2, e.g. 1000 is rounded up
     to 1024=2^10. }
-  
+  \item{f}{ List of user defined power functions. If one is interested
+    in the power to reject hypotheses 1 and 3 one could specify
+    \code{function(x) {x[1] && x[3]}}
+  }  
 }
 
 \value{
