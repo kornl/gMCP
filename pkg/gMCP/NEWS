@@ -1,3 +1,9 @@
+Version 0.7-2 (??-??-2011, Rev. ????)
+=====================================
+
+- Fixed: In 0.7-1 the options dialog throws an error.
+- Fixed: In the verbose output of 0.7-1 some weights were 
+  shown as p_i instead w_i. 
 
 Version 0.7-1 (22-11-2011, Rev. 1001)
 =====================================

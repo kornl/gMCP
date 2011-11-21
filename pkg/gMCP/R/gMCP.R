@@ -125,7 +125,7 @@ gMCP <- function(graph, pvalues, test, correlation, alpha=0.05,
 						if (pvalues2[j]<=alpha*sum(weights[i, Jj])) {
 							result[i, n+1] <- 1
 							if (verbose) {
-								explanation[i] <- paste("Subset {",paste(J,collapse=","),"}: p_",j,"=", pvalues2[j],"<=a*(p_",paste(which(Jj),collapse ="+p_"),")\n     =",alpha,"*(",paste(weights[i, Jj],collapse ="+"),")=",alpha*sum(weights[i, Jj]),sep="")
+								explanation[i] <- paste("Subset {",paste(J,collapse=","),"}: p_",j,"=", pvalues2[j],"<=a*(w_",paste(which(Jj),collapse ="+w_"),")\n     =",alpha,"*(",paste(weights[i, Jj],collapse ="+"),")=",alpha*sum(weights[i, Jj]),sep="")
 							}
 						}
 					}					
