@@ -7,7 +7,7 @@ extractPower <- function(x, f=list()){
 		  PowAtlst1 = atleast1, RejectAll = allPow)
   if(length(unique(names(f)))!=length(f)) stop("f must be a named list with unique names.")
   for (fn in names(f)) {
-  	result[[fn]] <- sum(apply(out,1, f[[fn]]))/dim(x)[1]
+  	result[[fn]] <- sum(apply(x,1, f[[fn]]))/dim(x)[1]
   }
   result
 }
