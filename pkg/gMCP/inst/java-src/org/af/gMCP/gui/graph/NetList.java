@@ -468,6 +468,14 @@ public class NetList extends JPanel implements MouseMotionListener, MouseListene
 			g2d.drawString(s ,
 					(float) (( 10 ) * getZoom()),
 					(float) (( 20+30*2 ) * getZoom())); 
+			
+			if (userDefined!=null) {
+				s = "User defined Power: " + format.format(userDefined);		
+
+				g2d.drawString(s ,
+						(float) (( 10 ) * getZoom()),
+						(float) (( 20+30*3 ) * getZoom()));
+			}
 		}
 	}
 	
@@ -673,15 +681,17 @@ public class NetList extends JPanel implements MouseMotionListener, MouseListene
 	Double expRejections = null;
 	Double powAtlst1 = null;
 	Double rejectAll = null;
+	Double userDefined = null;
 	
 	public void setPower(double[] localPower, double expRejections,
-			double powAtlst1, double rejectAll) {
+			double powAtlst1, double rejectAll, double userDefined) {
 		for (int i=0; i<localPower.length; i++) {
 			this.nodes.get(i).setLocalPower(localPower[i]);			
 		}
 		this.expRejections = expRejections;
 		this.powAtlst1 = powAtlst1;
 		this.rejectAll = rejectAll;
+		this.userDefined = userDefined;
 		this.repaint();
 	}
 	

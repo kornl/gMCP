@@ -127,10 +127,10 @@ public class MenuBarMGraph extends JMenuBar implements ActionListener {
 		menu.setMnemonic(KeyEvent.VK_A);
 
 		menu.add(makeMenuItem("Graph analysis", "graphAnalysis"));
-		if (Configuration.getInstance().getGeneralConfig().experimentalFeatures()) {
-			menu.addSeparator();
-			menu.add(makeMenuItem("Power analysis", "powerAnalysis"));		
-		}
+		//if (Configuration.getInstance().getGeneralConfig().experimentalFeatures()) {
+		menu.addSeparator();
+		menu.add(makeMenuItem("Power analysis", "powerAnalysis"));		
+		//}
 
 		add(menu);
 

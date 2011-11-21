@@ -35,6 +35,7 @@ public class PowerDialogParameterUncertainty extends JDialog implements ActionLi
     JTextArea jta = new JTextArea();
     JPanel panel = new JPanel();
     DataFramePanel dfp;
+    JTextField jtUserDefined = new JTextField();
     
 	public PowerDialogParameterUncertainty(CreateGraphGUI parent) {
 		super(parent, "Power Simulation - specify probability distribution of test statistics", true);
@@ -51,7 +52,13 @@ public class PowerDialogParameterUncertainty extends JDialog implements ActionLi
 		dfp.getTable().getModel().diagEditable = true;
 		dfp.getTable().setDefaultEditor(EdgeWeight.class, new CellEditorE(null, dfp.getTable()));
 		
-		jta.setText("Specify one of the following:\n"+
+		jta.setText("Above you can specify the mean and covariance matrix of a multivariate\n" +
+				"normal distribution that is used for power calculations.\n" +
+				"\n" +
+				"In the text field on the right you can enter an user defined power function.\n" +
+				"Example:  (x[1] && x[2]) || x[4]\n" +
+				"This calculates the probability that the first and second\n" +
+				"or (not exclusive) the fourth null hypothesis can be rejected."+
 				/*"- if the test statistic follows a t-distribution, enter the non-centrality parameter µ*sqrt(n)/σ\n"+
 				"  (µ=difference of real mean and mean under null hypothesis, n=sample size, σ=standard deviation)\n"+
 				"- triangle(min, peak, max)\n"+
@@ -105,6 +112,10 @@ public class PowerDialogParameterUncertainty extends JDialog implements ActionLi
 		
 		getContentPane().add(new JScrollPane(jta), c);
 		
+		c.gridx++;
+		
+		getContentPane().add(new JScrollPane(jtUserDefined), c);
+		
         pack();
         setVisible(true);
 	}
@@ -118,17 +129,23 @@ public class PowerDialogParameterUncertainty extends JDialog implements ActionLi
 		for (int i=0; i<means.length; i++) {
 			means[i] = Double.parseDouble(jtl.get(i).getText());
 		}
+		String userDefinedF = jtUserDefined.getText().length()>1?", f=list(userDefined=function(x) {"+jtUserDefined.getText()+"})":"";
 		String mean = RControl.getRString(means);
 		RControl.getR().eval(parent.getGraphView().getNL().getGraphName()+"<-gMCP:::parse2numeric("+parent.getGraphView().getNL().getGraphName()+")");
-		RControl.getR().eval(".powerResult <- calcPower(weights="+weights+", alpha="+alpha+", G="+G+", mean="+mean+
-                      ","+"sigma = " + dfp.getTable().getModel().getDataFrame().getRMatrix() +//diag(length(mean)),corr = NULL,"+
+		RControl.getR().eval(".powerResult <- calcPower(weights="+weights+", alpha="+alpha+", G="+G+", mean="+mean
+                      +","+"sigma = " + dfp.getTable().getModel().getDataFrame().getRMatrix() //diag(length(mean)),corr = NULL,"+
+                      +userDefinedF
                       //"nSim = 10000, seed = 4711, type = c(\"quasirandom\", \"pseudorandom\")"+
-				")");
+				+")");
 		double[] localPower = RControl.getR().eval(".powerResult$LocalPower").asRNumeric().getData();
 		double expRejections = RControl.getR().eval(".powerResult$ExpRejections").asRNumeric().getData()[0];
 		double powAtlst1 = RControl.getR().eval(".powerResult$PowAtlst1").asRNumeric().getData()[0];
 		double rejectAll = RControl.getR().eval(".powerResult$RejectAll").asRNumeric().getData()[0];
-		parent.getGraphView().getNL().setPower(localPower, expRejections, powAtlst1, rejectAll);
+		Double userDefined = null;
+		if (jtUserDefined.getText().length()>1) {
+			userDefined = RControl.getR().eval(".powerResult$userDefined").asRNumeric().getData()[0];
+		}
+		parent.getGraphView().getNL().setPower(localPower, expRejections, powAtlst1, rejectAll, userDefined);
 		dispose();
 	}	
 	
