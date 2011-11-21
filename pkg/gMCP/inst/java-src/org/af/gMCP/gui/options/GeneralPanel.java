@@ -111,8 +111,8 @@ public class GeneralPanel extends OptionsPanel implements ActionListener {
         useEpsApprox.addActionListener(this);
         useEpsApprox.setEnabled(false);
         
-        checkOnlineForUpdate = new JCheckBox("Verbose output");
-        checkOnlineForUpdate.setSelected(conf.getGeneralConfig().verbose());
+        verbose = new JCheckBox("Verbose output");
+        verbose.setSelected(conf.getGeneralConfig().verbose());
     }
 
     private void doTheLayout() {
