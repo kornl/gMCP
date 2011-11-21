@@ -1,11 +1,13 @@
 
-Version 0.7-1 (??-???-2011, Rev. ???)
+Version 0.7-1 (22-11-2011, Rev. 1001)
 =====================================
 
 - The GUI will (optionally) look for a newer version of 
   gMCP on CRAN.
   
 - New function "subGraph" for the creation of subgraphs.
+
+- User defined power functions.
   
 Version 0.7-0 (26-Aug-2011, Rev. 964)
 =====================================
