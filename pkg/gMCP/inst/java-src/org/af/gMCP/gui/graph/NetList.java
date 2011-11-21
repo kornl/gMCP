@@ -683,8 +683,8 @@ public class NetList extends JPanel implements MouseMotionListener, MouseListene
 	Double rejectAll = null;
 	Double userDefined = null;
 	
-	public void setPower(double[] localPower, double expRejections,
-			double powAtlst1, double rejectAll, double userDefined) {
+	public void setPower(double[] localPower, Double expRejections,
+			Double powAtlst1, Double rejectAll, Double userDefined) {
 		for (int i=0; i<localPower.length; i++) {
 			this.nodes.get(i).setLocalPower(localPower[i]);			
 		}
