@@ -113,23 +113,16 @@ decideTest <- function(z,bounds){
   })
   d
 }
-    
+
 to.binom <- function(int,n=floor(log2(int))+1){
-  ## isn't there anything faster built into R?
+  ## 6 times faster than the old function (Thankyou!)
   if(n+2<=floor(log2(int))){
     stop('Vector length to small to hold binary number')
   }
-  binom <- logical(n)
-  while(int>=1){
-    l <- floor(log2(int))
-    binom[l+1] <- T
-    int <- int - 2^l
-  }
-  if(int>0){
-    stop('int must be integer!')
-  }
-  return(binom[n:1])
+  ((int)%/% 2^((n:1)-1))%%2
 }
+
+
 
 parse.intersection <- function(binom){
   paste("H(",paste(which(binom),collapse=','),")",sep="")
