@@ -26,7 +26,7 @@ public class UpdateNode extends JDialog implements ActionListener {
 	NetList netzListe;
 	
 	public UpdateNode(Node node, NetList netzListe) {
-		super((JFrame)null, "Updating Node "+node.getName());
+		super(netzListe.control.parent, "Updating Node "+node.getName(), true);
 		this.node = node;
 		this.netzListe = netzListe;
 		String cols = "5dlu, fill:pref:grow, 5dlu, fill:pref:grow, 5dlu";

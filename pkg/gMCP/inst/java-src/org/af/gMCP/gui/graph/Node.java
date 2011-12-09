@@ -194,6 +194,10 @@ public class Node {
 	public String getName() {		
 		return name;
 	}
+	
+	public String toString() {		
+		return name+" (w: "+getWS()+")";
+	}
 
 	public void setName(String name) {
 		this.name = name;	

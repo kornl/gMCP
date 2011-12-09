@@ -334,7 +334,7 @@ public class NetList extends JPanel implements MouseMotionListener, MouseListene
 	public void mouseMoved(MouseEvent e) {}
 
 	public void mousePressed(MouseEvent e) {
-		logger.debug("MousePressed at ("+e.getX()+","+ e.getY()+").");
+		//logger.debug("MousePressed at ("+e.getX()+","+ e.getY()+").");
 		if (newVertex) {
 			addDefaultNode((int)(e.getX() / getZoom()) - Node.r, 
 						(int) (e.getY() / getZoom()) - Node.r);
@@ -490,6 +490,7 @@ public class NetList extends JPanel implements MouseMotionListener, MouseListene
 	}
 	
 	public void removeEdge(Edge edge) {
+		logger.info("Removing "+edge);
 		for (Edge e : edges) {
 			if (e.from == edge.to && e.to == edge.from) {
 				e.curve = false;				
@@ -501,6 +502,7 @@ public class NetList extends JPanel implements MouseMotionListener, MouseListene
 	}
 
 	public void removeNode(Node node) {
+		logger.info("Removing "+node);		
 		for (int i=edges.size()-1; i>=0; i--) {
 			Edge e = edges.get(i);
 			if (e.from==node || e.to==node) {
@@ -518,6 +520,7 @@ public class NetList extends JPanel implements MouseMotionListener, MouseListene
 	}
 
 	public void reset() {
+		logger.info("Reset.");
 		edges.removeAllElements();
 		for (int i=getNodes().size()-1; i>=0; i--) {
 			removeNode(getNodes().get(i));

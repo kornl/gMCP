@@ -395,4 +395,8 @@ public class Edge {
 	public EdgeWeight getEdgeWeight() {
 		return ew;
 	}
+	
+	public String toString() {
+		return "edge from "+from+" to "+to;
+	}
 }
