@@ -1,9 +1,15 @@
-Version 0.7-2 (??-??-2011, Rev. ????)
+Version 0.7-2 (??-12-2011, Rev. 10??)
 =====================================
 
 - Fixed: In 0.7-1 the options dialog throws an error.
-- Fixed: In the verbose output of 0.7-1 some weights were 
-  shown as p_i instead w_i. 
+
+- Fixed: In the verbose output of 0.7-1 some weights were shown 
+  as p_i instead w_i.
+
+- The dialogs for updating/deleting edges and nodes are now modal dialogs.
+
+- Improved debug information
+
 
 Version 0.7-1 (22-11-2011, Rev. 1001)
 =====================================
@@ -14,6 +20,9 @@ Version 0.7-1 (22-11-2011, Rev. 1001)
 - New function "subGraph" for the creation of subgraphs.
 
 - User defined power functions.
+
+ 52 files changed, 551 insertions(+), 266 deletions(-)
+ 
   
 Version 0.7-0 (26-Aug-2011, Rev. 964)
 =====================================

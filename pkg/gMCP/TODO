@@ -191,6 +191,8 @@ From http://download.oracle.com/javase/1.3/docs/tooldocs/solaris/java.html :
         * SIGQUIT thread dumps are not available.
         * User code is responsible for causing shutdown hooks to run, for example by calling System.exit() when the JVM is to be terminated. 
 
+---
+
 As always:
 ==========
 - more references, since some people will actually look at this package.
