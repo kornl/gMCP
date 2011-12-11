@@ -84,6 +84,7 @@ requireLibrary <- function(package) {
 		answer <- readline(paste("Package ",package," is required - should we install it?", sep=""))
 		if (substr(answer, 1, 1) %in% c("y","Y")) {
 			if (package %in% c("graph", "Rgraphviz")) {
+				biocLite <- function(x) {}
 				source("http://www.bioconductor.org/biocLite.R")
 				biocLite(package)
 			} else {

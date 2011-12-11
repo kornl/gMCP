@@ -338,7 +338,7 @@ fixedSequence <- function(n) {
 
 simpleSuccessiveI <- function() {
 	graph <- generalSuccessive()
-	graph <- replaceVariables(graph, variables=list("\\\\gamma"=0, "\\\\delta"=0))
+	graph <- replaceVariables(graph, variables=list("gamma"=0, "delta"=0))
 	attr(graph, "description") <- paste("Simple successive graph from Maurer et al. (2011)", 
 			"",
 			"Literature: Maurer W., Glimm E., Bretz F.: Multiple and repeated testing of primary, co-primary and secondary hypotheses. Statistics in Biopharmaceutical Reserach 2011; (in press).",
@@ -349,7 +349,7 @@ simpleSuccessiveI <- function() {
 
 simpleSuccessiveII <- function() {
 	graph <- generalSuccessive()
-	graph <- replaceVariables(graph, variables=list("\\\\gamma"=1/2, "\\\\delta"=1/2))
+	graph <- replaceVariables(graph, variables=list("gamma"=1/2, "delta"=1/2))
 	attr(graph, "description") <- paste("Simple successive graph from Maurer et al. (2011)", 
 			"",
 			"Literature: Maurer W., Glimm E., Bretz F.: Multiple and repeated testing of primary, co-primary and secondary hypotheses. Statistics in Biopharmaceutical Reserach 2011; (in press).", sep="\n")
@@ -417,7 +417,7 @@ generalSuccessive <- function(weights=c(1/2,1/2)) {
 
 HuqueAloshEtBhore2011 <- function() {
 	graph <- HungEtWang2010()
-	graph <- replaceVariables(graph, variables=list("\\\\nu"=1/2, "\\\\omega"=1/2, "\\\\tau"=0))
+	graph <- replaceVariables(graph, variables=list("nu"=1/2, "omega"=1/2, "tau"=0))
 	rownames(graph@m) <- colnames(graph@m) <- paste("H", 1:4, sep="")
 	graph@m["H4","H2"] <- 1
 	attr(graph, "description") <- paste("Graph representing the procedure from Huque, Alosh and Bhore (2011)", 

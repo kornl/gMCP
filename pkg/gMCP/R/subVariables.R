@@ -14,10 +14,10 @@ substituteEps <- function(graph, eps=10^(-4)) {
 }
 
 replaceVariables <-function(graph, variables=list()) {
-	greek <- c("\\\\alpha", "\\\\beta", "\\\\gamma", "\\\\delta", "\\\\epsilon", "\\\\zeta", "\\\\eta", 
-			"\\\\theta", "\\\\iota", "\\\\kappa", "\\\\lambda", "\\\\mu", "\\\\nu", "\\\\xi", 
-			"\\\\omicron", "\\\\pi", "\\\\rho", "\\\\sigma", "\\\\tau", "\\\\nu", "\\\\phi",
-			"\\\\chi", "\\\\psi", "\\\\omega")
+	greek <- c("alpha", "beta", "gamma", "delta", "epsilon", "zeta", "eta", 
+			"theta", "iota", "kappa", "lambda", "mu", "nu", "xi", 
+			"omicron", "pi", "rho", "sigma", "tau", "nu", "phi",
+			"chi", "psi", "omega")
 	
 	for (g in greek) {
 		if (length(grep(g, graph@m))!=0) {
@@ -28,7 +28,7 @@ replaceVariables <-function(graph, variables=list()) {
 					stop(paste("Value for variable",g,"not specified."))
 				}
 			}
-			graph@m <- gsub(g, answer, graph@m) 
+			graph@m <- gsub(paste("\\\\", g, sep=""), answer, graph@m) 
 		}
 	}
 	return(parse2numeric(graph))

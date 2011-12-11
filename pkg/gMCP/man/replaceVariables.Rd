@@ -16,7 +16,7 @@
 	A graph of class \code{\link{graphMCP}}.
   }
   \item{variables}{
-    A named list with the specified real values, for example \code{list(a=0.5, b=0.8, "\\\\\\\\tau"=0.5)}.
+    A named list with the specified real values, for example \code{list(a=0.5, b=0.8, "tau"=0.5)}.
   	If this list is missing at all or single variables are missing from the list, 
   	the user is asked for the values (if the session is not interactive an error is thrown).
   }
@@ -37,7 +37,7 @@ graph <- HungEtWang2010()
 \dontrun{
 replaceVariables(graph)
 }
-replaceVariables(graph, list("\\\\\\\\tau"=0.5,"\\\\\\\\omega"=0.5, "\\\\\\\\nu"=0.5))
+replaceVariables(graph, list("tau"=0.5,"omega"=0.5, "nu"=0.5))
 }
 \keyword{ print }
 \keyword{ graphs }
