@@ -1,4 +1,4 @@
-Version 0.7-2 (??-12-2011, Rev. 10??)
+Version 0.7-2 (11-12-2011, Rev. 1016)
 =====================================
 
 - Fixed: In 0.7-1 the options dialog throws an error.
@@ -11,6 +11,9 @@ Version 0.7-2 (??-12-2011, Rev. 10??)
 - The adjacency matrix is not editable while testing is in progress.
 
 - Improved debug information
+
+- Improved drag'n'drop. 
+  Also edge labels do not jump any more when double clicked.
 
 
 Version 0.7-1 (22-11-2011, Rev. 1001)

@@ -47,16 +47,13 @@ Possible MalWare 'W32/NewMalware-Generic-8d27-f554' found in '5832765_287X_AZ-D_
 - test whether description is always saved
 - More fairness regarding the Maurer et al. example ("improved" - what does the paper cover)
 - Install graph package at R with gMCP installation
-- test with Java 7
 
 Medium priority:
 ================
--  improvedFallbackII() under Windows with GUI:
+- improvedFallbackII() under Windows with GUI:
   Error in graph:::isValidAdjMat(adjMat, edgemode) : 
   negative values not allowed in adjacency matrix
   (not reproducable?)
-- mcp.c: In function ‘graphproc’:
-  mcp.c:43:2: warning: implicit declaration of function ‘Rprintf’
 - Contact Björn:
   ~/workspace/gMCP/pkg/gMCP/src$ gcc -I/usr/share/R/include -Wunused -fpic  -std=gnu99 -O3 -pipe  -g -c mcp.c -o mcp.o
   mcp.c: In function ‘graphproc’:

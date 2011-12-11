@@ -38,7 +38,7 @@
   	Test specific arguments can be given here.
   }   
   \item{useC}{Logical scalar. If \code{TRUE} neither adjusted p-values nor intermediate graphs are returned,
-  		  but the calculation is sped up by using code written in C.
+  		  but the calculation is sped up by using code written in C. THIS CODE IS NOT FOR PRODUCTIVE USE YET!
   		  If approxEps is \code{FALSE} and the graph contains epsilon edges, a warning is thrown and \code{useC} will be ignored.}
   \item{verbose}{Logical scalar. If \code{TRUE} verbose output is generated during
           sequentially rejection steps.}  
