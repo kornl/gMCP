@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.Date;
@@ -359,6 +360,15 @@ public class GraphView extends JPanel implements ActionListener {
 
 	public DView getDView() {
 		return 	parent.getDView();	
+	}
+	
+	public void saveGraphImage(File file) {
+		BufferedImage img = getNL().getImage();
+		try {
+			ImageIO.write( img, "png", file );
+		} catch( Exception ex ) {
+			JOptionPane.showMessageDialog(this, "Saving image to '" + file.getAbsolutePath() + "' failed: " + ex.getMessage(), "Saving failed.", JOptionPane.ERROR_MESSAGE);
+		}
 	}
 	
 }

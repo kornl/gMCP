@@ -415,7 +415,7 @@ public class MenuBarMGraph extends JMenuBar implements ActionListener {
 	}
 	
 	private void submitGraph() {
-		new GraphSendToArchiveDialog(control.getMainFrame());		
+		new GraphSendToArchiveDialog(control.getMainFrame(), control);		
 	}
 
 	private void showURL(String url) {
@@ -584,7 +584,6 @@ public class MenuBarMGraph extends JMenuBar implements ActionListener {
 
 	
 	private void saveGraphImage() {
-		BufferedImage img = control.getNL().getImage();
 		JFileChooser fc = new JFileChooser(Configuration.getInstance().getClassProperty(this.getClass(), "ImageDirectory"));		
         fc.setFileSelectionMode(JFileChooser.FILES_ONLY);
         fc.setDialogType(JFileChooser.SAVE_DIALOG);
@@ -595,11 +594,7 @@ public class MenuBarMGraph extends JMenuBar implements ActionListener {
             if (!f.getName().toLowerCase().endsWith(".png")) {
             	f = new File(f.getAbsolutePath()+".png");
             }
-            try {
-    			ImageIO.write( img, "png", f );
-    		} catch( Exception ex ) {
-    			JOptionPane.showMessageDialog(this, "Saving image to '" + f.getAbsolutePath() + "' failed: " + ex.getMessage(), "Saving failed.", JOptionPane.ERROR_MESSAGE);
-    		}
+            control.saveGraphImage(f);
         }		
 	}
 	

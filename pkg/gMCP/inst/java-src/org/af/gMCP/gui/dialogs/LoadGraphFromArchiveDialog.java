@@ -33,7 +33,8 @@ public class LoadGraphFromArchiveDialog extends JDialog implements ActionListene
     JList jlGraphs;
     String[] matrices;
     String[] graphs;
-    JTextArea jtInfo = new JTextArea(12, 40);;
+    JTextArea jtInfo = new JTextArea(12, 40);
+    
     
 	public LoadGraphFromArchiveDialog(CreateGraphGUI parent) {
 		super(parent, "Select an R object to load", true);

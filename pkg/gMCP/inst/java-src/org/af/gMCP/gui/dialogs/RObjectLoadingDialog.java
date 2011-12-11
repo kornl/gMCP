@@ -34,7 +34,7 @@ public class RObjectLoadingDialog extends JDialog implements ActionListener, Lis
     JList jlGraphs;
     String[] matrices;
     String[] graphs;
-    JTextArea jtInfo = new JTextArea(12, 40);;
+    JTextArea jtInfo = new JTextArea(12, 40);
     
 	public RObjectLoadingDialog(CreateGraphGUI parent) {
 		super(parent, "Select an R object to load", true);

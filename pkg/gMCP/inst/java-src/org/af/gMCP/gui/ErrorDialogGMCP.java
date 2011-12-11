@@ -99,7 +99,7 @@ public class ErrorDialogGMCP extends ErrorDialog {
         return (FileAppender)Logger.getRootLogger().getAppender("READABLE_FILE");
     }
 
-    protected File makeLogFile(String fileName, String content) throws IOException{
+    public static File makeLogFile(String fileName, String content) throws IOException{
         File tempDir = new File(System.getProperty("java.io.tmpdir"));
         File output = new File(tempDir, fileName);
         FileWriter fw = new FileWriter(output);

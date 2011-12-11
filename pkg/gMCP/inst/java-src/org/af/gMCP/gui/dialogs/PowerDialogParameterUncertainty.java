@@ -117,6 +117,7 @@ public class PowerDialogParameterUncertainty extends JDialog implements ActionLi
 		getContentPane().add(new JScrollPane(jtUserDefined), c);
 		
         pack();
+        setLocationRelativeTo(parent);
         setVisible(true);
 	}
 
