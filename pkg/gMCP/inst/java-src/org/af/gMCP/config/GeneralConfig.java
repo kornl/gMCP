@@ -256,8 +256,17 @@ public class GeneralConfig extends SpecificConfig {
 	public void setVerbose(boolean b) {
 		setProperty("verbose", ""+b);
 	}
+	
 	public boolean verbose() {
 		return Boolean.parseBoolean(getProperty("verbose", "true"));
+	}
+	
+	public void setVariable(String variable, double value) {
+		setProperty("Variable_"+variable, ""+value);		
+	}
+    
+    public double getVariable(String variable) {
+		return Double.parseDouble(getProperty("Variable_"+variable, "0.5"));		
 	}
 		
 }

@@ -53,11 +53,13 @@ public class VariableDialog extends JDialog implements ActionListener {
         	JTextField jt = new JTextField("0");
         	if (s.equals("ε")) {
         		jt.setText(""+Configuration.getInstance().getGeneralConfig().getEpsilon());
+        	} else {
+        		jt.setText(""+Configuration.getInstance().getGeneralConfig().getVariable(s.toString()));
         	}
         	getContentPane().add(new JLabel("Value for '"+s+"':"), cc.xy(2, row));
         	getContentPane().add(jt, cc.xy(4, row));
-        	jtl.add(jt);
-
+        	jtl.add(jt);        	
+        	
         	row += 2;
         }
                 
@@ -76,6 +78,7 @@ public class VariableDialog extends JDialog implements ActionListener {
 		for (int i=0; i<variables.length; i++) {
 			double value = RControl.getR().eval(jtl.get(i).getText()).asRNumeric().getData()[0];
 			ht.put(variables[i].toString(), value);
+			Configuration.getInstance().getGeneralConfig().setVariable(variables[i].toString(), value);
 		}
 		dispose();
 	}	

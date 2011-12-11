@@ -372,7 +372,7 @@ public class MenuBarMGraph extends JMenuBar implements ActionListener {
         	submitGraph();
         } else if (e.getActionCommand().equals("userSubmitted")) {
         	JOptionPane.showMessageDialog(control.getMainFrame(), "This is a brand new feature and there are no user submitted graphs yet.\n"+
-        			"Be the first one to submit a graph: You find the option to do so in the \"Extras\" menu.", 
+        			"Be the first to submit a graph:\n You find the option to do so in the \"Extras\" menu.", 
 					"No graphs available.", JOptionPane.INFORMATION_MESSAGE);
         } else if (e.getActionCommand().equals("graphAnalysis")) {
         	if (control.getNL().getNodes().size()==0) {
