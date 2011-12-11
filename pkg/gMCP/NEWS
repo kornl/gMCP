@@ -8,6 +8,8 @@ Version 0.7-2 (??-12-2011, Rev. 10??)
 
 - The dialogs for updating/deleting edges and nodes are now modal dialogs.
 
+- The adjacency matrix is not editable while testing is in progress.
+
 - Improved debug information
 
 

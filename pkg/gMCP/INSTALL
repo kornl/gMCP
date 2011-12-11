@@ -1,36 +1,21 @@
 PLEASE USE R 2.12 OR A NEWER VERSION OF R, IF AVAILABLE.
 IF YOU NEED gMCP FOR AN OLDER VERSION OF R, PLEASE CONTACT US!
-(For R 2.8 compatibility see instructions below.)
-
-If you have not R already installed, you can download it
-bundled with gMCP and all dependencies from:
-
- http://www.algorithm-forge.com/gMCP/R_with_gMCP.zip 
- Unzipping it and a double click on the R.exe in folder bin to
- bring up an R console with an automatically started gMCP GUI.
-
-If you run into any problems, please write us an email at:
-
-help@small-projects.de
+(It is theoretically compatible with R 2.8.0 and rJava 0.6-3)
 
 gMCP requires Java >= 5.0 - most likely it is already installed on 
 your computer. If it is not, download and install it from: 
 http://www.java.com/en/download/
 
-The installation of gMCP via install.packages("gMCP") should be
-unproblematic. However one of the packages gMCP depends on perhaps 
-needs more attention (most likely on Unix systems):
+If you have not R already installed, you can download it
+bundled with gMCP and all dependencies from:
 
-rJava:
-======
+ http://www.algorithm-forge.com/gMCP/R_with_gMCP.zip 
+ Unzip it and double click on the R.exe in folder bin to
+ bring up an R console with an automatically started gMCP GUI.
 
-Follow the instructions of rJava.
+If you run into any problems, please write us an email at:
 
-Troubleshooting for Unix:
-
-Most likely you will have to run the command "R CMD javareconf" with
-root permissions to let R find your java compiler and headers.
-
+ help@small-projects.de
 
 General Troubleshooting:
 ========================
@@ -56,48 +41,18 @@ Sys.setenv(JAVA_HOME="C:/Program Files/Java/jre6/")
 (Please check that this is the correct path on your system for your 
 Java 6 installation and adapt it otherwise.)
 
- * "Error in .jinit() : unable to find the basic String class"
+ * "Error: cannot obtain Class.getSimpleName method ID" or
+   "Error in .jinit() : unable to find the basic String class"
 It looks like you have an ancient Java version installed (Java 1.4 is 
 from 2002!) that is used.
 Please check that Java >= 1.5 is installed and try to tell rJava to use 
 this newer version of Java by setting JAVA_HOME accordingly as described 
 in the previous paragraph.
 
-Package graph:
-==============
-
-To install the package graph for further graph analysis, start R and enter:
-
-source("http://bioconductor.org/biocLite.R")
-biocLite("graph")
-
-
-Package Rgraphviz:
-==================
-
-For visualization the method renderGraph from package Rgraphviz can be
-used, which uses the graphviz library.  Therefore you need to install
-the libraries and headers necessary to link graphviz library routines
-into the Rgraphviz package. For example on Debian/Ubuntu you need to
-install the package libgraphviz-dev beforehand:
-
-sudo apt-get install libgraphviz-dev
-
-To install Rgraphviz, start R and enter:
-
-source("http://bioconductor.org/biocLite.R")
-biocLite("Rgraphviz")
-
-
-Compatibility for R 2.8.0
-=========================
-
-gMCP is still compatible with R 2.8.0 but not extensively tested.
-
-To get a Windows build go to
-http://algorithm-forge.com/gMCPforR28/ 
-or (if it's not up-to-date on the site) build the current gMCP package from source for your system.  
+ * rJava does not install on a UNIX system. 
+Most likely you will have to run the command "R CMD javareconf" with
+root permissions to let R find your java compiler and headers.
 
 If you run into any problems, please write us an email at:
 
-help@small-projects.de
+ help@small-projects.de
