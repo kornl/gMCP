@@ -122,7 +122,8 @@ public class ErrorDialogSGTK extends ErrorDialog {
     	if (tfContact.getText().length()>2 || taDesc.getText().length()>2) {
     		prefix = "A FILLED OUT ";
     	}
-    	String subject = prefix+"gMCP ("+Configuration.getInstance().getGeneralConfig().getVersionNumber()+") " +
+    	String subject = prefix+"gMCP "+Configuration.getInstance().getGeneralConfig().getVersionNumber()+
+    			" (R "+Configuration.getInstance().getGeneralConfig().getRVersionNumber()+") " +
     			"bug report from "+System.getProperty("user.name", "<unknown user name>")+
     			" on "+System.getProperty("os.name", "<unknown OS>")+" : "+    			
     			(message.length()<40?message:message.substring(0, 37)+"...");
