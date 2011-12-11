@@ -98,7 +98,7 @@ public class DView extends JTabbedPane {
 		String descr = jtaDescription.getText();
 		descr = descr.replaceAll("\n", "\\\\n");
 		descr = descr.replaceAll("\"", "\\\\\"");
-		logger.debug("descr: ("+descr+")");
+		//logger.debug("descr: ("+descr+")");
 		return descr;
 	}
 	

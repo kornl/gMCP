@@ -61,14 +61,14 @@ public class PView extends JPanel implements KeyListener, ActionListener {
 	
 	public void addPPanel(Node node) {
 		panels.add(new PPanel(node, this));
-		logger.debug("Added panel for node "+node.getName());
+		//logger.debug("Added panel for node "+node.getName());
 		setUp();
 	}
 	
 	List<Double> pValues = null;
 	
 	public void savePValues() {
-		String debug = "Saving : ";
+		String debug = "Saving PValues: ";
 		pValues = new Vector<Double>();
 		for (PPanel panel : panels) {
 			pValues.add(panel.getP());
@@ -88,7 +88,7 @@ public class PView extends JPanel implements KeyListener, ActionListener {
 
 	
 	public void restorePValues() {
-		String debug = "Restoring : ";
+		String debug = "Restoring PValues: ";
 		if (pValues != null) {
 			for (int i=0; i<pValues.size(); i++) {
 				if (i<panels.size()) {
@@ -175,7 +175,7 @@ public class PView extends JPanel implements KeyListener, ActionListener {
 		for (int i=panels.size()-1;i>=0;i--) {
 			if (panels.get(i).node==node) {
 				panels.remove(i);
-				logger.debug("Removed panel for node "+node.getName());
+				//logger.debug("Removed panel for node "+node.getName());
 			}
 		}
 		setUp();		

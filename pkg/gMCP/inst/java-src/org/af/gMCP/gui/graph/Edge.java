@@ -332,7 +332,7 @@ public class Edge {
 				latex = latex.replaceAll("\\(", "{(");
 				latex = latex.replaceAll("\\)", ")}");
 			}
-			logger.debug("LaTeX string:"+latex);		
+			//logger.debug("LaTeX string:"+latex);		
 			TeXFormula formula = new TeXFormula(latex);//
 			formula = new TeXFormula("\\mathbf{"+latex+"}");			
 			if (latex.indexOf("frac")==-1 && latex.length()>4) points = (int) (points*0.7);

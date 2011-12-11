@@ -52,7 +52,7 @@ public class RDataFrameRef {
 		for (int i=0; i < getColumnCount(); i++) {row.add(new EdgeWeight(0.0));}
 		data.add(row);
 		for (int i=0; i < getRowCount(); i++) {data.get(i).add(new EdgeWeight(0.0));}
-		logger.info("Data has "+getRowCount()+" rows and "+getColumnCount()+" columns now.");
+		//logger.info("Data has "+getRowCount()+" rows and "+getColumnCount()+" columns now.");
 	}
 
 	public String getRMatrix() {
