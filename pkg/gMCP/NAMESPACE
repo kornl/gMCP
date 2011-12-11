@@ -12,6 +12,7 @@ export(gMCP, rejectNode, substituteEps, placeNodes)
 export(gMCPReport, graph2latex)
 export(matrix2graph, graph2matrix, bdiagNA, joinGraphs, subGraph)
 export(graphAnalysis)
+export(replaceVariables)
 
 export(BonferroniHolm)
 export(BretzEtAl2011)

@@ -1,6 +1,8 @@
 Version 0.7-3 (??-12-2011, Rev. 10??)
 =====================================
 
+- Function "replaceVariables" exported and documented.
+
 - User submitted graphs are supported.
 
 - Improved debug information.
@@ -25,7 +27,7 @@ Version 0.7-2 (11-12-2011, Rev. 1016)
   Also edge labels do not jump any more when double clicked.
 
  29 files changed, 178 insertions(+), 198 deletions(-)
- 
+
 
 Version 0.7-1 (22-11-2011, Rev. 1001)
 =====================================

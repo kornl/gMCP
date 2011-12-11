@@ -16,8 +16,6 @@ High priority:
 - On Windows: Autoresize of the adjacency matrix does often not work.
 - Sample sizes for correlation matrices
 - Test report creation - does not seem to work
-- Stop little movements of nodes and edges when double clicked
-- Adjacency table is enabled even in test mode
 - "Reject and pass \alpha" does not make sense in the parametric case (actually it does, if we 
 - Option "Show fractions" has no influence on TextFields for weights etc
 - What happens if we start the GUI a second time?
@@ -39,7 +37,6 @@ High priority:
 - When not using JLaTeXMath graphs with variables are not shown and saved(?) correctly
 - useC produces "Final graph after 1 steps:" - simple count the number of rejected hypotheses
 - think about naming of rows, cols, weights … but I guess it'll be the advise to use just the mutator methods or if you want to avoid this overhead a warning that you should know what you are doing…
-- remember entries for \tau, \nu, \gamma
 - export function replaceVariables
 - does something in Björns C code trigger the following false-positive:
 Possible MalWare 'W32/NewMalware-Generic-8d27-f554' found in '5832765_287X_AZ-D_PA3__gMCP.dll'. Heuristics score: 336 
