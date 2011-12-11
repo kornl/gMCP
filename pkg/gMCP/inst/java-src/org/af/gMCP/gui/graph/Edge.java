@@ -184,23 +184,12 @@ public class Edge {
 		return ew.toString();
 	}
 
-	public boolean inYou(int x, int y) {
-		if (icon==null) {
-			icon = getTeXIcon(this.nl.control.getGraphGUI(), getWS(), (int) (16 * nl.getZoom()));			
-		}		
-		int TOLERANCE = 5; 
-		
-		if (!Configuration.getInstance().getGeneralConfig().useJLaTeXMath()) {
-			String s = getWS();
-			FontRenderContext frc = g2d.getFontRenderContext();	
-			Rectangle2D rc = (new Font("Arial", Font.PLAIN, (int) (16 * nl.getZoom()))).getStringBounds(s, frc); 
-			return (x/ nl.getZoom()>k1-rc.getWidth()/2-TOLERANCE)&&(x/ nl.getZoom()<k1+rc.getWidth()/2+TOLERANCE)&&(y/ nl.getZoom()<k2- rc.getHeight()*1/ 2+TOLERANCE)&&(y/ nl.getZoom()>k2-rc.getHeight()*3/2-TOLERANCE);
-		} else {
-			return (x/nl.getZoom()>k1-icon.getIconWidth()/2-TOLERANCE)
-			&& (x/nl.getZoom()<k1+icon.getIconWidth()/2+TOLERANCE)
-			&& (y/nl.getZoom()<k2+icon.getIconHeight()/2+TOLERANCE)
-			&& (y/nl.getZoom()>k2-icon.getIconHeight()/2-TOLERANCE);
-		}
+	public boolean inYou(int x2, int y2) {
+		return x2>=x && x2 <= x+w && y2 >= y && y2 <= y+h;
+	}
+	
+	public int[] offset(int x2, int y2) {
+		return new int[] {(int) (k1* nl.getZoom())-x2, (int) (k2* nl.getZoom())-y2};
 	}
 	
 	public void paintEdge(Graphics g) {
@@ -235,6 +224,8 @@ public class Edge {
 		} 
 	}
 	
+	protected int x,y,w,h;
+	
 	public void paintEdgeLabel(Graphics g) {
 		g2d.setFont(new Font("Arial", Font.PLAIN, (int) (16 * nl.getZoom())));
 		frc = g2d.getFontRenderContext();		
@@ -243,11 +234,18 @@ public class Edge {
 		if (!Configuration.getInstance().getGeneralConfig().useJLaTeXMath()) {
 			Rectangle2D rc = g2d.getFont().getStringBounds(s, frc);
 			g2d.setColor(new Color(0.99f,0.99f,0.99f));
-			g2d.fillRect((int)((k1* nl.getZoom() - rc.getWidth() / 2)), 
-					(int)((k2* nl.getZoom() - rc.getHeight()* 3 / 2)), 
-					(int)((rc.getWidth()+5)), (int)((rc.getHeight()+5)));
+			x = (int)((k1* nl.getZoom() - rc.getWidth() / 2));
+			y = (int)((k2* nl.getZoom() - rc.getHeight()* 3 / 2));
+			w = (int)((rc.getWidth()+5));
+			h = (int)((rc.getHeight()+5));
+			g2d.fillRect(x, y, w, h);
 			g2d.setColor(Color.BLACK);
 
+			Stroke oldStroke = g2d.getStroke();
+			g2d.setStroke(new BasicStroke(1));
+			g2d.drawRect(x, y, w, h);		
+			g2d.setStroke(oldStroke);
+			
 			g2d.drawString(s, 
 					(float) ((k1* nl.getZoom() - rc.getWidth() / 2)), 
 					(float) ((k2* nl.getZoom() - rc.getHeight() / 2)));
@@ -257,18 +255,16 @@ public class Edge {
 				icon = getTeXIcon(this.nl.control.getGraphGUI(), s, lastFontSize);				
 			}
 			g2d.setColor(new Color(0.99f,0.99f,0.99f));
-			g2d.fillRect((int)((k1* nl.getZoom() - icon.getIconWidth() / 2)-5), 
-					(int)((k2* nl.getZoom() - icon.getIconHeight() / 2)-5), 
-					(int)((icon.getIconWidth()+10)),
-					(int)((icon.getIconHeight()+10)));
+			x = (int)((k1* nl.getZoom() - icon.getIconWidth() / 2)-5);
+			y = (int)((k2* nl.getZoom() - icon.getIconHeight() / 2)-5); 
+			w = (int)((icon.getIconWidth()+10));
+			h = (int)((icon.getIconHeight()+10));
+			g2d.fillRect(x, y, w, h);
 			g2d.setColor(Color.BLACK);
 
 			Stroke oldStroke = g2d.getStroke();
 			g2d.setStroke(new BasicStroke(1));
-			g2d.drawRect((int)((k1* nl.getZoom() - icon.getIconWidth() / 2)-5), 
-					(int)((k2* nl.getZoom() - icon.getIconHeight() / 2)-5), 
-					(int)((icon.getIconWidth()+10)),
-					(int)((icon.getIconHeight()+10)));		
+			g2d.drawRect(x, y, w, h);		
 			g2d.setStroke(oldStroke);		
 
 			icon.paintIcon(panel, g2d,

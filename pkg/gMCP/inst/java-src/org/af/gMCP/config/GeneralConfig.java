@@ -55,11 +55,12 @@ public class GeneralConfig extends SpecificConfig {
     }
 
     public void setGridSize(int grid) {
-		setProperty("grid", ""+grid);		
+		setProperty("grid", ""+Math.max(grid, 1));		
 	}
     
     public int getGridSize() {
-		return Integer.parseInt(getProperty("grid", "50"));		
+    	int grid = Integer.parseInt(getProperty("grid", "50"));
+		return Math.max(1, grid);		
 	}
 
     public void setDigits(int digit) {

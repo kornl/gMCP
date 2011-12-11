@@ -22,7 +22,6 @@ public class Node {
 	int x;
 	int y;
 	private String name;
-	boolean drag = false;
 	NetList nl;
 	private double weight;
 	private String stringW = "";
@@ -51,6 +50,10 @@ public class Node {
 		setX(x);
 		setY(y);		
 		setWeight(alpha, null);		
+	}
+	
+	public int[] offset(int x2, int y2) {
+		return new int[] {(int) (x* nl.getZoom())-x2, (int) (y* nl.getZoom())-y2};
 	}
 	
 	public int getX() {
