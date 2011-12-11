@@ -10,6 +10,7 @@ public class DataTableModel extends AbstractTableModel {
 	protected RDataFrameRef df;
 	private RowModel rowModel = null;
 	public boolean diagEditable = false;
+	boolean testing = false;
 
     public DataTableModel(RDataFrameRef df) {
         this.df = df;
@@ -28,7 +29,7 @@ public class DataTableModel extends AbstractTableModel {
     }
 
     public boolean isCellEditable(int rowIndex, int col) {
-        return rowIndex != col || diagEditable;
+        return (rowIndex != col || diagEditable) && !testing;
     }
 
     public void setValueAt(EdgeWeight value, int row, int col) {
@@ -66,6 +67,10 @@ public class DataTableModel extends AbstractTableModel {
     
 	public void setRowModel(RowModel rowModel) {
 		this.rowModel  = rowModel;		
+	}
+
+	public void setTesting(boolean testing) {
+		this.testing = testing;		
 	}
 	
 }

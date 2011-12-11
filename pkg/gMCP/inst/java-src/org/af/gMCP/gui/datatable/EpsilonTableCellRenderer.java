@@ -58,7 +58,7 @@ public class EpsilonTableCellRenderer extends DefaultTableCellRenderer {
     		label.setBackground(null);
     	}
     	
-    	if (row==col && !((DataTableModel)table.getModel()).diagEditable) {
+    	if ((row==col && !((DataTableModel)table.getModel()).diagEditable) || model.testing) {
     		label.setForeground(Color.LIGHT_GRAY);
     	}
     	

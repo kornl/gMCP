@@ -279,7 +279,8 @@ public class GraphView extends JPanel implements ActionListener {
 		if (!getNL().testingStarted) return;
 		getNL().stopTesting();
 		getNL().reset();
-		getNL().loadGraph();				
+		getNL().loadGraph();
+		getDataTable().setTesting(false);
 		getPView().restorePValues();
 		getPView().setTesting(false);
 		getPView().revalidate();
@@ -300,6 +301,7 @@ public class GraphView extends JPanel implements ActionListener {
 		try {
 			getNL().startTesting();
 			getNL().saveGraph();
+			getDataTable().setTesting(true);
 			getPView().setTesting(true);			
 			buttonNewVertex.setEnabled(false);
 			buttonNewEdge.setEnabled(false);				

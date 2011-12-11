@@ -44,4 +44,8 @@ public class DataTable extends JTable {
     public String getColumnVar(int col) {    	
         return getModel().getColumnName(col);
     }
+
+	public void setTesting(boolean testing) {
+		getModel().setTesting(testing);
+	}
 }
