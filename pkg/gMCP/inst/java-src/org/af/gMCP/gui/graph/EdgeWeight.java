@@ -75,10 +75,10 @@ public class EdgeWeight {
 	}
 	
 	public static final String[] greekLaTeX = {
-		"\\\\alpha", "\\\\beta", "\\\\gamma", "\\\\delta", "\\\\epsilon", "\\\\zeta", "\\\\eta", 
-		"\\\\theta", "\\\\iota", "\\\\kappa", "\\\\lambda", "\\\\mu", "\\\\nu", "\\\\xi", 
-		"\\\\omicron", "\\\\pi", "\\\\rho", "\\\\sigma", "\\\\tau", "\\\\nu", "\\\\phi",
-		 "\\\\chi", "\\\\psi", "\\\\omega"
+		"alpha", "beta", "gamma", "delta", "epsilon", "zeta", "eta", 
+		"theta", "iota", "kappa", "lambda", "mu", "nu", "xi", 
+		"omicron", "pi", "rho", "sigma", "tau", "nu", "phi",
+		"chi", "psi", "omega"
 	};
 	
 	public static final char[] greek = {

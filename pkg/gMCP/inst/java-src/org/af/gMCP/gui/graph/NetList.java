@@ -566,9 +566,9 @@ public class NetList extends JPanel implements MouseMotionListener, MouseListene
 		Enumeration<String> keys = ht.keys();
 		for (; keys.hasMoreElements();) {
 			String key = keys.nextElement();
-			list += "\""+EdgeWeight.UTF2LaTeX(key.charAt(0)).replaceAll("\\\\", "\\\\\\\\")+"\"="+ht.get(key)+",";
+			list += "\""+EdgeWeight.UTF2LaTeX(key.charAt(0))+"\"="+ht.get(key)+",";
 		}
-		list += "\""+"\\\\epsilon".replaceAll("\\\\", "\\\\\\\\")+"\"="+Configuration.getInstance().getGeneralConfig().getEpsilon()+",";
+		list += "\""+"epsilon"+"\"="+Configuration.getInstance().getGeneralConfig().getEpsilon()+",";
 		return list.substring(0, list.length()>5?list.length()-1:list.length())+")";			
 	}
 	
