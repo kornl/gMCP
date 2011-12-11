@@ -28,6 +28,7 @@ import org.af.commons.logging.LoggingSystem;
 import org.af.commons.logging.widgets.DetailsDialog;
 import org.af.commons.tools.OSTools;
 import org.af.gMCP.config.Configuration;
+import org.af.gMCP.gui.dialogs.GraphSendToArchiveDialog;
 import org.af.gMCP.gui.dialogs.ParameterDialog;
 import org.af.gMCP.gui.dialogs.PowerDialogParameterUncertainty;
 import org.af.gMCP.gui.dialogs.RObjectLoadingDialog;
@@ -121,6 +122,8 @@ public class MenuBarMGraph extends JMenuBar implements ActionListener {
 		subMenu.add(makeMenuItem("Drug clinical trial example (serial gatekeeping) from Maurer et al. (1995)", "maurer1995"));
 		menu.add(subMenu);
 		
+		menu.add(makeMenuItem("Browse archive of user submitted graphs", "userSubmitted"));
+		
 		add(menu);
 
 		menu = new JMenu("Analysis");
@@ -143,7 +146,7 @@ public class MenuBarMGraph extends JMenuBar implements ActionListener {
 		menu.addSeparator();
 		menu.add(makeMenuItem("Log", "showLog", KeyEvent.VK_L));
 		menu.add(makeMenuItem("Report error", "reportError", KeyEvent.VK_R));
-		menu.add(makeMenuItem("Submit your own graph to gMCP archive", "submitGraph", false));
+		menu.add(makeMenuItem("Submit your own graph to gMCP archive", "submitGraph"));
 		if (System.getProperty("eclipse") != null) {		
 			menu.add(makeMenuItem("Debug console", "debugConsole", KeyEvent.VK_D));
 		}
@@ -365,6 +368,12 @@ public class MenuBarMGraph extends JMenuBar implements ActionListener {
         	control.getMainFrame().repaint();
         } else if (e.getActionCommand().equals("debugConsole")) {
         	RControl.console.setVisible(true);
+        } else if (e.getActionCommand().equals("submitGraph")) {
+        	submitGraph();
+        } else if (e.getActionCommand().equals("userSubmitted")) {
+        	JOptionPane.showMessageDialog(control.getMainFrame(), "This is a brand new feature and there are no user submitted graphs yet.\n"+
+        			"Be the first one to submit a graph: You find the option to do so in the \"Extras\" menu.", 
+					"No graphs available.", JOptionPane.INFORMATION_MESSAGE);
         } else if (e.getActionCommand().equals("graphAnalysis")) {
         	if (control.getNL().getNodes().size()==0) {
         		JOptionPane.showMessageDialog(control.getMainFrame(), "Graph is empty!", "Graph is empty!", JOptionPane.ERROR_MESSAGE);
@@ -384,7 +393,7 @@ public class MenuBarMGraph extends JMenuBar implements ActionListener {
 			try {
 				double[] data = RControl.getR().eval(vnd.getName()).asRNumeric().getData();
 				if (data.length!=control.getNL().getNodes().size()) {
-					JOptionPane.showMessageDialog(this, "Number of hypotheses and values do not match.", 
+					JOptionPane.showMessageDialog(control.getMainFrame(), "Number of hypotheses and values do not match.", 
 							"Number of hypotheses and values do not match", JOptionPane.ERROR_MESSAGE);
 					return;
 				}
@@ -405,6 +414,10 @@ public class MenuBarMGraph extends JMenuBar implements ActionListener {
         } 
 	}
 	
+	private void submitGraph() {
+		new GraphSendToArchiveDialog(control.getMainFrame());		
+	}
+
 	private void showURL(String url) {
 		try {	
 			Method main = Class.forName("java.awt.Desktop").getDeclaredMethod("getDesktop");

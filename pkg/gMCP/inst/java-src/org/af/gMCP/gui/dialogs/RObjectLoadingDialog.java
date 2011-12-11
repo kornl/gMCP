@@ -27,6 +27,7 @@ import com.jgoodies.forms.layout.FormLayout;
 
 public class RObjectLoadingDialog extends JDialog implements ActionListener, ListSelectionListener, MouseListener {
 	JButton ok = new JButton("Load");
+	JButton cancel = new JButton("Cancel");
 
     CreateGraphGUI parent;    
     JList jlMatrices;
@@ -88,7 +89,9 @@ public class RObjectLoadingDialog extends JDialog implements ActionListener, Lis
         row += 2;
                         
         getContentPane().add(ok, cc.xy(4, row));
+        getContentPane().add(cancel, cc.xy(6, row));
         ok.addActionListener(this);        
+        cancel.addActionListener(this);
 
         pack();
         setSize(760,500);
@@ -98,18 +101,20 @@ public class RObjectLoadingDialog extends JDialog implements ActionListener, Lis
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		if (jlMatrices.getSelectedIndex() == -1 && jlGraphs.getSelectedIndex() == -1) {
-			JOptionPane.showMessageDialog(this, "Please select an R object for loading from one of the lists.", "Please select an object.", JOptionPane.INFORMATION_MESSAGE);
-			return;
+		if (e.getSource()==ok) {
+			if (jlMatrices.getSelectedIndex() == -1 && jlGraphs.getSelectedIndex() == -1) {
+				JOptionPane.showMessageDialog(this, "Please select an R object for loading from one of the lists.", "Please select an object.", JOptionPane.INFORMATION_MESSAGE);
+				return;
+			}
+			String object;
+			if (jlMatrices.getSelectedIndex() != -1) {
+				object = jlMatrices.getSelectedValue().toString();
+			} else {
+				object = jlGraphs.getSelectedValue().toString();
+			}   
+			((MenuBarMGraph)parent.getJMenuBar()).loadGraph(object);
+			Configuration.getInstance().getGeneralConfig().addGraph("R Object: "+object);
 		}
-		String object;
-		if (jlMatrices.getSelectedIndex() != -1) {
-			object = jlMatrices.getSelectedValue().toString();
-		} else {
-			object = jlGraphs.getSelectedValue().toString();
-		}   
-		((MenuBarMGraph)parent.getJMenuBar()).loadGraph(object);
-		Configuration.getInstance().getGeneralConfig().addGraph("R Object: "+object);
 		dispose();
 	}
 
