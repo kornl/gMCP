@@ -1,5 +1,5 @@
-\name{subGraph}
-\alias{subGraph}
+\name{subgraph}
+\alias{subgraph}
 
 \title{
 	Get a subgraph
@@ -8,7 +8,7 @@
 	Given a set of nodes and a graph this function creates the subgraph containing only the specified nodes.
 }
 \usage{
-	subGraph(graph, subset)
+	subgraph(graph, subset)
 }
 
 \arguments{
@@ -32,8 +32,8 @@
 \examples{
 
 graph <- improvedParallelGatekeeping()
-subGraph(graph, c(TRUE, FALSE, TRUE, FALSE))
-subGraph(graph, c("H1", "H3"))
+subgraph(graph, c(TRUE, FALSE, TRUE, FALSE))
+subgraph(graph, c("H1", "H3"))
 
 }
 \keyword{ print }

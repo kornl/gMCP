@@ -35,7 +35,7 @@ joinGraphs <- function(graph1, graph2, xOffset=0, yOffset=200) {
 	return(graph)
 }
 
-subGraph <- function(graph, subset) {
+subgraph <- function(graph, subset) {
 	if (is.logical(subset)) {
 		subset <- getNodes(graph)[subset]	
 	}
