@@ -29,7 +29,6 @@ High priority:
 - Check LaTeX export with variables and epsilon polynoms.
 - Flag 1+epsilon>1 in line sum
 - round adjusted p-Values up
-- standard examples
 - Think about "-Xrs" - see paragraph below.
 - somehow p-value labels where disabled (but we were not in testing modus).
 - Labels like 1/3+1/2*e also in decimal format: 0.3333+0.5*e
