@@ -205,7 +205,7 @@ public class DialogConfIntEstVar extends JDialog implements ActionListener, Chan
 		
 		panel.add(new JLabel("Hypotheses"), c);
 		c.gridx++;
-		panel.add(new JLabel("Initial alpha"), c);
+		panel.add(new JLabel("Initial weights"), c);
 		c.gridx++;
 		panel.add(new JLabel("Estimate"), c);
 		c.gridx++;
