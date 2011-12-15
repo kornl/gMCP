@@ -43,6 +43,7 @@ Possible MalWare 'W32/NewMalware-Generic-8d27-f554' found in '5832765_287X_AZ-D_
 - More fairness regarding the Maurer et al. example ("improved" - what does the paper cover)
 - All Dialogs should have cancel buttons
 - LaTeX Dialog should give information about TikZ and needed usepackage etc. lines
+- Capture verbose output
 
 Medium priority:
 ================
