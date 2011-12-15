@@ -45,7 +45,7 @@ public class VersionComparator extends JDialog implements ActionListener {
 		JTextArea jta1 = new JTextArea(txt);
 		JTextArea jta2 = new JTextArea(longMessage);
 		JTextArea jta3 = new JTextArea(news);
-		jta3.setFont(new Font("Monospaced", Font.PLAIN, 8));
+		jta3.setFont(new Font("Monospaced", Font.PLAIN, 10));
 		
 		if (txt.length()>3) {  
 			(getContentPane()).add(jta1, c);
@@ -108,7 +108,9 @@ public class VersionComparator extends JDialog implements ActionListener {
 			if (Configuration.getInstance().getGeneralConfig().checkOnline()) {
 				String version = Configuration.getInstance().getGeneralConfig().getVersionNumber();
 				String rversion = Configuration.getInstance().getGeneralConfig().getRVersionNumber();								
-				URL url = new URL("http://www.algorithm-forge.com/gMCP/version.php?R="+rversion
+				URL url = new URL("http://www.algorithm-forge.com/gMCP/version"+
+						(System.getProperty("eclipse") != null?"test":"")
+						+".php?R="+rversion
 						+"&gMCP="+version
 						+"&time="+Configuration.getInstance().getGeneralConfig().getRandomID());
 				URL newsURL = new URL("http://cran.r-project.org/web/packages/gMCP/NEWS");

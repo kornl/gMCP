@@ -1,6 +1,7 @@
 package org.af.gMCP.gui.dialogs;
 
 import java.awt.Container;
+import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
@@ -9,6 +10,8 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JFrame;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
 import javax.swing.JTextPane;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.DefaultStyledDocument;
@@ -28,7 +31,7 @@ public class TellAboutOnlineUpate extends InfoDialog implements ActionListener {
     JTextPane jtAbout = new JTextPane();
 	
 	public TellAboutOnlineUpate(JFrame mainFrame) {
-		super(mainFrame, "Check for online updates and privacy statement");
+		super(mainFrame, "Check for online updates, privacy statement and license", true);
 
 		getContentPane().setLayout(new GridBagLayout());
 		
@@ -36,6 +39,22 @@ public class TellAboutOnlineUpate extends InfoDialog implements ActionListener {
 
 		jtAbout.setStyledDocument(getDocument());
 		jtAbout.setEditable(false);
+		
+		JTextArea jta3 = new JTextArea("gMCP - Graph based Multiple Comparison Procedures.\n"
+				+"Copyright (C) 2009-2011 \n"
+				+"\n"
+				+"This program is free software; you can redistribute it and/or\n"
+				+"modify it under the terms of the GNU General Public License\n"
+				+"as published by the Free Software Foundation; either version 2\n"
+				+"of the License, or (at your option) any later version.\n"
+				+"\n"
+				+"This program is distributed in the hope that it will be useful,\n"
+				+"but WITHOUT ANY WARRANTY; without even the implied warranty of\n"
+				+"MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\n"
+				+"GNU General Public License for more details. It is included\n" 
+				+"in the R distribution (in directory share/licenses) or can be\n" 
+				+"found at: http://www.gnu.org/licenses/\n");
+		jta3.setFont(new Font("Monospaced", Font.PLAIN, 10));
 
 		c.fill = GridBagConstraints.HORIZONTAL;		
 		c.gridx=0; c.gridy=0;
@@ -49,7 +68,9 @@ public class TellAboutOnlineUpate extends InfoDialog implements ActionListener {
 		(getContentPane()).add(jtAbout, c);
 		c.gridy++;
 		(getContentPane()).add(checkOnlineForUpdate, c);
-		c.gridy++;		
+		c.gridy++; c.weighty=1;
+		JScrollPane js = new JScrollPane(jta3);
+		(getContentPane()).add(js, c);	
 		
         Container cp = getContentPane();
         cp = WidgetFactory.makeDialogPanelWithButtons(cp, new OKButtonPane(), this);

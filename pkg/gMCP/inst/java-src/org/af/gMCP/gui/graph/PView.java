@@ -231,7 +231,7 @@ public class PView extends JPanel implements KeyListener, ActionListener {
 	protected JRadioButton jrbNoCorrelation = new JRadioButton("No Information about correlations");
     protected JRadioButton jrbStandardCorrelation = new JRadioButton("Select a standard correlation");
     protected JRadioButton jrbRCorrelation = new JRadioButton("Select an R correlation matrix");
-    protected JRadioButton jrbSimes = new JRadioButton("Correlation applicable for Simes test");
+    protected JRadioButton jrbSimes = new JRadioButton("Correlation applicable for Simes test (new feature that needs still testing)");
 
     protected JComboBox jcbCorString;
     protected JComboBox jcbCorObject;
@@ -302,7 +302,7 @@ public class PView extends JPanel implements KeyListener, ActionListener {
         
         row += 2;
         
-        correlatedPanel.add(jrbSimes,     cc.xy(2, row));
+        correlatedPanel.add(jrbSimes,     cc.xyw(2, row, 2));
                 
         refresh.addActionListener(this);
         

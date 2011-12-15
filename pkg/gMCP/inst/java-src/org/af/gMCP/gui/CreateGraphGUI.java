@@ -118,15 +118,16 @@ public class CreateGraphGUI extends JFrame implements WindowListener, AbortListe
 		}).start();
 		
 		javax.swing.SwingUtilities.invokeLater(new Runnable() {
-			public void run() {
-				 VersionComparator.getOnlineVersion();
+			public void run() {				
+				if (!Configuration.getInstance().getGeneralConfig().tellAboutCheckOnline()) {
+					new TellAboutOnlineUpate(null);
+					Configuration.getInstance().getGeneralConfig().setTellAboutCheckOnline(true);
+				}
+				VersionComparator.getOnlineVersion();
+				
 			}
 		});
 		
-		if (!Configuration.getInstance().getGeneralConfig().tellAboutCheckOnline()) {
-			new TellAboutOnlineUpate(this);
-			Configuration.getInstance().getGeneralConfig().setTellAboutCheckOnline(true);
-		}
 	}
 	
 	/**

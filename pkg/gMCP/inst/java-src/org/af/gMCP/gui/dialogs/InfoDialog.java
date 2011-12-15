@@ -13,7 +13,11 @@ public class InfoDialog extends JDialog {
 		 super(parent, title);
 	 }
 	
-    /**
+    public InfoDialog(JFrame parent, String title, boolean modal) {
+    	super(parent, title, modal);
+	}
+
+	/**
      * Return the SimpleAttributeSet for a level 1 headline.
      * @return The SimpleAttributeSet for a level 1 headline.
      */
