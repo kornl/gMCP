@@ -62,7 +62,7 @@ Further installation hints are <a href="http://cran.at.r-project.org/web/package
 
 <p>With lots of example graphs:</p>
 
-<p><a href="ExampleGraphsWallpaper2.jpg"><img width="500" src="ExampleGraphsWallpaper.jpg" border="0" alt=""></a></p>
+<p><a href="ExampleGraphsWallpaper2.jpg"><img width="500" src="ExampleGraphsWallpaper.png" border="0" alt=""></a></p>
 
 </body>
 </html>
