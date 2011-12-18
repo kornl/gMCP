@@ -51,7 +51,7 @@ echo $contents; } ?>
   <li>Confidence intervals.</li>
 </ul>
 
-You'll need <a href="http://cran.r-project.org/bin/windows/base/">R >= 2.12</a> and <a href="http://www.java.com/de/download/">Java >= 5.0</a>.
+You'll need <a href="http://cran.r-project.org/bin/windows/base/">R >= 2.12</a> and <a href="http://www.java.com/en/download/">Java >= 5.0</a>.
 If you are a regular R user, use the normal procedure to install the <a href="http://cran.at.r-project.org/web/packages/gMCP/index.html">gMCP package</a>.
 If you just want to use gMCP we provide an <a href="http://www.algorithm-forge.com/gMCP/R_with_gMCP.zip">R/gMCP bundle</a> (unzip it and click on R.exe in the "bin" directory and the GUI will show up). 
 Further installation hints are <a href="http://cran.at.r-project.org/web/packages/gMCP/INSTALL">provided here</a>.
