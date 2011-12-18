@@ -41,7 +41,7 @@ public class TellAboutOnlineUpate extends InfoDialog implements ActionListener {
 		jtAbout.setEditable(false);
 		
 		JTextArea jta3 = new JTextArea("gMCP - Graph based Multiple Comparison Procedures.\n"
-				+"Copyright (C) 2009-2011 \n"
+				+"Copyright (C) 2009-2011 by K. Rohmeyer, F. Klinglmueller and B. Bornkamp\n"
 				+"\n"
 				+"This program is free software; you can redistribute it and/or\n"
 				+"modify it under the terms of the GNU General Public License\n"
