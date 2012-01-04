@@ -59,7 +59,10 @@ public class RControl {
 		}
 		try {
 			rcs = new RCallServicesREngine(new JRIEngine(rengine));
-			if (System.getProperty("eclipse") != null) {		
+			if (System.getProperty("eclipse") != null) {
+				if (System.getProperty("libPath") != null) {
+					rcs.eval(".libPaths(new=\""+System.getProperty("libPath")+"\")");
+				}
 				rcs.eval("require(gMCP)");				
 				rcs.eval("graph <- BonferroniHolm(3)");
 				rcs.eval("graph2 <- BretzEtAl2011()");
