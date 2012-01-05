@@ -10,7 +10,7 @@ exportMethods(plot, print, getWeights, setWeights, getRejected, "setRejected<-",
 export(graphGUI)
 export(gMCP, rejectNode, substituteEps, placeNodes)
 export(gMCPReport, graph2latex)
-export(matrix2graph, graph2matrix, bdiagNA, joinGraphs, subGraph)
+export(matrix2graph, graph2matrix, bdiagNA, joinGraphs, subgraph)
 export(graphAnalysis)
 export(replaceVariables)
 
