@@ -8,6 +8,7 @@ Critical:
 
 High priority:
 ==============
+- Main GUI is waiting for CheckUpdate.
 - Check for missing suggested packages (JavaGD, graph) 
   and ask on startup whether they should be installed and name the features that are otherwise missing.
 - Give feedback for old objects and missing graph package in GUI
