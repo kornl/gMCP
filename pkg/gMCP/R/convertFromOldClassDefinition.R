@@ -48,6 +48,7 @@ updateGraphToNewClassDefinition <- function(object, askToInstallGraph=TRUE) {
 makeEpsilonString <- function(weight, p) {	
 	frac <- function(x) {as.character(fractions(x))}
 	e <- "\\epsilon"	
+	pStr <- ""
 	for (i in 1:length(p)) {
 		if (!isTRUE(all.equal(p[i], 0))) {
 			if (p[i]>=0) {

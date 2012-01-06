@@ -22,6 +22,9 @@ Version 0.7-3 (??-12-2011, Rev. 10??)
   in rare cases the GUI did not respond any more as long as the method 
   was trying to connect to the server.
 
+- Fixed: Some objects with epsilon edges from gMCP < 0.7 could not
+  be updated with function updateGraphToNewClassDefinition.
+
 
 Version 0.7-2 (11-12-2011, Rev. 1016)
 =====================================
