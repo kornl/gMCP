@@ -123,8 +123,11 @@ public class CreateGraphGUI extends JFrame implements WindowListener, AbortListe
 					new TellAboutOnlineUpate(null);
 					Configuration.getInstance().getGeneralConfig().setTellAboutCheckOnline(true);
 				}
-				VersionComparator.getOnlineVersion();
-				
+				new Thread(new Runnable() {
+					public void run() {
+						VersionComparator.getOnlineVersion();
+					}
+				}).start();				
 			}
 		});
 		
