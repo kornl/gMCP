@@ -16,3 +16,12 @@ test.matrix2graph <- function() {
 	m2 <- graph2matrix(matrix2graph(m))
 	checkEquals(m, m2)
 }
+
+test.makeEpsilonString <- function() {
+	checkEquals(gMCP:::makeEpsilonString(1/2,c(1,-1,1/2)),
+		"1/2+\\epsilon-\\epsilon^2+1/2*\\epsilon^3")
+    checkEquals(gMCP:::makeEpsilonString(0,c(1,-1,1/2)),
+			"\\epsilon-\\epsilon^2+1/2*\\epsilon^3")
+	checkEquals(gMCP:::makeEpsilonString(1/2,c()),
+			"1/2")
+}

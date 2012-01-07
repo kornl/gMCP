@@ -50,7 +50,7 @@ makeEpsilonString <- function(weight, p) {
 	e <- "\\epsilon"	
 	pStr <- ""
 	for (i in 1:length(p)) {
-		if (!isTRUE(all.equal(p[i], 0))) {
+		if (length(p)!=0 && !isTRUE(all.equal(p[i], 0))) {
 			if (p[i]>=0) {
 				pStr <- paste(pStr, "+", sep="")
 			}
