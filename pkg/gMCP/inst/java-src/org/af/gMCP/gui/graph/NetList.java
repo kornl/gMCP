@@ -540,7 +540,6 @@ public class NetList extends JPanel implements MouseMotionListener, MouseListene
 		if (!Configuration.getInstance().getGeneralConfig().useEpsApprox())	{
 			variables.remove("ε");
 		}
-
 		Hashtable<String,Double> ht = new Hashtable<String,Double>();
 		if (!variables.isEmpty() && !(variables.size()==1 && variables.contains("ε"))) {
 			VariableDialog vd = new VariableDialog(this.control.parent, variables);
