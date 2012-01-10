@@ -12,7 +12,6 @@ import org.junit.Test;
 
 public class RControlTest {
 
-
     private RControl ctrl;
 
     @Before
@@ -21,7 +20,7 @@ public class RControlTest {
     }
 
     @After
-    public void deleteOutputFile() {
+    public void cleanUp() {
     }
 
     @Test
@@ -30,6 +29,9 @@ public class RControlTest {
         assertTrue(collection.isEmpty());
     }
 
+    @Test(expected= IndexOutOfBoundsException.class) public void empty() { 
+        new ArrayList<Object>().get(0); 
+    }
   }
 	  
 
