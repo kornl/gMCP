@@ -117,7 +117,7 @@ gMCP <- function(graph, pvalues, test, correlation, alpha=0.05,
 				subset <- allSubsets[i,]
 				if(!all(subset==0)) {
 					J <- which(subset!=0)	
-					explanation[i] <- paste("Subset {",paste(J,collapse=","),"}: ",explanation[i], sep="")				
+					if (verbose) explanation[i] <- paste("Subset {",paste(J,collapse=","),"}: ",explanation[i], sep="")				
 					for (j in J) {
 						Jj <- subset!=0 & (pvalues2 <= pvalues2[j]) # & (1:n)!=j
 						#cat("j: ",j, ", Jj: ",Jj,"\n")
