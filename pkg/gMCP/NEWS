@@ -1,4 +1,4 @@
-Version 0.7-3 (??-12-2011, Rev. 10??)
+Version 0.7-3 (16-01-2012, Rev. 1057)
 =====================================
 
 - Function "subGraph" renamed to "subgraph" to avoid conflicts with
