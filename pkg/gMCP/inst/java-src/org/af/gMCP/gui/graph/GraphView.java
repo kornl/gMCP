@@ -354,8 +354,8 @@ public class GraphView extends JPanel implements ActionListener {
 	public String getGMCPOptions() {
 		return ","+getPView().getPValuesString()+ correlation
 			+", alpha="+getPView().getTotalAlpha()
-			+", eps="+Configuration.getInstance().getGeneralConfig().getEpsilon();
-			//+", verbose="+(Configuration.getInstance().getGeneralConfig().verbose()?"TRUE":"FALSE");
+			+", eps="+Configuration.getInstance().getGeneralConfig().getEpsilon()
+			+", verbose="+(Configuration.getInstance().getGeneralConfig().verbose()?"42":"FALSE");
 	}
 
 	public DView getDView() {
