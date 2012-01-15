@@ -208,6 +208,7 @@ setGeneric("getXCoordinates", function(graph, node) standardGeneric("getXCoordin
 
 setMethod("getXCoordinates", c("graphMCP"), function(graph, node) {
 			x <- graph@nodeAttr$X
+			if (is.null(x)) return(x)
 			names(x) <- getNodes(graph)
 			if (!missing(node)) {
 				return(x[node])
@@ -219,6 +220,7 @@ setGeneric("getYCoordinates", function(graph, node) standardGeneric("getYCoordin
 
 setMethod("getYCoordinates", c("graphMCP"), function(graph, node) {
 			y <- graph@nodeAttr$Y
+			if (is.null(y)) return(y)
 			names(y) <- getNodes(graph)
 			if (!missing(node)) {
 				return(y[node])

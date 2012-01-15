@@ -54,10 +54,12 @@ Class \code{graph}, by class \code{graphNEL}, distance 2.
       If a second optional argument \code{node} is specified, only for these nodes the boolean vector will be returned.}
     \item{getXCoordinates}{\code{signature(object = "graphMCP")}: 
       A method for getting the x coordinates of the graph.
-      If a second optional argument \code{node} is specified, only for these nodes the x coordinates will be returned.}
+      If a second optional argument \code{node} is specified, only for these nodes the x coordinates will be returned.
+      If x coordinates are not set yet \code{NULL} is returned.}
     \item{getYCoordinates}{\code{signature(object = "graphMCP")}: 
       A method for getting the y coordinates of the graph
-      If a second optional argument \code{node} is specified, only for these nodes the x coordinates will be returned.}
+      If a second optional argument \code{node} is specified, only for these nodes the x coordinates will be returned.
+      If y coordinates are not set yet \code{NULL} is returned.}
     \item{setEdge}{\code{signature(from="character", to="character", graph="graphNEL", weights="numeric")}: 
       A method for adding new edges with the given weights.}
     \item{setEdge}{\code{signature(from="character", to="character", graph="graphMCP", weights="character")}: 

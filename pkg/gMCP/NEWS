@@ -24,6 +24,10 @@ Version 0.7-3 (??-12-2011, Rev. 10??)
 
 - Fixed: Some objects with epsilon edges from gMCP < 0.7 could not
   be updated with function updateGraphToNewClassDefinition.
+  
+- Fixed: Since 0.7-1 graphGUI threw an error if the parameter graph is
+  a character vector and an graph object with an equal name
+  already existed.
 
 
 Version 0.7-2 (11-12-2011, Rev. 1016)

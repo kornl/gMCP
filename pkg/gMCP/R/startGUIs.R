@@ -19,8 +19,8 @@ graphGUI <- function(graph="createdGraph", pvalues=numeric(0), grid=0, debug=FAL
 	} else {
 		if (exists(graph, envir=globalenv())) {
 			if ("graphMCP" %in% class(get(graph, envir=globalenv()))) {
-				graph <- updateGraphToNewClassDefinition(graph)
-				if (length(nodeRenderInfo(get(graph, envir=globalenv())))==0) {
+				assign(graph, updateGraphToNewClassDefinition(get(graph, envir=globalenv())), envir=globalenv())
+				if (is.null(getXCoordinates(get(graph, envir=globalenv())))||is.null(getYCoordinates(get(graph, envir=globalenv())))) {
 					assign(graph, placeNodes(get(graph, envir=globalenv())), envir=globalenv())
 				}
 			} else {
