@@ -73,7 +73,7 @@ gMCP <- function(graph, pvalues, test, correlation, alpha=0.05,
 			result <- new("gMCPResult", graphs=sequence, alpha=alpha, pvalues=pvalues, rejected=getRejected(graph))
 			if (verbose) {
 				output <- "All p-values above alpha."
-				cat(output,"\n")
+				if (verbose!=42) cat(output,"\n") # Go figure it out ;)
 				attr(result, "output") <- output
 			}
 			return(result)
@@ -84,7 +84,7 @@ gMCP <- function(graph, pvalues, test, correlation, alpha=0.05,
 			result <- new("gMCPResult", graphs=sequence, alpha=alpha, pvalues=pvalues, rejected=rejected)
 			if (verbose) {
 				output <- "All p-values below alpha."
-				cat(output,"\n")
+				if (verbose!=42) cat(output,"\n") # Go figure it out ;)
 				attr(result, "output") <- output
 			}
 			return(result)
@@ -101,7 +101,7 @@ gMCP <- function(graph, pvalues, test, correlation, alpha=0.05,
 				if (n==2) output <- paste(output, "Only two hypotheses remaining.", sep="\n")
 				if (n==1) output <- paste(output, "Only one hypothesis remaining.", sep="\n")
 				if (n==0) output <- paste(output, "Everything allready rejected.", sep="\n")
-				cat(output,"\n")
+				if (verbose!=42) cat(output,"\n") # Go figure it out ;)
 				attr(result, "output") <- output
 			}
 			return(result)
@@ -139,7 +139,7 @@ gMCP <- function(graph, pvalues, test, correlation, alpha=0.05,
 			result <- new("gMCPResult", graphs=sequence, alpha=alpha, pvalues=pvalues, rejected=getRejected(graph))
 			if (verbose) {
 				output <- paste(output, paste(explanation, collapse="\n"), sep="\n")
-				cat(output,"\n")
+				if (verbose!=42) cat(output,"\n") # Go figure it out ;)
 				attr(result, "output") <- output
 			}
 			return(result)

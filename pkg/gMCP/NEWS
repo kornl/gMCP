@@ -18,6 +18,8 @@ Version 0.7-3 (??-12-2011, Rev. 10??)
 
 - The bundled version closes the R console if the GUI is closed.
 
+- Fixed: Since 0.7-2 too much output is printed to the R console.
+
 - Fixed: Checking for updates happend on the event dispatch thread and
   in rare cases the GUI did not respond any more as long as the method 
   was trying to connect to the server.
@@ -28,6 +30,8 @@ Version 0.7-3 (??-12-2011, Rev. 10??)
 - Fixed: Since 0.7-1 graphGUI threw an error if the parameter graph is
   a character vector and an graph object with an equal name
   already existed.
+  
+- In addition to the RUnit tests gMCP is now also tested by JUnit tests.
 
 
 Version 0.7-2 (11-12-2011, Rev. 1016)
