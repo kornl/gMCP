@@ -233,7 +233,7 @@ public class GraphView extends JPanel implements ActionListener {
 						}
 						boolean[] rejected = RControl.getR().eval(result+"@rejected").asRLogical().getData();
 						String output = null;
-						if (RControl.getR().eval("!is.null(attr("+result+", \"output\"))").asRLogical().getData()[0]) {
+						if (Configuration.getInstance().getGeneralConfig().verbose() && RControl.getR().eval("!is.null(attr("+result+", \"output\"))").asRLogical().getData()[0]) {
 							output = RControl.getR().eval("attr("+result+", \"output\")").asRChar().getData()[0];
 						}
 						parent.glassPane.stop();
@@ -354,8 +354,8 @@ public class GraphView extends JPanel implements ActionListener {
 	public String getGMCPOptions() {
 		return ","+getPView().getPValuesString()+ correlation
 			+", alpha="+getPView().getTotalAlpha()
-			+", eps="+Configuration.getInstance().getGeneralConfig().getEpsilon()
-			+", verbose="+(Configuration.getInstance().getGeneralConfig().verbose()?"TRUE":"FALSE");
+			+", eps="+Configuration.getInstance().getGeneralConfig().getEpsilon();
+			//+", verbose="+(Configuration.getInstance().getGeneralConfig().verbose()?"TRUE":"FALSE");
 	}
 
 	public DView getDView() {
