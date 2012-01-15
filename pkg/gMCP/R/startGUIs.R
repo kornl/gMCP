@@ -7,7 +7,7 @@ graphGUI <- function(graph="createdGraph", pvalues=numeric(0), grid=0, debug=FAL
 				newGraphName <- paste("createdGraph", i, sep="")
 				i <- i + 1
 			}
-			assign(newGraphName, graph, envir=globalenv())
+			assign(newGraphName, updateGraphToNewClassDefinition(graph), envir=globalenv())
 			graph <- newGraphName
 		} else {
 			warning("Please specify the variable name for the graph as character.")
@@ -19,6 +19,7 @@ graphGUI <- function(graph="createdGraph", pvalues=numeric(0), grid=0, debug=FAL
 	} else {
 		if (exists(graph, envir=globalenv())) {
 			if ("graphMCP" %in% class(get(graph, envir=globalenv()))) {
+				graph <- updateGraphToNewClassDefinition(graph)
 				if (length(nodeRenderInfo(get(graph, envir=globalenv())))==0) {
 					assign(graph, placeNodes(get(graph, envir=globalenv())), envir=globalenv())
 				}
