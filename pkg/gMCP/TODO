@@ -8,7 +8,12 @@ Critical:
 
 High priority:
 ==============
-- Main GUI is waiting for CheckUpdate.
+- Note that with the exceptions of INDEX, LICENSE/LICENCE and NEWS, information files at the top level
+  of the package will not be installed and so not be known to users of Windows and Mac OS X 
+  compiled packages (and not seen by those who use R CMD INSTALL or install.packages on the tarball). 
+  So any information files you wish an end user to see should be included in inst. 
+  Note that if the named exceptions also occur in inst, the versions in inst will be that seen in 
+  the installed package. 
 - Check for missing suggested packages (JavaGD, graph) 
   and ask on startup whether they should be installed and name the features that are otherwise missing.
 - Give feedback for old objects and missing graph package in GUI
