@@ -1,3 +1,7 @@
+Version 0.7-4 (??-01-2012, Rev. 1???)
+=====================================
+
+
 Version 0.7-3 (16-01-2012, Rev. 1057)
 =====================================
 
@@ -33,6 +37,8 @@ Version 0.7-3 (16-01-2012, Rev. 1057)
   
 - In addition to the RUnit tests gMCP is now also tested by JUnit tests.
 
+ 47 files changed, 362 insertions(+), 196 deletions(-)
+ 
 
 Version 0.7-2 (11-12-2011, Rev. 1016)
 =====================================

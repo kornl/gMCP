@@ -1,7 +1,5 @@
-inst/unitTests
-tests
 inst/java-src
-src
+inst/unitTests
 inst/build.xml
 inst/doc/gMCP
 inst/doc/pictures
