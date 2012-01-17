@@ -8,12 +8,18 @@ Critical:
 
 High priority:
 ==============
-- Note that with the exceptions of INDEX, LICENSE/LICENCE and NEWS, information files at the top level
+- "Note that with the exceptions of INDEX, LICENSE/LICENCE and NEWS, information files at the top level
   of the package will not be installed and so not be known to users of Windows and Mac OS X 
   compiled packages (and not seen by those who use R CMD INSTALL or install.packages on the tarball). 
   So any information files you wish an end user to see should be included in inst. 
   Note that if the named exceptions also occur in inst, the versions in inst will be that seen in 
-  the installed package. 
+  the installed package."
+- "The preferred location for vignette sources is now the directory
+  vignettes and not inst/doc: R CMD build will now re-build
+  vignettes in directory vignettes and copy the .Rnw (etc) files
+  and the corresponding PDFs to inst/doc.  Further files to be
+  copied to inst/doc can be specified _via_ the file
+  vignettes/.install_extras."
 - Check for missing suggested packages (JavaGD, graph) 
   and ask on startup whether they should be installed and name the features that are otherwise missing.
 - Give feedback for old objects and missing graph package in GUI
