@@ -6,8 +6,8 @@ gMCP requires Java >= 5.0 - most likely it is already installed on
 your computer. If it is not, download and install it from: 
 http://www.java.com/en/download/
 
-If you have not R already installed, you can download it
-bundled with gMCP and all dependencies from:
+If you have not R already installed and use a 32 bit system, you can 
+download it bundled with gMCP and all dependencies from:
 
  http://www.algorithm-forge.com/gMCP/R_with_gMCP.zip 
  Unzip it and double click on the R.exe in folder "bin" to
