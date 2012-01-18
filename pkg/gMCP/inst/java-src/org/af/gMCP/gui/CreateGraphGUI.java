@@ -173,7 +173,7 @@ public class CreateGraphGUI extends JFrame implements WindowListener, AbortListe
 	 * Closes the R console if we are in bundled mode. 
 	 */
 	public void windowClosing(WindowEvent e) {
-		if (RControl.getR().eval("exists(\".isBundled\")").asRLogical().getData()[0]) {
+		if (RControl.getR().eval("exists(\".isBundle\")").asRLogical().getData()[0]) {
 			RControl.getR().eval("q(save=\"no\")");
 		}
 	}
