@@ -84,7 +84,6 @@ Medium priority:
 (search for DecimalFormat and replace it with getDecFormat())
 - Ask for saving graph when quitting
 - LookNFeel is not kept between sessions (also first call of options result in strange LookNFeel message)
-- Edge labels should be fixed and placed by user or free and adjust to moving nodes
 - Improve speed when loading graphs
 - Check for / think about conflicts: "JAVAGD_CLASS_NAME"="org/mutoss/gui/JavaGD"
 - placeNodes drops nodes to the top left if rows*columns is smaller than the number of nodes.

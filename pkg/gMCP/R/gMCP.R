@@ -30,7 +30,7 @@ gMCP <- function(graph, pvalues, test, correlation, alpha=0.05,
 			return(new("gMCPResult", graphs=sequence, alpha=alpha, pvalues=pvalues, rejected=getRejected(lGraph), adjPValues=numeric(0)))
 		} else {
 			while(!is.null(node <- getRejectableNode(graph, alpha, pvalues))) {
-				if (verbose) cat(paste("Node \"",node,"\" can be rejected.\n",sep=""))
+				# if (verbose) cat(paste("Node \"",node,"\" can be rejected.\n",sep=""))
 				graph <- rejectNode(graph, node, verbose)
 				sequence <- c(sequence, graph)
 			}	
@@ -177,7 +177,7 @@ adjPValues <- function(graph, pvalues, verbose=FALSE) {
 		node <- J[j]
 		adjPValues[node] <- max(min(ifelse(pvalues[node]==0,0,pvalues[node]/getWeights(graph)[node]), 1), pmax)
 		pmax <- adjPValues[node]
-		if (verbose) cat(paste("We will update the graph with node \"",node,"\".\n",sep=""))
+		# if (verbose) cat(paste("We will update the graph with node \"",node,"\".\n",sep=""))
 		graph <- rejectNode(graph, node, verbose)
 		J <- J[J!=node]
 		sequence <- c(sequence, graph)
