@@ -73,12 +73,14 @@ public class GraphMCP {
 							edges.add(new Edge(fromNode, toNode, weight[i], nl,  curve));
 						} else {
 							edges.add(new Edge(fromNode, toNode, weight[i], nl, xl+Node.getRadius(), yl+Node.getRadius()));
+							edges.lastElement().setFixed(true);
 						}
 					} else {
 						if (xl < -50 || yl < -50) {
 							edges.add(new Edge(fromNode, toNode, weightStr[i], nl, /* xl+Node.getRadius(), yl+Node.getRadius(),*/ curve));
 						} else {
 							edges.add(new Edge(fromNode, toNode, weightStr[i], nl, xl+Node.getRadius(), yl+Node.getRadius()));
+							edges.lastElement().setFixed(true);
 						}
 					}
 					

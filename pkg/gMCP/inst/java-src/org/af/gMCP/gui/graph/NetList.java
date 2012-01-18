@@ -319,6 +319,7 @@ public class NetList extends JPanel implements MouseMotionListener, MouseListene
 		if (drag!=-1) {
 			nodes.get(drag).setX( (int) ((e.getX()+offset[0]) / (double) getZoom()));
 			nodes.get(drag).setY( (int) ((e.getY()+offset[1]) / (double) getZoom()));
+			placeUnfixedNodes(nodes.get(drag));
 		} else {
 			edges.get(edrag).setK1( (int) ((e.getX()+offset[0]) / (double) getZoom()));
 			edges.get(edrag).setK2( (int) ((e.getY()+offset[1]) / (double) getZoom()));
@@ -399,6 +400,9 @@ public class NetList extends JPanel implements MouseMotionListener, MouseListene
 	}
 	
 	public void mouseReleased(MouseEvent e) {
+		if (edrag != -1) {
+			edges.get(edrag).setFixed(true);
+		}
 		drag = -1;
 		edrag = -1;
 	}
@@ -683,6 +687,15 @@ public class NetList extends JPanel implements MouseMotionListener, MouseListene
 		this.rejectAll = rejectAll;
 		this.userDefined = userDefined;
 		this.repaint();
+	}
+
+
+	private void placeUnfixedNodes(Node node) {
+		for (Edge e : edges) {
+			if ((e.from == node || e.to == node) && !e.isFixed()) {
+				e.move();
+			}
+		}		
 	}
 	
 }
