@@ -287,7 +287,7 @@ public class PView extends JPanel implements KeyListener, ActionListener {
 
         int row = 2;
         
-        correlatedPanel.add(jrbNoCorrelation,     cc.xy(2, row));     
+        correlatedPanel.add(jrbNoCorrelation,     cc.xyw(2, row, 3));     
         
         row += 2;
         
@@ -302,7 +302,7 @@ public class PView extends JPanel implements KeyListener, ActionListener {
         
         row += 2;
         
-        correlatedPanel.add(jrbSimes,     cc.xyw(2, row, 2));
+        correlatedPanel.add(jrbSimes,     cc.xyw(2, row, 3));
                 
         refresh.addActionListener(this);
         

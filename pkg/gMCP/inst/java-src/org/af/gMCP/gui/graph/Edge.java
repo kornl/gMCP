@@ -36,6 +36,7 @@ public class Edge {
 	public Node to;
 	public Node from;
 	public boolean fixed = false;
+	public Color color = Color.BLACK;
 	
 	NetList nl;
 	
@@ -222,12 +223,13 @@ public class Edge {
 				g2d = (Graphics2D) g;
 			}
 			g2d = (Graphics2D) g;			
-
+			g2d.setColor(color);
 			GraphDrawHelper.drawEdge(g,	(int) (x1 * nl.getZoom()), (int) (y1 * nl.getZoom()), 
 					(int) (k1* nl.getZoom()),
 					(int) (k2 * nl.getZoom()),
 					(int) (x2 * nl.getZoom()), (int) (y2 * nl.getZoom()), 
 					(int) (8 * nl.getZoom()), 35, true);
+			g2d.setColor(Color.BLACK);
 		} 
 	}
 	

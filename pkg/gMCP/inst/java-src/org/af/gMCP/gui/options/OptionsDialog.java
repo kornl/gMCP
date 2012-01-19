@@ -29,6 +29,7 @@ public class OptionsDialog extends JDialog implements ActionListener {
 	private JTabbedPane tabbedPane;
     private GeneralPanel generalPanel;
     private PlotPanel plotPanel;
+    private MiscPanel miscPanel;
     private OkApplyCancelButtonPane bp;
 
     private Configuration conf;
@@ -62,6 +63,7 @@ public class OptionsDialog extends JDialog implements ActionListener {
         tabbedPane = new JTabbedPane();
         generalPanel = new GeneralPanel(parent, this);
         plotPanel = new PlotPanel(conf);
+        miscPanel = new MiscPanel(conf);        
         bp = new OkApplyCancelButtonPane();
     }
 
@@ -69,11 +71,9 @@ public class OptionsDialog extends JDialog implements ActionListener {
      * Do the layout.
      */
     private void doTheLayout() {
-        Localizer loc = Localizer.getInstance();
-        tabbedPane.addTab(loc.getString("SGTK_OPTIONS_OPTIONSDIALOG_GENERALTAB"),
-                generalPanel);
-        /*tabbedPane.addTab(loc.getString("SGTK_OPTIONS_OPTIONSDIALOG_PLOTTAB"),
-                plotPanel);*/
+        tabbedPane.addTab("Visual", generalPanel);
+        tabbedPane.addTab("Numeric", plotPanel);
+        tabbedPane.addTab("Misc", miscPanel);
         Container cp = getContentPane();
         cp.add(tabbedPane);
         cp = WidgetFactory.makeDialogPanelWithButtons(cp, bp, this);
