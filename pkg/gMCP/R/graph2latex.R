@@ -55,7 +55,7 @@ graph2latex <- function(graph, package="TikZ", scale=1, alpha=0.05, pvalues,
 }
 
 getLaTeXFraction <- function(x) {
-	nom <- strsplit(as.character(fractions(x)),split="/")[[1]]
+	nom <- strsplit(as.character(getFractionString(x)),split="/")[[1]]
 	if (length(nom)==1) return(nom)
 	return(paste("\\frac{",nom[1],"}{",nom[2],"}", sep=""))
 }

@@ -271,10 +271,24 @@ setMethod("show", "graphMCP",
 )
 
 getWeightStr <- function(graph, from, to, LaTeX=FALSE) {
+	weight <- graph@m[from,to]	
 	if (LaTeX) {
-		#TODO
+		if (is.numeric(weight)) {
+			return(getLaTeXFraction(weight))
+		}
+		# TODO / Bonus: Parse fractions in polynomials
+		return(weight)
+	}	
+	if (is.numeric(weight)) {
+		return(getFractionString(weight))
 	}
-	return(graph@m[from,to])	
+	return(as.character(weight))	
+}
+
+getFractionString <- function(x, eps=0.000001) {
+	xStr <- as.character(fractions(x))
+	if (abs(eval(parse(text=xStr))-x)>eps) return(as.character(x))
+	return(xStr)
 }
 
 setMethod("plot", "graphMCP",
