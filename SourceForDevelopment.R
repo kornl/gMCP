@@ -13,7 +13,7 @@ g <- BonferroniHolm(5)
 
 bretzG <- BretzEtAl2011()
 pvalues <- c(0.1, 0.008, 0.005, 0.15, 0.04, 0.006)
-names(pvalues) <- nodes(bretzG)
+names(pvalues) <- getNodes(bretzG)
 verbose <- TRUE
 result <- gMCP(bretzG, pvalues)
 

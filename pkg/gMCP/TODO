@@ -67,7 +67,6 @@ H4 (NA, weight=NA)
 
 Medium priority:
 ================
-- SourceForDevelopment throws error.
 - improvedFallbackII() under Windows with GUI:
   Error in graph:::isValidAdjMat(adjMat, edgemode) : 
   negative values not allowed in adjacency matrix
