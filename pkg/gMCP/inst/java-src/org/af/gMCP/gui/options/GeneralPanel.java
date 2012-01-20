@@ -37,18 +37,14 @@ public class GeneralPanel extends OptionsPanel implements ActionListener {
     private JTextField jtfGrid;
     private JTextField jtfNumberOfDigits;
     private JTextField jtfLineWidth;
-    private JTextField jtfEps;
     
     private Configuration conf;
     private OptionsDialog odialog;
     private JCheckBox colorImages;
     private JCheckBox showRejected;
     private JCheckBox showFractions;
-    private JCheckBox useEpsApprox;
     private JCheckBox useJLaTeXMath;
-    private JCheckBox checkOnlineForUpdate;
-    private JCheckBox verbose;
-    
+
 	JFrame parent;
 
     public GeneralPanel(JFrame parent, OptionsDialog odialog) {
@@ -72,22 +68,21 @@ public class GeneralPanel extends OptionsPanel implements ActionListener {
         jtfNumberOfDigits.setText(""+conf.getGeneralConfig().getDigits()); 
         jtfLineWidth = new JTextField(30);
         jtfLineWidth.setText(""+conf.getGeneralConfig().getLineWidth());
-        jtfEps = new JTextField(30);
-        jtfEps.setText(""+conf.getGeneralConfig().getEpsilon()); 
-        jtfEps.setEnabled(conf.getGeneralConfig().useEpsApprox());
+
         
         Vector<String> looknfeel = new Vector<String>();
         looknfeel.add("System");
         looknfeel.add("Windows");
         looknfeel.add("Mac OS");        
         looknfeel.add("Motif");
-        looknfeel.add("Metal");
+        looknfeel.add("Metal (highly recommended default)");
 
         cbLookAndFeel = new JComboBox(looknfeel);
-        logger.info("LooknFeel is " + conf.getJavaConfig().getLooknFeel() + ".");
+        String currentLookNFeel = conf.getJavaConfig().getLooknFeel();
+        logger.info("LooknFeel is " + currentLookNFeel + ".");
         for (int i = 0; i < looknfeel.size(); i++) {
             cbLookAndFeel.setSelectedIndex(i);
-            if (getLooknFeel().equals(conf.getJavaConfig().getLooknFeel())) break;
+            if (getLooknFeel().equals(currentLookNFeel)) break;
             logger.debug("Not " + getLooknFeel());
         }
         
@@ -102,17 +97,7 @@ public class GeneralPanel extends OptionsPanel implements ActionListener {
         
         useJLaTeXMath = new JCheckBox("Use JLaTeXMath");
         useJLaTeXMath.setSelected(conf.getGeneralConfig().useJLaTeXMath());
-        
-        checkOnlineForUpdate = new JCheckBox("Check online for updates");
-        checkOnlineForUpdate.setSelected(conf.getGeneralConfig().checkOnline());
-        
-        useEpsApprox = new JCheckBox("Use epsilon approximation");
-        useEpsApprox.setSelected(conf.getGeneralConfig().useEpsApprox());
-        useEpsApprox.addActionListener(this);
-        useEpsApprox.setEnabled(false);
-        
-        verbose = new JCheckBox("Verbose output");
-        verbose.setSelected(conf.getGeneralConfig().verbose());
+
     }
 
     private void doTheLayout() {
@@ -143,15 +128,6 @@ public class GeneralPanel extends OptionsPanel implements ActionListener {
         
         row += 2;
         
-        p1.add(useEpsApprox, cc.xyw(1, row, 3));
-        
-        row += 2;
-        
-        p1.add(new JLabel("Epsilon:"),     cc.xy(1, row));
-        p1.add(jtfEps, cc.xy(3, row));        
-        
-        row += 2;
-        
         p1.add(new JLabel(loc.getString("SGTK_OPTIONS_GENERALPANEL_FONTSIZE")),     cc.xy(1, row));
         p1.add(cbFontSize, cc.xy(3, row));
         
@@ -176,21 +152,14 @@ public class GeneralPanel extends OptionsPanel implements ActionListener {
         
         p1.add(showFractions, cc.xyw(1, row, 3));    
         
-        row += 2;        
+        row += 2;
         
-        p1.add(verbose, cc.xyw(1, row, 3));    
-        
-        row += 2;        
-        
-        p1.add(checkOnlineForUpdate, cc.xyw(1, row, 3));
-        
-
         add(p1);
     }
 
 
     private String lfID2FullName(String id) {
-        if (id.equals("Metal")) {
+        if (id.equals("Metal (highly recommended default)")) {
             return UIManager.getCrossPlatformLookAndFeelClassName();
         } else if (id.equals("System")) {
             return UIManager.getSystemLookAndFeelClassName();
@@ -212,8 +181,7 @@ public class GeneralPanel extends OptionsPanel implements ActionListener {
     }
 
     public void setProperties() throws SetLookAndFeelException {
-        int fontSize = cbFontSize.getSelectedObject();
-        conf.getGeneralConfig().setFontSize(fontSize);
+
         try {
         	int grid = Integer.parseInt(jtfGrid.getText());
         	conf.getGeneralConfig().setGridSize(grid);
@@ -232,47 +200,49 @@ public class GeneralPanel extends OptionsPanel implements ActionListener {
         } catch (NumberFormatException e) {
         	JOptionPane.showMessageDialog(this, "\""+jtfNumberOfDigits.getText()+"\" is not a valid integer for the number of digits.", "Invalid input", JOptionPane.ERROR_MESSAGE);
         }
-        try {
-        	double eps = Double.parseDouble(jtfEps.getText());
-        	conf.getGeneralConfig().setEps(eps);
-        } catch (NumberFormatException e) {
-        	JOptionPane.showMessageDialog(this, "\""+jtfEps.getText()+"\" is not a valid double for epsilon.", "Invalid input", JOptionPane.ERROR_MESSAGE);
-        }
+        
        	conf.getGeneralConfig().setColoredImages(colorImages.isSelected());
        	conf.getGeneralConfig().setShowRejected(showRejected.isSelected());
        	conf.getGeneralConfig().setShowFractions(showFractions.isSelected());
-       	conf.getGeneralConfig().setUseEpsApprox(useEpsApprox.isSelected());       	
        	conf.getGeneralConfig().setUseJLaTeXMath(useJLaTeXMath.isSelected());
-       	conf.getGeneralConfig().setCheckOnline(checkOnlineForUpdate.isSelected());
-       	conf.getGeneralConfig().setVerbose(verbose.isSelected());
-        try {
-            LookAndFeel currentLF = UIManager.getLookAndFeel();
-            logger.info("Selected LooknFeel:" + getLooknFeel());
-            setLooknFeel(getLooknFeel());
 
-            if (!getLooknFeel().equals(conf.getJavaConfig().getLooknFeel())) {
-                int n = JOptionPane.showConfirmDialog(parent,
-                        Localizer.getInstance().getString("SGTK_OPTIONS_GENERALPANEL_KEEPLF"),
-                        Localizer.getInstance().getString("SGTK_OPTIONS_GENERALPANEL_KEEPLF"),
-                        JOptionPane.YES_NO_OPTION);
+       	try {
+       		String currentLF = conf.getJavaConfig().getLooknFeel(); // UIManager.getLookAndFeel();
+       		logger.info("Selected LooknFeel:" + getLooknFeel());
 
-                if (n == JOptionPane.YES_OPTION) {
-                    conf.getJavaConfig().setLooknFeel(getLooknFeel());
-                } else {
-                    setLooknFeel(currentLF);
-                }
-            }
-        } catch (Exception exc) {
-            // look&feel exception
-            //throw new SetLookAndFeelException(exc);
-        	JOptionPane.showMessageDialog(parent, "The selected LooknFeel is not available.", "Selected LooknFeel not available.", JOptionPane.WARNING_MESSAGE);
-        }
+       		if (!getLooknFeel().equals(currentLF)) {
+           		setLooknFeel(getLooknFeel());
+       			int n = JOptionPane.showConfirmDialog(parent,
+       					Localizer.getInstance().getString("SGTK_OPTIONS_GENERALPANEL_KEEPLF"),
+       					Localizer.getInstance().getString("SGTK_OPTIONS_GENERALPANEL_KEEPLF"),
+       					JOptionPane.YES_NO_OPTION);
+
+       			if (n == JOptionPane.YES_OPTION) {
+       				conf.getJavaConfig().setLooknFeel(getLooknFeel());
+       			} else {
+       				setLooknFeel(currentLF);
+       			}
+       		}
+       	} catch (Exception exc) {
+       		// look&feel exception
+       		//throw new SetLookAndFeelException(exc);
+       		JOptionPane.showMessageDialog(parent, "The selected LooknFeel is not available.", "Selected LooknFeel not available.", JOptionPane.WARNING_MESSAGE);
+       	}
+       	
+       	/* Font size: */ 
+        int fontSize = cbFontSize.getSelectedObject();        
+       	if (conf.getGeneralConfig().getFontSize()!=fontSize) {
+       		conf.getGeneralConfig().setFontSize(fontSize);
+            WidgetFactory.setFontSizeGlobal(conf.getGeneralConfig().getFontSize());
+            SwingUtilities.updateComponentTreeUI(parent);
+            SwingUtilities.updateComponentTreeUI(odialog);
+            odialog.pack();
+       	}
     }
 
     private void setLooknFeel(String id) throws ClassNotFoundException, IllegalAccessException,
             InstantiationException, UnsupportedLookAndFeelException {
         UIManager.setLookAndFeel(id);
-        WidgetFactory.setFontSizeGlobal(conf.getGeneralConfig().getFontSize());
         SwingUtilities.updateComponentTreeUI(parent);
         SwingUtilities.updateComponentTreeUI(odialog);
         odialog.pack();
@@ -284,9 +254,7 @@ public class GeneralPanel extends OptionsPanel implements ActionListener {
     }
 
 	public void actionPerformed(ActionEvent e) {
-		if (e.getSource()==useEpsApprox) {
-			jtfEps.setEnabled(useEpsApprox.isSelected());
-		}
+
 	}
 }
 

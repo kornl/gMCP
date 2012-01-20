@@ -1,16 +1,12 @@
 package org.af.gMCP.gui.options;
 
-import javax.swing.JLabel;
+import javax.swing.JCheckBox;
 import javax.swing.JPanel;
 
 import org.af.commons.Localizer;
-import org.af.commons.widgets.validate.IntegerTextField;
-import org.af.commons.widgets.validate.RealTextField;
 import org.af.commons.widgets.validate.ValidationException;
 import org.af.gMCP.config.Configuration;
-import org.af.gMCP.config.PlotConfig;
 
-import com.jgoodies.forms.factories.DefaultComponentFactory;
 import com.jgoodies.forms.layout.CellConstraints;
 import com.jgoodies.forms.layout.FormLayout;
 
@@ -20,13 +16,8 @@ import com.jgoodies.forms.layout.FormLayout;
 public class MiscPanel extends OptionsPanel { 
 
 
-    private RealTextField tfWidth;
-    private RealTextField tfHeight;
-    private RealTextField tfWidthInch;
-    private RealTextField tfHeightInch;
-    private IntegerTextField tfPointSize;
-    private IntegerTextField tfTNWidth;
-
+    private JCheckBox checkOnlineForUpdate;
+    
     private Configuration conf;
 
 
@@ -39,20 +30,8 @@ public class MiscPanel extends OptionsPanel {
 
 
     private void makeComponents() {
-        PlotConfig pc = conf.getPlotConfig();
-        Localizer loc = Localizer.getInstance();
-        tfWidth = new RealTextField(loc.getString("SGTK_OPTIONS_PLOTPANEL_WIDTH"), 5, 2, 1000);
-        tfWidth.setText("" + pc.getWidth());
-        tfHeight = new RealTextField(loc.getString("SGTK_OPTIONS_PLOTPANEL_HEIGHT"), 5, 2, 1000);
-        tfHeight.setText("" + pc.getHeight());
-        tfWidthInch = new RealTextField(loc.getString("SGTK_OPTIONS_PLOTPANEL_WIDTHINCH"), 5, 0.1, 100);
-        tfWidthInch.setText("" + pc.getWidthInch());
-        tfHeightInch = new RealTextField(loc.getString("SGTK_OPTIONS_PLOTPANEL_HEIGHTINCH"), 5, 0.1, 100);
-        tfHeightInch.setText("" + pc.getHeightInch());
-        tfPointSize = new IntegerTextField(loc.getString("SGTK_OPTIONS_PLOTPANEL_POINTSIZE"), 5, 2, 20);
-        tfPointSize.setText("" + pc.getPointSize());
-        tfTNWidth = new IntegerTextField(loc.getString("SGTK_OPTIONS_PLOTPANEL_THUMBNAILWIDTH"), 5, 50, 300);
-        tfTNWidth.setText("" + pc.getTNWidth());
+        checkOnlineForUpdate = new JCheckBox("Check online for updates");
+        checkOnlineForUpdate.setSelected(conf.getGeneralConfig().checkOnline());
     }
 
     private void doTheLayout() {
@@ -69,62 +48,15 @@ public class MiscPanel extends OptionsPanel {
 
         int row = 1;
         
-        p1.add(DefaultComponentFactory.getInstance().createSeparator(
-                loc.getString("SGTK_OPTIONS_PLOTPANEL_PLOTFILESEP")),                   cc.xyw(1, row, 3));
+        p1.add(checkOnlineForUpdate, cc.xyw(1, row, 3));
         
         row += 2;
-        
-        p1.add(new JLabel(loc.getString("SGTK_OPTIONS_PLOTPANEL_WIDTH")),               cc.xy(1, row));
-        p1.add(tfWidth,                            cc.xy(3, row));
-
-        row += 2;
-        
-        p1.add(new JLabel(loc.getString("SGTK_OPTIONS_PLOTPANEL_HEIGHT")),              cc.xy(1, row));
-        p1.add(tfHeight,                           cc.xy(3, row));
-        
-        row += 2;
-        
-        p1.add(new JLabel(loc.getString("SGTK_OPTIONS_PLOTPANEL_WIDTHINCH")),           cc.xy(1, row));
-        p1.add(tfWidthInch,                            cc.xy(3, row));
-
-        row += 2;
-        
-        p1.add(new JLabel(loc.getString("SGTK_OPTIONS_PLOTPANEL_HEIGHTINCH")),          cc.xy(1, row));
-        p1.add(tfHeightInch,                           cc.xy(3, row));
-        
-        row += 2;
-        
-        p1.add(new JLabel(loc.getString("SGTK_OPTIONS_PLOTPANEL_POINTSIZE")),           cc.xy(1, row));
-        p1.add(tfPointSize,                        cc.xy(3, row));
-
-        row += 2;
-        
-        p1.add(DefaultComponentFactory.getInstance().createSeparator(
-                 loc.getString("SGTK_OPTIONS_PLOTPANEL_THUMBNAILSEP")),                 cc.xyw(1, row, 3));
-        
-        row += 2;
-        
-        p1.add(new JLabel(loc.getString("SGTK_OPTIONS_PLOTPANEL_THUMBNAILWIDTH")),      cc.xy(1, row));
-        p1.add(tfTNWidth,                          cc.xy(3, row));
 
         add(p1);
     }
 
 
     public void setProperties() throws ValidationException {
-        double width = tfWidth.getValidatedValue();
-        double height = tfHeight.getValidatedValue();
-        double widthi = tfWidthInch.getValidatedValue();
-        double heighti = tfHeightInch.getValidatedValue();
-        int pointSize = tfPointSize.getValidatedValue();
-        int tnWidth = tfTNWidth.getValidatedValue();
-
-        PlotConfig pc = conf.getPlotConfig();
-        pc.setWidth(width);
-        pc.setHeight(height);
-        pc.setWidthInch(widthi);
-        pc.setHeightInch(heighti);        
-        pc.setPointSize(pointSize);
-        pc.setTNWidth(tnWidth);
+       	conf.getGeneralConfig().setCheckOnline(checkOnlineForUpdate.isSelected());
     }
 }

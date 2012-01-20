@@ -4,21 +4,22 @@ import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
-import java.io.File;
 import java.util.Locale;
 
 import javax.swing.ImageIcon;
 import javax.swing.JComponent;
-import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
-import javax.swing.filechooser.FileFilter;
+import javax.swing.SwingUtilities;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 
 import org.af.commons.Localizer;
 import org.af.commons.errorhandling.ErrorHandler;
 import org.af.commons.widgets.InfiniteProgressPanel;
+import org.af.commons.widgets.WidgetFactory;
 import org.af.commons.widgets.InfiniteProgressPanel.AbortListener;
 import org.af.gMCP.config.Configuration;
 import org.af.gMCP.config.VersionComparator;
@@ -27,7 +28,6 @@ import org.af.gMCP.gui.datatable.DataFramePanel;
 import org.af.gMCP.gui.datatable.DataTable;
 import org.af.gMCP.gui.datatable.RDataFrameRef;
 import org.af.gMCP.gui.dialogs.TellAboutOnlineUpate;
-import org.af.gMCP.gui.dialogs.VariableNameDialog;
 import org.af.gMCP.gui.graph.DView;
 import org.af.gMCP.gui.graph.EdgeWeight;
 import org.af.gMCP.gui.graph.GraphView;
@@ -71,6 +71,11 @@ public class CreateGraphGUI extends JFrame implements WindowListener, AbortListe
 		logger.info("gMCP start No. "+n+1);
 		
 		setIconImage((new ImageIcon(getClass().getResource("/org/af/gMCP/gui/graph/images/rjavaicon64.png"))).getImage());
+		try {
+			setLooknFeel();
+		} catch (Exception e1) {
+			JOptionPane.showMessageDialog(this, "Font size and Look'n'Feel could not be restored.", "Error restoring Look'n'Feel", JOptionPane.ERROR_MESSAGE);
+		}
 				
 		addWindowListener(this);
 		setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
@@ -244,5 +249,12 @@ public class CreateGraphGUI extends JFrame implements WindowListener, AbortListe
 
 	public DView getDView() {		
 		return dview;
+	}
+	
+	private void setLooknFeel() throws ClassNotFoundException, IllegalAccessException,
+	InstantiationException, UnsupportedLookAndFeelException {
+		UIManager.setLookAndFeel(Configuration.getInstance().getJavaConfig().getLooknFeel());
+        WidgetFactory.setFontSizeGlobal(Configuration.getInstance().getGeneralConfig().getFontSize());
+		SwingUtilities.updateComponentTreeUI(this);
 	}
 }

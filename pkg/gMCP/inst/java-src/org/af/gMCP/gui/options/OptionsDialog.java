@@ -27,8 +27,8 @@ public class OptionsDialog extends JDialog implements ActionListener {
 	private static final Log logger = LogFactory.getLog(OptionsDialog.class);
 
 	private JTabbedPane tabbedPane;
-    private GeneralPanel generalPanel;
-    private PlotPanel plotPanel;
+    private GeneralPanel visualPanel;
+    private NumericPanel numericPanel;
     private MiscPanel miscPanel;
     private OkApplyCancelButtonPane bp;
 
@@ -61,8 +61,8 @@ public class OptionsDialog extends JDialog implements ActionListener {
      */
     private void makeComponents() {
         tabbedPane = new JTabbedPane();
-        generalPanel = new GeneralPanel(parent, this);
-        plotPanel = new PlotPanel(conf);
+        visualPanel = new GeneralPanel(parent, this);
+        numericPanel = new NumericPanel(conf);
         miscPanel = new MiscPanel(conf);        
         bp = new OkApplyCancelButtonPane();
     }
@@ -71,8 +71,8 @@ public class OptionsDialog extends JDialog implements ActionListener {
      * Do the layout.
      */
     private void doTheLayout() {
-        tabbedPane.addTab("Visual", generalPanel);
-        tabbedPane.addTab("Numeric", plotPanel);
+        tabbedPane.addTab("Visual", visualPanel);
+        tabbedPane.addTab("Numeric", numericPanel);
         tabbedPane.addTab("Misc", miscPanel);
         Container cp = getContentPane();
         cp.add(tabbedPane);
@@ -89,8 +89,8 @@ public class OptionsDialog extends JDialog implements ActionListener {
         if ( (e.getActionCommand().equals(OkApplyCancelButtonPane.OK_CMD)) ||
         		(e.getActionCommand().equals(OkApplyCancelButtonPane.APPLY_CMD)) ) {
             try {
-            	generalPanel.setProperties();
-            	plotPanel.setProperties();
+            	visualPanel.setProperties();
+            	numericPanel.setProperties();
                 if  (e.getActionCommand().equals(OkApplyCancelButtonPane.OK_CMD)) {
                 	dispose();
                 }
