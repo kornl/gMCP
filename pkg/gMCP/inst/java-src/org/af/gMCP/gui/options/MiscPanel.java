@@ -3,7 +3,6 @@ package org.af.gMCP.gui.options;
 import javax.swing.JCheckBox;
 import javax.swing.JPanel;
 
-import org.af.commons.Localizer;
 import org.af.commons.widgets.validate.ValidationException;
 import org.af.gMCP.config.Configuration;
 
@@ -35,8 +34,6 @@ public class MiscPanel extends OptionsPanel {
     }
 
     private void doTheLayout() {
-
-        Localizer loc = Localizer.getInstance();
         JPanel p1 = new JPanel();
 
         String cols = "pref, 5dlu, fill:pref:grow";

@@ -9,7 +9,6 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-import org.af.commons.Localizer;
 import org.af.commons.widgets.validate.ValidationException;
 import org.af.gMCP.config.Configuration;
 
@@ -50,8 +49,6 @@ public class NumericPanel extends OptionsPanel implements ActionListener {
     }
 
     private void doTheLayout() {
-
-        Localizer loc = Localizer.getInstance();
         JPanel p1 = new JPanel();
 
         String cols = "pref, 5dlu, fill:pref:grow";

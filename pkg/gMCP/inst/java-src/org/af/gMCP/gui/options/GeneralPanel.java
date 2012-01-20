@@ -16,7 +16,6 @@ import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
-import org.af.commons.Localizer;
 import org.af.commons.widgets.WidgetFactory;
 import org.af.commons.widgets.lists.IntegerJComboBox;
 import org.af.gMCP.config.Configuration;
@@ -101,8 +100,6 @@ public class GeneralPanel extends OptionsPanel implements ActionListener {
     }
 
     private void doTheLayout() {
-
-        Localizer loc = Localizer.getInstance();
         JPanel p1 = new JPanel();
         String cols = "pref, 5dlu, fill:pref:grow";
         String rows = "pref, 5dlu, pref, 5dlu, pref, 5dlu, pref, 5dlu, pref, 5dlu, pref, 5dlu, pref, 5dlu, pref, 5dlu, pref, 5dlu, pref, 5dlu, pref, 5dlu, pref, 5dlu, pref, 5dlu, pref";
@@ -128,12 +125,12 @@ public class GeneralPanel extends OptionsPanel implements ActionListener {
         
         row += 2;
         
-        p1.add(new JLabel(loc.getString("SGTK_OPTIONS_GENERALPANEL_FONTSIZE")),     cc.xy(1, row));
+        p1.add(new JLabel("Font Size"),     cc.xy(1, row));
         p1.add(cbFontSize, cc.xy(3, row));
         
         row += 2;
 
-        p1.add(new JLabel(loc.getString("SGTK_OPTIONS_GENERALPANEL_LF")),           cc.xy(1, row));
+        p1.add(new JLabel("Look'n'Feel"),           cc.xy(1, row));
         p1.add(cbLookAndFeel, cc.xy(3, row));
         
         row += 2;
@@ -213,8 +210,8 @@ public class GeneralPanel extends OptionsPanel implements ActionListener {
        		if (!getLooknFeel().equals(currentLF)) {
            		setLooknFeel(getLooknFeel());
        			int n = JOptionPane.showConfirmDialog(parent,
-       					Localizer.getInstance().getString("SGTK_OPTIONS_GENERALPANEL_KEEPLF"),
-       					Localizer.getInstance().getString("SGTK_OPTIONS_GENERALPANEL_KEEPLF"),
+       					"Keep this Look'n'Feel?",
+       					"Keep this Look'n'Feel?",
        					JOptionPane.YES_NO_OPTION);
 
        			if (n == JOptionPane.YES_OPTION) {

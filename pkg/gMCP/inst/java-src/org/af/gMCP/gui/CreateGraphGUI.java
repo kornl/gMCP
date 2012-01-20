@@ -16,11 +16,10 @@ import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
-import org.af.commons.Localizer;
 import org.af.commons.errorhandling.ErrorHandler;
 import org.af.commons.widgets.InfiniteProgressPanel;
-import org.af.commons.widgets.WidgetFactory;
 import org.af.commons.widgets.InfiniteProgressPanel.AbortListener;
+import org.af.commons.widgets.WidgetFactory;
 import org.af.gMCP.config.Configuration;
 import org.af.gMCP.config.VersionComparator;
 import org.af.gMCP.gui.datatable.CellEditorE;
@@ -53,11 +52,12 @@ public class CreateGraphGUI extends JFrame implements WindowListener, AbortListe
 		Locale.setDefault(Locale.US);
 		JComponent.setDefaultLocale(Locale.US); 
 		RControl.getRControl(debug);
-		Localizer.getInstance().addResourceBundle("org.af.gMCP.gui.ResourceBundle");
 		if (grid>0) {
 			Configuration.getInstance().getGeneralConfig().setGridSize((int)grid);
 		}
 		Configuration.getInstance().getGeneralConfig().setExperimental(experimentalFeatures);
+		
+		/* Get and save R and gMCP version numbers */
 		try {		
 			Configuration.getInstance().getGeneralConfig().setRVersionNumber(RControl.getR().eval("paste(R.version$major,R.version$minor,sep=\".\")").asRChar().getData()[0]);
 			Configuration.getInstance().getGeneralConfig().setVersionNumber(RControl.getR().eval("gMCP:::gMCPVersion()").asRChar().getData()[0]);
@@ -66,6 +66,8 @@ public class CreateGraphGUI extends JFrame implements WindowListener, AbortListe
 			// This is no vital information and will fail for e.g. R 2.8.0, so no error handling here...
 			logger.warn("Package version could not be set:\n"+e.getMessage());
 		}
+		
+		/* Count the number of starts */
 		int n = Configuration.getInstance().getGeneralConfig().getNumberOfStarts();
 		Configuration.getInstance().getGeneralConfig().setNumberOfStarts(n+1);		
 		logger.info("gMCP start No. "+n+1);
@@ -77,9 +79,13 @@ public class CreateGraphGUI extends JFrame implements WindowListener, AbortListe
 			JOptionPane.showMessageDialog(this, "Font size and Look'n'Feel could not be restored.", "Error restoring Look'n'Feel", JOptionPane.ERROR_MESSAGE);
 		}
 				
-		addWindowListener(this);
+		/* 
+		 * We want to check for unsaved changes and eventually quit the R console as well, 
+		 * so we implement the WindowListener interface and let windowClosing() do the work.
+		 */
 		setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
-
+		addWindowListener(this);
+		
 		pview = new PView(this);
 		dview = new DView(this);
 		dfp = new DataFramePanel(new RDataFrameRef());
@@ -182,7 +188,7 @@ public class CreateGraphGUI extends JFrame implements WindowListener, AbortListe
 	public void windowActivated(WindowEvent e) {}
 	public void windowClosed(WindowEvent e) {}
 	/**
-	 * Closes the R console if we are in bundled mode. 
+	 * Closes the R console if we are in bundled mode and checks for unsaved changes. 
 	 */
 	public void windowClosing(WindowEvent e) {
 		if (!isGraphSaved) {

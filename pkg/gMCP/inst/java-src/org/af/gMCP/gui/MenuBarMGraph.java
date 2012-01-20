@@ -19,7 +19,6 @@ import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileFilter;
 
-import org.af.commons.Localizer;
 import org.af.commons.errorhandling.ErrorHandler;
 import org.af.commons.io.FileTransfer;
 import org.af.commons.logging.LoggingSystem;
@@ -43,7 +42,6 @@ import org.jdesktop.swingworker.SwingWorker;
 public class MenuBarMGraph extends JMenuBar implements ActionListener {
 	
 	GraphView control;
-    protected Localizer localizer = Localizer.getInstance();
     private static final Log logger = LogFactory.getLog(MenuBarMGraph.class);
     JMenu fmenu = new JMenu("File");
 
@@ -239,7 +237,7 @@ public class MenuBarMGraph extends JMenuBar implements ActionListener {
     }
     
     public void reportError() {    	
-        ErrorHandler.getInstance().makeErrDialog(localizer.getString("SGTK_MENU_EXTRAS_REPORT_ERROR"));
+        ErrorHandler.getInstance().makeErrDialog("Report Error");
     }
 
 	public void actionPerformed(ActionEvent e) {

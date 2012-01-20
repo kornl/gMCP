@@ -8,7 +8,6 @@ import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 import javax.swing.JTabbedPane;
 
-import org.af.commons.Localizer;
 import org.af.commons.errorhandling.ErrorHandler;
 import org.af.commons.widgets.WidgetFactory;
 import org.af.commons.widgets.buttons.OkApplyCancelButtonPane;
@@ -44,7 +43,7 @@ public class OptionsDialog extends JDialog implements ActionListener {
     	this.parent = p;
         this.conf = Configuration.getInstance();
         setModal(true);
-        setTitle(Localizer.getInstance().getString("SGTK_OPTIONS_OPTIONSDIALOG_TITLE"));
+        setTitle("Options");
 
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 
