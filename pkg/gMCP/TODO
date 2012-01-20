@@ -56,6 +56,14 @@ Possible MalWare 'W32/NewMalware-Generic-8d27-f554' found in '5832765_287X_AZ-D_
 - All Dialogs should have cancel buttons
 - LaTeX Dialog should give information about TikZ and needed usepackage etc. lines
 - Capture verbose output
+- g <- HuqueAloshEtBhore2011()
+> g
+A graphMCP graph
+H1 (NA, weight=NA)
+H2 (NA, weight=NA)
+H3 (NA, weight=NA)
+H4 (NA, weight=NA)
+
 
 Medium priority:
 ================
@@ -97,13 +105,10 @@ In library(package, lib.loc = lib.loc, character.only = TRUE, logical.return = T
 Additional features / low priority:
 ===================================
 
-- What exactly are the consequences, if we set "Encoding: UTF-8" in the description file?
-  - Are there other possibilities to pretty-print the \epsilon, etc.? (Most likely not worth the work.)
 - Do we really need PolynomF as dependencies?
 - Don't create global variable like .tmpGraph etc.
 - Report generation in GUI (and respect the option whether to show rejected null hypothesis)
 - PNG export cuts edges in rare cases. (But already improved!)
-- Can we add a RUnit Test for Java importing Random Graphs and then exporting the same graph?
 - TikZ styles for rejected / rejectable nodes
 - further tests
 - Look at http://xmlgraphics.apache.org/fop/
@@ -113,7 +118,6 @@ Additional features / low priority:
 - Use of InfoNode Docking Windows? http://www.infonode.net/index.html?idw
   Would increase size by 717 kByte.
 - Whishlist dialog.
-- RMySQL as suggest?
 - suppressPackageStartupMessages
 
      ‘.First.lib’ is called when a package without a name space is
