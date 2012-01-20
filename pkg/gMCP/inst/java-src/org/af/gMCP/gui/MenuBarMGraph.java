@@ -264,7 +264,8 @@ public class MenuBarMGraph extends JMenuBar implements ActionListener {
         } else if (e.getActionCommand().equals("new graph")) {
         	newGraph();			
         } else if (e.getActionCommand().equals("save graph")) {       	
-        	saveGraph();
+        	control.saveGraph();
+        	createLastUsed();
         } else if (e.getActionCommand().equals("save graph to R")) {
         	if (control.getNL().getNodes().size()==0) {
         		JOptionPane.showMessageDialog(control.getMainFrame(), "Will not save empty graph.", "Saving to R failed.", JOptionPane.ERROR_MESSAGE);
@@ -631,39 +632,7 @@ public class MenuBarMGraph extends JMenuBar implements ActionListener {
 		}
 	}
 
-	private void saveGraph() {
-		JFileChooser fc = new JFileChooser(Configuration.getInstance().getClassProperty(this.getClass(), "RObjDirectory"));		
-        fc.setFileSelectionMode(JFileChooser.FILES_ONLY);
-        fc.setDialogType(JFileChooser.SAVE_DIALOG);
-        fc.setFileFilter(new FileFilter() {
-			public boolean accept(File f) {
-				if (f.isDirectory()) return true;
-				return f.getName().toLowerCase().endsWith(".rdata");
-			}
-			public String getDescription () { return "RData files"; }  
-		});
-        fc.setDialogType(JFileChooser.SAVE_DIALOG);
-        int returnVal = fc.showOpenDialog(this);
-        if (returnVal == JFileChooser.APPROVE_OPTION) {
-            File f = fc.getSelectedFile();
-            Configuration.getInstance().setClassProperty(this.getClass(), "RObjDirectory", f.getParent());
-            if (!f.getName().toLowerCase().endsWith(".rdata")) {
-            	f = new File(f.getAbsolutePath()+".RData");
-            }
-            try {
-            	VariableNameDialog vnd = new VariableNameDialog(control.getGraphGUI(), control.getGraphName());            	
-            	String name = vnd.getName();
-            	name = control.getNL().saveGraph(name, false); 
-            	String filename = f.getAbsolutePath().replaceAll("\\\\", "\\\\\\\\");            	
-            	RControl.getR().eval("save("+name+", file=\""+filename+"\")");        		
-            	JOptionPane.showMessageDialog(control.getMainFrame(), "Exported graph to R object '"+name+"' and saved this to \n'" + f.getAbsolutePath() + "'.", "Saved graph", JOptionPane.INFORMATION_MESSAGE);
-            	Configuration.getInstance().getGeneralConfig().addGraph(f.getAbsolutePath());
-            	createLastUsed();
-    		} catch( Exception ex ) {
-    			JOptionPane.showMessageDialog(control.getMainFrame(), "Saving graph to '" + f.getAbsolutePath() + "' failed: " + ex.getMessage(), "Saving failed", JOptionPane.ERROR_MESSAGE);
-    		}
-        }	
-	}
+
 
 	protected JMenuItem makeMenuItem(String text, String action) {
         return makeMenuItem(text, action, true);

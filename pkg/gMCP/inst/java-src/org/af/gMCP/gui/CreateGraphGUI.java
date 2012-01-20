@@ -4,14 +4,17 @@ import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
+import java.io.File;
 import java.util.Locale;
 
 import javax.swing.ImageIcon;
 import javax.swing.JComponent;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
+import javax.swing.filechooser.FileFilter;
 
 import org.af.commons.Localizer;
 import org.af.commons.errorhandling.ErrorHandler;
@@ -24,6 +27,7 @@ import org.af.gMCP.gui.datatable.DataFramePanel;
 import org.af.gMCP.gui.datatable.DataTable;
 import org.af.gMCP.gui.datatable.RDataFrameRef;
 import org.af.gMCP.gui.dialogs.TellAboutOnlineUpate;
+import org.af.gMCP.gui.dialogs.VariableNameDialog;
 import org.af.gMCP.gui.graph.DView;
 import org.af.gMCP.gui.graph.EdgeWeight;
 import org.af.gMCP.gui.graph.GraphView;
@@ -35,12 +39,14 @@ import org.rosuda.REngine.JRI.JRIEngine;
 
 public class CreateGraphGUI extends JFrame implements WindowListener, AbortListener {
 	
-	GraphView agc;
+	GraphView control;
 	PView pview;
 	DView dview;
 	DataFramePanel dfp;
 	public InfiniteProgressPanel glassPane;
 	protected static Log logger = LogFactory.getLog(CreateGraphGUI.class);
+	public boolean isGraphSaved = true;
+	
 	
 	public CreateGraphGUI(String graph, double[] pvalues, boolean debug, double grid, boolean experimentalFeatures) {
 		super("gMCP GUI");
@@ -67,16 +73,17 @@ public class CreateGraphGUI extends JFrame implements WindowListener, AbortListe
 		setIconImage((new ImageIcon(getClass().getResource("/org/af/gMCP/gui/graph/images/rjavaicon64.png"))).getImage());
 				
 		addWindowListener(this);
+		setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 
 		pview = new PView(this);
 		dview = new DView(this);
 		dfp = new DataFramePanel(new RDataFrameRef());
-		agc = new GraphView(graph, this);  // NetList object is created here.	
-		setJMenuBar(new MenuBarMGraph(agc));		
+		control = new GraphView(graph, this);  // NetList object is created here.	
+		setJMenuBar(new MenuBarMGraph(control));		
 		makeContent();
 		
 		if (RControl.getR().eval("exists(\""+graph+"\")").asRLogical().getData()[0]) {
-			agc.getNL().loadGraph(graph);
+			control.getNL().loadGraph(graph);
 		}
 		
 		if (pvalues.length>0) getPView().setPValues(ArrayUtils.toObject(pvalues));
@@ -156,8 +163,8 @@ public class CreateGraphGUI extends JFrame implements WindowListener, AbortListe
 	JSplitPaneBugWorkAround splitPane2;
 	
 	private void makeContent() {
-		dfp.getTable().setDefaultEditor(EdgeWeight.class, new CellEditorE(agc, dfp.getTable()));
-		splitPane1 = new JSplitPaneBugWorkAround(JSplitPane.VERTICAL_SPLIT, agc, dview);		
+		dfp.getTable().setDefaultEditor(EdgeWeight.class, new CellEditorE(control, dfp.getTable()));
+		splitPane1 = new JSplitPaneBugWorkAround(JSplitPane.VERTICAL_SPLIT, control, dview);		
 		splitPane2 = new JSplitPaneBugWorkAround(JSplitPane.VERTICAL_SPLIT, new JScrollPane(dfp), new JScrollPane(pview));		
 		splitPane = new JSplitPaneBugWorkAround(JSplitPane.HORIZONTAL_SPLIT, splitPane1, splitPane2);		
 		getContentPane().add(splitPane);		
@@ -173,9 +180,19 @@ public class CreateGraphGUI extends JFrame implements WindowListener, AbortListe
 	 * Closes the R console if we are in bundled mode. 
 	 */
 	public void windowClosing(WindowEvent e) {
+		if (!isGraphSaved) {
+			int answer = JOptionPane.showConfirmDialog(this, "The current graph is not saved yet!\nDo you want to save it?", 
+					"Do you want to save the graph?",
+					JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE);
+			if (answer==JOptionPane.CANCEL_OPTION) return;
+			if (answer==JOptionPane.YES_OPTION) {
+				control.saveGraph();
+			}
+		}
 		if (RControl.getR().eval("exists(\".isBundle\")").asRLogical().getData()[0]) {
 			RControl.getR().eval("q(save=\"no\")");
 		}
+		dispose();
 	}
 	public void windowDeactivated(WindowEvent e) {}
 	public void windowDeiconified(WindowEvent e) {}
@@ -187,7 +204,7 @@ public class CreateGraphGUI extends JFrame implements WindowListener, AbortListe
 	}
 
 	public GraphView getGraphView() {		
-		return agc;
+		return control;
 	}
 
 	public DataTable getDataTable() {		
