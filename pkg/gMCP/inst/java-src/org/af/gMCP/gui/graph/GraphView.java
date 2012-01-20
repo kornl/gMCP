@@ -51,7 +51,7 @@ public class GraphView extends JPanel implements ActionListener {
 	JButton buttonStart;	
 	JButton buttonBack;
 	
-	String correlation;
+	String correlation = "";
 	public String result = ".gMCPResult_" + (new Date()).getTime();
 	public boolean resultUpToDate = false;
 	
@@ -354,10 +354,11 @@ public class GraphView extends JPanel implements ActionListener {
 	}
 
 	public String getGMCPOptions() {
-		return ","+getPView().getPValuesString()+ correlation
-			+", alpha="+getPView().getTotalAlpha()
-			+", eps="+Configuration.getInstance().getGeneralConfig().getEpsilon()
-			+", verbose="+(Configuration.getInstance().getGeneralConfig().verbose()?"42":"FALSE");
+		return ","+getPView().getPValuesString()
+				+ correlation
+				+", alpha="+getPView().getTotalAlpha()
+				+", eps="+Configuration.getInstance().getGeneralConfig().getEpsilon()
+				+", verbose="+(Configuration.getInstance().getGeneralConfig().verbose()?"42":"FALSE");
 	}
 
 	public DView getDView() {
