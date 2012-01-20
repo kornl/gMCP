@@ -15,7 +15,7 @@ Version 0.7-4 (??-01-2012, Rev. 1???)
 - If the GUI is closed and the last graph was not yet saved,
   the user is asked whether he wants to save it.
 
-- LookNFeel is now saved between sessions.
+- LookNFeel and font size is now saved between sessions.
 
 - Variable node weights
 
@@ -30,7 +30,7 @@ Version 0.7-4 (??-01-2012, Rev. 1???)
 
 - Fixed: GUI was more prone to rounding errors
   
-- Fixed bug in report generation.
+- Fixed: Report generation did not finished if no testing was performed beforehand.
 
 - Experimental: Support for entangled graphs in the GUI
 

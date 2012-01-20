@@ -27,7 +27,6 @@ High priority:
 - Some edge labels like for parallel gatekeeping are set to small values (0?)
 - On Windows: Autoresize of the adjacency matrix does often not work.
 - Sample sizes for correlation matrices
-- Test report creation - does not seem to work
 - "Reject and pass \alpha" does not make sense in the parametric case (actually it does, if we 
 - Option "Show fractions" has no influence on TextFields for weights etc
 - What happens if we start the GUI a second time?

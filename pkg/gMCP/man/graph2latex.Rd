@@ -71,7 +71,7 @@
 }
 
 \seealso{
-\code{\link{graphMCP}}
+    \code{\link{graphMCP}}, \code{\link{gMCPReport}}
 }
 \examples{
 
