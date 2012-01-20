@@ -39,6 +39,7 @@ getEdges <- function(graph){
 }
 
 placeNodes <- function(graph, nrow, ncol, byrow = TRUE, force = FALSE) {
+	# Only place nodes if  no placement data exists or parameter force is set to TRUE
 	if (is.null(graph@nodeAttr$X) || force) {
 		n <- length(getNodes(graph))
 		if (missing(nrow) && missing(ncol)) {		
@@ -51,6 +52,10 @@ placeNodes <- function(graph, nrow, ncol, byrow = TRUE, force = FALSE) {
 			}
 			if (missing(ncol)) {
 				ncol <- ceiling(length(getNodes(graph))/nrow)
+			}
+			# if nrow*ncol<n increase the number of rows
+			if (nrow*ncol<n) {
+				nrow <- ceiling(length(getNodes(graph))/ncol)
 			}
 			if (byrow) {
 				nodeX <- rep(((1:ncol)-1)*200+100, nrow)

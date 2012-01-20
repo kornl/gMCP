@@ -26,7 +26,6 @@ High priority:
 - Remove warnings: es gibt kein Paket names 'graph'
 - Some edge labels like for parallel gatekeeping are set to small values (0?)
 - On Windows: Autoresize of the adjacency matrix does often not work.
-- Sample sizes for correlation matrices
 - "Reject and pass \alpha" does not make sense in the parametric case (actually it does, if we 
 - Option "Show fractions" has no influence on TextFields for weights etc
 - What happens if we start the GUI a second time?
@@ -36,8 +35,6 @@ High priority:
 - In CI-Dialog (initial weights instead of alpha are displayed - this are two errors)
 - Mark cell content (if one clicks and type, one often wants to overwrite)
 - Display edges > 1 and < 0. (Also: -1E0)
-- Make node and edge creation sticky until another button is clicked (but do not place nodes above other nodes)
-- Check LaTeX export with variables and epsilon polynoms.
 - Flag 1+epsilon>1 in line sum
 - round adjusted p-Values up
 - Think about "-Xrs" - see paragraph below.
@@ -49,8 +46,6 @@ High priority:
 - think about naming of rows, cols, weights … but I guess it'll be the advise to use just the mutator methods or if you want to avoid this overhead a warning that you should know what you are doing…
 - does something in Björns C code trigger the following false-positive:
 Possible MalWare 'W32/NewMalware-Generic-8d27-f554' found in '5832765_287X_AZ-D_PA3__gMCP.dll'. Heuristics score: 336 
-- remember focus on description vs. graph analysis
-- test whether description is always saved
 - More fairness regarding the Maurer et al. example ("improved" - what does the paper cover)
 - All Dialogs should have cancel buttons
 - LaTeX Dialog should give information about TikZ and needed usepackage etc. lines
@@ -78,7 +73,6 @@ Medium priority:
   mcp.c:124:9: warning: unused variable ‘j’
 - https://twitter.com/#!/hadleywickham: "@revodavid noooooooooooo. don't use strings + parse + eval. use calls + substitute + eval #rstats (there's also an R news article on macros)"
 - readRDS/saveRDS instead of load/save?
-- If Error Report sending fails, give user the option to send the log files as zip file
 - Does Indefinite ProgressPanel slow the calculation significantly down ?!?
 - Improve visualization of CI (estimates should be a named vector - 0 estimates are often a strange choice - patch plotCII?)
 - graphAnalysis: Graph can be optimal despite the fact that some nodes are not accessible from others
@@ -88,11 +82,8 @@ Medium priority:
 - Guide for usage under MacOS
 - Test the option for rounding how many digits we want to see.
 (search for DecimalFormat and replace it with getDecFormat())
-- Ask for saving graph when quitting
-- LookNFeel is not kept between sessions (also first call of options result in strange LookNFeel message)
 - Improve speed when loading graphs
 - Check for / think about conflicts: "JAVAGD_CLASS_NAME"="org/mutoss/gui/JavaGD"
-- placeNodes drops nodes to the top left if rows*columns is smaller than the number of nodes.
 
 Lade nötiges Paket: graph
 Warnmeldung:
