@@ -6,4 +6,3 @@ inst/doc/pictures
 inst/doc/Makefile
 inst/doc/*.ist
 inst/doc/*.bib
-inst/doc/*.Rnw
