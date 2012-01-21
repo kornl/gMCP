@@ -1,3 +1,19 @@
+Version 0.7-5 (??-01-2012, Rev. 1???)
+=====================================
+
+- If the GUI is closed and the last graph was not yet saved,
+  the user is asked whether he wants to save it.
+
+- Variable node weights
+
+- Fixed: GUI was more prone to rounding errors
+
+- Experimental: Support for entangled graphs in the GUI
+
+- Experimental: Support for adaptive studies in the GUI
+    
+- Experimental: Toolkit for annotating graphs (+TikZ export support of annotations)
+
 Version 0.7-4 (??-01-2012, Rev. 1???)
 =====================================
 
@@ -12,12 +28,7 @@ Version 0.7-4 (??-01-2012, Rev. 1???)
   
 - More correlation matrices for standard designs + added unbalanced designs.
 
-- If the GUI is closed and the last graph was not yet saved,
-  the user is asked whether he wants to save it.
-
 - LookNFeel and font size is now saved between sessions.
-
-- Variable node weights
 
 - Improved focus keeping and reliability of description text field.
 
@@ -34,16 +45,8 @@ Version 0.7-4 (??-01-2012, Rev. 1???)
 - Fixed: plotCI did not draw the CIs if all finite points were the same.
 
 - Fixed: The bundled version closes the R console if the GUI is closed.
-
-- Fixed: GUI was more prone to rounding errors
   
 - Fixed: Report generation did not finished if no testing was performed beforehand.
-
-- Experimental: Support for entangled graphs in the GUI
-
-- Experimental: Support for adaptive studies in the GUI
-    
-- Experimental: Toolkit for annotating graphs (+TikZ export support of annotations)
 
 
 Version 0.7-3 (16-01-2012, Rev. 1057)
