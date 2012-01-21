@@ -5,6 +5,15 @@ Critical:
 - Does Deducer interfere JavaGD? (When is .onLoad executed?)  
 - Variable handling on command line gMCP!
 - Make JavaGD only a suggest (Solaris and generally safer)
+- g <- HuqueAloshEtBhore2011()
+> g
+A graphMCP graph
+H1 (NA, weight=NA)
+H2 (NA, weight=NA)
+H3 (NA, weight=NA)
+H4 (NA, weight=NA)
+> gMCP(g, runif(4))
+Fehler in if (m[i, node] * m[node, i] < 1) { : Argument hat Länge 0
 
 High priority:
 ==============
@@ -31,7 +40,6 @@ High priority:
 - What happens if we start the GUI a second time?
 - Why does matrix(c(0,1/2,0,0),2) loose half an alpha?
 - Example graphs from Ferber?
-- In CI-Dialog (remember less / greater)
 - In CI-Dialog (initial weights instead of alpha are displayed - this are two errors)
 - Mark cell content (if one clicks and type, one often wants to overwrite)
 - Display edges > 1 and < 0. (Also: -1E0)
@@ -50,14 +58,6 @@ Possible MalWare 'W32/NewMalware-Generic-8d27-f554' found in '5832765_287X_AZ-D_
 - All Dialogs should have cancel buttons
 - LaTeX Dialog should give information about TikZ and needed usepackage etc. lines
 - Capture verbose output
-- g <- HuqueAloshEtBhore2011()
-> g
-A graphMCP graph
-H1 (NA, weight=NA)
-H2 (NA, weight=NA)
-H3 (NA, weight=NA)
-H4 (NA, weight=NA)
-
 
 Medium priority:
 ================

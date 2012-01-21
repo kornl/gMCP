@@ -26,6 +26,10 @@ Version 0.7-4 (??-01-2012, Rev. 1???)
 - Option for graph creation: If the "add node" button is selected each further click 
   adds nodes until another button is clicked. Similar option for edges. 
   (But do not place nodes above other nodes.)
+  
+- CI dialog remembers less / greater option
+
+- Thanks to .Rinstignore the file size of the installed packages is further reduced.
 
 - Fixed: plotCI did not draw the CIs if all finite points were the same.
 
