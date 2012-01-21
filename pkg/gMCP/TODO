@@ -74,7 +74,6 @@ Medium priority:
 - https://twitter.com/#!/hadleywickham: "@revodavid noooooooooooo. don't use strings + parse + eval. use calls + substitute + eval #rstats (there's also an R news article on macros)"
 - readRDS/saveRDS instead of load/save?
 - Does Indefinite ProgressPanel slow the calculation significantly down ?!?
-- Improve visualization of CI (estimates should be a named vector - 0 estimates are often a strange choice - patch plotCII?)
 - graphAnalysis: Graph can be optimal despite the fact that some nodes are not accessible from others
 - Warn user when sum of edge weights is bigger than 1
 - Check mutator methods for errors (alpha > 1, edge weights > 1)

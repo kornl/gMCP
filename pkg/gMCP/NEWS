@@ -27,6 +27,8 @@ Version 0.7-4 (??-01-2012, Rev. 1???)
   adds nodes until another button is clicked. Similar option for edges. 
   (But do not place nodes above other nodes.)
 
+- Fixed: plotCI did not draw the CIs if all finite points were the same.
+
 - Fixed: The bundled version closes the R console if the GUI is closed.
 
 - Fixed: GUI was more prone to rounding errors
