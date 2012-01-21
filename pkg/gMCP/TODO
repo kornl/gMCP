@@ -139,32 +139,6 @@ checking R code for possible problems ... NOTE
 
 -> reference to JGR or Deducer.
 
-@graph-package:
-
-How do I create a graphNEL object, where there is a node that has no out-going edges?
-I thought the following will do it:
-
-hnodes <- c("H1","H2")
-edges <- vector("list", length=2)
-edges[[1]] <- list(edges=c("H2"), weights=c(1.0))
-edges[[2]] <- list(edges=character(0), weights=numeric(0))
-# or "edges[[2]] <- list()" which gives the same result.
-names(edges)<-hnodes
-g <- new("graphNEL", nodes=hnodes, edgeL=edges, "directed")
-
-But the problem is, that g@edgeData@data[[1]]$weight is now a numeric with attribute "names".
-This makes problems, for example it confuses edgeWeights: 
-
-edgeWeights(g)
-$H1
-H2.H1
-        1 
-
-$H2
-numeric(0)
-
-In my understanding this should be "H2" instead of "H2.H1" like it would be when H2 has any outgoing edges.
-
 rJava: We had the following problem:
 
 > library(rJava)
@@ -202,11 +176,6 @@ install.packages("gMCP")
 --- Please select a CRAN mirror for use in this session ---
 also installing the dependencies ‘mvtnorm’, ‘rJava’, ‘PolynomF’, ‘multcomp’, ‘graph’, ‘gtools’
 
-trying URL 'http://ftp5.gwdg.de/pub/misc/cran/bin/windows/contrib/2.13/mvtnorm_0.9-96.zip'
-Content type 'application/zip' length 555152 bytes (542 Kb)
-opened URL
-downloaded 542 Kb
-
 [...]
 
 trying URL 'http://ftp5.gwdg.de/pub/misc/cran/bin/windows/contrib/2.13/gMCP_0.6-1.zip'
@@ -224,27 +193,3 @@ Warning: unable to move temporary installation 'C:\Program Files\R\R-2.13.0\libr
 
 The downloaded packages are in
         C:\Documents and Settings\Student\Local Settings\Temp\RtmpBJn6oK\downloaded_packages
-        
-> library(gMCP)
-Error in library(gMCP) : there is no package called 'gMCP'
-> install.packages("gMCP")
-trying URL 'http://ftp5.gwdg.de/pub/misc/cran/bin/windows/contrib/2.13/gMCP_0.6-1.zip'
-Content type 'application/zip' length 4668375 bytes (4.5 Mb)
-opened URL
-downloaded 4.5 Mb
-
-package 'gMCP' successfully unpacked and MD5 sums checked
-
-The downloaded packages are in
-        C:\Documents and Settings\Student\Local Settings\Temp\RtmpBJn6oK\downloaded_packages
-> library(gMCP)
-Loading required package: rJava
-Loading required package: MASS
-Loading required package: PolynomF
-Loading required package: multcomp
-Loading required package: mvtnorm
-Loading required package: survival
-Loading required package: splines
-Loading required package: graph
-Loading required package: gtools
-> 
