@@ -1,5 +1,0 @@
-\documentclass[10pt]{article}
-% \VignetteIndexEntry{gMCP Quick Start Guide}
-\begin{document}
-This is a fake Rnw file.
-\end{document}

@@ -3,10 +3,10 @@
 
 all: pdf
 
-pdf: AQuickStart.pdf gMCP.pdf parametric.pdf
+pdf: gMCP.pdf
 
 pdfclean:
-	rm -f AQuickStart.pdf gMCP.pdf parametric.pdf
+	rm -f gMCP.pdf
 
 clean:
 	rm -f *.tex *.bbl *.blg *.aux *.out *.log *.idx *.toc *.ind *.ilg
@@ -18,22 +18,9 @@ endif
 RPROG=	$(R_HOME)/bin/R
 RSCRIPT=$(R_HOME)/bin/Rscript
 
-AQuickStart.pdf: gMCP/AQuickStart.Rnw
-	cp -f gMCP/AQuickStart.Rnw AQuickStart.Rnw
-	$(RPROG) CMD Sweave AQuickStart.Rnw
-	$(RSCRIPT) --vanilla -e "tools::texi2dvi( 'AQuickStart.tex', pdf = TRUE, clean = TRUE )"
-	rm -fr AQuickStart.tex
-	cp -f gMCP/AQuickStart-fake.Rnw AQuickStart.Rnw
-
-parametric.pdf: gMCP/parametric.Rnw
-	cp -f gMCP/parametric.Rnw parametric.Rnw
-	$(RPROG) CMD Sweave parametric.Rnw
-	$(RSCRIPT) --vanilla -e "tools::texi2dvi( 'parametric.tex', pdf = TRUE, clean = TRUE )"
-	rm -fr parametric.tex
-	cp -f gMCP/parametric-fake.Rnw parametric.Rnw
-
 gMCP.pdf: gMCP/gMCP.Rnw
 	cp -f gMCP/gMCP.Rnw gMCP.Rnw
+	$(RPROG) CMD Stangle gMCP.Rnw
 	$(RSCRIPT) --vanilla -e "require(highlight); driver <- HighlightWeaveLatex(boxes = FALSE, bg = 'white' ); Sweave( 'gMCP.Rnw', driver = driver ); "
 	$(RSCRIPT) --vanilla -e "tools::texi2dvi( 'gMCP.tex', pdf = TRUE, clean = FALSE )"
 	bibtex gMCP
