@@ -53,6 +53,7 @@ Version 0.7-4 (22-01-2012, Rev. 1096)
   
 - Fixed: Report generation did not finish if no testing was performed beforehand.
 
+ 49 files changed, 1090 insertions(+), 561 deletions(-)
 
 Version 0.7-3 (16-01-2012, Rev. 1057)
 =====================================

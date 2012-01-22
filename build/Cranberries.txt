@@ -983,3 +983,56 @@ Diff between gMCP versions 0.7-2 dated 2011-12-11 and 0.7-3 dated 2012-01-16
  gMCP-0.7-3/gMCP/man/replaceVariables.Rd                                                    |only
  gMCP-0.7-3/gMCP/man/subgraph.Rd                                                            |only
  47 files changed, 362 insertions(+), 196 deletions(-)
+
+Diff between gMCP versions 0.7-3 dated 2012-01-16 and 0.7-4 dated 2012-01-22
+
+ gMCP-0.7-3/gMCP/R/plotInfiniteCI.R                                             |only
+ gMCP-0.7-3/gMCP/inst/doc/gMCP/AQuickStart-fake.Rnw                             |only
+ gMCP-0.7-3/gMCP/inst/doc/gMCP/AQuickStart.Rnw                                  |only
+ gMCP-0.7-3/gMCP/inst/doc/gMCP/gMCP.Rnw.backup                                  |only
+ gMCP-0.7-3/gMCP/inst/doc/gMCP/parametric-fake.Rnw                              |only
+ gMCP-0.7-3/gMCP/inst/doc/gMCP/parametric.Rnw                                   |only
+ gMCP-0.7-3/gMCP/inst/java-src/org/af/gMCP/gui/ResourceBundle.properties        |only
+ gMCP-0.7-3/gMCP/inst/java-src/org/af/gMCP/gui/options/PlotPanel.java           |only
+ gMCP-0.7-4/gMCP/.Rinstignore                                                   |only
+ gMCP-0.7-4/gMCP/DESCRIPTION                                                    |    9 
+ gMCP-0.7-4/gMCP/INSTALL                                                        |    4 
+ gMCP-0.7-4/gMCP/MD5                                                            |   82 -
+ gMCP-0.7-4/gMCP/NEWS                                                           |   30 
+ gMCP-0.7-4/gMCP/R/gMCP.R                                                       |    4 
+ gMCP-0.7-4/gMCP/R/graph2latex.R                                                |    2 
+ gMCP-0.7-4/gMCP/R/graphMCP.R                                                   |   18 
+ gMCP-0.7-4/gMCP/R/helperGUI.R                                                  |    5 
+ gMCP-0.7-4/gMCP/R/onLoad.R                                                     |    5 
+ gMCP-0.7-4/gMCP/R/plotCI.R                                                     |  178 +---
+ gMCP-0.7-4/gMCP/TODO                                                           |  113 --
+ gMCP-0.7-4/gMCP/inst/doc/AQuickStart.Rnw                                       |  115 ++
+ gMCP-0.7-4/gMCP/inst/doc/AQuickStart.pdf                                       |binary
+ gMCP-0.7-4/gMCP/inst/doc/Makefile                                              |   11 
+ gMCP-0.7-4/gMCP/inst/doc/gMCP.pdf                                              |binary
+ gMCP-0.7-4/gMCP/inst/doc/literatur.bib                                         |    3 
+ gMCP-0.7-4/gMCP/inst/doc/parametric.Rnw                                        |  435 +++++++++-
+ gMCP-0.7-4/gMCP/inst/doc/parametric.pdf                                        |binary
+ gMCP-0.7-4/gMCP/inst/java-src/org/af/gMCP/config/Configuration.java            |   26 
+ gMCP-0.7-4/gMCP/inst/java-src/org/af/gMCP/config/GeneralConfig.java            |    1 
+ gMCP-0.7-4/gMCP/inst/java-src/org/af/gMCP/config/JavaConfig.java               |    4 
+ gMCP-0.7-4/gMCP/inst/java-src/org/af/gMCP/gui/CreateGraphGUI.java              |   59 +
+ gMCP-0.7-4/gMCP/inst/java-src/org/af/gMCP/gui/MenuBarMGraph.java               |   65 -
+ gMCP-0.7-4/gMCP/inst/java-src/org/af/gMCP/gui/dialogs/ColorChooseDialog.java   |only
+ gMCP-0.7-4/gMCP/inst/java-src/org/af/gMCP/gui/dialogs/DialogConfIntEstVar.java |   11 
+ gMCP-0.7-4/gMCP/inst/java-src/org/af/gMCP/gui/dialogs/VariableNameDialog.java  |   16 
+ gMCP-0.7-4/gMCP/inst/java-src/org/af/gMCP/gui/graph/Edge.java                  |   43 
+ gMCP-0.7-4/gMCP/inst/java-src/org/af/gMCP/gui/graph/GraphMCP.java              |    2 
+ gMCP-0.7-4/gMCP/inst/java-src/org/af/gMCP/gui/graph/GraphView.java             |   69 +
+ gMCP-0.7-4/gMCP/inst/java-src/org/af/gMCP/gui/graph/NetList.java               |   13 
+ gMCP-0.7-4/gMCP/inst/java-src/org/af/gMCP/gui/graph/PView.java                 |   12 
+ gMCP-0.7-4/gMCP/inst/java-src/org/af/gMCP/gui/graph/UpdateEdge.java            |   75 +
+ gMCP-0.7-4/gMCP/inst/java-src/org/af/gMCP/gui/options/GeneralPanel.java        |  129 +-
+ gMCP-0.7-4/gMCP/inst/java-src/org/af/gMCP/gui/options/MiscPanel.java           |   85 -
+ gMCP-0.7-4/gMCP/inst/java-src/org/af/gMCP/gui/options/NumericPanel.java        |only
+ gMCP-0.7-4/gMCP/inst/java-src/org/af/gMCP/gui/options/OptionsDialog.java       |   25 
+ gMCP-0.7-4/gMCP/inst/java-src/org/mutoss/gui/TransferableImage.java            |only
+ gMCP-0.7-4/gMCP/inst/java/gsrmtp.jar                                           |binary
+ gMCP-0.7-4/gMCP/inst/unitTests/runit.LaTeX.R                                   |only
+ gMCP-0.7-4/gMCP/man/graph2latex.Rd                                             |    2 
+ 49 files changed, 1090 insertions(+), 561 deletions(-)
