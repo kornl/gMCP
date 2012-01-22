@@ -267,5 +267,13 @@ public class GeneralConfig extends SpecificConfig {
     public double getVariable(String variable) {
 		return Double.parseDouble(getProperty("Variable_"+variable, "0.5"));		
 	}
+
+	public boolean exportTransparent() {
+		return Boolean.parseBoolean(getProperty("exportTransparent", "true"));
+	}
+
+	public void setExportTransparent(boolean b) {
+		setProperty("exportTransparent", ""+b);
+	}
 		
 }

@@ -16,6 +16,7 @@ public class MiscPanel extends OptionsPanel {
 
 
     private JCheckBox checkOnlineForUpdate;
+    private JCheckBox exportTransparent;
     
     private Configuration conf;
 
@@ -31,6 +32,9 @@ public class MiscPanel extends OptionsPanel {
     private void makeComponents() {
         checkOnlineForUpdate = new JCheckBox("Check online for updates");
         checkOnlineForUpdate.setSelected(conf.getGeneralConfig().checkOnline());
+        exportTransparent = new JCheckBox("Export images with transparent background");
+        exportTransparent.setSelected(conf.getGeneralConfig().exportTransparent());
+        exportTransparent.setEnabled(false);
     }
 
     private void doTheLayout() {
@@ -49,11 +53,16 @@ public class MiscPanel extends OptionsPanel {
         
         row += 2;
 
+        p1.add(exportTransparent, cc.xyw(1, row, 3));
+        
+        row += 2;
+
         add(p1);
     }
 
 
     public void setProperties() throws ValidationException {
        	conf.getGeneralConfig().setCheckOnline(checkOnlineForUpdate.isSelected());
+       	conf.getGeneralConfig().setExportTransparent(exportTransparent.isSelected());
     }
 }
