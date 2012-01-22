@@ -228,8 +228,8 @@ public class NetList extends JPanel implements MouseMotionListener, MouseListene
 				maxY = edge.getK2();
 		}		
 		
-		BufferedImage img = new BufferedImage((int) ((maxX + 2 * Node.getRadius() + 10) * getZoom()),
-				(int) ((maxY + 2 * Node.getRadius() + 10) * getZoom()), BufferedImage.TYPE_INT_ARGB);
+		BufferedImage img = new BufferedImage((int) ((maxX + 2 * Node.getRadius() + 400) * getZoom()),
+				(int) ((maxY + 2 * Node.getRadius() + 400) * getZoom()), BufferedImage.TYPE_INT_ARGB);
 		Graphics2D g = img.createGraphics();
 		
 		g.setStroke(new BasicStroke(Configuration.getInstance().getGeneralConfig().getLineWidth()));
@@ -244,10 +244,32 @@ public class NetList extends JPanel implements MouseMotionListener, MouseListene
 		for (Edge edge : edges) {
 			edge.paintEdgeLabel(g);			
 		}
+		
+		img = cutImage(img);
+		
 		return img;
 
 	}
 	
+	private BufferedImage cutImage(BufferedImage img) {
+		int minX = img.getWidth();
+		int minY = img.getHeight();
+		int maxX = 0;
+		int maxY = 0;
+		int offset = 5;
+		for (int x=0; x<img.getWidth(); x++) {
+			for(int y=0; y<img.getHeight(); y++) {
+				if (img.getRGB(x, y)!=0) {
+					if (x<minX) minX = x;
+					if (y<minY) minY = y;
+					if (x>maxX) maxX = x;
+					if (y>maxY) maxY = y;
+				}
+			}
+		}
+		return img.getSubimage(minX-offset, minY-offset, maxX-minX+2*offset, maxY-minY+2*offset);
+	}
+
 	public Vector<Node> getNodes() {
 		return nodes;
 	}
