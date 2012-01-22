@@ -173,7 +173,7 @@ public class MenuBarMGraph extends JMenuBar implements ActionListener {
 	private void createLastUsed() {
 		List<String> graphs = Configuration.getInstance().getGeneralConfig().getLatestGraphs();
 		
-		for(int i=fmenu.getItemCount()-1; i>15; i--) {
+		for(int i=fmenu.getItemCount()-1; i>16; i--) {
 			fmenu.remove(i);
 		}
 		
