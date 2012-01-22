@@ -2,6 +2,8 @@ package org.af.gMCP.gui.graph;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
+import java.awt.Image;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
@@ -33,6 +35,7 @@ import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.jdesktop.swingworker.SwingWorker;
+import org.mutoss.gui.TransferableImage;
 
 public class GraphView extends JPanel implements ActionListener {
 
@@ -423,5 +426,8 @@ public class GraphView extends JPanel implements ActionListener {
 					"Error loading values from R", JOptionPane.ERROR_MESSAGE);
 		}		
 	}
-	
+
+	public void copyGraphToClipboard() {
+		TransferableImage.copyImageToClipboard(getNL().getImage());
+	}
 }

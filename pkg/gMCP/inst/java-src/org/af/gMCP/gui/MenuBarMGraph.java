@@ -56,9 +56,10 @@ public class MenuBarMGraph extends JMenuBar implements ActionListener {
 		fmenu.addSeparator();
 		fmenu.add(makeMenuItem("Save Graph to R", "save graph to R", KeyEvent.VK_S));	
 		fmenu.add(makeMenuItem("Save Graph to RData file", "save graph"));		
-		fmenu.addSeparator();
-		fmenu.add(makeMenuItem("Export Graph to PNG Image", "export graph image", KeyEvent.VK_P));
+		fmenu.addSeparator();		
+		fmenu.add(makeMenuItem("Export Graph to PNG Image", "export graph image", KeyEvent.VK_P));		
 		fmenu.add(makeMenuItem("Export Graph to LaTeX File", "export graph latex", KeyEvent.VK_A));
+		fmenu.add(makeMenuItem("Copy Graph to Clip Board", "copy graph to clipboard"));
 		fmenu.add(makeMenuItem("Show LaTeX Code for Graph", "show graph latex", KeyEvent.VK_C));
 		fmenu.addSeparator();
 		fmenu.add(makeMenuItem("Save LaTeX Report", "save latex report", KeyEvent.VK_R));
@@ -272,6 +273,8 @@ public class MenuBarMGraph extends JMenuBar implements ActionListener {
         	String name = control.getNL().saveGraph(vnd.getName(), true);
         	Configuration.getInstance().getGeneralConfig().addGraph("R Object: "+name);
         	createLastUsed();
+        } else if (e.getActionCommand().equals("copy graph to clipboard")) {       	
+        	control.copyGraphToClipboard();
         } else if (e.getActionCommand().equals("export graph image")) {       	
         	saveGraphImage();
         } else if (e.getActionCommand().equals("export graph latex")) {       	
