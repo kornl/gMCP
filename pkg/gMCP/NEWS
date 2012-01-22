@@ -1,37 +1,12 @@
-Version 0.7-5 (??-01-2012, Rev. 1???)
-=====================================
 
-- If the GUI is closed and the last graph was not yet saved,
-  the user is asked whether he wants to save it.
-
-- Variable node weights
-
-- Error reports can be saved as zip files.
-
-- Improved graph analysis
-
-- More correlation matrices for standard designs + added unbalanced designs.
-
-- Improved focus keeping and reliability of description text field.
-
-- Option for graph creation: If the "add node" button is selected each further click 
-  adds nodes until another button is clicked. Similar option for edges. 
-  (But do not place nodes above other nodes.)
-
-- Fixed: GUI was more prone to rounding errors
-
-- Experimental: Support for entangled graphs in the GUI
-
-- Experimental: Support for adaptive studies in the GUI
-    
-- Experimental: Toolkit for annotating graphs (+TikZ export support of annotations)
-
-Version 0.7-4 (??-01-2012, Rev. 1???)
+Version 0.7-4 (22-01-2012, Rev. 1094)
 =====================================
 
 - Many layout improvements.
 
 - Edges have further attributes like color.
+
+- Experimental support for copying the graph to the system clip board.
 
 - For people who create graphs in R and set the layout in the GUI: 
   If a node is dragged, edge weights also move except when they are "fixed".

@@ -105,7 +105,8 @@ In library(package, lib.loc = lib.loc, character.only = TRUE, logical.return = T
 
 Additional features / low priority:
 ===================================
-
+- Save ConfIntPlot as png/bmp or copy to system clip board
+- Copy graph to system clip board
 - Do we really need PolynomF as dependencies?
 - Don't create global variable like .tmpGraph etc.
 - Report generation in GUI (and respect the option whether to show rejected null hypothesis)
