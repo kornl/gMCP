@@ -51,7 +51,7 @@ Version 0.7-4 (22-01-2012, Rev. 1096)
 
 - Fixed: The bundled version closes the R console if the GUI is closed.
   
-- Fixed: Report generation did not finished if no testing was performed beforehand.
+- Fixed: Report generation did not finish if no testing was performed beforehand.
 
 
 Version 0.7-3 (16-01-2012, Rev. 1057)
