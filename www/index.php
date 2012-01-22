@@ -49,6 +49,7 @@ echo $contents; } ?>
   <li>Sequentially rejective Bonferroni, Simes and parametric tests.</li>
   <li>Adjusted p-values.</li>
   <li>Confidence intervals.</li>
+  <li>Huge collection of example graphs from the literature.</li>
 </ul>
 
 You'll need <a href="http://cran.r-project.org/bin/windows/base/">R >= 2.12</a> and <a href="http://www.java.com/en/download/">Java >= 5.0</a>.
