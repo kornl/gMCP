@@ -538,7 +538,8 @@ public class MenuBarMGraph extends JMenuBar implements ActionListener {
 	
 	
 	public void showLaTeXGraph() {
-		new TextFileViewer(control.getGraphGUI(), "LaTeX code", control.getNL().getLaTeX());
+		new TextFileViewer(control.getGraphGUI(), "LaTeX code", control.getNL().getLaTeX(), 
+				"Also add the following lines to the header of your LaTeX file:\n\\usepackage{tikz}\n\\usetikzlibrary{snakes,arrows,shapes}");
 	}
 	
 	public String LATEX_BEGIN_DOCUMENT = "\\documentclass[11pt]{article}\n"+
