@@ -51,12 +51,16 @@ public class DialogConfIntEstVar extends JDialog implements ActionListener, Chan
 	NetList nl;	
 	JFrame p;
 	
+	Configuration conf;
+	
 	public DialogConfIntEstVar(JFrame p, NetList nl, boolean[] rejected, double[] alpha) {		
 		super(p, "Confidence intervals", true);
 		this.p = p;
 		this.nl = nl;
 		this.alpha = alpha;
 		this.rejected = rejected;
+		
+		conf = Configuration.getInstance();
 				
 		GridBagConstraints c = new GridBagConstraints();
 		
@@ -148,9 +152,10 @@ public class DialogConfIntEstVar extends JDialog implements ActionListener, Chan
 				d2 = ","+Integer.parseInt(df.get(i).getValue().toString())+")";
 			}
 
+			conf.setClassProperty(this.getClass(), "alternative", alt.get(i).getSelectedItem().toString());
 			if (alt.get(i).getSelectedItem().equals("greater")) {	
 				lb = RControl.getR().eval(d1+alpha[i]+d2).asRNumeric().getData()[0];				
-				ub = Double.POSITIVE_INFINITY;
+				ub = Double.POSITIVE_INFINITY;				
 			} else if (alt.get(i).getSelectedItem().equals("less")) {
 				lb = Double.NEGATIVE_INFINITY;
 				ub = RControl.getR().eval(d1+(1-alpha[i])+d2).asRNumeric().getData()[0];				
@@ -218,7 +223,8 @@ public class DialogConfIntEstVar extends JDialog implements ActionListener, Chan
 		panel.add(new JLabel("Alternative"), c);
 		c.gridy++;
 		
-		for (Node node : nl.getNodes()) {
+		for (int i = 0; i < nl.getNodes().size(); i++) {
+			Node node = nl.getNodes().get(i);
 			c.gridx=0;
 			
 			JLabel hypothesis = new JLabel(node.getName()+":");			
@@ -265,6 +271,7 @@ public class DialogConfIntEstVar extends JDialog implements ActionListener, Chan
 			c.gridx++;
 			
 			JComboBox alt = new JComboBox(alternatives);
+			alt.setSelectedIndex(conf.getClassProperty(this.getClass(), "alternative", "less").equals("less")?0:1);
 			alt.addActionListener(this);
 			this.alt.add(alt);			
 			panel.add(alt, c);			

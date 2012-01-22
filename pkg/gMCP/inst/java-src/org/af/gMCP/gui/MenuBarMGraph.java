@@ -34,7 +34,6 @@ import org.af.gMCP.gui.dialogs.TextFileViewer;
 import org.af.gMCP.gui.dialogs.VariableNameDialog;
 import org.af.gMCP.gui.graph.GraphView;
 import org.af.gMCP.gui.options.OptionsDialog;
-import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.jdesktop.swingworker.SwingWorker;
@@ -386,19 +385,7 @@ public class MenuBarMGraph extends JMenuBar implements ActionListener {
         	}
         	new PowerDialogParameterUncertainty(control.getMainFrame());
         } else if (e.getActionCommand().equals("load p-values from R")) {
-        	VariableNameDialog vnd = new VariableNameDialog(control.getGraphGUI(), "");     
-			try {
-				double[] data = RControl.getR().eval(vnd.getName()).asRNumeric().getData();
-				if (data.length!=control.getNL().getNodes().size()) {
-					JOptionPane.showMessageDialog(control.getMainFrame(), "Number of hypotheses and values do not match.", 
-							"Number of hypotheses and values do not match", JOptionPane.ERROR_MESSAGE);
-					return;
-				}
-				control.getPView().setPValues(ArrayUtils.toObject(data));					
-			} catch (Exception ex) {
-				JOptionPane.showMessageDialog(this, "Error loading values from R:\n"+ex.getMessage(), 
-						"Error loading values from R", JOptionPane.ERROR_MESSAGE);
-			} 
+        	control.loadPValuesFromR(); 
         } else if (e.getActionCommand().equals("changeGraphLayout")) {
         	new RearrangeNodesDialog(control.getMainFrame());
         } else if (e.getActionCommand().equals("replaceVariables")) {

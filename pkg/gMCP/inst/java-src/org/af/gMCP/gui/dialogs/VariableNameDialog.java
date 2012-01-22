@@ -9,6 +9,9 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 
+import org.af.gMCP.config.Configuration;
+import org.af.gMCP.gui.CreateGraphGUI;
+
 import com.jgoodies.forms.layout.CellConstraints;
 import com.jgoodies.forms.layout.FormLayout;
 
@@ -16,14 +19,14 @@ public class VariableNameDialog extends JDialog implements ActionListener {
 	JButton ok = new JButton("Ok");
 
     JFrame parent;
-    JTextField jt = new JTextField();
+    JTextField jt = new JTextField("", 30);
     
 	public VariableNameDialog(JFrame parent, String name) {
 		super(parent, "R object name", true);
 		setLocationRelativeTo(parent);
 		this.parent = parent;		
 
-		String cols = "5dlu, pref, 5dlu, fill:pref:grow, 5dlu";
+		String cols = "5dlu, pref, 5dlu, fill:pref:grow, 5dlu, pref, 5dlu";
 		String rows = "5dlu, pref, 5dlu, pref, 5dlu, pref, 5dlu, pref, 5dlu";
 
 		FormLayout layout = new FormLayout(cols, rows);
@@ -35,11 +38,11 @@ public class VariableNameDialog extends JDialog implements ActionListener {
 		jt.setText(name);
 		jt.addActionListener(this);
 		getContentPane().add(new JLabel("R object name:"), cc.xy(2, row));
-		getContentPane().add(jt, cc.xy(4, row));
+		getContentPane().add(jt, cc.xyw(4, row, 3));
 
 		row += 2;
 
-		getContentPane().add(ok, cc.xy(4, row));
+		getContentPane().add(ok, cc.xy(6, row));
 		ok.addActionListener(this);        
 
 		actionPerformed(null);
@@ -48,8 +51,13 @@ public class VariableNameDialog extends JDialog implements ActionListener {
 		setVisible(true);
 	}
 
+	public VariableNameDialog(CreateGraphGUI graphGUI) {
+		this(graphGUI, Configuration.getInstance().getClassProperty(VariableNameDialog.class, "variableName", ""));
+	}
+
 	@Override
 	public void actionPerformed(ActionEvent e) {
+		Configuration.getInstance().setClassProperty(VariableNameDialog.class, "variableName", jt.getText());
 		dispose();
 	}	
 	

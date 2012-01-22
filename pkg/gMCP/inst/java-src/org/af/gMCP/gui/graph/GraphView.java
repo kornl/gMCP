@@ -29,6 +29,7 @@ import org.af.gMCP.gui.dialogs.AdjustedPValueDialog;
 import org.af.gMCP.gui.dialogs.DialogConfIntEstVar;
 import org.af.gMCP.gui.dialogs.RejectedDialog;
 import org.af.gMCP.gui.dialogs.VariableNameDialog;
+import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.jdesktop.swingworker.SwingWorker;
@@ -405,6 +406,22 @@ public class GraphView extends JPanel implements ActionListener {
     			JOptionPane.showMessageDialog(getMainFrame(), "Saving graph to '" + f.getAbsolutePath() + "' failed: " + ex.getMessage(), "Saving failed", JOptionPane.ERROR_MESSAGE);
     		}
         }	
+	}
+
+	public void loadPValuesFromR() {
+		VariableNameDialog vnd = new VariableNameDialog(getGraphGUI());     
+		try {
+			double[] data = RControl.getR().eval(vnd.getName()).asRNumeric().getData();
+			if (data.length!=getNL().getNodes().size()) {
+				JOptionPane.showMessageDialog(getMainFrame(), "Number of hypotheses and values do not match.", 
+						"Number of hypotheses and values do not match", JOptionPane.ERROR_MESSAGE);
+				return;
+			}
+			getPView().setPValues(ArrayUtils.toObject(data));					
+		} catch (Exception ex) {
+			JOptionPane.showMessageDialog(this, "Error loading values from R:\n"+ex.getMessage(), 
+					"Error loading values from R", JOptionPane.ERROR_MESSAGE);
+		}		
 	}
 	
 }

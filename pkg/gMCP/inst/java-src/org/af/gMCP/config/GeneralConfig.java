@@ -189,7 +189,6 @@ public class GeneralConfig extends SpecificConfig {
 		return getProperty("Rversion", "unknown");
 	}
 
-
 	public void setRandomID() {
 		setProperty("randomID", ""+Math.abs((new Random()).nextInt()));
 	}

@@ -15,8 +15,7 @@ public class Configuration {
 	protected static Log logger = LogFactory.getLog(Configuration.class);
     protected Preferences prefs;
     protected static Configuration instance = null;
-    private String projectName = "gMCP";
-    private final String keyPrefix;
+    private final String keyPrefix = "gMCP.";
     public final static String NOTFOUND = "___NOT_FOUND___";
 
     /**
@@ -24,8 +23,7 @@ public class Configuration {
      * If you want to access a Configuration object, please use the static method getInstance().
      */
     protected Configuration() {
-        prefs = Preferences.userRoot();
-        keyPrefix = projectName + ".";
+        prefs = Preferences.userRoot();        
     }
 
     /**
@@ -48,7 +46,7 @@ public class Configuration {
      */
     public void setClassProperty(Class c, String key, String value) {
     	String cn = c.getName().substring(c.getName().lastIndexOf('.'));
-    	setProperty(cn+"."+key, value);
+    	setProperty(keyPrefix + cn+"."+key, value);
     }
 
     /**
@@ -56,9 +54,13 @@ public class Configuration {
      * @param c Class
      * @param key Key
      */
-    public String getClassProperty(Class c, String key) {
+    public String getClassProperty(Class c, String key) {    	
+    	return getClassProperty(c, key, Configuration.NOTFOUND);
+    }
+    
+    public String getClassProperty(Class c, String key, String def) {
     	String cn = c.getName().substring(c.getName().lastIndexOf('.'));
-    	return getProperty(cn+"."+key, Configuration.NOTFOUND);
+    	return getProperty(keyPrefix + cn+"."+key, def);
     }
 
     protected String getProperty(String prop, String def) {
@@ -82,16 +84,6 @@ public class Configuration {
      */
     public void setProperty(String key, String val) {
         prefs.put(keyPrefix + key, val);
-    }    
-
-    /**
-     * Returns the name of the project (e.g. toxicology, doserespones, bioassay, etc.).
-     * This is stored in props.getProperty("project.name") and 
-     * used as name for several directories, prefixes, etc. 
-     * @return name of the project
-     */
-    public String getProjectName() {
-        return projectName;
     }
 
 	public GeneralConfig getGeneralConfig() {

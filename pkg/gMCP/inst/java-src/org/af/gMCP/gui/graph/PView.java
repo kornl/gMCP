@@ -46,6 +46,7 @@ public class PView extends JPanel implements KeyListener, ActionListener {
 	JTextField totalAlpha = new JTextField("0.05");
 	GridBagConstraints c = new GridBagConstraints();
 	CreateGraphGUI parent;
+	JButton jbLoadPValues = new JButton("Load p-values from R"); 
 	
 	public PView(CreateGraphGUI parent) {
 		this.parent = parent;
@@ -57,6 +58,8 @@ public class PView extends JPanel implements KeyListener, ActionListener {
 		totalAlpha.addKeyListener(this);
 		
 		setUp();
+		
+		jbLoadPValues.addActionListener(this);
     }
 	
 	public void addPPanel(Node node) {
@@ -128,7 +131,8 @@ public class PView extends JPanel implements KeyListener, ActionListener {
 			}
 			row += 2;
 		}		
-		panel.add(statusLabel,cc.xyw(2, row, 7));
+		panel.add(statusLabel, cc.xyw(2, row, 3));
+		panel.add(jbLoadPValues, cc.xy(6, row));
 		row += 2;
 		panel.add(alphaLabel, cc.xy(2, row));    	
     	panel.add(totalAlpha, cc.xy(4, row));
@@ -334,6 +338,8 @@ public class PView extends JPanel implements KeyListener, ActionListener {
 		} else if (e.getSource()==jrbSimes) {
 			parent.getGraphView().buttonConfInt.setEnabled(false);
 			parent.getGraphView().buttonadjPval.setEnabled(false);
+		} else if (e.getSource()==jbLoadPValues) {
+			parent.getGraphView().loadPValuesFromR(); 
 		}
 	}
 
