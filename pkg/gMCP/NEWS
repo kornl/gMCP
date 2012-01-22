@@ -6,6 +6,18 @@ Version 0.7-5 (??-01-2012, Rev. 1???)
 
 - Variable node weights
 
+- Error reports can be saved as zip files.
+
+- Improved graph analysis
+
+- More correlation matrices for standard designs + added unbalanced designs.
+
+- Improved focus keeping and reliability of description text field.
+
+- Option for graph creation: If the "add node" button is selected each further click 
+  adds nodes until another button is clicked. Similar option for edges. 
+  (But do not place nodes above other nodes.)
+
 - Fixed: GUI was more prone to rounding errors
 
 - Experimental: Support for entangled graphs in the GUI
@@ -19,24 +31,14 @@ Version 0.7-4 (??-01-2012, Rev. 1???)
 
 - Many layout improvements.
 
-- Edges have further attributes like color or line type.
+- Edges have further attributes like color.
 
 - For people who create graphs in R and set the layout in the GUI: 
   If a node is dragged, edge weights also move except when they are "fixed".
   A node is set fixed, if it is dragged itself. 
   Saving and reloading a graph fixes all edges.
-  
-- More correlation matrices for standard designs + added unbalanced designs.
 
 - LookNFeel and font size is now saved between sessions.
-
-- Improved focus keeping and reliability of description text field.
-
-- Error reports can be saved as zip files.
-
-- Option for graph creation: If the "add node" button is selected each further click 
-  adds nodes until another button is clicked. Similar option for edges. 
-  (But do not place nodes above other nodes.)
   
 - CI dialog remembers less / greater option
 

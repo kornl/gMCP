@@ -29,6 +29,20 @@ High priority:
   and the corresponding PDFs to inst/doc.  Further files to be
   copied to inst/doc can be specified _via_ the file
   vignettes/.install_extras."
+- "The package environment is sealed, so you cannot use it to store
+  changing values.  Use a separate environment instead: there are
+  examples in package 'grDevices' for example."
+- "The preferred location for vignette sources is now directory
+  'vignettes' and not 'inst/doc'.  If you want to maintain compatibility
+  with R <= 2.13.x for the time being, do at least make use of a
+  .Rinstignore file to avoid installing anything other than the vignette
+  .Rnw (etc) and .pdf files, plus any other files needed for end-users
+  to run the vignette code.
+  
+  If you know a priori that the vignettes cannot be re-made on CRAN
+  (e.g. because you use unusual LaTeX files), set the BuildVignettes
+  field in the DESCRIPTION file to a false value.  (The R code in the
+  vignettes as extracted by Stangle still needs to be runnable.)"
 - Check for missing suggested packages (JavaGD, graph) 
   and ask on startup whether they should be installed and name the features that are otherwise missing.
 - Give feedback for old objects and missing graph package in GUI
@@ -72,7 +86,6 @@ Medium priority:
   mcp.c: In function ‘graphmult’:
   mcp.c:124:9: warning: unused variable ‘j’
 - https://twitter.com/#!/hadleywickham: "@revodavid noooooooooooo. don't use strings + parse + eval. use calls + substitute + eval #rstats (there's also an R news article on macros)"
-- readRDS/saveRDS instead of load/save?
 - Does Indefinite ProgressPanel slow the calculation significantly down ?!?
 - graphAnalysis: Graph can be optimal despite the fact that some nodes are not accessible from others
 - Warn user when sum of edge weights is bigger than 1
