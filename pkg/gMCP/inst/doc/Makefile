@@ -20,19 +20,19 @@ RSCRIPT=$(R_HOME)/bin/Rscript
 
 AQuickStart.pdf: AQuickStart.Rnw
 	$(RPROG) CMD Sweave AQuickStart.Rnw
-	$(RPROG) CMD Stangle AQuickStart.Rnw
+#	$(RPROG) CMD Stangle AQuickStart.Rnw
 	$(RSCRIPT) --vanilla -e "tools::texi2dvi( 'AQuickStart.tex', pdf = TRUE, clean = TRUE )"
 	rm -fr AQuickStart.tex
 
 parametric.pdf: parametric.Rnw
 	$(RPROG) CMD Sweave parametric.Rnw
-	$(RPROG) CMD Stangle parametric.Rnw
+#	$(RPROG) CMD Stangle parametric.Rnw
 	$(RSCRIPT) --vanilla -e "tools::texi2dvi( 'parametric.tex', pdf = TRUE, clean = TRUE )"
 	rm -fr parametric.tex
 
 gMCP.pdf: gMCP/gMCP.Rnw
 	cp -f gMCP/gMCP.Rnw gMCP.Rnw
-	$(RPROG) CMD Stangle gMCP.Rnw
+#	$(RPROG) CMD Stangle gMCP.Rnw
 	$(RSCRIPT) --vanilla -e "require(highlight); driver <- HighlightWeaveLatex(boxes = FALSE, bg = 'white' ); Sweave( 'gMCP.Rnw', driver = driver ); "
 	$(RSCRIPT) --vanilla -e "tools::texi2dvi( 'gMCP.tex', pdf = TRUE, clean = FALSE )"
 	bibtex gMCP
