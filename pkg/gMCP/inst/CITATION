@@ -30,10 +30,12 @@ citEntry(entry="article",
                              as.person("Florian Klinglmueller"),
                              as.person("Willi Maurer"),                             
                              as.person("Kornelius Rohmeyer")), 
-         journal = "unknown",                             
+         journal = "Biometrical Journal",                             
          year = "2011",
-         publisher = "unkown",
-         address = "unknown",
+         publisher = "Wiley",
+         volume = "53", 
+         number = "6",
+         pages = "894--913",
+         url = "http://onlinelibrary.wiley.com/doi/10.1002/bimj.201000239/full",
          textVersion = "Frank Bretz, Martin Posch, Ekkehard Glimm, Florian Klinglmueller, Willi Maurer, Kornelius Rohmeyer (2011), Graphical approaches for multiple comparison procedures using weighted Bonferroni, Simes or parametric tests."
 )
-

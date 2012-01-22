@@ -2,8 +2,7 @@ Critical:
 =========
 
 - Think about JavaGD devices. (User wants to plot in R Console etc.)
-- Does Deducer interfere JavaGD? (When is .onLoad executed?)  
-- Variable handling on command line gMCP!
+- Does Deducer interfere JavaGD? (When is .onLoad executed?)
 - Make JavaGD only a suggest (Solaris and generally safer)
 - g <- HuqueAloshEtBhore2011()
 > g
@@ -38,7 +37,6 @@ High priority:
   .Rinstignore file to avoid installing anything other than the vignette
   .Rnw (etc) and .pdf files, plus any other files needed for end-users
   to run the vignette code.
-  
   If you know a priori that the vignettes cannot be re-made on CRAN
   (e.g. because you use unusual LaTeX files), set the BuildVignettes
   field in the DESCRIPTION file to a false value.  (The R code in the
@@ -105,12 +103,12 @@ In library(package, lib.loc = lib.loc, character.only = TRUE, logical.return = T
 
 Additional features / low priority:
 ===================================
+- \gamma or \delta are pretty small on edges.
 - Save ConfIntPlot as png/bmp or copy to system clip board
 - Copy graph to system clip board
 - Do we really need PolynomF as dependencies?
 - Don't create global variable like .tmpGraph etc.
 - Report generation in GUI (and respect the option whether to show rejected null hypothesis)
-- PNG export cuts edges in rare cases. (But already improved!)
 - TikZ styles for rejected / rejectable nodes
 - further tests
 - Look at http://xmlgraphics.apache.org/fop/
