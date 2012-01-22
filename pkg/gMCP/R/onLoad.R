@@ -35,9 +35,8 @@
 		}
 	}
 	
-	## we supply our own JavaGD class - 'Sys.putenv' is a deprecated synonym for 'Sys.setenv'.
-	.setenv <- if (exists("Sys.setenv")) Sys.setenv else Sys.putenv
-	.setenv("JAVAGD_CLASS_NAME"="org/mutoss/gui/JavaGD")  
+	## We supply our own JavaGD class
+	Sys.setenv("JAVAGD_CLASS_NAME"="org/mutoss/gui/JavaGD")  
 	
 	# Optional Deducer integration:
 	if(exists(".deducer")) {
