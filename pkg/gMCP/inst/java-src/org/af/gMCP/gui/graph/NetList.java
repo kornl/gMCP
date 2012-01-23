@@ -36,6 +36,7 @@ public class NetList extends JPanel implements MouseMotionListener, MouseListene
 	
 	int drag = -1;
 	int edrag = -1;
+	boolean unAnchor = false;
 	
 	protected Vector<Edge> edges = new Vector<Edge>();
 	protected Vector<Node> nodes = new Vector<Node>();
@@ -339,6 +340,14 @@ public class NetList extends JPanel implements MouseMotionListener, MouseListene
 	public void mouseDragged(MouseEvent e) {
 		if (drag==-1 && edrag == -1) return;
 		if (drag!=-1) {
+			if (!unAnchor && Configuration.getInstance().getGeneralConfig().getUnAnchor()) { 
+				for (Edge edge : getEdges()) {
+					if (edge.from == nodes.get(drag) || edge.to == nodes.get(drag)) {
+						edge.fixed = false;
+					}
+				}
+				unAnchor = true;
+			}
 			nodes.get(drag).setX( (int) ((e.getX()+offset[0]) / (double) getZoom()));
 			nodes.get(drag).setY( (int) ((e.getY()+offset[1]) / (double) getZoom()));
 			placeUnfixedNodes(nodes.get(drag));
@@ -427,6 +436,7 @@ public class NetList extends JPanel implements MouseMotionListener, MouseListene
 		}
 		drag = -1;
 		edrag = -1;
+		unAnchor = false;
 	}
 	
 	/**

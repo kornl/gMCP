@@ -275,5 +275,12 @@ public class GeneralConfig extends SpecificConfig {
 	public void setExportTransparent(boolean b) {
 		setProperty("exportTransparent", ""+b);
 	}
-		
+
+	public boolean getUnAnchor() {
+		return Boolean.parseBoolean(getProperty("unAnchor", "false"));
+	}
+	
+	public void setUnAnchor(boolean b) {
+		setProperty("unAnchor", ""+b);
+	}
 }

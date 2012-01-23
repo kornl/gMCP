@@ -160,6 +160,7 @@ public class MenuBarMGraph extends JMenuBar implements ActionListener {
 		menu.add(makeMenuItem("Introduction to gMCP", "showAppHelp", KeyEvent.VK_I));
 		menu.add(makeMenuItem("Weighted parametric tests defined by graphs", "showParametric", KeyEvent.VK_P));
 		menu.add(makeMenuItem("gMCP R Online Reference manual", "showManual", KeyEvent.VK_M));
+		menu.add(makeMenuItem("Paper about gMCP in the Biometrical Journal", "showPaper1", KeyEvent.VK_P));
 		menu.add(makeMenuItem("References", "showReferences", KeyEvent.VK_R));
 		//menu.add(makeMenuItem("Theoretical Background", "showAppHelp"));
 		/*menu.addSeparator();
@@ -352,6 +353,8 @@ public class MenuBarMGraph extends JMenuBar implements ActionListener {
         	showFile("doc/parametric.pdf");       	 	
         } else if (e.getActionCommand().equals("showManual")) {
         	showURL("http://cran.at.r-project.org/web/packages/gMCP/gMCP.pdf");
+        } else if (e.getActionCommand().equals("showPaper1")) {
+        	showURL("http://onlinelibrary.wiley.com/doi/10.1002/bimj.201000239/full");
         } else if (e.getActionCommand().equals("showReferences")) {
         	showFile("References.html");
         } else if (e.getActionCommand().equals("showEpsDoc")) {
