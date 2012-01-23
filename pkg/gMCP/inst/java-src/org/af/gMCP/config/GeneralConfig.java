@@ -283,4 +283,20 @@ public class GeneralConfig extends SpecificConfig {
 	public void setUnAnchor(boolean b) {
 		setProperty("unAnchor", ""+b);
 	}
+
+	public boolean simplify() {
+		return Boolean.parseBoolean(getProperty("simplify", "false"));
+	}
+
+	public int getDigits2() {
+		return Integer.parseInt(getProperty("digits2", "6"));		
+	}
+
+	public void setSimplify(boolean b) {
+		setProperty("simplify", ""+b);		
+	}
+
+	public void setDigits2(double digits2) {
+		setProperty("digits2", ""+digits2);
+	}
 }

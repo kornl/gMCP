@@ -101,7 +101,6 @@ public class NetList extends JPanel implements MouseMotionListener, MouseListene
 		}
 		if (old != null) edges.remove(old);
 		edges.add(e);
-		graph.setEdge(e);
 		control.getDataTable().getModel().setValueAt(e.getEdgeWeight(), getNodes().indexOf(e.from), getNodes().indexOf(e.to));
 		graphHasChanged();
 	}
@@ -139,7 +138,6 @@ public class NetList extends JPanel implements MouseMotionListener, MouseListene
 			}
 			edges.lastElement().curve = curve;
 		}
-		graph.setEdge(von, nach, w);
 		control.getDataTable().getModel().setValueAt(w, getNodes().indexOf(von), getNodes().indexOf(nach));
 		graphHasChanged();
 	}
@@ -147,7 +145,6 @@ public class NetList extends JPanel implements MouseMotionListener, MouseListene
 	public void addNode(Node node) {
 		control.enableButtons(true);		
 		nodes.add(node);
-		graph.addNode(node);
 		control.getPView().addPPanel(node);
 		control.getDataTable().getModel().addRowCol(node.getName());
 		calculateSize();

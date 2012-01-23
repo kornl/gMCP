@@ -22,6 +22,8 @@ public class NumericPanel extends OptionsPanel implements ActionListener {
 
     private JCheckBox useEpsApprox;
     private JTextField jtfEps;
+    private JCheckBox tryToSimplify;
+    private JTextField jtfDigits;
     private JCheckBox verbose;
     private Configuration conf;
 
@@ -43,6 +45,15 @@ public class NumericPanel extends OptionsPanel implements ActionListener {
         jtfEps = new JTextField(30);
         jtfEps.setText(""+conf.getGeneralConfig().getEpsilon()); 
         jtfEps.setEnabled(conf.getGeneralConfig().useEpsApprox());
+        
+        tryToSimplify = new JCheckBox("Try to show fractions / rounded numbers");
+        tryToSimplify.setSelected(conf.getGeneralConfig().simplify());
+        tryToSimplify.addActionListener(this);
+        tryToSimplify.setEnabled(false);
+        
+        jtfDigits = new JTextField(30);
+        jtfDigits.setText(""+conf.getGeneralConfig().getDigits2()); 
+        jtfDigits.setEnabled(conf.getGeneralConfig().simplify());
         
         verbose = new JCheckBox("Verbose output of algorithms");
         verbose.setSelected(conf.getGeneralConfig().verbose());
@@ -69,6 +80,15 @@ public class NumericPanel extends OptionsPanel implements ActionListener {
         
         row += 2;
         
+        p1.add(tryToSimplify, cc.xyw(1, row, 3));
+        
+        row += 2;
+        
+        p1.add(new JLabel("Number of digits to assure:"),     cc.xy(1, row));
+        p1.add(jtfEps, cc.xy(3, row));        
+        
+        row += 2;
+        
         p1.add(verbose, cc.xyw(1, row, 3));  
 
         add(p1);
@@ -81,6 +101,13 @@ public class NumericPanel extends OptionsPanel implements ActionListener {
        	try {
         	double eps = Double.parseDouble(jtfEps.getText());
         	conf.getGeneralConfig().setEps(eps);
+        } catch (NumberFormatException e) {
+        	JOptionPane.showMessageDialog(this, "\""+jtfEps.getText()+"\" is not a valid double for epsilon.", "Invalid input", JOptionPane.ERROR_MESSAGE);
+        }
+       	conf.getGeneralConfig().setSimplify(tryToSimplify.isSelected());
+       	try {
+        	double eps = Double.parseDouble(jtfEps.getText());
+        	conf.getGeneralConfig().setDigits2(eps);
         } catch (NumberFormatException e) {
         	JOptionPane.showMessageDialog(this, "\""+jtfEps.getText()+"\" is not a valid double for epsilon.", "Invalid input", JOptionPane.ERROR_MESSAGE);
         }
