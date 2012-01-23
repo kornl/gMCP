@@ -34,6 +34,8 @@ public class NetList extends JPanel implements MouseMotionListener, MouseListene
 	private static final Log logger = LogFactory.getLog(NetList.class);
 	GraphView control;
 	
+	GraphMCP graph;
+	
 	int drag = -1;
 	int edrag = -1;
 	boolean unAnchor = false;
@@ -99,6 +101,7 @@ public class NetList extends JPanel implements MouseMotionListener, MouseListene
 		}
 		if (old != null) edges.remove(old);
 		edges.add(e);
+		graph.setEdge(e);
 		control.getDataTable().getModel().setValueAt(e.getEdgeWeight(), getNodes().indexOf(e.from), getNodes().indexOf(e.to));
 		graphHasChanged();
 	}
@@ -136,6 +139,7 @@ public class NetList extends JPanel implements MouseMotionListener, MouseListene
 			}
 			edges.lastElement().curve = curve;
 		}
+		graph.setEdge(von, nach, w);
 		control.getDataTable().getModel().setValueAt(w, getNodes().indexOf(von), getNodes().indexOf(nach));
 		graphHasChanged();
 	}
@@ -143,6 +147,7 @@ public class NetList extends JPanel implements MouseMotionListener, MouseListene
 	public void addNode(Node node) {
 		control.enableButtons(true);		
 		nodes.add(node);
+		graph.addNode(node);
 		control.getPView().addPPanel(node);
 		control.getDataTable().getModel().addRowCol(node.getName());
 		calculateSize();
@@ -312,7 +317,7 @@ public class NetList extends JPanel implements MouseMotionListener, MouseListene
 		control.stopTesting();
 		reset();
 		this.updateGUI = false;
-		GraphMCP graph = new GraphMCP(initialGraph, this);
+		graph = new GraphMCP(initialGraph, this);
 		control.getPView().restorePValues();
 		this.updateGUI = true;
 		graphHasChanged();
@@ -324,7 +329,7 @@ public class NetList extends JPanel implements MouseMotionListener, MouseListene
 	public void loadGraph(String string) {
 		boolean matrix = RControl.getR().eval("is.matrix("+string+")").asRLogical().getData()[0];
 		RControl.getR().eval(initialGraph + " <- placeNodes("+ (matrix?"matrix2graph(":"(")+ string + "))");
-		GraphMCP graph = loadGraph();	
+		graph = loadGraph();	
 		if (graph.getDescription()!=null) {
 			control.getDView().setDescription(graph.getDescription());
 		} else {

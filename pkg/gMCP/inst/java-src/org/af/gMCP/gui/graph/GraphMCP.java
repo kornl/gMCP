@@ -112,6 +112,19 @@ public class GraphMCP {
 			}
 		}
 		return null;
+	}
+
+	
+	public void addNode(Node node) {
+		 RControl.getR().eval("attr("+name+", \"pvalues\")");
+	}
+	
+	public void setEdge(Node von, Node nach, EdgeWeight w) {
+		
+	}
+
+	public void setEdge(Edge e) {
+
 	}	
 
 }
