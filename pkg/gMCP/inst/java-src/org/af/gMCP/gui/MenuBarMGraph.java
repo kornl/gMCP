@@ -151,8 +151,8 @@ public class MenuBarMGraph extends JMenuBar implements ActionListener {
 		menu.setMnemonic(KeyEvent.VK_E);
 		if (Configuration.getInstance().getGeneralConfig().experimentalFeatures()) {
 			menu.addSeparator();
-			menu.add(makeMenuItem("Entangled Graphs", "entangledGraphs", false));
-			menu.add(makeMenuItem("Adaptive Designs", "adaptiveDesigns", false));
+			menu.add(makeMenuItem("Entangled Graphs", "entangledGraphs"));
+			menu.add(makeMenuItem("Adaptive Designs", "adaptiveDesigns"));
 		}
 		add(menu);
 
@@ -403,7 +403,11 @@ public class MenuBarMGraph extends JMenuBar implements ActionListener {
         	}
         	control.getNL().saveGraphWithoutVariables(control.getNL().initialGraph, false);
         	control.getNL().loadGraph();
-        } 
+        }  else if (e.getActionCommand().equals("entangledGraphs")) {
+        	
+        }   else if (e.getActionCommand().equals("adaptiveDesigns")) {
+        	
+        }
 	}
 	
 	private void submitGraph() {
