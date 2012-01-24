@@ -1,5 +1,7 @@
 package org.af.gMCP.gui;
 
+import java.awt.Toolkit;
+import java.awt.datatransfer.StringSelection;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -541,7 +543,9 @@ public class MenuBarMGraph extends JMenuBar implements ActionListener {
 	
 	
 	public void showLaTeXGraph() {
-		new TextFileViewer(control.getGraphGUI(), "LaTeX code", control.getNL().getLaTeX(), 
+		String latexCode = control.getNL().getLaTeX();
+		Toolkit.getDefaultToolkit().getSystemClipboard().setContents(new StringSelection(latexCode), null);		
+		new TextFileViewer(control.getGraphGUI(), "LaTeX code", latexCode, 
 				"Also add the following lines to the header of your LaTeX file:\n\\usepackage{tikz}\n\\usetikzlibrary{snakes,arrows,shapes}");
 	}
 	
