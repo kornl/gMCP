@@ -13,6 +13,7 @@ H3 (NA, weight=NA)
 H4 (NA, weight=NA)
 > gMCP(g, runif(4))
 Fehler in if (m[i, node] * m[node, i] < 1) { : Argument hat Länge 0
+- Check installed structure of Windows binary.
 
 High priority:
 ==============

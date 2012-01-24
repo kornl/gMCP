@@ -20,6 +20,8 @@ Version 0.7-5 (??-01-2012, Rev. 11??)
   adds nodes until another button is clicked. Similar option for edges. 
   (But do not place nodes above other nodes.)
 
+- Updated references
+
 - Fixed: GUI was more prone to rounding errors
 
 - Experimental: Support for entangled graphs in the GUI
