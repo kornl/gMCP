@@ -81,11 +81,11 @@ bdiagNA <- function(...) {
 
 requireLibrary <- function(package) {
 	if(!require(package, character.only=TRUE)) {
-		answer <- readline(paste("Package ",package," is required - should we install it?", sep=""))
+		answer <- readline(paste("Package ",package," is required - should we install it (y/n)? ", sep=""))
 		if (substr(answer, 1, 1) %in% c("y","Y")) {
-			if (package %in% c("graph", "Rgraphviz")) {
-				biocLite <- function(x) {}
+			if (package %in% c("graph", "Rgraphviz")) {	
 				source("http://www.bioconductor.org/biocLite.R")
+				biocLite <- get("biocLite", envir=globalenv())
 				biocLite(package)
 			} else {
 				install.packages(package)

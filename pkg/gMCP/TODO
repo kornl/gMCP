@@ -16,6 +16,7 @@ Fehler in if (m[i, node] * m[node, i] < 1) { : Argument hat Länge 0
 
 High priority:
 ==============
+- Björns Mail
 - "Note that with the exceptions of INDEX, LICENSE/LICENCE and NEWS, information files at the top level
   of the package will not be installed and so not be known to users of Windows and Mac OS X 
   compiled packages (and not seen by those who use R CMD INSTALL or install.packages on the tarball). 
@@ -73,10 +74,7 @@ Possible MalWare 'W32/NewMalware-Generic-8d27-f554' found in '5832765_287X_AZ-D_
 
 Medium priority:
 ================
-- improvedFallbackII() under Windows with GUI:
-  Error in graph:::isValidAdjMat(adjMat, edgemode) : 
-  negative values not allowed in adjacency matrix
-  (not reproducable?)
+- graphAnalysis throws: negative values not allowed in adjacency matrix for e.g. improved parallel gatekeeping.
 - Contact Björn:
   ~/workspace/gMCP/pkg/gMCP/src$ gcc -I/usr/share/R/include -Wunused -fpic  -std=gnu99 -O3 -pipe  -g -c mcp.c -o mcp.o
   mcp.c: In function ‘graphproc’:
