@@ -1,8 +1,8 @@
-inst/java-src
-inst/unitTests
+inst/java-src/
+inst/unitTests/
 inst/build.xml
-inst/doc/gMCP
-inst/doc/pictures
+inst/doc/gMCP/
+inst/doc/pictures/
 inst/doc/Makefile
-inst/doc/*.ist
-inst/doc/*.bib
+inst/doc/myIndex.ist
+inst/doc/literatur.bib
