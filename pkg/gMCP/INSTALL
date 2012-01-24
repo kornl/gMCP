@@ -1,4 +1,4 @@
-PLEASE USE R 2.12 OR A NEWER VERSION OF R, IF AVAILABLE.
+PLEASE USE R 2.13 OR A NEWER VERSION OF R, IF AVAILABLE.
 IF YOU NEED gMCP FOR AN OLDER VERSION OF R, PLEASE CONTACT US!
 (It is theoretically compatible with R 2.8.0 and rJava 0.6-3)
 
@@ -12,6 +12,8 @@ download it bundled with gMCP and all dependencies from:
  http://www.algorithm-forge.com/gMCP/R_with_gMCP.zip 
  Unzip it and double click on the R.exe in folder "bin" to
  bring up an R console with an automatically started gMCP GUI.
+ 
+If you have an 64 bit Windows system, please start the RGUI (64-bit).
 
 If you run into any problems, please write us an email at:
 

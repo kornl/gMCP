@@ -36,7 +36,8 @@ Version 0.7-4 (22-01-2012, Rev. 1096)
 
 - Edges have further attributes like color.
 
-- Experimental support for copying the graph to the system clip board.
+- Experimental support for copying the graph directly to the system clip board.
+  (Seems to work for Windows - but no luck for Linux yet.)
 
 - For people who create graphs in R and set the layout in the GUI: 
   If a node is dragged, edge weights also move except when they are "fixed".
