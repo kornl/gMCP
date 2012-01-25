@@ -684,6 +684,18 @@ figure \ref{optionsDialog} should be fairly self-explanatory.
   \caption{\label{optionsDialog} You can configure many things in the option dialog.}
 \end{figure}
 
+\begin{figure}[ht]
+  \centering    
+  \includegraphics[width=0.7\textwidth]{pictures/optionsDialog2.png}      
+  \caption{\label{optionsDialog2} You can configure many things in the option dialog.}
+\end{figure}
+
+\begin{figure}[ht]
+  \centering    
+  \includegraphics[width=0.7\textwidth]{pictures/optionsDialog3.png}      
+  \caption{\label{optionsDialog3} You can configure many things in the option dialog.}
+\end{figure}
+
 \subsubsection{Privacy}
 
 The GUI is able to connect to our server to
