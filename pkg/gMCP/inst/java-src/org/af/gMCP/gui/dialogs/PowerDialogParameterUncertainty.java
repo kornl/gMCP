@@ -7,9 +7,11 @@ import java.awt.event.ActionListener;
 import java.util.List;
 import java.util.Vector;
 
+import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
@@ -37,6 +39,8 @@ public class PowerDialogParameterUncertainty extends JDialog implements ActionLi
     JPanel panel = new JPanel();
     DataFramePanel dfp;
     JTextField jtUserDefined = new JTextField();
+    DefaultListModel listModel;
+    JList listUserDefined;
     
 	public PowerDialogParameterUncertainty(CreateGraphGUI parent) {
 		super(parent, "Power Simulation - specify probability distribution of test statistics", true);
@@ -64,7 +68,7 @@ public class PowerDialogParameterUncertainty extends JDialog implements ActionLi
 				"  (µ=difference of real mean and mean under null hypothesis, n=sample size, σ=standard deviation)\n"+
 				"- triangle(min, peak, max)\n"+
 				"- rnorm(1, mean=0.5, sd=1)\n"+*/
-				"");
+				"Hit return to add further user defined power functions.");
 				
         String cols = "5dlu, pref, 5dlu, fill:pref:grow, 5dlu";
         String rows = "5dlu, pref, 5dlu";
@@ -90,32 +94,44 @@ public class PowerDialogParameterUncertainty extends JDialog implements ActionLi
         	row += 2;
         }
                 
-        panel.add(ok, cc.xy(4, row));
+        
         ok.addActionListener(this);        
         
-		GridBagConstraints c = new GridBagConstraints();
-		
-		c.fill = GridBagConstraints.BOTH;	
-		c.gridx=0; c.gridy=0;
-		c.gridwidth = 1; c.gridheight = 1;
-		c.ipadx=5; c.ipady=5;
-		c.weightx=1; c.weighty=1;
-		
-		getContentPane().setLayout(new GridBagLayout());
-		
-		getContentPane().add(new JScrollPane(panel), c);
+        cols = "5dlu, fill:pref:grow, 5dlu, fill:pref:grow, 5dlu";
+        rows = "5dlu, pref, 5dlu, fill:pref:grow, 5dlu, fill:pref:grow, 5dlu, pref, 5dlu, pref, 5dlu, pref";
         
-		c.gridx++;
+        getContentPane().setLayout(new FormLayout(cols, rows));
+        cc = new CellConstraints();
 		
-		getContentPane().add(new JScrollPane(dfp), c);
+		row = 2;
 		
-		c.gridx=0; c.gridy++;
+		getContentPane().add(new JLabel("Mean of multivariate normal distribution"), cc.xy(2, row));
+        
+		getContentPane().add(new JLabel("Covariance matrix"), cc.xy(4, row));
 		
-		getContentPane().add(new JScrollPane(jta), c);
+		row +=2;
 		
-		c.gridx++;
+		getContentPane().add(new JScrollPane(panel), cc.xy(2, row));
+        
+		getContentPane().add(new JScrollPane(dfp), cc.xy(4, row));
 		
-		getContentPane().add(new JScrollPane(jtUserDefined), c);
+		row +=2;
+		
+		listModel = new DefaultListModel();
+		listUserDefined = new JList(listModel);
+		
+		getContentPane().add(new JScrollPane(jta), cc.xy(2, row));
+	
+		getContentPane().add(new JScrollPane(listUserDefined), cc.xy(4, row));
+	
+		row +=2;
+		
+		getContentPane().add(jtUserDefined, cc.xy(4, row));
+		jtUserDefined.addActionListener(this);
+		
+		row +=2;
+		
+		getContentPane().add(ok, cc.xy(4, row));
 		
         pack();
         setLocationRelativeTo(parent);
@@ -124,6 +140,14 @@ public class PowerDialogParameterUncertainty extends JDialog implements ActionLi
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
+		if (jtUserDefined.getText().length()>0) {
+			listModel.insertElementAt(jtUserDefined.getText(), 0);
+			//listUserDefined.ensureIndexIsVisible(0);
+			jtUserDefined.setText("");
+		}
+		if (e.getSource()==jtUserDefined) {
+			return;
+		}
 		String weights = parent.getGraphView().getNL().getGraphName() + "@weights";
 		double alpha = parent.getPView().getTotalAlpha();
 		String G = parent.getGraphView().getNL().getGraphName() + "@m";
@@ -131,25 +155,37 @@ public class PowerDialogParameterUncertainty extends JDialog implements ActionLi
 		for (int i=0; i<means.length; i++) {
 			means[i] = Double.parseDouble(jtl.get(i).getText());
 		}
-		String userDefinedF = jtUserDefined.getText().length()>1?", f=list(userDefined=function(x) {"+jtUserDefined.getText()+"})":"";
+		String userDefinedF = getUserDefined();
 		String mean = RControl.getRString(means);
 		RControl.getR().eval(parent.getGraphView().getNL().getGraphName()+"<-gMCP:::parse2numeric("+parent.getGraphView().getNL().getGraphName()+")");
 		RControl.getR().eval(".powerResult <- calcPower(weights="+weights+", alpha="+alpha+", G="+G+", mean="+mean
                       +","+"sigma = " + dfp.getTable().getModel().getDataFrame().getRMatrix() //diag(length(mean)),corr = NULL,"+
                       +userDefinedF
-                      +"nSim = "+Configuration.getInstance().getGeneralConfig().getNumberOfSimulations()
-                      +"type = \""+Configuration.getInstance().getGeneralConfig().getTypeOfRandom()+"\""
+                      +", nSim = "+Configuration.getInstance().getGeneralConfig().getNumberOfSimulations()
+                      +", type = \""+Configuration.getInstance().getGeneralConfig().getTypeOfRandom()+"\""
 				+")");
 		double[] localPower = RControl.getR().eval(".powerResult$LocalPower").asRNumeric().getData();
 		double expRejections = RControl.getR().eval(".powerResult$ExpRejections").asRNumeric().getData()[0];
 		double powAtlst1 = RControl.getR().eval(".powerResult$PowAtlst1").asRNumeric().getData()[0];
 		double rejectAll = RControl.getR().eval(".powerResult$RejectAll").asRNumeric().getData()[0];
-		Double userDefined = null;
-		if (jtUserDefined.getText().length()>1) {
-			userDefined = RControl.getR().eval(".powerResult$userDefined").asRNumeric().getData()[0];
+		Double[] userDefined = new Double[listModel.getSize()];
+		String[] functions = new String[listModel.getSize()];
+		for (int i=0; i<listModel.getSize(); i++) {
+			functions[i] = listModel.get(i).toString();
+			userDefined[i] = RControl.getR().eval(".powerResult$userDefined"+i).asRNumeric().getData()[0];
 		}
-		parent.getGraphView().getNL().setPower(localPower, expRejections, powAtlst1, rejectAll, userDefined);
+		parent.getGraphView().getNL().setPower(localPower, expRejections, powAtlst1, rejectAll, userDefined, functions);
 		dispose();
+	}
+
+	private String getUserDefined() {
+		if (listModel.getSize()==0) return "";
+		String s = ", f=list(";
+		for (int i=0; i<listModel.getSize(); i++) {
+			s +="userDefined"+i+"=function(x) {"+listModel.get(i)+"}";
+			if (i!=listModel.getSize()-1) s+= ",";
+		}		
+		return s + ")";
 	}	
 	
 }
