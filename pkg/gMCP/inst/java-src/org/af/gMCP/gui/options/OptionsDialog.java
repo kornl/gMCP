@@ -90,6 +90,7 @@ public class OptionsDialog extends JDialog implements ActionListener {
             try {
             	visualPanel.setProperties();
             	numericPanel.setProperties();
+            	miscPanel.setProperties();
                 if  (e.getActionCommand().equals(OkApplyCancelButtonPane.OK_CMD)) {
                 	dispose();
                 }

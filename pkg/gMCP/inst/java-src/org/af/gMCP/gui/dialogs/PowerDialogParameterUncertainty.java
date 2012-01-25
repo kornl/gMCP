@@ -15,6 +15,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
+import org.af.gMCP.config.Configuration;
 import org.af.gMCP.gui.CreateGraphGUI;
 import org.af.gMCP.gui.RControl;
 import org.af.gMCP.gui.datatable.CellEditorE;
@@ -136,7 +137,8 @@ public class PowerDialogParameterUncertainty extends JDialog implements ActionLi
 		RControl.getR().eval(".powerResult <- calcPower(weights="+weights+", alpha="+alpha+", G="+G+", mean="+mean
                       +","+"sigma = " + dfp.getTable().getModel().getDataFrame().getRMatrix() //diag(length(mean)),corr = NULL,"+
                       +userDefinedF
-                      //"nSim = 10000, seed = 4711, type = c(\"quasirandom\", \"pseudorandom\")"+
+                      +"nSim = "+Configuration.getInstance().getGeneralConfig().getNumberOfSimulations()
+                      +"type = \""+Configuration.getInstance().getGeneralConfig().getTypeOfRandom()+"\""
 				+")");
 		double[] localPower = RControl.getR().eval(".powerResult$LocalPower").asRNumeric().getData();
 		double expRejections = RControl.getR().eval(".powerResult$ExpRejections").asRNumeric().getData()[0];

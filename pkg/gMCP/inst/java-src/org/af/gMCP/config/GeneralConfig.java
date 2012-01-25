@@ -296,7 +296,23 @@ public class GeneralConfig extends SpecificConfig {
 		setProperty("simplify", ""+b);		
 	}
 
-	public void setDigits2(double digits2) {
+	public void setDigits2(int digits2) {
 		setProperty("digits2", ""+digits2);
+	}
+
+	public Integer getNumberOfSimulations() {
+		return Integer.parseInt(getProperty("numberOfSimulations", "10000"));
+	}
+
+	public String getTypeOfRandom() {
+		return getProperty("typeOfRandom", "quasirandom");
+	}
+	
+	public void setNumberOfSimulations(int nr) {
+		setProperty("numberOfSimulations", ""+nr);
+	}
+	
+	public void setTypeOfRandom(String type) {
+		setProperty("typeOfRandom", ""+type);
 	}
 }
