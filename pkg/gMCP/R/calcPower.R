@@ -13,7 +13,7 @@ extractPower <- function(x, f=list()){
 }
 
 calcPower <- function(weights, alpha, G, mean = rep(0, nrow(sigma)),
-                      sigma = diag(length(mean)),corr = NULL,
+                      sigma = diag(length(mean)), corr = NULL,
                       nSim = 10000, seed = 4711, type = c("quasirandom", "pseudorandom"), f=list()){
   type <- match.arg(type)
   sims <- rqmvnorm(nSim, mean = mean, sigma = sigma, corr = corr,

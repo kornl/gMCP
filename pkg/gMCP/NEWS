@@ -24,6 +24,8 @@ Version 0.7-5 (??-01-2012, Rev. 11??)
 
 - Fixed: GUI was more prone to rounding errors
 
+- Fixed: Main vignette was missing in the binary zips
+
 - Experimental: Support for entangled graphs in the GUI
 
 - Experimental: Support for adaptive studies in the GUI
