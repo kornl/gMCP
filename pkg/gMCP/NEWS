@@ -6,6 +6,8 @@ Version 0.7-5 (??-01-2012, Rev. 11??)
 
 - Variable node weights
 
+- More than one user defined power function is allowed.
+
 - Error reports can be saved as zip files.
 
 - Improved graph analysis
@@ -61,6 +63,7 @@ Version 0.7-4 (22-01-2012, Rev. 1096)
 - Fixed: Report generation did not finish if no testing was performed beforehand.
 
  49 files changed, 1090 insertions(+), 561 deletions(-)
+
 
 Version 0.7-3 (16-01-2012, Rev. 1057)
 =====================================
