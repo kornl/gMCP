@@ -25,7 +25,7 @@ gMCP <- function(graph, pvalues, test, correlation, alpha=0.05,
 			result <- fastgMCP(m=m, w=w, p=pvalues, a=alpha)
 			lGraph <- matrix2graph(result$m)
 			lGraph <- setWeights(lGraph, result$w)			
-			lGraph <- setRejected(lGraph, result$rejected)
+			lGraph <- setRejected(lGraph, getNodes(lGraph), result$rejected)
 			sequence <- c(sequence, lGraph)
 			return(new("gMCPResult", graphs=sequence, alpha=alpha, pvalues=pvalues, rejected=getRejected(lGraph), adjPValues=numeric(0)))
 		} else {
