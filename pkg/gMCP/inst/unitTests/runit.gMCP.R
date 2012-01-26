@@ -24,6 +24,15 @@ checkWeights <- function(graph, pvalues) {
 	
 	checkEquals(rejected, rejected2)
 	checkEquals(weights, weights2)
+	
+	result3 <- graphTest(pvalues=pvalues, alpha=0.05, graph=graph)
+	m3 <- attr(result, "last.G")
+	weights3 <- attr(result, "last.alphas")
+	rejected3 <- result3==0
+	
+	checkEquals(rejected, rejected3)
+	checkEquals(weights, weights3)
+	checkEquals(2, 1)
 }
 
 test.checkWeights <- function() {

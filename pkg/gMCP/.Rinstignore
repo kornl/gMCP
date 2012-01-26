@@ -1,5 +1,4 @@
 inst/java-src
-inst/unitTests
 inst/build.xml
 inst/doc/pictures
 inst/doc/Makefile

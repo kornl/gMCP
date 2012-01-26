@@ -31,6 +31,6 @@ test.LaTeX <- function() {
 }
 
 test.fractionStrings <- function() {
-	checkEquals(getLaTeXFraction(1/9), "\\fraction{1}{9}")
-	checkTrue(getFractionString(1/9+0.000001) !="1/9")
+	checkEquals(gMCP:::getLaTeXFraction(1/9), "\\frac{1}{9}")
+	checkTrue(gMCP:::getFractionString(1/9+0.000001) !="1/9")
 }

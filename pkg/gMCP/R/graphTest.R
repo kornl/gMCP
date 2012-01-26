@@ -4,7 +4,7 @@ graphTest <- function(pvalues, weights = NULL, alpha = 0.05, G = NULL, graph = N
 	if(usegraph & (class(graph) != "graphMCP"))
 		stop("graph needs to be an object of class graphMCP")
 	if(usegraph & ((!is.null(weights)||!is.null(G))))
-		stop("either graph or alphas and G need to be specified")
+		stop("either graph or weights and G need to be specified")
 	if(usegraph) {
 		## get alpha vector and transition matrix
 		alphas <- graph@weights * alpha

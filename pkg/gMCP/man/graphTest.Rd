@@ -55,14 +55,14 @@ graph <- rbind(c(0,       0.5, 0,     0.5, 0,      0),
                c(0.5,     0,   0.5,   0,   0,      0),
                c(0,       1,   0,     0,   0,      0))
 pvals <- c(0.1, 0.008, 0.005, 0.15, 0.04, 0.006)
-graphTest(pvals, weights, alpha=0.25, graph)
+graphTest(pvals, weights, alpha=0.025, graph)
 
 ## observe graphical procedure in detail
-graphTest(pvals, weights, alpha=0.25, graph, verbose = TRUE)
+graphTest(pvals, weights, alpha=0.025, graph, verbose = TRUE)
 
 ## now use many p-values (useful for power simulations)
 pvals <- matrix(rbeta(6e4, 1, 30), ncol = 6)
-out <- graphTest(pvals, weights, alpha=0.25, graph)
+out <- graphTest(pvals, weights, alpha=0.025, graph)
 head(out)
 
 ## example using multiple graphs (instead of 1)
@@ -74,11 +74,11 @@ G2 <- rbind(c(0,0,1,0,0), c(0.5,0,0.5,0,0),
             c(1, 0, 0, 0, 0))
 weights <- rbind(c(1, 0, 0, 0, 0), c(0, 1, 0, 0, 0))
 pvals <- c(0.024, 0.05, 0.01, 0.003, 0.009)
-out <- graphTest(pvals, weights, alpha=0.25, G=list(G1, G2), verbose = TRUE)
+out <- graphTest(pvals, weights, alpha=0.025, G=list(G1, G2), verbose = TRUE)
 
 ## now again with many p-values
 pvals <- matrix(rbeta(5e4, 1, 30), ncol = 5)
-out <- graphTest(pvals, weights, alpha=0.25, G=list(G1, G2))
+out <- graphTest(pvals, weights, alpha=0.025, G=list(G1, G2))
 head(out)
 }
 \keyword{ htest }
