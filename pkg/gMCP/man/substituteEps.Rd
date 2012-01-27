@@ -8,7 +8,7 @@
 	Substitute Epsilon with a given value.
 }
 \usage{
-	substituteEps(graph, eps=10^(-4))
+	substituteEps(graph, eps=10^(-3))
 }
 
 \arguments{

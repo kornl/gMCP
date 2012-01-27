@@ -4,9 +4,10 @@ Version 0.7-5 (??-01-2012, Rev. 11??)
 - If the GUI is closed and the last graph was not yet saved,
   the user is asked whether he wants to save it.
 
-- For the resulting graph a new option is introduced:
+- For the resulting graph a new option keepWeight
+  is introduced in the functions gMCP and rejectNode:
   A node without outgoing edges is removed.
-  Should its weight become 0 or should it be kept?
+  Should its weight become 0 or should it keep its weight?
 
 - Variable node weights
 
