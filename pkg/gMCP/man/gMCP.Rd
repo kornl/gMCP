@@ -9,7 +9,7 @@
 }
 \usage{
 	gMCP(graph, pvalues, test, correlation, alpha=0.05, 
-	     approxEps=TRUE, eps=10^(-3), ..., useC=FALSE, verbose=FALSE, keepAlpha=TRUE)
+	     approxEps=TRUE, eps=10^(-3), ..., useC=FALSE, verbose=FALSE, keepWeights=TRUE)
 }
 
 \arguments{
@@ -46,7 +46,7 @@
     Logical scalar. If \code{TRUE} verbose output is generated during
     sequentially rejection steps.
   }
-  \item{keepAlpha}{
+  \item{keepWeights}{
     Logical scalar. If \code{FALSE} the weight of a node without outgoing edges is set to 0 if it is removed.
     Otherwise it keeps its weight.
   }  

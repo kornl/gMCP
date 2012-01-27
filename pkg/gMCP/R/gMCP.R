@@ -1,5 +1,5 @@
 gMCP <- function(graph, pvalues, test, correlation, alpha=0.05, 
-		approxEps=TRUE, eps=10^(-3), ..., useC=FALSE, verbose=FALSE, keepAlpha=TRUE) {	
+		approxEps=TRUE, eps=10^(-3), ..., useC=FALSE, verbose=FALSE, keepWeights=TRUE) {	
 	output <- ""
 	if (approxEps && !is.numeric(graph@m)) {
 		graph <- substituteEps(graph, eps=eps)
@@ -22,7 +22,7 @@ gMCP <- function(graph, pvalues, test, correlation, alpha=0.05,
 			warning("Option useC=TRUE will be ignored since graph contains epsilons or variables.")			
 		} else if (useC) {
 			w <- getWeights(graph)
-			result <- fastgMCP(m=m, w=w, p=pvalues, a=alpha, keepAlpha=keepAlpha)
+			result <- fastgMCP(m=m, w=w, p=pvalues, a=alpha, keepWeights=keepWeights)
 			row.names(result$m) <- getNodes(graph)
 			lGraph <- matrix2graph(result$m)
 			lGraph <- setWeights(lGraph, result$w)			
@@ -32,7 +32,7 @@ gMCP <- function(graph, pvalues, test, correlation, alpha=0.05,
 		} else {
 			while(!is.null(node <- getRejectableNode(graph, alpha, pvalues))) {
 				# if (verbose) cat(paste("Node \"",node,"\" can be rejected.\n",sep=""))
-				graph <- rejectNode(graph, node, verbose, keepAlpha=keepAlpha)
+				graph <- rejectNode(graph, node, verbose, keepWeights=keepWeights)
 				sequence <- c(sequence, graph)
 			}	
 			adjPValues <- adjPValues(sequence[[1]], pvalues, verbose)@adjPValues
@@ -186,7 +186,7 @@ adjPValues <- function(graph, pvalues, verbose=FALSE) {
 	return(new("gMCPResult", graphs=sequence, pvalues=pvalues, adjPValues=adjPValues))
 }
 
-rejectNode <- function(graph, node, verbose=FALSE, keepAlpha=TRUE) {
+rejectNode <- function(graph, node, verbose=FALSE, keepWeights=TRUE) {
 	weights <- graph@weights
 	graph@weights <- weights+weights[node]*graph@m[node,]
 	m <- graph@m	
@@ -200,7 +200,7 @@ rejectNode <- function(graph, node, verbose=FALSE, keepAlpha=TRUE) {
 	diag(graph@m) <- 0
 	graph@m[node,] <- 0
 	graph@m[, node] <- 0
-	if (!all(m[node,]==0) || !keepAlpha) graph@weights[node] <- 0	
+	if (!all(m[node,]==0) || !keepWeights) graph@weights[node] <- 0	
 	graph@nodeAttr$rejected[node] <- TRUE	
 	return(graph)
 }
