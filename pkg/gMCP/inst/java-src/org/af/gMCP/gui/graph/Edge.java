@@ -422,4 +422,8 @@ public class Edge {
 		k1 = k[0];
 		k2 = k[1];
 	}
+
+	public String getPreciseWeightStr() {		
+		return ew.getPreciseWeightStr();
+	}
 }

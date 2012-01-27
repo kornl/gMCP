@@ -29,6 +29,11 @@ public class EdgeWeight {
 		setWeightStr(weight);	
 	}
 	
+	public String getPreciseWeightStr() {
+		if (weight != null) return ""+weight;
+		return toString();
+	}
+	
 	private void setWeightStr(double weight) {
 		DecimalFormat format = Configuration.getInstance().getGeneralConfig().getDecFormat();
 		if (!Configuration.getInstance().getGeneralConfig().showFractions()) {
