@@ -22,7 +22,7 @@ gMCP <- function(graph, pvalues, test, correlation, alpha=0.05,
 			warning("Option useC=TRUE will be ignored since graph contains epsilons or variables.")			
 		} else if (useC) {
 			w <- getWeights(graph)
-			result <- fastgMCP(m=m, w=w, p=pvalues, a=alpha)
+			result <- fastgMCP(m=m, w=w, p=pvalues, a=alpha, keepAlpha=keepAlpha)
 			lGraph <- matrix2graph(result$m)
 			lGraph <- setWeights(lGraph, result$w)			
 			lGraph <- setRejected(lGraph, getNodes(lGraph), result$rejected)
@@ -31,7 +31,7 @@ gMCP <- function(graph, pvalues, test, correlation, alpha=0.05,
 		} else {
 			while(!is.null(node <- getRejectableNode(graph, alpha, pvalues))) {
 				# if (verbose) cat(paste("Node \"",node,"\" can be rejected.\n",sep=""))
-				graph <- rejectNode(graph, node, verbose)
+				graph <- rejectNode(graph, node, verbose, keepAlpha=keepAlpha)
 				sequence <- c(sequence, graph)
 			}	
 			adjPValues <- adjPValues(sequence[[1]], pvalues, verbose)@adjPValues
@@ -185,7 +185,7 @@ adjPValues <- function(graph, pvalues, verbose=FALSE) {
 	return(new("gMCPResult", graphs=sequence, pvalues=pvalues, adjPValues=adjPValues))
 }
 
-rejectNode <- function(graph, node, verbose=FALSE) {
+rejectNode <- function(graph, node, verbose=FALSE, keepAlpha=TRUE) {
 	weights <- graph@weights
 	graph@weights <- weights+weights[node]*graph@m[node,]
 	m <- graph@m	
@@ -199,7 +199,7 @@ rejectNode <- function(graph, node, verbose=FALSE) {
 	diag(graph@m) <- 0
 	graph@m[node,] <- 0
 	graph@m[, node] <- 0
-	if (!all(m[node,]==0)) graph@weights[node] <- 0	
+	if (!all(m[node,]==0) || !keepAlpha) graph@weights[node] <- 0	
 	graph@nodeAttr$rejected[node] <- TRUE	
 	return(graph)
 }

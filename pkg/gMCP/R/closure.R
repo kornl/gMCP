@@ -1,4 +1,4 @@
-fastgMCP <- function(m, w, p, a) {
+fastgMCP <- function(m, w, p, a, keepAlpha=TRUE) {
 	if (length(a)>1) {
 		warning("Only the first value of 'a' is used!")
 	}
