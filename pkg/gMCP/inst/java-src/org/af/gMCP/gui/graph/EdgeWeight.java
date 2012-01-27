@@ -21,6 +21,7 @@ public class EdgeWeight {
 	static DecimalFormat formatSmall = new DecimalFormat("#.###E0");
 	
 	public EdgeWeight(String weightStr) {
+		if (weightStr==null) throw new RuntimeException("weigthStr is not allowed to be null!");
 		this.weightStr = weightStr;
 	}
 	
@@ -30,7 +31,7 @@ public class EdgeWeight {
 	}
 	
 	public String getPreciseWeightStr() {
-		if (weight != null) return ""+weight;
+		if (weight != null) return ""+weight[0];
 		return toString();
 	}
 	
