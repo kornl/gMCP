@@ -1,4 +1,4 @@
-substituteEps <- function(graph, eps=10^(-4)) {
+substituteEps <- function(graph, eps=10^(-3)) {
 	if (is.numeric(graph@m)) return(graph)
 	m <- matrix(gsub("\\\\epsilon", eps, graph@m), nrow=length(getNodes(graph)))
 	options(warn=-1)

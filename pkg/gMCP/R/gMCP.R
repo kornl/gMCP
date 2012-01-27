@@ -23,6 +23,7 @@ gMCP <- function(graph, pvalues, test, correlation, alpha=0.05,
 		} else if (useC) {
 			w <- getWeights(graph)
 			result <- fastgMCP(m=m, w=w, p=pvalues, a=alpha, keepAlpha=keepAlpha)
+			row.names(result$m) <- getNodes(graph)
 			lGraph <- matrix2graph(result$m)
 			lGraph <- setWeights(lGraph, result$w)			
 			lGraph <- setRejected(lGraph, getNodes(lGraph), result$rejected)
