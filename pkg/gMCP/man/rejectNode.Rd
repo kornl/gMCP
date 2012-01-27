@@ -9,7 +9,7 @@
 	given unadjusted p-values.
 }
 \usage{
-	rejectNode(graph, node, verbose=FALSE) 
+	rejectNode(graph, node, verbose=FALSE, keepAlpha = TRUE) 
 }
 
 \arguments{
@@ -21,6 +21,10 @@
   } 
   \item{verbose}{Logical scalar.  If \code{TRUE} verbose output is generated during
           sequentially rejection steps.
+  }  
+  \item{keepAlpha}{
+    Logical scalar. If \code{FALSE} the weight of a node without outgoing edges is set to 0 if it is removed.
+    Otherwise it keeps its weight.
   }  
 }
 \details{

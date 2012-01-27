@@ -14,11 +14,11 @@ test.Simes <- function() {
 
 checkWeights <- function(graph, pvalues) {
 	# Compares the weights of the gMCP-R-code, gMCP-C-code, power-C-code and parametric-R-code
-	result <- gMCP(graph,  pvalues)
+	result <- gMCP(graph,  pvalues, keepAlpha=FALSE)
 	rejected <- getRejected(result)
 	weights <- getWeights(result)
 	
-	result2 <- gMCP(graph,  pvalues, useC=TRUE)
+	result2 <- gMCP(graph,  pvalues, useC=TRUE, keepAlpha=FALSE)
 	rejected2 <- getRejected(result2)
 	weights2 <- getWeights(result2)
 	
