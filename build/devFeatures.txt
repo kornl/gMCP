@@ -1,21 +1,2 @@
-- If the GUI is closed and the last graph was not yet saved,
-  the user is asked whether he wants to save it.
-  
-- Variable node weights
 
-- Error reports can be saved as zip files.
-
-- Improved graph analysis
-
-- Improved focus keeping and reliability of description text field.
-
-- Option for graph creation: If the "add node" button is selected each further click 
-  adds nodes until another button is clicked. Similar option for edges. 
-  (But do not place nodes above other nodes.)
-
-- Experimental: Support for entangled graphs in the GUI
-
-- Experimental: Support for adaptive studies in the GUI
-    
-- Experimental: Toolkit for annotating graphs (+TikZ export support of annotations)
   
