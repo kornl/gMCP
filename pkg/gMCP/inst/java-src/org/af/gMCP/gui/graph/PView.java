@@ -27,6 +27,10 @@ import org.af.commons.widgets.DesktopPaneBG;
 import org.af.gMCP.config.Configuration;
 import org.af.gMCP.gui.CreateGraphGUI;
 import org.af.gMCP.gui.RControl;
+import org.af.gMCP.gui.dialogs.GroupDialog;
+import org.af.jhlir.call.RChar;
+import org.af.jhlir.call.RInteger;
+import org.af.jhlir.call.RList;
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -64,7 +68,7 @@ public class PView extends JPanel implements KeyListener, ActionListener {
 	
 	public void addPPanel(Node node) {
 		panels.add(new PPanel(node, this));
-		//logger.debug("Added panel for node "+node.getName());
+		//logger.debug("Added panel for node "+node.getName());		
 		setUp();
 	}
 	
@@ -244,7 +248,10 @@ public class PView extends JPanel implements KeyListener, ActionListener {
     
 	public JPanel getCorrelatedPanel() {
 		
-		if (correlatedPanel!=null) return correlatedPanel;
+		if (correlatedPanel!=null) {
+			getPossibleCorrelations();		
+			return correlatedPanel;
+		}
 		
 		try {
 			refresh = new JButton(new ImageIcon(ImageIO.read(DesktopPaneBG.class
@@ -258,10 +265,7 @@ public class PView extends JPanel implements KeyListener, ActionListener {
 		
 		String[] matrices = RControl.getR().eval("gMCP:::getAllQuadraticMatrices()").asRChar().getData();
 		
-		String[] correlations = new String[] {"Dunnett"};
-		//"Dunnett", "Tukey", "Sequen", "AVE", "Changepoint", "Williams", "Marcus", "McDermott", "UmbrellaWilliams", "GrandMean"
-		
-	    jcbCorString = new JComboBox(correlations);
+	    jcbCorString = new JComboBox(new String[] {});
 	    jcbCorObject = new JComboBox(matrices);
 		
 		if (matrices.length==1 && matrices[0].equals("No quadratic matrices found.")) {
@@ -313,6 +317,20 @@ public class PView extends JPanel implements KeyListener, ActionListener {
         return correlatedPanel;
 	}
 
+	private void getPossibleCorrelations() {
+		jcbCorString.removeAllItems();
+		int n = parent.getGraphView().getNL().getNodes().size();
+		if (n!=0) {
+			RList list = RControl.getR().eval("gMCP:::getAvailableStandardDesigns("+n+")").asRList();
+			RChar designs = list.get(0).asRChar();
+			RInteger groups = list.get(1).asRInteger();
+			String[] s = new String[designs.getLength()];
+			for (int i=0; i<s.length; i++) {
+				jcbCorString.addItem(designs.getData()[i] + " ("+ groups.getData()[i]+" groups)"); 
+			}		
+		}
+	}
+
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource()==refresh) {
 			jcbCorObject.removeAllItems();
@@ -346,7 +364,12 @@ public class PView extends JPanel implements KeyListener, ActionListener {
 	public String getParameters() {
 		String param = "";
 		if (jrbStandardCorrelation.isSelected()) {
-			param = ", correlation=\""+jcbCorString.getSelectedItem()+"\"";
+			String s = jcbCorString.getSelectedItem().toString();
+			String design = s.substring(0, s.indexOf(" "));
+			String n = s.substring(s.indexOf("(")+1, s.indexOf("groups")-1);
+			logger.warn("Design: \""+design+"\", n=\""+n+"\"");
+			GroupDialog gd = new GroupDialog(parent, Integer.parseInt(n));
+			param = ", correlation=\""+design+"\", samplesize="+gd.getGroups();
 		} else if (jrbRCorrelation.isSelected()) {
 			param = ", correlation="+jcbCorObject.getSelectedItem()+"";
 		} else if (jrbSimes.isSelected()) {

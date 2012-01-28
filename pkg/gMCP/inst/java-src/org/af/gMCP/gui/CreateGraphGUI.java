@@ -86,10 +86,10 @@ public class CreateGraphGUI extends JFrame implements WindowListener, AbortListe
 		setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 		addWindowListener(this);
 		
-		pview = new PView(this);
 		dview = new DView(this);
 		dfp = new DataFramePanel(new RDataFrameRef());
-		control = new GraphView(graph, this);  // NetList object is created here.	
+		control = new GraphView(graph, this);  // NetList object is created here.
+		pview = new PView(this);
 		setJMenuBar(new MenuBarMGraph(control));		
 		makeContent();
 		
