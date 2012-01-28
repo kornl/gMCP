@@ -1,4 +1,4 @@
-Version 0.7-5 (29-01-2012, Rev. 1146)
+Version 0.7-5 (29-01-2012, Rev. 1147)
 =====================================
 
 - Better draw routine: Edges start and end now precisely at the borders of the nodes. 
