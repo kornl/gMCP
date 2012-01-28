@@ -23,7 +23,9 @@
   	A test function. Will be supported in future versions.
   } 
   \item{correlation}{
-  	Correlation matrix, if the tests are correlated. Also valid are strings like \code{"Dunnett"}.
+  	Correlation matrix, if the tests are correlated. 
+  	Also valid are strings like \code{"Dunnett", "Tukey", "Sequen", "AVE", "Changepoint", "Williams", "Marcus", "McDermott", "UmbrellaWilliams", "GrandMean"}.
+  	In this case please add a numeric parameter \code{samplesize} that specifies the sample size of each group. 
   } 
   \item{alpha}{
   	A numeric specifying the maximal allowed type one error rate.
@@ -90,6 +92,7 @@ Kornelius Rohmeyer \email{rohmeyer@small-projects.de}
 
 \seealso{
 \code{\link{graphMCP}}
+\code{\link[multcomp:contrMat]{graphNEL}}
 }
 \examples{
 
