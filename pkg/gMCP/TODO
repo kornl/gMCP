@@ -14,7 +14,6 @@ H4 (NA, weight=NA)
 > gMCP(g, runif(4))
 Fehler in if (m[i, node] * m[node, i] < 1) { : Argument hat Länge 0
 - Check installed structure of Windows binary.
-- Give link to gMCP mailing list
 
 High priority:
 ==============
@@ -24,6 +23,9 @@ graphTest(pvalues=c(0, 1, 0, 0), alpha=0.05, graph=graph)
 [...]
 attr(,"last.alphas")
 [1] NaN NaN   0   0
+
+- Give link to gMCP mailing list
+- HighRes option for PNG export
 
 - Update description / references in "Example Graphs"
 - graphTest renames hypotheses to H1...Hn or drops them completely in the output
@@ -123,7 +125,7 @@ Additional features / low priority:
   "unprotect(): only 0 protected items"
   Should be fixed now - but if we have time to spare, we could look further into this.
 - Use of InfoNode Docking Windows? http://www.infonode.net/index.html?idw
-  Would increase size by 717 kByte.
+  Would increase size by 717 kByte (and bind us to GPL=2)
 - Whishlist dialog.
 - suppressPackageStartupMessages
 

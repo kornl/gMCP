@@ -1,8 +1,5 @@
-Version 0.7-5 (??-01-2012, Rev. 11??)
+Version 0.7-5 (29-01-2012, Rev. 1146)
 =====================================
-
-- If the GUI is closed and the last graph was not yet saved,
-  the user is asked whether he wants to save it.
 
 - Better draw routine: Edges start and end now precisely at the borders of the nodes. 
 
@@ -11,37 +8,19 @@ Version 0.7-5 (??-01-2012, Rev. 11??)
   A node without outgoing edges is removed.
   Should its weight become 0 or should it keep its weight?
 
-- Variable node weights
-
 - More than one user defined power function is allowed.
 
-- Error reports can be saved as zip files.
-
-- Improved graph analysis
-
 - More correlation matrices for standard designs + added unbalanced designs.
-
-- Improved focus keeping and reliability of description text field.
 
 - Improved png export of graphs: Each side has only 5 pixel border.
 
 - Defaults for epsilon in gMCP and substituteEps are now matching (10^{-3}).
-
-- Option for graph creation: If the "add node" button is selected each further click 
-  adds nodes until another button is clicked. Similar option for edges. 
-  (But do not place nodes above other nodes.)
 
 - Updated references
 
 - Fixed: GUI was more prone to rounding errors
 
 - Fixed: Main vignette was missing in the binary zips
-
-- Experimental: Support for entangled graphs in the GUI
-
-- Experimental: Support for adaptive studies in the GUI
-    
-- Experimental: Toolkit for annotating graphs (+TikZ export support of annotations)
 
 
 Version 0.7-4 (22-01-2012, Rev. 1096)

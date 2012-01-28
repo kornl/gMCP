@@ -1,6 +1,5 @@
 inst/java-src
 inst/build.xml
-inst/doc/pictures
 inst/doc/Makefile
 inst/doc/myIndex.ist
 inst/doc/literatur.bib
