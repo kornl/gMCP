@@ -57,7 +57,11 @@ generateBounds(g, w, cr, al = 0.05, hint = generateWeights(g, w))
 \references{
   Bretz F, Maurer W, Brannath W, Posch M; (2008) - A graphical approach to
 sequentially rejective multiple testing procedures. -  Stat Med - 28/4, 586-604
-Bretz F, Posch M, Glimm E, Klinglmueller F, Maurer W, Rohmeyer K; (2011) - Graphical approaches for multiple endpoint problems using weighted Bonferroni, Simes or parametric tests - to appear
+
+Frank Bretz, Martin Posch, Ekkehard Glimm, Florian Klinglmueller, Willi Maurer, Kornelius Rohmeyer (2011):
+Graphical approaches for multiple comparison procedures using weighted Bonferroni, Simes or parametric tests.
+Biometrical Journal 53 (6), pages 894-913, Wiley.
+\url{http://onlinelibrary.wiley.com/doi/10.1002/bimj.201000239/full}
 }
 \author{
 Florian Klinglmueller

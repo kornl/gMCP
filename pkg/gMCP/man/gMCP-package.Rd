@@ -2,26 +2,26 @@
 \alias{gMCP-package}
 \docType{package}
 \title{
-A graphical approach to sequentially rejective multiple test procedures
+  A graphical approach to sequentially rejective multiple test procedures
 }
 \description{
-This package provides functions and graphical user interfaces for graphical described sequentially rejective multiple test procedures.
+  This package provides functions and graphical user interfaces 
+  for graphical described multiple test procedures.
 }
 \details{
-\tabular{ll}{
-Package: \tab gMCP\cr
-Type: \tab Package\cr
-%Version: \tab 0.1\cr
-%Date: \tab 2010-08-03\cr
-License: \tab GPL (>= 2)\cr
-LazyLoad: \tab yes\cr
-}
+  \tabular{ll}{
+    Package: \tab gMCP\cr
+    Type: \tab Package\cr
+    %Version: \tab 0.1\cr
+    %Date: \tab 2010-08-03\cr
+    License: \tab GPL (>= 2)\cr
+    LazyLoad: \tab yes\cr
+  }
 
-The package gMCP helps with the following steps of performing a sequentially rejective multiple test procedure:
+The package gMCP helps with the following steps of performing a multiple test procedure:
 
-1. Creating a object of \code{\link{graphMCP}} (which is a subclass of \code{\link[graph:graphNEL-class]{graphNEL}} from package \code{graph} that contains some additional information)
-that represents a sequentially rejective multiple test procedure.
-This can be done directly via the \code{\link{new}} method or a graphical user interface by calling \code{\link{graphGUI}}.
+1. Creating a object of \code{\link{graphMCP}} that represents a sequentially rejective multiple test procedure.
+This can be done directly via the \code{new} method or a graphical user interface by calling \code{\link{graphGUI}}.
 
 2. Calling \code{\link{gMCP}} or \code{\link{graphGUI}}.
 
@@ -29,11 +29,18 @@ This can be done directly via the \code{\link{new}} method or a graphical user i
 
 }
 \author{
-Kornelius Rohmeyer, R code for correlated tests from Florian Klinglmueller
+Kornelius Rohmeyer, 
+R code for correlated tests and adaptive designs from Florian Klinglmueller,
+C code for power simulations from Bjoern Bornkamp 
 
 Maintainer: Kornelius Rohmeyer \email{rohmeyer@small-projects.de}
 }
 \references{
+Frank Bretz, Martin Posch, Ekkehard Glimm, Florian Klinglmueller, Willi Maurer, Kornelius Rohmeyer (2011):
+Graphical approaches for multiple comparison procedures using weighted Bonferroni, Simes or parametric tests.
+Biometrical Journal 53 (6), pages 894-913, Wiley.
+\url{http://onlinelibrary.wiley.com/doi/10.1002/bimj.201000239/full}
+
 Frank Bretz, Willi Maurer, Werner Brannath, Martin Posch:
 A graphical approach to sequentially rejective multiple test procedures.
 Statistics in Medicine 2009 vol. 28 issue 4 page 586-604. 

@@ -30,10 +30,10 @@
     \code{pseudorandom} that uses ordinary (pseudo) random numbers. }
   \item{nSim}{ Monte Carlo sample size. If type = "quasirandom" this
     number is rounded up to the next power of 2, e.g. 1000 is rounded up
-    to 1024=2^10. }
+    to \eqn{1024=2^10}{1024=2^10}. }
   \item{f}{ List of user defined power functions. If one is interested
     in the power to reject hypotheses 1 and 3 one could specify
-    \code{function(x) {x[1] && x[3]}}
+    \code{f=list(function(x) {x[1] && x[3]})}
   }  
 }
 
