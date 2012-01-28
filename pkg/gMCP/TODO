@@ -17,6 +17,8 @@ Fehler in if (m[i, node] * m[node, i] < 1) { : Argument hat Länge 0
 
 High priority:
 ==============
+
+- Doesn't java.awt.Desktop.open work in the newest Ubuntu or is there something else wrong?
 - graphTest's last.alphas at least contain strange NaN in some cases
 g <- parallelGatekeeping()
 graphTest(pvalues=c(0, 1, 0, 0), alpha=0.05, graph=graph)
