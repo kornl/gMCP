@@ -154,7 +154,9 @@ public class NetList extends JPanel implements MouseMotionListener, MouseListene
 	public boolean updateGUI = true;
 
 	public void graphHasChanged() {
+		expRejections = null; powAtlst1 = null; rejectAll = null; userDefined = null;
 		control.resultUpToDate = false;
+		control.getMainFrame().isGraphSaved = false;
 		if (!updateGUI) return;
 		String analysis = null;
 		Set<String> variables = getAllVariables();
@@ -560,6 +562,7 @@ public class NetList extends JPanel implements MouseMotionListener, MouseListene
 		zoom = 1.00;
 		control.getDView().setDescription("Enter a description for the graph.");
 		graphHasChanged();
+		control.getMainFrame().isGraphSaved = true;
 	}
 
 	public void saveGraph() {

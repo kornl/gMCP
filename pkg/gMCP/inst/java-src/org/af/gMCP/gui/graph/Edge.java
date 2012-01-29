@@ -166,7 +166,7 @@ public class Edge {
 			m = GraphDrawHelper.getCenter(x1, y1, k1, k2, x2, y2);
 			double d = Math.sqrt((x2-x1)*(x2-x1)+(y2-y1)*(y2-y1));
 			double r = Math.sqrt((m[0]-x1)*(m[0]-x1)+(m[1]-y1)*(m[1]-y1));
-			if (2*Math.PI*r/360>6*d/200) throw new GraphException("Edge is too linear.");	
+			//if (2*Math.PI*r/360>6*d/200) throw new GraphException("Edge is too linear.");	
 		} catch (GraphException e) {			
 			double n2 = Math.sqrt((x2-x1)*(x2-x1)+(y2-y1)*(y2-y1));
 			double k = Math.sqrt((k1-x1)*(k1-x1)+(k2-y1)*(k2-y1));
@@ -218,10 +218,6 @@ public class Edge {
 			x2 = x2 + (int) (Node.getRadius() * dx / d);
 			y2 = y2 + (int) (Node.getRadius() * dy / d);		
 			
-			
-			if (g2d == null) {
-				g2d = (Graphics2D) g;
-			}
 			g2d = (Graphics2D) g;			
 			g2d.setColor(color);
 			GraphDrawHelper.drawEdge(g,	(int) (x1 * nl.getZoom()), (int) (y1 * nl.getZoom()), 
