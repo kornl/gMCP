@@ -73,7 +73,7 @@ Florian Klinglmueller \email{float@lefant.net}
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
 \seealso{
-\code{\link{graphMCP}}
+\code{\link{graphMCP}}, \code{\link{doInterim}}
 }
 \examples{
 

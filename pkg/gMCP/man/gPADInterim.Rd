@@ -29,6 +29,6 @@
 }
 \author{Florian Klinglmueller \email{float@lefant.net}}
 \seealso{
-\code{\link{gMCP}}
+\code{\link{gMCP}}, \code{\link{doInterim}}, \code{\link{secondStageTest}}
 }
 \keyword{ graphs }
