@@ -1,3 +1,10 @@
+- Save power scenarios
+- H1 && H2 || !H3 (GUI)
+- Names & export functions
+- Move creation of correlation matrix to advanced creation dialog
+- Allow reordering of hypotheses - show always the names of the hypotheses (correlation)
+- setInternet2(TRUE)
+
 Critical:
 =========
 
