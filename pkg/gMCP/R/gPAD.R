@@ -27,12 +27,6 @@ nhyp <- function(graph){
   return(nrow(graph2matrix(graph)))
 }
 
-
- 
-
-
-           
-
             
 validPartialCEs <- function(object) {
   ## if(all(rowSums(object@Aj)==BJ)){
@@ -104,7 +98,7 @@ decideTest <- function(z,bounds){
     b <- bounds[n,]
     J <- to.binom(n,m)
     d <- rep(NA,length(b))
-    d[J] <- (b[J]>=p[J])
+    d[which(J==1)] <- (b[which(J==1)]>=p[which(J==1)])
     return(d)
   }))
   d <- apply(dm,2,function(h) {
@@ -125,7 +119,7 @@ to.binom <- function(int,n=floor(log2(int))+1){
 
 
 parse.intersection <- function(binom){
-  paste("H(",paste(which(binom),collapse=','),")",sep="")
+  paste("H(",paste(which(binom==1),collapse=','),")",sep="")
 }
 
 to.intersection <- function(int){

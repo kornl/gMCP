@@ -364,6 +364,7 @@ setMethod("show","gPADInterim",
 			n <- length(object@z1)
 			cat("Proportion of pre-planned measurements\n collected up to interim:\n")
 			v <- object@v
+                        if(length(v) == 1) v <- rep(v,n)
 			names(v) <- paste('H',1:n,sep='')
                         print(v)
 			cat("Z-scores computed at interim\n")
