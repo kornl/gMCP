@@ -277,7 +277,7 @@ public class GeneralConfig extends SpecificConfig {
 	}
 
 	public boolean getUnAnchor() {
-		return Boolean.parseBoolean(getProperty("unAnchor", "false"));
+		return Boolean.parseBoolean(getProperty("unAnchor", "true"));
 	}
 	
 	public void setUnAnchor(boolean b) {

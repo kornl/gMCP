@@ -101,7 +101,7 @@ public class RObjectLoadingDialog extends JDialog implements ActionListener, Lis
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		if (e.getSource()==ok) {
+		if (e != null && e.getSource()==ok) {
 			if (jlMatrices.getSelectedIndex() == -1 && jlGraphs.getSelectedIndex() == -1) {
 				JOptionPane.showMessageDialog(this, "Please select an R object for loading from one of the lists.", "Please select an object.", JOptionPane.INFORMATION_MESSAGE);
 				return;
