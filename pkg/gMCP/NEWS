@@ -2,6 +2,8 @@
 Version 0.7-6 (??-02-2012, Rev. 1???)
 =====================================
 
+- Fixed: NullpointerException when loading R objects.
+
 - If the GUI is closed and the last graph was not yet saved,
   the user is asked whether he wants to save it.
   
