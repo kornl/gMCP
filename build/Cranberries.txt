@@ -1036,3 +1036,59 @@ Diff between gMCP versions 0.7-3 dated 2012-01-16 and 0.7-4 dated 2012-01-22
  gMCP-0.7-4/gMCP/inst/unitTests/runit.LaTeX.R                                   |only
  gMCP-0.7-4/gMCP/man/graph2latex.Rd                                             |    2 
  49 files changed, 1090 insertions(+), 561 deletions(-)
+
+Diff between gMCP versions 0.7-4 dated 2012-01-22 and 0.7-5 dated 2012-01-29
+
+ gMCP-0.7-4/gMCP/inst/java/jhlir.jar                                                        |only
+ gMCP-0.7-5/gMCP/.Rinstignore                                                               |    6 
+ gMCP-0.7-5/gMCP/DESCRIPTION                                                                |   12 -
+ gMCP-0.7-5/gMCP/INSTALL                                                                    |    4 
+ gMCP-0.7-5/gMCP/MD5                                                                        |   95 +++++-----
+ gMCP-0.7-5/gMCP/NEWS                                                                       |   33 +++
+ gMCP-0.7-5/gMCP/R/calcPower.R                                                              |    2 
+ gMCP-0.7-5/gMCP/R/closure.R                                                                |    2 
+ gMCP-0.7-5/gMCP/R/gMCP.R                                                                   |   13 -
+ gMCP-0.7-5/gMCP/R/graphTest.R                                                              |    2 
+ gMCP-0.7-5/gMCP/R/misc.R                                                                   |   25 ++
+ gMCP-0.7-5/gMCP/R/onLoad.R                                                                 |    4 
+ gMCP-0.7-5/gMCP/R/subVariables.R                                                           |    2 
+ gMCP-0.7-5/gMCP/TODO                                                                       |   31 ++-
+ gMCP-0.7-5/gMCP/inst/CITATION                                                              |   12 -
+ gMCP-0.7-5/gMCP/inst/References.html                                                       |    5 
+ gMCP-0.7-5/gMCP/inst/doc/AQuickStart.pdf                                                   |binary
+ gMCP-0.7-5/gMCP/inst/doc/gMCP.pdf                                                          |binary
+ gMCP-0.7-5/gMCP/inst/doc/gMCP/gMCP.Rnw                                                     |   12 +
+ gMCP-0.7-5/gMCP/inst/doc/literatur.bib                                                     |    9 
+ gMCP-0.7-5/gMCP/inst/doc/parametric.pdf                                                    |binary
+ gMCP-0.7-5/gMCP/inst/doc/pictures/optionsDialog.png                                        |binary
+ gMCP-0.7-5/gMCP/inst/doc/pictures/optionsDialog2.png                                       |only
+ gMCP-0.7-5/gMCP/inst/doc/pictures/optionsDialog3.png                                       |only
+ gMCP-0.7-5/gMCP/inst/java-src/org/af/gMCP/config/GeneralConfig.java                        |   49 +++++
+ gMCP-0.7-5/gMCP/inst/java-src/org/af/gMCP/gui/CreateGraphGUI.java                          |    4 
+ gMCP-0.7-5/gMCP/inst/java-src/org/af/gMCP/gui/MenuBarMGraph.java                           |   20 +-
+ gMCP-0.7-5/gMCP/inst/java-src/org/af/gMCP/gui/dialogs/GroupDialog.java                     |only
+ gMCP-0.7-5/gMCP/inst/java-src/org/af/gMCP/gui/dialogs/PowerDialogParameterUncertainty.java |   82 ++++++--
+ gMCP-0.7-5/gMCP/inst/java-src/org/af/gMCP/gui/dialogs/TextFileViewer.java                  |   52 +++--
+ gMCP-0.7-5/gMCP/inst/java-src/org/af/gMCP/gui/graph/Edge.java                              |    4 
+ gMCP-0.7-5/gMCP/inst/java-src/org/af/gMCP/gui/graph/EdgeWeight.java                        |    6 
+ gMCP-0.7-5/gMCP/inst/java-src/org/af/gMCP/gui/graph/GraphMCP.java                          |    3 
+ gMCP-0.7-5/gMCP/inst/java-src/org/af/gMCP/gui/graph/NetList.java                           |   61 +++++-
+ gMCP-0.7-5/gMCP/inst/java-src/org/af/gMCP/gui/graph/PView.java                             |   37 +++
+ gMCP-0.7-5/gMCP/inst/java-src/org/af/gMCP/gui/options/MiscPanel.java                       |   17 +
+ gMCP-0.7-5/gMCP/inst/java-src/org/af/gMCP/gui/options/NumericPanel.java                    |   55 +++++
+ gMCP-0.7-5/gMCP/inst/java-src/org/af/gMCP/gui/options/OptionsDialog.java                   |    1 
+ gMCP-0.7-5/gMCP/inst/java-src/tests/RControlTest.java                                      |    8 
+ gMCP-0.7-5/gMCP/inst/java/afcommons.jar                                                    |only
+ gMCP-0.7-5/gMCP/inst/java/gsrmtp.jar                                                       |binary
+ gMCP-0.7-5/gMCP/inst/unitTests/runit.LaTeX.R                                               |    4 
+ gMCP-0.7-5/gMCP/inst/unitTests/runit.gMCP.R                                                |   26 ++
+ gMCP-0.7-5/gMCP/man/calcPower.Rd                                                           |    4 
+ gMCP-0.7-5/gMCP/man/doInterim.Rd                                                           |    6 
+ gMCP-0.7-5/gMCP/man/gMCP-package.Rd                                                        |   37 ++-
+ gMCP-0.7-5/gMCP/man/gMCP.Rd                                                                |   25 +-
+ gMCP-0.7-5/gMCP/man/generateBounds.Rd                                                      |    6 
+ gMCP-0.7-5/gMCP/man/graphTest.Rd                                                           |   10 -
+ gMCP-0.7-5/gMCP/man/rejectNode.Rd                                                          |    6 
+ gMCP-0.7-5/gMCP/man/substituteEps.Rd                                                       |    2 
+ gMCP-0.7-5/gMCP/src/gMCP.c                                                                 |   24 +-
+ 52 files changed, 606 insertions(+), 212 deletions(-)

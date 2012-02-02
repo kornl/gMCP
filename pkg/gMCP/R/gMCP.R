@@ -91,7 +91,7 @@ gMCP <- function(graph, pvalues, test, correlation, alpha=0.05,
 			return(result)
 		}
 		while(!is.null(node <- getRejectableNode(graph, alpha, pvalues))) {
-			output <- paste(output, paste("Node \"",node,"\" can be rejected by Bonferroni based test.\n",sep=""), sep="\n")
+			output <- paste(output, paste("Hypothesis \"",node,"\" can be rejected by the weighted Bonferroni based test and therefore by weighted Simes test.\n",sep=""), sep="\n")
 			graph <- rejectNode(graph, node, verbose)
 			sequence <- c(sequence, graph)
 		}

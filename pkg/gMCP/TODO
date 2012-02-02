@@ -4,10 +4,33 @@
 - Move creation of correlation matrix to advanced creation dialog
 - Allow reordering of hypotheses - show always the names of the hypotheses (correlation)
 - setInternet2(TRUE)
+- Dimensions
+- CI Dialog testen!
+- Beim Ändern der Optionen unten im P-Panel muss das Result Objekt gelöscht werden!
+- Check in CI zu max(0, ..) bzw. min(0, ..) / means
+- p-values are not saved
+- keine p-Werte übernehmen
+- ability to save intermediate and final graphs
+- Document how to extract m, weights etc. 
+- Buttons to load R objects for power dialog.
+- Erben der Korrelationsmatrix vom Hauptfenster (warn if this is not the case?)
+- NCP anstatt mean bzw. Alternative zu mu, sigma und n
+- Scenarios for power
+- listen von Stichproben
+- Output von power calculations
+- positive Definitheit
+- test whether correlation is applicable:
+  - Simes test -> postitive regression dependence (warn)
+  - Dunnett -> ?
+- Sequentielle Power ist schwierig (basiert am Ende auf zu wenig Fallzahl der Simulation)
+- Corrleation matrix should parse 1/2
+- pvalues for Simes
+- verbose output for parametric tests
 
 Critical:
 =========
 
+- Table looses focus (in Java 5??) -> create test application
 - Think about JavaGD devices. (User wants to plot in R Console etc.)
 - Does Deducer interfere JavaGD? (When is .onLoad executed?)
 - Make JavaGD only a suggest (Solaris and generally safer)

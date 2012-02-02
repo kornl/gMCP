@@ -23,6 +23,7 @@ Version 0.7-6 (??-02-2012, Rev. 1???)
     
 - Experimental: Toolkit for annotating graphs (+TikZ export support of annotations)
 
+
 Version 0.7-5 (29-01-2012, Rev. 1147)
 =====================================
 
@@ -47,7 +48,7 @@ Version 0.7-5 (29-01-2012, Rev. 1147)
 
 - Fixed: Main vignette was missing in the binary zips
 
-
+52 files changed, 606 insertions(+), 212 deletions(-)
 
 
 Version 0.7-4 (22-01-2012, Rev. 1096)
