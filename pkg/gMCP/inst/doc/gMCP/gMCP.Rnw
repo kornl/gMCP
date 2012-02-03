@@ -894,6 +894,23 @@ Let $\sum_{k=1}^m w_k = m$ and reject $H_0$ if
 
 \end{Theorem}
 
+\subsubsection*{Adjusted p-Values in the Simes Test}
+
+For each set $J\subset I$ we calculate
+\[m_J := \min\limits_{j\in J}\left(\frac{p_j}{\sum_{i\in J_j}w_i}\right),\quad J_j=\{k\in J\;|\; p_k\leq p_j\}.\]
+
+The weighted Simes Test rejects $H_J$ iff $m_J\leq\alpha$.
+%for some $j \in J$
+%\[p_j\leq\alpha \sum_{i\in J_j}w_i\]
+%or equivalent
+%\[\]
+
+In a closed testing procedure a hypothesis $H_j$ is rejected iff $H_J$ is rejected for each $J\subset I$ with $j\in J$.
+
+An adjusted p-pvalue $p'_j$ is defined as the minimal $\alpha$ so that the test to global level $\alpha$ rejects $H_j$.
+
+Therefore $p'_j=\text{max}(m_J\;|\;j\in J)$.
+
 \end{appendix}
 
 \newpage
