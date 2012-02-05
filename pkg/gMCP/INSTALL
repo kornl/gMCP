@@ -55,6 +55,8 @@ in the previous paragraph.
 Most likely you will have to run the command "R CMD javareconf" with
 root permissions to let R find your java compiler and headers.
 
+ * Try setInternet2(TRUE) if R can not connect to the internet.
+ 
 If you run into any problems, please write us an email at:
 
  help@small-projects.de

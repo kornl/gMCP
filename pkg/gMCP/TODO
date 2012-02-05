@@ -3,7 +3,6 @@
 - Names & export functions
 - Move creation of correlation matrix to advanced creation dialog
 - Allow reordering of hypotheses - show always the names of the hypotheses (correlation)
-- setInternet2(TRUE)
 - Dimensions
 - CI Dialog testen!
 - Beim Ändern der Optionen unten im P-Panel muss das Result Objekt gelöscht werden!
@@ -19,6 +18,12 @@
 - listen von Stichproben
 - Output von power calculations
 - positive Definitheit
+ev <- eigen(sigma, symmetric=TRUE, only.values=TRUE)
+# We use the same check as mvtnorm to minimize problems:
+if (!all(ev$values >= -sqrt(.Machine$double.eps) * abs(ev$values[1]))) {
+   warning("sigma is numerically not positive definite")
+}
+
 - test whether correlation is applicable:
   - Simes test -> postitive regression dependence (warn)
   - Dunnett -> ?
