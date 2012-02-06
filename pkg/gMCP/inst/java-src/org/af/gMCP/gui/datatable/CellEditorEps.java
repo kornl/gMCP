@@ -28,7 +28,7 @@ public class CellEditorEps extends DefaultCellEditor implements FocusListener {
 		s = s.replace(',','.');
 		oldVal = new EdgeWeight(s);
 		((JTextField)getComponent()).setText(oldVal.toString());
-		((JTextField)getComponent()).addFocusListener(this);	 
+		//((JTextField)getComponent()).addFocusListener(this);	 
     }
 
     public EdgeWeight getCellEditorValue() {
@@ -47,7 +47,9 @@ public class CellEditorEps extends DefaultCellEditor implements FocusListener {
 
 	public void focusLost(FocusEvent e) {
 		try {
-			stopCellEditing();
+			if (!System.getProperty("java.runtime.version").startsWith("1.5.")) {
+				stopCellEditing();
+			}
 		} catch(Exception ex) {
 			// Nothing to do
 		}
