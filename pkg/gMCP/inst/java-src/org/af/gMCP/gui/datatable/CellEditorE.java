@@ -1,8 +1,6 @@
 package org.af.gMCP.gui.datatable;
 
 import java.awt.Component;
-import java.awt.event.FocusEvent;
-import java.awt.event.FocusListener;
 
 import javax.swing.DefaultCellEditor;
 import javax.swing.JTable;

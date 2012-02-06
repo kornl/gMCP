@@ -2,7 +2,6 @@ package org.af.gMCP.gui.datatable;
 
 import java.awt.Component;
 import java.awt.Dimension;
-import java.awt.event.MouseEvent;
 
 import javax.swing.JTable;
 import javax.swing.JTextField;
