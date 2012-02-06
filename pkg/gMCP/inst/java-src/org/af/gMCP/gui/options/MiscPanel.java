@@ -36,7 +36,6 @@ public class MiscPanel extends OptionsPanel {
         checkOnlineForUpdate.setSelected(conf.getGeneralConfig().checkOnline());
         exportTransparent = new JCheckBox("Export images with transparent background");
         exportTransparent.setSelected(conf.getGeneralConfig().exportTransparent());
-        exportTransparent.setEnabled(false);
         unanchorEdges = new JCheckBox("Edge weights should adjust their position, whenever a node is dragged");
         unanchorEdges.setSelected(conf.getGeneralConfig().getUnAnchor());
         focusEqualsEdit = new JCheckBox("Automatically enter the editing mode, whenever a table cell gets the focus");
