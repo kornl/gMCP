@@ -75,7 +75,6 @@ public class RejectedDialog extends JDialog implements ActionListener {
 		setVisible(true);		
 	}
 
-	@Override
 	public void actionPerformed(ActionEvent e) {
 		dispose();		
 	}

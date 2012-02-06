@@ -55,7 +55,6 @@ public class VariableNameDialog extends JDialog implements ActionListener {
 		this(graphGUI, Configuration.getInstance().getClassProperty(VariableNameDialog.class, "variableName", ""));
 	}
 
-	@Override
 	public void actionPerformed(ActionEvent e) {
 		Configuration.getInstance().setClassProperty(VariableNameDialog.class, "variableName", jt.getText());
 		dispose();

@@ -99,7 +99,6 @@ public class RObjectLoadingDialog extends JDialog implements ActionListener, Lis
         setVisible(true);
 	}
 
-	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (e != null && e.getSource()==ok) {
 			if (jlMatrices.getSelectedIndex() == -1 && jlGraphs.getSelectedIndex() == -1) {
@@ -118,7 +117,6 @@ public class RObjectLoadingDialog extends JDialog implements ActionListener, Lis
 		dispose();
 	}
 
-	@Override
 	public void valueChanged(ListSelectionEvent e) {
 		if (e.getSource()==jlMatrices && jlMatrices.getSelectedIndex() != -1) {
 			jlGraphs.removeSelectionInterval(0, graphs.length-1);
@@ -132,7 +130,6 @@ public class RObjectLoadingDialog extends JDialog implements ActionListener, Lis
 		jtInfo.setCaretPosition(0);		
 	}
 
-	@Override
 	 public void mouseClicked(MouseEvent e) {
         if (e.getClickCount() == 2) {
             int i = jlMatrices.locationToIndex(e.getPoint());
@@ -146,17 +143,9 @@ public class RObjectLoadingDialog extends JDialog implements ActionListener, Lis
          }
     }
 
-
-	@Override
 	public void mouseEntered(MouseEvent e) {}
-
-	@Override
 	public void mouseExited(MouseEvent e) {}
-
-	@Override
 	public void mousePressed(MouseEvent e) {}
-
-	@Override
 	public void mouseReleased(MouseEvent e) {}	
 	
 }

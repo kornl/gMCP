@@ -293,7 +293,6 @@ public class DialogConfIntEstVar extends JDialog implements ActionListener, Chan
 		return panel;
 	}
 
-	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource().getClass().equals(JComboBox.class)) {
 			int i = dist.indexOf(e.getSource());
@@ -326,22 +325,18 @@ public class DialogConfIntEstVar extends JDialog implements ActionListener, Chan
 		calculateCI();
 	}
 
-	@Override
 	public void stateChanged(ChangeEvent e) {
 		calculateCI();	
 	}
 
-	@Override
 	public void changedUpdate(DocumentEvent e) {
 		calculateCI();		
 	}
 
-	@Override
 	public void insertUpdate(DocumentEvent e) {
 		calculateCI();			
 	}
 
-	@Override
 	public void removeUpdate(DocumentEvent e) {
 		calculateCI();			
 	}

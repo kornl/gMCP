@@ -40,7 +40,6 @@ public class ColorChooseDialog extends JDialog implements ActionListener {
 	}
 
 
-	@Override
 	public void actionPerformed(ActionEvent arg0) {
 		dispose();		
 	}

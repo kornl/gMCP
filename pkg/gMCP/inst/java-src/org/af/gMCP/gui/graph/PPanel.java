@@ -183,10 +183,8 @@ public class PPanel implements ActionListener, KeyListener, NodeListener, FocusL
 		testing = b;
 	}
 
-	@Override
 	public void focusGained(FocusEvent e) {	}
 
-	@Override
 	public void focusLost(FocusEvent e) {
 		if (wTF.isEditable()) {
 			keyTyped(null);

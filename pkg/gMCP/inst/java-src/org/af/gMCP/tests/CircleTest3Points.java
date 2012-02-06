@@ -164,34 +164,17 @@ class PaintPanel3Points extends JPanel implements MouseListener {
 		g.drawArc((int)(m1-r), (int)(m2-r), (int)(2*r), (int)(2*r), (int)(phi1), (int)(phi2-phi1));		
 	}
 
-	@Override
 	public void mouseClicked(MouseEvent e) {
 		b1 = e.getX();
 		b2 = e.getY();
 		repaint();
 	}
 
-	@Override
-	public void mouseEntered(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
+	public void mouseEntered(MouseEvent e) {}
 
-	@Override
-	public void mouseExited(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
+	public void mouseExited(MouseEvent e) {}
 
-	@Override
-	public void mousePressed(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
+	public void mousePressed(MouseEvent e) {}
 
-	@Override
-	public void mouseReleased(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
+	public void mouseReleased(MouseEvent e) {}
 }

@@ -111,7 +111,6 @@ public class ParameterDialog extends JDialog implements ActionListener, ChangeLi
         setVisible(true);
 	}
 
-	@Override
 	public void actionPerformed(ActionEvent e) {
 		String command = this.command+"(";
 		if (parameters.get("n")!=null && parameters.get("weights")==null) {
@@ -128,7 +127,6 @@ public class ParameterDialog extends JDialog implements ActionListener, ChangeLi
 		dispose();
 	}
 
-	@Override
 	public void stateChanged(ChangeEvent e) {		
 		if (parameters.get("weights")!=null && parameters.get("n")!=null) {
 			int n = Integer.parseInt(spinnerN.getModel().getValue().toString());

@@ -222,7 +222,6 @@ public class CreateGraphGUI extends JFrame implements WindowListener, AbortListe
 		return dfp.getTable();
 	}
 
-	@Override
 	public void abort() {
 		if (RControl.getR().getREngine().getClass() == JRIEngine.class) {
 			JRIEngine engine = (JRIEngine) RControl.getR().getREngine();

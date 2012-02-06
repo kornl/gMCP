@@ -100,7 +100,6 @@ public class TellAboutOnlineUpate extends InfoDialog implements ActionListener {
     	return doc;
     }	
 	
-	@Override
 	public void actionPerformed(ActionEvent e) {
 		Configuration.getInstance().getGeneralConfig().setCheckOnline(checkOnlineForUpdate.isSelected());
 		dispose();		

@@ -85,7 +85,6 @@ public class RearrangeNodesDialog extends JDialog implements ActionListener {
 		setVisible(true);		
 	}
 
-	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == jrbCircle || e.getSource() == jrbMatrix) {
 			enableButtons(jrbMatrix.isSelected()); 

@@ -137,8 +137,6 @@ public class NumericPanel extends OptionsPanel implements ActionListener {
        	conf.getGeneralConfig().setTypeOfRandom(randomNumbers.getSelectedItem().toString());
     }
 
-
-	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource()==useEpsApprox) {
 			jtfEps.setEnabled(useEpsApprox.isSelected());

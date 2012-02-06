@@ -120,7 +120,6 @@ public class GraphSendToArchiveDialog extends JDialog implements ActionListener 
 		return panel;
 	}
 
-	@Override
 	public void actionPerformed(ActionEvent e) {
 		try {
 			table.put("Description", jtDescr.getText());

@@ -88,14 +88,9 @@ public class GroupDialog extends JDialog implements ActionListener, ChangeListen
 		return s+")";
 	}
 
-	@Override
 	public void actionPerformed(ActionEvent e) {
-
 		dispose();
 	}
 
-	@Override
-	public void stateChanged(ChangeEvent e) {		
-
-	}	
+	public void stateChanged(ChangeEvent e) {}	
 }

@@ -153,7 +153,6 @@ public class VersionComparator extends JDialog implements ActionListener {
 		}
 	}
 	
-	@Override
 	public void actionPerformed(ActionEvent e) {		
 		dispose();		
 	}

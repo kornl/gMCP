@@ -70,7 +70,6 @@ public class PowerVariableDialog extends JDialog implements ActionListener {
         setVisible(true);
 	}
 
-	@Override
 	public void actionPerformed(ActionEvent e) {
 		//Fill HashTable:
 		for (int i=0; i<variables.length; i++) {

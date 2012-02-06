@@ -43,10 +43,8 @@ public class CellEditorEps extends DefaultCellEditor implements FocusListener {
     	return oldVal;
     }
     
-	@Override
 	public void focusGained(FocusEvent e) {}
 
-	@Override
 	public void focusLost(FocusEvent e) {
 		try {
 			stopCellEditing();
