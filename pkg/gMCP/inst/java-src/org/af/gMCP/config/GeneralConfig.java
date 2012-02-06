@@ -315,4 +315,12 @@ public class GeneralConfig extends SpecificConfig {
 	public void setTypeOfRandom(String type) {
 		setProperty("typeOfRandom", ""+type);
 	}
+
+	public boolean focusEqualsEdit() {
+		return Boolean.parseBoolean(getProperty("focusEqualsEdit", "true"));
+	}
+	public void setFocusEqualsEdit(boolean b) {
+		setProperty("focusEqualsEdit", ""+b);		
+	}
+	
 }

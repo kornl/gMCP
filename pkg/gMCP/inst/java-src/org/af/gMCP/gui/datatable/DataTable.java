@@ -7,6 +7,7 @@ import java.awt.event.MouseEvent;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 
+import org.af.gMCP.config.Configuration;
 import org.af.gMCP.gui.graph.EdgeWeight;
 
 public class DataTable extends JTable {
@@ -53,12 +54,14 @@ public class DataTable extends JTable {
 	}
 	
 	public void changeSelection(final int row, final int column, boolean toggle, boolean extend) {
-        super.changeSelection(row, column, toggle, extend);
-        editCellAt(row, column);
-        transferFocus();
-        Component editorComponent = getEditorComponent();
-		if (editorComponent instanceof JTextField) {
-			((JTextField) editorComponent).selectAll();
+		super.changeSelection(row, column, toggle, extend);
+		if (Configuration.getInstance().getGeneralConfig().focusEqualsEdit()) {		
+			editCellAt(row, column);
+			transferFocus();
+			Component editorComponent = getEditorComponent();
+			if (editorComponent instanceof JTextField) {
+				((JTextField) editorComponent).selectAll();
+			}
 		}
     }
 }

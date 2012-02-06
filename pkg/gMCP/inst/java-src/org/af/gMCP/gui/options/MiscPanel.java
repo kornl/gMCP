@@ -18,6 +18,7 @@ public class MiscPanel extends OptionsPanel {
     private JCheckBox checkOnlineForUpdate;
     private JCheckBox exportTransparent;
     private JCheckBox unanchorEdges;
+    private JCheckBox focusEqualsEdit;
     
     private Configuration conf;
 
@@ -36,8 +37,10 @@ public class MiscPanel extends OptionsPanel {
         exportTransparent = new JCheckBox("Export images with transparent background");
         exportTransparent.setSelected(conf.getGeneralConfig().exportTransparent());
         exportTransparent.setEnabled(false);
-        unanchorEdges = new JCheckBox("If a node is dragged also all edges to this node follow");
+        unanchorEdges = new JCheckBox("Edge weights should adjust their position, whenever a node is dragged");
         unanchorEdges.setSelected(conf.getGeneralConfig().getUnAnchor());
+        focusEqualsEdit = new JCheckBox("Automatically enter the editing mode, whenever a table cell gets the focus");
+        focusEqualsEdit.setSelected(conf.getGeneralConfig().focusEqualsEdit());
     }
 
     private void doTheLayout() {
@@ -63,6 +66,10 @@ public class MiscPanel extends OptionsPanel {
         p1.add(unanchorEdges, cc.xyw(1, row, 3));
         
         row += 2;
+        
+        p1.add(focusEqualsEdit, cc.xyw(1, row, 3));
+        
+        row += 2;	
 
         add(p1);
     }
@@ -72,5 +79,6 @@ public class MiscPanel extends OptionsPanel {
        	conf.getGeneralConfig().setCheckOnline(checkOnlineForUpdate.isSelected());
        	conf.getGeneralConfig().setExportTransparent(exportTransparent.isSelected());
        	conf.getGeneralConfig().setUnAnchor(unanchorEdges.isSelected());
+       	conf.getGeneralConfig().setFocusEqualsEdit(focusEqualsEdit.isSelected());
     }
 }
