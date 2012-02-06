@@ -52,25 +52,13 @@ public class DataTable extends JTable {
 		getModel().setTesting(testing);
 	}
 	
-    /**
-     * We change single left clicks to double clicks here.
-     */ 
-    protected void processMouseEvent(MouseEvent e) {
-    	if (e.getClickCount()==1 && e.getButton() == MouseEvent.BUTTON1) {
-    		super.processMouseEvent(new MouseEvent((Component)e.getSource(), 
-    				e.getID(), e.getWhen(), e.getModifiers(), e.getX(), e.getY(), 
-    				e.getClickCount()+1, false, e.getButton()));
-    		Component editorComponent = getEditorComponent();
-    		if (editorComponent instanceof JTextField) {
-				((JTextField) editorComponent).selectAll();
-			}
-    	} else if (e.getButton() == MouseEvent.BUTTON3) {
-    		super.processMouseEvent(new MouseEvent((Component)e.getSource(), 
-    				 MouseEvent.MOUSE_PRESSED, e.getWhen(), MouseEvent.BUTTON1_MASK, e.getX(), e.getY(), 
-    				1, false, MouseEvent.BUTTON1));
-    		super.processMouseEvent(e);
-    	} else {			
-    		super.processMouseEvent(e);
-    	}
+	public void changeSelection(final int row, final int column, boolean toggle, boolean extend) {
+        super.changeSelection(row, column, toggle, extend);
+        editCellAt(row, column);
+        transferFocus();
+        Component editorComponent = getEditorComponent();
+		if (editorComponent instanceof JTextField) {
+			((JTextField) editorComponent).selectAll();
+		}
     }
 }

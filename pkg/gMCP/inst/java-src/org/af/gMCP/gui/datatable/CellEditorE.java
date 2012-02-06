@@ -4,7 +4,6 @@ import java.awt.Component;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 
-import javax.swing.AbstractCellEditor;
 import javax.swing.DefaultCellEditor;
 import javax.swing.JTable;
 import javax.swing.JTextField;
@@ -13,7 +12,7 @@ import javax.swing.table.TableCellEditor;
 import org.af.gMCP.gui.graph.EdgeWeight;
 import org.af.gMCP.gui.graph.GraphView;
 
-public class CellEditorE extends DefaultCellEditor implements TableCellEditor, FocusListener {
+public class CellEditorE extends DefaultCellEditor implements TableCellEditor {
     GraphView agc;
     DataTable dt;
     int row;
@@ -35,11 +34,10 @@ public class CellEditorE extends DefaultCellEditor implements TableCellEditor, F
 		s = s.replace(',','.');
 		oldVal = new EdgeWeight(s);
 		((JTextField)getComponent()).setText(oldVal.toString());
-		((JTextField)getComponent()).addFocusListener(this);	 
+		//((JTextField)getComponent()).addFocusListener(this);	 
         
         return this.getComponent();
     }
-
 
     private EdgeWeight oldVal;
 
@@ -55,6 +53,8 @@ public class CellEditorE extends DefaultCellEditor implements TableCellEditor, F
     	return oldVal;
     }
     
+    /*
+    
 	public void focusGained(FocusEvent e) {
 		// The following line does not seem to work the way I thought it would:
 		((JTextField)getComponent()).selectAll();
@@ -69,5 +69,7 @@ public class CellEditorE extends DefaultCellEditor implements TableCellEditor, F
 			// Nothing to do
 		}
 	}
+	
+	*/
     
 }
