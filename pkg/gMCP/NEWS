@@ -2,6 +2,12 @@
 Version 0.7-6 (??-02-2012, Rev. 1???)
 =====================================
 
+- JTable behaves slightly different now:
+  Whenever a cell gets the focus the CellEditor is opened.
+  Also all already existing text is selected to make overwriting easier.
+
+- Fixed: With Java 5 it was sometimes hard to edit some cells of JTables.  
+
 - Fixed: NullpointerException when loading R objects.
 
 - If the GUI is closed and the last graph was not yet saved,

@@ -35,7 +35,6 @@ if (!all(ev$values >= -sqrt(.Machine$double.eps) * abs(ev$values[1]))) {
 Critical:
 =========
 
-- Table looses focus (in Java 5??) -> create test application
 - Think about JavaGD devices. (User wants to plot in R Console etc.)
 - Does Deducer interfere JavaGD? (When is .onLoad executed?)
 - Make JavaGD only a suggest (Solaris and generally safer)
