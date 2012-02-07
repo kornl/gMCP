@@ -8,7 +8,7 @@
 }
 \usage{
 rqmvnorm(n, mean = rep(0, nrow(sigma)), sigma = diag(length(mean)),
-         corr = NULL, seed = 4711, type = c("quasirandom", "pseudorandom"))
+         corr = NULL, seed = NULL, type = c("quasirandom", "pseudorandom"))
 }
 \arguments{
   \item{n}{ Number of samples, when type = "quasirandom" is used this
@@ -16,7 +16,7 @@ rqmvnorm(n, mean = rep(0, nrow(sigma)), sigma = diag(length(mean)),
   \item{mean}{ Mean vector }
   \item{sigma}{ Covariance matrix }
   \item{corr}{ Correlation matrix (if specified the argument sigma is ignored) }
-  \item{seed}{ Seed for the Sobol sequence }
+  \item{seed}{ If spcecified a seed for the Sobol sequence is set.  }
   \item{type}{ What type of random numbers to use. \code{quasirandom}
     uses a randomized Lattice rule, and should be more efficient than
     \code{pseudorandom} that uses ordinary (pseudo) random numbers. }

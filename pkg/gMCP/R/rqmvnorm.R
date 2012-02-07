@@ -1,6 +1,7 @@
 
+
 rqmvnorm <- function(n, mean = rep(0, nrow(sigma)), sigma = diag(length(mean)),
-                     corr = NULL, seed = 4711, type = c("quasirandom", "pseudorandom")){
+                     corr = NULL, seed = NULL , type = c("quasirandom", "pseudorandom")){
     if (!isSymmetric(sigma, tol = sqrt(.Machine$double.eps))) {
         stop("sigma must be a symmetric matrix")
     }
@@ -13,15 +14,16 @@ rqmvnorm <- function(n, mean = rep(0, nrow(sigma)), sigma = diag(length(mean)),
     }
     dm <- length(mean)
     clSig <- chol(sigma)
-    if(type == "quasirandom"){
+    if(!is.null(seed)){
       set.seed(seed)
+    }
+    if(type == "quasirandom"){
       ## random shift parameter
       u <- runif(dm)
       sims <- rlattice(n, dim = dm, u = u)
       sims <- qnorm(sims)
     }
     if(type == "pseudorandom"){
-      set.seed(seed)
       sims <- matrix(rnorm(n*dm), nrow = n)
     }
     sims <- sims%*%clSig
