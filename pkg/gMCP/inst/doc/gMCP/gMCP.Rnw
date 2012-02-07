@@ -657,6 +657,12 @@ cat(graph2latex(generalSuccessive(), scale=0.7, fontsize="tiny"))
   \caption{\label{powergraph} Graph from Bretz et al. (2009)}
 \end{figure}
 
+\begin{figure}[ht]
+  \centering    
+  \includegraphics[width=4cm]{pictures/power.png}      
+  \caption{\label{power} Local power and some (trivial) user defined power functions.}
+\end{figure}
+
 \subsection{Variable edge weights}\index{edge weights!variable}
 
 \includegraphics[width=5cm]{pictures/variableEditor.png}

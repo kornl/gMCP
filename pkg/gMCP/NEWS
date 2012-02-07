@@ -5,6 +5,9 @@ Version 0.7-6 (??-02-2012, Rev. 1???)
 - JTable behaves slightly different now:
   Whenever a cell gets the focus the CellEditor is opened.
   Also all already existing text is selected to make overwriting easier.
+  You can change this behavior in the options.
+
+- New option: Should the exported image of a graph have an white or transparent background.
 
 - Fixed: With Java 5 it was sometimes hard to edit some cells of JTables.  
 
