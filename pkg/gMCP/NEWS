@@ -15,7 +15,9 @@ Version 0.7-6 (??-02-2012, Rev. 1???)
 
 - If the GUI is closed and the last graph was not yet saved,
   the user is asked whether he wants to save it.
-  
+ 
+- rqmvnorm does not set a seed by default.
+ 
 - Variable node weights
 
 - Error reports can be saved as zip files.
