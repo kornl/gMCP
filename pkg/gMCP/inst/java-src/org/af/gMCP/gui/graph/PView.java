@@ -28,6 +28,7 @@ import org.af.gMCP.config.Configuration;
 import org.af.gMCP.gui.CreateGraphGUI;
 import org.af.gMCP.gui.RControl;
 import org.af.gMCP.gui.dialogs.GroupDialog;
+import org.af.gMCP.gui.dialogs.MatrixCreationDialog;
 import org.af.jhlir.call.RChar;
 import org.af.jhlir.call.RInteger;
 import org.af.jhlir.call.RList;
@@ -235,13 +236,13 @@ public class PView extends JPanel implements KeyListener, ActionListener {
 	}
 	
 	JButton refresh;
+	JButton createMatrix;
 	
 	protected JRadioButton jrbNoCorrelation = new JRadioButton("No Information about correlations");
-    protected JRadioButton jrbStandardCorrelation = new JRadioButton("Select a standard correlation");
+    //protected JRadioButton jrbStandardCorrelation = new JRadioButton("Select a standard correlation");
     protected JRadioButton jrbRCorrelation = new JRadioButton("Select an R correlation matrix");
     protected JRadioButton jrbSimes = new JRadioButton("Correlation applicable for Simes test (new feature that needs still testing)");
 
-    protected JComboBox jcbCorString;
     protected JComboBox jcbCorObject;
     
     JPanel correlatedPanel = null;
@@ -249,44 +250,40 @@ public class PView extends JPanel implements KeyListener, ActionListener {
 	public JPanel getCorrelatedPanel() {
 		
 		if (correlatedPanel!=null) {
-			getPossibleCorrelations();		
+			refresh();		
 			return correlatedPanel;
 		}
 		
 		try {
 			refresh = new JButton(new ImageIcon(ImageIO.read(DesktopPaneBG.class
 					.getResource("/org/af/gMCP/gui/graph/images/update24.png"))));
+			createMatrix = new JButton(new ImageIcon(ImageIO.read(DesktopPaneBG.class
+					.getResource("/org/af/gMCP/gui/graph/images/matrix.png"))));
 		} catch (IOException e) {
 			logger.error("IOError that should never happen.", e);
 		}
 		refresh.setToolTipText("search again for matrices in R");
+		createMatrix.setToolTipText("create matrix with GUI");
 		
 		correlatedPanel = new JPanel();
 		
-		String[] matrices = RControl.getR().eval("gMCP:::getAllQuadraticMatrices()").asRChar().getData();
-		
-	    jcbCorString = new JComboBox(new String[] {});
-	    jcbCorObject = new JComboBox(matrices);
-		
-		if (matrices.length==1 && matrices[0].equals("No quadratic matrices found.")) {
-			jcbCorObject.setEnabled(false);
-			jrbRCorrelation.setEnabled(false);
-		}
+	    jcbCorObject = new JComboBox(new String[] {});
+	    refresh();
 
 	    jrbNoCorrelation.setSelected(true);
 
 	    ButtonGroup group = new ButtonGroup();
 	    group.add(jrbNoCorrelation);
-	    group.add(jrbStandardCorrelation);
+	    //group.add(jrbStandardCorrelation);
 	    group.add(jrbRCorrelation);
 	    group.add(jrbSimes);
 
 	    jrbNoCorrelation.addActionListener(this);
-	    jrbStandardCorrelation.addActionListener(this);
+	    //jrbStandardCorrelation.addActionListener(this);
 	    jrbRCorrelation.addActionListener(this);
 	    jrbSimes.addActionListener(this);
 		
-        String cols = "5dlu, pref, 5dlu, fill:pref:grow, 5dlu, pref, 5dlu";
+        String cols = "5dlu, pref, 5dlu, fill:pref:grow, 5dlu, pref, 5dlu, pref, 5dlu";
         String rows = "5dlu, pref, 5dlu, pref, 5dlu, pref, 5dlu, pref, 5dlu, pref, 5dlu";
         
         FormLayout layout = new FormLayout(cols, rows);
@@ -295,29 +292,31 @@ public class PView extends JPanel implements KeyListener, ActionListener {
 
         int row = 2;
         
-        correlatedPanel.add(jrbNoCorrelation,     cc.xyw(2, row, 3));     
+        correlatedPanel.add(jrbNoCorrelation,     cc.xyw(2, row, 5));     
         
         row += 2;
         
-        correlatedPanel.add(jrbStandardCorrelation,     cc.xy(2, row));
+        /*correlatedPanel.add(jrbStandardCorrelation,     cc.xy(2, row));
         correlatedPanel.add(jcbCorString, cc.xy(4, row));        
         
-        row += 2;
+        row += 2;*/
         
         correlatedPanel.add(jrbRCorrelation,     cc.xy(2, row));
         correlatedPanel.add(jcbCorObject, cc.xy(4, row));
         correlatedPanel.add(refresh, cc.xy(6, row));  
+        correlatedPanel.add(createMatrix, cc.xy(8, row));
         
         row += 2;
         
-        correlatedPanel.add(jrbSimes,     cc.xyw(2, row, 3));
+        correlatedPanel.add(jrbSimes,     cc.xyw(2, row, 5));
                 
         refresh.addActionListener(this);
+        createMatrix.addActionListener(this);
         
         return correlatedPanel;
 	}
 
-	private void getPossibleCorrelations() {
+	/* private void getPossibleCorrelations() {
 		jcbCorString.removeAllItems();
 		int n = parent.getGraphView().getNL().getNodes().size();
 		if (n!=0) {
@@ -329,48 +328,57 @@ public class PView extends JPanel implements KeyListener, ActionListener {
 				jcbCorString.addItem(designs.getData()[i] + " ("+ groups.getData()[i]+" groups)"); 
 			}		
 		}
-	}
+	}*/
 
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource()==refresh) {
-			jcbCorObject.removeAllItems();
-			String[] matrices = RControl.getR().eval("gMCP:::getAllQuadraticMatrices()").asRChar().getData();
-			if (matrices.length==1 && matrices[0].equals("No quadratic matrices found.")) {
-				jcbCorObject.setEnabled(false);
-				jrbRCorrelation.setEnabled(false);
-			} else {				
-				jcbCorObject.setEnabled(true);
-				jrbRCorrelation.setEnabled(true);
-			}
-			for (String s : matrices) {
-				jcbCorObject.addItem(s);
-			}
+			refresh();
 		} else if (e.getSource()==jrbNoCorrelation) {
 			if (parent.getGraphView().getNL().getNodes().size()>0) {
 				parent.getGraphView().buttonConfInt.setEnabled(true);
 				parent.getGraphView().buttonadjPval.setEnabled(true);
 			}
-		} else if (e.getSource()==jrbStandardCorrelation || e.getSource()==jrbRCorrelation) {
+		/*}  else if (e.getSource()==jrbStandardCorrelation || e.getSource()==jrbRCorrelation) {
 			parent.getGraphView().buttonConfInt.setEnabled(false);
-			parent.getGraphView().buttonadjPval.setEnabled(true);
+			parent.getGraphView().buttonadjPval.setEnabled(true);*/
 		} else if (e.getSource()==jrbSimes) {
 			parent.getGraphView().buttonConfInt.setEnabled(false);
 			parent.getGraphView().buttonadjPval.setEnabled(false);
 		} else if (e.getSource()==jbLoadPValues) {
 			parent.getGraphView().loadPValuesFromR(); 
+		} else if (e.getSource()==createMatrix) {
+			new MatrixCreationDialog(parent);
+			refresh();
+		}
+	}
+
+	private void refresh() {
+		jcbCorObject.removeAllItems();
+		int dim = parent.getGraphView().getNL().getNodes().size();
+		String[] matrices = RControl.getR().eval("gMCP:::getAllQuadraticMatrices(n="+dim+")").asRChar().getData();
+		if (matrices.length==1 && matrices[0].endsWith("matrices found.")) {
+			jcbCorObject.setEnabled(false);
+			jrbRCorrelation.setEnabled(false);
+		} else {				
+			jcbCorObject.setEnabled(true);
+			jrbRCorrelation.setEnabled(true);
+		}
+		for (String s : matrices) {
+			jcbCorObject.addItem(s);
 		}
 	}
 
 	public String getParameters() {
 		String param = "";
-		if (jrbStandardCorrelation.isSelected()) {
+		/* if (jrbStandardCorrelation.isSelected()) {
 			String s = jcbCorString.getSelectedItem().toString();
 			String design = s.substring(0, s.indexOf(" "));
 			String n = s.substring(s.indexOf("(")+1, s.indexOf("groups")-1);
 			logger.warn("Design: \""+design+"\", n=\""+n+"\"");
 			GroupDialog gd = new GroupDialog(parent, Integer.parseInt(n));
 			param = ", correlation=\""+design+"\", samplesize="+gd.getGroups();
-		} else if (jrbRCorrelation.isSelected()) {
+		} else */ 
+		if (jrbRCorrelation.isSelected()) {
 			param = ", correlation="+jcbCorObject.getSelectedItem()+"";
 		} else if (jrbSimes.isSelected()) {
 			param = ", test=\"Simes\"";
