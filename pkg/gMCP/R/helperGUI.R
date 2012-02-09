@@ -106,7 +106,7 @@ getAllQuadraticMatrices <- function(envir=globalenv(), n="all") {
 		}
 	}
 	if (length(matrices)==0) {
-		if (n="all") {
+		if (n=="all") {
 			return("No quadratic matrices found.")
 		} else {
 			return(paste("No ",n,"x",n,"-matrices found.", sep=""))
