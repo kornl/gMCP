@@ -52,7 +52,6 @@ Fehler in if (m[i, node] * m[node, i] < 1) { : Argument hat Länge 0
 High priority:
 ==============
 
-- allow smaller eps (default = 0.1) in GraphDrawHelper.getCenter(...)
 - Check java.awt.Desktop.open in the newest Ubuntu (or is there something else wrong?)
 - graphTest's last.alphas at least contain strange NaN in some cases
 g <- parallelGatekeeping()
