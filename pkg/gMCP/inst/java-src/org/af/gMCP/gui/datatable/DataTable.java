@@ -34,10 +34,10 @@ public class DataTable extends JTable {
     }
 
     //TODO:
-    public Dimension getPreferredScrollableViewportSize() {
+   public Dimension getPreferredScrollableViewportSize() {
         Dimension size = super.getPreferredScrollableViewportSize();
-        //return new Dimension(Math.min(getPreferredSize().width, size.width), getPreferredSize().height);
-        return new Dimension(getPreferredSize().width, getPreferredSize().height);
+        return new Dimension(Math.min(getPreferredSize().width, size.width), getPreferredSize().height);
+        //return new Dimension(getPreferredSize().width, getPreferredSize().height);
     }
 
     public boolean getScrollableTracksViewportWidth() {
