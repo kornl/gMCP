@@ -67,6 +67,7 @@ public class MatrixCreationDialog extends JDialog implements ActionListener, Cha
 		dfp.getTable().getModel().diagEditable = true;		
 		
 		setUpTabbedPane();
+		getPossibleCorrelations();
 		
 		jta.setText("");
 
@@ -147,7 +148,7 @@ public class MatrixCreationDialog extends JDialog implements ActionListener, Cha
 	private JPanel getBlockPane() {
 		JPanel panel = new JPanel();
 		String cols = "5dlu, fill:pref:grow, 5dlu, fill:pref:grow, 5dlu";
-        String rows = "5dlu, pref, 5dlu, pref, 5dlu, pref, 5dlu, fill:pref:grow, 5dlu, pref, 5dlu";
+        String rows = "5dlu, pref, 5dlu, pref, 5dlu, pref, 5dlu, pref, 5dlu, fill:pref:grow, 5dlu, pref, 5dlu";
         
         panel.setLayout(new FormLayout(cols, rows));
         CellConstraints cc = new CellConstraints();
@@ -168,6 +169,12 @@ public class MatrixCreationDialog extends JDialog implements ActionListener, Cha
     	panel.add(new JLabel("Insert matrix at position:"), cc.xy(2, row));
         panel.add(spinnerN2, cc.xy(4, row));        
     	
+		row += 2;
+		
+		panel.add(new JLabel("Use standard design:"), cc.xy(2, row));
+        panel.add(jcbCorString2, cc.xy(4, row));
+        jcbCorString2.addActionListener(this);
+        
     	row +=2;
     	
     	panel.add(jlBlock, cc.xyw(2, row, 3));  
@@ -240,6 +247,7 @@ public class MatrixCreationDialog extends JDialog implements ActionListener, Cha
 		
 		panel.add(new JLabel("Use standard design:"), cc.xy(2, row));
         panel.add(jcbCorString, cc.xy(4, row));
+        jcbCorString.addActionListener(this);
 		
 		row += 2;
 		
@@ -310,6 +318,10 @@ public class MatrixCreationDialog extends JDialog implements ActionListener, Cha
 			
 		} else if (e.getSource()==applyTE) {
 			
+		} else if (e.getSource()==jcbCorString2) {
+			
+		} else if (e.getSource()==jcbCorString) {
+			
 		}
 	}
 
@@ -327,22 +339,39 @@ public class MatrixCreationDialog extends JDialog implements ActionListener, Cha
 				m.addRowCol(nodes.get(i).getName());
 				m.setValueAt(new EdgeWeight(1), m.getColumnCount()-1, m.getColumnCount()-1);
 			}
+			getPossibleCorrelations();
+		} else if (e.getSource()==spinnerNT) {
+			getPossibleCorrelations();
 		}
 		
 	}
 	
 	protected JComboBox jcbCorString = new JComboBox(new String[] {"No standard desgin"});
+	protected JComboBox jcbCorString2 = new JComboBox(new String[] {"No standard desgin"});
+	
+	final static String NO_SD = "No standard design";
 	
 	private void getPossibleCorrelations() {
 		jcbCorString.removeAllItems();
+		jcbCorString2.removeAllItems();
 		int n = Integer.parseInt(spinnerNT.getModel().getValue().toString());
+		int n2 = Integer.parseInt(spinnerN.getModel().getValue().toString());
 		if (n!=0) {
 			RList list = RControl.getR().eval("gMCP:::getAvailableStandardDesigns("+n+")").asRList();
 			RChar designs = list.get(0).asRChar();
 			RInteger groups = list.get(1).asRInteger();
-			String[] s = new String[designs.getLength()];
-			for (int i=0; i<s.length; i++) {
+			jcbCorString.addItem(NO_SD);
+			for (int i=0; i<designs.getLength(); i++) {
 				jcbCorString.addItem(designs.getData()[i] + " ("+ groups.getData()[i]+" groups)"); 
+			}		
+		}
+		if (n2!=0) {
+			RList list = RControl.getR().eval("gMCP:::getAvailableStandardDesigns("+n2+")").asRList();
+			RChar designs = list.get(0).asRChar();
+			RInteger groups = list.get(1).asRInteger();
+			jcbCorString2.addItem(NO_SD);
+			for (int i=0; i<designs.getLength(); i++) {
+				jcbCorString2.addItem(designs.getData()[i] + " ("+ groups.getData()[i]+" groups)"); 
 			}		
 		}
 	}
