@@ -24,7 +24,7 @@ import java.util.Arrays;
 import java.util.Stack;
 
 import javax.swing.DefaultListModel;
-import javax.swing.DropMode;
+//import javax.swing.DropMode;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JList;
@@ -40,7 +40,8 @@ public class JListDnD extends JList {
 	public JListDnD(ListModel dataModel) {
 		super(dataModel);
 		setDragEnabled(true);
-		setDropMode(DropMode.INSERT);
+		//TODO Uncomment
+		//setDropMode(DropMode.INSERT);
 		setTransferHandler(new ListMoveTransferHandler());
 	}
 
@@ -179,7 +180,8 @@ public class JListDnD extends JList {
 					(DefaultListModel) list.getModel(), selectedIndices));
 		}
 
-		@Override
+		//TODO Uncomment
+	/*	@Override
 		public boolean importData(TransferHandler.TransferSupport info) {
 			final Component comp = info.getComponent();
 			if (!info.isDrop() || !(comp instanceof JList)) {
@@ -247,8 +249,8 @@ public class JListDnD extends JList {
 				// FIXME: Logging
 				return false;
 			}
-		}
-	}
+		} */
+	} 
 
 	public static void main(String[] args) {
 		final DefaultListModel lm1 = new DefaultListModel();
@@ -271,7 +273,8 @@ public class JListDnD extends JList {
 	private static JScrollPane createListAndScrollPane(DefaultListModel model) {
 		final JList list = new JList(model);
 		list.setDragEnabled(true);
-		list.setDropMode(DropMode.INSERT);
+		//TODO Uncomment
+		//list.setDropMode(DropMode.INSERT);
 		list.setTransferHandler(new ListMoveTransferHandler());
 		list.setPrototypeCellValue("WWWWWWWWWWWWWWWWWW");
 		final JScrollPane sp = new JScrollPane(list);
