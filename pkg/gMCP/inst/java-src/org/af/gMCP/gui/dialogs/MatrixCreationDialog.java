@@ -20,7 +20,6 @@ import javax.swing.event.ChangeListener;
 
 import org.af.gMCP.gui.CreateGraphGUI;
 import org.af.gMCP.gui.RControl;
-import org.af.gMCP.gui.datatable.CellEditorE;
 import org.af.gMCP.gui.datatable.DataFramePanel;
 import org.af.gMCP.gui.datatable.DataTableModel;
 import org.af.gMCP.gui.datatable.RDataFrameRef;
@@ -56,8 +55,7 @@ public class MatrixCreationDialog extends JDialog implements ActionListener, Cha
 			df.setValue(df.getColumnCount()-1, df.getColumnCount()-1, new EdgeWeight(1));
 		}		
 		dfp = new DataFramePanel(df);
-		dfp.getTable().getModel().diagEditable = true;
-		dfp.getTable().setDefaultEditor(EdgeWeight.class, new CellEditorE(null, dfp.getTable()));
+		dfp.getTable().getModel().diagEditable = true;		
 		
 		setUpTabbedPane();
 		
