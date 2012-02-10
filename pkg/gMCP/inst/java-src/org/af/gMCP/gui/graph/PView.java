@@ -313,19 +313,7 @@ public class PView extends JPanel implements KeyListener, ActionListener {
         return correlatedPanel;
 	}
 
-	/* private void getPossibleCorrelations() {
-		jcbCorString.removeAllItems();
-		int n = parent.getGraphView().getNL().getNodes().size();
-		if (n!=0) {
-			RList list = RControl.getR().eval("gMCP:::getAvailableStandardDesigns("+n+")").asRList();
-			RChar designs = list.get(0).asRChar();
-			RInteger groups = list.get(1).asRInteger();
-			String[] s = new String[designs.getLength()];
-			for (int i=0; i<s.length; i++) {
-				jcbCorString.addItem(designs.getData()[i] + " ("+ groups.getData()[i]+" groups)"); 
-			}		
-		}
-	}*/
+	
 
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource()==refresh) {

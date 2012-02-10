@@ -7,6 +7,7 @@ import java.util.Vector;
 import javax.swing.BorderFactory;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -29,6 +30,9 @@ import org.af.gMCP.gui.datatable.DataTableModel;
 import org.af.gMCP.gui.datatable.RDataFrameRef;
 import org.af.gMCP.gui.graph.EdgeWeight;
 import org.af.gMCP.gui.graph.Node;
+import org.af.jhlir.call.RChar;
+import org.af.jhlir.call.RInteger;
+import org.af.jhlir.call.RList;
 
 import com.jgoodies.forms.layout.CellConstraints;
 import com.jgoodies.forms.layout.FormLayout;
@@ -214,19 +218,19 @@ public class MatrixCreationDialog extends JDialog implements ActionListener, Cha
 	}
 	
 	JSpinner spinnerNT;
-	JSpinner spinnerNE;
+	JSpinner spinnerNE;	
 	
 	private JPanel getTEPane1() {
 		JPanel panel = new JPanel();
 		String cols = "5dlu, fill:pref:grow, 5dlu, fill:pref:grow, 5dlu";
-        String rows = "5dlu, pref, 5dlu, fill:pref:grow, 5dlu, fill:pref:grow, 5dlu, pref, 5dlu, pref, 5dlu, pref";
+        String rows = "5dlu, pref, 5dlu, pref, 5dlu, fill:pref:grow, 5dlu";
         
         panel.setLayout(new FormLayout(cols, rows));
         CellConstraints cc = new CellConstraints();
 		
 		int row = 2;
 		
-		spinnerNT = new JSpinner(new SpinnerNumberModel(2, 1, nodes.size(), 1));    	
+		spinnerNT = new JSpinner(new SpinnerNumberModel(Math.max(2,nodes.size()/2), 1, nodes.size(), 1));    	
     	spinnerNT.addChangeListener(this);
     	
     	panel.add(new JLabel("Number of Treatment Comparisons:"), cc.xy(2, row));
@@ -234,8 +238,13 @@ public class MatrixCreationDialog extends JDialog implements ActionListener, Cha
 		
 		row += 2;
 		
+		panel.add(new JLabel("Use standard design:"), cc.xy(2, row));
+        panel.add(jcbCorString, cc.xy(4, row));
+		
+		row += 2;
+		
 		RDataFrameRef df = new RDataFrameRef();
-		for (int i=0; i<2; i++) {
+		for (int i=0; i<Math.max(2,nodes.size()/2); i++) {
 			df.addRowCol("T"+(i+1));
 			df.setValue(df.getColumnCount()-1, df.getColumnCount()-1, new EdgeWeight(1));
 		}		
@@ -252,14 +261,14 @@ public class MatrixCreationDialog extends JDialog implements ActionListener, Cha
 	private JPanel getTEPane2() {
 		JPanel panel = new JPanel();
 		String cols = "5dlu, fill:pref:grow, 5dlu, fill:pref:grow, 5dlu";
-        String rows = "5dlu, pref, 5dlu, fill:pref:grow, 5dlu, fill:pref:grow, 5dlu, pref, 5dlu, pref, 5dlu, pref";
+        String rows = "5dlu, pref, 5dlu, fill:pref:grow, 5dlu";
         
         panel.setLayout(new FormLayout(cols, rows));
         CellConstraints cc = new CellConstraints();
 		
 		int row = 2;
 		
-		spinnerNE = new JSpinner(new SpinnerNumberModel(2, 1, nodes.size(), 1));    	
+		spinnerNE = new JSpinner(new SpinnerNumberModel(Math.max(2,nodes.size()/2), 1, nodes.size(), 1));    	
     	spinnerNE.addChangeListener(this);
     	
     	panel.add(new JLabel("Number of Endpoints:"), cc.xy(2, row));
@@ -268,7 +277,7 @@ public class MatrixCreationDialog extends JDialog implements ActionListener, Cha
 		row += 2;
 		
 		RDataFrameRef df = new RDataFrameRef();
-		for (int i=0; i<2; i++) {
+		for (int i=0; i<Math.max(2,nodes.size()/2); i++) {
 			df.addRowCol("E"+(i+1));
 			df.setValue(df.getColumnCount()-1, df.getColumnCount()-1, new EdgeWeight(1));
 		}		
@@ -320,6 +329,22 @@ public class MatrixCreationDialog extends JDialog implements ActionListener, Cha
 			}
 		}
 		
+	}
+	
+	protected JComboBox jcbCorString = new JComboBox(new String[] {"No standard desgin"});
+	
+	private void getPossibleCorrelations() {
+		jcbCorString.removeAllItems();
+		int n = Integer.parseInt(spinnerNT.getModel().getValue().toString());
+		if (n!=0) {
+			RList list = RControl.getR().eval("gMCP:::getAvailableStandardDesigns("+n+")").asRList();
+			RChar designs = list.get(0).asRChar();
+			RInteger groups = list.get(1).asRInteger();
+			String[] s = new String[designs.getLength()];
+			for (int i=0; i<s.length; i++) {
+				jcbCorString.addItem(designs.getData()[i] + " ("+ groups.getData()[i]+" groups)"); 
+			}		
+		}
 	}
 	
 }
