@@ -45,6 +45,7 @@
 \newcommand{\N}{\ensuremath{\mathbb{N}}\xspace}
 \newcommand{\sF}{\ensuremath{\mathcal{F}}\xspace}
 \newcommand{\Pot}{\ensuremath{\mathfrak{Pot}}\xspace}
+\newcommand{\kronecker}{\raisebox{1pt}{\ensuremath{\:\otimes\:}}}
 
 \DeclareMathOperator{\range}{range}
 
@@ -368,7 +369,7 @@ edgeAttr(graph, "H11", "H21", "labelY") <- 80
 The creation of \texttt{graphMCP} objects as seen in the last section 
 with basic R commands is very straight forward,
 but still takes some time and typos may occur.  More convenient for
-the average user is the use of the graphical user interface for
+the most users is the use of the graphical user interface for
 creating and editing MCP graphs that the \texttt{gMCP} package
 includes.
 
@@ -568,9 +569,37 @@ See \cite{Bretz11}.
 \end{figure}
 
 In the lower right panel with p-values, it is also possible to specify a known correlation between these values (see figure \ref{correlated}).
- 
 
 For further information please take a look at the vignette "\emph{Weighted parametric tests defined by graphs}".
+
+\section{Correlation matrix creation}\index{correlation matrix}
+
+The GUI features a dialog for easy creation of correlation matrices (see figure \ref{createCM1}).
+
+\begin{figure}[ht]
+  \centering    
+  \includegraphics[width=0.7\textwidth]{pictures/createCM1.png}      
+  \caption{\label{createCM1} You can configure many things in the option dialog.}
+\end{figure}
+
+
+
+If the entered matrix is not positive semidefinite, 
+i.e.\ negative eigen values exist, a warning is given.
+
+\[A \kronecker B\]
+
+%\begin{figure}[ht]
+%  \centering    
+%  \includegraphics[width=0.7\textwidth]{pictures/createCM1.png}      
+%  \caption{\label{createCM2} You can configure many things in the option dialog.}
+%\end{figure}
+
+%\begin{figure}[ht]
+%  \centering    
+%  \includegraphics[width=0.7\textwidth]{pictures/createCM1.png}      
+%  \caption{\label{createCM3} You can configure many things in the option dialog.}
+%\end{figure}
 
 \section{Epsilon edges}\index{epsilon edges}
 
@@ -659,7 +688,7 @@ cat(graph2latex(generalSuccessive(), scale=0.7, fontsize="tiny"))
 
 \begin{figure}[ht]
   \centering    
-  \includegraphics[width=4cm]{pictures/power.png}      
+  \includegraphics[width=9cm]{pictures/power.png}      
   \caption{\label{power} Local power and some (trivial) user defined power functions.}
 \end{figure}
 
