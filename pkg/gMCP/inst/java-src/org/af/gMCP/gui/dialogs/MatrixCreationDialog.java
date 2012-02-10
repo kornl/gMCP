@@ -80,7 +80,7 @@ public class MatrixCreationDialog extends JDialog implements ActionListener, Cha
 
         int row = 2;
         
-		getContentPane().add(new JScrollPane(tabbedPane), cc.xy(2, row));
+		getContentPane().add(tabbedPane, cc.xy(2, row));
         
 		getContentPane().add(new JScrollPane(dfp), cc.xy(4, row));
 		

@@ -33,7 +33,6 @@ public class DataTable extends JTable {
         getModel().fireTableStructureChanged();
     }
 
-    //TODO:
    public Dimension getPreferredScrollableViewportSize() {
         Dimension size = super.getPreferredScrollableViewportSize();
         return new Dimension(Math.min(getPreferredSize().width, size.width), getPreferredSize().height);
