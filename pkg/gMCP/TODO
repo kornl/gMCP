@@ -31,6 +31,7 @@ if (!all(ev$values >= -sqrt(.Machine$double.eps) * abs(ev$values[1]))) {
 - Corrleation matrix should parse 1/2
 - pvalues for Simes
 - verbose output for parametric tests
+- NA in correlation matrices
 
 Critical:
 =========
@@ -52,6 +53,8 @@ Fehler in if (m[i, node] * m[node, i] < 1) { : Argument hat Länge 0
 High priority:
 ==============
 
+- Make saving on quit optional.
+- Show optional dialog when refresh button is pressed.
 - Check java.awt.Desktop.open in the newest Ubuntu (or is there something else wrong?)
 - graphTest's last.alphas at least contain strange NaN in some cases
 g <- parallelGatekeeping()

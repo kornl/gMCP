@@ -17,6 +17,8 @@ Version 0.7-6 (??-02-2012, Rev. 1???)
   the user is asked whether he wants to save it.
  
 - rqmvnorm does not set a seed by default.
+
+- new wizard for the creation of correlation matrices
  
 - Variable node weights
 
