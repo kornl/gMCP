@@ -64,4 +64,9 @@ public class DataTable extends JTable {
 			}
 		}
     }
+	
+	public String getRMatrix() {
+		return getModel().getDataFrame().getRMatrix();
+	}
+	
 }

@@ -1,5 +1,6 @@
 package org.af.gMCP.gui.dialogs;
 
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Vector;
@@ -49,6 +50,7 @@ public class MatrixCreationDialog extends JDialog implements ActionListener, Cha
     DataFramePanel dfpIntraCor;
     JTextField tfname = new JTextField();
     JListDnD hypotheses;
+    JLabel warning = new JLabel();
     
     JTabbedPane tabbedPane = new JTabbedPane(); 
     
@@ -70,6 +72,7 @@ public class MatrixCreationDialog extends JDialog implements ActionListener, Cha
 		getPossibleCorrelations();
 		
 		jta.setText("");
+		warning.setForeground(Color.RED);
 
         ok.addActionListener(this);
 
@@ -87,6 +90,7 @@ public class MatrixCreationDialog extends JDialog implements ActionListener, Cha
 		
 		row +=2;
 		
+		getContentPane().add(warning, cc.xy(2, row));
 		getContentPane().add(ok, cc.xy(4, row));
 		
         pack();
@@ -323,6 +327,7 @@ public class MatrixCreationDialog extends JDialog implements ActionListener, Cha
 		} else if (e.getSource()==jcbCorString) {
 			
 		}
+		warning.setText(RControl.getR().eval("gMCP:::checkPSD("+dfp.getTable().getRMatrix()+")").asRChar().getData()[0]);
 	}
 
 	public void stateChanged(ChangeEvent e) {
