@@ -19,6 +19,7 @@ Version 0.7-6 (??-02-2012, Rev. 1???)
 - rqmvnorm does not set a seed by default.
 
 - new wizard for the creation of correlation matrices
+  Java 5 users: rearranging nodes with drag'n'drop does not yet work for you
  
 - Variable node weights
 
