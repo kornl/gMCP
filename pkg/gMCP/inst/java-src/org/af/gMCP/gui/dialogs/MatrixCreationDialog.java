@@ -4,6 +4,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Vector;
 
+import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
@@ -19,6 +20,7 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import org.af.gMCP.gui.CreateGraphGUI;
+import org.af.gMCP.gui.JListDnD;
 import org.af.gMCP.gui.RControl;
 import org.af.gMCP.gui.datatable.DataFramePanel;
 import org.af.gMCP.gui.datatable.DataTableModel;
@@ -40,6 +42,7 @@ public class MatrixCreationDialog extends JDialog implements ActionListener, Cha
     DataFramePanel dfpInterCor;
     DataFramePanel dfpIntraCor;
     JTextField tfname = new JTextField();
+    JListDnD hypotheses;
     
     JTabbedPane tabbedPane = new JTabbedPane(); 
     
@@ -50,7 +53,7 @@ public class MatrixCreationDialog extends JDialog implements ActionListener, Cha
 		nodes = parent.getGraphView().getNL().getNodes();
 		
 		RDataFrameRef df = new RDataFrameRef();
-		for (Node n: parent.getGraphView().getNL().getNodes()) {
+		for (Node n: nodes) {
 			df.addRowCol(n.getName());
 			df.setValue(df.getColumnCount()-1, df.getColumnCount()-1, new EdgeWeight(1));
 		}		
@@ -106,7 +109,16 @@ public class MatrixCreationDialog extends JDialog implements ActionListener, Cha
         panel.add(tfname, cc.xy(4, row));
         
         row +=2;
-		
+        
+        DefaultListModel lm = new DefaultListModel();
+        for (Node n: nodes) {
+			lm.addElement(n);
+		}
+        
+        hypotheses = new JListDnD(lm);
+        
+        panel.add(new JScrollPane(hypotheses), cc.xyw(2, row, 3));
+        		
 		return panel;
 	}
 	
