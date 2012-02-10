@@ -38,6 +38,15 @@ getEdges <- function(graph){
 	return(list(from=fromL, to=toL, weight=weightL, labelx=labelx, labely=labely, curve=curveL, weightStr=as.character(weightStrL)))
 }
 
+checkPSD <- function(m) {
+	ev <- eigen(m, symmetric=TRUE, only.values=TRUE)
+	# We use the same check as mvtnorm to minimize problems:
+	if (!all(ev$values >= -sqrt(.Machine$double.eps) * abs(ev$values[1]))) {
+		return(paste("Matrix is not positive semidefinite, lowest eigen value is:",min(ev$values)))
+	}
+	return("")
+}
+
 placeNodes <- function(graph, nrow, ncol, byrow = TRUE, force = FALSE) {
 	# Only place nodes if  no placement data exists or parameter force is set to TRUE
 	if (is.null(graph@nodeAttr$X) || force) {
