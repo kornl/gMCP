@@ -8,6 +8,8 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Stroke;
 import java.awt.font.FontRenderContext;
+import java.awt.geom.Arc2D;
+import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.Collection;
 import java.util.Hashtable;
@@ -207,7 +209,7 @@ public class Edge {
 		y1 = from.y + Node.getRadius();
 		y2 = to.y + Node.getRadius();
 		if (from != to) {
-			int dx = x1 - k1;
+			/*int dx = x1 - k1;
 			int dy = y1 - k2;
 			double d = Math.sqrt(dx * dx + dy * dy);
 			x1 = x1 - (int) (Node.getRadius() * dx / d);
@@ -217,10 +219,10 @@ public class Edge {
 			d = Math.sqrt(dx * dx + dy * dy);			
 			x2 = x2 + (int) (Node.getRadius() * dx / d);
 			y2 = y2 + (int) (Node.getRadius() * dy / d);		
-			
+			*/
 			g2d = (Graphics2D) g;			
 			g2d.setColor(color);
-			GraphDrawHelper.drawEdge(g,	(int) (x1 * nl.getZoom()), (int) (y1 * nl.getZoom()), 
+			drawEdge(g,	(int) (x1 * nl.getZoom()), (int) (y1 * nl.getZoom()), 
 					(int) (k1* nl.getZoom()),
 					(int) (k2 * nl.getZoom()),
 					(int) (x2 * nl.getZoom()), (int) (y2 * nl.getZoom()), 
@@ -228,6 +230,93 @@ public class Edge {
 			g2d.setColor(Color.BLACK);
 		} 
 	}
+	
+	public void drawEdge(Graphics g, double a1, double a2, double b1, double b2, double c1, double c2, int l, int grad, boolean fill) {
+		try {
+			double[] m = GraphDrawHelper.getCenter(a1, a2, b1, b2, c1, c2, 0.001);
+			double r = Math.sqrt((m[0]-a1)*(m[0]-a1)+(m[1]-a2)*(m[1]-a2));
+			double d = Math.sqrt((c1-a1)*(c1-a1)+(c2-a2)*(c2-a2));
+			//if (2*Math.PI*r/360>6*d/200) throw new GraphException("Edge is too linear.");			
+			double[] phi = getAngle(a1, a2, b1, b2, c1, c2, m[0], m[1]);			
+			try {
+				java.awt.geom.Arc2D.Double arc = new java.awt.geom.Arc2D.Double(m[0]-r, m[1]-r, 2*r, 2*r, phi[0], phi[1], Arc2D.OPEN);
+				Graphics2D g2d = (Graphics2D)g;
+				g2d.draw(arc);
+				Point2D p1 = arc.getEndPoint();
+				Point2D p2 = arc.getStartPoint();
+				Point2D p = (Math.sqrt((p1.getX()-c1)*(p1.getX()-c1)+(p1.getY()-c2)*(p1.getY()-c2))<
+							 Math.sqrt((p2.getX()-c1)*(p2.getX()-c1)+(p2.getY()-c2)*(p2.getY()-c2)))?p1:p2;
+				
+				GraphDrawHelper.drawArrowHead(g, p.getX(), p.getY(), (phi[0]==phi[2]&&phi[1]>0)||(phi[0]==phi[1]&&phi[1]<0)?phi[3]+90:(phi[3]+90+180)%360, l, grad, fill);
+			} catch (Exception e) {
+				phi = GraphDrawHelper.getAngle(a1, a2, b1, b2, c1, c2, m[0], m[1]);	
+				g.drawArc((int)(m[0]-r), (int)(m[1]-r), (int)(2*r), (int)(2*r), (int)(phi[0]), (int)(phi[1]));
+				GraphDrawHelper.drawArrowHead(g, c1, c2, (phi[0]==phi[2]&&phi[1]>0)||(phi[0]==phi[1]&&phi[1]<0)?phi[3]+90:(phi[3]+90+180)%360, l, grad, fill);
+			}			
+		} catch (GraphException e) {
+			double dx = a1 - b1;
+			double dy = a2 - b2;
+			double d = Math.sqrt(dx * dx + dy * dy);
+			a1 = a1 - (Node.getRadius() * dx / d);
+			a2 = a2 - (Node.getRadius() * dy / d);
+			dx = b1 - c1;
+			dy = b2 - c2;
+			d = Math.sqrt(dx * dx + dy * dy);			
+			c1 = c1 + (Node.getRadius() * dx / d);
+			c2 = c2 + (Node.getRadius() * dy / d);	
+			GraphDrawHelper.malVollenPfeil(g, (int)a1, (int)a2, (int)c1, (int)c2, l, grad);			
+		}
+	}
+	
+	public double[] getAngle(double a1, double a2, double b1, double b2, double c1, double c2, double m1, double m2) {
+		double phi1;
+		double phi2;
+		double phi3;
+		// phi correction factor:
+		double r = Math.sqrt((m1-a1)*(m1-a1)+(m2-a2)*(m2-a2));
+		double phiCF = (Node.r*360*nl.getZoom())/(2*Math.PI*r);
+		
+		
+		if ((a1-m1)==0) {
+			phi1 = 90 + ((m2-a2>0)?0:180);
+		} else {
+			phi1 = Math.atan((-a2+m2)/(a1-m1))*360/(2*Math.PI)+((a1-m1<0)?180:0);
+		}
+		if ((c1-m1)==0) {
+			phi2 = 90 + ((m2-c2>0)?0:180);
+		} else {
+			phi2 = Math.atan((-c2+m2)/(c1-m1))*360/(2*Math.PI)+((c1-m1<0)?180:0);
+		}
+		if ((b1-m1)==0) {
+			phi3 = 90 + ((m2-b2>0)?0:180);
+		} else {
+			phi3 = Math.atan((-b2+m2)/(b1-m1))*360/(2*Math.PI)+((b1-m1<0)?180:0);
+		}		
+		phi1 = (phi1 + 360) % 360;
+		phi2 = (phi2 + 360) % 360;
+		phi3 = (phi3 + 360) % 360;
+		if (phi2 > phi1) {
+			if (phi2 > phi3 && phi3 > phi1) {	
+				phi1 += phiCF;
+				phi2 += -phiCF;
+				return new double[] {phi1, phi2-phi1, phi1, phi2, phi3};			
+			} else {
+				phi1 += -phiCF;
+				phi2 += phiCF;
+				return new double[] {phi2, (phi1-phi2+360) % 360, phi1, phi2, phi3};			
+			}
+		}
+		if (phi1 > phi3 && phi3 > phi2) {
+			phi1 += -phiCF;
+			phi2 += phiCF;
+			return new double[] {phi1, phi2-phi1, phi1, phi2, phi3};
+		} else {
+			phi1 += phiCF;
+			phi2 += -phiCF;
+			return new double[] {phi1, (phi2-phi1+360) % 360, phi1, phi2, phi3};
+		}
+	}
+	
 	
 	protected int x,y,w,h;
 	
