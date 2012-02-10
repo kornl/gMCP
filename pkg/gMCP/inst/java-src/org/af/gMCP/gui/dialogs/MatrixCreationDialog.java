@@ -4,6 +4,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Vector;
 
+import javax.swing.BorderFactory;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -16,6 +17,7 @@ import javax.swing.JTabbedPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SpinnerNumberModel;
+import javax.swing.border.TitledBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
@@ -92,11 +94,13 @@ public class MatrixCreationDialog extends JDialog implements ActionListener, Cha
 		tabbedPane.add("Block Diagonal", getBlockPane());
 		tabbedPane.add("Treatments and Endpoints", getTEPane());		
 	}
+	
+	JButton reorder = new JButton("Apply reordering");
 
 	private JPanel getSortPane() {
 		JPanel panel = new JPanel();
 		String cols = "5dlu, fill:pref:grow, 5dlu, fill:pref:grow, 5dlu";
-        String rows = "5dlu, pref, 5dlu, fill:pref:grow, 5dlu, fill:pref:grow, 5dlu, pref, 5dlu, pref, 5dlu, pref";
+        String rows = "5dlu, pref, 5dlu, pref, 5dlu, pref, 5dlu, pref, 5dlu, pref, 5dlu, fill:pref:grow";
         
         panel.setLayout(new FormLayout(cols, rows));
         CellConstraints cc = new CellConstraints();
@@ -110,6 +114,10 @@ public class MatrixCreationDialog extends JDialog implements ActionListener, Cha
         
         row +=2;
         
+        panel.add(new JLabel("You can reorder the hypotheses by drag'n'drop:"), cc.xyw(2, row, 3));
+        
+        row +=2;
+        
         DefaultListModel lm = new DefaultListModel();
         for (Node n: nodes) {
 			lm.addElement(n);
@@ -118,6 +126,11 @@ public class MatrixCreationDialog extends JDialog implements ActionListener, Cha
         hypotheses = new JListDnD(lm);
         
         panel.add(new JScrollPane(hypotheses), cc.xyw(2, row, 3));
+        
+        row +=2;
+        
+        reorder.addActionListener(this);
+        panel.add(reorder, cc.xy(4, row));
         		
 		return panel;
 	}
@@ -175,7 +188,35 @@ public class MatrixCreationDialog extends JDialog implements ActionListener, Cha
 		return panel;
 	}
 	
+	JButton applyTE = new JButton("Calculate overall correlation");
+	
 	private JPanel getTEPane() {
+		JPanel panel = new JPanel();
+		String cols = "5dlu, fill:pref:grow, 5dlu, fill:pref:grow, 5dlu";
+        String rows = "5dlu, fill:pref:grow, 5dlu, fill:pref:grow, 5dlu, pref, 5dlu";
+        
+        panel.setLayout(new FormLayout(cols, rows));
+        CellConstraints cc = new CellConstraints();
+		
+		int row = 2;
+		
+		panel.add(getTEPane1(), cc.xyw(2, row, 3));
+		
+		row += 2;
+		
+		panel.add(getTEPane2(), cc.xyw(2, row, 3));
+		
+		row += 2;
+		
+		panel.add(applyTE, cc.xyw(2, row, 3));
+		
+		return panel;
+	}
+	
+	JSpinner spinnerNT;
+	JSpinner spinnerNE;
+	
+	private JPanel getTEPane1() {
 		JPanel panel = new JPanel();
 		String cols = "5dlu, fill:pref:grow, 5dlu, fill:pref:grow, 5dlu";
         String rows = "5dlu, pref, 5dlu, fill:pref:grow, 5dlu, fill:pref:grow, 5dlu, pref, 5dlu, pref, 5dlu, pref";
@@ -185,7 +226,58 @@ public class MatrixCreationDialog extends JDialog implements ActionListener, Cha
 		
 		int row = 2;
 		
+		spinnerNT = new JSpinner(new SpinnerNumberModel(2, 1, nodes.size(), 1));    	
+    	spinnerNT.addChangeListener(this);
+    	
+    	panel.add(new JLabel("Number of Treatment Comparisons:"), cc.xy(2, row));
+        panel.add(spinnerNT, cc.xy(4, row));
 		
+		row += 2;
+		
+		RDataFrameRef df = new RDataFrameRef();
+		for (int i=0; i<2; i++) {
+			df.addRowCol("T"+(i+1));
+			df.setValue(df.getColumnCount()-1, df.getColumnCount()-1, new EdgeWeight(1));
+		}		
+		dfpIntraCor = new DataFramePanel(df);
+		
+		panel.add(new JScrollPane(dfpIntraCor), cc.xyw(2, row, 3));
+		
+		TitledBorder title = BorderFactory.createTitledBorder("Treatment correlation.");
+		panel.setBorder(title);	
+		
+		return panel;
+	}
+	
+	private JPanel getTEPane2() {
+		JPanel panel = new JPanel();
+		String cols = "5dlu, fill:pref:grow, 5dlu, fill:pref:grow, 5dlu";
+        String rows = "5dlu, pref, 5dlu, fill:pref:grow, 5dlu, fill:pref:grow, 5dlu, pref, 5dlu, pref, 5dlu, pref";
+        
+        panel.setLayout(new FormLayout(cols, rows));
+        CellConstraints cc = new CellConstraints();
+		
+		int row = 2;
+		
+		spinnerNE = new JSpinner(new SpinnerNumberModel(2, 1, nodes.size(), 1));    	
+    	spinnerNE.addChangeListener(this);
+    	
+    	panel.add(new JLabel("Number of Endpoints:"), cc.xy(2, row));
+        panel.add(spinnerNE, cc.xy(4, row));
+		
+		row += 2;
+		
+		RDataFrameRef df = new RDataFrameRef();
+		for (int i=0; i<2; i++) {
+			df.addRowCol("E"+(i+1));
+			df.setValue(df.getColumnCount()-1, df.getColumnCount()-1, new EdgeWeight(1));
+		}		
+		dfpInterCor = new DataFramePanel(df);
+		
+		panel.add(new JScrollPane(dfpInterCor), cc.xyw(2, row, 3));
+		
+		TitledBorder title = BorderFactory.createTitledBorder("Correlation between endpoints");
+		panel.setBorder(title);	
 		
 		return panel;
 	}
@@ -205,6 +297,10 @@ public class MatrixCreationDialog extends JDialog implements ActionListener, Cha
 					m2.setValueAt(m.getValueAt(i, j), i+k-1, j+k-1);
 				}
 			}
+		} else if (e.getSource()==reorder) {
+			
+		} else if (e.getSource()==applyTE) {
+			
 		}
 	}
 

@@ -19,7 +19,7 @@ public class DataFramePanel extends JPanel {
         scrollPane = new JScrollPane(table);
         scrollPane.setRowHeaderView(rowHeader);
         rowHeader.setPreferredScrollableViewportSize(rowHeader.getPreferredSize());
-        getTable().setDefaultEditor(EdgeWeight.class, new CellEditorE(null, getTable()));
+        
         add(scrollPane);        
     }
     

@@ -21,7 +21,7 @@ public class DataTable extends JTable {
         getColumnModel().setColumnSelectionAllowed(false);
         setRowSelectionAllowed(false);
         setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
-              
+        setDefaultEditor(EdgeWeight.class, new CellEditorE(null, this));
     	setDefaultRenderer(EdgeWeight.class, new EpsilonTableCellRenderer());
     }
 
@@ -33,9 +33,11 @@ public class DataTable extends JTable {
         getModel().fireTableStructureChanged();
     }
 
+    //TODO:
     public Dimension getPreferredScrollableViewportSize() {
         Dimension size = super.getPreferredScrollableViewportSize();
-        return new Dimension(Math.min(getPreferredSize().width, size.width), size.height);
+        //return new Dimension(Math.min(getPreferredSize().width, size.width), getPreferredSize().height);
+        return new Dimension(getPreferredSize().width, getPreferredSize().height);
     }
 
     public boolean getScrollableTracksViewportWidth() {
