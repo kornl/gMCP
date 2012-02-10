@@ -72,6 +72,10 @@ public class DataTableModel extends AbstractTableModel {
 	public void setTesting(boolean testing) {
 		this.testing = testing;		
 	}
+
+	public void removeAll() {
+		df.removeAll();		
+	}
 	
 }
 

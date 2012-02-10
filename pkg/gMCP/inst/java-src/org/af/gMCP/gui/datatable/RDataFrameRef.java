@@ -66,4 +66,10 @@ public class RDataFrameRef {
 		return m;
 	}
 
+	public void removeAll() {
+		for (int i=getRowCount()-1; i>=0; i--) {
+			delRowCol(i);
+		}		
+	}
+
 }

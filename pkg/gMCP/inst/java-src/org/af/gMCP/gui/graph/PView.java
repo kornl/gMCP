@@ -19,6 +19,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JTextField;
@@ -27,11 +28,7 @@ import org.af.commons.widgets.DesktopPaneBG;
 import org.af.gMCP.config.Configuration;
 import org.af.gMCP.gui.CreateGraphGUI;
 import org.af.gMCP.gui.RControl;
-import org.af.gMCP.gui.dialogs.GroupDialog;
 import org.af.gMCP.gui.dialogs.MatrixCreationDialog;
-import org.af.jhlir.call.RChar;
-import org.af.jhlir.call.RInteger;
-import org.af.jhlir.call.RList;
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -347,8 +344,12 @@ public class PView extends JPanel implements KeyListener, ActionListener {
 		} else if (e.getSource()==jbLoadPValues) {
 			parent.getGraphView().loadPValuesFromR(); 
 		} else if (e.getSource()==createMatrix) {
-			new MatrixCreationDialog(parent);
-			refresh();
+			if (parent.getGraphView().getNL().getNodes().size()<2) {
+				JOptionPane.showMessageDialog(parent, "Correlation makes only sense for more than one hypothesis.", "No correlation for one hypothesis", JOptionPane.ERROR_MESSAGE);
+			} else {
+				new MatrixCreationDialog(parent);
+				refresh();
+			}
 		}
 	}
 
