@@ -3,6 +3,7 @@ package org.af.gMCP.gui.dialogs;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.lang.reflect.Constructor;
 import java.util.Vector;
 
 import javax.swing.BorderFactory;
@@ -11,6 +12,7 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -18,13 +20,14 @@ import javax.swing.JSpinner;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.ListModel;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.border.TitledBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import org.af.commons.errorhandling.ErrorDialog;
 import org.af.gMCP.gui.CreateGraphGUI;
-import org.af.gMCP.gui.JListDnD;
 import org.af.gMCP.gui.RControl;
 import org.af.gMCP.gui.datatable.DataFramePanel;
 import org.af.gMCP.gui.datatable.DataTableModel;
@@ -34,6 +37,8 @@ import org.af.gMCP.gui.graph.Node;
 import org.af.jhlir.call.RChar;
 import org.af.jhlir.call.RInteger;
 import org.af.jhlir.call.RList;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 import com.jgoodies.forms.layout.CellConstraints;
 import com.jgoodies.forms.layout.FormLayout;
@@ -49,8 +54,9 @@ public class MatrixCreationDialog extends JDialog implements ActionListener, Cha
     DataFramePanel dfpInterCor;
     DataFramePanel dfpIntraCor;
     JTextField tfname = new JTextField();
-    JListDnD hypotheses;
+    JList hypotheses;
     JLabel warning = new JLabel();
+    protected static Log logger = LogFactory.getLog(MatrixCreationDialog.class);
     
     JTabbedPane tabbedPane = new JTabbedPane(); 
     
@@ -132,7 +138,14 @@ public class MatrixCreationDialog extends JDialog implements ActionListener, Cha
 			lm.addElement(n);
 		}
         
-        hypotheses = new JListDnD(lm);
+        try {
+        	Class cls = Class.forName("org.af.commons.widgets.JListDnD");
+        	Constructor ct = cls.getConstructor(new Class[] {ListModel.class});
+        	hypotheses = (JList) ct.newInstance(lm);
+        } catch (Exception e) {
+        	logger.warn(e);        
+            hypotheses = new JList(lm);
+        }
         
         panel.add(new JScrollPane(hypotheses), cc.xyw(2, row, 3));
         
