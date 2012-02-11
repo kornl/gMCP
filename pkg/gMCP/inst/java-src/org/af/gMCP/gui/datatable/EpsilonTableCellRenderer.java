@@ -45,7 +45,7 @@ public class EpsilonTableCellRenderer extends DefaultTableCellRenderer {
         String text = value.toString();
         
         for (int i=0; i<EdgeWeight.greek.length; i++) {
-			text = text.replaceAll(EdgeWeight.greekLaTeX[i], ""+EdgeWeight.greek[i]);			
+			text = text.replaceAll("\\\\"+EdgeWeight.greekLaTeX[i], ""+EdgeWeight.greek[i]);			
 		}
         
         label.setText(text);
