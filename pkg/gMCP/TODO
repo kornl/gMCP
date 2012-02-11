@@ -3,11 +3,9 @@
 - Names & export functions
 - Move creation of correlation matrix to advanced creation dialog
 - Allow reordering of hypotheses - show always the names of the hypotheses (correlation)
-- Dimensions
 - CI Dialog testen!
 - Beim Ändern der Optionen unten im P-Panel muss das Result Objekt gelöscht werden!
 - Check in CI zu max(0, ..) bzw. min(0, ..) / means
-- p-values are not saved
 - keine p-Werte übernehmen
 - ability to save intermediate and final graphs
 - Document how to extract m, weights etc. 
@@ -18,7 +16,6 @@
 - listen von Stichproben
 - Output von power calculations
 - positive Definitheit
-
 
 - test whether correlation is applicable:
   - Simes test -> postitive regression dependence (warn)

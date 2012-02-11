@@ -589,6 +589,10 @@ i.e.\ negative eigen values exist, a warning is given.
 
 \[A \kronecker B\]
 
+Graph from Bretz et al. (2009) - Figure 14
+
+Literature: Bretz F., Maurer W., Brannath W., Posch M.: A graphical approach to sequentially rejective multiple test procedures. Statistics in Medicine 2009; 28:586-604. Figure 14.
+
 %\begin{figure}[ht]
 %  \centering    
 %  \includegraphics[width=0.7\textwidth]{pictures/createCM1.png}      
@@ -693,6 +697,28 @@ cat(graph2latex(generalSuccessive(), scale=0.7, fontsize="tiny"))
 \end{figure}
 
 \subsection{Variable edge weights}\index{edge weights!variable}
+
+Apart from latin letters the following greek letters can be used to name a variable:
+  
+$\backslash$alpha, $\backslash$beta, $\backslash$gamma, $\backslash$delta, 
+$\backslash$epsilon, $\backslash$zeta, $\backslash$eta, 
+$\backslash$theta, $\backslash$iota, $\backslash$kappa, $\backslash$lambda, 
+$\backslash$mu, $\backslash$nu, $\backslash$xi, 
+%$\backslash$omicron, 
+$\backslash$pi, $\backslash$rho, $\backslash$sigma, 
+$\backslash$tau, $\backslash$upsilon, $\backslash$phi,
+$\backslash$chi, $\backslash$psi, $\backslash$omega
+
+These result in $\alpha,\; \beta,\; \gamma,\; \delta,\; 
+\epsilon,\; \zeta,\; \eta,\; 
+\theta,\; \iota,\; \kappa,\; \lambda,\; 
+\mu,\; \nu,\; \xi,\; 
+%\omicron,\; 
+\pi,\; \rho,\; \sigma,\; 
+\tau,\; \upsilon,\; \phi,
+\chi,\; \psi,\; \omega$.
+
+Note that omicron is not allowed since it can not destinguished from the latin character "o". 
 
 \includegraphics[width=5cm]{pictures/variableEditor.png}
 

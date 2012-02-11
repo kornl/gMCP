@@ -13,6 +13,9 @@ Version 0.7-6 (??-02-2012, Rev. 1???)
 
 - Fixed: NullpointerException when loading R objects.
 
+- Fixed (regression): greek characters were shown in the 
+  adjacency matix with leading backslash 
+
 - If the GUI is closed and the last graph was not yet saved,
   the user is asked whether he wants to save it.
  
@@ -21,6 +24,12 @@ Version 0.7-6 (??-02-2012, Rev. 1???)
 - new wizard for the creation of correlation matrices
   Java 5 users: rearranging nodes with drag'n'drop does not yet work for you
  
+- If the entered matrix is not positive semidefinite, 
+  i.e. negative eigen values exist, a warning is given.
+
+- If a graph is saved the p-values are automatically attached to the 
+  graphMCP objects as an attribute "pvalues".
+
 - Variable node weights
 
 - Error reports can be saved as zip files.
