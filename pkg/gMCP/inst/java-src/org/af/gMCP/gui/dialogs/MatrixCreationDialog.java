@@ -113,10 +113,11 @@ public class MatrixCreationDialog extends JDialog implements ActionListener, Cha
 	JButton reorder = new JButton("Apply reordering");
 
 	private JPanel getSortPane() {
-		JPanel panel = new JPanel();
+		JPanel panel = new JPanel();		
+		
 		String cols = "5dlu, fill:pref:grow, 5dlu, fill:pref:grow, 5dlu";
-        String rows = "5dlu, pref, 5dlu, pref, 5dlu, pref, 5dlu, pref, 5dlu, pref, 5dlu, fill:pref:grow";
-        
+        String rows = "5dlu, pref, 5dlu, pref, 5dlu, fill:pref:grow, 5dlu, pref, 5dlu, pref, 5dlu";
+		
         panel.setLayout(new FormLayout(cols, rows));
         CellConstraints cc = new CellConstraints();
 		
@@ -138,16 +139,20 @@ public class MatrixCreationDialog extends JDialog implements ActionListener, Cha
 			lm.addElement(n);
 		}
         
-        try {
+		try {
         	Class cls = Class.forName("org.af.commons.widgets.JListDnD");
         	Constructor ct = cls.getConstructor(new Class[] {ListModel.class});
-        	hypotheses = (JList) ct.newInstance(lm);
+        	hypotheses = (JList) ct.newInstance(lm);        	
+        	panel.add(new JScrollPane(hypotheses), cc.xyw(2, row, 3));
         } catch (Exception e) {
+        	// Java 5 will throw an exception.
+        	// In this case we set hypotheses to an ordinary JList.
         	logger.warn(e);        
             hypotheses = new JList(lm);
+            panel.add(new JScrollPane(hypotheses), cc.xyw(2, row, 3));
+            row +=2;
+            panel.add(new JLabel("Reordering does currently not work for you due to Java 5"), cc.xyw(2, row, 3));
         }
-        
-        panel.add(new JScrollPane(hypotheses), cc.xyw(2, row, 3));
         
         row +=2;
         
@@ -364,10 +369,13 @@ public class MatrixCreationDialog extends JDialog implements ActionListener, Cha
 		
 	}
 	
-	protected JComboBox jcbCorString = new JComboBox(new String[] {"No standard desgin"});
-	protected JComboBox jcbCorString2 = new JComboBox(new String[] {"No standard desgin"});
+	protected JComboBox jcbCorString = new JComboBox(new String[] {NO_SD});
+	protected JComboBox jcbCorString2 = new JComboBox(new String[] {NO_SD});
 	
-	final static String NO_SD = "No standard design";
+	/* Note: the following string must have a certain length, otherwise 
+	 * e.g. "UmbrellaWilliams (3 groups)" will cause layout problems. 
+	 */
+	final static String NO_SD = "User defined design (edit the matrix)";
 	
 	private void getPossibleCorrelations() {
 		jcbCorString.removeAllItems();
