@@ -46,6 +46,7 @@ Fehler in if (m[i, node] * m[node, i] < 1) { : Argument hat Länge 0
 High priority:
 ==============
 
+- Graphs with variables should be set back to the version with variables.
 - An empty string for an edge weight creates a bug report window.
 - Show optional dialog when refresh button is pressed.
 - Check java.awt.Desktop.open in the newest Ubuntu (or is there something else wrong?)
