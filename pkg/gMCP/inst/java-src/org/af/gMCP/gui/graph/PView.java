@@ -319,6 +319,7 @@ public class PView extends JPanel implements KeyListener, ActionListener {
         correlatedPanel.add(jcbCorObject, cc.xy(4, row));
         correlatedPanel.add(refresh, cc.xy(6, row));  
         correlatedPanel.add(createMatrix, cc.xy(8, row));
+        createMatrix.setEnabled(Configuration.getInstance().getGeneralConfig().experimentalFeatures());
         
         row += 2;
         

@@ -340,11 +340,32 @@ public class MatrixCreationDialog extends JDialog implements ActionListener, Cha
 		} else if (e.getSource()==applyTE) {
 			
 		} else if (e.getSource()==jcbCorString2) {
-			
-		} else if (e.getSource()==jcbCorString) {
-			
+			if (jcbCorString2.getSelectedItem()==null || jcbCorString2.getSelectedItem().toString().equals(NO_SD)) return;
+			DataTableModel m = dfpDiag.getTable().getModel();
+			int n = Integer.parseInt(spinnerN.getModel().getValue().toString());
+			String s = jcbCorString2.getSelectedItem().toString();
+			setMatrix(m, s, n);
+		} else if (e.getSource()==jcbCorString) {	
+			if (jcbCorString.getSelectedItem()==null || jcbCorString.getSelectedItem().toString().equals(NO_SD)) return;
+			DataTableModel m = dfpIntraCor.getTable().getModel();
+			int n = Integer.parseInt(spinnerNT.getModel().getValue().toString());
+			String s = jcbCorString.getSelectedItem().toString();
+			setMatrix(m, s, n);
 		}
 		warning.setText(RControl.getR().eval("gMCP:::checkPSD("+dfp.getTable().getRMatrix()+")").asRChar().getData()[0]);
+	}
+
+	private void setMatrix(DataTableModel m, String s, int n) {
+		String design = s.substring(0, s.indexOf(" "));
+		String groups = s.substring(s.indexOf("(")+1, s.indexOf("groups")-1);				
+		GroupDialog gd = new GroupDialog(parent, Integer.parseInt(groups));
+		String command = "gMCP:::getCorrMat(n="+gd.getGroups()+", type =\""+ design+"\")";
+		double[] m2 = RControl.getR().eval(command).asRNumeric().getData();
+		for (int i=0; i<n; i++) {
+			for (int j=0; j<n; j++) {
+				m.setValueAt(new EdgeWeight(m2[i*n+j]), i, j);
+			}
+		}		
 	}
 
 	public void stateChanged(ChangeEvent e) {
@@ -362,7 +383,23 @@ public class MatrixCreationDialog extends JDialog implements ActionListener, Cha
 				m.setValueAt(new EdgeWeight(1), m.getColumnCount()-1, m.getColumnCount()-1);
 			}
 			getPossibleCorrelations();
-		} else if (e.getSource()==spinnerNT) {
+		} else if (e.getSource()==spinnerNT) {			
+			int n = Integer.parseInt(spinnerNT.getModel().getValue().toString());
+			DataTableModel m = dfpIntraCor.getTable().getModel();
+			m.removeAll();
+			for (int i=0; i<n; i++) {
+				m.addRowCol("T"+(i+1));
+				m.setValueAt(new EdgeWeight(1), m.getColumnCount()-1, m.getColumnCount()-1);
+			}
+			getPossibleCorrelations();
+		} else if (e.getSource()==spinnerNE) {
+			int n = Integer.parseInt(spinnerNE.getModel().getValue().toString());
+			DataTableModel m = dfpInterCor.getTable().getModel();
+			m.removeAll();
+			for (int i=0; i<n; i++) {
+				m.addRowCol("E"+(i+1));
+				m.setValueAt(new EdgeWeight(1), m.getColumnCount()-1, m.getColumnCount()-1);
+			}
 			getPossibleCorrelations();
 		}
 		
