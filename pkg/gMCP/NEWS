@@ -14,7 +14,10 @@ Version 0.7-6 (??-02-2012, Rev. 1???)
 - Fixed: NullpointerException when loading R objects.
 
 - Fixed (regression): greek characters were shown in the 
-  adjacency matix with leading backslash 
+  adjacency matix with leading backslash
+  
+- Fixed: In rare cases (i.e. only information about correlation was changed)
+  old results were displayed if reset was not used.
 
 - If the GUI is closed and the last graph was not yet saved,
   the user is asked whether he wants to save it.
