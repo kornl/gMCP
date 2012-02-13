@@ -42,6 +42,9 @@ Version 0.7-6 (13-02-2012, Rev. 1208)
 - New option: Should the exported image of a graph have 
   an white or transparent background.
 
+63 files changed, 591 insertions(+), 277 deletions(-)
+
+
 Version 0.7-5 (29-01-2012, Rev. 1147)
 =====================================
 

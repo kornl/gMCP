@@ -1092,3 +1092,71 @@ Diff between gMCP versions 0.7-4 dated 2012-01-22 and 0.7-5 dated 2012-01-29
  gMCP-0.7-5/gMCP/man/substituteEps.Rd                                                       |    2 
  gMCP-0.7-5/gMCP/src/gMCP.c                                                                 |   24 +-
  52 files changed, 606 insertions(+), 212 deletions(-)
+ 
+Diff between gMCP versions 0.7-5 dated 2012-01-29 and 0.7-6 dated 2012-02-13
+
+ gMCP-0.7-5/gMCP/inst/java-src/org/af/gMCP/gui/datatable/CellEditorEps.java                 |only
+ gMCP-0.7-6/gMCP/DESCRIPTION                                                                |    6 
+ gMCP-0.7-6/gMCP/INSTALL                                                                    |    2 
+ gMCP-0.7-6/gMCP/MD5                                                                        |  119 ++++-----
+ gMCP-0.7-6/gMCP/NEWS                                                                       |   29 ++
+ gMCP-0.7-6/gMCP/R/gMCP.R                                                                   |    2 
+ gMCP-0.7-6/gMCP/R/gPAD.R                                                                   |   10 
+ gMCP-0.7-6/gMCP/R/graphMCP.R                                                               |    1 
+ gMCP-0.7-6/gMCP/R/helperGUI.R                                                              |   17 +
+ gMCP-0.7-6/gMCP/R/misc.R                                                                   |   10 
+ gMCP-0.7-6/gMCP/R/rqmvnorm.R                                                               |    8 
+ gMCP-0.7-6/gMCP/TODO                                                                       |   33 ++
+ gMCP-0.7-6/gMCP/inst/doc/AQuickStart.pdf                                                   |binary
+ gMCP-0.7-6/gMCP/inst/doc/gMCP.pdf                                                          |binary
+ gMCP-0.7-6/gMCP/inst/doc/gMCP/gMCP.Rnw                                                     |   82 ++++++
+ gMCP-0.7-6/gMCP/inst/doc/parametric.pdf                                                    |binary
+ gMCP-0.7-6/gMCP/inst/doc/pictures/createCM1.png                                            |only
+ gMCP-0.7-6/gMCP/inst/doc/pictures/power.png                                                |only
+ gMCP-0.7-6/gMCP/inst/java-src/org/af/gMCP/config/GeneralConfig.java                        |   14 +
+ gMCP-0.7-6/gMCP/inst/java-src/org/af/gMCP/config/VersionComparator.java                    |    1 
+ gMCP-0.7-6/gMCP/inst/java-src/org/af/gMCP/gui/CreateGraphGUI.java                          |    3 
+ gMCP-0.7-6/gMCP/inst/java-src/org/af/gMCP/gui/MenuBarMGraph.java                           |   14 -
+ gMCP-0.7-6/gMCP/inst/java-src/org/af/gMCP/gui/datatable/CellEditorE.java                   |   64 ++++-
+ gMCP-0.7-6/gMCP/inst/java-src/org/af/gMCP/gui/datatable/DataFramePanel.java                |   18 +
+ gMCP-0.7-6/gMCP/inst/java-src/org/af/gMCP/gui/datatable/DataTable.java                     |   28 +-
+ gMCP-0.7-6/gMCP/inst/java-src/org/af/gMCP/gui/datatable/DataTableModel.java                |    4 
+ gMCP-0.7-6/gMCP/inst/java-src/org/af/gMCP/gui/datatable/EpsilonTableCellRenderer.java      |    2 
+ gMCP-0.7-6/gMCP/inst/java-src/org/af/gMCP/gui/datatable/RDataFrameRef.java                 |    6 
+ gMCP-0.7-6/gMCP/inst/java-src/org/af/gMCP/gui/dialogs/AdjustedPValueDialog.java            |    1 
+ gMCP-0.7-6/gMCP/inst/java-src/org/af/gMCP/gui/dialogs/ColorChooseDialog.java               |    1 
+ gMCP-0.7-6/gMCP/inst/java-src/org/af/gMCP/gui/dialogs/DialogConfIntEstVar.java             |    9 
+ gMCP-0.7-6/gMCP/inst/java-src/org/af/gMCP/gui/dialogs/GraphSendToArchiveDialog.java        |    1 
+ gMCP-0.7-6/gMCP/inst/java-src/org/af/gMCP/gui/dialogs/GroupDialog.java                     |   12 
+ gMCP-0.7-6/gMCP/inst/java-src/org/af/gMCP/gui/dialogs/LoadGraphFromArchiveDialog.java      |   10 
+ gMCP-0.7-6/gMCP/inst/java-src/org/af/gMCP/gui/dialogs/MatrixCreationDialog.java            |only
+ gMCP-0.7-6/gMCP/inst/java-src/org/af/gMCP/gui/dialogs/ParameterDialog.java                 |    2 
+ gMCP-0.7-6/gMCP/inst/java-src/org/af/gMCP/gui/dialogs/PowerDialogParameterUncertainty.java |    3 
+ gMCP-0.7-6/gMCP/inst/java-src/org/af/gMCP/gui/dialogs/RObjectLoadingDialog.java            |   13 -
+ gMCP-0.7-6/gMCP/inst/java-src/org/af/gMCP/gui/dialogs/RearrangeNodesDialog.java            |    1 
+ gMCP-0.7-6/gMCP/inst/java-src/org/af/gMCP/gui/dialogs/RejectedDialog.java                  |    1 
+ gMCP-0.7-6/gMCP/inst/java-src/org/af/gMCP/gui/dialogs/TellAboutOnlineUpate.java            |    1 
+ gMCP-0.7-6/gMCP/inst/java-src/org/af/gMCP/gui/dialogs/TextFileViewer.java                  |    3 
+ gMCP-0.7-6/gMCP/inst/java-src/org/af/gMCP/gui/dialogs/VariableDialog.java                  |    1 
+ gMCP-0.7-6/gMCP/inst/java-src/org/af/gMCP/gui/dialogs/VariableNameDialog.java              |    1 
+ gMCP-0.7-6/gMCP/inst/java-src/org/af/gMCP/gui/graph/Edge.java                              |  101 +++++++-
+ gMCP-0.7-6/gMCP/inst/java-src/org/af/gMCP/gui/graph/EdgeWeight.java                        |    4 
+ gMCP-0.7-6/gMCP/inst/java-src/org/af/gMCP/gui/graph/GraphView.java                         |   32 +-
+ gMCP-0.7-6/gMCP/inst/java-src/org/af/gMCP/gui/graph/NetList.java                           |   18 +
+ gMCP-0.7-6/gMCP/inst/java-src/org/af/gMCP/gui/graph/PPanel.java                            |    2 
+ gMCP-0.7-6/gMCP/inst/java-src/org/af/gMCP/gui/graph/PView.java                             |  126 +++++-----
+ gMCP-0.7-6/gMCP/inst/java-src/org/af/gMCP/gui/graph/images/matrix.png                      |only
+ gMCP-0.7-6/gMCP/inst/java-src/org/af/gMCP/gui/graph/images/update24.png                    |binary
+ gMCP-0.7-6/gMCP/inst/java-src/org/af/gMCP/gui/options/MiscPanel.java                       |   11 
+ gMCP-0.7-6/gMCP/inst/java-src/org/af/gMCP/gui/options/NumericPanel.java                    |    2 
+ gMCP-0.7-6/gMCP/inst/java-src/org/af/gMCP/gui/power/PowerVariableDialog.java               |    1 
+ gMCP-0.7-6/gMCP/inst/java-src/org/af/gMCP/tests/CircleTest3Points.java                     |   25 -
+ gMCP-0.7-6/gMCP/inst/java-src/org/mutoss/gui/TransferableImage.java                        |    3 
+ gMCP-0.7-6/gMCP/inst/java/afcommons.jar                                                    |binary
+ gMCP-0.7-6/gMCP/inst/java/gsrmtp.jar                                                       |binary
+ gMCP-0.7-6/gMCP/man/doInterim.Rd                                                           |    2 
+ gMCP-0.7-6/gMCP/man/gPADInterim.Rd                                                         |    2 
+ gMCP-0.7-6/gMCP/man/rqmvnorm.Rd                                                            |    4 
+ gMCP-0.7-6/gMCP/man/secondStageTest.Rd                                                     |    2 
+ 63 files changed, 591 insertions(+), 277 deletions(-)
+
