@@ -322,5 +322,9 @@ public class GeneralConfig extends SpecificConfig {
 	public void setFocusEqualsEdit(boolean b) {
 		setProperty("focusEqualsEdit", ""+b);		
 	}
+
+	public boolean askWhenGraphIsNotSaved() {
+		return Boolean.parseBoolean(getProperty("askWhenGraphIsNotSaved", "false"));
+	}
 	
 }
