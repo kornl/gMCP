@@ -22,9 +22,9 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
-import javax.swing.JTextField;
 
 import org.af.commons.widgets.DesktopPaneBG;
+import org.af.commons.widgets.validate.RealTextField;
 import org.af.gMCP.config.Configuration;
 import org.af.gMCP.gui.CreateGraphGUI;
 import org.af.gMCP.gui.RControl;
@@ -45,7 +45,7 @@ public class PView extends JPanel implements KeyListener, ActionListener {
 	JLabel statusLabel = new JLabel("");
 	JLabel weightLabel = new JLabel("Weight");
 	JLabel alphaLabel = new JLabel("Total α: ");
-	JTextField totalAlpha = new JTextField("0.05");
+	RealTextField totalAlpha = new RealTextField("0.05", 0, 1);
 	GridBagConstraints c = new GridBagConstraints();
 	CreateGraphGUI parent;
 	JButton jbLoadPValues = new JButton("Load p-values from R"); 
