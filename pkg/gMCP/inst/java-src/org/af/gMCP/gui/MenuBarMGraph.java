@@ -504,9 +504,9 @@ public class MenuBarMGraph extends JMenuBar implements ActionListener {
 		SwingWorker<Void, Void> worker = new SwingWorker<Void, Void>() {
 			@Override
 			protected Void doInBackground() throws Exception {
-				if (!control.resultUpToDate) {
+				if (!control.isResultUpToDate()) {
 					RControl.getR().evalVoid(control.result+" <- gMCP("+control.getNL().initialGraph+control.getGMCPOptions()+")");
-					control.resultUpToDate = true;
+					control.setResultUpToDate(true);
 				}
 				String filename = f.getAbsolutePath().replaceAll("\\\\", "\\\\\\\\");
 				RControl.getR().eval("gMCPReport("+control.result+", file=\""+filename+"\")");

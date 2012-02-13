@@ -138,6 +138,7 @@ public class PView extends JPanel implements KeyListener, ActionListener {
 		row += 2;
 		panel.add(alphaLabel, cc.xy(2, row));    	
     	panel.add(totalAlpha, cc.xy(4, row));
+    	totalAlpha.addKeyListener(this);
     	
     	updateLabels();
 		panel.revalidate();		
@@ -198,6 +199,15 @@ public class PView extends JPanel implements KeyListener, ActionListener {
 		} else {
 			weightLabel.setText("Weight");
 		}
+		refresh.setEnabled(!b);
+		createMatrix.setEnabled(!b);
+		
+		jrbNoCorrelation.setEnabled(!b);
+		jrbRCorrelation.setEnabled(!b);
+	    jrbSimes.setEnabled(!b);
+
+	    jcbCorObject.setEnabled(!b);
+	    jbLoadPValues.setEnabled(!b);
 	}
 
 	public String getPValuesString() {
@@ -219,7 +229,11 @@ public class PView extends JPanel implements KeyListener, ActionListener {
 	}
 
 	public double getTotalAlpha() {
-		return Double.parseDouble(totalAlpha.getText());
+		try {
+			return Double.parseDouble(totalAlpha.getText());
+		} catch (NumberFormatException e) {
+			return 1;
+		}
 	}
 
 	public void keyPressed(KeyEvent e) {keyTyped(e);}
@@ -227,6 +241,7 @@ public class PView extends JPanel implements KeyListener, ActionListener {
 	public void keyReleased(KeyEvent e) {keyTyped(e);}
 
 	public void keyTyped(KeyEvent e) {
+		parent.getGraphView().setResultUpToDate(false);
 		for (PPanel p : panels) {
 			p.updateMe(false);
 		}
@@ -265,6 +280,7 @@ public class PView extends JPanel implements KeyListener, ActionListener {
 		correlatedPanel = new JPanel();
 		
 	    jcbCorObject = new JComboBox(new String[] {});
+	    jcbCorObject.addActionListener(this);
 	    refresh();
 
 	    jrbNoCorrelation.setSelected(true);
@@ -316,6 +332,7 @@ public class PView extends JPanel implements KeyListener, ActionListener {
 	
 
 	public void actionPerformed(ActionEvent e) {
+		parent.getGraphView().setResultUpToDate(false);
 		if (e.getSource()==refresh) {
 			refresh();
 		} else if (e.getSource()==jrbNoCorrelation) {

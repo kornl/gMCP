@@ -155,7 +155,7 @@ public class NetList extends JPanel implements MouseMotionListener, MouseListene
 
 	public void graphHasChanged() {
 		expRejections = null; powAtlst1 = null; rejectAll = null; userDefined = null;
-		control.resultUpToDate = false;
+		control.setResultUpToDate(false);
 		control.getMainFrame().isGraphSaved = false;
 		if (!updateGUI) return;
 		String analysis = null;
@@ -685,7 +685,7 @@ public class NetList extends JPanel implements MouseMotionListener, MouseListene
 		zoom = p;
 	}
 
-	public void startTesting() {
+	public void startTesting() {		
 		testingStarted = true;	
 		statusBar.setText("Reject nodes or reset to the initial graph for modifications.");
 	}
