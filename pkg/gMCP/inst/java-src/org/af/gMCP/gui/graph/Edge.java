@@ -257,13 +257,13 @@ public class Edge {
 			double dx = a1 - b1;
 			double dy = a2 - b2;
 			double d = Math.sqrt(dx * dx + dy * dy);
-			a1 = a1 - (Node.getRadius() * dx / d);
-			a2 = a2 - (Node.getRadius() * dy / d);
+			a1 = a1 - ((Node.getRadius()*nl.getZoom()) * dx / d);
+			a2 = a2 - ((Node.getRadius()*nl.getZoom()) * dy / d);
 			dx = b1 - c1;
 			dy = b2 - c2;
 			d = Math.sqrt(dx * dx + dy * dy);			
-			c1 = c1 + (Node.getRadius() * dx / d);
-			c2 = c2 + (Node.getRadius() * dy / d);	
+			c1 = c1 + ((Node.getRadius()*nl.getZoom()) * dx / d);
+			c2 = c2 + ((Node.getRadius()*nl.getZoom()) * dy / d);	
 			GraphDrawHelper.malVollenPfeil(g, (int)a1, (int)a2, (int)c1, (int)c2, l, grad);			
 		}
 	}

@@ -45,7 +45,7 @@ public class PView extends JPanel implements KeyListener, ActionListener {
 	JLabel statusLabel = new JLabel("");
 	JLabel weightLabel = new JLabel("Weight");
 	JLabel alphaLabel = new JLabel("Total α: ");
-	RealTextField totalAlpha = new RealTextField("0.05", 0, 1);
+	RealTextField totalAlpha = new RealTextField("totalAlpha", 0, 1);
 	GridBagConstraints c = new GridBagConstraints();
 	CreateGraphGUI parent;
 	JButton jbLoadPValues = new JButton("Load p-values from R"); 
@@ -138,6 +138,7 @@ public class PView extends JPanel implements KeyListener, ActionListener {
 		row += 2;
 		panel.add(alphaLabel, cc.xy(2, row));    	
     	panel.add(totalAlpha, cc.xy(4, row));
+    	totalAlpha.setText("0.05");
     	totalAlpha.addKeyListener(this);
     	
     	updateLabels();
