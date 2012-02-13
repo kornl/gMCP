@@ -426,6 +426,7 @@ public class Edge {
 			TeXFormula formula = new TeXFormula(latex);//
 			formula = new TeXFormula("\\mathbf{"+latex+"}");			
 			if (latex.indexOf("frac")==-1 && latex.length()>4) points = (int) (points*0.7);
+			// TODO points adjustment should be based on .getIconHeight()/getIconWidth()
 			return formula.createTeXIcon(TeXConstants.ALIGN_CENTER, points);
 		} catch(Exception e) {
 			//e.printStackTrace();

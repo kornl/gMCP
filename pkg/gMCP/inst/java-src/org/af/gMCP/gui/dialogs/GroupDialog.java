@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Vector;
 
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -25,13 +26,14 @@ public class GroupDialog extends JDialog implements ActionListener, ChangeListen
 	JButton ok = new JButton("Ok");
 	JPanel weightsPanel;
 	List<JTextField> weightsV = new Vector<JTextField>();
+	JCheckBox balancedDesign = new JCheckBox("Balanced design");
 
 	public GroupDialog(JFrame parent, int n) {
 		super(parent, "Sample Sizes", true);
 		setLocationRelativeTo(parent);
 
 		String cols = "5dlu, pref, 5dlu, fill:pref:grow, 5dlu";
-		String rows = "5dlu, pref:grow, 5dlu, pref, 5dlu";
+		String rows = "5dlu, pref, 5dlu, pref:grow, 5dlu, pref, 5dlu";
 
 
 		FormLayout layout = new FormLayout(cols, rows);
@@ -40,6 +42,12 @@ public class GroupDialog extends JDialog implements ActionListener, ChangeListen
 
 		int row = 2;
 
+		balancedDesign.addActionListener(this);
+		balancedDesign.setSelected(true);
+		getContentPane().add(balancedDesign, cc.xyw(2, row, 3));
+
+		row += 2;
+		
 		createGroupPanel(n);
 
 		JScrollPane sp = new JScrollPane(weightsPanel);
@@ -71,6 +79,7 @@ public class GroupDialog extends JDialog implements ActionListener, ChangeListen
 			weightsPanel.add(new JLabel("Group "+(i+1)), c);
 			c.gridx++;
 			weightsPanel.add(weightsV.get(i), c);
+			weightsV.get(i).setEnabled(false);
 			c.gridx=0;c.gridy++;
 		}
 	}
@@ -84,7 +93,14 @@ public class GroupDialog extends JDialog implements ActionListener, ChangeListen
 	}
 
 	public void actionPerformed(ActionEvent e) {
-		dispose();
+		if (e.getSource()==ok) {
+			dispose();
+			return;
+		} else {
+			for (int i=0;i<weightsV.size();i++) {				
+				weightsV.get(i).setEnabled(!balancedDesign.isSelected());
+			}
+		}
 	}
 
 	public void stateChanged(ChangeEvent e) {}	
