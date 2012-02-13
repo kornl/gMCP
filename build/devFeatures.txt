@@ -1,3 +1,10 @@
+
+- New wizard for the creation of correlation matrices
+  Java 5 users: rearranging nodes with drag'n'drop does not yet work for you
+
+- If the entered matrix is not positive semidefinite, 
+  i.e. negative eigen values exist, a warning is given.
+
 - Variable node weights
 
 - Error reports can be saved as zip files.

@@ -1,16 +1,11 @@
 
-Version 0.7-6 (??-02-2012, Rev. 1???)
+Version 0.7-6 (13-02-2012, Rev. 1208)
 =====================================
 
 - JTable behaves slightly different now:
   Whenever a cell gets the focus the CellEditor is opened.
   Also already existing text is selected to make overwriting easier.
   You can change this behavior in the options.
-
-- new wizard for the creation of correlation matrices
-  Java 5 users: rearranging nodes with drag'n'drop does not yet work for you
-
-- New option: Should the exported image of a graph have an white or transparent background.
 
 - Fixed: With Java 5 it was sometimes hard to edit the cells of JTables.  
 
@@ -24,12 +19,11 @@ Version 0.7-6 (??-02-2012, Rev. 1???)
 
 - rqmvnorm does not set a seed by default.
  
-- If the entered matrix is not positive semidefinite, 
-  i.e. negative eigen values exist, a warning is given.
-
 - If a graph is saved the p-values are automatically attached to the 
   graphMCP objects as an attribute "pvalues".
 
+- New option: Should the exported image of a graph have 
+  an white or transparent background.
 
 Version 0.7-5 (29-01-2012, Rev. 1147)
 =====================================
