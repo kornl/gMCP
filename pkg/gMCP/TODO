@@ -16,7 +16,6 @@
 - listen von Stichproben
 - Output von power calculations
 - positive Definitheit
-
 - test whether correlation is applicable:
   - Simes test -> postitive regression dependence (warn)
   - Dunnett -> ?
@@ -25,6 +24,10 @@
 - pvalues for Simes
 - verbose output for parametric tests
 - NA in correlation matrices
+- For the resulting graph a new option keepWeight
+  is introduced in the functions gMCP and rejectNode:
+  A node without outgoing edges is removed.
+  Should its weight become 0 or should it keep its weight?
 
 Critical:
 =========
