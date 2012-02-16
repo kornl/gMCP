@@ -34,6 +34,7 @@ import org.af.gMCP.gui.datatable.RDataFrameRef;
 import org.af.gMCP.gui.graph.EdgeWeight;
 import org.af.gMCP.gui.graph.Node;
 import org.af.jhlir.call.RChar;
+import org.af.jhlir.call.RErrorException;
 import org.af.jhlir.call.RInteger;
 import org.af.jhlir.call.RList;
 import org.apache.commons.logging.Log;
@@ -110,12 +111,14 @@ public class MatrixCreationDialog extends JDialog implements ActionListener, Cha
 	}
 	
 	JButton reorder = new JButton("Apply reordering");
+	JButton toggleNA = new JButton("Change 0 in matrix to NA");
+	JButton resetDiag = new JButton("Reset to identity matrix");
 
 	private JPanel getSortPane() {
 		JPanel panel = new JPanel();		
 		
 		String cols = "5dlu, fill:pref:grow, 5dlu, fill:pref:grow, 5dlu";
-        String rows = "5dlu, pref, 5dlu, pref, 5dlu, fill:pref:grow, 5dlu, pref, 5dlu, pref, 5dlu";
+        String rows = "5dlu, pref, 5dlu, pref, 5dlu, pref, 5dlu, pref, 5dlu, fill:pref:grow, 5dlu, pref, 5dlu, pref, 5dlu";
 		
         panel.setLayout(new FormLayout(cols, rows));
         CellConstraints cc = new CellConstraints();
@@ -126,6 +129,16 @@ public class MatrixCreationDialog extends JDialog implements ActionListener, Cha
 		
 		panel.add(new JLabel("Save matrix as:"), cc.xy(2, row));
         panel.add(tfname, cc.xy(4, row));
+
+        row +=2;
+        
+        resetDiag.addActionListener(this);
+        panel.add(resetDiag, cc.xy(4, row));
+       
+        row +=2;
+        
+        toggleNA.addActionListener(this);
+        panel.add(toggleNA, cc.xy(4, row));
         
         row +=2;
         
@@ -157,6 +170,10 @@ public class MatrixCreationDialog extends JDialog implements ActionListener, Cha
         
         reorder.addActionListener(this);
         panel.add(reorder, cc.xy(4, row));
+        
+        row +=2;
+        
+        
         		
 		return panel;
 	}
@@ -336,8 +353,33 @@ public class MatrixCreationDialog extends JDialog implements ActionListener, Cha
 					m2.setValueAt(m.getValueAt(i, j), i+k-1, j+k-1);
 				}
 			}
+		} else if (e.getSource()==toggleNA) {
+			DataTableModel m2 = dfp.getTable().getModel();
+			int n = m2.getColumnCount();
+			for (int i=0; i<n; i++) {
+				for (int j=0; j<n; j++) {
+					if (m2.getValueAt(i, j).getWeight(null)==0) {
+						m2.setValueAt(new EdgeWeight("NA"), i, j);
+					}
+				}
+			}
 		} else if (e.getSource()==reorder) {
-			
+			nodes.removeAllElements();
+			for (int i=0; i<hypotheses.getModel().getSize(); i++) {
+				nodes.add((Node) hypotheses.getModel().getElementAt(i));
+			}
+		} else if (e.getSource()==resetDiag) {
+			DataTableModel m2 = dfp.getTable().getModel();
+			int n = m2.getColumnCount();
+			for (int i=0; i<n; i++) {
+				for (int j=0; j<n; j++) {
+					if (i==j) {
+						m2.setValueAt(new EdgeWeight(1), i, j);
+					} else {
+						m2.setValueAt(new EdgeWeight(0), i, j);
+					}
+				}
+			}
 		} else if (e.getSource()==applyTE) {
 			DataTableModel m2 = dfp.getTable().getModel();
 			int n = m2.getColumnCount();
@@ -370,7 +412,11 @@ public class MatrixCreationDialog extends JDialog implements ActionListener, Cha
 			String s = jcbCorString.getSelectedItem().toString();
 			setMatrix(m, s, n);
 		}
-		warning.setText(RControl.getR().eval("gMCP:::checkPSD("+dfp.getTable().getRMatrix()+")").asRChar().getData()[0]);
+		try {
+			warning.setText(RControl.getR().eval("gMCP:::checkPSD("+dfp.getTable().getRMatrix()+")").asRChar().getData()[0]);
+		} catch (RErrorException error) {
+			warning.setText("Matrix could not be evaluated! Are all entries numeric?");
+		}
 	}
 
 	private void setMatrix(DataTableModel m, String s, int n) {
