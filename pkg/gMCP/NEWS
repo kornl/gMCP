@@ -2,11 +2,18 @@
 Version 0.7-7 (??-0?-2012, Rev. 12??)
 =====================================
 
-- New wizard for the creation of correlation matrices
-  Java 5 users: rearranging nodes with drag'n'drop does not yet work for you
+- Simes test calculates also pvalues. An extra option pvalues=TRUE is added.
+  Setting this to FALSE will sometimes increase the speed (and memory consumption)
+  of the Simes test significantly.
+
+- New wizard for the creation of correlation matrices.
+  Java 5 users: Rearranging nodes with drag'n'drop does not yet work for you.
+  
+- Reordering of hypotheses is possible (important for e.g. correlation matrices). 
 
 - If the entered matrix is not positive semidefinite, 
   i.e. negative eigen values exist, a warning is given.
+
 - Variable node weights
 
 - Error reports can be saved as zip files.
@@ -15,6 +22,8 @@ Version 0.7-7 (??-0?-2012, Rev. 12??)
 
 - Improved focus keeping and reliability of description text field.
 
+- Fixed regression in 0.7-6: CI and p-value buttons for parametric tests
+  were sometimes enabled and sometimes disabled.
 
 Version 0.7-6 (13-02-2012, Rev. 1208)
 =====================================

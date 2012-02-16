@@ -1,10 +1,7 @@
 - Save power scenarios
 - H1 && H2 || !H3 (GUI)
 - Names & export functions
-- Move creation of correlation matrix to advanced creation dialog
-- Allow reordering of hypotheses - show always the names of the hypotheses (correlation)
 - CI Dialog testen!
-- Beim Ändern der Optionen unten im P-Panel muss das Result Objekt gelöscht werden!
 - Check in CI zu max(0, ..) bzw. min(0, ..) / means
 - keine p-Werte übernehmen
 - ability to save intermediate and final graphs
@@ -21,9 +18,7 @@
   - Dunnett -> ?
 - Sequentielle Power ist schwierig (basiert am Ende auf zu wenig Fallzahl der Simulation)
 - Corrleation matrix should parse 1/2
-- pvalues for Simes
 - verbose output for parametric tests
-- NA in correlation matrices
 - For the resulting graph a new option keepWeight
   is introduced in the functions gMCP and rejectNode:
   A node without outgoing edges is removed.
