@@ -92,18 +92,18 @@ graphGUI <- function(...) {invisible(NULL)}
 \section{Introduction}
 
 This package provides functions and graphical user interfaces for
-graph based multiple test procedures.  These graphs define a weighting
-strategy for all subsets of null hypotheses and following the closed
-test procedure weighted tests can be performed on these subsets
-leading to a multiple test procedure controlling the family wise error
-rate in the strong sense. In some cases shortcuts are available, for
-example the weighted Bonferroni procedure leads to a sequentially
-rejective multiple test procedure.
+graph based multiple test procedures. By defining weighted graphs one
+also defines a weighting strategy for all subsets of null hypotheses.
+Weighted tests can be performed on these subsets and following the
+closed test procedure this leads to a multiple test procedure
+controlling the family wise error rate in the strong sense. In some
+cases shortcuts ar   e available, for example the weighted Bonferroni
+procedure leads to a sequentially rejective multiple test procedure.
 
 At all steps either graphical user interfaces or the R Console with S4
 objects and methods can be used.
 
-Please note that this is still a beta release and the API will most
+Please note that this is still an early release and the API will most
 likely still change in future versions.
 
 \subsection{Installation}
@@ -111,9 +111,10 @@ likely still change in future versions.
 Open R and type \texttt{install.packages("gMCP")}, 
 select an arbitrary mirror and gMCP will be downloaded and installed.
 
-From now on you can load the gMCP package by entering
-\texttt{library(gMCP)} into the R Console.
-The graphical user interface is started with the command \texttt{graphGUI()}.
+Once it is installed, whenever you start R you can load the gMCP
+package by entering \texttt{library(gMCP)} into the R Console. The
+graphical user interface is started with the command
+\texttt{graphGUI()}.
 
 If you run into problems, see
 \url{http://cran.r-project.org/web/packages/gMCP/INSTALL} or write us
@@ -303,10 +304,9 @@ print(graph)
 @
 \normalsize
 
-Since we also want to visualize the graph, we use the method
-\texttt{nodeRenderInfo}\index{nodeRenderInfo} from package \texttt{graph} to set appropriate
-x- and y-coordinates in the renderInfo.  (We are compatible to the
-renderInfo usage from package Rgraphviz \cite{Rgraphviz}.)
+Since we also want to visualize the graph, we set two node attributes
+\texttt{X} and \texttt{Y} (for further information see the manual
+pages of method \texttt{nodeAttr}).
 
 \scriptsize
 % Chunk 9
@@ -318,8 +318,9 @@ graph@nodeAttr$Y <- c(H11=100, H21=100, H31=100, H12=300, H22=300, H32=300)
 @
 \normalsize
 
-For placement of the nodes in a matrix pattern, the function \texttt{placeNodes} is helpful.
-The following code does the same as the three lines of R code above.  
+For placement of the nodes in a matrix pattern, the function
+\texttt{placeNodes} is helpful. The following code does the same as
+the three lines of R code above.
 
 \scriptsize
 % Chunk 10
@@ -698,27 +699,29 @@ cat(graph2latex(generalSuccessive(), scale=0.7, fontsize="tiny"))
 
 \subsection{Variable edge weights}\index{edge weights!variable}
 
-Apart from latin letters the following greek letters can be used to name a variable:
-  
-$\backslash$alpha, $\backslash$beta, $\backslash$gamma, $\backslash$delta, 
-$\backslash$epsilon, $\backslash$zeta, $\backslash$eta, 
-$\backslash$theta, $\backslash$iota, $\backslash$kappa, $\backslash$lambda, 
-$\backslash$mu, $\backslash$nu, $\backslash$xi, 
-%$\backslash$omicron, 
-$\backslash$pi, $\backslash$rho, $\backslash$sigma, 
-$\backslash$tau, $\backslash$upsilon, $\backslash$phi,
-$\backslash$chi, $\backslash$psi, $\backslash$omega
+Apart from latin letters the following greek letters can be used to
+name a variable\footnote{Note that omicron is not allowed since it can
+  not destinguished from the latin character "o".}. Please enter them
+with a leading backslash so that they are recognized:
 
-These result in $\alpha,\; \beta,\; \gamma,\; \delta,\; 
-\epsilon,\; \zeta,\; \eta,\; 
-\theta,\; \iota,\; \kappa,\; \lambda,\; 
-\mu,\; \nu,\; \xi,\; 
+\begin{quote}
+  $\backslash$alpha, $\backslash$beta, $\backslash$gamma,
+  $\backslash$delta, $\backslash$epsilon, $\backslash$zeta,
+  $\backslash$eta, $\backslash$theta, $\backslash$iota,
+  $\backslash$kappa, $\backslash$lambda, $\backslash$mu,
+  $\backslash$nu, $\backslash$xi,
+  % $\backslash$omicron,
+  $\backslash$pi, $\backslash$rho, $\backslash$sigma, $\backslash$tau,
+  $\backslash$upsilon, $\backslash$phi, $\backslash$chi,
+  $\backslash$psi, $\backslash$omega.
+\end{quote}
+
+These are shown in the GUI as $\alpha,\; \beta,\; \gamma,\; \delta,\;
+\epsilon,\; \zeta,\; \eta,\; \theta,\; \iota,\; \kappa,\; \lambda,\;
+\mu,\; \nu,\; \xi,\;
 %\omicron,\; 
-\pi,\; \rho,\; \sigma,\; 
-\tau,\; \upsilon,\; \phi,
-\chi,\; \psi,\; \omega$.
-
-Note that omicron is not allowed since it can not destinguished from the latin character "o". 
+\pi,\; \rho,\; \sigma,\; \tau,\; \upsilon,\; \phi, \chi,\; \psi$ and
+$\omega$.
 
 \includegraphics[width=5cm]{pictures/variableEditor.png}
 
@@ -757,6 +760,33 @@ figure \ref{optionsDialog} should be fairly self-explanatory.
   \caption{\label{optionsDialog3} You can configure many things in the option dialog.}
 \end{figure}
 
+\begin{description}
+  \item[Grid]
+  \item[Number of digits]
+  \item[Line width]
+  \item[Font Size]
+  \item[Look'n'Feel]    
+  \item[Colored image files and pdf reports]
+  \item[Show rejected nodes in GUI]
+  \item[Use JLaTeXMath] There are few reasons not to use the free Java
+    library JLaTeXMath to render numbers, symbols and formulas in the
+    GUI. The option is mainly provided in case that errors occur
+    displaying the numbers and formulas.
+  \item[Show fractions instead of decimal numbers]
+  \item[Use epsilon approximation] Not yet available in this version.
+  \item[Epsilon]
+  \item[Try to show fractions / rounded numbers]
+  \item[Number of digits to assure]
+  \item[Verbose output of algorithms]
+  \item[Monte Carlo sample size for power]
+  \item[Type of random numbers]
+  \item[Check online for updates]
+  \item[Export images with transparent background]
+  \item[If a node is dragged also all edges to this node follow]
+  \item[Automatically enter the editing mode, whenever a table cell
+    gets the focus]
+\end{description}
+
 \subsubsection{Privacy}
 
 The GUI is able to connect to our server to
@@ -767,10 +797,11 @@ The GUI is able to connect to our server to
   \item send bug reports if an error occurs.
 \end{enumerate}
 
-Only in the last case of a bug report some information about your computer
-is collected that can be reviewed by the user before sending the bug report.
-If you do not agree with sending this data, simply don't send a problematic bug report
-or if you never want to send bug reports, disable the option in the options menu. 
+Only in the last case of a bug report some information about your
+computer is collected that can be reviewed by the user before sending
+the bug report.  If you do not agree with sending this data, simply
+don't send a problematic bug report or if you never want to send bug
+reports, disable the option in the options menu.
 
 \subsection{Import/Exports}\index{import}\index{export}
 
@@ -909,15 +940,20 @@ boxplot(micronuclei~group, data=hydroquinone)
 
 \section{Appendix - Multiple Testing Basics}
 
-Let $\Theta$ be a parameter space indexing a family of probabilities $\{P_\theta\;|\;\theta\in\Theta\}$
-and $(\Omega, \sF, P_\theta)$ the associated probability spaces.
-For a family of null hypotheses $H_i\subset\Theta$, $i\in\{1,\ldots,n\}=:I$ a multiple test procedure $\phi$
-is defined as a family of $(\sF, \Pot(\{0,1\}^n))$-measurable functions $\{\phi_J:\; \Omega \rightarrow \{0,1\}^n\;|\;J\subset I\}$.
+Let $\Theta$ be a parameter space indexing a family of probabilities
+$\{P_\theta\;|\;\theta\in\Theta\}$ and $(\Omega, \sF, P_\theta)$ the
+associated probability spaces.  For a family of null hypotheses
+$H_i\subset\Theta$, $i\in\{1,\ldots,n\}=:I$ a multiple test procedure
+$\phi$ is defined as a family of $(\sF, \Pot(\{0,1\}^n))$-measurable
+functions $\{\phi_J:\; \Omega \rightarrow \{0,1\}^n\;|\;J\subset I\}$.
 
 \begin{Def}
-  Let $H_J:=\bigcap_{j\in J} H_j$. The multiple test procedure $\phi$ controls the \emph{familywise error rate at level $\alpha$ in the weak sense} if 
+  Let $H_J:=\bigcap_{j\in J} H_j$. The multiple test procedure $\phi$
+  controls the \emph{familywise error rate at level $\alpha$ in the
+    weak sense} if
   \[\forall \theta\in H_I: \; P_\theta(\phi_J=1\text{ for some }J\subset I)\leq\alpha.\]
-  The multiple test procedure $\phi$ controls the \emph{familywise error rate at level $\alpha$ in the strong sense} if 
+  The multiple test procedure $\phi$ controls the \emph{familywise
+    error rate at level $\alpha$ in the strong sense} if
   \[\forall \theta\in\Theta: \; P_\theta(\phi_J=1\text{ and }\theta\in H_J\text{ for some }J\subset I)\leq\alpha.\]
 \end{Def}
 
@@ -966,9 +1002,11 @@ The weighted Simes Test rejects $H_J$ iff $m_J\leq\alpha$.
 %or equivalent
 %\[\]
 
-In a closed testing procedure a hypothesis $H_j$ is rejected iff $H_J$ is rejected for each $J\subset I$ with $j\in J$.
+In a closed testing procedure a hypothesis $H_j$ is rejected iff $H_J$
+is rejected for each $J\subset I$ with $j\in J$.
 
-An adjusted p-pvalue $p'_j$ is defined as the minimal $\alpha$ so that the test to global level $\alpha$ rejects $H_j$.
+An adjusted p-pvalue $p'_j$ is defined as the minimal $\alpha$ so that
+the test to global level $\alpha$ rejects $H_j$.
 
 Therefore $p'_j=\text{max}(m_J\;|\;j\in J)$.
 

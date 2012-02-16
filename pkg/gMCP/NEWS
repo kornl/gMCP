@@ -7,9 +7,9 @@ Version 0.7-7 (??-0?-2012, Rev. 12??)
   of the Simes test significantly.
 
 - New wizard for the creation of correlation matrices.
-  Java 5 users: Rearranging nodes with drag'n'drop does not yet work for you.
   
-- Reordering of hypotheses is possible (important for e.g. correlation matrices). 
+- Reordering of hypotheses is possible (important for e.g. correlation matrices).
+  Java 5 users: Rearranging nodes with drag'n'drop does not yet work for you. 
 
 - If the entered matrix is not positive semidefinite, 
   i.e. negative eigen values exist, a warning is given.
