@@ -11,6 +11,7 @@ public class DataTableModel extends AbstractTableModel {
 	private RowModel rowModel = null;
 	public boolean diagEditable = false;
 	boolean testing = false;
+	boolean checkRowSum = true;
 
     public DataTableModel(RDataFrameRef df) {
         this.df = df;
@@ -75,6 +76,14 @@ public class DataTableModel extends AbstractTableModel {
 
 	public void removeAll() {
 		df.removeAll();		
+	}
+
+	public boolean checkRowSum() {		
+		return checkRowSum;
+	}
+	
+	public void setCheckRowSum(boolean checkRowSum) {
+		this.checkRowSum = checkRowSum;
 	}
 	
 }

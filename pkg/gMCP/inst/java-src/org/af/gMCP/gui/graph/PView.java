@@ -346,7 +346,7 @@ public class PView extends JPanel implements KeyListener, ActionListener {
 			parent.getGraphView().buttonadjPval.setEnabled(true);
 		} else if (e.getSource()==jrbSimes) {
 			parent.getGraphView().buttonConfInt.setEnabled(false);
-			parent.getGraphView().buttonadjPval.setEnabled(false);
+			parent.getGraphView().buttonadjPval.setEnabled(true);
 		} else if (e.getSource()==jbLoadPValues) {
 			parent.getGraphView().loadPValuesFromR(); 
 		} else if (e.getSource()==createMatrix) {
