@@ -319,7 +319,6 @@ public class PView extends JPanel implements KeyListener, ActionListener {
         correlatedPanel.add(jcbCorObject, cc.xy(4, row));
         correlatedPanel.add(refresh, cc.xy(6, row));  
         correlatedPanel.add(createMatrix, cc.xy(8, row));
-        createMatrix.setEnabled(Configuration.getInstance().getGeneralConfig().experimentalFeatures());
         
         row += 2;
         
@@ -353,8 +352,10 @@ public class PView extends JPanel implements KeyListener, ActionListener {
 		} else if (e.getSource()==createMatrix) {
 			if (parent.getGraphView().getNL().getNodes().size()<2) {
 				JOptionPane.showMessageDialog(parent, "Correlation makes only sense for more than one hypothesis.", "No correlation for one hypothesis", JOptionPane.ERROR_MESSAGE);
-			} else {
-				new MatrixCreationDialog(parent);
+			} else {				
+				String obj = jcbCorObject.getSelectedItem().toString();
+				String matrix = obj.endsWith("matrices found.")?null:obj;
+				new MatrixCreationDialog(parent, matrix);
 				refresh();
 			}
 		}

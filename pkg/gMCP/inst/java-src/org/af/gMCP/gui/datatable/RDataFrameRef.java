@@ -21,6 +21,10 @@ public class RDataFrameRef {
 	public String getRowName(int row) {
 		return rcNames.get(row);
 	}
+	
+	public void setNames(List<String> names) {
+		rcNames = names;
+	}
 
 	public void setValue(int row, int col, EdgeWeight value) {
 		data.get(row).set(col, value);

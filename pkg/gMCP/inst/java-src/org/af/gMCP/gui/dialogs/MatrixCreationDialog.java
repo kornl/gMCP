@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.lang.reflect.Constructor;
+import java.util.List;
 import java.util.Vector;
 
 import javax.swing.BorderFactory;
@@ -60,7 +61,11 @@ public class MatrixCreationDialog extends JDialog implements ActionListener, Cha
     
     JTabbedPane tabbedPane = new JTabbedPane(); 
     
-	public MatrixCreationDialog(CreateGraphGUI parent) {
+    /**
+     * Constructor
+     * @param matrix String that specifies R object to be loaded.
+     */
+	public MatrixCreationDialog(CreateGraphGUI parent, String matrix) {
 		super(parent, "Specify correlation matrix", true);
 		setLocationRelativeTo(parent);
 		this.parent = parent;
@@ -98,6 +103,17 @@ public class MatrixCreationDialog extends JDialog implements ActionListener, Cha
 		
 		getContentPane().add(warning, cc.xy(2, row));
 		getContentPane().add(ok, cc.xy(4, row));
+		
+		if (matrix !=null) {
+			DataTableModel m = dfp.getTable().getModel();
+			int n = m.getColumnCount();			
+			double[] result = RControl.getR().eval("as.numeric("+matrix+")").asRNumeric().getData();
+			for (int i=0; i<n; i++) {
+				for (int j=0; j<n; j++) {
+					m.setValueAt(new EdgeWeight(result[i*n+j]), i, j);
+				}
+			}
+		}
 		
         pack();
         setLocationRelativeTo(parent);
@@ -367,7 +383,14 @@ public class MatrixCreationDialog extends JDialog implements ActionListener, Cha
 			nodes.removeAllElements();
 			for (int i=0; i<hypotheses.getModel().getSize(); i++) {
 				nodes.add((Node) hypotheses.getModel().getElementAt(i));
+			}			
+			createMDiag();
+			List<String> names = new Vector<String>();
+			for (Node n : nodes) {
+				names.add(n.getName());
 			}
+			dfp.getTable().getModel().getDataFrame().setNames(names);
+			dfp.getTable().update();
 		} else if (e.getSource()==resetDiag) {
 			DataTableModel m2 = dfp.getTable().getModel();
 			int n = m2.getColumnCount();
@@ -434,41 +457,53 @@ public class MatrixCreationDialog extends JDialog implements ActionListener, Cha
 
 	public void stateChanged(ChangeEvent e) {
 		if (e.getSource()==spinnerN || e.getSource()==spinnerN2) {
-			int n = Integer.parseInt(spinnerN.getModel().getValue().toString());
-			int j = Integer.parseInt(spinnerN2.getModel().getValue().toString());
-			DataTableModel m = dfpDiag.getTable().getModel();
-			m.removeAll();
-			if (n+j-1>nodes.size()) {
-				JOptionPane.showMessageDialog(parent, "The selected values "+n+"+"+j+" exceed the number of nodes+1.", "Impossible parameter combination", JOptionPane.ERROR_MESSAGE);
-				return;
-			}
-			for (int i=j-1; i<j-1+n; i++) {
-				m.addRowCol(nodes.get(i).getName());
-				m.setValueAt(new EdgeWeight(1), m.getColumnCount()-1, m.getColumnCount()-1);
-			}
+			createMDiag();
 			getPossibleCorrelations();
-		} else if (e.getSource()==spinnerNT) {			
-			int n = Integer.parseInt(spinnerNT.getModel().getValue().toString());
-			DataTableModel m = dfpIntraCor.getTable().getModel();
-			m.removeAll();
-			for (int i=0; i<n; i++) {
-				m.addRowCol("T"+(i+1));
-				m.setValueAt(new EdgeWeight(1), m.getColumnCount()-1, m.getColumnCount()-1);
-			}
+		} else if (e.getSource()==spinnerNT) {	
+			createMT();			
 			getPossibleCorrelations();
 		} else if (e.getSource()==spinnerNE) {
-			int n = Integer.parseInt(spinnerNE.getModel().getValue().toString());
-			DataTableModel m = dfpInterCor.getTable().getModel();
-			m.removeAll();
-			for (int i=0; i<n; i++) {
-				m.addRowCol("E"+(i+1));
-				m.setValueAt(new EdgeWeight(1), m.getColumnCount()-1, m.getColumnCount()-1);
-			}
+			createME();			
 			getPossibleCorrelations();
 		}
 		
 	}
 	
+	private void createMT() {
+		int n = Integer.parseInt(spinnerNT.getModel().getValue().toString());
+		DataTableModel m = dfpIntraCor.getTable().getModel();
+		m.removeAll();
+		for (int i=0; i<n; i++) {
+			m.addRowCol("T"+(i+1));
+			m.setValueAt(new EdgeWeight(1), m.getColumnCount()-1, m.getColumnCount()-1);
+		}
+	}
+
+	private void createME() {
+		int n = Integer.parseInt(spinnerNE.getModel().getValue().toString());
+		DataTableModel m = dfpInterCor.getTable().getModel();
+		m.removeAll();
+		for (int i=0; i<n; i++) {
+			m.addRowCol("E"+(i+1));
+			m.setValueAt(new EdgeWeight(1), m.getColumnCount()-1, m.getColumnCount()-1);
+		}
+	}
+
+	private void createMDiag() {
+		int n = Integer.parseInt(spinnerN.getModel().getValue().toString());
+		int j = Integer.parseInt(spinnerN2.getModel().getValue().toString());
+		DataTableModel m = dfpDiag.getTable().getModel();
+		m.removeAll();
+		if (n+j-1>nodes.size()) {
+			JOptionPane.showMessageDialog(parent, "The selected values "+n+"+"+j+" exceed the number of nodes+1.", "Impossible parameter combination", JOptionPane.ERROR_MESSAGE);
+			return;
+		}
+		for (int i=j-1; i<j-1+n; i++) {
+			m.addRowCol(nodes.get(i).getName());
+			m.setValueAt(new EdgeWeight(1), m.getColumnCount()-1, m.getColumnCount()-1);
+		}
+	}
+
 	protected JComboBox jcbCorString = new JComboBox(new String[] {NO_SD});
 	protected JComboBox jcbCorString2 = new JComboBox(new String[] {NO_SD});
 	
