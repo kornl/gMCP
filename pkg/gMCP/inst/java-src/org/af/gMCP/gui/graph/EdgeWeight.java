@@ -38,13 +38,13 @@ public class EdgeWeight {
 	private void setWeightStr(double weight) {
 		DecimalFormat format = Configuration.getInstance().getGeneralConfig().getDecFormat();
 		if (!Configuration.getInstance().getGeneralConfig().showFractions()) {
-			if (weight!=0 && weight < Math.pow(0.1, Configuration.getInstance().getGeneralConfig().getDigits())) {
+			if (weight!=0 && Math.abs(weight) < Math.pow(0.1, Configuration.getInstance().getGeneralConfig().getDigits())) {
 				weightStr = formatSmall.format(weight);
 			} else {
 				weightStr = format.format(weight);
 			}
 		} else {
-			if (weight!=0 && weight < Math.pow(0.1, 3)) {
+			if (weight!=0 && Math.abs(weight) < Math.pow(0.1, 3)) {
 				weightStr = formatSmall.format(weight);
 			} else {
 				weightStr = RControl.getFraction(weight, true);
