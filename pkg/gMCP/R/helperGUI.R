@@ -39,6 +39,9 @@ getEdges <- function(graph){
 }
 
 checkPSD <- function(m) {
+	if (!all(!is.na(M))) {
+		return("Matrix contains NA values.")	
+	}
 	ev <- eigen(m, symmetric=TRUE, only.values=TRUE)
 	# We use the same check as mvtnorm to minimize problems:
 	if (!all(ev$values >= -sqrt(.Machine$double.eps) * abs(ev$values[1]))) {
