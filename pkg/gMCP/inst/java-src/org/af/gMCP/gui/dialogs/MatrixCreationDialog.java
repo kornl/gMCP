@@ -240,6 +240,7 @@ public class MatrixCreationDialog extends JDialog implements ActionListener, Cha
 		
 		row += 2;
 		
+		applyTE.addActionListener(this);
 		panel.add(applyTE, cc.xyw(2, row, 3));
 		
 		return panel;
@@ -338,7 +339,24 @@ public class MatrixCreationDialog extends JDialog implements ActionListener, Cha
 		} else if (e.getSource()==reorder) {
 			
 		} else if (e.getSource()==applyTE) {
-			
+			DataTableModel m2 = dfp.getTable().getModel();
+			int n = m2.getColumnCount();
+			int a = dfpIntraCor.getTable().getRowCount();
+			int b = dfpInterCor.getTable().getRowCount();
+			if (a*b!=n) {
+				JOptionPane.showMessageDialog(this, "Wrong dimensions: "+a+"+"+b+"!="+n, "Wrong dimension", JOptionPane.ERROR_MESSAGE);
+				return;
+			}
+			double[] result = RControl.getR().eval("as.numeric(kronecker("
+					+ dfpInterCor.getTable().getRMatrix()
+					+","					
+					+ dfpIntraCor.getTable().getRMatrix()
+					+"))").asRNumeric().getData();
+			for (int i=0; i<n; i++) {
+				for (int j=0; j<n; j++) {
+					m2.setValueAt(new EdgeWeight(result[i*n+j]), i, j);
+				}
+			}
 		} else if (e.getSource()==jcbCorString2) {
 			if (jcbCorString2.getSelectedItem()==null || jcbCorString2.getSelectedItem().toString().equals(NO_SD)) return;
 			DataTableModel m = dfpDiag.getTable().getModel();
