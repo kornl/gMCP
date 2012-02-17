@@ -1,5 +1,6 @@
 gMCP <- function(graph, pvalues, test, correlation, alpha=0.05, 
-		approxEps=TRUE, eps=10^(-3), ..., useC=FALSE, verbose=FALSE, keepWeights=TRUE) {	
+		approxEps=TRUE, eps=10^(-3), ..., useC=FALSE, 
+		verbose=FALSE, keepWeights=TRUE, adjPValues=TRUE) {	
 	output <- ""
 	if (approxEps && !is.numeric(graph@m)) {
 		graph <- substituteEps(graph, eps=eps)
@@ -70,33 +71,35 @@ gMCP <- function(graph, pvalues, test, correlation, alpha=0.05,
 		}
 	} else if (test=="Simes") {		
 		m <- graph2matrix(graph)
-		if (all(pvalues>alpha)) {
-			result <- new("gMCPResult", graphs=sequence, alpha=alpha, pvalues=pvalues, rejected=getRejected(graph))
-			if (verbose) {
-				output <- "All p-values above alpha."
-				if (verbose!=42) cat(output,"\n") # Go figure it out ;)
-				attr(result, "output") <- output
+		if (!adjPValues) {
+			if (all(pvalues>alpha)) {
+				result <- new("gMCPResult", graphs=sequence, alpha=alpha, pvalues=pvalues, rejected=getRejected(graph))
+				if (verbose) {
+					output <- "All p-values above alpha."
+					if (verbose!=42) cat(output,"\n") # Go figure it out ;)
+					attr(result, "output") <- output
+				}
+				return(result)
 			}
-			return(result)
-		}
-		if (all(pvalues<=alpha)) {			
-			rejected <- rep(TRUE, dim(m)[1])
-			names(rejected) <- getNodes(graph)
-			result <- new("gMCPResult", graphs=sequence, alpha=alpha, pvalues=pvalues, rejected=rejected)
-			if (verbose) {
-				output <- "All p-values below alpha."
-				if (verbose!=42) cat(output,"\n") # Go figure it out ;)
-				attr(result, "output") <- output
+			if (all(pvalues<=alpha)) {			
+				rejected <- rep(TRUE, dim(m)[1])
+				names(rejected) <- getNodes(graph)
+				result <- new("gMCPResult", graphs=sequence, alpha=alpha, pvalues=pvalues, rejected=rejected)
+				if (verbose) {
+					output <- "All p-values below alpha."
+					if (verbose!=42) cat(output,"\n") # Go figure it out ;)
+					attr(result, "output") <- output
+				}
+				return(result)
 			}
-			return(result)
-		}
-		while(!is.null(node <- getRejectableNode(graph, alpha, pvalues))) {
-			output <- paste(output, paste("Hypothesis \"",node,"\" can be rejected by the weighted Bonferroni based test and therefore by weighted Simes test.\n",sep=""), sep="\n")
-			graph <- rejectNode(graph, node, verbose)
-			sequence <- c(sequence, graph)
+			while(!is.null(node <- getRejectableNode(graph, alpha, pvalues))) {
+				output <- paste(output, paste("Hypothesis \"",node,"\" can be rejected by the weighted Bonferroni based test and therefore by weighted Simes test.\n",sep=""), sep="\n")
+				graph <- rejectNode(graph, node, verbose)
+				sequence <- c(sequence, graph)
+			}
 		}
 		n <- sum(!getRejected(graph))
-		if (n<3) {
+		if (n<3 && !adjPValues) {
 			result <- new("gMCPResult", graphs=sequence, alpha=alpha, pvalues=pvalues, rejected=getRejected(graph))
 			if (verbose) {
 				if (n==2) output <- paste(output, "Only two hypotheses remaining.", sep="\n")
@@ -111,16 +114,23 @@ gMCP <- function(graph, pvalues, test, correlation, alpha=0.05,
 			output <- paste(output, "Remaining hypotheses (new numeration):", paste(1:length(getNodes(graph2)),": ", getNodes(graph2), sep="",collapse="\n"), sep="\n")
 			pvalues2 <- pvalues[!getRejected(graph)]
 			allSubsets <- permutations(length(getNodes(graph2)))[-1,]
-			result <- cbind(allSubsets, 0)
+			result <- cbind(allSubsets, 0, Inf)
 			weights <- generateWeights(graph2@m, getWeights(graph2))[,(n+(1:n))]
 			if (verbose) explanation <- rep("not rejected", dim(allSubsets)[1])
 			for (i in 1:dim(allSubsets)[1]) {
 				subset <- allSubsets[i,]
 				if(!all(subset==0)) {
 					J <- which(subset!=0)	
-					if (verbose) explanation[i] <- paste("Subset {",paste(J,collapse=","),"}: ",explanation[i], sep="")				
+					if (verbose) explanation[i] <- paste("Subset {",paste(J,collapse=","),"}: ",explanation[i], sep="")			
+					mJ <- Inf					
 					for (j in J) {
 						Jj <- subset!=0 & (pvalues2 <= pvalues2[j]) # & (1:n)!=j
+						if (adjPValues) {
+							mJt <- pvalues2[j]/sum(weights[i, Jj]
+							if (mJt<mJ) {
+								mJ <- mJt
+							}
+						}
 						#cat("j: ",j, ", Jj: ",Jj,"\n")
 						#cat("p_",j,"=",pvalues2[j],"<=a*(w_",paste(which(Jj),collapse ="+w_"),")=",alpha,"*(",paste(weights[i, Jj],collapse ="+"),")=",sum(weights[i, Jj]),"\n")
 						if (pvalues2[j]<=alpha*sum(weights[i, Jj])) {
@@ -129,15 +139,18 @@ gMCP <- function(graph, pvalues, test, correlation, alpha=0.05,
 								explanation[i] <- paste("Subset {",paste(J,collapse=","),"}: p_",j,"=", pvalues2[j],"<=a*(w_",paste(which(Jj),collapse ="+w_"),")\n     =",alpha,"*(",paste(weights[i, Jj],collapse ="+"),")=",alpha*sum(weights[i, Jj]),sep="")
 							}
 						}
-					}					
+					}	
+					result[i, n+2] <- mJ
 				} 
 			}
+			adjPValuesV <- rep(NA, n)
 			for (i in 1:n) {
 				if (all(result[result[,i]==1,n+1]==1)) {
 					graph <- rejectNode(graph, getNodes(graph2)[i])
 				}
+				adjPValuesV <- max(result[result[,i]==1,n+2])
 			}
-			result <- new("gMCPResult", graphs=sequence, alpha=alpha, pvalues=pvalues, rejected=getRejected(graph))
+			result <- new("gMCPResult", graphs=sequence, alpha=alpha, pvalues=pvalues, rejected=getRejected(graph), adjPValues=adjPValuesV)
 			if (verbose) {
 				output <- paste(output, paste(explanation, collapse="\n"), sep="\n")
 				if (verbose!=42) cat(output,"\n") # Go figure it out ;)

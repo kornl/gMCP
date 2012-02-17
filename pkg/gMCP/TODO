@@ -1,11 +1,9 @@
 - Save power scenarios
 - H1 && H2 || !H3 (GUI)
-- Names & export functions
+- Export user defined functions and allow names for them
 - CI Dialog testen!
 - Check in CI zu max(0, ..) bzw. min(0, ..) / means
 - keine p-Werte übernehmen
-- ability to save intermediate and final graphs
-- Document how to extract m, weights etc. 
 - Buttons to load R objects for power dialog.
 - Erben der Korrelationsmatrix vom Hauptfenster (warn if this is not the case?)
 - NCP anstatt mean bzw. Alternative zu mu, sigma und n

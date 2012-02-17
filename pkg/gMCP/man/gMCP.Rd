@@ -9,7 +9,8 @@
 }
 \usage{
 	gMCP(graph, pvalues, test, correlation, alpha=0.05, 
-	     approxEps=TRUE, eps=10^(-3), ..., useC=FALSE, verbose=FALSE, keepWeights=TRUE)
+	     approxEps=TRUE, eps=10^(-3), ..., useC=FALSE, 
+	     verbose=FALSE, keepWeights=TRUE, adjPValues=TRUE)
 }
 
 \arguments{
@@ -20,7 +21,8 @@
   	A numeric vector specifying the p-values for the sequentially rejective MTP.
   } 
   \item{test}{
-  	A test function. Will be supported in future versions.
+  	If test is set to \code{"Simes"} the weighted Simes test will be performed for each 
+  	subset of hypotheses. Further alternatives will be added in the future.
   } 
   \item{correlation}{
   	Correlation matrix, if the tests are correlated. 
@@ -51,7 +53,11 @@
   \item{keepWeights}{
     Logical scalar. If \code{FALSE} the weight of a node without outgoing edges is set to 0 if it is removed.
     Otherwise it keeps its weight.
-  }  
+  }
+  \item{adjPValues}{
+    Logical scalar. If \code{FALSE} no adjusted p-values will be calculated. 
+    Especially for the weighted Simes test this will result in significantly less calculations in most cases.  
+  }
 }
 \details{
 	For details see the given references.
