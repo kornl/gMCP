@@ -387,7 +387,6 @@ public class GraphView extends JPanel implements ActionListener {
 			}
 			public String getDescription () { return "RData files"; }  
 		});
-        fc.setDialogType(JFileChooser.SAVE_DIALOG);
         int returnVal = fc.showOpenDialog(this);
         if (returnVal == JFileChooser.APPROVE_OPTION) {
             File f = fc.getSelectedFile();

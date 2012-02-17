@@ -640,6 +640,14 @@ public class NetList extends JPanel implements MouseMotionListener, MouseListene
 		return list.substring(0, list.length()>5?list.length()-1:list.length())+")";			
 	}
 	
+	/**
+	 * Exports the current graph to R  
+	 * @param graphName variable name in R (will be processed with make.names)
+	 * @param verbose if true, a JOption MessageDialog will be shown stating the success
+	 * @param ht Hashtable that contains for latin and greek characters (as Strings)
+	 * the corresponding Double values. Should not be null, but can be empty.
+	 * @return
+	 */
 	public String saveGraph(String graphName, boolean verbose, Hashtable<String,Double> ht) {		
 		graphName = RControl.getR().eval("make.names(\""+graphName+"\")").asRChar().getData()[0];		
 		String alpha = "";
@@ -688,7 +696,7 @@ public class NetList extends JPanel implements MouseMotionListener, MouseListene
 		}	
 		RControl.getR().evalVoid("attr("+graphName+", \"description\") <- \""+ control.getDView().getDescription()+"\"");
 		RControl.getR().evalVoid("attr("+graphName+", \"pvalues\") <- "+ control.getPView().getPValuesString());
-		if (verbose) { JOptionPane.showMessageDialog(null, "The graph as been exported to R under ther variable name:\n\n"+graphName, "Saved as \""+graphName+"\"", JOptionPane.INFORMATION_MESSAGE); }
+		if (verbose) { JOptionPane.showMessageDialog(this, "The graph as been exported to R under ther variable name:\n\n"+graphName, "Saved as \""+graphName+"\"", JOptionPane.INFORMATION_MESSAGE); }
 		return graphName;
 	}
 	

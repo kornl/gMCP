@@ -211,11 +211,10 @@ public class PView extends JPanel implements KeyListener, ActionListener {
 	    jbLoadPValues.setEnabled(!b);
 	}
 
-	public String getPValuesString() {
-		savePValues();
+	public String getPValuesString() {		
 		String s = "c(";
-		for (double p : pValues) {
-			s += p+", ";
+		for (PPanel panel : panels) {		
+			s += panel.getP()+", ";
 		}
 		return s.substring(0, s.length()-2)+")";
 	}
@@ -252,7 +251,6 @@ public class PView extends JPanel implements KeyListener, ActionListener {
 	JButton createMatrix;
 	
 	protected JRadioButton jrbNoCorrelation = new JRadioButton("No Information about correlations");
-    //protected JRadioButton jrbStandardCorrelation = new JRadioButton("Select a standard correlation");
     protected JRadioButton jrbRCorrelation = new JRadioButton("Select an R correlation matrix");
     protected JRadioButton jrbSimes = new JRadioButton("Correlation applicable for Simes test (new feature that needs still testing)");
 
@@ -288,12 +286,10 @@ public class PView extends JPanel implements KeyListener, ActionListener {
 
 	    ButtonGroup group = new ButtonGroup();
 	    group.add(jrbNoCorrelation);
-	    //group.add(jrbStandardCorrelation);
 	    group.add(jrbRCorrelation);
 	    group.add(jrbSimes);
 
 	    jrbNoCorrelation.addActionListener(this);
-	    //jrbStandardCorrelation.addActionListener(this);
 	    jrbRCorrelation.addActionListener(this);
 	    jrbSimes.addActionListener(this);
 		
@@ -309,11 +305,6 @@ public class PView extends JPanel implements KeyListener, ActionListener {
         correlatedPanel.add(jrbNoCorrelation,     cc.xyw(2, row, 7));     
         
         row += 2;
-        
-        /*correlatedPanel.add(jrbStandardCorrelation,     cc.xy(2, row));
-        correlatedPanel.add(jcbCorString, cc.xy(4, row));        
-        
-        row += 2;*/
         
         correlatedPanel.add(jrbRCorrelation,     cc.xy(2, row));
         correlatedPanel.add(jcbCorObject, cc.xy(4, row));
@@ -379,14 +370,6 @@ public class PView extends JPanel implements KeyListener, ActionListener {
 
 	public String getParameters() {
 		String param = "";
-		/* if (jrbStandardCorrelation.isSelected()) {
-			String s = jcbCorString.getSelectedItem().toString();
-			String design = s.substring(0, s.indexOf(" "));
-			String n = s.substring(s.indexOf("(")+1, s.indexOf("groups")-1);
-			logger.warn("Design: \""+design+"\", n=\""+n+"\"");
-			GroupDialog gd = new GroupDialog(parent, Integer.parseInt(n));
-			param = ", correlation=\""+design+"\", samplesize="+gd.getGroups();
-		} else */ 
 		if (jrbRCorrelation.isSelected()) {
 			param = ", correlation="+jcbCorObject.getSelectedItem()+"";
 		} else if (jrbSimes.isSelected()) {
