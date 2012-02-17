@@ -77,21 +77,19 @@ setMethod("plot", "gMCPResult",
 			# TODO Show visualization of graph			
 		})
 
-#options(warn=-1)
-#if (!require("graph")) {
-#	options(warn=0)
-	setGeneric("getNodes", function(object, ...) standardGeneric("getNodes"))
-	setGeneric("setEdge", function(from, to, graph, weights) standardGeneric("setEdge"))
-	setGeneric("edgeAttr", function(self, from, to, attr) standardGeneric("edgeAttr"))
-	setGeneric("edgeAttr<-", function(self, from, to, attr, value) standardGeneric("edgeAttr<-"))
-	setGeneric("nodeAttr", function(self, n, attr) standardGeneric("nodeAttr"))
-	setGeneric("nodeAttr<-", function(self, n, attr, value) standardGeneric("nodeAttr<-"))
-#}
-#options(warn=0)
+setGeneric("getNodes", function(object, ...) standardGeneric("getNodes"))
 
 setMethod("getNodes", c("graphMCP"),
 		function(object, ...) {			
 			return(rownames(object@m))
+		})
+
+setGeneric("getMatrix", function(object, ...) standardGeneric("getMatrix"))
+
+setMethod("getMatrix", c("graphMCP"),
+		function(object, ...) {
+			m <- object@m
+			return(m)
 		})
 
 setGeneric("getWeights", function(object, node, ...) standardGeneric("getWeights"))
@@ -123,6 +121,8 @@ setMethod("getWeights", c("gMCPResult"),
 			return(getWeights(graph, node))
 		})
 
+setGeneric("setEdge", function(from, to, graph, weights) standardGeneric("setEdge"))
+
 setMethod("setEdge", signature=signature(from="character", to="character",
 				graph="graphMCP", weights="character"),
 		function(from, to, graph, weights) {
@@ -136,6 +136,9 @@ setMethod("setEdge", signature=signature(from="character", to="character",
 			graph@m[from, to] <- weights
 			graph
 		})
+
+setGeneric("edgeAttr", function(self, from, to, attr) standardGeneric("edgeAttr"))
+setGeneric("edgeAttr<-", function(self, from, to, attr, value) standardGeneric("edgeAttr<-"))
 
 setMethod("edgeAttr", signature(self="graphMCP", from="character", to="character",
 				attr="character"),
@@ -151,6 +154,9 @@ setReplaceMethod("edgeAttr",
 			self@edgeAttr[[attr]][from, to] <- value		
 			self
 		})
+
+setGeneric("nodeAttr", function(self, n, attr) standardGeneric("nodeAttr"))
+setGeneric("nodeAttr<-", function(self, n, attr, value) standardGeneric("nodeAttr<-"))
 
 setMethod("nodeAttr", signature(self="graphMCP", n="character", attr="character"),
 		function(self, n, attr) {

@@ -5,7 +5,7 @@ import(rJava)
 importFrom(graphics, plot)
 
 exportClasses(graphMCP, gMCPResult, gPADInterim)
-exportMethods(plot, print, getWeights, setWeights, getRejected, "setRejected<-", getXCoordinates, getYCoordinates, simConfint, setEdge, edgeAttr, "edgeAttr<-", nodeAttr, "nodeAttr<-", getNodes)
+exportMethods(plot, print, getWeights, getMatrix, setWeights, getRejected, "setRejected<-", getXCoordinates, getYCoordinates, simConfint, setEdge, edgeAttr, "edgeAttr<-", nodeAttr, "nodeAttr<-", getNodes)
 
 export(graphGUI)
 export(gMCP, rejectNode, substituteEps, placeNodes)

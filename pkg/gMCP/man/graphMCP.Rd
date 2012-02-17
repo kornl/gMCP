@@ -6,6 +6,8 @@
 \alias{plot,graphMCP-method}
 \alias{getWeights}
 \alias{getWeights,graphMCP-method}
+\alias{getMatrix}
+\alias{getMatrix,graphMCP-method}
 \alias{setWeights}
 \alias{setWeights,graphMCP-method}
 \alias{setRejected<-}
@@ -33,18 +35,17 @@
 \description{A graphMCP object describes a sequentially rejective multiple test procedure.}
 \section{Slots}{  
   \describe{    
-    \item{\code{m}:}{A matrix.}
+    \item{\code{m}:}{An adjacency matrix. Can be either \code{numerical} or \code{character}
+    depending whether the matrix contains variables or not. Row and column names will
+    be the names of the nodes.}
     \item{\code{weights}:}{A numeric.}        
     \item{\code{edgeAttr}:}{A list for edge attributes.}
     \item{\code{nodeAttr}:}{A list for node attributes.}
   }
 }
-\section{Extends}{
-Class \code{graphNEL}, directly.
-Class \code{graph}, by class \code{graphNEL}, distance 2.
-}
 \section{Methods}{
   \describe{
+    \item{getMatrix}{\code{signature(object = "graphMCP")}: A method for getting the adjacency matrix of the graph.}
     \item{getWeights}{\code{signature(object = "graphMCP")}: A method for getting the weights.
       If a third optional argument \code{node} is specified, only for these nodes the weight will be returned.}
     \item{setWeights}{\code{signature(object = "graphMCP")}: A method for setting the weights.

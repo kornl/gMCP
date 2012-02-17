@@ -293,6 +293,9 @@ graph <- setWeights(graph, c(1/3, 1/3, 1/3, 0, 0, 0))
 @
 \normalsize
 
+For accessing the weights and adjacency matrix of an existing graph
+the functions \texttt{getWeights} and \texttt{getMatrix} are provided.
+
 Let's print the newly created graph:
 
 \scriptsize
@@ -364,6 +367,8 @@ edgeAttr(graph, "H11", "H21", "labelY") <- 80
 
 @
 \normalsize
+
+
 
 \subsection{Using the GUI}
 
