@@ -148,7 +148,7 @@ gMCP <- function(graph, pvalues, test, correlation, alpha=0.05,
 				if (all(result[result[,i]==1,n+1]==1)) {
 					graph <- rejectNode(graph, getNodes(graph2)[i])
 				}
-				adjPValuesV <- max(result[result[,i]==1,n+2])
+				adjPValuesV[i] <- max(result[result[,i]==1,n+2])
 			}
 			result <- new("gMCPResult", graphs=sequence, alpha=alpha, pvalues=pvalues, rejected=getRejected(graph), adjPValues=adjPValuesV)
 			if (verbose) {
