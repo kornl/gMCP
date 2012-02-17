@@ -2,6 +2,9 @@
 Version 0.7-7 (??-0?-2012, Rev. 12??)
 =====================================
 
+- Fixed severe (but at least obvious) regression in 0.7-6: All p-values beyond the
+  first one were always immediately set to 0.
+
 - Simes test calculates also pvalues. An extra option adjPValues=TRUE is added.
   Setting this to FALSE will sometimes increase the speed (and memory consumption)
   of the Simes test significantly.
