@@ -1,6 +1,7 @@
 package org.af.gMCP.gui.dialogs;
 
 import java.awt.Font;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -54,6 +55,7 @@ public class TextFileViewer extends JDialog implements ActionListener {
 		jta.setFont(new Font("Monospaced", Font.PLAIN, 12));
 		jta.setLineWrap(true);
 		jta.setWrapStyleWord(true);
+		jta.setMargin(new Insets(4,4,4,4));
 		
 		String cols = "5dlu, fill:pref:grow, 5dlu, pref, 5dlu";
         String rows = "5dlu, fill:200dlu:grow, 5dlu, pref, 5dlu, pref, 5dlu";
