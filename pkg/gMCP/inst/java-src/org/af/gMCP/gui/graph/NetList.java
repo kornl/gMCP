@@ -494,6 +494,7 @@ public class NetList extends JPanel implements MouseMotionListener, MouseListene
 			int y = Math.min(startingPoint[1], endPoint[1]);
 			int width = Math.abs(startingPoint[0] - endPoint[0]);
 			int height = Math.abs(startingPoint[1] - endPoint[1]);
+			((Graphics2D)g).setStroke(new BasicStroke(1));
 			((Graphics2D)g).setPaint(new Color(0, 0, 255, 30));			
 			((Graphics2D)g).fillRect(x, y, width, height);
 			((Graphics2D)g).setPaint(new Color(0, 0, 255));
