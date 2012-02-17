@@ -2,6 +2,10 @@
 Version 0.7-8 (??-0?-2012, Rev. 12??)
 =====================================
 
+- Fixed (unproblematic but annoying) NullPointerException with drag'n'drop
+  introduced in 0.7-7.
+  
+
 
 Version 0.7-7 (17-02-2012, Rev. 1236)
 =====================================
@@ -25,6 +29,8 @@ Version 0.7-7 (17-02-2012, Rev. 1236)
 
 - Fixed regression in 0.7-6: CI and p-value buttons for parametric tests
   were sometimes enabled and sometimes disabled.
+
+ 28 files changed, 467 insertions(+), 223 deletions(-)
 
 
 Version 0.7-6 (13-02-2012, Rev. 1208)
@@ -53,7 +59,7 @@ Version 0.7-6 (13-02-2012, Rev. 1208)
 - New option: Should the exported image of a graph have 
   an white or transparent background.
 
-63 files changed, 591 insertions(+), 277 deletions(-)
+ 63 files changed, 591 insertions(+), 277 deletions(-)
 
 
 Version 0.7-5 (29-01-2012, Rev. 1147)
@@ -80,7 +86,7 @@ Version 0.7-5 (29-01-2012, Rev. 1147)
 
 - Fixed: Main vignette was missing in the binary zips
 
-52 files changed, 606 insertions(+), 212 deletions(-)
+ 52 files changed, 606 insertions(+), 212 deletions(-)
 
 
 Version 0.7-4 (22-01-2012, Rev. 1096)

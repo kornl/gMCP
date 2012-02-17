@@ -1160,3 +1160,35 @@ Diff between gMCP versions 0.7-5 dated 2012-01-29 and 0.7-6 dated 2012-02-13
  gMCP-0.7-6/gMCP/man/secondStageTest.Rd                                                     |    2 
  63 files changed, 591 insertions(+), 277 deletions(-)
 
+
+Diff between gMCP versions 0.7-6 dated 2012-02-13 and 0.7-7 dated 2012-02-17
+
+ DESCRIPTION                                                           |    6 
+ MD5                                                                   |   54 +--
+ NAMESPACE                                                             |    2 
+ NEWS                                                                  |   27 +
+ R/gMCP.R                                                              |   69 ++--
+ R/graphMCP.R                                                          |   28 +
+ R/helperGUI.R                                                         |    3 
+ TODO                                                                  |   16 
+ inst/doc/AQuickStart.pdf                                              |binary
+ inst/doc/gMCP.pdf                                                     |binary
+ inst/doc/gMCP/gMCP.Rnw                                                |  141 +++++---
+ inst/doc/parametric.pdf                                               |binary
+ inst/doc/pictures/correlated.png                                      |binary
+ inst/java-src/org/af/gMCP/gui/datatable/DataTableModel.java           |    9 
+ inst/java-src/org/af/gMCP/gui/datatable/EpsilonTableCellRenderer.java |   33 +
+ inst/java-src/org/af/gMCP/gui/datatable/RDataFrameRef.java            |    4 
+ inst/java-src/org/af/gMCP/gui/dialogs/GroupDialog.java                |   20 +
+ inst/java-src/org/af/gMCP/gui/dialogs/MatrixCreationDialog.java       |  169 ++++++++--
+ inst/java-src/org/af/gMCP/gui/dialogs/TextFileViewer.java             |    2 
+ inst/java-src/org/af/gMCP/gui/graph/Edge.java                         |    1 
+ inst/java-src/org/af/gMCP/gui/graph/EdgeWeight.java                   |    4 
+ inst/java-src/org/af/gMCP/gui/graph/GraphView.java                    |    1 
+ inst/java-src/org/af/gMCP/gui/graph/NetList.java                      |   32 +
+ inst/java-src/org/af/gMCP/gui/graph/PView.java                        |   40 --
+ inst/java/gsrmtp.jar                                                  |binary
+ inst/unitTests/runit.gMCP.R                                           |    6 
+ man/gMCP.Rd                                                           |   12 
+ man/graphMCP.Rd                                                       |   11 
+ 28 files changed, 467 insertions(+), 223 deletions(-)
