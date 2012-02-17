@@ -1,13 +1,13 @@
 
-Version 0.7-7 (??-0?-2012, Rev. 12??)
+Version 0.7-7 (17-02-2012, Rev. 1236)
 =====================================
 
 - Fixed severe (but at least obvious) regression in 0.7-6: All p-values beyond the
   first one were always immediately set to 0.
 
-- Simes test calculates also pvalues. An extra option adjPValues=TRUE is added.
-  Setting this to FALSE will sometimes increase the speed (and memory consumption)
-  of the Simes test significantly.
+- Simes test calculates also pvalues. An extra option adjPValues=TRUE is added to
+  the gMCP function. Setting this to FALSE will sometimes increase the speed 
+  (and memory consumption) of the Simes test significantly.
 
 - New wizard for the creation of correlation matrices.
   
@@ -19,16 +19,9 @@ Version 0.7-7 (??-0?-2012, Rev. 12??)
 
 - New S4 method getMatrix for getting the adjacency matrix from a graphMCP object.
 
-- Variable node weights
-
-- Error reports can be saved as zip files.
-
-- Improved graph analysis
-
-- Improved focus keeping and reliability of description text field.
-
 - Fixed regression in 0.7-6: CI and p-value buttons for parametric tests
   were sometimes enabled and sometimes disabled.
+
 
 Version 0.7-6 (13-02-2012, Rev. 1208)
 =====================================
