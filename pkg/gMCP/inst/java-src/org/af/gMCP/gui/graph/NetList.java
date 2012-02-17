@@ -348,7 +348,11 @@ public class NetList extends JPanel implements MouseMotionListener, MouseListene
 	public void mouseClicked(MouseEvent e) {}
 
 	public void mouseDragged(MouseEvent e) {
-		if (drag==-1 && edrag == -1) return;
+		if (drag==-1 && edrag == -1) {
+			endPoint = new int[] {e.getX(), e.getY()};
+			repaint();
+			return;
+		}
 		if (drag!=-1) {
 			if (!unAnchor && Configuration.getInstance().getGeneralConfig().getUnAnchor()) { 
 				for (Edge edge : getEdges()) {
@@ -376,6 +380,8 @@ public class NetList extends JPanel implements MouseMotionListener, MouseListene
 	public void mouseMoved(MouseEvent e) {}
 
 	protected int[] offset;
+	protected int[] startingPoint = null;
+	protected int[] endPoint = null;
 	
 	public void mousePressed(MouseEvent e) {
 		//logger.debug("MousePressed at ("+e.getX()+","+ e.getY()+").");
@@ -437,6 +443,7 @@ public class NetList extends JPanel implements MouseMotionListener, MouseListene
 				}
 			}
 		}		
+		startingPoint = new int[] {e.getX(), e.getY()};
 		repaint();
 	}
 	
@@ -447,6 +454,7 @@ public class NetList extends JPanel implements MouseMotionListener, MouseListene
 		drag = -1;
 		edrag = -1;
 		unAnchor = false;
+		endPoint = null;
 	}
 	
 	/**
@@ -479,6 +487,17 @@ public class NetList extends JPanel implements MouseMotionListener, MouseListene
 		}
 		for (Edge edge : edges) {
 			edge.paintEdgeLabel(g);			
+		}
+		
+		if (endPoint!=null) {
+			int x = Math.min(startingPoint[0], endPoint[0]);
+			int y = Math.min(startingPoint[1], endPoint[1]);
+			int width = Math.abs(startingPoint[0] - endPoint[0]);
+			int height = Math.abs(startingPoint[1] - endPoint[1]);
+			((Graphics2D)g).setPaint(new Color(0, 0, 255, 30));			
+			((Graphics2D)g).fillRect(x, y, width, height);
+			((Graphics2D)g).setPaint(new Color(0, 0, 255));
+			((Graphics2D)g).drawRect(x, y, width, height);			
 		}
 		
 		if (expRejections != null && powAtlst1 != null && rejectAll != null) {
