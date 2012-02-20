@@ -1,6 +1,8 @@
 package org.af.gMCP.gui.dialogs;
 
 import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.lang.reflect.Constructor;
@@ -88,10 +90,13 @@ public class MatrixCreationDialog extends JDialog implements ActionListener, Cha
 
         ok.addActionListener(this);
 
-        String cols = "5dlu, fill:pref:grow, 5dlu, fill:pref:grow, 5dlu";
-        String rows = "5dlu, fill:pref:grow, 5dlu, pref, 5dlu";
+        String cols = "5dlu, fill:min:grow, 5dlu, fill:min:grow, 5dlu";
+        String rows = "5dlu, fill:min:grow, 5dlu, pref, 5dlu";
         
-        getContentPane().setLayout(new FormLayout(cols, rows));
+        FormLayout layout = new FormLayout(cols, rows);
+        layout.setColumnGroups(new int[][]{ {2, 4} });
+        
+        getContentPane().setLayout(layout);
         CellConstraints cc = new CellConstraints();
 
         int row = 2;
@@ -117,6 +122,8 @@ public class MatrixCreationDialog extends JDialog implements ActionListener, Cha
 		}
 		
         pack();
+        Dimension d = getSize();        
+        this.setSize((int)d.getWidth(), Math.min((int)(d.getHeight()*1.7),(int)(Toolkit.getDefaultToolkit().getScreenSize().getHeight()-80)));
         setLocationRelativeTo(parent);
         setVisible(true);
 	}
@@ -135,7 +142,7 @@ public class MatrixCreationDialog extends JDialog implements ActionListener, Cha
 		JPanel panel = new JPanel();		
 		
 		String cols = "5dlu, fill:pref:grow, 5dlu, fill:pref:grow, 5dlu";
-        String rows = "5dlu, pref, 5dlu, pref, 5dlu, pref, 5dlu, pref, 5dlu, fill:pref:grow, 5dlu, pref, 5dlu, pref, 5dlu";
+        String rows = "5dlu, pref, 5dlu, pref, 5dlu, pref, 5dlu, pref, 5dlu, fill:min:grow, 5dlu, pref, 5dlu, pref, 5dlu";
 		
         panel.setLayout(new FormLayout(cols, rows));
         CellConstraints cc = new CellConstraints();
@@ -203,7 +210,7 @@ public class MatrixCreationDialog extends JDialog implements ActionListener, Cha
 	private JPanel getBlockPane() {
 		JPanel panel = new JPanel();
 		String cols = "5dlu, fill:pref:grow, 5dlu, fill:pref:grow, 5dlu";
-        String rows = "5dlu, pref, 5dlu, pref, 5dlu, pref, 5dlu, pref, 5dlu, fill:pref:grow, 5dlu, pref, 5dlu";
+        String rows = "5dlu, pref, 5dlu, pref, 5dlu, pref, 5dlu, pref, 5dlu, fill:min:grow, 5dlu, pref, 5dlu";
         
         panel.setLayout(new FormLayout(cols, rows));
         CellConstraints cc = new CellConstraints();
@@ -260,7 +267,7 @@ public class MatrixCreationDialog extends JDialog implements ActionListener, Cha
 	private JPanel getTEPane() {
 		JPanel panel = new JPanel();
 		String cols = "5dlu, fill:pref:grow, 5dlu, fill:pref:grow, 5dlu";
-        String rows = "5dlu, fill:pref:grow, 5dlu, fill:pref:grow, 5dlu, pref, 5dlu";
+        String rows = "5dlu, fill:min:grow, 5dlu, fill:min:grow, 5dlu, pref, 5dlu";
         
         panel.setLayout(new FormLayout(cols, rows));
         CellConstraints cc = new CellConstraints();
@@ -287,7 +294,7 @@ public class MatrixCreationDialog extends JDialog implements ActionListener, Cha
 	private JPanel getTEPane1() {
 		JPanel panel = new JPanel();
 		String cols = "5dlu, fill:pref:grow, 5dlu, fill:pref:grow, 5dlu";
-        String rows = "5dlu, pref, 5dlu, pref, 5dlu, fill:pref:grow, 5dlu";
+        String rows = "5dlu, pref, 5dlu, pref, 5dlu, fill:min:grow, 5dlu";
         
         panel.setLayout(new FormLayout(cols, rows));
         CellConstraints cc = new CellConstraints();
@@ -327,7 +334,7 @@ public class MatrixCreationDialog extends JDialog implements ActionListener, Cha
 	private JPanel getTEPane2() {
 		JPanel panel = new JPanel();
 		String cols = "5dlu, fill:pref:grow, 5dlu, fill:pref:grow, 5dlu";
-        String rows = "5dlu, pref, 5dlu, fill:pref:grow, 5dlu";
+        String rows = "5dlu, pref, 5dlu, fill:min:grow, 5dlu";
         
         panel.setLayout(new FormLayout(cols, rows));
         CellConstraints cc = new CellConstraints();
