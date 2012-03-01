@@ -189,6 +189,9 @@ public class GraphView extends JPanel implements ActionListener {
 		} else if (e.getSource().equals(buttonNewVertex)) {
 			nl.newVertex = true;
 			nl.newEdge = false;
+			nl.arrowHeadPoint = null;
+			nl.firstVertexSelected = false;
+			nl.repaint();
 			getNL().statusBar.setText("Click on the graph panel to place the node.");
 		} else if (e.getSource().equals(buttonConfInt)) {
 			if (!getNL().isTesting()) {
