@@ -129,7 +129,7 @@ public class NetList extends JPanel implements MouseMotionListener, MouseListene
 			if (edges.get(i).from == von && edges.get(i).to == nach) {
 				x = edges.get(i).getK1();
 				y = edges.get(i).getK2();
-				edges.remove(i);				
+				removeEdge(edges.get(i));				
 			}
 		}
 		if (!w.toString().equals("0")) {
@@ -458,7 +458,7 @@ public class NetList extends JPanel implements MouseMotionListener, MouseListene
 	}
 	
 	public void mouseReleased(MouseEvent e) {
-		if (edrag != -1) {
+		if (edrag != -1) {			
 			edges.get(edrag).setFixed(true);
 		}
 		drag = -1;
@@ -521,8 +521,10 @@ public class NetList extends JPanel implements MouseMotionListener, MouseListene
 				double dy = a2 - c2;
 				double d = Math.sqrt(dx * dx + dy * dy);
 				a1 = a1 - ((Node.getRadius()*getZoom()) * dx / d);
-				a2 = a2 - ((Node.getRadius()*getZoom()) * dy / d);						
+				a2 = a2 - ((Node.getRadius()*getZoom()) * dy / d);					
+				g.setColor(Color.LIGHT_GRAY);
 				GraphDrawHelper.malVollenPfeil(g, (int)a1, (int)a2, (int)c1, (int)c2, (int) (8 * getZoom()), 35);
+				g.setColor(Color.BLACK);
 			}
 		}
 		
@@ -578,6 +580,7 @@ public class NetList extends JPanel implements MouseMotionListener, MouseListene
 			}
 		}
 		edges.remove(edge);
+		edrag = -1;
 		control.getDataTable().getModel().setValueAt(new EdgeWeight(0), getNodes().indexOf(edge.from), getNodes().indexOf(edge.to));
 		graphHasChanged();
 	}
