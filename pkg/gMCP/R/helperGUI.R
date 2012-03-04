@@ -39,7 +39,7 @@ getEdges <- function(graph){
 }
 
 checkPSD <- function(m) {
-	if (!all(!is.na(M))) {
+	if (!all(!is.na(m))) {
 		return("Eigen values couldn't be checked, since matrix contains NAs.")	
 	}
 	ev <- eigen(m, symmetric=TRUE, only.values=TRUE)

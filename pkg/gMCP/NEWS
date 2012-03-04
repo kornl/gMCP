@@ -13,6 +13,9 @@ Version 0.7-8 (??-0?-2012, Rev. 12??)
   
 - If edge weights are NULL, the weightStr is set to "NULL" instead of 
   throwing a RuntimeException.
+  
+- Fixed: Check for negative eigen values always resulted in the message
+  that the matrix can not be processed due to NA values.
 
 
 Version 0.7-7 (17-02-2012, Rev. 1236)
