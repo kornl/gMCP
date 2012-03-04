@@ -352,6 +352,8 @@ public class NetList extends JPanel implements MouseMotionListener, MouseListene
 	public void mouseDragged(MouseEvent e) {
 		if (firstVertexSelected) {
 			arrowHeadPoint = e.getPoint();
+			repaint();
+			return;
 		}
 		if (drag==-1 && edrag == -1) {
 			endPoint = new int[] {e.getX(), e.getY()};
