@@ -4,7 +4,12 @@ Version 0.7-8 (??-0?-2012, Rev. 12??)
 
 - Fixed (unproblematic but annoying) NullPointerException with drag'n'drop
   introduced in 0.7-7.
+
+- Fixed an error window popping up (but nothing was wrong at all) in the
+  rare case that while dragging an edge it was double clicked and deleted.
   
+- If edge weights are NULL, the weightStr is set to "NULL" instead of 
+  throwing a RuntimeException.
 
 
 Version 0.7-7 (17-02-2012, Rev. 1236)
