@@ -350,6 +350,9 @@ public class NetList extends JPanel implements MouseMotionListener, MouseListene
 	public void mouseClicked(MouseEvent e) {}
 
 	public void mouseDragged(MouseEvent e) {
+		if (firstVertexSelected) {
+			arrowHeadPoint = e.getPoint();
+		}
 		if (drag==-1 && edrag == -1) {
 			endPoint = new int[] {e.getX(), e.getY()};
 			repaint();
@@ -465,6 +468,20 @@ public class NetList extends JPanel implements MouseMotionListener, MouseListene
 		edrag = -1;
 		unAnchor = false;
 		endPoint = null;
+		if (newEdge && firstVertexSelected) {				
+			Node secondVertex = vertexSelected(e.getX(), e.getY());
+			if (secondVertex == null || secondVertex == firstVertex) {
+				return;
+			}
+			setEdge(firstVertex, secondVertex);
+			newEdge = false;
+			arrowHeadPoint = null;
+			firstVertexSelected = false;
+			statusBar.setText(GraphView.STATUSBAR_DEFAULT);
+
+			repaint();
+			return;
+		}
 	}
 	
 	/**
@@ -522,7 +539,7 @@ public class NetList extends JPanel implements MouseMotionListener, MouseListene
 				double d = Math.sqrt(dx * dx + dy * dy);
 				a1 = a1 - ((Node.getRadius()*getZoom()) * dx / d);
 				a2 = a2 - ((Node.getRadius()*getZoom()) * dy / d);					
-				g.setColor(Color.LIGHT_GRAY);
+				g.setColor(Color.DARK_GRAY);
 				GraphDrawHelper.malVollenPfeil(g, (int)a1, (int)a2, (int)c1, (int)c2, (int) (8 * getZoom()), 35);
 				g.setColor(Color.BLACK);
 			}
