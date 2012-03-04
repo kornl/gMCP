@@ -2,6 +2,9 @@
 Version 0.7-8 (??-0?-2012, Rev. 12??)
 =====================================
 
+- Edges can be created by drag'n'drop. 
+  (Drag from the first node and drop on the second node.)
+
 - Fixed (unproblematic but annoying) NullPointerException with drag'n'drop
   introduced in 0.7-7.
 
