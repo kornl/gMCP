@@ -47,7 +47,6 @@ High priority:
 ==============
 
 - Graphs with variables should be set back to the version with variables.
-- An empty string for an edge weight creates a bug report window.
 - Show optional dialog when refresh button is pressed.
 - Check java.awt.Desktop.open in the newest Ubuntu (or is there something else wrong?)
 - graphTest's last.alphas at least contain strange NaN in some cases
@@ -100,8 +99,6 @@ attr(,"last.alphas")
 - Why does matrix(c(0,1/2,0,0),2) loose half an alpha?
 - Example graphs from Ferber?
 - In CI-Dialog (initial weights instead of alpha are displayed - this are two errors)
-- Mark cell content (if one clicks and type, one often wants to overwrite)
-- Display edges > 1 and < 0. (Also: -1E0)
 - Flag 1+epsilon>1 in line sum
 - round adjusted p-Values up
 - Think about "-Xrs" - see paragraph below.
