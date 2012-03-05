@@ -17,6 +17,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JToggleButton;
 import javax.swing.filechooser.FileFilter;
 
 import org.af.commons.errorhandling.ErrorHandler;
@@ -44,7 +45,7 @@ public class GraphView extends JPanel implements ActionListener {
 	JLabel statusBar;
 	public NetList nl;
 	
-	JButton buttonNewVertex;
+	JToggleButton buttonNewVertex;
 	JButton buttonNewEdge;
 	JButton buttonZoomOut;
 	JButton buttonZoomIn;
@@ -113,7 +114,7 @@ public class GraphView extends JPanel implements ActionListener {
 			((FlowLayout) (toolPanel.getLayout()))
 					.setAlignment(FlowLayout.LEFT);
 			
-			buttonNewVertex = new JButton(
+			buttonNewVertex = new JToggleButton(
 					new ImageIcon(ImageIO.read(DesktopPaneBG.class
 											.getResource("/org/af/gMCP/gui/graph/images/vertex.png"))));
 			toolPanel.add(buttonNewVertex);
@@ -184,13 +185,18 @@ public class GraphView extends JPanel implements ActionListener {
 			getNL().refresh();
 		} else if (e.getSource().equals(buttonNewEdge)) {
 			nl.newVertex = false;
+			buttonNewVertex.setSelected(false);
 			nl.newEdge = true;
 			getNL().statusBar.setText("Select a node from which this edge should start.");
 		} else if (e.getSource().equals(buttonNewVertex)) {
-			nl.newVertex = true;
-			nl.newEdge = false;
-			nl.arrowHeadPoint = null;
-			nl.firstVertexSelected = false;
+			if (buttonNewVertex.isSelected()) {
+				nl.newVertex = true;
+				nl.newEdge = false;
+				nl.arrowHeadPoint = null;
+				nl.firstVertexSelected = false;
+			} else {
+				nl.newVertex = false;
+			}
 			nl.repaint();
 			getNL().statusBar.setText("Click on the graph panel to place the node.");
 		} else if (e.getSource().equals(buttonConfInt)) {

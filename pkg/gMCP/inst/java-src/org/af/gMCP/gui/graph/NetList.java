@@ -355,7 +355,7 @@ public class NetList extends JPanel implements MouseMotionListener, MouseListene
 			repaint();
 			return;
 		}
-		if (drag==-1 && edrag == -1) {
+		if (drag==-1 && edrag == -1) { /* Dragging without objects creates a rectangular. */
 			endPoint = new int[] {e.getX(), e.getY()};
 			repaint();
 			return;
@@ -398,11 +398,14 @@ public class NetList extends JPanel implements MouseMotionListener, MouseListene
 	protected int[] endPoint = null;
 	
 	public void mousePressed(MouseEvent e) {
+		if (e.getButton()==MouseEvent.BUTTON2) {
+			newVertex = false;
+			control.buttonNewVertex.setSelected(false);
+		}
 		//logger.debug("MousePressed at ("+e.getX()+","+ e.getY()+").");
-		if (newVertex) {
+		if (newVertex && vertexSelected(e.getX(), e.getY())==null) {
 			addDefaultNode((int)(e.getX() / getZoom()) - Node.r, 
 						(int) (e.getY() / getZoom()) - Node.r);
-			newVertex = false;
 			statusBar.setText(GraphView.STATUSBAR_DEFAULT);
 			repaint();
 			return;
