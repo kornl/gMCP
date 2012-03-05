@@ -4,6 +4,9 @@ Version 0.7-8 (??-0?-2012, Rev. 12??)
 
 - Edges can be created by drag'n'drop. 
   (Drag from the first node and drop on the second node.)
+  
+- Button to add edges stays pressed down until it is pressed again (or edges are added).
+  This allows faster creation of graphs with many nodes.
 
 - Fixed (unproblematic but annoying) NullPointerException with drag'n'drop
   introduced in 0.7-7.

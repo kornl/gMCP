@@ -15,14 +15,16 @@
   - Simes test -> postitive regression dependence (warn)
   - Dunnett -> ?
 - Sequentielle Power ist schwierig (basiert am Ende auf zu wenig Fallzahl der Simulation)
-- Corrleation matrix should parse 1/2
-- Export matrix with 1/2 as 0.5 but add label as attribute
 - verbose output for parametric tests
+
+- Export matrix with 1/2 as 0.5 but add label as attribute
+- Save labels as edge / node attributes?
+
 - For the resulting graph a new option keepWeight
   is introduced in the functions gMCP and rejectNode:
   A node without outgoing edges is removed.
   Should its weight become 0 or should it keep its weight?
-- Save labels as edge / node attributes?
+
 
 Critical:
 =========
