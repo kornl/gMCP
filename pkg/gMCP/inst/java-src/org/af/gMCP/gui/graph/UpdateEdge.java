@@ -120,6 +120,8 @@ public class UpdateEdge extends JDialog implements ActionListener {
 			} catch (NumberFormatException ve) {
 				w = Double.NaN;
 			}
+			// An empty String is considered as 0.
+			if(tf.getText().length()==0) w = 0d;
 		}
 		if (w==0) {
 			control.getDataTable().getModel().setValueAt(new EdgeWeight(0), netzListe.getNodes().indexOf(edge.from), netzListe.getNodes().indexOf(edge.to));
