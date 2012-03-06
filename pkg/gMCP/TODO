@@ -25,6 +25,8 @@
   A node without outgoing edges is removed.
   Should its weight become 0 or should it keep its weight?
 
+- JToggleButton also for new edges.
+- Also let an dialog (optionally) pop up to ask for the edge weight. 
 
 Critical:
 =========

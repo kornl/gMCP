@@ -1,4 +1,8 @@
 
+Version 0.7-9 (??-03-2012, Rev. 12??)
+=====================================
+
+
 Version 0.7-8 (06-03-2012, Rev. 1252)
 =====================================
 
@@ -20,6 +24,8 @@ Version 0.7-8 (06-03-2012, Rev. 1252)
 - Fixed: Check for negative eigen values always resulted in the message
   that the matrix can not be processed due to NA values.
 
+ 14 files changed, 136 insertions(+), 45 deletions(-)
+ 
 
 Version 0.7-7 (17-02-2012, Rev. 1236)
 =====================================

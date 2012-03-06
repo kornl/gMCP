@@ -1192,3 +1192,22 @@ Diff between gMCP versions 0.7-6 dated 2012-02-13 and 0.7-7 dated 2012-02-17
  man/gMCP.Rd                                                           |   12 
  man/graphMCP.Rd                                                       |   11 
  28 files changed, 467 insertions(+), 223 deletions(-)
+ 
+Diff between gMCP versions 0.7-7 dated 2012-02-17 and 0.7-8 dated 2012-03-06
+
+ DESCRIPTION                                                     |    6 
+ MD5                                                             |   26 ++--
+ NEWS                                                            |   28 ++++
+ R/helperGUI.R                                                   |    2 
+ TODO                                                            |   11 -
+ inst/doc/AQuickStart.pdf                                        |binary
+ inst/doc/gMCP.pdf                                               |binary
+ inst/doc/parametric.pdf                                         |binary
+ inst/java-src/org/af/gMCP/gui/dialogs/MatrixCreationDialog.java |   23 ++-
+ inst/java-src/org/af/gMCP/gui/graph/EdgeWeight.java             |    2 
+ inst/java-src/org/af/gMCP/gui/graph/GraphView.java              |   17 ++
+ inst/java-src/org/af/gMCP/gui/graph/NetList.java                |   64 ++++++++--
+ inst/java-src/org/af/gMCP/gui/graph/UpdateEdge.java             |    2 
+ inst/java/gsrmtp.jar                                            |binary
+ 14 files changed, 136 insertions(+), 45 deletions(-)
+
