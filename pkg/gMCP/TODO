@@ -28,6 +28,12 @@
 - JToggleButton also for new edges.
 - Also let an dialog (optionally) pop up to ask for the edge weight. 
 
+- (1+1/2)/2 as edge weight creates an error.
+- Options for Edge label font size etc?
+
+Is this still the case?
+- In CI-Dialog (initial weights instead of alpha are displayed - this are two errors)
+
 Critical:
 =========
 
@@ -98,9 +104,9 @@ attr(,"last.alphas")
 - "Reject and pass \alpha" does not make sense in the parametric case (actually it does, if we 
 - Option "Show fractions" has no influence on TextFields for weights etc
 - What happens if we start the GUI a second time?
+I have no idea which 1/2*alpha I'm referring here to: 
 - Why does matrix(c(0,1/2,0,0),2) loose half an alpha?
 - Example graphs from Ferber?
-- In CI-Dialog (initial weights instead of alpha are displayed - this are two errors)
 - Flag 1+epsilon>1 in line sum
 - round adjusted p-Values up
 - Think about "-Xrs" - see paragraph below.
