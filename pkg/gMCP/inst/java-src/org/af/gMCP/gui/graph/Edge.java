@@ -424,14 +424,19 @@ public class Edge {
 			}
 			//logger.debug("LaTeX string:"+latex);		
 			TeXFormula formula = new TeXFormula(latex);//
-			formula = new TeXFormula("\\mathbf{"+latex+"}");			
-			if (latex.indexOf("frac")==-1 && latex.length()>4) points = (int) (points*0.7);
-			// TODO points adjustment should be based on .getIconHeight()/getIconWidth()
-			return formula.createTeXIcon(TeXConstants.ALIGN_CENTER, points);
+			formula = new TeXFormula("\\mathbf{"+latex+"}");		
+			TeXIcon result = formula.createTeXIcon(TeXConstants.ALIGN_CENTER, points);
+			// TODO What about getIconHeight()/
+			if (result.getIconWidth()>60) {
+				result = formula.createTeXIcon(TeXConstants.ALIGN_CENTER, (int) (points*0.7));
+			}
+			//if (latex.indexOf("frac")==-1 && latex.length()>4) points = (int) (points*0.7);
+			return result;
 		} catch(Exception e) {
 			//e.printStackTrace();
 			//System.out.println("Error: "+latex);
-			JOptionPane.showMessageDialog(parent, "Invalid weight string:\n"+latex+"\nError:\n"+e.getMessage(), "Invalid input", JOptionPane.ERROR_MESSAGE);
+			//TODO This is not allowed while painting:
+			//JOptionPane.showMessageDialog(parent, "Invalid weight string:\n"+latex+"\nError:\n"+e.getMessage(), "Invalid input", JOptionPane.ERROR_MESSAGE);
 			TeXFormula formula = new TeXFormula("Syntax Error");
 			return formula.createTeXIcon(TeXConstants.ALIGN_CENTER, points); 
 		}		
