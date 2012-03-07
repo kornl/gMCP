@@ -5,6 +5,7 @@ import java.awt.GridBagLayout;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.Hashtable;
@@ -48,6 +49,9 @@ public class GraphSendToArchiveDialog extends JDialog implements ActionListener 
     JPanel canvas;
     
     
+    final static int MAXWIDTH = 500;
+    final static int MAXHEIGHT = 300;
+    
 	public GraphSendToArchiveDialog(CreateGraphGUI parent, GraphView control) {
 		super(parent, "Submit your graph", true);
 		this.parent = parent;
@@ -63,7 +67,18 @@ public class GraphSendToArchiveDialog extends JDialog implements ActionListener 
 		c.ipadx=10; c.ipady=10;
 		c.weightx=1; c.weighty=0;
 
-		canvas = new ImagePanel(control.nl.getImage().getScaledInstance(-1, 300, Image.SCALE_SMOOTH));
+		BufferedImage img = control.nl.getImage();
+		
+		if (MAXWIDTH/img.getWidth()<1 || MAXHEIGHT/img.getHeight()<1) {
+			if (MAXWIDTH/img.getWidth()>MAXHEIGHT/img.getHeight()) {
+				canvas = new ImagePanel(img.getScaledInstance(-1, MAXHEIGHT, Image.SCALE_SMOOTH));
+			} else {
+				canvas = new ImagePanel(img.getScaledInstance(MAXWIDTH, -1, Image.SCALE_SMOOTH));
+			}
+		} else {
+			canvas = new ImagePanel(img);
+		}
+		
 		                       
 		getContentPane().add(canvas, c);
 		

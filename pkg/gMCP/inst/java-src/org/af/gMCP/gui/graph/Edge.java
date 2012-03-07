@@ -438,7 +438,7 @@ public class Edge {
 			//TODO This is not allowed while painting:
 			//JOptionPane.showMessageDialog(parent, "Invalid weight string:\n"+latex+"\nError:\n"+e.getMessage(), "Invalid input", JOptionPane.ERROR_MESSAGE);
 			TeXFormula formula = new TeXFormula("Syntax Error");
-			return formula.createTeXIcon(TeXConstants.ALIGN_CENTER, points); 
+			return formula.createTeXIcon(TeXConstants.ALIGN_CENTER, (int) (points*0.7)); 
 		}		
 	}
 	
