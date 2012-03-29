@@ -1,4 +1,4 @@
-graphTest <- function(pvalues, weights = NULL, alpha = 0.05, G = NULL, graph = NULL, verbose = FALSE) {
+graphTest <- function(pvalues, weights = NULL, alpha = 0.05, G = NULL, cr = NULL, graph = NULL, verbose = FALSE) {
 	
 	usegraph <- !is.null(graph)
 	if(usegraph & (class(graph) != "graphMCP"))

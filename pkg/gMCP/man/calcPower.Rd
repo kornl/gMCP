@@ -9,7 +9,7 @@
 }
 \usage{
   calcPower(weights, alpha, G, mean = rep(0, nrow(sigma)),
-            sigma = diag(length(mean)),
+            sigma = diag(length(mean)), cr = NULL,
             nSim = 10000, seed = 4711,
             type = c("quasirandom", "pseudorandom"), f=list())
 }
@@ -22,6 +22,8 @@
     needs to be a list containing the different graphs as elements. }
  \item{mean}{ Mean under the alternative }
   \item{sigma}{ Covariance matrix under the alternative. }
+  \item{cr}{ Correlation matrix that should be used for the parametric test.
+  If \code{cr==NULL} the Bonferroni based test procedure is used. }
   \item{seed}{ Seed for pseudo random numbers and the random shift of
     the lattice rule. }
   \item{type}{ What type of random numbers to use. \code{quasirandom}
@@ -95,7 +97,7 @@ simfunc <- function(nSim, a1, a2, g1, g2, rh, t1, t2, t3, t4, Gr){
   G <- rbind(c(0, g1, 1-g1, 0), c(g2, 0, 0, 1-g2), c(0, 1, 0, 0), c(1, 0, 0, 0))
   corMat <- rbind(c(1, 0.5, rh, rh/2), c(0.5,1,rh/2,rh), c(rh,rh/2,1,0.5), c(rh/2,rh,0.5,1))
   mean <- c(t1, t2, t3, t4)
-  calcPower(al, alpha=0.025, G, mean, corr = corMat, seed = 4711, nSim = nSim)
+  calcPower(al, alpha=0.025, G, mean, corMat, seed = 4711, nSim = nSim)
 }
 
 ## calculate power for all 14 scenarios

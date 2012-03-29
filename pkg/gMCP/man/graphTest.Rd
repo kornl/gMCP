@@ -7,7 +7,7 @@
   the same task.
 }
 \usage{
-  graphTest(pvalues, weights = NULL, alpha = 0.05, G = NULL, graph = NULL, verbose = FALSE)
+  graphTest(pvalues, weights = NULL, alpha = 0.05, G = NULL, cr = NULL, graph = NULL, verbose = FALSE)
 }
 \arguments{
   \item{pvalues}{ Either a vector or a matrix containing the local p-values
@@ -24,6 +24,8 @@
     code. \code{graphMCP} objects can be created for example with the
     \code{graphGUI} function.
     }
+  \item{cr}{ Correlation matrix that should be used for the parametric test.
+    If \code{cr==NULL} the Bonferroni based test procedure is used. }
   \item{verbose}{ If verbose is TRUE, additional information about the graphical
     rejection procedure is displayed.  }
 }

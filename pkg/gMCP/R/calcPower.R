@@ -13,13 +13,12 @@ extractPower <- function(x, f=list()){
 }
 
 calcPower <- function(weights, alpha, G, mean = rep(0, nrow(sigma)),
-                      sigma = diag(length(mean)), sigma2 = sigma,
+                      sigma = diag(length(mean)), cr = NULL,
                       nSim = 10000, seed = 4711, type = c("quasirandom", "pseudorandom"),
 					  f=list()){
   type <- match.arg(type)
-  sims <- rqmvnorm(nSim, mean = mean, sigma = sigma,
-                   seed = seed, type = type)
+  sims <- rqmvnorm(nSim, mean = mean, sigma = sigma, seed = seed, type = type)
   pvals <- pnorm(sims, lower.tail = FALSE)
-  out <- graphTest(pvals, weights, alpha, G)
+  out <- graphTest(pvals, weights, alpha, G, cr)
   extractPower(out, f)
 }
