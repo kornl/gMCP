@@ -1,7 +1,7 @@
 
 
 rqmvnorm <- function(n, mean = rep(0, nrow(sigma)), sigma = diag(length(mean)),
-                     corr = NULL, seed = NULL , type = c("quasirandom", "pseudorandom")){
+                     seed = NULL , type = c("quasirandom", "pseudorandom")){
     if (!isSymmetric(sigma, tol = sqrt(.Machine$double.eps))) {
         stop("sigma must be a symmetric matrix")
     }
@@ -9,9 +9,6 @@ rqmvnorm <- function(n, mean = rep(0, nrow(sigma)), sigma = diag(length(mean)),
         stop("mean and sigma have non-conforming size")
     }
     type <- match.arg(type)
-    if(!is.null(corr)){
-      sigma <- corr      
-    }
     dm <- length(mean)
     clSig <- chol(sigma)
     if(!is.null(seed)){

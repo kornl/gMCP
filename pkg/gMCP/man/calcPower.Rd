@@ -9,7 +9,7 @@
 }
 \usage{
   calcPower(weights, alpha, G, mean = rep(0, nrow(sigma)),
-            sigma = diag(length(mean)),corr = NULL,
+            sigma = diag(length(mean)),
             nSim = 10000, seed = 4711,
             type = c("quasirandom", "pseudorandom"), f=list())
 }
@@ -21,8 +21,7 @@
     rows need to sum to 1. When multiple graphs should be used this
     needs to be a list containing the different graphs as elements. }
  \item{mean}{ Mean under the alternative }
-  \item{sigma, corr}{ Covariance or correlation matrix under the
-    alternative. }
+  \item{sigma}{ Covariance matrix under the alternative. }
   \item{seed}{ Seed for pseudo random numbers and the random shift of
     the lattice rule. }
   \item{type}{ What type of random numbers to use. \code{quasirandom}
