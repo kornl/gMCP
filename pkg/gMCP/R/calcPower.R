@@ -1,4 +1,4 @@
-extractPower <- function(x, f=list()){
+extractPower <- function(x, f=list()) {
   pow <- colMeans(x)
   avgPow <- sum(x)/nrow(x)
   atleast1 <- mean(rowSums(x)>0)
@@ -15,7 +15,7 @@ extractPower <- function(x, f=list()){
 calcPower <- function(weights, alpha, G, mean = rep(0, nrow(sigma)),
                       sigma = diag(length(mean)), cr = NULL,
                       nSim = 10000, seed = 4711, type = c("quasirandom", "pseudorandom"),
-					  f=list()){
+					  f=list()) {
   type <- match.arg(type)
   sims <- rqmvnorm(nSim, mean = mean, sigma = sigma, seed = seed, type = type)
   pvals <- pnorm(sims, lower.tail = FALSE)
