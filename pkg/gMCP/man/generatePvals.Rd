@@ -10,7 +10,7 @@ graph or for each elementary hypotheses within each intersection
 hypotheses  
 }
 \usage{
-generatePvals(g, w, cr, p , adjusted = TRUE , hint = generateWeights(g, w))
+generatePvals(g, w, cr, p , adjusted = TRUE , hint = generateWeights(g, w),exhaust=FALSE)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -36,13 +36,19 @@ generatePvals(g, w, cr, p , adjusted = TRUE , hint = generateWeights(g, w))
     logical, if TRUE (default) adjusted p-values for the closed test are
     returned, else a matrix of p-values adjusted only for each
     intersection hypothesis is returned
-    }
+  }
   
   \item{hint}{
     if intersection hypotheses weights have already been computed
     (output of \code{\link{generateWeights}}) can be passed here
     otherwise will be computed during execution
-}
+  }
+
+  
+  \item{exhaust}{
+    if \code{FALSE} (default) the p-values are additionally adjusted for the
+    case that non-exhaustive weights are specified. (See details)
+  }
 }
 \details{
   The correlation has to be passed as a numeric matrix with elements of
@@ -54,6 +60,18 @@ generatePvals(g, w, cr, p , adjusted = TRUE , hint = generateWeights(g, w))
   cor(i,j), and cor(i,j') for i!=j!=j' are known than cor(j,j') has to
   be known as well) otherwise multcomp will throw an exception as NA
   correlations are fed to the multivariate normal distribution
+
+  The paramtric tests in (Bretz et al. (2011)) are defined such that the
+  tests of intersection null hypotheses always exhaust the full alpha
+  level even if the sum of weights is strictly smaller than one. This
+  has the consequence that certain test procedures that do not test each
+  intersection null hypothesis at the full level alpha may not be
+  implemented (e.g., a single step Dunnett test). If \code{exhaust} is set to
+  \code{FALSE} (default) the parametric tests are performed at a reduced level
+  alpha of sum(w) * alpha and p-values adjusted accordingly such that
+  test procedures with non-exhaustive weighting strategies may be
+  implemented. If set to \code{TRUE} the tests are performed as defined
+  in Equation (3) of (Bretz et al. (2011)).
 }
 \value{
   If adjusted is set to true returns a vector of adjusted p-values. Any

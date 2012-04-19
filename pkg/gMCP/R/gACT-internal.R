@@ -1,4 +1,4 @@
-w.dunnet <- function(w,cr,al=.05){
+w.dunnet <- function(w,cr,al=.05,exhaust){
   if(length(cr)>1){
     conn <- conn.comp(cr)
   } else {
@@ -7,23 +7,23 @@ w.dunnet <- function(w,cr,al=.05){
   lconn <- sapply(conn,length)
   conn <- lapply(conn,as.numeric)
   
-  error <- function(cb) {
+  error <- function(cb,w=w) {
     e <- sum(sapply(conn,function(edx){
       if(length(edx)>1){
         return((1-pmvnorm(lower=-Inf,upper=qnorm(1-(w[edx]*cb*al)),corr=cr[edx,edx],abseps=10^-5)))
       } else {
         return((w[edx]*cb*al))
       }
-    }))-al
+    }))-ifelse(exhaust,al,(sum(w)*al))
     e <- ifelse(isTRUE(all.equal(e,0)),0,e)
     return(e)
   }
   up <- 1/max(w)
-  cb <- uniroot(error,c(.9,up))$root
+  cb <- uniroot(error,c(.9,up),w=w)$root
   return(qnorm(1-(w*cb*al)))
 }
 
-p.dunnet <- function(p,cr,w){
+p.dunnet <- function(p,cr,w,exhaust){
   if(length(cr)>1){
     conn <- conn.comp(cr)
   } else {
@@ -34,9 +34,17 @@ p.dunnet <- function(p,cr,w){
   e <- sapply(1:length(p),function(i){
     sum(sapply(conn,function(edx){
       if(length(edx)>1){
-        return((1-pmvnorm(lower=-Inf,upper=qnorm(1-pmin(1,(w[edx]*p[i]/w[i]))),corr=cr[edx,edx],abseps=10^-5)))
+        if(!exhaust){
+          return((1-pmvnorm(lower=-Inf,upper=qnorm(1-pmin(1,(w[edx]*p[i]/(w[i]*sum(w))))),corr=cr[edx,edx],abseps=10^-5)))
+        } else {
+          return((1-pmvnorm(lower=-Inf,upper=qnorm(1-pmin(1,(w[edx]*p[i]/(w[i])))),corr=cr[edx,edx],abseps=10^-5)))
+        }
       } else {
-        return((w[edx]*p[i]/w[i]))
+        if(!exhaust){
+          return((w[edx]*p[i]/(w[i]*sum(w))))
+        } else {
+          return((w[edx]*p[i]/(w[i])))
+        }
       }
     }))})
 
@@ -44,7 +52,7 @@ p.dunnet <- function(p,cr,w){
   e
 }
 
-pvals.dunnet <- function(h,cr,p) {
+pvals.dunnett <- function(h,cr,p,exhaust) {
 #  if(a > .5){
 #    stop("alpha levels above .5 are not supported")
 #  }
@@ -57,12 +65,12 @@ pvals.dunnet <- function(h,cr,p) {
   if(length(e) == 0){
     return(zb)
   }
-  zb[e] <- p.dunnet(p[e],cr[e,e],w[e])
+  zb[e] <- p.dunnet(p[e],cr[e,e],w[e],exhaust)
   zb[which(I>0 & !hw)] <- 1
   return(zb)
 }
 
-b.dunnet <- function(h,cr,a) {
+b.dunnett <- function(h,cr,a,exhaust) {
 #  if(a > .5){
 #    stop("alpha levels above .5 are not supported")
 #  }
@@ -75,7 +83,7 @@ b.dunnet <- function(h,cr,a) {
   if(length(e) == 0){
     return(zb)
   }
-  zb[e] <- w.dunnet(w[e],cr[e,e],al=a)
+  zb[e] <- w.dunnet(w[e],cr[e,e],al=a,exhaust)
   zb[which(I>0 & !hw)] <- Inf
   return(zb)
 }
