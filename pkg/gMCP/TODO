@@ -6,7 +6,6 @@
 - keine p-Werte übernehmen
 - Buttons to load R objects for power dialog.
 - Erben der Korrelationsmatrix vom Hauptfenster (warn if this is not the case?)
-- NCP anstatt mean bzw. Alternative zu mu, sigma und n
 - Scenarios for power
 - listen von Stichproben
 - Output von power calculations
