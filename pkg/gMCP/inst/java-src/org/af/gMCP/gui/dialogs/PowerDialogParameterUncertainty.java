@@ -318,7 +318,11 @@ public class PowerDialogParameterUncertainty extends JDialog implements ActionLi
 		String G = parent.getGraphView().getNL().getGraphName() + "@m";
 		double[] means = new double[nodes.size()];
 		for (int i=0; i<means.length; i++) {
-			means[i] = Double.parseDouble(jtl.get(i).getText());
+			if (ncp) {
+				means[i] = Double.parseDouble(jtl.get(i).getText());
+			} else {
+				means[i] = Double.parseDouble(jtlMu.get(i).getText())*Math.sqrt(Double.parseDouble(jtlN.get(i).getText()))/Double.parseDouble(jtlSigma.get(i).getText());
+			}
 		}
 		String userDefinedF = getUserDefined();
 		String mean = RControl.getRString(means);
