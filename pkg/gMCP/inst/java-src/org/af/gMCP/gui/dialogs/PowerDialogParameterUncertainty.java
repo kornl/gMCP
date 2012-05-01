@@ -1,5 +1,6 @@
 package org.af.gMCP.gui.dialogs;
 
+import java.awt.Component;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -183,11 +184,32 @@ public class PowerDialogParameterUncertainty extends JDialog implements ActionLi
 	public JPanel getMultiSettingPanel() {
 		JPanel mPanel = new JPanel();
 		
+		JTabbedPane parameters = new JTabbedPane();
 		
+		parameters.addTab("Mean µ", new ParameterPanel(0d, nodes, parent));
+		parameters.addTab("Standard deviation σ", new ParameterPanel(1d, nodes, parent));
+		parameters.addTab("Sample size n", new ParameterPanel(10d, nodes, parent));
+		
+		String cols = "5dlu, fill:pref:grow, 5dlu, fill:pref:grow, 5dlu";
+		String rows = "5dlu, fill:pref:grow, 5dlu, pref, 5dlu";
+        
+        mPanel.setLayout(new FormLayout(cols, rows));
+        CellConstraints cc = new CellConstraints();
+		
+		int row = 2;
+		
+		mPanel.add(parameters, cc.xy(2, row));
+        
+		//mPanel.add(new JScrollPane(dfp), cc.xy(4, row));
+		
+		row +=2;
+		
+		//mPanel.add(ok, cc.xy(4, row));
+		//ok.addActionListener(this);		
 		
 		return mPanel;
 	}
-	
+
 	JButton addAnother = new JButton("Add another power function");
 	
 	public JPanel getUserDefinedFunctions() {
