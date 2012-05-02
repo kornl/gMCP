@@ -68,7 +68,7 @@ public class PowerDialogParameterUncertainty extends JDialog implements ActionLi
 		c.weightx=1; c.weighty=1;
 		
 		tPanel.addTab("Single NCP Setting", getSingleSettingPanel());
-		tPanel.addTab("Multiple NCP Setting", getMultiSettingPanel());
+		tPanel.addTab("Multiple NCP Settings", getMultiSettingPanel());
 		tPanel.addTab("Covariance Matrix", getCVPanel());
 		tPanel.addTab("User defined power function", getUserDefinedFunctions());
 		
@@ -188,7 +188,8 @@ public class PowerDialogParameterUncertainty extends JDialog implements ActionLi
 		dfp = new DataFramePanel(df);
 		dfp.getTable().getModel().diagEditable = true;
 		dfp.getTable().setDefaultEditor(EdgeWeight.class, new CellEditorE(null, dfp.getTable()));
-				
+		dfp.getTable().getModel().setCheckRowSum(false);
+		
         CellConstraints cc = new CellConstraints();
 
         int row = 2;
@@ -219,14 +220,16 @@ public class PowerDialogParameterUncertainty extends JDialog implements ActionLi
 		return mPanel;
 	}
 	
+	JButton ok2 = new JButton("Ok");
+	
 	public JPanel getMultiSettingPanel() {
 		JPanel mPanel = new JPanel();
 		
 		JTabbedPane parameters = new JTabbedPane();
 		
-		parameters.addTab("Mean µ", new ParameterPanel(0d, nodes, parent));
-		parameters.addTab("Standard deviation σ", new ParameterPanel(1d, nodes, parent));
-		parameters.addTab("Sample size n", new ParameterPanel(10d, nodes, parent));
+		parameters.addTab("Mean µ", new PowerParameterPanel("mean", 0d, nodes, parent));
+		parameters.addTab("Standard deviation σ", new PowerParameterPanel("sd", 1d, nodes, parent));
+		parameters.addTab("Sample size n", new PowerParameterPanel("sample size", 10d, nodes, parent));
 		
 		String cols = "5dlu, fill:pref:grow, 5dlu, fill:pref:grow, 5dlu";
 		String rows = "5dlu, fill:pref:grow, 5dlu, pref, 5dlu";
@@ -242,8 +245,8 @@ public class PowerDialogParameterUncertainty extends JDialog implements ActionLi
 		
 		row +=2;
 		
-		//mPanel.add(ok, cc.xy(4, row));
-		//ok.addActionListener(this);		
+		mPanel.add(ok2, cc.xy(4, row));
+		ok2.addActionListener(this);		
 		
 		return mPanel;
 	}
@@ -346,6 +349,22 @@ public class PowerDialogParameterUncertainty extends JDialog implements ActionLi
 	}
 
 	public void actionPerformed(ActionEvent e) {
+		if (e.getSource() == createCV) {			
+			MatrixCreationDialog mcd = new MatrixCreationDialog(parent, dfp.getTable().getRMatrix());
+			dfp.getTable().getModel().copy(mcd.dfp.getTable().getModel()); 
+			return;
+		}
+		if (e.getSource() == loadCV) {
+			VariableNameDialog vnd = new VariableNameDialog(parent);
+			double[] result = RControl.getR().eval("as.numeric("+vnd.getName()+")").asRNumeric().getData();
+			int n = nodes.size();
+			for (int i=0; i<n; i++) {
+				for (int j=0; j<n; j++) {
+					dfp.getTable().getModel().setValueAt(new EdgeWeight(result[i*n+j]), i, j);
+				}
+			}
+			return;
+		}
 		if (switchNCP == e.getSource()) {
 			panel.removeAll();
 			if (ncp) {

@@ -22,7 +22,7 @@ import org.af.gMCP.gui.graph.Node;
 import com.jgoodies.forms.layout.CellConstraints;
 import com.jgoodies.forms.layout.FormLayout;
 
-public class ParameterPanel extends JPanel implements ActionListener {
+public class PowerParameterPanel extends JPanel implements ActionListener {
 	
 	GridBagConstraints c = new GridBagConstraints();
 	List<JTextField> tfl = new Vector<JTextField>(); 
@@ -31,14 +31,16 @@ public class ParameterPanel extends JPanel implements ActionListener {
 	JPanel panel = new JPanel();
 	JButton newSetting = new JButton("Add setting");
 	JButton loadRSetting = new JButton("Load settings from R");
-
+	String setting;
+	
 	Double defaultValue;
 	
-	public ParameterPanel(Double defaultValue, Vector<Node> nodes, CreateGraphGUI parent) {
+	public PowerParameterPanel(String setting, Double defaultValue, Vector<Node> nodes, CreateGraphGUI parent) {
 
 		this.nodes = nodes;
 		this.defaultValue = defaultValue;
 		this.parent = parent;
+		this.setting = setting;
 		
 		String cols = "5dlu, fill:min:grow, 5dlu, fill:min:grow, 5dlu";        
         String rows = "5dlu, fill:min:grow, 5dlu, pref, 5dlu";

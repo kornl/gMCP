@@ -85,6 +85,19 @@ public class DataTableModel extends AbstractTableModel {
 	public void setCheckRowSum(boolean checkRowSum) {
 		this.checkRowSum = checkRowSum;
 	}
+
+	/**
+	 * Copys values from one DataTableModel into another
+	 * @param model DataTableModel that will be copied.
+	 */
+	public void copy(DataTableModel model) {
+		for (int i=0; i<model.getRowCount(); i++) {
+			for (int j=0; j<model.getColumnCount(); j++) {
+				getDataFrame().setValue(i, j, model.getValueAt(i, j));			
+			}			
+		}
+		this.fireTableDataChanged();		
+	}
 	
 }
 

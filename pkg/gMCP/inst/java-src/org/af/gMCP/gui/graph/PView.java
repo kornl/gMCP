@@ -321,8 +321,6 @@ public class PView extends JPanel implements KeyListener, ActionListener {
         return correlatedPanel;
 	}
 
-	
-
 	public void actionPerformed(ActionEvent e) {
 		parent.getGraphView().setResultUpToDate(false);
 		if (e.getSource()==refresh) {
@@ -368,6 +366,11 @@ public class PView extends JPanel implements KeyListener, ActionListener {
 		}
 	}
 
+	/**
+	 * Constructs a String to be included in the gMCP call.
+	 * @return String that is either empty or starts with a comma and 
+	 * adds parameters to the gMCP call depending on the selected correlation.
+	 */
 	public String getParameters() {
 		String param = "";
 		if (jrbRCorrelation.isSelected()) {
