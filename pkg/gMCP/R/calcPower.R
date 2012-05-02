@@ -16,9 +16,21 @@ calcPower <- function(weights, alpha, G, mean = rep(0, nrow(sigma)),
                       sigma = diag(length(mean)), cr = NULL,
                       nSim = 10000, seed = 4711, type = c("quasirandom", "pseudorandom"),
 					  f=list()) {
-  type <- match.arg(type)
-  sims <- rqmvnorm(nSim, mean = mean, sigma = sigma, seed = seed, type = type)
-  pvals <- pnorm(sims, lower.tail = FALSE)
-  out <- graphTest(pvals, weights, alpha, G, cr)
-  extractPower(out, f)
+  if (is.list(mean)) {
+	  result <- list()
+	  for (m in mean) {
+		  type <- match.arg(type)
+		  sims <- rqmvnorm(nSim, mean = m, sigma = sigma, seed = seed, type = type)
+		  pvals <- pnorm(sims, lower.tail = FALSE)
+		  out <- graphTest(pvals, weights, alpha, G, cr)
+		  result <- c(result, extractPower(out, f))
+	  }
+	  return(result)
+  } else {
+	  type <- match.arg(type)
+	  sims <- rqmvnorm(nSim, mean = mean, sigma = sigma, seed = seed, type = type)
+	  pvals <- pnorm(sims, lower.tail = FALSE)
+	  out <- graphTest(pvals, weights, alpha, G, cr)
+	  extractPower(out, f)
+  }
 }

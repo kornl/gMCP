@@ -11,7 +11,7 @@ Version 0.7-9 (??-03-2012, Rev. 12??)
 
 - Add option to allow non-alpha-exhaustive parametric tests .
 
-- Improved dialog in GUI for power simulations.
+- Improved dialog in GUI for power simulations, including multiple settings for power analysis.
 
 Version 0.7-8 (06-03-2012, Rev. 1252)
 =====================================

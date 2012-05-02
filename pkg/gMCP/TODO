@@ -1,5 +1,4 @@
 - Save power scenarios
-- H1 && H2 || !H3 (GUI)
 - Export user defined functions and allow names for them
 - CI Dialog testen!
 - Check in CI zu max(0, ..) bzw. min(0, ..) / means
