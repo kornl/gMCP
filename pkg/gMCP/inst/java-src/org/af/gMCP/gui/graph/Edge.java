@@ -15,7 +15,6 @@ import java.util.Collection;
 import java.util.Hashtable;
 
 import javax.swing.JFrame;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import org.af.commons.images.GraphDrawHelper;

@@ -18,8 +18,8 @@ import javax.swing.UnsupportedLookAndFeelException;
 
 import org.af.commons.errorhandling.ErrorHandler;
 import org.af.commons.widgets.InfiniteProgressPanel;
-import org.af.commons.widgets.WidgetFactory;
 import org.af.commons.widgets.InfiniteProgressPanel.AbortListener;
+import org.af.commons.widgets.WidgetFactory;
 import org.af.gMCP.config.Configuration;
 import org.af.gMCP.config.VersionComparator;
 import org.af.gMCP.gui.datatable.CellEditorE;

@@ -2,9 +2,9 @@ package org.af.gMCP.gui.dialogs;
 
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.DecimalFormat;
 import java.util.List;
 import java.util.Vector;
 
@@ -18,7 +18,6 @@ import javax.swing.JTextField;
 import org.af.gMCP.gui.CreateGraphGUI;
 import org.af.gMCP.gui.RControl;
 import org.af.gMCP.gui.graph.Node;
-import org.apache.commons.lang.ArrayUtils;
 
 import com.jgoodies.forms.layout.CellConstraints;
 import com.jgoodies.forms.layout.FormLayout;
@@ -68,12 +67,13 @@ public class ParameterPanel extends JPanel implements ActionListener {
 		c.gridwidth = 1; c.gridheight = 1;
 		c.ipadx=10; c.ipady=10;
 		c.weightx=1; c.weighty=0;
+		//c.insets = new Insets(4,4,4,4);
 		
 		panel.setLayout(new GridBagLayout());	
 		
 		panel.add(new JLabel("Setting "+(tfl.size()+1)), c);
 		c.gridx++;
-		JTextField tf = new JTextField(""+defaultValue);
+		JTextField tf = new JTextField(""+defaultVector());
 		tfl.add(tf);
 		panel.add(tf, c);
 		c.gridx=0; c.gridy++;
@@ -83,12 +83,22 @@ public class ParameterPanel extends JPanel implements ActionListener {
 	public void addRow() {
 		panel.add(new JLabel("Setting "+(tfl.size()+1)), c);
 		c.gridx++;
-		JTextField tf = new JTextField(""+defaultValue);
+		JTextField tf = new JTextField(""+defaultVector());
 		tfl.add(tf);
 		panel.add(tf, c);
 		revalidate();
 		repaint();
 		c.gridx=0; c.gridy++;
+	}
+	
+	DecimalFormat f = new DecimalFormat("#0.###"); 
+	
+	public String defaultVector() {
+		String s = "c(";
+		for (int i=1;i<nodes.size();i++) {
+			s+=f.format(defaultValue)+", ";
+		}
+		return s+f.format(defaultValue)+")";
 	}
 	
 	public void loadRObject() {

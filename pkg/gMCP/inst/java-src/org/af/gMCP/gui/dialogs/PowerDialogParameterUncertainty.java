@@ -1,6 +1,5 @@
 package org.af.gMCP.gui.dialogs;
 
-import java.awt.Component;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -55,6 +54,12 @@ public class PowerDialogParameterUncertainty extends JDialog implements ActionLi
 		setLocationRelativeTo(parent);
 		this.parent = parent;
 		nodes = parent.getGraphView().getNL().getNodes();
+		
+		if (parent.getPView().jrbRCorrelation.isSelected()) {
+			//TODO Set df to this object:
+			parent.getPView().jcbCorObject.getSelectedItem();
+		}
+		parent.getPView().getParameters();
 
         c.fill = GridBagConstraints.BOTH;		
 		c.gridx=0; c.gridy=0;
@@ -62,8 +67,9 @@ public class PowerDialogParameterUncertainty extends JDialog implements ActionLi
 		c.ipadx=10; c.ipady=10;
 		c.weightx=1; c.weighty=1;
 		
-		tPanel.addTab("Single Setting", getSingleSettingPanel());
-		tPanel.addTab("Multiple Setting", getMultiSettingPanel());
+		tPanel.addTab("Single NCP Setting", getSingleSettingPanel());
+		tPanel.addTab("Multiple NCP Setting", getMultiSettingPanel());
+		tPanel.addTab("Covariance Matrix", getCVPanel());
 		tPanel.addTab("User defined power function", getUserDefinedFunctions());
 		
 		getContentPane().add(tPanel);
@@ -88,15 +94,6 @@ public class PowerDialogParameterUncertainty extends JDialog implements ActionLi
 	public JPanel getSingleSettingPanel() {
 		JPanel mPanel = new JPanel();
 		
-		RDataFrameRef df = new RDataFrameRef();
-		for (Node n: parent.getGraphView().getNL().getNodes()) {
-			df.addRowCol(n.getName());
-			df.setValue(df.getColumnCount()-1, df.getColumnCount()-1, new EdgeWeight(1));
-		}		
-		dfp = new DataFramePanel(df);
-		dfp.getTable().getModel().diagEditable = true;
-		dfp.getTable().setDefaultEditor(EdgeWeight.class, new CellEditorE(null, dfp.getTable()));
-				
         String cols = "5dlu, pref, 5dlu, fill:pref:grow, 5dlu";
         String cols2 = "5dlu, pref, 5dlu, fill:pref:grow, 5dlu, fill:pref:grow, 5dlu, fill:pref:grow, 5dlu";
         String rows = "5dlu, pref, 5dlu";
@@ -158,8 +155,6 @@ public class PowerDialogParameterUncertainty extends JDialog implements ActionLi
 		row = 2;
 		
 		mPanel.add(new JLabel("Noncentrality parameter of multivariate normal distribution"), cc.xy(2, row));
-        
-		mPanel.add(new JLabel("Covariance matrix"), cc.xy(4, row));
 		
 		row +=2;
 		
@@ -168,8 +163,6 @@ public class PowerDialogParameterUncertainty extends JDialog implements ActionLi
 		
 		mPanel.add(new JScrollPane(panel), cc.xy(2, row));
         
-		mPanel.add(new JScrollPane(dfp), cc.xy(4, row));
-		
 		row +=2;
 		
 		mPanel.add(switchNCP, cc.xy(2, row));
@@ -177,6 +170,51 @@ public class PowerDialogParameterUncertainty extends JDialog implements ActionLi
 		
 		mPanel.add(ok, cc.xy(4, row));
 		ok.addActionListener(this);
+		
+		return mPanel;
+	}
+	
+	JButton createCV = new JButton("Advanced Matrix Creation");
+	JButton loadCV = new JButton("Load Matrix from R");
+
+	public JPanel getCVPanel() {
+		JPanel mPanel = new JPanel();
+		
+		RDataFrameRef df = new RDataFrameRef();
+		for (Node n: parent.getGraphView().getNL().getNodes()) {
+			df.addRowCol(n.getName());
+			df.setValue(df.getColumnCount()-1, df.getColumnCount()-1, new EdgeWeight(1));
+		}		
+		dfp = new DataFramePanel(df);
+		dfp.getTable().getModel().diagEditable = true;
+		dfp.getTable().setDefaultEditor(EdgeWeight.class, new CellEditorE(null, dfp.getTable()));
+				
+        CellConstraints cc = new CellConstraints();
+
+        int row = 2;
+        
+        String cols = "5dlu, fill:pref:grow, 5dlu, fill:pref:grow, 5dlu";
+        String rows = "5dlu, pref, 5dlu, fill:pref:grow, 5dlu, pref, 5dlu";
+        
+        mPanel.setLayout(new FormLayout(cols, rows));
+        cc = new CellConstraints();
+		
+		mPanel.add(new JLabel("Covariance matrix"), cc.xyw(2, row, 3));
+		
+		row +=2;
+		
+		panel.setLayout(new GridBagLayout());	
+		panel.add(singleNCP, c);
+		
+		mPanel.add(new JScrollPane(dfp), cc.xyw(2, row, 3));
+		
+		row +=2;
+		
+		mPanel.add(loadCV, cc.xy(2, row));
+		loadCV.addActionListener(this);
+		
+		mPanel.add(createCV, cc.xy(4, row));
+		createCV.addActionListener(this);
 		
 		return mPanel;
 	}
