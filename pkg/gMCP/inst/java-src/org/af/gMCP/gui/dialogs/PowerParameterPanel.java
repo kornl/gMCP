@@ -121,6 +121,15 @@ public class PowerParameterPanel extends JPanel implements ActionListener {
 		}	
 	}
 
+	public String getRList() {
+		String s = "list(";
+		for (int i=0; i<tfl.size()-1; i++) {
+			s += tfl.get(i).getText()+",";
+		}
+		s += tfl.get(tfl.size()-1).getText()+")";
+		return s;
+	}
+	
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == newSetting) {
 			addRow();

@@ -1,20 +1,28 @@
 package org.af.gMCP.gui.dialogs;
 
+import java.awt.Component;
 import java.awt.Font;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
 import org.af.commons.io.FileTools;
+import org.af.gMCP.config.Configuration;
+import org.af.gMCP.gui.MenuBarMGraph;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 import com.jgoodies.forms.layout.CellConstraints;
 import com.jgoodies.forms.layout.FormLayout;
@@ -22,6 +30,8 @@ import com.jgoodies.forms.layout.FormLayout;
 public class TextFileViewer extends JDialog implements ActionListener {
 	
 	JTextArea jta;
+	JButton save = new JButton("Save");
+	 private static final Log logger = LogFactory.getLog(TextFileViewer.class);
 	
 	public TextFileViewer(JFrame p, File file) {		
 		super(p, file.getName());	
@@ -41,16 +51,58 @@ public class TextFileViewer extends JDialog implements ActionListener {
 		setUp(text, null);
 	}
 	
+	public TextFileViewer(JFrame p, String title, String text, boolean save) {
+		super(p, title);
+		if (save) {
+		this.save.addActionListener(this);
+			setUp(text, this.save, 2, 6, 1);
+		} else {
+			setUp(text, null);
+		}
+	}
+	
 	public TextFileViewer(JFrame p, String title, String text, String label) {
 		super(p, title);
-		setUp(text, label);
+		JTextArea jlabel = new JTextArea(label);
+		jlabel.setOpaque(false);
+		jlabel.setEditable(false);
+		setUp(text, jlabel);
 	}
 
 	public void actionPerformed(ActionEvent e) {
+		if (e.getSource()==save) {
+			File f = null;
+			try {
+				JFileChooser fc = new JFileChooser(Configuration.getInstance().getClassProperty(this.getClass(), "SaveDirectory"));
+				fc.setDialogType(JFileChooser.SAVE_DIALOG);				
+				int returnVal = fc.showSaveDialog(this);
+				if (returnVal == JFileChooser.APPROVE_OPTION) {			
+					f = fc.getSelectedFile();
+					Configuration.getInstance().setClassProperty(this.getClass(), "SaveDirectory", f.getParent());
+					if (!f.getName().toLowerCase().endsWith(".txt")) {
+		            	f = new File(f.getAbsolutePath()+".txt");
+		            }
+					logger.info("Export to: " + f.getAbsolutePath() + ".");
+				} else {
+					return;
+				}
+				BufferedWriter out = new BufferedWriter(new FileWriter(f));
+				String output = jta.getText().replaceAll("\n", System.getProperty("line.separator"));
+				out.write(output);
+				out.close();
+			} catch (IOException ioe) {
+				JOptionPane.showMessageDialog(this, "Saving to '" + f.getAbsolutePath() + "' failed: " + ioe.getMessage(), "Saving failed.", JOptionPane.ERROR_MESSAGE);
+			}
+			return;
+		}
 		dispose();
 	}
 	
-	private void setUp(String text, String label) {
+	private void setUp(String text, Component comp) {
+		setUp(text, comp, 2, 4, 3);
+	}
+	
+	private void setUp(String text, Component comp, int row, int col, int w) {
 		jta = new JTextArea(text);
 		jta.setFont(new Font("Monospaced", Font.PLAIN, 12));
 		jta.setLineWrap(true);
@@ -69,11 +121,8 @@ public class TextFileViewer extends JDialog implements ActionListener {
 		
 		getContentPane().add(jsp, cc.xyw(2, 2, 3));
 		
-		if (label!=null) {
-			JTextArea jlabel = new JTextArea(label);
-			jlabel.setOpaque(false);
-			jlabel.setEditable(false);
-			getContentPane().add(jlabel, cc.xyw(2, 4, 3));
+		if (comp!=null) {			
+			getContentPane().add(comp, cc.xyw(row, col, w));
 		}
 		
 		JButton jb = new JButton("OK");

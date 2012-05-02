@@ -397,10 +397,14 @@ public class PowerDialogParameterUncertainty extends JDialog implements ActionLi
 		String G = parent.getGraphView().getNL().getGraphName() + "@m";
 		double[] means = new double[nodes.size()];
 		for (int i=0; i<means.length; i++) {
-			if (ncp) {
-				means[i] = Double.parseDouble(jtl.get(i).getText());
+			if (e.getSource()==ok) {
+				if (ncp) {
+					means[i] = Double.parseDouble(jtl.get(i).getText());
+				} else {
+					means[i] = Double.parseDouble(jtlMu.get(i).getText())*Math.sqrt(Double.parseDouble(jtlN.get(i).getText()))/Double.parseDouble(jtlSigma.get(i).getText());
+				}
 			} else {
-				means[i] = Double.parseDouble(jtlMu.get(i).getText())*Math.sqrt(Double.parseDouble(jtlN.get(i).getText()))/Double.parseDouble(jtlSigma.get(i).getText());
+				
 			}
 		}
 		String userDefinedF = getUserDefined();
@@ -426,6 +430,13 @@ public class PowerDialogParameterUncertainty extends JDialog implements ActionLi
 		dispose();
 	}
 
+	/**
+	 * Constructs String that contains the parameter f for user defined
+	 * functions used by calcPower and extractPower
+	 * @return String that contains the parameter f for user defined
+	 * functions used by calcPower and extractPower. Either empty or
+	 * of the form ", f=list(...)".
+	 */
 	private String getUserDefined() {
 		if (listModel.getSize()==0) return "";
 		String s = ", f=list(";
