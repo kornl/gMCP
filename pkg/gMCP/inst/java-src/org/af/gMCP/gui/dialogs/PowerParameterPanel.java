@@ -18,6 +18,7 @@ import javax.swing.JTextField;
 import org.af.gMCP.gui.CreateGraphGUI;
 import org.af.gMCP.gui.RControl;
 import org.af.gMCP.gui.graph.Node;
+import org.af.jhlir.call.RList;
 
 import com.jgoodies.forms.layout.CellConstraints;
 import com.jgoodies.forms.layout.FormLayout;
@@ -31,7 +32,7 @@ public class PowerParameterPanel extends JPanel implements ActionListener {
 	JPanel panel = new JPanel();
 	JButton newSetting = new JButton("Add setting");
 	JButton loadRSetting = new JButton("Load settings from R");
-	String setting;
+	String setting;	
 	
 	Double defaultValue;
 	
@@ -62,6 +63,12 @@ public class PowerParameterPanel extends JPanel implements ActionListener {
 		loadRSetting.addActionListener(this);
 		
 	}
+	
+	public void removeTextFields() {
+		panel.removeAll();
+		tfl.clear();
+	}
+	
 	
 	public JPanel getPanel() {
 		c.fill = GridBagConstraints.BOTH;		
@@ -103,20 +110,42 @@ public class PowerParameterPanel extends JPanel implements ActionListener {
 		return s+f.format(defaultValue)+")";
 	}
 	
+	public String buildVector(double[] data) {
+		String s = "c(";
+		for (int i=0;i<data.length-1;i++) {
+			s+=f.format(data[i])+", ";
+		}
+		return s+f.format(data[data.length-1])+")";
+	}
+	
 	public void loadRObject() {
 		VariableNameDialog vnd = new VariableNameDialog(parent);     
-		try {
-			double[] data = RControl.getR().eval(vnd.getName()).asRNumeric().getData();
-			if (data.length!=nodes.size()) {
-				JOptionPane.showMessageDialog(parent, "Number of hypotheses and values do not match.", 
-						"Number of hypotheses and values do not match", JOptionPane.ERROR_MESSAGE);
-				return;
+		try {			
+			RList pList = RControl.getR().eval(vnd.getName()).asRList();
+			removeTextFields();
+			c.gridx=0; c.gridy=0;
+			for (int i=0; i<pList.getLength(); i++) {
+				double[] data = pList.get(i).asRNumeric().getData();
+				if (data.length!=nodes.size()) {
+					JOptionPane.showMessageDialog(parent, "Number of hypotheses and values do not match.", 
+							"Number of hypotheses and values do not match", JOptionPane.ERROR_MESSAGE);
+					return;					
+				}
+				JTextField tf = new JTextField(buildVector(data));
+				tfl.add(tf);
+				panel.add(new JLabel("Setting "+(tfl.size()+1)), c);
+				c.gridx++;
+				panel.add(tf, c);
+				c.gridx=0; c.gridy++;
+				panel.revalidate();
+				panel.repaint();
 			}
-			
-			
-			
 		} catch (Exception ex) {
-			JOptionPane.showMessageDialog(this, "Error loading values from R:\n"+ex.getMessage(), 
+			JOptionPane.showMessageDialog(this, "Error loading values from R:\n"+ex.getMessage()+"\n\n" +
+					"The object to load should be a arbitrary long list and \n" +
+					"each element will correspond to a setting and should be a\n" +
+					"numeric vector of length equal to the number of hypotheses.\n" +
+					"Samplesize example: list(setting1=c(10,10,10),setting2=c(20,20,20))", 
 					"Error loading values from R", JOptionPane.ERROR_MESSAGE);
 		}	
 	}

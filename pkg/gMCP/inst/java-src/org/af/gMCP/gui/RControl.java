@@ -72,6 +72,7 @@ public class RControl {
 				rcs.eval("sdEst <- c(0.8759528, 1.291310, 0.8570892)");
 				rcs.eval("pval <- c(0.01260, 0.05154, 0.02124)/2");
 				rcs.eval("pHommel <- c(0.097, 0.015, 0.005, 0.006, 0.004, 0.008, 0.04)");
+				rcs.eval("nSize <- list(c(10,10,10), c(20,20,20), c(20,10,30))");
 			}
 		} catch (REngineException e) {
 			ErrorHandler.getInstance().makeErrDialog("Error creating RCallServicesREngine!", e);
