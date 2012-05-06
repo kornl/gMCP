@@ -9,7 +9,7 @@ Version 0.7-9 (??-03-2012, Rev. 12??)
 - calcPower gained a parameter "cr" for specifying
   a correlation for parametric power simulations. 
 
-- Add option to allow non-alpha-exhaustive parametric tests .
+- Added option to allow non-alpha-exhaustive parametric tests .
 
 - Improved dialog in GUI for power simulations, including multiple settings for power analysis.
 
