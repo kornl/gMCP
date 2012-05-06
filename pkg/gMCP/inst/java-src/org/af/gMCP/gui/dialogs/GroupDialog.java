@@ -21,6 +21,12 @@ import javax.swing.event.ChangeListener;
 import com.jgoodies.forms.layout.CellConstraints;
 import com.jgoodies.forms.layout.FormLayout;
 
+/**
+ * A modal JDialog that asks for sample sizes.
+ * Either one single number can be entered (default is 10)
+ * or if the check box "Balanced design" is not selected
+ * a predefined number of sample sizes can be entered.
+ */
 public class GroupDialog extends JDialog implements ActionListener, ChangeListener {
 
 	JButton ok = new JButton("Ok");
@@ -28,6 +34,11 @@ public class GroupDialog extends JDialog implements ActionListener, ChangeListen
 	List<JTextField> weightsV = new Vector<JTextField>();
 	JCheckBox balancedDesign = new JCheckBox("Balanced design");
 
+	/**
+	 * Constructor
+	 * @param parent Parent JFrame
+	 * @param n number of groups sample sizes are asked for
+	 */
 	public GroupDialog(JFrame parent, int n) {
 		super(parent, "Sample Sizes", true);
 		setLocationRelativeTo(parent);

@@ -11,6 +11,12 @@ import javax.swing.JDialog;
 import com.jgoodies.forms.layout.CellConstraints;
 import com.jgoodies.forms.layout.FormLayout;
 
+/**
+ * A modal JDialog that shows a JColorChooser component 
+ * and provides the method getColor() to get the selected
+ * Color object afterwards.
+ */
+
 public class ColorChooseDialog extends JDialog implements ActionListener {
 	JColorChooser colorChooser = new JColorChooser();
 	JButton jb = new JButton("OK");

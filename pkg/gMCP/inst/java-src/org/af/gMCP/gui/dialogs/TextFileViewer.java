@@ -20,7 +20,6 @@ import javax.swing.JTextArea;
 
 import org.af.commons.io.FileTools;
 import org.af.gMCP.config.Configuration;
-import org.af.gMCP.gui.MenuBarMGraph;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 

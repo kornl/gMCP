@@ -7,6 +7,10 @@ import javax.swing.JFrame;
 import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
 
+/**
+ * A JDialog class that defines a few static SimpleAttributeSets
+ * for formatted text output.
+ */
 public class InfoDialog extends JDialog {
 	
 	 public InfoDialog(JFrame parent, String title) {

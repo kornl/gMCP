@@ -6,6 +6,9 @@ import java.awt.Image;
 
 import javax.swing.JPanel;
 
+/**
+ * A JPanel that draws an Image object. 
+ */
 public class ImagePanel extends JPanel {
 	Image image;
 	

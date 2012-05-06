@@ -403,7 +403,8 @@ public class PowerDialogParameterUncertainty extends JDialog implements ActionLi
 				} else {
 					means[i] = Double.parseDouble(jtlMu.get(i).getText())*Math.sqrt(Double.parseDouble(jtlN.get(i).getText()))/Double.parseDouble(jtlSigma.get(i).getText());
 				}
-			} else {
+			} else { /** Multiple Settings */
+				
 				
 			}
 		}
