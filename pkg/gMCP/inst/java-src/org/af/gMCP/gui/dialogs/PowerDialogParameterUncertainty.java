@@ -11,6 +11,7 @@ import java.util.Vector;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JDialog;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
@@ -177,6 +178,10 @@ public class PowerDialogParameterUncertainty extends JDialog implements ActionLi
 	JButton createCV = new JButton("Advanced Matrix Creation");
 	JButton loadCV = new JButton("Load Matrix from R");
 
+	/**
+	 * Constructs and returns the panel for the covariance matrix.
+	 * @return the panel for the covariance matrix
+	 */
 	public JPanel getCVPanel() {
 		JPanel mPanel = new JPanel();
 		
@@ -221,15 +226,19 @@ public class PowerDialogParameterUncertainty extends JDialog implements ActionLi
 	}
 	
 	JButton ok2 = new JButton("Ok");
+	PowerParameterPanel pPanelMeans, pPanelSigmas, pPanelN; 
 	
 	public JPanel getMultiSettingPanel() {
 		JPanel mPanel = new JPanel();
 		
 		JTabbedPane parameters = new JTabbedPane();
 		
-		parameters.addTab("Mean µ", new PowerParameterPanel("mean", 0d, nodes, parent));
-		parameters.addTab("Standard deviation σ", new PowerParameterPanel("sd", 1d, nodes, parent));
-		parameters.addTab("Sample size n", new PowerParameterPanel("sample size", 10d, nodes, parent));
+		pPanelMeans = new PowerParameterPanel("mean", 0d, nodes, parent);
+		pPanelSigmas = new PowerParameterPanel("sd", 1d, nodes, parent);
+		pPanelN = new PowerParameterPanel("sample size", 10d, nodes, parent);
+		parameters.addTab("Mean µ", pPanelMeans);
+		parameters.addTab("Standard deviation σ", pPanelSigmas);
+		parameters.addTab("Sample size n", pPanelN);
 		
 		String cols = "5dlu, fill:pref:grow, 5dlu, fill:pref:grow, 5dlu";
 		String rows = "5dlu, fill:pref:grow, 5dlu, pref, 5dlu";
@@ -396,38 +405,52 @@ public class PowerDialogParameterUncertainty extends JDialog implements ActionLi
 		double alpha = parent.getPView().getTotalAlpha();
 		String G = parent.getGraphView().getNL().getGraphName() + "@m";
 		double[] means = new double[nodes.size()];
-		for (int i=0; i<means.length; i++) {
-			if (e.getSource()==ok) {
+		String settings = null;
+		String userDefinedF = getUserDefined();
+		// TODO: Why exactly do we need this here and what happens if parse2numeric throws an error?
+		RControl.getR().eval(parent.getGraphView().getNL().getGraphName()+"<-gMCP:::parse2numeric("+parent.getGraphView().getNL().getGraphName()+")");
+
+		if (e.getSource()==ok) { /** Single Setting */
+			for (int i=0; i<means.length; i++) {
 				if (ncp) {
 					means[i] = Double.parseDouble(jtl.get(i).getText());
 				} else {
 					means[i] = Double.parseDouble(jtlMu.get(i).getText())*Math.sqrt(Double.parseDouble(jtlN.get(i).getText()))/Double.parseDouble(jtlSigma.get(i).getText());
 				}
-			} else { /** Multiple Settings */
-				
-				
 			}
-		}
-		String userDefinedF = getUserDefined();
-		String mean = RControl.getRString(means);
-		RControl.getR().eval(parent.getGraphView().getNL().getGraphName()+"<-gMCP:::parse2numeric("+parent.getGraphView().getNL().getGraphName()+")");
-		RControl.getR().eval(".powerResult <- calcPower(weights="+weights+", alpha="+alpha+", G="+G+", mean="+mean
-                      +","+"sigma = " + dfp.getTable().getModel().getDataFrame().getRMatrix() //diag(length(mean)),corr = NULL,"+
-                      +userDefinedF
-                      +", nSim = "+Configuration.getInstance().getGeneralConfig().getNumberOfSimulations()
-                      +", type = \""+Configuration.getInstance().getGeneralConfig().getTypeOfRandom()+"\""
-				+")");
-		double[] localPower = RControl.getR().eval(".powerResult$LocalPower").asRNumeric().getData();
-		double expRejections = RControl.getR().eval(".powerResult$ExpRejections").asRNumeric().getData()[0];
-		double powAtlst1 = RControl.getR().eval(".powerResult$PowAtlst1").asRNumeric().getData()[0];
-		double rejectAll = RControl.getR().eval(".powerResult$RejectAll").asRNumeric().getData()[0];
-		Double[] userDefined = new Double[listModel.getSize()];
-		String[] functions = new String[listModel.getSize()];
-		for (int i=0; i<listModel.getSize(); i++) {
-			functions[i] = listModel.get(i).toString();
-			userDefined[i] = RControl.getR().eval(".powerResult$userDefined"+i).asRNumeric().getData()[0];
-		}
-		parent.getGraphView().getNL().setPower(localPower, expRejections, powAtlst1, rejectAll, userDefined, functions);
+			String mean = RControl.getRString(means);
+			settings = ", mean="+mean;
+
+			RControl.getR().eval(".powerResult <- calcPower(weights="+weights+", alpha="+alpha+", G="+G+settings
+					+","+"sigma = " + dfp.getTable().getModel().getDataFrame().getRMatrix() //diag(length(mean)),corr = NULL,"+
+					+userDefinedF
+					+", nSim = "+Configuration.getInstance().getGeneralConfig().getNumberOfSimulations()
+					+", type = \""+Configuration.getInstance().getGeneralConfig().getTypeOfRandom()+"\""
+					+")");
+			double[] localPower = RControl.getR().eval(".powerResult$LocalPower").asRNumeric().getData();
+			double expRejections = RControl.getR().eval(".powerResult$ExpRejections").asRNumeric().getData()[0];
+			double powAtlst1 = RControl.getR().eval(".powerResult$PowAtlst1").asRNumeric().getData()[0];
+			double rejectAll = RControl.getR().eval(".powerResult$RejectAll").asRNumeric().getData()[0];
+			Double[] userDefined = new Double[listModel.getSize()];
+			String[] functions = new String[listModel.getSize()];
+			for (int i=0; i<listModel.getSize(); i++) {
+				functions[i] = listModel.get(i).toString();
+				userDefined[i] = RControl.getR().eval(".powerResult$userDefined"+i).asRNumeric().getData()[0];
+			}
+			parent.getGraphView().getNL().setPower(localPower, expRejections, powAtlst1, rejectAll, userDefined, functions);
+
+		} else { /** Multiple Settings */
+			settings = ", muL = " + pPanelMeans.getRList()
+					+ ", sigmaL = " + pPanelSigmas.getRList()
+					+ ", nL = " + pPanelN.getRList();
+			String result = RControl.getR().eval("gMCP:::calcMultiPower(weights="+weights+", alpha="+alpha+", G="+G+settings
+					+","+"sigma = " + dfp.getTable().getModel().getDataFrame().getRMatrix() //diag(length(mean)),corr = NULL,"+
+					+userDefinedF
+					+", nSim = "+Configuration.getInstance().getGeneralConfig().getNumberOfSimulations()
+					+", type = \""+Configuration.getInstance().getGeneralConfig().getTypeOfRandom()+"\""
+					+")").asRChar().getData()[0];
+			new TextFileViewer(parent, "Power results", result, true);
+		}				
 		dispose();
 	}
 
