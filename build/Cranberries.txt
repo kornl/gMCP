@@ -1211,3 +1211,42 @@ Diff between gMCP versions 0.7-7 dated 2012-02-17 and 0.7-8 dated 2012-03-06
  inst/java/gsrmtp.jar                                            |binary
  14 files changed, 136 insertions(+), 45 deletions(-)
 
+Diff between gMCP versions 0.7-8 dated 2012-03-06 and 0.7-9 dated 2012-05-07
+
+ gMCP-0.7-8/gMCP/inst/java-src/org/af/gMCP/gui/dialogs/PowerDialog.java                     |only
+ gMCP-0.7-9/gMCP/DESCRIPTION                                                                |    6 
+ gMCP-0.7-9/gMCP/MD5                                                                        |   62 -
+ gMCP-0.7-9/gMCP/NEWS                                                                       |   16 
+ gMCP-0.7-9/gMCP/R/calcPower.R                                                              |   78 +
+ gMCP-0.7-9/gMCP/R/gACT-internal.R                                                          |   30 
+ gMCP-0.7-9/gMCP/R/generateBounds.R                                                         |    4 
+ gMCP-0.7-9/gMCP/R/generatePvals.R                                                          |    4 
+ gMCP-0.7-9/gMCP/R/graphTest.R                                                              |   66 -
+ gMCP-0.7-9/gMCP/R/rqmvnorm.R                                                               |    5 
+ gMCP-0.7-9/gMCP/TODO                                                                       |   12 
+ gMCP-0.7-9/gMCP/inst/doc/AQuickStart.pdf                                                   |binary
+ gMCP-0.7-9/gMCP/inst/doc/gMCP.pdf                                                          |binary
+ gMCP-0.7-9/gMCP/inst/doc/parametric.pdf                                                    |binary
+ gMCP-0.7-9/gMCP/inst/java-src/org/af/gMCP/gui/CreateGraphGUI.java                          |    2 
+ gMCP-0.7-9/gMCP/inst/java-src/org/af/gMCP/gui/RControl.java                                |    1 
+ gMCP-0.7-9/gMCP/inst/java-src/org/af/gMCP/gui/datatable/DataTableModel.java                |   13 
+ gMCP-0.7-9/gMCP/inst/java-src/org/af/gMCP/gui/dialogs/ColorChooseDialog.java               |    6 
+ gMCP-0.7-9/gMCP/inst/java-src/org/af/gMCP/gui/dialogs/GraphSendToArchiveDialog.java        |   17 
+ gMCP-0.7-9/gMCP/inst/java-src/org/af/gMCP/gui/dialogs/GroupDialog.java                     |   11 
+ gMCP-0.7-9/gMCP/inst/java-src/org/af/gMCP/gui/dialogs/ImagePanel.java                      |    3 
+ gMCP-0.7-9/gMCP/inst/java-src/org/af/gMCP/gui/dialogs/InfoDialog.java                      |    4 
+ gMCP-0.7-9/gMCP/inst/java-src/org/af/gMCP/gui/dialogs/PowerDialogParameterUncertainty.java |  416 ++++++++--
+ gMCP-0.7-9/gMCP/inst/java-src/org/af/gMCP/gui/dialogs/PowerParameterPanel.java             |only
+ gMCP-0.7-9/gMCP/inst/java-src/org/af/gMCP/gui/dialogs/TextFileViewer.java                  |   62 +
+ gMCP-0.7-9/gMCP/inst/java-src/org/af/gMCP/gui/graph/Edge.java                              |   18 
+ gMCP-0.7-9/gMCP/inst/java-src/org/af/gMCP/gui/graph/PView.java                             |   11 
+ gMCP-0.7-9/gMCP/inst/java/gsrmtp.jar                                                       |binary
+ gMCP-0.7-9/gMCP/man/calcPower.Rd                                                           |    9 
+ gMCP-0.7-9/gMCP/man/generateBounds.Rd                                                      |   23 
+ gMCP-0.7-9/gMCP/man/generatePvals.Rd                                                       |   24 
+ gMCP-0.7-9/gMCP/man/graphTest.Rd                                                           |    4 
+ gMCP-0.7-9/gMCP/man/rqmvnorm.Rd                                                            |    3 
+ 33 files changed, 720 insertions(+), 190 deletions(-)
+
+
+
