@@ -185,8 +185,6 @@ public class CreateGraphGUI extends JFrame implements WindowListener, AbortListe
 		new CreateGraphGUI("graph", new double[] {}, true,  10, true);
 	}
 
-	public void windowActivated(WindowEvent e) {}
-	public void windowClosed(WindowEvent e) {}
 	/**
 	 * Closes the R console if we are in bundled mode and checks for unsaved changes. 
 	 */
@@ -209,7 +207,9 @@ public class CreateGraphGUI extends JFrame implements WindowListener, AbortListe
 	public void windowDeiconified(WindowEvent e) {}
 	public void windowIconified(WindowEvent e) {}
 	public void windowOpened(WindowEvent e) {}
-
+	public void windowActivated(WindowEvent e) {}
+	public void windowClosed(WindowEvent e) {}
+	
 	public PView getPView() {		
 		return pview;
 	}

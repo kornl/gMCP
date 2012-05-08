@@ -130,6 +130,12 @@ public class RControl {
 		return getR().eval("exists(\""+obj+"\")").asRLogical().getData()[0];
 	}
 
+	/**
+	 * Creates an ASCII R text representation of a double array.
+	 * This includes values -Inf, Inf and NaN.
+	 * @param x double array of interest
+	 * @return ASCII text R representation of  R numeric vector
+	 */
 	public static String getRString(double[] x) {
 		String s = "c(";
 		for (int i=0; i<x.length; i++) {

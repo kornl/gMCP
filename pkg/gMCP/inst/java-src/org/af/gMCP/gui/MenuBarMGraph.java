@@ -239,6 +239,9 @@ public class MenuBarMGraph extends JMenuBar implements ActionListener {
         new DetailsDialog(LoggingSystem.getInstance().makeDetailsPanel());
     }
     
+    /**
+     * Creates an ErrorDialog
+     */
     public void reportError() {    	
         ErrorHandler.getInstance().makeErrDialog("Report Error");
     }
