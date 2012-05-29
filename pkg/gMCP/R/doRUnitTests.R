@@ -33,5 +33,3 @@ doUnitTestsForGMCP <- function(extended=FALSE) {
 	printTextProtocol(tests, showDetails=TRUE,
 			fileName=paste(pathReport, ".txt", sep=""))
 }
-
-doRUnitTests()
