@@ -5,13 +5,20 @@ Version 0.7-10 (??-05-2012, Rev. 1???)
 - New self test function doUnitTestsForGMCP to check whether
   the R unit test suite for gMCP can complete without errors.
 
+- To reduce problems for older systems our C code does not contain 
+  any C99 features any more. (For R > 2.12 an ISO C99 C compiler is 
+  required. For older systems this was not the case.)
+  
+- Added option directly to the gMCP function to allow 
+  non-alpha-exhaustive parametric tests.
+
 Version 0.7-9 (07-05-2012, Rev. 1277)
 =====================================
 
 - calcPower gained a parameter "cr" for specifying
   a correlation for parametric power simulations. 
 
-- Added option to allow non-alpha-exhaustive parametric tests .
+- Added option to allow non-alpha-exhaustive parametric tests.
 
 - Improved dialog in GUI for power simulations, 
   including multiple settings for power analysis.

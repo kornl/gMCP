@@ -3,9 +3,15 @@
 #include <Rdefines.h>
 
 SEXP cgMCP(double *oldM, double *oldW, double *p, double *a, int *n, double *s, double *m, double *w) {
-
+    /* Declaration of variables that where declared formerly in the 'for' loops.
+     * Since declarations in 'for' loops are only allowed in C99 mode and we can
+     * only expect an ISO C99 C compiler for R > 2.12, we now declare these variables
+     * in the beginning.
+     * See http://cran.r-project.org/doc/manuals/R-ints.html#R-coding-standards
+     */
+	int i=0,j=0,k=0,l=0;
 	/* s is a vector initialized with 0 - later node i is rejected <=> s[i]==1 */
-	for(int i=0; i<*n; i++) {
+	for(i=0; i<*n; i++) {
 		s[i] = 0;
 	}
 
@@ -13,9 +19,9 @@ SEXP cgMCP(double *oldM, double *oldW, double *p, double *a, int *n, double *s, 
 	double *mtemp = (double*) R_alloc(*n**n, sizeof(double));
 
 	/* Copying oldM to m and oldW to w, since we do not want to change the parameters in R */
-	for(int i=0; i<*n; i++) {
+	for(i=0; i<*n; i++) {
 		w[i] = oldW[i];
-		for(int j=0; j<*n; j++) {
+		for(j=0; j<*n; j++) {
 			m[j+*n*i] = oldM[j+*n*i];
 			mtemp[j+*n*i] = oldM[j+*n*i];
 		}
@@ -24,8 +30,8 @@ SEXP cgMCP(double *oldM, double *oldW, double *p, double *a, int *n, double *s, 
 	while (1==1) {
 
 		/* Searching for a node that can be rejected, e.g. p[i]<=w[i]*a[0] */
-		int j = -1;
-		for(int i=0; i<*n; i++) {
+		j = -1;
+		for(i=0; i<*n; i++) {
 			if (p[i]<=w[i]*a[0] && s[i]==0) {
 				j = i;
 			}
@@ -37,10 +43,10 @@ SEXP cgMCP(double *oldM, double *oldW, double *p, double *a, int *n, double *s, 
 
 		/* Otherwise reject it: */
 		s[j] = 1;
-		for(int l=0; l<*n; l++) {
+		for(l=0; l<*n; l++) {
 			if(s[l]==0) {
 				w[l] = w[l] + w[j]*m[j + *n*l];
-				for(int k=0; k<*n; k++) {
+				for(k=0; k<*n; k++) {
 					if (s[k]==0) {
 						if (l!=k && m[l + *n*j]*m[j + *n*l]<1) {
 							mtemp[l + *n*k] = (m[l + *n*k]+m[l + *n*j]*m[j + *n*k])/(1-m[l + *n*j]*m[j + *n*l]);
@@ -52,15 +58,15 @@ SEXP cgMCP(double *oldM, double *oldW, double *p, double *a, int *n, double *s, 
 			}
 		}
 		/* Remove all edges from and to node j: */
-		for(int l=0; l<*n; l++) {
+		for(l=0; l<*n; l++) {
 			mtemp[l+*n*j] = 0;
 			mtemp[j+*n*l] = 0;
 		}
 		w[j] = 0;
 
 		/* Copy mtemp to m: */
-		for(int i=0; i<*n; i++) {
-			for(int j=0; j<*n; j++) {
+		for(i=0; i<*n; i++) {
+			for(j=0; j<*n; j++) {
 				m[j+*n*i] = mtemp[j+*n*i];
 			}
 		}
