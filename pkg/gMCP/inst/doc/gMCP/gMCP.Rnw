@@ -1015,6 +1015,31 @@ the test to global level $\alpha$ rejects $H_j$.
 
 Therefore $p'_j=\text{max}(m_J\;|\;j\in J)$.
 
+\section{Appendix - Graph Theory Basics}
+
+When we talk about graphs in the context of gMCP we always mean finite,
+directed, weighted graphs with no self-loops and no parallel edges:
+
+\begin{Def}
+ In our context a (valid) \emph{graph} $G$ is a triple $G=(V,E,w)$
+ of a non-empty, finite set $V$ of nodes together with the set of edges
+ $E\subset (V\times V)\setminus\{(v,v)\;|\;v\in V\}$ and a mapping $w:\;V\cup
+ E\rightarrow [0,1]$ that fullfills $\sum_{v\in V}w(v)\leq1$ and $w(e)>0$ for
+ each edge $e\in E$.
+\end{Def}
+
+Isomorphisms.
+
+\begin{Theorem}[Unimprovable graph] 
+ Let $G=(V,E,w)$ be a graph with $\sum_{v\in V}w(v)=1$.
+ If for all $v, v'\in V$, $v\neq v'$ with $w(v)>0$ a path from $v$ to $v'$
+ exists, than there is no other graph with an uniformly better
+ associated test statistic.
+\begin{Proof}
+\end{Proof}
+
+\end{Theorem}
+
 \end{appendix}
 
 \newpage
