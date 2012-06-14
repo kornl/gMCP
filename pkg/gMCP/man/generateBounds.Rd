@@ -103,7 +103,5 @@ Florian Klinglmueller
  ## Boundaries for correlated test statistics at alpha level .05:
  generateBounds(g,w,c,.05)
 }
-% Add one or more standard keywords, see file 'KEYWORDS' in the
-% R documentation directory.
-\keyword{ htest }
+
 \keyword{ htest }

@@ -10,7 +10,7 @@
 \usage{
 	gMCP(graph, pvalues, test, correlation, alpha=0.05, 
 	     approxEps=TRUE, eps=10^(-3), ..., useC=FALSE, 
-	     verbose=FALSE, keepWeights=TRUE, adjPValues=TRUE)
+	     verbose=FALSE, keepWeights=TRUE, adjPValues=TRUE, exhaustAlpha=FALSE)
 }
 
 \arguments{
@@ -57,6 +57,10 @@
   \item{adjPValues}{
     Logical scalar. If \code{FALSE} no adjusted p-values will be calculated. 
     Especially for the weighted Simes test this will result in significantly less calculations in most cases.  
+  }
+  \item{exhaustAlpha}{
+     If \code{FALSE} (default) the parametric test is performed at the reduced
+     level alpha of sum(w)*alpha. (See details of function \code{\link{generateBounds}}).
   }
 }
 \details{
