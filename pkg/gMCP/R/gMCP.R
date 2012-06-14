@@ -41,7 +41,7 @@ gMCP <- function(graph, pvalues, test, correlation, alpha=0.05,
 		}
 	} else if (missing(test) && !missing(correlation)) {
 		# Calling the code from Florian
-		checkOptimal(graph)
+		if (!exhaustAlpha) checkOptimal(graph)
 		if (missing(correlation) || (!is.matrix(correlation) && !is.character(correlation))) {
 			stop("Procedure for correlated tests, expects a correlation matrix as parameter \"correlation\".")
 		} else {
