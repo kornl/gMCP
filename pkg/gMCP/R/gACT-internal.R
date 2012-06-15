@@ -10,7 +10,8 @@ w.dunnet <- function(w,cr,al=.05,exhaust){
   error <- function(cb,w=w) {
     e <- sum(sapply(conn,function(edx){
       if(length(edx)>1){
-        return((1-pmvnorm(lower=-Inf,upper=qnorm(1-(w[edx]*cb*al)),corr=cr[edx,edx],abseps=10^-5)))
+        #return((1-pmvnorm(lower=-Inf,upper=qnorm(1-(w[edx]*cb*al)),corr=cr[edx,edx],abseps=10^-5)))
+		return((1-pmvnorm(lower=qnorm((w[edx]*cb*al)/2),upper=qnorm(1-(w[edx]*cb*al)/2),corr=cr[edx,edx],abseps=10^-5)))
       } else {
         return((w[edx]*cb*al))
       }
