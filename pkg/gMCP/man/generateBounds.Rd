@@ -9,7 +9,8 @@ compute rejection bounds for z-scores of each elementary hypotheses
 within each intersection hypotheses 
 }
 \usage{
-generateBounds(g, w, cr, al = 0.05, hint = generateWeights(g, w),exhaust=F)
+generateBounds(g, w, cr, al = 0.05, hint = generateWeights(g, w), 
+               exhaust=F, alternatives="less")
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -39,6 +40,12 @@ generateBounds(g, w, cr, al = 0.05, hint = generateWeights(g, w),exhaust=F)
   \item{exhaust}{
     if \code{FALSE} (default) the parametric test is performed at the reduced
     level alpha of sum(w)*alpha. (See details)
+  }
+  \item{alternatives}{
+     A character vector specifying the alternative hypotheses.
+     Each element must be one of \code{"less"} (default), \code{"two.sided"} or \code{"greater"}.
+     The vector will be recycled, so if all alternatives of the elemental hypotheses are for example \code{"less"},
+     it suffices to specify \code{alternative="less"} instead of \code{alternative=c("less", "less", ..., "less")}.
   }
 }
 \details{

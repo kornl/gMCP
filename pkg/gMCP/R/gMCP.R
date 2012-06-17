@@ -1,6 +1,7 @@
 gMCP <- function(graph, pvalues, test, correlation, alpha=0.05, 
 		approxEps=TRUE, eps=10^(-3), ..., useC=FALSE, 
-		verbose=FALSE, keepWeights=TRUE, adjPValues=TRUE, exhaustAlpha=FALSE) {	
+		verbose=FALSE, keepWeights=TRUE, adjPValues=TRUE, 
+		exhaustAlpha=FALSE, alternatives="less") {	
 	output <- ""
 	if (approxEps && !is.numeric(graph@m)) {
 		graph <- substituteEps(graph, eps=eps)
@@ -63,7 +64,7 @@ gMCP <- function(graph, pvalues, test, correlation, alpha=0.05,
 				#myTest <- generateTest(Gm, w, correlation, alpha)
 				#zScores <- -qnorm(pvalues)
 				#rejected <- myTest(zScores)
-                adjP <- generatePvals(Gm, w, correlation, pvalues, exhaust=exhaustAlpha)
+                adjP <- generatePvals(Gm, w, correlation, pvalues, exhaust=exhaustAlpha, alternatives=alternatives)
                 rejected <- adjP <= alpha
                 names(adjP) <- getNodes(graph)
 				names(rejected) <- getNodes(graph)

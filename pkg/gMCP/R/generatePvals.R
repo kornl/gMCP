@@ -1,5 +1,5 @@
-generatePvals <- function(g,w,cr,p,adjusted=TRUE,hint=generateWeights(g,w),exhaust=FALSE){
-  res <- t(apply(hint,1,pvals.dunnett,p=p,cr=cr,exhaust=exhaust))
+generatePvals <- function(g,w,cr,p,adjusted=TRUE,hint=generateWeights(g,w),exhaust=FALSE, alternatives="less"){
+  res <- t(apply(hint,1,pvals.dunnett,p=p,cr=cr,exhaust=exhaust, alternatives=alternatives))
   if(adjusted){
     return(ad.p(res))
   } else {

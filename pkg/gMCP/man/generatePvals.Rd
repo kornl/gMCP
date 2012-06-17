@@ -10,7 +10,8 @@ graph or for each elementary hypotheses within each intersection
 hypotheses  
 }
 \usage{
-generatePvals(g, w, cr, p , adjusted = TRUE , hint = generateWeights(g, w),exhaust=FALSE)
+generatePvals(g, w, cr, p , adjusted = TRUE , 
+              hint = generateWeights(g, w), exhaust=FALSE, alternatives)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -48,6 +49,13 @@ generatePvals(g, w, cr, p , adjusted = TRUE , hint = generateWeights(g, w),exhau
   \item{exhaust}{
     if \code{FALSE} (default) the p-values are additionally adjusted for the
     case that non-exhaustive weights are specified. (See details)
+  }
+  
+  \item{alternatives}{
+     A character vector specifying the alternative hypotheses.
+     Each element must be one of \code{"less"} (default), \code{"two.sided"} or \code{"greater"}.
+     The vector will be recycled, so if all alternatives of the elemental hypotheses are for example \code{"less"},
+     it suffices to specify \code{alternative="less"} instead of \code{alternative=c("less", "less", ..., "less")}.
   }
 }
 \details{

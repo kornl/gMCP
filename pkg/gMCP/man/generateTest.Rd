@@ -8,7 +8,7 @@
   correlated test statistics defined by a graph 
 }
 \usage{
-generateTest(g, w, c, al)
+generateTest(g, w, c, al, alternatives="less")
 }
 \arguments{
     \item{g}{
@@ -28,6 +28,12 @@ generateTest(g, w, c, al)
   \item{al}{
     overall alpha level at which the family error is controlled
 }
+  \item{alternatives}{
+     A character vector specifying the alternative hypotheses.
+     Each element must be one of \code{"less"} (default), \code{"two.sided"} or \code{"greater"}.
+     The vector will be recycled, so if all alternatives of the elemental hypotheses are for example \code{"less"},
+     it suffices to specify \code{alternative="less"} instead of \code{alternative=c("less", "less", ..., "less")}.
+  }
 }
 \details{
   Correlation structure needs to possess block structure (without

@@ -1,6 +1,6 @@
 generateTest <-
-function(g,w,c,al){
-  bounds <- generateBounds(g,w,c,al)
+function(g,w,c,al, alternatives="less"){
+  bounds <- generateBounds(g,w,c,al, alternatives=alternatives)
   return(
          function(z){
            dm <- t(apply(bounds,1,function(b) {

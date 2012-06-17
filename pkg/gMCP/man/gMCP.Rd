@@ -10,7 +10,8 @@
 \usage{
 	gMCP(graph, pvalues, test, correlation, alpha=0.05, 
 	     approxEps=TRUE, eps=10^(-3), ..., useC=FALSE, 
-	     verbose=FALSE, keepWeights=TRUE, adjPValues=TRUE, exhaustAlpha=FALSE)
+	     verbose=FALSE, keepWeights=TRUE, adjPValues=TRUE, 
+	     exhaustAlpha=FALSE, alternatives="less")
 }
 
 \arguments{
@@ -61,6 +62,12 @@
   \item{exhaustAlpha}{
      If \code{FALSE} (default) the parametric test is performed at the reduced
      level alpha of sum(w)*alpha. (See details of function \code{\link{generateBounds}}).
+  }
+  \item{alternatives}{
+     A character vector specifying the alternative hypotheses.
+     Each element must be one of \code{"less"} (default), \code{"two.sided"} or \code{"greater"}.
+     The vector will be recycled, so if all alternatives of the elemental hypotheses are for example \code{"less"},
+     it suffices to specify \code{alternative="less"} instead of \code{alternative=c("less", "less", ..., "less")}.
   }
 }
 \details{
