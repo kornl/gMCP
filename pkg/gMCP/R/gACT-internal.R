@@ -36,9 +36,11 @@ p.dunnet <- function(p,cr,w,exhaust){
     sum(sapply(conn,function(edx){
       if(length(edx)>1){
         if(!exhaust){
-          return((1-pmvnorm(lower=-Inf,upper=qnorm(1-pmin(1,(w[edx]*p[i]/(w[i]*sum(w))))),corr=cr[edx,edx],abseps=10^-5)))
+          # return((1-pmvnorm(lower=-Inf,upper=qnorm(1-pmin(1,(w[edx]*p[i]/(w[i]*sum(w))))),corr=cr[edx,edx],abseps=10^-5)))
+		  return((1-pmvnorm(lower=qnorm(pmin(1,(w[edx]*p[i]/(w[i]*sum(w))))/2),upper=qnorm(1-pmin(1,(w[edx]*p[i]/(w[i]*sum(w))))/2),corr=cr[edx,edx],abseps=10^-5)))
         } else {
-          return((1-pmvnorm(lower=-Inf,upper=qnorm(1-pmin(1,(w[edx]*p[i]/(w[i])))),corr=cr[edx,edx],abseps=10^-5)))
+		  # return((1-pmvnorm(lower=-Inf,upper=qnorm(1-pmin(1,(w[edx]*p[i]/(w[i])))),corr=cr[edx,edx],abseps=10^-5)))
+          return((1-pmvnorm(lower=qnorm(pmin(1,(w[edx]*p[i]/(w[i])))/2),upper=qnorm(1-pmin(1,(w[edx]*p[i]/(w[i])))/2),corr=cr[edx,edx],abseps=10^-5)))
         }
       } else {
         if(!exhaust){
