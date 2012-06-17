@@ -92,23 +92,26 @@ graphGUI <- function(...) {invisible(NULL)}
 \section{Introduction}
 
 This package provides functions and graphical user interfaces for
-graph based multiple test procedures. By defining weighted graphs one
+graph based multiple test procedures. By defining weighted directed graphs one
 also defines a weighting strategy for all subsets of null hypotheses.
 Weighted tests can be performed on these subsets and following the
 closed test procedure this leads to a multiple test procedure
 controlling the family wise error rate in the strong sense. In some
-cases shortcuts ar   e available, for example the weighted Bonferroni
-procedure leads to a sequentially rejective multiple test procedure.
+cases shortcuts are available, one example is the weighted Bonferroni
+procedure that leads to a sequentially rejective multiple test procedure.
 
 At all steps either graphical user interfaces or the R Console with S4
 objects and methods can be used.
 
-Please note that this is still an early release and the API will most
-likely still change in future versions.
+%Please note that this is still an early release and the API will most
+%likely still change in future versions.
 
 \subsection{Installation}
 
-Open R and type \texttt{install.packages("gMCP")}, 
+If you don't already have R on your system, you can download a bundled
+version of R and gMCP from \url{http://www.algorithm-forge.com/gMCP/bundle/}.
+
+Otherwise open R and type \texttt{install.packages("gMCP")}, 
 select an arbitrary mirror and gMCP will be downloaded and installed.
 
 Once it is installed, whenever you start R you can load the gMCP

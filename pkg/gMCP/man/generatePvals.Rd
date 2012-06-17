@@ -69,7 +69,7 @@ generatePvals(g, w, cr, p , adjusted = TRUE ,
   be known as well) otherwise multcomp will throw an exception as NA
   correlations are fed to the multivariate normal distribution
 
-  The paramtric tests in (Bretz et al. (2011)) are defined such that the
+  The parametric tests in (Bretz et al. (2011)) are defined such that the
   tests of intersection null hypotheses always exhaust the full alpha
   level even if the sum of weights is strictly smaller than one. This
   has the consequence that certain test procedures that do not test each
