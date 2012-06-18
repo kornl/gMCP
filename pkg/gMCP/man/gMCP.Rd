@@ -26,9 +26,9 @@
   	subset of hypotheses. Further alternatives will be added in the future.
   } 
   \item{correlation}{
-  	Correlation matrix, if the tests are correlated. 
-  	Also valid are strings like \code{"Dunnett", "Tukey", "Sequen", "AVE", "Changepoint", "Williams", "Marcus", "McDermott", "UmbrellaWilliams", "GrandMean"}.
-  	In this case please add a numeric parameter \code{samplesize} that specifies the sample size of each group. 
+  	Correlation matrix that can be specified, if the p-values belong to test-statistics with a joint multivariate normal null distribution.
+  	Also see \code{\link{generatePvals}}.
+  	Please note that you have to specify the parameter \code{alternatives} if not all of the tests are one-sided tests. 
   } 
   \item{alpha}{
   	A numeric specifying the maximal allowed type one error rate.
@@ -64,7 +64,7 @@
      level alpha of sum(w)*alpha. (See details of function \code{\link{generateBounds}}).
   }
   \item{alternatives}{
-     A character vector specifying the alternative hypotheses.
+     A character vector specifying the alternative hypotheses. Only needed if the correlation is specified. 
      Each element must be one of \code{"less"} (default), \code{"two.sided"} or \code{"greater"}.
      The vector will be recycled, so if all alternatives of the elemental hypotheses are for example \code{"less"},
      it suffices to specify \code{alternative="less"} instead of \code{alternative=c("less", "less", ..., "less")}.
