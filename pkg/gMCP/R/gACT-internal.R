@@ -3,7 +3,8 @@ w.dunnet <- function(w,cr,al=.05,exhaust, alternatives){
     conn <- conn.comp(cr)
   } else {
     conn <- 1
-  }
+  }  
+  twosided <- alternatives==rep("two.sided", length(w))
   lconn <- sapply(conn,length)
   conn <- lapply(conn,as.numeric)
   
@@ -12,8 +13,8 @@ w.dunnet <- function(w,cr,al=.05,exhaust, alternatives){
       if(length(edx)>1){
         #return((1-pmvnorm(lower=-Inf,upper=qnorm(1-(w[edx]*cb*al)),corr=cr[edx,edx],abseps=10^-5)))
 		return((1-pmvnorm(
-				   lower=ifelse(alternatives[edx]=="two.sided",qnorm((w[edx]*cb*al)/2),-Inf),
-				   upper=ifelse(alternatives[edx]=="two.sided",qnorm(1-(w[edx]*cb*al)/2), qnorm(1-(w[edx]*cb*al))),
+				   lower=ifelse(twosided[edx],qnorm((w[edx]*cb*al)/2),-Inf),
+				   upper=ifelse(twosided[edx],qnorm(1-(w[edx]*cb*al)/2), qnorm(1-(w[edx]*cb*al))),
 				   corr=cr[edx,edx],abseps=10^-5)))
       } else {
         return((w[edx]*cb*al))
@@ -33,6 +34,7 @@ p.dunnet <- function(p,cr,w,exhaust, alternatives){
   } else {
     conn <- 1
   }
+  twosided <- alternatives==rep("two.sided", length(w))
   lconn <- sapply(conn,length)
   conn <- lapply(conn,as.numeric)
   e <- sapply(1:length(p),function(i){
@@ -41,14 +43,14 @@ p.dunnet <- function(p,cr,w,exhaust, alternatives){
 		  if(!exhaust){
           # return((1-pmvnorm(lower=-Inf,upper=qnorm(1-pmin(1,(w[edx]*p[i]/(w[i]*sum(w))))),corr=cr[edx,edx],abseps=10^-5)))
 		  return((1-pmvnorm(
-				     lower=ifelse(alternatives[edx]=="two.sided",qnorm(pmin(1,(w[edx]*p[i]/(w[i]*sum(w))))/2),-Inf),
-					 upper=ifelse(alternatives[edx]=="two.sided",qnorm(1-pmin(1,(w[edx]*p[i]/(w[i]*sum(w))))/2),qnorm(1-pmin(1,(w[edx]*p[i]/(w[i]*sum(w)))))),
+				     lower=ifelse(twosided[edx],qnorm(pmin(1,(w[edx]*p[i]/(w[i]*sum(w))))/2),-Inf),
+					 upper=ifelse(twosided[edx],qnorm(1-pmin(1,(w[edx]*p[i]/(w[i]*sum(w))))/2),qnorm(1-pmin(1,(w[edx]*p[i]/(w[i]*sum(w)))))),
 					 corr=cr[edx,edx],abseps=10^-5)))
         } else {
 		  # return((1-pmvnorm(lower=-Inf,upper=qnorm(1-pmin(1,(w[edx]*p[i]/(w[i])))),corr=cr[edx,edx],abseps=10^-5)))
           return((1-pmvnorm(
-					  lower=ifelse(alternatives[edx]=="two.sided",qnorm(pmin(1,(w[edx]*p[i]/(w[i])))/2),-Inf),
-					  upper=ifelse(alternatives[edx]=="two.sided",qnorm(1-pmin(1,(w[edx]*p[i]/(w[i])))/2),qnorm(1-pmin(1,(w[edx]*p[i]/(w[i]))))),
+					  lower=ifelse(twosided[edx],qnorm(pmin(1,(w[edx]*p[i]/(w[i])))/2),-Inf),
+					  upper=ifelse(twosided[edx],qnorm(1-pmin(1,(w[edx]*p[i]/(w[i])))/2),qnorm(1-pmin(1,(w[edx]*p[i]/(w[i]))))),
 					  corr=cr[edx,edx],abseps=10^-5)))
         }
       } else {
