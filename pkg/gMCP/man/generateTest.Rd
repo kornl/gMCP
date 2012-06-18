@@ -22,8 +22,8 @@ generateTest(g, w, c, al, alternatives="less")
     initially reserved for each elementary hypothesis
 }
   \item{c}{
-    correlation matrix defining pairwise correlations between the
-    elementary hypotheses. Unknown values can be set to NA.
+    correlation matrix defining pairwise correlations between test
+    statistics. Unknown values can be set to NA. 
 }
   \item{al}{
     overall alpha level at which the family error is controlled

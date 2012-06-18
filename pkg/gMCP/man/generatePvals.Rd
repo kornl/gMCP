@@ -26,12 +26,14 @@ generatePvals(g, w, cr, p , adjusted = TRUE ,
     initially reserved for each elementary hypothesis
 }
   \item{cr}{
-    correlation matrix defining pairwise correlations between the
-    elementary hypotheses. Unknown values can be set to NA. (See details
+    correlation matrix defining pairwise correlations between test
+    statistics. Unknown values can be set to NA. (See details 
     for more information)
 }
   \item{p}{
-    vector of observed unadjusted p-values
+    vector of observed unadjusted p-values, that belong to
+    test-statistics with a joint multivariate normal null distribution
+    with (partially) known correlation matrix \code{cr}
   }
   \item{adjusted}{
     logical, if TRUE (default) adjusted p-values for the closed test are

@@ -25,8 +25,8 @@ generateBounds(g, w, cr, al = 0.05, hint = generateWeights(g, w),
     initially reserved for each elementary hypothesis
 }
   \item{cr}{
-    correlation matrix defining pairwise correlations between the
-    elementary hypotheses. Unknown values can be set to \code{NA}. (See details
+    correlation matrix defining pairwise correlations between test
+    statistics. Unknown values can be set to \code{NA}. (See details 
     for more information)
 }
   \item{al}{
