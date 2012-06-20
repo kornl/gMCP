@@ -43,7 +43,7 @@ calcPower <- function(weights, alpha, G, mean = rep(0, nrow(sigma)),
 calcMultiPower <- function(weights, alpha, G, muL, sigmaL, nL,
 		sigma = diag(length(muL[[1]])), cr = NULL,
 		nSim = 10000, seed = 4711, type = c("quasirandom", "pseudorandom"),
-		f=list()) {
+		f=list(), digits=4) {
 	meanL <- list()
 	for (mu in muL) {
 		for (s in sigmaL) {
@@ -63,10 +63,10 @@ calcMultiPower <- function(weights, alpha, G, muL, sigmaL, nL,
 		label <- attr(result, "label")
 		title <- paste("Setting:",label)		
 		sResult <- paste(sResult, title, paste(rep("=", nchar(title)),collapse=""), sep="\n")			
-		sResult <- paste(sResult, "Local Power:",paste(capture.output(print(result$LocalPower)), collapse="\n"), sep="\n")
-		sResult <- paste(sResult, "\nExpected number of rejections:", result$ExpRejections, sep="\n")
-		sResult <- paste(sResult, "Prob. to reject at least one hyp.:", result$PowAtlst1, sep="\n")
-		sResult <- paste(sResult, "Prob. to reject all hypotheses:", result$RejectAll, sep="\n")
+		sResult <- paste(sResult, "Local Power:",paste(capture.output(print(round(result$LocalPower, digits))), collapse="\n"), sep="\n")
+		sResult <- paste(sResult, "\nExpected number of rejections:", round(result$ExpRejections, digits), sep="\n")
+		sResult <- paste(sResult, "Prob. to reject at least one hyp.:", round(result$PowAtlst1, digits), sep="\n")
+		sResult <- paste(sResult, "Prob. to reject all hypotheses:", round(result$RejectAll, digits), sep="\n")
 		if (length(result)>4) {
 			for (i in 5:length(result)) {
 				#TODO pF <- attr(result, "label")

@@ -30,11 +30,12 @@ checkOptimal <- function (graph, verbose=TRUE) {
 		if (length(notAccessible)>0) {
 			if (s=="") {
 				s <- "The graph is not optimal.\nBy adding edges the test can be improved uniformly."
-				s <- paste(s, "Or set exhaustAlpha=TRUE to do an alpha exhaustive test as described in Bretz et al. (2011).\n", sep="\n")
+				#s <- paste(s, "Or set exhaustAlpha=TRUE to do an alpha exhaustive test as described in Bretz et al. (2011).\n", sep="\n")
 			}
 			s <- paste(s, "There is no path from node ",n, " to ", paste(notAccessible, collapse=", "), "\n", sep="")
 		}
 	}
+	if (s=="") s <- "From each node with positive weight paths exist to all other nodes.\n"
 	if (verbose) cat(s)
 	return(s)
 }
