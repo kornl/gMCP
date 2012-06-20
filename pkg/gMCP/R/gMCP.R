@@ -3,6 +3,10 @@ gMCP <- function(graph, pvalues, test, correlation, alpha=0.05,
 		verbose=FALSE, keepWeights=TRUE, adjPValues=TRUE, 
 		exhaustAlpha=FALSE, alternatives="less") {	
 	output <- ""
+	callFromGUI <- !is.null(list(...)[["callFromGUI"]])
+	if (!exhaustAlpha && verbose) {
+		output <- paste(output, checkOptimal(graph), sep="\n")
+	}
 	if (approxEps && !is.numeric(graph@m)) {
 		graph <- substituteEps(graph, eps=eps)
 	}
@@ -41,8 +45,7 @@ gMCP <- function(graph, pvalues, test, correlation, alpha=0.05,
 			return(new("gMCPResult", graphs=sequence, alpha=alpha, pvalues=pvalues, rejected=getRejected(graph), adjPValues=adjPValues))
 		}
 	} else if (missing(test) && !missing(correlation)) {
-		# Calling the code from Florian
-		if (!exhaustAlpha) checkOptimal(graph)
+		# Calling the code from Florian		
 		if (missing(correlation) || (!is.matrix(correlation) && !is.character(correlation))) {
 			stop("Procedure for correlated tests, expects a correlation matrix as parameter \"correlation\".")
 		} else {
@@ -77,8 +80,8 @@ gMCP <- function(graph, pvalues, test, correlation, alpha=0.05,
 			if (all(pvalues>alpha)) {
 				result <- new("gMCPResult", graphs=sequence, alpha=alpha, pvalues=pvalues, rejected=getRejected(graph))
 				if (verbose) {
-					output <- "All p-values above alpha."
-					if (verbose!=42) cat(output,"\n") # Go figure it out ;)
+					output <- paste(output, "All p-values above alpha.", sep="\n")
+					if (!callFromGUI) cat(output,"\n")
 					attr(result, "output") <- output
 				}
 				return(result)
@@ -88,8 +91,8 @@ gMCP <- function(graph, pvalues, test, correlation, alpha=0.05,
 				names(rejected) <- getNodes(graph)
 				result <- new("gMCPResult", graphs=sequence, alpha=alpha, pvalues=pvalues, rejected=rejected)
 				if (verbose) {
-					output <- "All p-values below alpha."
-					if (verbose!=42) cat(output,"\n") # Go figure it out ;)
+					output <- paste(output, "All p-values below alpha.", sep="\n")
+					if (!callFromGUI) cat(output,"\n")
 					attr(result, "output") <- output
 				}
 				return(result)
@@ -107,7 +110,7 @@ gMCP <- function(graph, pvalues, test, correlation, alpha=0.05,
 				if (n==2) output <- paste(output, "Only two hypotheses remaining.", sep="\n")
 				if (n==1) output <- paste(output, "Only one hypothesis remaining.", sep="\n")
 				if (n==0) output <- paste(output, "Everything allready rejected.", sep="\n")
-				if (verbose!=42) cat(output,"\n") # Go figure it out ;)
+				if (!callFromGUI) cat(output,"\n")
 				attr(result, "output") <- output
 			}
 			return(result)
@@ -155,7 +158,7 @@ gMCP <- function(graph, pvalues, test, correlation, alpha=0.05,
 			result <- new("gMCPResult", graphs=sequence, alpha=alpha, pvalues=pvalues, rejected=getRejected(graph), adjPValues=adjPValuesV)
 			if (verbose) {
 				output <- paste(output, paste(explanation, collapse="\n"), sep="\n")
-				if (verbose!=42) cat(output,"\n") # Go figure it out ;)
+				if (!callFromGUI) cat(output,"\n")
 				attr(result, "output") <- output
 			}
 			return(result)

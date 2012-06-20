@@ -54,7 +54,7 @@ accessible <- function(graph, node) {
 	return(ac)
 }
 
-checkOptimal <- function (graph) {
+checkOptimal <- function (graph, verbose=TRUE) {
 	nodes <- getNodes(graph)[getWeights(graph)!=0]
 	s <- ""
 	for (n in nodes) {
@@ -67,7 +67,7 @@ checkOptimal <- function (graph) {
 			s <- paste(s, "There is no path from node ",n, " to ", paste(notAccessible, collapse=", "), "\n", sep="")
 		}
 	}
-	cat(s)
+	if (verbose) cat(s)
 	return(s)
 }
 
