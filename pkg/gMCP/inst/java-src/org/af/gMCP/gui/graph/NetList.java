@@ -729,6 +729,10 @@ public class NetList extends JPanel implements MouseMotionListener, MouseListene
 		for (Edge e : edges) {
 			RControl.getR().evalVoid(".gsrmtVar$m[\""+e.from.getName()+"\",\""+e.to.getName()+"\"] <- \""+ e.getPreciseWeightStr().replaceAll("\\\\", "\\\\\\\\") +"\"");
 		}
+		if (RControl.getR().eval("!any(is.na(as.numeric(.gsrmtVar$m)))").asRLogical().getData()[0]) {
+			RControl.getR().evalVoid(".gsrmtVar$m <- matrix(as.numeric(.gsrmtVar$m), nrow="+nodes.size()+")");
+			RControl.getR().evalVoid("rownames(.gsrmtVar$m) <- colnames(.gsrmtVar$m) <- .gsrmtVar$hnodes");
+		}		
 		RControl.getR().evalVoid(graphName+" <- new(\"graphMCP\", m=.gsrmtVar$m, weights=.gsrmtVar$alpha)");
 		for (int i=nodes.size()-1; i>=0; i--) {
 			Node n = nodes.get(i);
