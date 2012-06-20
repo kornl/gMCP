@@ -83,7 +83,7 @@ public class AlternativesDialog extends JDialog implements ActionListener {
         ok.addActionListener(this);        
         
         pack();
-        setSize(this.getSize().width, Math.max(this.getSize().height, 600));
+        setSize(this.getSize().width, Math.min(this.getSize().height, 600));
         setVisible(true);
 	}
 

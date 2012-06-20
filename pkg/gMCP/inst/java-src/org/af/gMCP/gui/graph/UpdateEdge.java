@@ -11,6 +11,7 @@ import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
 
+import org.af.gMCP.config.Configuration;
 import org.af.gMCP.gui.dialogs.ColorChooseDialog;
 
 import com.jgoodies.forms.layout.CellConstraints;
@@ -34,7 +35,7 @@ public class UpdateEdge extends JDialog implements ActionListener {
 		this.edge = edge;
 		this.netzListe = netzListe;
 		String cols = "5dlu, fill:pref:grow, 5dlu, fill:pref:grow, 5dlu";
-        String rows = "5dlu, pref, 5dlu, pref, 5dlu";
+        String rows = "5dlu, fill:pref:grow, 5dlu, pref, 5dlu";
         
         FormLayout layout = new FormLayout(cols, rows);
         getContentPane().setLayout(layout);
@@ -51,6 +52,7 @@ public class UpdateEdge extends JDialog implements ActionListener {
         getContentPane().add(jb, cc.xy(4, 4));
         
         pack();
+        setSize(Math.max(this.getSize().width, 450), this.getSize().height);
         this.setLocation(300, 300);
         setVisible(true);
 	}
@@ -74,7 +76,9 @@ public class UpdateEdge extends JDialog implements ActionListener {
         
         jcbAnchored.addActionListener(this);
         jcbAnchored.setSelected(edge.isFixed());
-        panel.add(jcbAnchored, cc.xyw(2, 4, 3));
+        if (!Configuration.getInstance().getGeneralConfig().getUnAnchor()) {        
+        	panel.add(jcbAnchored, cc.xyw(2, 4, 3));
+        }
         
 		return panel;
 	}

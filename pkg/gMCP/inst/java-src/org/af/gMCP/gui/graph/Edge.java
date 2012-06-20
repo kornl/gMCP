@@ -81,10 +81,10 @@ public class Edge {
 			k1 = x1 + (int)(Math.cos(alpha*(Math.PI*2)/360)*d/2);
 			k2 = y1 - (int)(Math.sin(alpha*(Math.PI*2)/360)*d/2);
 		} else {
-			if (Math.sqrt((x2-x1)*(x2-x1)+(y2-y1)*(y2-y1))>200) { // For long edges a placement at the beginning is good.
+			if (Math.sqrt((x2-x1)*(x2-x1)+(y2-y1)*(y2-y1))>150) { // For long edges a placement at the beginning is good.
 				k1 = x1 + (x2-x1)/4;
 				k2 = y1 + (y2-y1)/4;
-			} else {                 // But for short edges we prefer pleacement in the middle. 
+			} else {                 // But for short edges we prefer placement in the middle. 
 				k1 = x1 + (x2-x1)/2;
 				k2 = y1 + (y2-y1)/2;
 			}
@@ -274,8 +274,7 @@ public class Edge {
 		// phi correction factor:
 		double r = Math.sqrt((m1-a1)*(m1-a1)+(m2-a2)*(m2-a2));
 		double phiCF = (Node.r*360*nl.getZoom())/(2*Math.PI*r);
-		
-		
+
 		if ((a1-m1)==0) {
 			phi1 = 90 + ((m2-a2>0)?0:180);
 		} else {
