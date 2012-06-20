@@ -27,6 +27,7 @@ import org.af.gMCP.gui.CreateGraphGUI;
 import org.af.gMCP.gui.RControl;
 import org.af.gMCP.gui.datatable.DataTable;
 import org.af.gMCP.gui.dialogs.AdjustedPValueDialog;
+import org.af.gMCP.gui.dialogs.AlternativesDialog;
 import org.af.gMCP.gui.dialogs.DialogConfIntEstVar;
 import org.af.gMCP.gui.dialogs.RejectedDialog;
 import org.af.gMCP.gui.dialogs.VariableNameDialog;
@@ -53,7 +54,8 @@ public class GraphView extends JPanel implements ActionListener {
 	JButton buttonConfInt;
 	JButton buttonStart;	
 	JButton buttonBack;
-	
+
+	String alternatives;
 	String correlation = "";
 	public String result = ".gMCPResult_" + (new Date()).getTime();
 	protected boolean resultUpToDate = false;
@@ -229,11 +231,14 @@ public class GraphView extends JPanel implements ActionListener {
 				worker.execute();				
 			}
 		} else if (e.getSource().equals(buttonStart)) {
-			if (!getNL().isTesting()) {
+			if (!getNL().isTesting()) {				
 				getPView().savePValues();
 				getNL().saveGraphWithoutVariables(getNL().initialGraph, false);
 	        	getNL().loadGraph();
 	        	getPView().restorePValues();
+	        	if (parent.getPView().jrbRCorrelation.isSelected()) {
+	        		alternatives = new AlternativesDialog(parent, getNL()).getAlternatives();
+	        	}
 				parent.glassPane.start();				
 				startTesting();
 				correlation = parent.getPView().getParameters();
@@ -241,7 +246,7 @@ public class GraphView extends JPanel implements ActionListener {
 					@Override
 					protected Void doInBackground() throws Exception {
 						if (!isResultUpToDate()) {
-							RControl.getR().evalVoid(result+" <- gMCP("+getNL().initialGraph+getGMCPOptions()+")");
+							RControl.getR().evalVoid(result+" <- gMCP("+getNL().initialGraph+getGMCPOptions()+", alternatives="+alternatives+")");
 							setResultUpToDate(true);
 						}
 						boolean[] rejected = RControl.getR().eval(result+"@rejected").asRLogical().getData();
