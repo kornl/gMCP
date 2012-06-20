@@ -23,18 +23,19 @@ public class DView extends JTabbedPane {
 	JTextArea jtaDescription = null;
 	JPanel analysis = null;
 	JTextArea jtaAnalysis = null;
+	public static final String defaultDescription = "Enter a description for the graph.";
 	
 	public DView(CreateGraphGUI control) {
 		this.control = control;	
-		setDescription("Enter a description for the graph.");
+		setDescription(defaultDescription);
 		setAnalysis("");
 		setSelectedComponent(description);
 	}
 	
 	public void setDescription(String s) {
 		if (s == null && description != null) {
-			remove(description);
-			description = null;
+			//remove(description);
+			//description = null;
 			return;
 		}
 		if (description == null) {		
@@ -54,8 +55,8 @@ public class DView extends JTabbedPane {
 
 	public void setAnalysis(String s) {
 		if (s == null && analysis != null) {
-			remove(analysis);
-			analysis = null;
+			//remove(analysis);
+			//analysis = null;
 			return;
 		}
 		if (analysis == null) {		

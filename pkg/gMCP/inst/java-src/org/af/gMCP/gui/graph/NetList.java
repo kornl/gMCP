@@ -330,6 +330,11 @@ public class NetList extends JPanel implements MouseMotionListener, MouseListene
 		graphHasChanged();
 		revalidate();
 		repaint();
+		if (graph.getDescription()!=null) {
+			control.getDView().setDescription(graph.getDescription());
+		} else {
+			control.getDView().setDescription("");
+		}
 		return graph;
 	}
 
