@@ -1,5 +1,5 @@
 ## Adapted from the code from http://rwiki.sciviews.org/doku.php?id=developers:runit
-unitTestsGMCP <- function(extended=FALSE, java=FALSE) {
+unitTestsGMCP <- function(extended=FALSE, java=FALSE, junitLibrary) {
 	if(!require("RUnit", quietly=TRUE)) {
 		stop("Please install package RUnit to run the unit tests.")
 	}
@@ -37,10 +37,21 @@ unitTestsGMCP <- function(extended=FALSE, java=FALSE) {
 	
 	if (java) {
 		# Test whether junit*.jar is in classpath
-		junitLibrary = "/home/kornel/workspace/gMCP/build/junit-4.10.jar"
-		.jaddClassPath(junitLibrary)
+		if (!missing(junitLibrary)) {
+			.jaddClassPath(junitLibrary)
+		}		
 		#testClass <- .jcall(.jnew("tests/RControlTest"), "Ljava/lang/Class;", method="getClass")
-		testClasses <- .jcall(.jnew("tests/TestSuite"), "[Ljava/lang/Class;", method="getClasses")
-		.jcall("org.junit.runner.JUnitCore", "Lorg/junit/runner/Result;", method="runClasses", testClass)
+		testClasses <- .jcall(.jnew("tests/TestSuite"), "[Ljava/lang/Class;", method="getClasses", evalArray=FALSE)
+		result <- try(.jcall("org.junit.runner.JUnitCore", "Lorg/junit/runner/Result;", method="runClasses", testClasses))
+		if (("try-error" %in% class(result))) {
+			cat("JUnit 4 is needed for JUnit tests (See http://www.junit.org/).")
+			stop("Please specify the path to junit 4 jar file via junitLibrary.")
+		}
+		if (.jcall(result, "I", "getFailureCount")>0) {
+			cat("------------------- JUNIT TEST SUMMARY --------------------\n\n")
+			cat(.jcall(.jnew("tests/TestSuite"), "S", method="getResultString", result))
+		} else {
+			cat(.jcall(result, "I", "getRunCount"), " Java Unit Tests successful! (Runtime: ",.jcall(result, "J", "getRunTime")/1000," sec)")
+		}
 	}
 }

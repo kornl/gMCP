@@ -2,13 +2,13 @@
 \alias{unitTestsGMCP}
 
 \title{
-	Run the R unit test suite for gMCP
+	Run the R unit (and optional the JUnit) test suite for gMCP
 }
 \description{
-	Runs the R unit test suite for gMCP and prints the results.
+	Runs the R unit (and optional the JUnit) test suite for gMCP and prints the results.
 }
 \usage{
-	unitTestsGMCP(extended=FALSE, java=FALSE)
+	unitTestsGMCP(extended=FALSE, java=FALSE, junitLibrary)
 }
 
 \arguments{
@@ -16,6 +16,14 @@
 	If \code{TRUE} an extended version of the R unit test suite for gMCP will be used.
 	The run will take significantly longer time and only cover further cases of the same
 	kind that also tested in the non-extended version.
+  }
+  \item{java}{
+    If \code{TRUE} the GUI and its logic is tested with JUnit tests. You need 
+    JUnit 4 classes in the classpath or specify the path to a JUnit 4 jar file
+    via the parameter junitLibrary. 
+  } 
+  \item{junitLibrary}{
+    A character String specifying the path to a JUnit 4 jar file to run the JUnit tests.
   }
 }
 \value{
