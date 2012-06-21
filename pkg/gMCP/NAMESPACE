@@ -13,7 +13,7 @@ export(gMCPReport, graph2latex)
 export(matrix2graph, graph2matrix, bdiagNA, joinGraphs, subgraph)
 export(graphAnalysis)
 export(replaceVariables)
-export(doUnitTestsForGMCP)
+export(unitTestsGMCP)
 
 export(BonferroniHolm)
 export(BretzEtAl2011)
