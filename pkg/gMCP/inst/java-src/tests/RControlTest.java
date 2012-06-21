@@ -40,6 +40,7 @@ public class RControlTest {
     @Test(expected= IndexOutOfBoundsException.class) public void empty() { 
         new ArrayList<Object>().get(0); 
     }
+    
   }
 	  
 
