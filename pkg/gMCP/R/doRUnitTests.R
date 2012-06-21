@@ -1,6 +1,8 @@
 ## Adapted from the code from http://rwiki.sciviews.org/doku.php?id=developers:runit
-doUnitTestsForGMCP <- function(extended=FALSE) {
-	library(RUnit)
+unitTestsGMCP <- function(extended=FALSE, java=FALSE) {
+	if(!require("RUnit", quietly=TRUE)) {
+		stop("Please install package RUnit to run the unit tests.")
+	}
 	pkg <- "gMCP" 
 	path <- system.file("unitTests", package=pkg)
 	cat("\nRunning unit tests\n")
@@ -32,4 +34,13 @@ doUnitTestsForGMCP <- function(extended=FALSE) {
 			fileName=paste(pathReport, "Summary.txt", sep=""))
 	printTextProtocol(tests, showDetails=TRUE,
 			fileName=paste(pathReport, ".txt", sep=""))
+	
+	if (java) {
+		# Test whether junit*.jar is in classpath
+		junitLibrary = "/home/kornel/workspace/gMCP/build/junit-4.10.jar"
+		.jaddClassPath(junitLibrary)
+		#testClass <- .jcall(.jnew("tests/RControlTest"), "Ljava/lang/Class;", method="getClass")
+		testClasses <- .jcall(.jnew("tests/TestSuite"), "[Ljava/lang/Class;", method="getClasses")
+		.jcall("org.junit.runner.JUnitCore", "Lorg/junit/runner/Result;", method="runClasses", testClass)
+	}
 }

@@ -15,6 +15,8 @@
 - Sequentielle Power ist schwierig (basiert am Ende auf zu wenig Fallzahl der Simulation)
 - verbose output for parametric tests
 
+- Join two graphs in GUI.
+
 - Export matrix with 1/2 as 0.5 but add label as attribute
 - Save labels as edge / node attributes?
 

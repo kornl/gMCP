@@ -1,5 +1,5 @@
-\name{doUnitTestsForGMCP}
-\alias{doUnitTestsForGMCP}
+\name{unitTestsGMCP}
+\alias{unitTestsGMCP}
 
 \title{
 	Run the R unit test suite for gMCP
@@ -8,7 +8,7 @@
 	Runs the R unit test suite for gMCP and prints the results.
 }
 \usage{
-	doUnitTestsForGMCP(extended=FALSE)
+	unitTestsGMCP(extended=FALSE, java=FALSE)
 }
 
 \arguments{

@@ -6,7 +6,10 @@ Version 0.7-11 (??-??-2012, Rev. 13??)
   
 - Parametric tests for the two-sided test case.
 
-- Round output of power simulations to level of precision.   
+- Round output of power simulations to level of precision.
+
+- When graphs are saved from the GUI the slot graph@m is now
+  always numeric when no variables are involved.  
 
 Version 0.7-10 (15-06-2012, Rev. 1291)
 =====================================
