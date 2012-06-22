@@ -24,6 +24,7 @@
   } 
   \item{junitLibrary}{
     A character String specifying the path to a JUnit 4 jar file to run the JUnit tests.
+    You can download it from \url{http://www.junit.org/}.
   }
 }
 \value{

@@ -50,6 +50,7 @@ unitTestsGMCP <- function(extended=FALSE, java=FALSE, junitLibrary) {
 		if (.jcall(result, "I", "getFailureCount")>0) {
 			cat("------------------- JUNIT TEST SUMMARY --------------------\n\n")
 			cat(.jcall(.jnew("tests/TestSuite"), "S", method="getResultString", result))
+			stop(paste(.jcall(result, "I", "getFailureCount"),"failures in JUnit tests!"))
 		} else {
 			cat(.jcall(result, "I", "getRunCount"), " Java Unit Tests successful! (Runtime: ",.jcall(result, "J", "getRunTime")/1000," sec)")
 		}

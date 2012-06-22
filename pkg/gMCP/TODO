@@ -14,6 +14,7 @@
   - Dunnett -> ?
 - Sequentielle Power ist schwierig (basiert am Ende auf zu wenig Fallzahl der Simulation)
 - verbose output for parametric tests
+- integrate the two files "tests.R" and "unirootbug.Rd" in directory "unitTests" into unit tests. 
 
 - Join two graphs in GUI.
 
