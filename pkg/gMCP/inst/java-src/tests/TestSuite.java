@@ -5,6 +5,31 @@ import org.junit.runner.notification.Failure;
 
 public class TestSuite {
 	
+	public static String[] exampleGraphs = new String[] {
+		"BonferroniHolm(5)",
+		"parallelGatekeeping()",
+		"improvedParallelGatekeeping()",
+		"BretzEtAl2011()",
+		"HungEtWang2010()",
+		"HuqueAloshEtBhore2011()",
+		"HommelEtAl2007()",
+		"HommelEtAl2007Simple()",
+		"MaurerEtAl1995()",
+		"improvedFallbackI(weights=rep(1/3, 3))",
+		"improvedFallbackII(weights=rep(1/3, 3))",
+		"cycleGraph(nodes=paste(\"H\",1:4,sep=\"\"), weights=rep(1/4, 4))",
+		"fixedSequence(5)",
+		"fallback(weights=rep(1/4, 4))",
+		"generalSuccessive(weights = c(1/2, 1/2))",
+		"simpleSuccessiveI()",
+		"simpleSuccessiveII()",
+		"truncatedHolm()",
+		"BauerEtAl2001()",
+		"BretzEtAl2009a()",
+		"BretzEtAl2009b()",
+		"BretzEtAl2009c()"
+	};
+	
 	public static void main(String[] args) {
 		Result result = org.junit.runner.JUnitCore.runClasses(getClasses());
 		System.out.println(getResultString(result));

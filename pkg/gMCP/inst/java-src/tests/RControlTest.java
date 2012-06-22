@@ -30,7 +30,7 @@ public class RControlTest {
     }
     
     @Test
-    public void numericTrabsfer() {
+    public void numericTransfer() {
     	for (int i = 0; i < 1000; i++) {
     		Double d = RControl.getR().eval("x <- runif(1)").asRNumeric().getData()[0];
     		assertTrue(RControl.getR().eval("x =="+d).asRLogical().getData()[0]);
