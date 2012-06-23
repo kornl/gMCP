@@ -978,7 +978,7 @@ This section is work in progress.
   \[\forall J\subset I:\; \left(\phi_J=1\;\Rightarrow\;\exists j\in J:\;\phi_j=1\right).\]
 
   A multiple test procedure is called \emph{coherent}\index{coherence} if
-  \[\forall J,\,J'\subset I:\; \left(\phi_J=0\text{ and }J'\subset J\;\Rightarrow\;\phi_{J'}=0).\]
+  \[\forall J,\,J'\subset I:\; \left(\phi_J=0\text{ and }J'\subset J\;\Rightarrow\;\phi_{J'}=0\right).\]
 
   For further reading see
   \cite{hochberg2009multiple} and \cite{gabriel1969simultaneous}
