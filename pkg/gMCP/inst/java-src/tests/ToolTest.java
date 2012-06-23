@@ -6,7 +6,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-public class InteractionTest {
+public class ToolTest {
 
     protected RControl ctrl;
     protected NetList nl;

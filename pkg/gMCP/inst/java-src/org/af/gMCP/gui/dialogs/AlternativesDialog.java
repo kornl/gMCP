@@ -34,7 +34,7 @@ public class AlternativesDialog extends JDialog implements ActionListener {
 		setLocationRelativeTo(parent);
 		
         String cols = "5dlu, fill:pref:grow, 5dlu";
-        String rows = "5dlu, pref, 5dlu, fill:min:grow, 5dlu, pref, 5dlu";
+        String rows = "5dlu, pref, 5dlu, fill:pref:grow, 5dlu, pref, 5dlu";
         
         
         FormLayout layout = new FormLayout(cols, rows);

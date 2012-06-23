@@ -124,7 +124,7 @@ public class Configuration {
     public void clearConfiguration() {
     	try {
 			for (String key : prefs.keys()) {
-				if (key.startsWith(keyPrefix)) {				
+				if (key.startsWith(keyPrefix) && !key.equals("gMCP.NumberOfStarts")) {				
 			    	prefs.remove(key);
 				}
 			}

@@ -1,10 +1,5 @@
 package tests;
 
-import static org.junit.Assert.assertTrue;
-
-import java.util.ArrayList;
-import java.util.Collection;
-
 import org.af.gMCP.gui.RControl;
 import org.af.gMCP.gui.graph.NetList;
 import org.junit.After;
