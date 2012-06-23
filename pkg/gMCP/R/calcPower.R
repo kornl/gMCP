@@ -14,7 +14,7 @@ extractPower <- function(x, f=list()) {
 
 calcPower <- function(weights, alpha, G, mean = rep(0, nrow(sigma)),
                       sigma = diag(length(mean)), cr = NULL,
-                      nSim = 10000, seed = 4711, type = c("quasirandom", "pseudorandom"),
+                      nSim = 10000, seed = NULL, type = c("quasirandom", "pseudorandom"),
 					  f=list()) {
   if (is.list(mean)) {
 	  result <- list()

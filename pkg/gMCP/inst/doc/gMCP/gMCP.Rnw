@@ -953,7 +953,11 @@ $\{P_\theta\;|\;\theta\in\Theta\}$ and $(\Omega, \sF, P_\theta)$ the
 associated probability spaces.  For a family of null hypotheses
 $H_i\subset\Theta$, $i\in\{1,\ldots,n\}=:I$ a multiple test procedure
 $\phi$ is defined as a family of $(\sF, \Pot(\{0,1\}^n))$-measurable
-functions $\{\phi_J:\; \Omega \rightarrow \{0,1\}^n\;|\;J\subset I\}$.
+functions $\{\phi_J:\; \Omega \rightarrow \{0,1\}^n\;|\;J\subset I\}$
+(we'll write $\phi_j$ for $\phi_{j}$). 
+
+The family of hypotheses $\{H_i \;|\;i\in I\}$ is called
+\emph{closed}\index{closed family} if it is closed under intersection. 
 
 \begin{Def}
   Let $H_J:=\bigcap_{j\in J} H_j$. The multiple test procedure $\phi$
@@ -968,6 +972,17 @@ functions $\{\phi_J:\; \Omega \rightarrow \{0,1\}^n\;|\;J\subset I\}$.
 This section is work in progress.
 
 \subsection{Closed testing principle}\index{Closed testing principle}
+
+\begin{Def}[Coherence and Consonance]
+  A multiple test procedure is called \emph{consonant}\index{consonance} if 
+  \[\forall J\subset I:\; \left(\phi_J=1\;\Rightarrow\;\exists j\in J:\;\phi_j=1\right).\]
+
+  A multiple test procedure is called \emph{coherent}\index{coherence} if
+  \[\forall J,\,J'\subset I:\; \left(\phi_J=0\text{ and }J'\subset J\;\Rightarrow\;\phi_{J'}=0).\]
+
+  For further reading see
+  \cite{hochberg2009multiple} and \cite{gabriel1969simultaneous}
+\end{Def}
 
 \subsection{Partitioning principle}\index{Partitioning principle}
 

@@ -10,7 +10,7 @@
 \usage{
   calcPower(weights, alpha, G, mean = rep(0, nrow(sigma)),
             sigma = diag(length(mean)), cr = NULL,
-            nSim = 10000, seed = 4711,
+            nSim = 10000, seed = NULL,
             type = c("quasirandom", "pseudorandom"), f=list())
 }
 \arguments{
@@ -24,7 +24,7 @@
   \item{sigma}{ Covariance matrix under the alternative. }
   \item{cr}{ Correlation matrix that should be used for the parametric test.
   If \code{cr==NULL} the Bonferroni based test procedure is used. }
-  \item{seed}{ Seed for pseudo random numbers and the random shift of
+  \item{seed}{ Optional seed for pseudo random numbers and the random shift of
     the lattice rule. }
   \item{type}{ What type of random numbers to use. \code{quasirandom}
     uses a randomized Lattice rule, and should be more efficient than
