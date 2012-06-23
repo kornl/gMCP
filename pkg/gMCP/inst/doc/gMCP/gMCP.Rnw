@@ -465,8 +465,7 @@ We can create a TikZ graphic from the last graph with
 % Chunk 15
 <<echo=FALSE,results=tex>>=
 
-#TODO Enable this again.
-#cat(graph2latex(result@graphs[[4]], scale=0.7, fontsize="tiny"))
+cat(graph2latex(result@graphs[[4]], scale=0.7, fontsize="tiny"))
 
 @
   \caption{\label{finalstate}Final graph from the test procedure after rejection of $H_{21}$, $H_{31}$ and $H_{32}$.}
@@ -769,12 +768,18 @@ figure \ref{optionsDialog} should be fairly self-explanatory.
 \end{figure}
 
 \begin{description}
-  \item[Grid]
-  \item[Number of digits]
+  \item[Grid] For easier placement of nodes a grid can be used that aligns the
+  nodes to its intersections. You can specify a positive integer that sets the
+  grid size, i.e. the width in pixels between two proximate parallel
+  lines. If you set the grid size to 1 this would allow unrestricted placement
+  and therefore disables the grid.
+  \item[Number of digits] Number of digits to be shown at various places. In
+  this version not every part of the GUI will use this value, but this will
+  improve in further versions.
   \item[Line width] Especially if you want to use exported PNG graphics in
     other documents, you may want to adjust the line width of edges and nodes,
     when borders look to thin or thick.
-  \item[Font Size]
+  \item[Font Size] Font size of the text in the GUI widgets.
   \item[Look'n'Feel] The way the widgets of a GUI look and how the behave
     ("feel") is called "look and feel" in Java. Depending on your operating
     systems and classpath several Look'n'Feel implementations may be available 
@@ -790,13 +795,31 @@ figure \ref{optionsDialog} should be fairly self-explanatory.
     GUI. The option is mainly provided in case that errors occur
     displaying the numbers and formulas.
   \item[Show fractions instead of decimal numbers] If you see  
-  \item[Use epsilon approximation] Not yet available in this version.
-  \item[Epsilon] 
-  \item[Try to show fractions / rounded numbers]
-  \item[Number of digits to assure]
-  \item[Verbose output of algorithms]
-  \item[Monte Carlo sample size for power]
-  \item[Type of random numbers]
+  \item[Use epsilon approximation] In this version this value can not be
+    changed. No calculations with infinitesimal small values are done but
+    instead the epsilon is approximated by a small real number.
+  \item[Epsilon] The small real value that should be used to approximate
+    the infinitesimal small epsilon. Default is $10^{-3}$.
+  \item[Try to show fractions / rounded numbers] Floating point numbers are used
+    for all calculations and values like $1/3$ would be normally shown as
+    $0.3333333$. When this option is active the method fractions from package
+    MASS is used to display fractions whenever the floating point numbers are
+    close to a fraction that looks right.
+  \item[Number of digits to assure] This is an option for displaying numbers
+  and does not influence the calculations. As seen in the previous option
+  description, we sometimes try to display fractions instead of floating point
+  numbers. This option will assure that the shown fraction does not
+  differ in more than the specified value from the floating point number.
+  \item[Verbose output of algorithms] If selected the algorithms produce a
+  verbose output that is shown in the GUI. For example the Simes test specifies
+  for each intersection of elementar hypotheses whether and why it could be
+  rejected.
+  \item[Monte Carlo sample size for power] The Monte Carlo sample size for power
+  calculations. Default is 10000.
+  \item[Type of random numbers] You can select quasirandom or pseudorandom
+  numbers for power calculations. The quasirandom option uses a randomized
+  Lattice rule, and should be more efficient than the pseudorandom option that
+  uses ordinary (pseudo) random numbers.
   \item[Check online for updates] On start-up gMCP can check automatically
     whether a new version of gMCP is available. Only your version of R (like
     2.13.1), the version of gMCP (like 0.7-5) and a random number (to
