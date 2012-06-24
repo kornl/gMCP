@@ -746,27 +746,6 @@ graph
 
 \subsection{Options}\index{options}
 
-This subsection is work in progress, but fortunately the options in
-figure \ref{optionsDialog} should be fairly self-explanatory.
-
-\begin{figure}[ht]
-  \centering    
-  \includegraphics[width=0.7\textwidth]{pictures/optionsDialog.png}      
-  \caption{\label{optionsDialog} You can configure many things in the option dialog.}
-\end{figure}
-
-\begin{figure}[ht]
-  \centering    
-  \includegraphics[width=0.7\textwidth]{pictures/optionsDialog2.png}      
-  \caption{\label{optionsDialog2} You can configure many things in the option dialog.}
-\end{figure}
-
-\begin{figure}[ht]
-  \centering    
-  \includegraphics[width=0.7\textwidth]{pictures/optionsDialog3.png}      
-  \caption{\label{optionsDialog3} You can configure many things in the option dialog.}
-\end{figure}
-
 \begin{description}
   \item[Grid] For easier placement of nodes a grid can be used that aligns the
   nodes to its intersections. You can specify a positive integer that sets the
