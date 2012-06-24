@@ -3,6 +3,7 @@ unitTestsGMCP <- function(extended=FALSE, java=FALSE, junitLibrary) {
 	if(!require("RUnit", quietly=TRUE)) {
 		stop("Please install package RUnit to run the unit tests.")
 	}
+	if (extended) Sys.setenv(GMC_UNIT_TESTS="extended")
 	pkg <- "gMCP" 
 	path <- system.file("unitTests", package=pkg)
 	cat("\nRunning unit tests\n")
