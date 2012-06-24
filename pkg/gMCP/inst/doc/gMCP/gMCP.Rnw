@@ -1088,8 +1088,7 @@ Isomorphisms.
 % associated test statistic.
 %\begin{Proof}
 %\end{Proof}
-
-\end{Theorem}
+%\end{Theorem}
 
 \end{appendix}
 
