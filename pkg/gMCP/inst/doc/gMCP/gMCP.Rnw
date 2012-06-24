@@ -798,22 +798,26 @@ figure \ref{optionsDialog} should be fairly self-explanatory.
     library JLaTeXMath to render numbers, symbols and formulas in the
     GUI. The option is mainly provided in case that errors occur
     displaying the numbers and formulas.
-  \item[Show fractions instead of decimal numbers] If you see  
+  \item[Show fractions instead of decimal numbers] Floating point numbers are used
+    for all calculations and values like $1/3$ would be normally shown as
+    $0.3333333$. When this option is active the method fractions from package
+    MASS is used to display fractions whenever the floating point numbers are
+    close to a fraction that looks right.  
   \item[Use epsilon approximation] In this version this value can not be
     changed. No calculations with infinitesimal small values are done but
     instead the epsilon is approximated by a small real number.
   \item[Epsilon] The small real value that should be used to approximate
     the infinitesimal small epsilon. Default is $10^{-3}$.
-  \item[Try to show fractions / rounded numbers] Floating point numbers are used
-    for all calculations and values like $1/3$ would be normally shown as
-    $0.3333333$. When this option is active the method fractions from package
-    MASS is used to display fractions whenever the floating point numbers are
-    close to a fraction that looks right.
-  \item[Number of digits to assure] This is an option for displaying numbers
-  and does not influence the calculations. As seen in the previous option
-  description, we sometimes try to display fractions instead of floating point
-  numbers. This option will assure that the shown fraction does not
-  differ in more than the specified value from the floating point number.
+%  \item[Try to show fractions / rounded numbers] Floating point numbers are
+%   used for all calculations and values like $1/3$ would be normally shown as
+%    $0.3333333$. When this option is active the method fractions from package
+%    MASS is used to display fractions whenever the floating point numbers are
+%    close to a fraction that looks right.
+%  \item[Number of digits to assure] This is an option for displaying numbers
+%  and does not influence the calculations. As seen in the previous option
+%  description, we sometimes try to display fractions instead of floating point
+%  numbers. This option will assure that the shown fraction does not
+%  differ in more than the specified value from the floating point number.
   \item[Verbose output of algorithms] If selected the algorithms produce a
   verbose output that is shown in the GUI. For example the Simes test specifies
   for each intersection of elementar hypotheses whether and why it could be
@@ -1002,25 +1006,26 @@ $\{P_\theta\;|\;\theta\in\Theta\}$ and $(\Omega, \sF, P_\theta)$ the
 associated probability spaces.  For a family of null hypotheses
 $H_i\subset\Theta$, $i\in\{1,\ldots,n\}=:I$ a multiple test procedure
 $\phi$ is defined as a family of $(\sF, \Pot(\{0,1\}^n))$-measurable
-functions $\{\phi_J:\; \Omega \rightarrow \{0,1\}^n\;|\;J\subset I\}$
-(we'll write $\phi_j$ for $\phi_{j}$). 
+functions $\{\phi_J:\; \Omega \rightarrow \{0,1\}^n\;|\;J\subset I\}$.
+(We'll write $\phi_j$ for $\phi_\{j\}$). 
 
 The family of hypotheses $\{H_i \;|\;i\in I\}$ is called
 \emph{closed}\index{closed family} if it is closed under intersection. 
 
-\begin{Def}
+\begin{Def}[Familywise Error Rate]\index{familywise error rate}
   Let $H_J:=\bigcap_{j\in J} H_j$. The multiple test procedure $\phi$
   controls the \emph{familywise error rate at level $\alpha$ in the
     weak sense} if
   \[\forall \theta\in H_I: \; P_\theta(\phi_J=1\text{ for some }J\subset I)\leq\alpha.\]
   The multiple test procedure $\phi$ controls the \emph{familywise
     error rate at level $\alpha$ in the strong sense} if
-  \[\forall \theta\in\Theta: \; P_\theta(\phi_J=1\text{ and }\theta\in H_J\text{ for some }J\subset I)\leq\alpha.\]
+  \[\forall \theta\in\Theta: \; P_\theta\left(\max\limits_{J\subset I, \theta\in H_J}\phi_J=1\right)\leq\alpha.\]
+  %\[\forall \theta\in\Theta: \; P_\theta(\phi_J=1\text{ and }\theta\in H_J\text{ for some }J\subset I)\leq\alpha.\]
 \end{Def}
 
 This section is work in progress.
 
-\subsection{Closed testing principle}\index{Closed testing principle}
+\subsection{Closed testing principle}\index{closed testing principle}
 
 \begin{Def}[Coherence and Consonance]
   A multiple test procedure is called \emph{consonant}\index{consonance} if 
@@ -1030,10 +1035,10 @@ This section is work in progress.
   \[\forall J,\,J'\subset I:\; \left(\phi_J=0\text{ and }J'\subset J\;\Rightarrow\;\phi_{J'}=0\right).\]
 
   For further reading see
-  \cite{hochberg2009multiple} and \cite{gabriel1969simultaneous}
+  \cite{hochberg2009multiple} and \cite{gabriel1969simultaneous}.
 \end{Def}
 
-\subsection{Partitioning principle}\index{Partitioning principle}
+\subsection{Partitioning principle}\index{partitioning principle}
 
 \begin{Def}
 
@@ -1097,13 +1102,13 @@ directed, weighted graphs with no self-loops and no parallel edges:
 
 Isomorphisms.
 
-\begin{Theorem}[Unimprovable graph] 
- Let $G=(V,E,w)$ be a graph with $\sum_{v\in V}w(v)=1$.
- If for all $v, v'\in V$, $v\neq v'$ with $w(v)>0$ a path from $v$ to $v'$
- exists, than there is no other graph with an uniformly better
- associated test statistic.
-\begin{Proof}
-\end{Proof}
+%\begin{Theorem}[Unimprovable graph] 
+% Let $G=(V,E,w)$ be a graph with $\sum_{v\in V}w(v)=1$.
+% If for all $v, v'\in V$, $v\neq v'$ with $w(v)>0$ a path from $v$ to $v'$
+% exists, than there is no other graph with an uniformly better
+% associated test statistic.
+%\begin{Proof}
+%\end{Proof}
 
 \end{Theorem}
 

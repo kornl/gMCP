@@ -15,6 +15,9 @@
 - Sequentielle Power ist schwierig (basiert am Ende auf zu wenig Fallzahl der Simulation)
 - verbose output for parametric tests
 - integrate the two files "tests.R" and "unirootbug.Rd" in directory "unitTests" into unit tests. 
+- improve behaviour of tables if "Automatically enter the editing mode, whenever a table cell gets the focus" is set to false.
+
+- Characterize optimal graphs.
 
 - Join two graphs in GUI.
 
