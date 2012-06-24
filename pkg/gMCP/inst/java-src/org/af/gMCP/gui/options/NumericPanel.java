@@ -87,6 +87,7 @@ public class NumericPanel extends OptionsPanel implements ActionListener {
         p1.add(new JLabel("Epsilon:"),     cc.xy(1, row));
         p1.add(jtfEps, cc.xy(3, row));        
         
+        /*TODO Enable if needed:
         row += 2;
         
         p1.add(tryToSimplify, cc.xyw(1, row, 3));
@@ -94,7 +95,8 @@ public class NumericPanel extends OptionsPanel implements ActionListener {
         row += 2;
         
         p1.add(new JLabel("Number of digits to assure:"),     cc.xy(1, row));
-        p1.add(jtfDigits, cc.xy(3, row));        
+        p1.add(jtfDigits, cc.xy(3, row));
+        */        
         
         row += 2;
         
