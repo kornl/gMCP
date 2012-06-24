@@ -781,15 +781,19 @@ figure \ref{optionsDialog} should be fairly self-explanatory.
     when borders look to thin or thick.
   \item[Font Size] Font size of the text in the GUI widgets.
   \item[Look'n'Feel] The way the widgets of a GUI look and how the behave
-    ("feel") is called "look and feel" in Java. Depending on your operating
-    systems and classpath several Look'n'Feel implementations may be available 
-    (e.g. Metal (Java default), Windows, Mac OS, Motif, System/GTK).
+    is called "look and feel" in Java. Depending on your operating
+    system and classpath several Look'n'Feel implementations may be available 
+    (e.g. Metal (Java default), Windows, Mac OS, Motif and/or System/GTK).
     If you are used to a particular Look'n'Feel, you can select it here.
     But if you have problems with the graphical interface, please try to use
-    the default theme Metal to check whether it could be a problem with the
+    the default Metal theme to check whether it could be a problem with the
     selected Look'n'Feel.
-  \item[Colored image files and pdf reports]
-  \item[Show rejected nodes in GUI]
+  \item[Colored image files and pdf reports] Colors are used to highlight
+    different conditions in the graph like hypotheses that could be rejected.
+    While these colors are helpful in the GUI, you perhaps prefer black and
+    white PNG image files and PDF reports.
+  \item[Show rejected nodes in GUI] When using the GUI to for stepwise rejection
+    of hypotheses, this options 
   \item[Use JLaTeXMath] There are not many reasons not to use the free Java
     library JLaTeXMath to render numbers, symbols and formulas in the
     GUI. The option is mainly provided in case that errors occur
@@ -827,9 +831,17 @@ figure \ref{optionsDialog} should be fairly self-explanatory.
   \item[Export images with transparent background] If checked the background of
     exported PNG graphics will be transparent. Otherwise the graphs are
     displayed on a white background.
-  \item[If a node is dragged also all edges to this node follow]
+  \item[If a node is dragged also all edges to this node follow] If selected the
+    edges will always repositioned whenever a node is dragged. Otherwise only
+    newly added eges behave that way and edges that have been dragged themselves
+    are considered "anchored" and will stay with the edge weight label at the
+    same position.
   \item[Automatically enter the editing mode, whenever a table cell
-    gets the focus]
+    gets the focus] People are used to different behaviour of tables (mostly
+    depending on which spreadsheet applications they use regularly). If this
+    option is set to true it is easy to change the values of the cells but
+    navigating with arrow keys is hard since in the editing mode the right and
+    left key will move the cursor only in the currently selected cell.
 \end{description}
 
 \subsubsection{Privacy}
