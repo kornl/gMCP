@@ -40,9 +40,9 @@
 
 \value{
   A list containg three elements
-  \item{LocPower }{A numeric giving the local powers for the hypotheses}
+  \item{LocalPower }{A numeric giving the local powers for the hypotheses}
   \item{ExpRejections }{The expected number of rejections}
-  \item{PowerAtlst1 }{The power to reject at least one hypothesis}
+  \item{PowAtlst1 }{The power to reject at least one hypothesis}
 }
 \author{ Bjoern Bornkamp }
 \references{
