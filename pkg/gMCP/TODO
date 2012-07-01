@@ -41,6 +41,8 @@
 Is this still the case?
 - In CI-Dialog (initial weights instead of alpha are displayed - this are two errors)
 
+- Activate parse2numeric again in PowerDialog if (and only if) graph@m doesn't contain NAs afterwards.
+
 .tmpGraph <- generalSuccessive()
 
 gMCP:::calcMultiPower(weights = .tmpGraph@weights, alpha = 0.05, G = .tmpGraph@m, muL = list(c(0, 0, 0, 0)), sigmaL = list(c(1, 1, 1, 1)), nL = list(c(10, 10, 10, 10)), sigma = matrix(c(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1), nrow = 4), nSim = 10000, type = "quasirandom", variables = list(delta = c(0,0.5), gamma = c(0,0.5)))
