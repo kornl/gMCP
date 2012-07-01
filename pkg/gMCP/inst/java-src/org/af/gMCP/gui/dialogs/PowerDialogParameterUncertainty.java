@@ -468,8 +468,8 @@ public class PowerDialogParameterUncertainty extends JDialog implements ActionLi
 		double[] means = new double[nodes.size()];
 		String settings = null;
 		String userDefinedF = getUserDefined();
-		// TODO: Why exactly do we need this here and what happens if parse2numeric throws an error?
-		RControl.getR().eval(parent.getGraphView().getNL().getGraphName()+"<-gMCP:::parse2numeric("+parent.getGraphView().getNL().getGraphName()+")");
+		// TODO: Do we still need sometimes something as parse2numeric? I guess yes.
+		//RControl.getR().eval(parent.getGraphView().getNL().getGraphName()+"<-gMCP:::parse2numeric("+parent.getGraphView().getNL().getGraphName()+")");
 
 		if (e.getSource()==ok) { /** Single Setting */
 			for (int i=0; i<means.length; i++) {
