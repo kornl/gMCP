@@ -49,6 +49,7 @@ public class NetList extends JPanel implements MouseMotionListener, MouseListene
 	boolean firstVertexSelected = false;
 	
 	public String initialGraph = ".InitialGraph" + (new Date()).getTime();
+	public String resetGraph = ".ResetGraph" + (new Date()).getTime();
 
 	boolean newEdge = false;
 	boolean newVertex = false;	
@@ -153,8 +154,17 @@ public class NetList extends JPanel implements MouseMotionListener, MouseListene
 		graphHasChanged();
 	}
 	
+	/**
+	 * For faster loading and resets the variable updateGUI exists.
+	 * When a graph is changed rapidly at more than one place,
+	 * it is set to false, the graph is changed, it is set back
+	 * to true and after that graphHasChanged() is called once.
+	 */
 	public boolean updateGUI = true;
 
+	/**
+	 * Is called whenever the graph has changed.
+	 */
 	public void graphHasChanged() {
 		expRejections = null; powAtlst1 = null; rejectAll = null; userDefined = null;
 		control.setResultUpToDate(false);
@@ -630,7 +640,7 @@ public class NetList extends JPanel implements MouseMotionListener, MouseListene
 		graphHasChanged();
 	}
 
-	public void reset() {
+	public void reset() {		
 		logger.info("Reset.");
 		edges.removeAllElements();
 		for (int i=getNodes().size()-1; i>=0; i--) {

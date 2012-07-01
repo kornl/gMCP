@@ -36,7 +36,17 @@ public class TestSuite {
 	}
 	
     public static Class[] getClasses() {
-    	return new Class[] { RControlTest.class };
+    	return new Class[] { DataTableTest.class,
+    			EdgeTest.class,
+    			InteractionTest.class,
+    			LoadSaveTest.class,
+    			NetListTest.class,
+    			NodeTest.class,
+    			PowerTest.class,
+    			PPanelTest.class,
+    			RControlTest.class,
+    			TexFormulaTest.class,
+    			ToolTest.class};
     }
     
     public static String getResultString(Result result) {

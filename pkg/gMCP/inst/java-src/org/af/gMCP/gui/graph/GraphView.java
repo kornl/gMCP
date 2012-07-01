@@ -204,6 +204,7 @@ public class GraphView extends JPanel implements ActionListener {
 		} else if (e.getSource().equals(buttonConfInt)) {
 			if (!getNL().isTesting()) {
 				getPView().savePValues();
+				getNL().saveGraph(getNL().resetGraph, false);
 				getNL().saveGraphWithoutVariables(getNL().initialGraph, false);
 	        	getNL().loadGraph();
 	        	getPView().restorePValues();
@@ -233,6 +234,7 @@ public class GraphView extends JPanel implements ActionListener {
 		} else if (e.getSource().equals(buttonStart)) {
 			if (!getNL().isTesting()) {				
 				getPView().savePValues();
+				getNL().saveGraph(getNL().resetGraph, false);
 				getNL().saveGraphWithoutVariables(getNL().initialGraph, false);
 	        	getNL().loadGraph();
 	        	getPView().restorePValues();
@@ -269,6 +271,7 @@ public class GraphView extends JPanel implements ActionListener {
 			} else {
 				if (!getNL().isTesting()) {
 					getPView().savePValues();
+					getNL().saveGraph(getNL().resetGraph, false);
 					getNL().saveGraphWithoutVariables(getNL().initialGraph, false);
 		        	getNL().loadGraph();					
 					getPView().restorePValues();
@@ -298,7 +301,7 @@ public class GraphView extends JPanel implements ActionListener {
 		if (!getNL().testingStarted) return;
 		getNL().stopTesting();
 		getNL().reset();
-		getNL().loadGraph();
+		getNL().loadGraph(getNL().resetGraph);
 		getDataTable().setTesting(false);
 		getPView().restorePValues();
 		getPView().setTesting(false);

@@ -1,5 +1,6 @@
 package tests;
 
+import org.af.gMCP.gui.CreateGraphGUI;
 import org.af.gMCP.gui.RControl;
 import org.af.gMCP.gui.graph.NetList;
 import org.junit.After;
@@ -10,10 +11,13 @@ public class InteractionTest {
 
     protected RControl ctrl;
     protected NetList nl;
+    protected CreateGraphGUI gui;
 
     @Before
     public void setUp() {
     	ctrl = RControl.getRControl(true);
+    	gui = new CreateGraphGUI("graph", new double[] {}, true,  10, true);
+    	nl = gui.getGraphView().getNL();
     }
 
     @After
@@ -21,7 +25,8 @@ public class InteractionTest {
     }
 
     @Test
-    public void testLoadSave() {
+    public void testReset() {
+    	
     }
     
   }
