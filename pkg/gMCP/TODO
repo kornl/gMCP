@@ -17,6 +17,9 @@
 - integrate the two files "tests.R" and "unirootbug.Rd" in directory "unitTests" into unit tests. 
 - improve behaviour of tables if "Automatically enter the editing mode, whenever a table cell gets the focus" is set to false.
 
+- Update replaceVariables doc (matrix allowed)
+- Check whether replaceVariables replaces correctly a,b,c, etc. (interactive and not) 
+
 - Characterize optimal graphs.
 
 - Join two graphs in GUI.
@@ -37,6 +40,10 @@
 
 Is this still the case?
 - In CI-Dialog (initial weights instead of alpha are displayed - this are two errors)
+
+.tmpGraph <- generalSuccessive()
+
+gMCP:::calcMultiPower(weights = .tmpGraph@weights, alpha = 0.05, G = .tmpGraph@m, muL = list(c(0, 0, 0, 0)), sigmaL = list(c(1, 1, 1, 1)), nL = list(c(10, 10, 10, 10)), sigma = matrix(c(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1), nrow = 4), nSim = 10000, type = "quasirandom", variables = list(delta = c(0,0.5), gamma = c(0,0.5)))
 
 Critical:
 =========

@@ -18,9 +18,9 @@ replaceVariables <-function(graph, variables=list()) {
 			"theta", "iota", "kappa", "lambda", "mu", "nu", "xi", 
 			"omicron", "pi", "rho", "sigma", "tau", "nu", "phi",
 			"chi", "psi", "omega")
-	
+	if (is.matrix(graph)) { m <- graph } else {m <- graph@m}	
 	for (g in greek) {
-		if (length(grep(g, graph@m))!=0) {
+		if (length(grep(g, m))!=0) {
 			if (is.null(answer <- variables[[g]])) {
 				if(interactive()) {
 					answer <- readline(paste("Value for variable ",g,"? ", sep=""))
@@ -28,18 +28,23 @@ replaceVariables <-function(graph, variables=list()) {
 					stop(paste("Value for variable",g,"not specified."))
 				}
 			}
-			graph@m <- gsub(paste("\\\\", g, sep=""), answer, graph@m) 
+			m <- gsub(paste("\\\\", g, sep=""), answer, m) 
 		}
 	}
+	if (is.matrix(graph)) return(parse2numeric(m))
+	graph@m <- m
 	return(parse2numeric(graph))
 }
 
 parse2numeric <- function(graph) {
-	m <- matrix(sapply(graph@m, function(x) {
+	if (is.matrix(graph)) { m <- graph } else {m <- graph@m}
+	names <- rownames(m)
+	m <- matrix(sapply(m, function(x) {
 						result <- try(eval(parse(text=x)), silent=TRUE);
 						ifelse(class(result)=="try-error",NA,result)
-					}), nrow=length(getNodes(graph)))
-	rownames(m) <- colnames(m) <- getNodes(graph)
+					}), nrow=dim(m)[1])
+	rownames(m) <- colnames(m) <- names
+	if (is.matrix(graph)) return(m)
 	graph@m <- m
 	return(graph)
 }

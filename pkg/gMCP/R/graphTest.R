@@ -60,7 +60,7 @@ graphTest <- function(pvalues, weights = NULL, alpha = 0.05, G = NULL, cr = NULL
 }
 
 checkArgs <- function(pvalues, alphas, G, nH){
-	
+	# debug print(pvalues); print(alphas); print(G); print(nH)
 	alplen <- ifelse(is.matrix(alphas), ncol(alphas),
 			length(alphas))
 	if(any(alphas < 0) | any(alphas > 1))

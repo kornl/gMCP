@@ -25,3 +25,10 @@ test.makeEpsilonString <- function() {
 	checkEquals(gMCP:::makeEpsilonString(1/2,c()),
 			"1/2")
 }
+
+test.replaceVariables <- function () {
+	graph <- HungEtWang2010()
+	g <- replaceVariables(graph, list("tau"=0.5,"omega"=0.5, "nu"=0.5))
+	checkEquals(unname(g@m), structure(c(0, 0, 0, 0, 0.5, 0, 0.5, 0, 0.5, 0.5, 0, 0, 0, 0.5, 
+					0.5, 0), .Dim = c(4L, 4L)))
+}
