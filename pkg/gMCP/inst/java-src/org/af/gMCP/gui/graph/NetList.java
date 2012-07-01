@@ -640,6 +640,10 @@ public class NetList extends JPanel implements MouseMotionListener, MouseListene
 		graphHasChanged();
 	}
 
+	/**
+	 * Removes all nodes and edges, cleans the description 
+	 * and sets back button states, zoom etc. to start-up settings.
+	 */
 	public void reset() {		
 		logger.info("Reset.");
 		edges.removeAllElements();
