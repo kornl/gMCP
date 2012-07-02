@@ -17,6 +17,7 @@
 - verbose output for parametric tests
 - integrate the two files "tests.R" and "unirootbug.Rd" in directory "unitTests" into unit tests. 
 - improve behaviour of tables if "Automatically enter the editing mode, whenever a table cell gets the focus" is set to false.
+- round values in CI Dialog
 
 - Update replaceVariables doc (matrix allowed)
 - Check whether replaceVariables replaces correctly a,b,c, etc. (interactive and not) 

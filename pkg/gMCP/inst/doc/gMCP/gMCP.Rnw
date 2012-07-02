@@ -587,7 +587,7 @@ The GUI features a dialog for easy creation of correlation matrices (see figure 
 \begin{figure}[ht]
   \centering    
   \includegraphics[width=0.7\textwidth]{pictures/createCM1.png}      
-  \caption{\label{createCM1} You can configure many things in the option dialog.}
+  \caption{\label{createCM1} Dialog for specifying a correlation matrix.}
 \end{figure}
 
 
