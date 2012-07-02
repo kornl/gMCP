@@ -326,7 +326,7 @@ graph@nodeAttr$Y <- c(H11=100, H21=100, H31=100, H12=300, H22=300, H32=300)
 
 For placement of the nodes in a matrix pattern, the function
 \texttt{placeNodes} is helpful. The following code does the same as
-the three lines of R code above.
+the two lines of R code above.
 
 \scriptsize
 % Chunk 10
@@ -341,8 +341,8 @@ Coordinates are interpretated as pixels in the GUI and big points in
 {\LaTeX} (72 bp = 1 inch).\index{coordinates}
 
 Let's take a look at the graph in {\LaTeX} rendered with TikZ
-\cite{TikZ}\index{TikZ} (you can see the compiled result in figure
-\ref{exampleGraphBretz}):
+\cite{TikZ}\index{TikZ} (figure
+\ref{exampleGraphBretz} shows the compiled result):
 
 \scriptsize
 %\lstset{language=[LaTeX]TeX}
@@ -1005,6 +1005,9 @@ The family of hypotheses $\{H_i \;|\;i\in I\}$ is called
 This section is work in progress.
 
 \subsection{Closed testing principle}\index{closed testing principle}
+\begin{Theorem}[Closed testing principle]
+ \cite{marcus1976closed}
+\end{Theorem}
 
 \begin{Def}[Coherence and Consonance]
   A multiple test procedure is called \emph{consonant}\index{consonance} if 
