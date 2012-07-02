@@ -1,4 +1,5 @@
 - Save power scenarios
+- Unify single NCP and multiple NCPs
 - Export user defined functions and allow names for them
 - CI Dialog testen!
 - Check in CI zu max(0, ..) bzw. min(0, ..) / means
