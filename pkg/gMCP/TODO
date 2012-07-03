@@ -1,4 +1,15 @@
 - Save power scenarios
+- Give link to Bundle in QuickStart-Guide
+- Create archive of Bundles on Algorithm-Forge
+- Correlation matrix save & restore
+- Does gMCP calculate correctly in 0.6-6 in the Console?
+- R function CorMatWizard to open CorMatDialog (without GUI)
+- positive Definitheit!
+- Sample size is ignored in CorMatDialog
+- Konsonanz erzwingen?
+- Ist der Single-Step-Dunnett als Graph darstellbar?
+- exhaustAlpha=TRUE als Default
+- don't allow two-sided tests for didactic/interpretatory reasons.
 - Unify single NCP and multiple NCPs
 - Export user defined functions and allow names for them
 - CI Dialog testen!

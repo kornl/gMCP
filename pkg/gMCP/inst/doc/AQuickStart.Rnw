@@ -17,15 +17,6 @@
 \setlength{\parindent}{0mm}
 \setlength{\parskip}{1mm}
 \newcommand{\commentout}[1]{}
-\renewcommand{\theequation}{\thesection.\arabic{\equation}}
-\numberwithin{equation}{section}
-
-\newcommand{\C}{\ensuremath{\mathbb{C}}\xspace}
-\newcommand{\R}{\ensuremath{\mathbb{R}}\xspace}
-\newcommand{\Q}{\ensuremath{\mathbb{Q}}\xspace}
-\newcommand{\Z}{\ensuremath{\mathbb{Z}}\xspace}
-\newcommand{\NN}{\ensuremath{\mathbb{N}_0}\xspace}
-\newcommand{\N}{\ensuremath{\mathbb{N}}\xspace}
 
 \renewcommand{\epsilon}{\varepsilon}
 \pagestyle{empty}
