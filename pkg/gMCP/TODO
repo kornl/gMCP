@@ -18,6 +18,7 @@
 - integrate the two files "tests.R" and "unirootbug.Rd" in directory "unitTests" into unit tests. 
 - improve behaviour of tables if "Automatically enter the editing mode, whenever a table cell gets the focus" is set to false.
 - round values in CI Dialog
+- Check whether 0.7-11 is regarded as newer than 0.7-9
 
 - Update replaceVariables doc (matrix allowed)
 - Check whether replaceVariables replaces correctly a,b,c, etc. (interactive and not) 

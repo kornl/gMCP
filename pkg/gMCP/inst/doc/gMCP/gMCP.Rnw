@@ -236,6 +236,8 @@ gMCP(graph, pvalues=c(0.01,0.07,0.02), alpha=0.05)
 
 \section{Basic Theoretical Background}
 
+For the theoretical background please take look at \cite{Bretz11} that is freely available as OnlineOpen Article.
+
 \begin{algorithm}
 \caption{Removing node $i$, passing the weight and updating the graph edges}
 \label{rmNodeAlg}

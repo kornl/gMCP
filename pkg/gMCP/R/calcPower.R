@@ -77,8 +77,9 @@ calcMultiPower <- function(weights, alpha, G, muL, sigmaL, nL,
 			print(weights)
 			print(alpha)
 			print(meanL)
+			additionalLabel <- paste(",", paste(paste(names(variables),"=",variablesII,sep=""), collapse=", "))
 			resultL <- calcPower(weights=weights, alpha=alpha, G=GII, mean = meanL, sigma, cr, nSim, seed, type, f)
-			sResult <- paste(sResult, resultL2Text(resultL, digits), sep="\n")
+			sResult <- paste(sResult, resultL2Text(resultL, digits, additionalLabel=additionalLabel), sep="\n")
 			# Going through all of the variable settings:
 			i[j] <- i[j] + 1
 			while (i[j]>length(variables[[j]]) && running) {
@@ -98,10 +99,10 @@ calcMultiPower <- function(weights, alpha, G, muL, sigmaL, nL,
 	return(sResult)
 }
 
-resultL2Text <- function(resultL, digits) {	
+resultL2Text <- function(resultL, digits, additionalLabel="") {	
 	for(result in resultL) {
 		label <- attr(result, "label")
-		title <- paste("Setting:",label)		
+		title <- paste("Setting: ",label, additionalLabel, sep="")		
 		sResult <- paste(title, paste(rep("=", nchar(title)),collapse=""), sep="\n")			
 		sResult <- paste(sResult, "Local Power:",paste(capture.output(print(round(result$LocalPower, digits))), collapse="\n"), sep="\n")
 		sResult <- paste(sResult, "\nExpected number of rejections:", round(result$ExpRejections, digits), sep="\n")
@@ -112,7 +113,7 @@ resultL2Text <- function(resultL, digits) {
 				#TODO pF <- attr(result, "label")
 				pF <- attr(result[i], "label")
 				if (is.null(pF)) pF <- names(result)[i]
-				sResult <- paste(sResult, paste(pF,":",sep=""), result[i], sep="\n")
+				sResult <- paste(sResult, paste(pF, ":", sep=""), result[i], sep="\n")
 			}
 		}
 		sResult <- paste(sResult, "\n", sep="\n")		
