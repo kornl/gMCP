@@ -7,7 +7,7 @@ importFrom(graphics, plot)
 exportClasses(graphMCP, gMCPResult, gPADInterim)
 exportMethods(plot, print, getWeights, getMatrix, setWeights, getRejected, "setRejected<-", getXCoordinates, getYCoordinates, simConfint, setEdge, edgeAttr, "edgeAttr<-", nodeAttr, "nodeAttr<-", getNodes)
 
-export(graphGUI)
+export(graphGUI, corMatWizard)
 export(gMCP, rejectNode, substituteEps, placeNodes)
 export(gMCPReport, graph2latex)
 export(matrix2graph, graph2matrix, bdiagNA, joinGraphs, subgraph)

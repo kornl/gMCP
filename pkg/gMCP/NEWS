@@ -1,6 +1,10 @@
 Version 0.7-11 (??-??-2012, Rev. 13??)
 =====================================
 
+- Fixed a bug introduced in the last versions:
+  In the GUI the alpha-Field was always set back to 0.05 regardless 
+  of what the user entered.
+
 - Stated at more places what parametric tests do and 
   which prerequisites must be met.
   
@@ -16,6 +20,14 @@ Version 0.7-11 (??-??-2012, Rev. 13??)
 - Power simulations for different variable values. 
 
 - After testing the Reset Button resets to the graph with variables.  
+
+- A backslash is allowed in node names (e.g. \alpha) in the GUI.
+
+- corMatWizard is a new function that opens a Java dialog for
+  correlation matrix creation.
+  
+- Fixed a rather unimportant bug that unintended entering of 
+  Infinity (e.g. 2/0) causes a loop of error messages.
 
 - Extended unit tests. See method unitTestsGMCP.
   Option extended=TRUE will run small power simulations.

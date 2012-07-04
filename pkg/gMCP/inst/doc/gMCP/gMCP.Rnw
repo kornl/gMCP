@@ -1013,7 +1013,8 @@ This section is work in progress.
 
 \begin{Def}[Coherence and Consonance]
   A multiple test procedure is called \emph{consonant}\index{consonance} if 
-  \[\forall J\subset I:\; \left(\phi_J=1\;\Rightarrow\;\exists j\in J:\;\phi_j=1\right).\]
+  \[\forall J\subset I:\; \left(\phi_J=1\;\Rightarrow\;\exists j\in J:\;\phi_j=1\right)\]
+  %or in other words if $\Cap_{j\in J}H_j$ can be rejected than there exists a $H_j$, $j\in J$ that is rejected. 
 
   A multiple test procedure is called \emph{coherent}\index{coherence} if
   \[\forall J,\,J'\subset I:\; \left(\phi_J=0\text{ and }J'\subset J\;\Rightarrow\;\phi_{J'}=0\right).\]

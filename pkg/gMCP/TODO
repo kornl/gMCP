@@ -1,3 +1,14 @@
+- Description (.Rd files) of graphGUI and corMatWizard
+- Changing the names of hypotheses is not updated in the GUI  
+- Copy&Paste of Results (Table, Text, allow to save)
+- Show RCode and all parameters that reproduces the results.
+- Email subscription on start page (also tell user after 10th start of GUI)
+- Warn user if he uses a version that is older than 1 year.
+- Does contrMat(n=c(10, 20, 30, 40), type ="Dunnett") do what I want?!?
+- Add line width to edge attributes (as color)
+- G. Ferber et al.(2011) J. of Neuroscience Methods
+- As soon as weights for nodes are implemented, change Improved Fallback one to (w_1,w_2,w_3) and edges (now 1/2,1/2) to \gamma, 1-\gamma with \gamma=w2/(w1_w2))
+- Calling a node \delta causes gMCP to crash (every OS? Java? R? JMathLaTeX?) I guess it's \d (file end?) given to RJava.
 - Save power scenarios
 - Give link to Bundle in QuickStart-Guide
 - Create archive of Bundles on Algorithm-Forge
