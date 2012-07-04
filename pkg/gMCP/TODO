@@ -1,4 +1,8 @@
 - Description (.Rd files) of graphGUI and corMatWizard
+- exhaustAlpha=TRUE as default + warning
+- Bauer & Hackel
+- "Find out what's changed in ggplot2 with"
+  "news(Version=="0.9.1", package="ggplot")"
 - Changing the names of hypotheses is not updated in the GUI  
 - Copy&Paste of Results (Table, Text, allow to save)
 - Show RCode and all parameters that reproduces the results.
