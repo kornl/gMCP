@@ -464,13 +464,15 @@ public class NetList extends JPanel implements MouseMotionListener, MouseListene
 			for (int i = edges.size()-1; i >=0 ; i--) {
 				if (edges.get(i).inYou(e.getX(), e.getY())) {
 					new UpdateEdge(edges.get(i), this, control);
+					mouseReleased(null);
 					repaint();
 					return;
 				}
 			}
 			for (int i = nodes.size()-1; i >=0 ; i--) {
 				if (nodes.get(i).inYou(e.getX(), e.getY())) {
-					new UpdateNode(nodes.get(i), this);
+					new UpdateNode(nodes.get(i), control);
+					mouseReleased(null);
 					repaint();
 					return;
 				}
@@ -480,6 +482,11 @@ public class NetList extends JPanel implements MouseMotionListener, MouseListene
 		repaint();
 	}
 	
+	/*
+	 * Unfortunately a double click resulting in opening a new dialog does not trigger a mouseReleased-event in the end.
+	 * Therefore the method can be called with e=null whenever a dialog is opened that way.
+	 * @see java.awt.event.MouseListener#mouseReleased(java.awt.event.MouseEvent)
+	 */
 	public void mouseReleased(MouseEvent e) {
 		if (edrag != -1) {			
 			edges.get(edrag).setFixed(true);
@@ -488,7 +495,7 @@ public class NetList extends JPanel implements MouseMotionListener, MouseListene
 		edrag = -1;
 		unAnchor = false;
 		endPoint = null;
-		if (newEdge && firstVertexSelected) {				
+		if (e !=null && newEdge && firstVertexSelected) {				
 			Node secondVertex = vertexSelected(e.getX(), e.getY());
 			if (secondVertex == null || secondVertex == firstVertex) {
 				return;
@@ -548,19 +555,19 @@ public class NetList extends JPanel implements MouseMotionListener, MouseListene
 			((Graphics2D)g).drawRect(x, y, width, height);			
 		}
 		
-		if (firstVertexSelected && firstVertex != null && arrowHeadPoint != null) {
+		if (firstVertexSelected && firstVertex != null && arrowHeadPoint != null) { //TODO Insert *getZoom()
 			double a1 = firstVertex.getX()+ Node.getRadius();
 			double a2 = firstVertex.getY()+ Node.getRadius();
-			double c1 = arrowHeadPoint.getX();
-			double c2 = arrowHeadPoint.getY();
+			double c1 = arrowHeadPoint.getX()/getZoom();
+			double c2 = arrowHeadPoint.getY()/getZoom();
 			if (!(firstVertex.inYou((int)c1, (int)c2))) {
 				double dx = a1 - c1;
 				double dy = a2 - c2;
 				double d = Math.sqrt(dx * dx + dy * dy);
-				a1 = a1 - ((Node.getRadius()*getZoom()) * dx / d);
-				a2 = a2 - ((Node.getRadius()*getZoom()) * dy / d);					
+				a1 = a1 - ((Node.getRadius()) * dx / d);
+				a2 = a2 - ((Node.getRadius()) * dy / d);					
 				g.setColor(Color.DARK_GRAY);
-				GraphDrawHelper.malVollenPfeil(g, (int)a1, (int)a2, (int)c1, (int)c2, (int) (8 * getZoom()), 35);
+				GraphDrawHelper.malVollenPfeil(g, (int)(a1*getZoom()), (int)(a2*getZoom()), (int)(c1*getZoom()), (int)(c2*getZoom()), (int) (8 * getZoom()), 35);
 				g.setColor(Color.BLACK);
 			}
 		}
@@ -737,11 +744,11 @@ public class NetList extends JPanel implements MouseMotionListener, MouseListene
 		
 		RControl.getR().evalVoid(".gsrmtVar <- list()");
 		RControl.getR().evalVoid(".gsrmtVar$alpha <- c("+alpha+")");
-		RControl.getR().evalVoid(".gsrmtVar$hnodes <- c("+nodeStr+")");
+		RControl.getR().evalVoid(".gsrmtVar$hnodes <- c("+nodeStr.replaceAll("\\\\", "\\\\\\\\")+")");
 		RControl.getR().evalVoid(".gsrmtVar$m <- matrix(0, nrow="+nodes.size()+", ncol="+nodes.size()+")");
 		RControl.getR().evalVoid("rownames(.gsrmtVar$m) <- colnames(.gsrmtVar$m) <- .gsrmtVar$hnodes");
 		for (Edge e : edges) {
-			RControl.getR().evalVoid(".gsrmtVar$m[\""+e.from.getName()+"\",\""+e.to.getName()+"\"] <- \""+ e.getPreciseWeightStr().replaceAll("\\\\", "\\\\\\\\") +"\"");
+			RControl.getR().evalVoid(".gsrmtVar$m[\""+e.from.getName().replaceAll("\\\\", "\\\\\\\\") +"\",\""+e.to.getName().replaceAll("\\\\", "\\\\\\\\") +"\"] <- \""+ e.getPreciseWeightStr().replaceAll("\\\\", "\\\\\\\\") +"\"");
 		}
 		if (RControl.getR().eval("!any(is.na(as.numeric(.gsrmtVar$m)))").asRLogical().getData()[0]) {
 			RControl.getR().evalVoid(".gsrmtVar$m <- matrix(as.numeric(.gsrmtVar$m), nrow="+nodes.size()+")");
@@ -757,14 +764,14 @@ public class NetList extends JPanel implements MouseMotionListener, MouseListene
 		RControl.getR().evalVoid(graphName+"@nodeAttr$X <- c("+x+")");
 		RControl.getR().evalVoid(graphName+"@nodeAttr$Y <- c("+y+")");
 		for (Edge e : edges) {				
-			RControl.getR().evalVoid("edgeAttr("+graphName+", \""+e.from.getName()+"\", \""+e.to.getName()+"\", \"labelX\") <- "+(e.k1-Node.getRadius()));
-			RControl.getR().evalVoid("edgeAttr("+graphName+", \""+e.from.getName()+"\", \""+e.to.getName()+"\", \"labelY\") <- "+(e.k2-Node.getRadius()));
+			RControl.getR().evalVoid("edgeAttr("+graphName+", \""+e.from.getName().replaceAll("\\\\", "\\\\\\\\") +"\", \""+e.to.getName().replaceAll("\\\\", "\\\\\\\\") +"\", \"labelX\") <- "+(e.k1-Node.getRadius()));
+			RControl.getR().evalVoid("edgeAttr("+graphName+", \""+e.from.getName().replaceAll("\\\\", "\\\\\\\\") +"\", \""+e.to.getName().replaceAll("\\\\", "\\\\\\\\") +"\", \"labelY\") <- "+(e.k2-Node.getRadius()));
 			//logger.debug("Weight is: "+e.getW(ht));
 			if (((Double)e.getW(ht)).isNaN()) {
-				RControl.getR().evalVoid("edgeAttr("+graphName+", \""+e.from.getName()+"\", \""+e.to.getName()+"\", \"variableWeight\") <- \""+e.getWS().replaceAll("\\\\", "\\\\\\\\")+"\"");
+				RControl.getR().evalVoid("edgeAttr("+graphName+", \""+e.from.getName().replaceAll("\\\\", "\\\\\\\\") +"\", \""+e.to.getName().replaceAll("\\\\", "\\\\\\\\") +"\", \"variableWeight\") <- \""+e.getWS().replaceAll("\\\\", "\\\\\\\\")+"\"");
 			}
 			if (e.getW(ht)==0) {
-				RControl.getR().evalVoid(graphName +"@m[\""+e.from.getName()+"\", \""+e.to.getName()+"\"] <- 0");
+				RControl.getR().evalVoid(graphName +"@m[\""+e.from.getName().replaceAll("\\\\", "\\\\\\\\") +"\", \""+e.to.getName().replaceAll("\\\\", "\\\\\\\\") +"\"] <- 0");
 			}			
 		}	
 		RControl.getR().evalVoid("attr("+graphName+", \"description\") <- \""+ control.getDView().getDescription()+"\"");

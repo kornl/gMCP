@@ -23,11 +23,13 @@ public class UpdateNode extends JDialog implements ActionListener {
 	JButton jbDeleteNode = new JButton("Delete Node");
 	Node node;
 	NetList netzListe;
+	GraphView gv;
 	
-	public UpdateNode(Node node, NetList netzListe) {
-		super(netzListe.control.parent, "Updating Node "+node.getName(), true);
+	public UpdateNode(Node node, GraphView gv) {
+		super(gv.parent, "Updating Node "+node.getName(), true);
 		this.node = node;
-		this.netzListe = netzListe;
+		this.gv = gv;
+		this.netzListe = gv.getNL();
 		String cols = "5dlu, fill:pref:grow, 5dlu, fill:pref:grow, 5dlu";
         String rows = "5dlu, pref, 5dlu, pref, 5dlu, pref, 5dlu";
         
@@ -84,6 +86,7 @@ public class UpdateNode extends JDialog implements ActionListener {
 		int which = netzListe.whichNode(tfname.getText());
 		if (which == -1 || netzListe.getNodes().get(which) == node) {
 			node.setName(tfname.getText());
+			//TODO Change Name in PView and RDataFrameRef(which, tfname.getText())
 			dispose();
 		} else {
 			JOptionPane.showMessageDialog(this, "There is already a node with name \""+tfname.getText()+"\"", "Node name already in use", JOptionPane.ERROR_MESSAGE);

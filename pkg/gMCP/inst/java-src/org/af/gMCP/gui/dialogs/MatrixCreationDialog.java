@@ -14,6 +14,7 @@ import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
@@ -49,8 +50,8 @@ import com.jgoodies.forms.layout.FormLayout;
 public class MatrixCreationDialog extends JDialog implements ActionListener, ChangeListener {
 	JButton ok = new JButton("Save matrix to R");
 
-    CreateGraphGUI parent;
-    Vector<Node> nodes;
+	JFrame parent;
+    Vector<String> names;
     JTextArea jta = new JTextArea();
     DataFramePanel dfp;
     DataFramePanel dfpDiag;
@@ -63,19 +64,27 @@ public class MatrixCreationDialog extends JDialog implements ActionListener, Cha
     
     JTabbedPane tabbedPane = new JTabbedPane(); 
     
+    public static Vector<String> getNames(Vector<Node> nodes) {
+    	Vector<String> v = new Vector<String>();
+    	for (Node n: nodes) {
+    		v.add(n.getName());
+    	}
+    	return v;
+    }
+    
     /**
      * Constructor
      * @param matrix String that specifies R object to be loaded.
      */
-	public MatrixCreationDialog(CreateGraphGUI parent, String matrix) {
+	public MatrixCreationDialog(JFrame parent, String matrix, Vector<String> names) {
 		super(parent, "Specify correlation matrix", true);
 		setLocationRelativeTo(parent);
+		this.names = names;
 		this.parent = parent;
-		nodes = parent.getGraphView().getNL().getNodes();
 		
 		RDataFrameRef df = new RDataFrameRef();
-		for (Node n: nodes) {
-			df.addRowCol(n.getName());
+		for (String n: names) {
+			df.addRowCol(n);
 			df.setValue(df.getColumnCount()-1, df.getColumnCount()-1, new EdgeWeight(1));
 		}		
 		dfp = new DataFramePanel(df);
@@ -171,7 +180,7 @@ public class MatrixCreationDialog extends JDialog implements ActionListener, Cha
         row +=2;
         
         DefaultListModel lm = new DefaultListModel();
-        for (Node n: nodes) {
+        for (String n: names) {
 			lm.addElement(n);
 		}
         
@@ -217,7 +226,7 @@ public class MatrixCreationDialog extends JDialog implements ActionListener, Cha
 		
 		int row = 2;
 		
-		spinnerN = new JSpinner(new SpinnerNumberModel(2, 1, nodes.size(), 1));    	
+		spinnerN = new JSpinner(new SpinnerNumberModel(2, 1, names.size(), 1));    	
     	spinnerN.addChangeListener(this);
     	
     	panel.add(new JLabel("Insert matrix of size:"), cc.xy(2, row));
@@ -225,7 +234,7 @@ public class MatrixCreationDialog extends JDialog implements ActionListener, Cha
         
         row +=2;
         
-        spinnerN2 = new JSpinner(new SpinnerNumberModel(1, 1, nodes.size()-1, 1));    	
+        spinnerN2 = new JSpinner(new SpinnerNumberModel(1, 1, names.size()-1, 1));    	
     	spinnerN2.addChangeListener(this);
     	
     	panel.add(new JLabel("Insert matrix at position:"), cc.xy(2, row));
@@ -245,7 +254,7 @@ public class MatrixCreationDialog extends JDialog implements ActionListener, Cha
     	
     	RDataFrameRef df = new RDataFrameRef();
 		for (int i=0; i<2; i++) {
-			df.addRowCol(nodes.get(i).getName());
+			df.addRowCol(names.get(i));
 			df.setValue(df.getColumnCount()-1, df.getColumnCount()-1, new EdgeWeight(1));
 		}		
 		dfpDiag = new DataFramePanel(df);
@@ -301,7 +310,7 @@ public class MatrixCreationDialog extends JDialog implements ActionListener, Cha
 		
 		int row = 2;
 		
-		spinnerNT = new JSpinner(new SpinnerNumberModel(Math.max(2,nodes.size()/2), 1, nodes.size(), 1));    	
+		spinnerNT = new JSpinner(new SpinnerNumberModel(Math.max(2,names.size()/2), 1, names.size(), 1));    	
     	spinnerNT.addChangeListener(this);
     	
     	panel.add(new JLabel("Number of Treatment Comparisons:"), cc.xy(2, row));
@@ -316,7 +325,7 @@ public class MatrixCreationDialog extends JDialog implements ActionListener, Cha
 		row += 2;
 		
 		RDataFrameRef df = new RDataFrameRef();
-		for (int i=0; i<Math.max(2,nodes.size()/2); i++) {
+		for (int i=0; i<Math.max(2,names.size()/2); i++) {
 			df.addRowCol("T"+(i+1));
 			df.setValue(df.getColumnCount()-1, df.getColumnCount()-1, new EdgeWeight(1));
 		}		
@@ -341,7 +350,7 @@ public class MatrixCreationDialog extends JDialog implements ActionListener, Cha
 		
 		int row = 2;
 		
-		spinnerNE = new JSpinner(new SpinnerNumberModel(Math.max(2,nodes.size()/2), 1, nodes.size(), 1));    	
+		spinnerNE = new JSpinner(new SpinnerNumberModel(Math.max(2,names.size()/2), 1, names.size(), 1));    	
     	spinnerNE.addChangeListener(this);
     	
     	panel.add(new JLabel("Number of Endpoints:"), cc.xy(2, row));
@@ -350,7 +359,7 @@ public class MatrixCreationDialog extends JDialog implements ActionListener, Cha
 		row += 2;
 		
 		RDataFrameRef df = new RDataFrameRef();
-		for (int i=0; i<Math.max(2,nodes.size()/2); i++) {
+		for (int i=0; i<Math.max(2,names.size()/2); i++) {
 			df.addRowCol("E"+(i+1));
 			df.setValue(df.getColumnCount()-1, df.getColumnCount()-1, new EdgeWeight(1));
 		}		
@@ -391,14 +400,14 @@ public class MatrixCreationDialog extends JDialog implements ActionListener, Cha
 				}
 			}
 		} else if (e.getSource()==reorder) {
-			nodes.removeAllElements();
+			names.removeAllElements();
 			for (int i=0; i<hypotheses.getModel().getSize(); i++) {
-				nodes.add((Node) hypotheses.getModel().getElementAt(i));
+				names.add((String) hypotheses.getModel().getElementAt(i));
 			}			
 			createMDiag();
 			List<String> names = new Vector<String>();
-			for (Node n : nodes) {
-				names.add(n.getName());
+			for (String n : names) {
+				names.add(n);
 			}
 			dfp.getTable().getModel().getDataFrame().setNames(names);
 			dfp.getTable().update();
@@ -505,12 +514,12 @@ public class MatrixCreationDialog extends JDialog implements ActionListener, Cha
 		int j = Integer.parseInt(spinnerN2.getModel().getValue().toString());
 		DataTableModel m = dfpDiag.getTable().getModel();
 		m.removeAll();
-		if (n+j-1>nodes.size()) {
+		if (n+j-1>names.size()) {
 			JOptionPane.showMessageDialog(parent, "The selected values "+n+"+"+j+" exceed the number of nodes+1.", "Impossible parameter combination", JOptionPane.ERROR_MESSAGE);
 			return;
 		}
 		for (int i=j-1; i<j-1+n; i++) {
-			m.addRowCol(nodes.get(i).getName());
+			m.addRowCol(names.get(i));
 			m.setValueAt(new EdgeWeight(1), m.getColumnCount()-1, m.getColumnCount()-1);
 		}
 	}

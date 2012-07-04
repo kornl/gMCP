@@ -95,10 +95,10 @@ public class GroupDialog extends JDialog implements ActionListener, ChangeListen
 		}
 	}
 	
-	public String getGroups() {
+	public String getGroups() {		
 		String s = "c(";
-		for (int i=0; i<weightsV.size(); i++) {
-			s += weightsV.get(i).getText()+(i!=weightsV.size()-1?", ":"");
+		for (int i=0; i<weightsV.size(); i++) {			
+			s += (balancedDesign.isSelected()?10:weightsV.get(i).getText())+(i!=weightsV.size()-1?", ":"");
 		}
 		return s+")";
 	}

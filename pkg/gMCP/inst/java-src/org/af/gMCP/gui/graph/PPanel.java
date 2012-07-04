@@ -112,14 +112,19 @@ public class PPanel implements ActionListener, KeyListener, NodeListener, FocusL
 		}
 		try {
 			if (wTF.getText().length()!=0) { /* This if-clause is due to a bug/version conflict in JHLIR/REngine/rJava/R for R 2.8 */
-				w = RControl.getR().eval(wTF.getText().replace(",", ".")).asRNumeric().getData()[0];		
-				wTF.setBackground(Color.WHITE);
+				double tempw = RControl.getR().eval(wTF.getText().replace(",", ".")).asRNumeric().getData()[0];		
+				if (!Double.isInfinite(tempw) && !Double.isNaN(tempw)) {
+					wTF.setBackground(Color.WHITE);
+					w = tempw;
+				} else {
+					wTF.setBackground(Color.RED);
+				}				
 			} else {
 				wTF.setBackground(Color.RED);
 			}
 		} catch (Exception nfe) {		
 			wTF.setBackground(Color.RED);
-		}
+		}		
 		node.setWeight(w, this);
 		//logger.info("P: "+p+", W: "+w);
 		updateMe(false);

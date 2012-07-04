@@ -58,6 +58,7 @@ public class PView extends JPanel implements KeyListener, ActionListener {
 		c.gridx=0; c.gridy=0; c.gridwidth = 1; c.gridheight = 1; c.ipadx=0; c.ipady=0;
 		
 		totalAlpha.addKeyListener(this);
+		totalAlpha.setText(Configuration.getInstance().getClassProperty(this.getClass(), "alpha level", "0.05"));
 		
 		setUp();
 		
@@ -138,7 +139,7 @@ public class PView extends JPanel implements KeyListener, ActionListener {
 		row += 2;
 		panel.add(alphaLabel, cc.xy(2, row));    	
     	panel.add(totalAlpha, cc.xy(4, row));
-    	totalAlpha.setText("0.05");
+    	//totalAlpha.setText("0.05");
     	totalAlpha.addKeyListener(this);
     	
     	updateLabels();
@@ -190,6 +191,7 @@ public class PView extends JPanel implements KeyListener, ActionListener {
 	}
 	
 	public void setTesting(boolean b) {
+		Configuration.getInstance().getClassProperty(this.getClass(), totalAlpha.getText());
 		PPanel.setTesting(b);
 		for (PPanel p : panels) {
 			p.updateMe(true);
@@ -344,7 +346,7 @@ public class PView extends JPanel implements KeyListener, ActionListener {
 			} else {				
 				String obj = jcbCorObject.getSelectedItem().toString();
 				String matrix = obj.endsWith("matrices found.")?null:obj;
-				new MatrixCreationDialog(parent, matrix);
+				new MatrixCreationDialog(parent, matrix, MatrixCreationDialog.getNames(parent.getGraphView().getNL().getNodes()));
 				refresh();
 			}
 		}

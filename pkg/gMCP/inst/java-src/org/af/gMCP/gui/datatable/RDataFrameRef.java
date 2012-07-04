@@ -18,6 +18,10 @@ public class RDataFrameRef {
 		return rcNames.get(col);
 	}
 	
+	public void setName(int i, String name) {
+		rcNames.set(i, name);
+	}
+	
 	public String getRowName(int row) {
 		return rcNames.get(row);
 	}

@@ -5,7 +5,6 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Hashtable;
 import java.util.List;
 import java.util.Set;
 import java.util.Vector;
@@ -419,7 +418,7 @@ public class PowerDialogParameterUncertainty extends JDialog implements ActionLi
 
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == createCV) {			
-			MatrixCreationDialog mcd = new MatrixCreationDialog(parent, dfp.getTable().getRMatrix());
+			MatrixCreationDialog mcd = new MatrixCreationDialog(parent, dfp.getTable().getRMatrix(), MatrixCreationDialog.getNames(parent.getGraphView().getNL().getNodes()));
 			dfp.getTable().getModel().copy(mcd.dfp.getTable().getModel()); 
 			return;
 		}

@@ -36,7 +36,7 @@ public class RejectedDialog extends JDialog implements ActionListener {
 		c.weightx=1; c.weighty=0;
 		
 		c.gridx=0; 
-		(getContentPane()).add(new JLabel("Hypostheses"), c);
+		(getContentPane()).add(new JLabel("Hypotheses"), c);
 		c.gridx=1;
 		(getContentPane()).add(new JLabel(""), c);
 		c.gridy++;		

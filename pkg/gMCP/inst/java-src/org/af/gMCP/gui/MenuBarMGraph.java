@@ -303,61 +303,12 @@ public class MenuBarMGraph extends JMenuBar implements ActionListener {
         } else if (e.getActionCommand().equals("load graph from R")) {
         	new RObjectLoadingDialog(control.getGraphGUI());
         	createLastUsed();        	
-        } else if (e.getActionCommand().equals("bht")) {
-        	Hashtable<String,Object> ht = new Hashtable<String,Object>();
-        	ht.put("n", new int[] {1,4,10});
-        	new ParameterDialog(control.getGraphGUI(), ht, this, "BonferroniHolm");        	
-        } else if (e.getActionCommand().equals("fixedSequence")) {
-        	Hashtable<String,Object> ht = new Hashtable<String,Object>();
-        	ht.put("n", new int[] {1,4,20});
-        	new ParameterDialog(control.getGraphGUI(), ht, this, "fixedSequence");        	
-        }  else if (e.getActionCommand().equals("fallback")) {
-        	Hashtable<String,Object> ht = new Hashtable<String,Object>();
-        	ht.put("n", new int[] {1,4,20});
-        	ht.put("weights", new double[] {0.25, 0.25, 0.25, 0.25});
-        	new ParameterDialog(control.getGraphGUI(), ht, this, "fallback");        	
-        } else if (e.getActionCommand().equals("pg")) {       	
-        	loadGraph("parallelGatekeeping()");
-        } else if (e.getActionCommand().equals("pgi")) {       	
-        	loadGraph("improvedParallelGatekeeping()");
-        } else if (e.getActionCommand().equals("bauer")) {       	
-        	loadGraph("BauerEtAl2001()");
-        } else if (e.getActionCommand().equals("bretzEtAl")) {       	
-        	loadGraph("BretzEtAl2011()");
-        } else if (e.getActionCommand().equals("bretzEtAl2009a")) {       	
-        	loadGraph("BretzEtAl2009a()");
-        } else if (e.getActionCommand().equals("bretzEtAl2009b")) {       	
-        	loadGraph("BretzEtAl2009b()");
-        } else if (e.getActionCommand().equals("bretzEtAl2009c")) {       	
-        	loadGraph("BretzEtAl2009c()");
-        } else if (e.getActionCommand().equals("hommelEtAl")) {      	
-        	loadGraph("HommelEtAl2007()");
-        } else if (e.getActionCommand().equals("hommelEtAlSimple")) {       	
-        	loadGraph("HommelEtAl2007Simple()");
-        } else if (e.getActionCommand().equals("hung")) { 	
-        	loadGraph("HungEtWang2010()");
-        } else if (e.getActionCommand().equals("huque")) { 	
-        	loadGraph("HuqueAloshEtBhore2011()");
-        } else if (e.getActionCommand().equals("maurer1995")) {     	
-        	loadGraph("MaurerEtAl1995()");
-        } else if (e.getActionCommand().equals("truncHolm")) {     	
-        	loadGraph("truncatedHolm()");
-        } else if (e.getActionCommand().equals("gSuccessive")) {     	
-        	loadGraph("generalSuccessive()");
-        } else if (e.getActionCommand().equals("successiveI")) {     	
-        	loadGraph("simpleSuccessiveI()");
-        } else if (e.getActionCommand().equals("successiveII")) {     	
-        	loadGraph("simpleSuccessiveII()");
-        } else if (e.getActionCommand().equals("fallbackI")) {     	
-        	loadGraph("improvedFallbackI()");
-        } else if (e.getActionCommand().equals("fallbackII")) {     	
-        	loadGraph("improvedFallbackII()");
         } else if (e.getActionCommand().equals("showLog")) {    	
         	showLog();
         } else if (e.getActionCommand().equals("reportError")) {       	
         	 reportError();
         } else if (e.getActionCommand().equals("exit")) {       	
-        	 control.getMainFrame().dispose();
+        	 control.getMainFrame().windowClosing(null);
         } else if (e.getActionCommand().equals("showAppHelp")) {
         	showFile("doc/gMCP.pdf");       	 	
         } else if (e.getActionCommand().equals("showParametric")) {
@@ -412,10 +363,59 @@ public class MenuBarMGraph extends JMenuBar implements ActionListener {
         	}
         	control.getNL().saveGraphWithoutVariables(control.getNL().initialGraph, false);
         	control.getNL().loadGraph();
-        }  else if (e.getActionCommand().equals("entangledGraphs")) {
+        } else if (e.getActionCommand().equals("entangledGraphs")) {
         	
-        }   else if (e.getActionCommand().equals("adaptiveDesigns")) {
+        } else if (e.getActionCommand().equals("adaptiveDesigns")) {
         	
+        } else if (e.getActionCommand().equals("bht")) {
+        	Hashtable<String,Object> ht = new Hashtable<String,Object>();
+        	ht.put("n", new int[] {1,4,10});
+        	new ParameterDialog(control.getGraphGUI(), ht, this, "BonferroniHolm");        	
+        } else if (e.getActionCommand().equals("fixedSequence")) {
+        	Hashtable<String,Object> ht = new Hashtable<String,Object>();
+        	ht.put("n", new int[] {1,4,20});
+        	new ParameterDialog(control.getGraphGUI(), ht, this, "fixedSequence");        	
+        }  else if (e.getActionCommand().equals("fallback")) {
+        	Hashtable<String,Object> ht = new Hashtable<String,Object>();
+        	ht.put("n", new int[] {1,4,20});
+        	ht.put("weights", new double[] {0.25, 0.25, 0.25, 0.25});
+        	new ParameterDialog(control.getGraphGUI(), ht, this, "fallback");        	
+        } else if (e.getActionCommand().equals("pg")) {       	
+        	loadGraph("parallelGatekeeping()");
+        } else if (e.getActionCommand().equals("pgi")) {       	
+        	loadGraph("improvedParallelGatekeeping()");
+        } else if (e.getActionCommand().equals("bauer")) {       	
+        	loadGraph("BauerEtAl2001()");
+        } else if (e.getActionCommand().equals("bretzEtAl")) {       	
+        	loadGraph("BretzEtAl2011()");
+        } else if (e.getActionCommand().equals("bretzEtAl2009a")) {       	
+        	loadGraph("BretzEtAl2009a()");
+        } else if (e.getActionCommand().equals("bretzEtAl2009b")) {       	
+        	loadGraph("BretzEtAl2009b()");
+        } else if (e.getActionCommand().equals("bretzEtAl2009c")) {       	
+        	loadGraph("BretzEtAl2009c()");
+        } else if (e.getActionCommand().equals("hommelEtAl")) {      	
+        	loadGraph("HommelEtAl2007()");
+        } else if (e.getActionCommand().equals("hommelEtAlSimple")) {       	
+        	loadGraph("HommelEtAl2007Simple()");
+        } else if (e.getActionCommand().equals("hung")) { 	
+        	loadGraph("HungEtWang2010()");
+        } else if (e.getActionCommand().equals("huque")) { 	
+        	loadGraph("HuqueAloshEtBhore2011()");
+        } else if (e.getActionCommand().equals("maurer1995")) {     	
+        	loadGraph("MaurerEtAl1995()");
+        } else if (e.getActionCommand().equals("truncHolm")) {     	
+        	loadGraph("truncatedHolm()");
+        } else if (e.getActionCommand().equals("gSuccessive")) {     	
+        	loadGraph("generalSuccessive()");
+        } else if (e.getActionCommand().equals("successiveI")) {     	
+        	loadGraph("simpleSuccessiveI()");
+        } else if (e.getActionCommand().equals("successiveII")) {     	
+        	loadGraph("simpleSuccessiveII()");
+        } else if (e.getActionCommand().equals("fallbackI")) {     	
+        	loadGraph("improvedFallbackI()");
+        } else if (e.getActionCommand().equals("fallbackII")) {     	
+        	loadGraph("improvedFallbackII()");
         }
 	}
 	
@@ -432,7 +432,9 @@ public class MenuBarMGraph extends JMenuBar implements ActionListener {
 		} catch (Exception exc) {			
 			logger.warn("No Desktop class in Java 5 or URI error.");
 			RControl.getR().eval("browseURL(\""+url+"\")");
-		}	}
+			if (System.getProperty("eclipse") != null) exc.printStackTrace();
+		}	
+	}
 
 	private void notYetSupported() {
 		JOptionPane.showMessageDialog(control.getMainFrame(), "Not yet supported.", "Not yet supported", JOptionPane.INFORMATION_MESSAGE);
@@ -475,6 +477,7 @@ public class MenuBarMGraph extends JMenuBar implements ActionListener {
 				} catch (Exception e1) {
 					logger.error(e1.getMessage(), e1);					
 					JOptionPane.showMessageDialog(control.getMainFrame(), "Please open and read the following file:\n"+f.getAbsolutePath(), "Could not find appropriate viewer", JOptionPane.WARNING_MESSAGE);
+					if (System.getProperty("eclipse") != null) e1.printStackTrace();
 				}
 
 			}
@@ -547,6 +550,7 @@ public class MenuBarMGraph extends JMenuBar implements ActionListener {
 			out.close();
 		} catch( Exception ex ) {
 			JOptionPane.showMessageDialog(null, "Saving LaTeX code to '" + f.getAbsolutePath() + "' failed: " + ex.getMessage(), "Saving failed.", JOptionPane.ERROR_MESSAGE);
+			if (System.getProperty("eclipse") != null) ex.printStackTrace();
 		}
 	}
 	
@@ -554,7 +558,9 @@ public class MenuBarMGraph extends JMenuBar implements ActionListener {
 		writeLaTeX(control.getNL().getLaTeX());
 	}
 	
-	
+	/**
+	 * Opens a TextFileViewer dialog and displays the LaTeX source to display the graph.
+	 */
 	public void showLaTeXGraph() {
 		String latexCode = control.getNL().getLaTeX();
 		Toolkit.getDefaultToolkit().getSystemClipboard().setContents(new StringSelection(latexCode), null);		
@@ -590,7 +596,9 @@ public class MenuBarMGraph extends JMenuBar implements ActionListener {
 	}
 	*/
 
-	
+	/**
+	 * Opens a JFilechooser and saves the graph as an PNG image to the selected file.
+	 */
 	private void saveGraphImage() {
 		JFileChooser fc = new JFileChooser(Configuration.getInstance().getClassProperty(this.getClass(), "ImageDirectory"));		
         fc.setFileSelectionMode(JFileChooser.FILES_ONLY);
@@ -606,6 +614,9 @@ public class MenuBarMGraph extends JMenuBar implements ActionListener {
         }		
 	}
 	
+	/**
+	 * Opens a JFileChooser and loads a graph from an RData file.
+	 */
 	private void loadGraph() {		
 		JFileChooser fc = new JFileChooser(Configuration.getInstance().getClassProperty(this.getClass(), "RObjDirectory"));		
 		fc.setFileSelectionMode(JFileChooser.FILES_ONLY);
@@ -625,6 +636,10 @@ public class MenuBarMGraph extends JMenuBar implements ActionListener {
         control.getMainFrame().validate();
 	}
 	
+	/**
+	 * Loads a graph from a selected RData file.
+	 * @param f file that contains the graph to load.
+	 */
 	private void loadGraph(File f) {
 		control.stopTesting();            
         Configuration.getInstance().setClassProperty(this.getClass(), "RObjDirectory", f.getParent());
@@ -637,11 +652,10 @@ public class MenuBarMGraph extends JMenuBar implements ActionListener {
     		Configuration.getInstance().getGeneralConfig().addGraph(f.getAbsolutePath());
         	createLastUsed();
 		} catch( Exception ex ) {
-			JOptionPane.showMessageDialog(this, "Loading graph from '" + f.getAbsolutePath() + "' failed: " + ex.getMessage(), "Saving failed.", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(this, "Loading graph from '" + f.getAbsolutePath() + "' failed: " + ex.getMessage(), "Loading failed.", JOptionPane.ERROR_MESSAGE);
+			if (System.getProperty("eclipse") != null) ex.printStackTrace();
 		}
 	}
-
-
 
 	protected JMenuItem makeMenuItem(String text, String action) {
         return makeMenuItem(text, action, true);
