@@ -31,6 +31,6 @@ graphGUI <- function(graph="createdGraph", pvalues=numeric(0), grid=0, debug=FAL
 	invisible(.jnew("org/af/gMCP/gui/CreateGraphGUI", make.names(graph), pvalues, debug, grid, experimentalFeatures))	
 }
 
-corMatWizard <- function(dim=n, matrix=diag(n), names=paste("H",1:n)) {
+corMatWizard <- function(n=dim(matrix)[1], matrix=diag(n), names=paste("H",1:n)) {
 	invisible(.jnew("org/af/gMCP/gui/dialogs/MatrixCreationDialog", matrix, names))
 }

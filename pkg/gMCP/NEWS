@@ -1,5 +1,5 @@
-Version 0.7-11 (??-??-2012, Rev. 13??)
-=====================================
+Changes in version 0.7-11 (??-??-2012, Rev. 13??)
+================================================
 
 - Fixed a bug introduced in the last versions:
   In the GUI the alpha-Field was always set back to 0.05 regardless 
@@ -33,8 +33,8 @@ Version 0.7-11 (??-??-2012, Rev. 13??)
   Option extended=TRUE will run small power simulations.
   Option java=TRUE will run JUnit tests for GUI testing.
 
-Version 0.7-10 (15-06-2012, Rev. 1291)
-=====================================
+Changes in version 0.7-10 (15-06-2012, Rev. 1291)
+================================================
 
 - New self test function doUnitTestsForGMCP to check whether
   the R unit test suite for gMCP can complete without errors.
@@ -50,8 +50,8 @@ Version 0.7-10 (15-06-2012, Rev. 1291)
    18 files changed, 137 insertions(+), 47 deletions(-)
 
 
-Version 0.7-9 (07-05-2012, Rev. 1277)
-=====================================
+Changes in version 0.7-9 (07-05-2012, Rev. 1277)
+================================================
 
 - calcPower gained a parameter "cr" for specifying
   a correlation for parametric power simulations. 
@@ -68,8 +68,8 @@ Version 0.7-9 (07-05-2012, Rev. 1277)
  33 files changed, 720 insertions(+), 190 deletions(-)
  
 
-Version 0.7-8 (06-03-2012, Rev. 1252)
-=====================================
+Changes in version 0.7-8 (06-03-2012, Rev. 1252)
+================================================
 
 - Edges can be created by drag'n'drop. 
   (Drag from the first node and drop on the second node.)
@@ -92,8 +92,8 @@ Version 0.7-8 (06-03-2012, Rev. 1252)
  14 files changed, 136 insertions(+), 45 deletions(-)
  
 
-Version 0.7-7 (17-02-2012, Rev. 1236)
-=====================================
+Changes in version 0.7-7 (17-02-2012, Rev. 1236)
+================================================
 
 - Fixed severe (but at least obvious) regression in 0.7-6: All p-values beyond the
   first one were always immediately set to 0.
@@ -118,8 +118,8 @@ Version 0.7-7 (17-02-2012, Rev. 1236)
  28 files changed, 467 insertions(+), 223 deletions(-)
 
 
-Version 0.7-6 (13-02-2012, Rev. 1208)
-=====================================
+Changes in version 0.7-6 (13-02-2012, Rev. 1208)
+================================================
 
 - JTable behaves slightly different now:
   Whenever a cell gets the focus the CellEditor is opened.
@@ -147,8 +147,8 @@ Version 0.7-6 (13-02-2012, Rev. 1208)
  63 files changed, 591 insertions(+), 277 deletions(-)
 
 
-Version 0.7-5 (29-01-2012, Rev. 1147)
-=====================================
+Changes in version 0.7-5 (29-01-2012, Rev. 1147)
+================================================
 
 - Better draw routine: Edges start and end now precisely at the borders of the nodes. 
 
@@ -174,8 +174,8 @@ Version 0.7-5 (29-01-2012, Rev. 1147)
  52 files changed, 606 insertions(+), 212 deletions(-)
 
 
-Version 0.7-4 (22-01-2012, Rev. 1096)
-=====================================
+Changes in version 0.7-4 (22-01-2012, Rev. 1096)
+================================================
 
 - Many layout improvements.
 
@@ -204,8 +204,8 @@ Version 0.7-4 (22-01-2012, Rev. 1096)
  49 files changed, 1090 insertions(+), 561 deletions(-)
 
 
-Version 0.7-3 (16-01-2012, Rev. 1057)
-=====================================
+Changes in version 0.7-3 (16-01-2012, Rev. 1057)
+================================================
 
 - Function "subGraph" renamed to "subgraph" to avoid conflicts with
   package graph.
@@ -242,8 +242,8 @@ Version 0.7-3 (16-01-2012, Rev. 1057)
  47 files changed, 362 insertions(+), 196 deletions(-)
  
 
-Version 0.7-2 (11-12-2011, Rev. 1016)
-=====================================
+Changes in version 0.7-2 (11-12-2011, Rev. 1016)
+================================================
 
 - Fixed: In 0.7-1 the options dialog throws an error.
 
@@ -262,8 +262,8 @@ Version 0.7-2 (11-12-2011, Rev. 1016)
  29 files changed, 178 insertions(+), 198 deletions(-)
 
 
-Version 0.7-1 (22-11-2011, Rev. 1001)
-=====================================
+Changes in version 0.7-1 (22-11-2011, Rev. 1001)
+================================================
 
 - The GUI will (optionally) look for a newer version of 
   gMCP on CRAN.
@@ -277,8 +277,8 @@ Version 0.7-1 (22-11-2011, Rev. 1001)
  52 files changed, 551 insertions(+), 266 deletions(-)
  
   
-Version 0.7-0 (26-Aug-2011, Rev. 964)
-=====================================
+Changes in version 0.7-0 (26-Aug-2011, Rev. 964)
+================================================
 
 - Package "graph" is no longer a dependency.
   Class definition of graphMCP has changed and is no
@@ -330,8 +330,8 @@ Version 0.7-0 (26-Aug-2011, Rev. 964)
  85 files changed, 2152 insertions(+), 1663 deletions(-)
   
     
-Version 0.6-6 (04-Jul-2011, Rev. 860)
-=====================================
+Changes in version 0.6-6 (04-Jul-2011, Rev. 860)
+================================================
 
 - Fixed a bug in the GUI that deleted often p-values.
 
@@ -354,8 +354,8 @@ Version 0.6-6 (04-Jul-2011, Rev. 860)
  48 files changed, 559 insertions(+), 279 deletions(-)
   
 
-Version 0.6-5 (26-May-2011, Rev. 825)
-=====================================
+Changes in version 0.6-5 (26-May-2011, Rev. 825)
+================================================
 
 - New dependency: CommonJavaJars
   This package contains now all the third party libraries.
@@ -374,8 +374,8 @@ Version 0.6-5 (26-May-2011, Rev. 825)
  46 files changed, 157 insertions(+), 48 deletions(-)
 
 
-Version 0.6-4 (11-May-2011, Rev. 782)
-=====================================
+Changes in version 0.6-4 (11-May-2011, Rev. 782)
+================================================
 
 - Fixed bug with saving and loading on Windows.
 
@@ -395,8 +395,8 @@ Version 0.6-4 (11-May-2011, Rev. 782)
  22 files changed, 130 insertions(+), 38 deletions(-)
 
   
-Version 0.6-3 (09-May-2011, Rev. 767)
-=====================================
+Changes in version 0.6-3 (09-May-2011, Rev. 767)
+================================================
 
 - New dependency: JavaGD, MCPAN
 
@@ -442,8 +442,8 @@ Version 0.6-3 (09-May-2011, Rev. 767)
 75 files changed, 1398 insertions(+), 1117 deletions(-)
 
 
-Version 0.6-2 (24-Apr-2011, Rev. 679)
-=====================================
+Changes in version 0.6-2 (24-Apr-2011, Rev. 679)
+================================================
 
 - New dependency: xtable 
 
@@ -478,8 +478,8 @@ Version 0.6-2 (24-Apr-2011, Rev. 679)
  58 files changed, 1072 insertions(+), 596 deletions(-)
 
 
-Version 0.6-1 (09-Apr-2011, Rev. 589)
-=====================================
+Changes in version 0.6-1 (09-Apr-2011, Rev. 589)
+================================================
 
 - We use the library JLaTeXMath for edge labeling.
 
@@ -501,8 +501,8 @@ Version 0.6-1 (09-Apr-2011, Rev. 589)
  43 files changed, 666 insertions(+), 248 deletions(-)
 
 
-Version 0.6-0 (06-Apr-2011, Rev. 547)
-=====================================
+Changes in version 0.6-0 (06-Apr-2011, Rev. 547)
+================================================
 
 - The GUI supports edges with variables (although sum checking of
   outgoing edges is disabled then till values are assigned to the
@@ -524,8 +524,8 @@ Version 0.6-0 (06-Apr-2011, Rev. 547)
  40 files changed, 599 insertions(+), 339 deletions(-)
 
 
-Version 0.5-0 (28-Mar-2011, Rev. 525)
-=====================================
+Changes in version 0.5-0 (28-Mar-2011, Rev. 525)
+================================================
 
 - We use weights instead of direct alpha allocation in the graphs.
   This causes major API changes:
@@ -567,8 +567,8 @@ Version 0.5-0 (28-Mar-2011, Rev. 525)
  61 files changed, 868 insertions(+), 482 deletions(-)
 
 
-Version 0.4-0 (21-Mar-2011, Rev. 462)
-=====================================
+Changes in version 0.4-0 (21-Mar-2011, Rev. 462)
+================================================
 
 - Added code for graph based MCPs with partial knowledge of the
   correlation structure from Florian Klinglmueller, who is now
@@ -600,8 +600,8 @@ Version 0.4-0 (21-Mar-2011, Rev. 462)
  48 files changed, 278 insertions(+), 91 deletions(-)
 
 
-Version 0.3-6 (15-Mar-2011, Rev. 410)
-=====================================
+Changes in version 0.3-6 (15-Mar-2011, Rev. 410)
+================================================
 
 - Mainly a bug-fix release, since the GUI was often not responding 
   in 0.3-5.
@@ -617,8 +617,8 @@ Version 0.3-6 (15-Mar-2011, Rev. 410)
  36 files changed, 278 insertions(+), 495 deletions(-)
 
 
-Version 0.3-5 (13-Mar-2011, Rev. 379)
-=====================================
+Changes in version 0.3-5 (13-Mar-2011, Rev. 379)
+================================================
 
 - Unfortunately after release it was noted that the GUI was not
   responding in 0.3-5.
@@ -646,8 +646,8 @@ Version 0.3-5 (13-Mar-2011, Rev. 379)
  40 files changed, 363 insertions(+), 406 deletions(-)
 
 
-Version 0.3-4 (26-Nov-2010, Rev. 341)
-=====================================
+Changes in version 0.3-4 (26-Nov-2010, Rev. 341)
+================================================
 
 - New functions: graph2matrix and matrix2graph
 
@@ -656,8 +656,8 @@ Version 0.3-4 (26-Nov-2010, Rev. 341)
  38 files changed, 152 insertions(+), 134 deletions(-)
 
 
-Version 0.3-3 (15-Nov-2010, Rev. 318)
-=====================================
+Changes in version 0.3-3 (15-Nov-2010, Rev. 318)
+================================================
 
 - Be careful with epsilon edges (we never specified what exactly they
   are and how they should behave) and please wait for version 0.6
@@ -698,8 +698,8 @@ Version 0.3-3 (15-Nov-2010, Rev. 318)
  33 files changed, 269 insertions(+), 282 deletions(-)
 
 
-Version 0.3-2 (08-Oct-2010, Rev. 277)
-=====================================
+Changes in version 0.3-2 (08-Oct-2010, Rev. 277)
+================================================
 
 - Renaming of parameter in simConfint: "confintF" is now "confint"
 
@@ -721,8 +721,8 @@ Version 0.3-2 (08-Oct-2010, Rev. 277)
  36 files changed, 242 insertions(+), 110 deletions(-)
 
 
-Version 0.3-1 (02-Oct-2010, Rev. 249)
-=====================================
+Changes in version 0.3-1 (02-Oct-2010, Rev. 249)
+================================================
 
 - The GUI has a menu bar.
 
@@ -745,8 +745,8 @@ Version 0.3-1 (02-Oct-2010, Rev. 249)
  25 files changed, 186 insertions(+), 113 deletions(-)
 
 
-Version 0.3-0 (01-Oct-2010, Rev. 238)
-=====================================
+Changes in version 0.3-0 (01-Oct-2010, Rev. 238)
+================================================
 
 - Major API changes (mostly gsrmtp replaced by gMCP - but now the API
   should stay relatively stable).
@@ -768,8 +768,8 @@ Version 0.3-0 (01-Oct-2010, Rev. 238)
  42 files changed, 980 insertions(+), 930 deletions(-)
 
 
-Version 0.2-4 (30-Sep-2010, Rev. 215)
-=====================================
+Changes in version 0.2-4 (30-Sep-2010, Rev. 215)
+================================================
 
 - After some alpha and beta releases on r-forge this is the first beta
   version on CRAN.

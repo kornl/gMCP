@@ -28,7 +28,6 @@
 - Unify single NCP and multiple NCPs
 - Export user defined functions and allow names for them
 - CI Dialog testen!
-- Start with BH(2). Overwriting one of the edges will cause the other to loose curve=TRUE.
 - Selection is awkward. After first dragging one edge is always fixed to the same point.
 - Check in CI zu max(0, ..) bzw. min(0, ..) / means
 - keine p-Werte übernehmen

@@ -2,11 +2,11 @@
 \alias{gMCP-package}
 \docType{package}
 \title{
-  A graphical approach to sequentially rejective multiple test procedures
+  Graphical described Multiple Comparison Procedures
 }
 \description{
   This package provides functions and graphical user interfaces 
-  for graphical described multiple test procedures.
+  for graphical described multiple comparison procedures.
 }
 \details{
   \tabular{ll}{

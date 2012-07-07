@@ -5,7 +5,7 @@ graph2latex <- function(graph, package="TikZ", scale=1, alpha=0.05, pvalues,
 		tikzEnv=TRUE, offset=c(0,0),fill=list(reject="red!80",retain="green!80")) {
 	graph <- placeNodes(graph)
 	if (tikzEnv) {
-		tikz <- paste("\\begin{tikzpicture}[scale=",scale,"]", sep="")
+		tikz <- paste("\\begin{tikzpicture}[scale=",scale,"]\n", sep="")
 	} else {
 		tikz <- ""
 	}

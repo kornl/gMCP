@@ -2,10 +2,10 @@
 \alias{graphGUI}
 
 \title{
-	Graphical User Interface for the Creation of SRMTP Graphs
+	Graphical User Interface for graphical described multiple comparison procedures
 }
 \description{
-	Starts a graphical user interface for the creation of SRMTP graphs.
+	Starts a graphical user interface for the creation/modification of directed weighted graphs and applying graphical described multiple comparison procedures.
 }
 \usage{
 	graphGUI(graph="createdGraph", pvalues=numeric(0), grid=0, debug=FALSE, experimentalFeatures=FALSE)
