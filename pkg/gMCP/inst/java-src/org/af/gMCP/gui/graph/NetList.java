@@ -108,40 +108,40 @@ public class NetList extends JPanel implements MouseMotionListener, MouseListene
 		graphHasChanged();
 	}
 
-	public void setEdge(Node von, Node nach) {
-		setEdge(von, nach, 1d);		
+	public void setEdge(Node from, Node to) {
+		setEdge(from, to, 1d);		
 	}
 	
-	public void setEdge(Node von, Node nach, Double w) {	
-		setEdge(von, nach, new EdgeWeight(w));
+	public void setEdge(Node from, Node to, Double w) {	
+		setEdge(from, to, new EdgeWeight(w));
 	}
 
-	public void setEdge(Node von, Node nach, EdgeWeight w) {
+	public void setEdge(Node from, Node to, EdgeWeight w) {
 		Integer x = null;
 		Integer y = null;
 		boolean curve = false;
-		for (Edge e : edges) {
-			if (e.from == nach && e.to == von) {
-				e.curve = true;
-				curve = true;
-			}
-		}		
 		for (int i = edges.size()-1; i >= 0; i--) {
-			if (edges.get(i).from == von && edges.get(i).to == nach) {
+			if (edges.get(i).from == from && edges.get(i).to == to) {
 				x = edges.get(i).getK1();
 				y = edges.get(i).getK2();
 				removeEdge(edges.get(i));				
 			}
 		}
+		for (Edge e : edges) {
+			if (e.from == to && e.to == from) {
+				e.curve = true;
+				curve = true;
+			}
+		}		
 		if (!w.toString().equals("0")) {
 			if (x!=null) {
-				edges.add(new Edge(von, nach, w, this, x, y));
+				edges.add(new Edge(from, to, w, this, x, y));
 			} else {
-				edges.add(new Edge(von, nach, w, this, curve));
+				edges.add(new Edge(from, to, w, this, curve));
 			}
 			edges.lastElement().curve = curve;
 		}
-		control.getDataTable().getModel().setValueAt(w, getNodes().indexOf(von), getNodes().indexOf(nach));
+		control.getDataTable().getModel().setValueAt(w, getNodes().indexOf(from), getNodes().indexOf(to));
 		graphHasChanged();
 	}
 
