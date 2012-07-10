@@ -25,10 +25,12 @@
   	If test is set to \code{"Simes"} the weighted Simes test will be performed for each 
   	subset of hypotheses. Further alternatives will be added in the future.
   } 
-  \item{correlation}{
-  	Correlation matrix that can be specified, if the p-values belong to test-statistics with a joint multivariate normal null distribution.
-  	Also see \code{\link{generatePvals}}.
-  	Please note that you have to specify the parameter \code{alternatives} if not all of the tests are one-sided tests. 
+  \item{correlation}{ (optional) correlation matrix if p-values arise from
+    one-sided tests with multivariate normal distributed test statistics
+    for which the correlation is (partially) known. In that case a
+    weighted parametric closed test is performed (also see
+    \code{\link{generatePvals}}). Unknown values can be
+    set to NA. (See details for more information)
   } 
   \item{alpha}{
   	A numeric specifying the maximal allowed type one error rate.
@@ -71,7 +73,36 @@
   }
 }
 \details{
-	For details see the given references.
+    At the moment parametric tests in \code{gMCP} assume that the test
+    statistics follow a multivariate normal distribution with known
+    variances and correlation matrix \code{correlation}. If unadjusted
+    p-values are considered it is assumed that under the global null 
+    hypothesis the corresponding vector of standard normal quantiles  
+    \eqn{(\Phi^{-1}(1-p_1),...,\Phi^{-1}(1-p_m))} follows an
+    according multivariate normal distribution, where \eqn{\Phi^{-1}}
+    denotes the inverse of the standard normal distribution function.
+
+     Partial knowledge of the correlation matrix is supported. This is
+     for example the case if two treatments are compared to a common
+     control based on two endpoints. In that case the correlation
+     between the treatment-control comparisons is known (e.g.: 1/2 for
+     balanced group sizes), whereas the correlation between endpoints
+     may be unknown. The correlation matrix has to be passed as a
+     numeric matrix with elements of the form: \eqn{correlation[i,i] =
+     1} for diagonal elements, \eqn{correlation[i,j] = \rho_{ij}}, where
+     \eqn{\rho_{ij}} is the known value of the correlation between
+     \eqn{\Phi^{-1}(1-p_i)} and \eqn{\Phi^{-1}(1-p_j)} or \code{NA} if
+     the corresponding correlation is unknown. For example
+     correlation[1,2]=0 indicates that the first and second test
+     statistic are uncorrelated, whereas correlation[2,3] = NA means
+     that the true correlation between statistics two and three is
+     unknown and may take values between -1 and 1. The correlation has
+     to be specified for complete blocks (ie.: if cor(i,j), and
+     cor(i,j') for i!=j!=j' are specified then cor(j,j') has to be
+     specified as well) otherwise the corresponding intersection null
+     hypotheses tests are not uniquely defined and an error is returned.
+
+     For further details see the given references.
 }
 \value{
 An object of class \code{gMCPResult}, more specifically a list with elements
