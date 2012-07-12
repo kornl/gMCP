@@ -2,16 +2,16 @@
 \alias{gMCP}
 
 \title{
-	A graphical approach to sequentially rejective multiple test procedures
+	Graph based Multiple Comparison Procedures
 }
 \description{
-	Performs a sequentially rejective multiple test procedure on a graph given unadjusted p-values.
+	Performs a graph based multiple test procedure for a given graph and unadjusted p-values.
 }
 \usage{
-	gMCP(graph, pvalues, test, correlation, alpha=0.05, 
+	gMCP(graph, pvalues, test="Bonferroni", correlation, alpha=0.05, 
 	     approxEps=TRUE, eps=10^(-3), ..., useC=FALSE, 
-	     verbose=FALSE, keepWeights=TRUE, adjPValues=TRUE, 
-	     exhaustAlpha=FALSE, alternatives="less")
+	     verbose=FALSE, keepWeights=TRUE, adjPValues=TRUE)
+%	     , alternatives="less"
 }
 
 \arguments{
@@ -19,13 +19,20 @@
 	A graph of class \code{\link{graphMCP}}.
   }
   \item{pvalues}{
-  	A numeric vector specifying the p-values for the sequentially rejective MTP.
+  	A numeric vector specifying the p-values for the graph based MCP.
+  	Note that for the parametric tests  
   } 
   \item{test}{
-  	If test is set to \code{"Simes"} the weighted Simes test will be performed for each 
-  	subset of hypotheses. Further alternatives will be added in the future.
+    By default the Bonferroni-based test procedures are used.
+  	If test is set to \code{"Simes"} the weighted Simes test will be performed for each subset of hypotheses.
+  	If test equals \code{"Bretz2011"} the weighted parametric test described in Bretz et al. 2011 is performed.
+  	If test equals \code{"simple-parametric"} for each subset a weighted parametric test is performed at the reduced
+    level alpha of sum(w)*alpha, where sum(w) is the sum of all node weights in this subset.
+    Otherwise the procedure is the same as described in Bretz et al. 2011.
   } 
-  \item{correlation}{ (optional) correlation matrix if p-values arise from
+  \item{correlation}{ Optional correlation matrix.
+    If the weighted Simes test is performed, it is checked whether type I error rate can be ensured and a warning is given if this is not the case.
+    For parametric tests the p-values must arise from
     one-sided tests with multivariate normal distributed test statistics
     for which the correlation is (partially) known. In that case a
     weighted parametric closed test is performed (also see
@@ -36,7 +43,7 @@
   	A numeric specifying the maximal allowed type one error rate.
   }
   \item{approxEps}{
-  	A boolean specifying whether epsilon values should be substituted with the value given in the paramenter \code{eps}.
+  	A boolean specifying whether epsilon values should be substituted with the value given in the parameter \code{eps}.
   }   
   \item{eps}{
   	A numeric scalar specifying a value for epsilon edges.
@@ -62,15 +69,14 @@
     Especially for the weighted Simes test this will result in significantly less calculations in most cases.  
   }
   \item{exhaustAlpha}{
-     If \code{FALSE} (default) the parametric test is performed at the reduced
-     level alpha of sum(w)*alpha. (See details of function \code{\link{generateBounds}}).
+     If \code{FALSE} (default) . (See details of function \code{\link{generateBounds}}).
   }
-  \item{alternatives}{
-     A character vector specifying the alternative hypotheses. Only needed if the correlation is specified. 
-     Each element must be one of \code{"less"} (default), \code{"two.sided"} or \code{"greater"}.
-     The vector will be recycled, so if all alternatives of the elemental hypotheses are for example \code{"less"},
-     it suffices to specify \code{alternative="less"} instead of \code{alternative=c("less", "less", ..., "less")}.
-  }
+%  \item{alternatives}{
+%     A character vector specifying the alternative hypotheses. Only needed if the correlation is specified. 
+%     Each element must be one of \code{"less"} (default), \code{"two.sided"} or \code{"greater"}.
+%     The vector will be recycled, so if all alternatives of the elemental hypotheses are for example \code{"less"},
+%     it suffices to specify \code{alternative="less"} instead of \code{alternative=c("less", "less", ..., "less")}.
+%  }
 }
 \details{
     At the moment parametric tests in \code{gMCP} assume that the test

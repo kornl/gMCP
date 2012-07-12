@@ -18,15 +18,17 @@
   \item{matrix}{
 	Matrix of dimension \eqn{n\times n}{nxn} to start with.
   }
-  \item{grid}{
-  	Names 
+  \item{names}{
+  	Row and column names.
   }
 }
 \details{
 
 }
 \value{
-	The function itself returns NULL. But with the dialog a symmetric matrix of dimension n times n can be created or edited that will be available in R under the specified variable name after saving.
+	The function itself returns NULL.
+	But with the dialog a symmetric matrix of dimension \eqn{n\times n}{nxn} can be created or edited
+	that will be available in R under the specified variable name after saving.
 }
 \author{
 	Kornelius Rohmeyer \email{rohmeyer@small-projects.de}

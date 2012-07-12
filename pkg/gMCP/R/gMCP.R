@@ -1,8 +1,9 @@
-gMCP <- function(graph, pvalues, test, correlation, alpha=0.05, 
+gMCP <- function(graph, pvalues, test="Bonferroni", correlation, alpha=0.05, 
 		approxEps=TRUE, eps=10^(-3), ..., useC=FALSE, 
-		verbose=FALSE, keepWeights=TRUE, adjPValues=TRUE, 
-		exhaustAlpha=FALSE, alternatives="less") {	
+		verbose=FALSE, keepWeights=TRUE, adjPValues=TRUE) {
+#		, alternatives="less") {	
 	output <- ""
+	alternatives <- "less"
 	callFromGUI <- !is.null(list(...)[["callFromGUI"]])
 	if (!exhaustAlpha && verbose) {
 		output <- paste(output, checkOptimal(graph), sep="\n")
