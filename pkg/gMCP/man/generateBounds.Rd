@@ -54,7 +54,7 @@ generateBounds(g, w, cr, al = 0.05, hint = generateWeights(g, w),
   It is assumed that under the global null hypothesis
   \eqn{(\Phi^{-1}(1-p_1),...,\Phi^{-1}(1-p_m))} follow a
   multivariate normal distribution with correlation matrix
-  \code(cr) where \eqn{\Phi^{-1}} denotes the inverse of the standard
+  \code{cr} where \eqn{\Phi^{-1}} denotes the inverse of the standard
   normal distribution function. 
 
   For example, this is the case if \eqn{p_1,..., p_m} are the raw p-values
@@ -76,7 +76,7 @@ generateBounds(g, w, cr, al = 0.05, hint = generateWeights(g, w),
   that the true correlation between statistics two and three is
   unknown and may take values between -1 and 1. The correlation has
   to be specified for complete blocks (ie.: if cor(i,j), and
-  cor(i,j') for i!=j!=j' are specified then cor(j,j') has to be
+  cor(i,k) for i!=j!=k are specified then cor(j,k) has to be
   specified as well) otherwise the corresponding intersection null
   hypotheses tests are not uniquely defined and an error is returned.
 

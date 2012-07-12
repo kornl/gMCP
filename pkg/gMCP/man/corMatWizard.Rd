@@ -22,9 +22,6 @@
   	Row and column names.
   }
 }
-\details{
-
-}
 \value{
 	The function itself returns NULL.
 	But with the dialog a symmetric matrix of dimension \eqn{n\times n}{nxn} can be created or edited

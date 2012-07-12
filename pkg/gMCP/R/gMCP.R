@@ -5,7 +5,7 @@ gMCP <- function(graph, pvalues, test="Bonferroni", correlation, alpha=0.05,
 	output <- ""
 	alternatives <- "less"
 	callFromGUI <- !is.null(list(...)[["callFromGUI"]])
-	if (!exhaustAlpha && verbose) {
+	if (verbose) {
 		output <- paste(output, checkOptimal(graph), sep="\n")
 	}
 	if (approxEps && !is.numeric(graph@m)) {

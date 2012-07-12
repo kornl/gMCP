@@ -68,9 +68,6 @@
     Logical scalar. If \code{FALSE} no adjusted p-values will be calculated. 
     Especially for the weighted Simes test this will result in significantly less calculations in most cases.  
   }
-  \item{exhaustAlpha}{
-     If \code{FALSE} (default) . (See details of function \code{\link{generateBounds}}).
-  }
 %  \item{alternatives}{
 %     A character vector specifying the alternative hypotheses. Only needed if the correlation is specified. 
 %     Each element must be one of \code{"less"} (default), \code{"two.sided"} or \code{"greater"}.
@@ -82,7 +79,7 @@
   It is assumed that under the global null hypothesis
   \eqn{(\Phi^{-1}(1-p_1),...,\Phi^{-1}(1-p_m))} follow a
   multivariate normal distribution with correlation matrix
-  \code(correlation) where \eqn{\Phi^{-1}} denotes the inverse of the standard
+  \code{correlation} where \eqn{\Phi^{-1}} denotes the inverse of the standard
   normal distribution function. 
 
   For example, this is the case if \eqn{p_1,..., p_m} are the raw p-values

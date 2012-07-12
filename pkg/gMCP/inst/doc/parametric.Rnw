@@ -416,7 +416,7 @@ This can be implemented in \gmcp by additionally passing the correlation
 matrix to \gmcp:
 
 <<>>=
-gMCP(G,p,corr=Cm2)
+gMCP(G,p,corr=Cm2,test="Bretz2011")
 @ 
 
 which returns a similar result however without the graphs representing
