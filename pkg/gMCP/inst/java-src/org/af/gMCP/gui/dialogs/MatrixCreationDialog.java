@@ -6,6 +6,7 @@ import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.lang.reflect.Constructor;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Vector;
 
@@ -30,7 +31,6 @@ import javax.swing.border.TitledBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import org.af.gMCP.gui.CreateGraphGUI;
 import org.af.gMCP.gui.RControl;
 import org.af.gMCP.gui.datatable.DataFramePanel;
 import org.af.gMCP.gui.datatable.DataTableModel;
@@ -51,7 +51,7 @@ public class MatrixCreationDialog extends JDialog implements ActionListener, Cha
 	JButton ok = new JButton("Save matrix to R");
 
 	JFrame parent;
-    Vector<String> names;
+    List<String> names;
     JTextArea jta = new JTextArea();
     DataFramePanel dfp;
     DataFramePanel dfpDiag;
@@ -76,7 +76,15 @@ public class MatrixCreationDialog extends JDialog implements ActionListener, Cha
      * Constructor
      * @param matrix String that specifies R object to be loaded.
      */
-	public MatrixCreationDialog(JFrame parent, String matrix, Vector<String> names) {
+	public MatrixCreationDialog(String matrix, String[] names) {
+		this(null, matrix, Arrays.asList(names));
+	}
+    
+    /**
+     * Constructor
+     * @param matrix String that specifies R object to be loaded.
+     */
+	public MatrixCreationDialog(JFrame parent, String matrix, List<String> names) {
 		super(parent, "Specify correlation matrix", true);
 		setLocationRelativeTo(parent);
 		this.names = names;
@@ -400,7 +408,7 @@ public class MatrixCreationDialog extends JDialog implements ActionListener, Cha
 				}
 			}
 		} else if (e.getSource()==reorder) {
-			names.removeAllElements();
+			names.clear();
 			for (int i=0; i<hypotheses.getModel().getSize(); i++) {
 				names.add((String) hypotheses.getModel().getElementAt(i));
 			}			
