@@ -1,4 +1,4 @@
-w.dunnet <- function(w,cr,al=.05,exhaust, alternatives){
+w.dunnet <- function(w,cr,al=.05,exhaust, alternatives="less"){
   if(length(cr)>1){
     conn <- conn.comp(cr)
   } else {
@@ -28,7 +28,7 @@ w.dunnet <- function(w,cr,al=.05,exhaust, alternatives){
   return(qnorm(1-(w*cb*al)))
 }
 
-p.dunnet <- function(p,cr,w,exhaust, alternatives){
+p.dunnet <- function(p,cr,w,exhaust, alternatives="less"){
   if(length(cr)>1){
     conn <- conn.comp(cr)
   } else {
@@ -66,7 +66,7 @@ p.dunnet <- function(p,cr,w,exhaust, alternatives){
   e
 }
 
-pvals.dunnett <- function(h,cr,p,exhaust, alternatives) {
+pvals.dunnett <- function(h,cr,p,exhaust, alternatives="less") {
 #  if(a > .5){
 #    stop("alpha levels above .5 are not supported")
 #  }
@@ -84,7 +84,7 @@ pvals.dunnett <- function(h,cr,p,exhaust, alternatives) {
   return(zb)
 }
 
-b.dunnett <- function(h,cr,a,exhaust, alternatives) {
+b.dunnett <- function(h,cr,a,exhaust, alternatives="less") {
 #  if(a > .5){
 #    stop("alpha levels above .5 are not supported")
 #  }

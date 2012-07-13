@@ -3,7 +3,6 @@ gMCP <- function(graph, pvalues, test="Bonferroni", correlation, alpha=0.05,
 		verbose=FALSE, keepWeights=TRUE, adjPValues=TRUE) {
 #		, alternatives="less") {	
 	output <- ""
-	alternatives <- "less"
 	callFromGUI <- !is.null(list(...)[["callFromGUI"]])
 	if (verbose) {
 		output <- paste(output, checkOptimal(graph), sep="\n")
@@ -22,14 +21,12 @@ gMCP <- function(graph, pvalues, test="Bonferroni", correlation, alpha=0.05,
 	if (is.null(names(pvalues))) {
 		names(pvalues) <- getNodes(graph)
 	}
-	if (missing(test) && (missing(correlation) || length(pvalues)==1)) {
-		# Bonferroni-based test procedure
-		m <- graph2matrix(graph)
-		if (useC && !is.numeric(m)) { # TODO Why this warning and btw. nothing is done in this case.
-			warning("Option useC=TRUE will be ignored since graph contains epsilons or variables.")			
-		} else if (useC) {
-			w <- getWeights(graph)
-			result <- fastgMCP(m=m, w=w, p=pvalues, a=alpha, keepWeights=keepWeights)
+	if (test == "Bonferroni") {
+		if (!missing(correlation)) warning("Correlation will be ignored by Bonferroni test.")
+		# Bonferroni-based test procedure		
+		if (useC) {
+			w <- getWeights(graph)			
+			result <- fastgMCP(m=graph2matrix(graph), w=w, p=pvalues, a=alpha, keepWeights=keepWeights)
 			row.names(result$m) <- getNodes(graph)
 			lGraph <- matrix2graph(result$m)
 			lGraph <- setWeights(lGraph, result$w)			
@@ -45,18 +42,17 @@ gMCP <- function(graph, pvalues, test="Bonferroni", correlation, alpha=0.05,
 			adjPValues <- adjPValues(sequence[[1]], pvalues, verbose)@adjPValues
 			return(new("gMCPResult", graphs=sequence, alpha=alpha, pvalues=pvalues, rejected=getRejected(graph), adjPValues=adjPValues))
 		}
-	} else if (missing(test) && !missing(correlation)) {
-		# Calling the code from Florian		
-		if (missing(correlation) || (!is.matrix(correlation) && !is.character(correlation))) {
+	} else if (test == "Bretz2011" || test == "simple-parametric") {				
+		if (missing(correlation) || !is.matrix(correlation)) {
 			stop("Procedure for correlated tests, expects a correlation matrix as parameter \"correlation\".")
 		} else {
-			if (is.character(correlation)) {
-				samplesize <- list(...)[["samplesize"]]
-				if (is.null(samplesize)) samplesize <- getBalancedDesign(correlation, length(pvalues))				
-				x <- contrMat(samplesize, type = correlation) # balanced design up to now and only Dunnett will work with n+1
-				var <- x %*% diag(length(samplesize)) %*% t(x)
-				correlation <- diag(1/sqrt(diag(var)))%*%var%*%diag(1/sqrt(diag(var)))
-			}                       
+#			if (is.character(correlation)) {
+#				samplesize <- list(...)[["samplesize"]]
+#				if (is.null(samplesize)) samplesize <- getBalancedDesign(correlation, length(pvalues))				
+#				x <- contrMat(samplesize, type = correlation) # balanced design up to now and only Dunnett will work with n+1
+#				var <- x %*% diag(length(samplesize)) %*% t(x)
+#				correlation <- diag(1/sqrt(diag(var)))%*%var%*%diag(1/sqrt(diag(var)))
+#			}                       
 			Gm <- graph2matrix(graph)
 			w <- getWeights(graph)
 			if( all(w==0) ) {
@@ -68,7 +64,7 @@ gMCP <- function(graph, pvalues, test="Bonferroni", correlation, alpha=0.05,
 				#myTest <- generateTest(Gm, w, correlation, alpha)
 				#zScores <- -qnorm(pvalues)
 				#rejected <- myTest(zScores)
-                adjP <- generatePvals(Gm, w, correlation, pvalues, exhaust=exhaustAlpha, alternatives=alternatives)
+                adjP <- generatePvals(Gm, w, correlation, pvalues, exhaust=(test=="Bretz2011"))#, alternatives=alternatives)
                 rejected <- adjP <= alpha
                 names(adjP) <- getNodes(graph)
 				names(rejected) <- getNodes(graph)

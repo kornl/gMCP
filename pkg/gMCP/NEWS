@@ -7,9 +7,9 @@ Changes in version 0.7-11 (??-??-2012, Rev. 13??)
 
 - Stated at more places what parametric tests do and 
   which prerequisites must be met.
+  Also there is no default anymore for parametric tests.
+  The user has to decide between "simple-parametric" and "Bretz2011".
   
-- Parametric tests for the two-sided test case.
-
 - Round output of power simulations to level of precision.
 
 - When graphs are saved from the GUI the slot graph@m is now
@@ -19,7 +19,7 @@ Changes in version 0.7-11 (??-??-2012, Rev. 13??)
 
 - Power simulations for different variable values. 
 
-- After testing the Reset Button resets to the graph with variables.  
+- The Reset Button resets to the graph with variables.  
 
 - A backslash is allowed in node names (e.g. \alpha) in the GUI.
 
