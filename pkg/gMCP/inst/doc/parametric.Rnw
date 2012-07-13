@@ -15,7 +15,7 @@
 \setlength{\parindent}{0mm}
 \setlength{\parskip}{1mm}
 \newcommand{\commentout}[1]{}
-\newcommand{\al}{$\alpha-\textrm{level}$\xspace}
+\newcommand{\al}{$\alpha$-level\xspace}
 \newcommand{\eg}{\em e.g.}
 \newcommand{\ie}{\em i.e.}
 \newcommand{\gmcp}{\texttt{gMCP}\xspace}
@@ -104,7 +104,7 @@ control using a primary and secondary endpoint. Only if the the null
 hypotheses can be rejected for the primary hypotheses are the
 secondary hypotheses to be tested. If both primary and secondary
 hypotheses can be rejected for one treatment, then the portions of the
-global \al level reserved for this treatment is passed to the other
+global \al reserved for this treatment is passed to the other
 treatment. The graph corresponding to this procedures is depicted in
 figure \ref{fig:bretz}. We assume that all four hypotheses are tested
 by use of normally distributed test statistics with known
@@ -215,8 +215,8 @@ elements have to be set to zero.
 
 \begin{figure}\centering
 \begin{tikzpicture}[scale=1]
-\node (H1) at (100bp,200bp) [draw,circle split,fill=green!80] {$H1$ \nodepart{lower} $0.0125$};
-\node (H2) at (200bp,200bp) [draw,circle split,fill=green!80] {$H2$ \nodepart{lower} $0.0125$};
+\node (H1) at (100bp,200bp) [draw,circle split,fill=green!80] {$H1$ \nodepart{lower} $\frac{1}{2}$};
+\node (H2) at (200bp,200bp) [draw,circle split,fill=green!80] {$H2$ \nodepart{lower} $\frac{1}{2}$};
 \node (H3) at (100bp,100bp) [draw,circle split,fill=green!80] {$H3$ \nodepart{lower} $0$};
 \node (H4) at (200bp,100bp) [draw,circle split,fill=green!80] {$H4$ \nodepart{lower} $0$};
 \draw [->,line width=1pt] (H1) to[auto] node[near start,above,fill=blue!20] {1} (H3);
@@ -363,7 +363,7 @@ We see that above $z$-score scenario leads to an effective gain in
 power of the procedure when knowledge about the correlation structure
 is used.
 
-{\em Attention:}~Not all scenarios of partial knowledge of the correlation
+{\em Attention:} Not all scenarios of partial knowledge of the correlation
 matrix can currently be handled by \gmcp. The correlation matrix must
 have a block structure: We assume that the set of hypothesis can be
 partitioned into subsets such that the pairwise correlations in each
