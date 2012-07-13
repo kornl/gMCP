@@ -99,11 +99,12 @@ calcMultiPower <- function(weights, alpha, G, muL, sigmaL, nL,
 	return(sResult)
 }
 
-resultL2Text <- function(resultL, digits, additionalLabel="") {	
+resultL2Text <- function(resultL, digits, additionalLabel="") {
+	sResult <- ""
 	for(result in resultL) {
 		label <- attr(result, "label")
 		title <- paste("Setting: ",label, additionalLabel, sep="")		
-		sResult <- paste(title, paste(rep("=", nchar(title)),collapse=""), sep="\n")			
+		sResult <- paste(sResult, title, paste(rep("=", nchar(title)),collapse=""), sep="\n")			
 		sResult <- paste(sResult, "Local Power:",paste(capture.output(print(round(result$LocalPower, digits))), collapse="\n"), sep="\n")
 		sResult <- paste(sResult, "\nExpected number of rejections:", round(result$ExpRejections, digits), sep="\n")
 		sResult <- paste(sResult, "Prob. to reject at least one hyp.:", round(result$PowAtlst1, digits), sep="\n")
