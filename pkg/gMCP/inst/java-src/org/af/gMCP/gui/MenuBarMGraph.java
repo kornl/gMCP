@@ -116,8 +116,9 @@ public class MenuBarMGraph extends JMenuBar implements ActionListener {
 		subMenu = new JMenu("Miscellaneous");		
 		subMenu.add(makeMenuItem("Graph from Hommel et al. (2007)", "hommelEtAl"));
 		subMenu.add(makeMenuItem("Graph from Hommel et al. (2007) simplified", "hommelEtAlSimple"));
-		subMenu.addSeparator();
+		//subMenu.addSeparator();
 		subMenu.add(makeMenuItem("Drug clinical trial example (serial gatekeeping) from Maurer et al. (1995)", "maurer1995"));
+		subMenu.add(makeMenuItem("Graph from Ferber et al. (2011)", "ferber2011"));
 		menu.add(subMenu);
 		
 		menu.add(makeMenuItem("Browse archive of user submitted graphs", "userSubmitted"));
@@ -416,6 +417,8 @@ public class MenuBarMGraph extends JMenuBar implements ActionListener {
         	loadGraph("improvedFallbackI()");
         } else if (e.getActionCommand().equals("fallbackII")) {     	
         	loadGraph("improvedFallbackII()");
+        } else if (e.getActionCommand().equals("ferber2011")) {     	
+        	loadGraph("Ferber2011()");
         }
 	}
 	
