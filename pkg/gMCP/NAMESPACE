@@ -29,6 +29,7 @@ export(parallelGatekeeping, improvedParallelGatekeeping)
 export(fallback, improvedFallbackI, improvedFallbackII)
 export(cycleGraph)
 export(HuqueAloshEtBhore2011)
+export(Ferber2011)
 
 export(extractPower, calcPower, graphTest, rqmvnorm)
 export(plotSimCI)

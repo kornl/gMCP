@@ -589,3 +589,52 @@ improvedFallbackII <- function(weights=rep(1/3, 3)) {
 	edgeAttr(graph, "H2", "H1", "labelY") <- 135	
 	return(graph)
 } 
+
+
+Ferber2011 <- function() {
+	# Nodes:
+	hnodes <- c("\\delta", "\\theta", "\\beta", "\\alpha", "\\alpha_1", 
+			"\\alpha_2", "\\beta_1", "\\beta_2", "\\beta_3")
+	# Edges:
+	m <- matrix(c("0", "1/3", "1/6", "1/6", "0", "0", "0", "0", "0", 
+					"1/3", "0", "1/6", "1/6", "0", "0", "0", "0", "0", 
+					"1/3", "1/3", "0", "1/6", "0", "0", "1-w", "1-w", "1-w", 
+					"1/3", "1/3", "1/6", "0", "1-w", "1-w", "0", "0", "0", 
+					"0", "0", "0", "0.25", "0", "w", "0", "0", "0", 
+					"0", "0", "0", "0.25", "w", "0", "0", "0", "0", 
+					"0", "0", "1/6", "0", "0", "0", "0", "w/2", "w/2", 
+					"0", "0", "1/6", "0", "0", "0", "w/2", "0", "w/2", 
+					"0", "0", "1/6", "0", "0", "0", "w/2", "w/2", "0"), nrow=9)
+	rownames(m) <- colnames(m) <- hnodes 
+	# Graph creation
+	graph <- new("graphMCP", m=m, weights=c(0.2,0.2,0.3,0.3,0,0,0,0,0))
+	attr(graph, "description") <- paste("Graph from Ferber et al. 2011",
+			"",
+			"Literature: G. Ferber, L. Staner and P. Boeijinga (2011): Structured multiplicity and confirmatory statistical analyses in pharmacodynamic studies using the quantitative electroencephalogram, Journal of neuroscience methods, Volume 201, Issue 1, Pages 204-212.", sep="\n")
+	
+	graph@nodeAttr$X <- c(80, 350, 350, 80, 0, 150, 230, 480, 350)
+	graph@nodeAttr$Y <- c(30, 30, 180, 180, 300, 300, 300, 300, 430)
+	
+	graph@edgeAttr$labelX <- structure(c(NA, 242, 296, 62, NA, NA, NA, NA, NA, 196, NA, 333, 
+					130, NA, NA, NA, NA, NA, 145, 366, NA, 172, NA, NA, 265, 443, 
+					323, 94, 303, 268, NA, 10, 146, NA, NA, NA, NA, NA, NA, 64, NA, 
+					78, NA, NA, NA, NA, NA, NA, 96, 72, NA, NA, NA, NA, NA, NA, 314, 
+					NA, NA, NA, NA, 354, 263, NA, NA, 392, NA, NA, NA, 348, NA, 404, 
+					NA, NA, 377, NA, NA, NA, 291, 439, NA), .Dim = c(9L, 9L), .Dimnames = list(
+					c("\\delta", "\\theta", "\\beta", "\\alpha", "\\alpha_1", 
+							"\\alpha_2", "\\beta_1", "\\beta_2", "\\beta_3"), c("\\delta", 
+							"\\theta", "\\beta", "\\alpha", "\\alpha_1", "\\alpha_2", 
+							"\\beta_1", "\\beta_2", "\\beta_3")))
+	graph@edgeAttr$labelY <- structure(c(NA, 39, 131, 120, NA, NA, NA, NA, NA, 10, NA, 121, 
+					134, NA, NA, NA, NA, NA, 77, 89, NA, 171, NA, NA, 231, 233, 301, 
+					89, 70, 192, NA, 252, 248, NA, NA, NA, NA, NA, NA, 233, NA, 319, 
+					NA, NA, NA, NA, NA, NA, 233, 281, NA, NA, NA, NA, NA, NA, 234, 
+					NA, NA, NA, NA, 339, 393, NA, NA, 233, NA, NA, NA, 265, NA, 370, 
+					NA, NA, 299, NA, NA, NA, 365, 384, NA), .Dim = c(9L, 9L), .Dimnames = list(
+					c("\\delta", "\\theta", "\\beta", "\\alpha", "\\alpha_1", 
+							"\\alpha_2", "\\beta_1", "\\beta_2", "\\beta_3"), c("\\delta", 
+							"\\theta", "\\beta", "\\alpha", "\\alpha_1", "\\alpha_2", 
+							"\\beta_1", "\\beta_2", "\\beta_3")))
+	
+	return(graph)
+}

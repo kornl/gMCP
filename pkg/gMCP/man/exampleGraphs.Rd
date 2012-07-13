@@ -22,6 +22,7 @@
 \alias{BretzEtAl2009a}
 \alias{BretzEtAl2009b}
 \alias{BretzEtAl2009c}
+\alias{Ferber2011}
 \title{
 	Functions that create different example graphs
 }
@@ -54,6 +55,7 @@
 	BretzEtAl2009a()
 	BretzEtAl2009b()
 	BretzEtAl2009c()
+	Ferber2011()
 }
 
 \arguments{
@@ -100,6 +102,9 @@
 	\item{\code{improvedFallbackII}}{
 	    Graph for the improved Fallback Procedure by Hommel & Bretz. See references (Hommel et Bretz 2008).
 	}
+	\item{\code{Ferber2011}}{
+	    Graph from Ferber et al. See references (Ferber et al. 2011).
+	}
   }	
 }
 \value{
@@ -124,6 +129,8 @@ Hung H.M.J., Wang S.-J. (2010). Challenges to multiple testing in clinical trial
 W. Maurer, L. Hothorn, W. Lehmacher: Multiple comparisons in drug clinical trials and preclinical assays: a-priori ordered hypotheses. In Biometrie in der chemisch-pharmazeutischen Industrie, Vollmar J (ed.). Fischer Verlag: Stuttgart, 1995; 3-18.
 
 Wiens, B.L., Dmitrienko, A. (2005): The fallback procedure for evaluating a single family of hypotheses. Journal of Biopharmaceutical Statistics 15:929-942.
+
+Ferber, G. Staner, L. and Boeijinga, P. (2011): Structured multiplicity and confirmatory statistical analyses in pharmacodynamic studies using the quantitative electroencephalogram, Journal of neuroscience methods, Volume 201, Issue 1, Pages 204-212.
 }
 \author{
 Kornelius Rohmeyer \email{rohmeyer@small-projects.de}
