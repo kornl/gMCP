@@ -1,4 +1,4 @@
-test.gMCP <- function() {
+test.FastgMCP <- function() {
 	# Testing the C interface
 	m <- matrix(1/3,nr=4,nc=4)
 	diag(m) <- 0

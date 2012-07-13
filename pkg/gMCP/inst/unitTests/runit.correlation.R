@@ -1,5 +1,5 @@
 
-test.gMCP <- function() {
+test.gMCP.correlation <- function() {
 	Gm <- matrix(0,nr=4,nc=4) 
 	Gm[1,3] <- 1 
 	Gm[2,4] <- 1 
@@ -14,6 +14,6 @@ test.gMCP <- function() {
 	Cm[3,4] <- 1/2 
 	Cm[4,3] <- 1/2 
 	p <- c(0.0131,0.1,0.012,0.01) 
-	x <- unname(gMCP(G,p,corr=Cm,alpha=0.025)@rejected)
+	x <- unname(gMCP(G,p,corr=Cm,test="Bretz2011",alpha=0.025)@rejected)
 	checkEquals(c(TRUE, FALSE, TRUE, FALSE), x)
 }

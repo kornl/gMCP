@@ -160,6 +160,8 @@ gMCP <- function(graph, pvalues, test="Bonferroni", correlation, alpha=0.05,
 			}
 			return(result)
 		}
+	} else {
+		stop(paste("Specified test \"",test,"\" is not known.",sep=""))
 	}
 }
 
