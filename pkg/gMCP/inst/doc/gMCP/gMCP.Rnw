@@ -687,8 +687,6 @@ gMCP(graph, pvalues=c(0.02, 0.04, 0.01, 0.02), eps=0.001)
 
 \section{Power Simulations}\index{power simulation}
 
-No $\epsilon$-edges are allowed.
-
 \begin{figure}[ht]
   \centering
 % Chunk 21
