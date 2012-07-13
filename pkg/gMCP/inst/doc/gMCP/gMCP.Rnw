@@ -570,7 +570,8 @@ Use the following two buttons:
 
 See \cite{Bretz11}.
 
-\section{Weighted parametric tests}
+\section{Weighted parametric and Simes
+tests}\index{Simes-Procedure}\index{parametric test} 
 
 \begin{figure}[ht]
   \centering    
@@ -578,7 +579,9 @@ See \cite{Bretz11}.
   \caption{\label{correlated} You can also specify a correlation between the tests.}
 \end{figure}
 
-In the lower right panel with p-values, it is also possible to specify a known correlation between these values (see figure \ref{correlated}).
+In the lower right panel with p-values, it is also possible to specify a known
+correlation between the original test statistics (see figure
+\ref{correlated}). In this case 
 
 For further information please take a look at the vignette "\emph{Weighted parametric tests defined by graphs}".
 
@@ -592,16 +595,10 @@ The GUI features a dialog for easy creation of correlation matrices (see figure 
   \caption{\label{createCM1} Dialog for specifying a correlation matrix.}
 \end{figure}
 
-
-
 If the entered matrix is not positive semidefinite, 
 i.e.\ negative eigen values exist, a warning is given.
 
-\[A \kronecker B\]
-
-Graph from Bretz et al. (2009) - Figure 14
-
-Literature: Bretz F., Maurer W., Brannath W., Posch M.: A graphical approach to sequentially rejective multiple test procedures. Statistics in Medicine 2009; 28:586-604. Figure 14.
+%\[A \kronecker B\]
 
 %\begin{figure}[ht]
 %  \centering    
@@ -1004,8 +1001,8 @@ The family of hypotheses $\{H_i \;|\;i\in I\}$ is called
 
 This section is work in progress.
 
-\subsection{Closed testing principle}\index{closed testing principle}
-\begin{Theorem}[Closed testing principle]
+%\subsection{Closed testing principle}\index{closed testing principle}
+\begin{Theorem}[Closed testing principle]\index{closed testing principle}
  \cite{marcus1976closed}
 \end{Theorem}
 
@@ -1021,7 +1018,7 @@ This section is work in progress.
   \cite{hochberg2009multiple} and \cite{gabriel1969simultaneous}.
 \end{Def}
 
-\subsection{Partitioning principle}\index{partitioning principle}
+%\subsection{Partitioning principle}\index{partitioning principle}
 
 \begin{Def}
 
@@ -1030,9 +1027,8 @@ This section is work in progress.
 \begin{Theorem}[Simes-Procedure]\index{Simes-Procedure} 
 Let $T_1, \ldots, T_m$
 be test statistics for $m\in\N$ null hypotheses $H_1, \ldots, H_m$ and
-$p_1, \ldots, p_m$ the associated p-values. Then the following test
-will control the familywise error rate at level $\alpha\in]0,1[$ in
-    the strong sense:
+$p_1, \ldots, p_m$ the associated p-values and $\alpha\in]0,1[$.
+%Then the following test will control the familywise error rate at level $\alpha\in]0,1[$ in the strong sense:
 
 Denote the ordered p-values by $p^{(1)}<p^{(2)}<\ldots<p^{(m)}$ 
 and the corresponding hypotheses by $H^{(1)},H^{(2)},\ldots, H^{(m)}$.

@@ -32,5 +32,12 @@ graphGUI <- function(graph="createdGraph", pvalues=numeric(0), grid=0, debug=FAL
 }
 
 corMatWizard <- function(n=dim(matrix)[1], matrix=paste("diag(",n,")"), names=paste("H",1:n,sep="")) {
+	if (!is.character(matrix)) {
+		warning("Please specify the matrix name as character.")
+		stack <- sys.calls()
+		stack.fun <- Filter(function(.) .[[1]] == as.name("corMatWizard"), stack)
+		matrix <- make.names(deparse(stack.fun[[1]][[2]]))
+		warning(paste("We guess you wanted to call corMatWizard(matrix=\"",matrix,"\")",sep=""))
+	}
 	invisible(.jnew("org/af/gMCP/gui/dialogs/MatrixCreationDialog", matrix, names))
 }

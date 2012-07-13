@@ -22,7 +22,7 @@ gMCP <- function(graph, pvalues, test="Bonferroni", correlation, alpha=0.05,
 		names(pvalues) <- getNodes(graph)
 	}
 	if (test == "Bonferroni") {
-		if (!missing(correlation)) warning("Correlation will be ignored by Bonferroni test.")
+		if (!missing(correlation)) stop("Bonferroni test can not take correlation into account. Please specify test procedure.")
 		# Bonferroni-based test procedure		
 		if (useC) {
 			w <- getWeights(graph)			

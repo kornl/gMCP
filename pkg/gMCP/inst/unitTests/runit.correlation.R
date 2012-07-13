@@ -17,3 +17,28 @@ test.gMCP.correlation <- function() {
 	x <- unname(gMCP(G,p,corr=Cm,test="Bretz2011",alpha=0.025)@rejected)
 	checkEquals(c(TRUE, FALSE, TRUE, FALSE), x)
 }
+
+test.gMCP.correlation.Alpha.Simulation <- function() {
+	if (Sys.getenv("GMC_UNIT_TESTS")!="extended") {
+		cat("Skipping alpha level simulation.\n")
+		return()
+	}
+	N <- 100000
+	sigma <- matrix(0.9, nrow=3, ncol=3)
+	diag(sigma) <- 1
+	w <- c(0.4,0.4,0.2)
+	G <- matrix(1, nrow=3, ncol=3)
+	diag(G) <- 0
+	graph <- matrix2graph(G,w)
+	i <- 0
+	for(k in 1:N){
+		# simulate data with n obs and m-endpts			
+		y=rmvnorm(1,mean=rep(0,3),sigma=sigma)
+		p <- as.numeric(pnorm(y))
+		res=gMCP(graph,p,corr=sigma,alpha=0.05,test="Bretz2011")
+		if(min(res@adjPValues)<=0.05){i=i+1}
+	}
+	eps <- 0.1
+	cat("Family-wise error is ",i/N, ".\n", sep="")
+	checkTrue(0.05-eps<i/N && i/N<0.05+eps)
+}
