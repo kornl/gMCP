@@ -3,6 +3,8 @@ package tests;
 import javax.swing.JCheckBox;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JTextArea;
 
 public class OptionPaneTest extends JFrame {
 	public static void main(String[] args) {
@@ -10,8 +12,10 @@ public class OptionPaneTest extends JFrame {
 		String message = "This test is appropriate if the p-values\n" +
 				"belong to one-sided test-statistics with a joint\n" +
 				"multivariate normal null distribution.";
-		JOptionPane.showConfirmDialog(new JFrame(), new Object[] {message, tellMeAgain}, "Info", JOptionPane.OK_OPTION);
-		System.out.println(!tellMeAgain.isSelected());
+		JOptionPane.showMessageDialog(new JFrame(), new Object[] {message, tellMeAgain}, "Info", JOptionPane.INFORMATION_MESSAGE);
+		
+		/*JOptionPane.showOptionDialog(new JFrame(), , "Info", JOptionPane.OK_OPTION, JOptionPane.INFORMATION_MESSAGE, null, new Object[] {tellMeAgain}, null);*/
+		System.out.println(tellMeAgain.isSelected());
 	}
 
 }

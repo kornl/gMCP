@@ -210,6 +210,7 @@ public class GraphView extends JPanel implements ActionListener {
 				getNL().saveGraphWithoutVariables(getNL().initialGraph, false);
 	        	getNL().loadGraph();
 	        	getPView().restorePValues();
+	        	showParamInfo();
 			}
 			if (getNL().getNodes().size()==0) {
 				JOptionPane.showMessageDialog(parent, "Please create first a graph.", "Please create first a graph.", JOptionPane.ERROR_MESSAGE);
@@ -244,18 +245,7 @@ public class GraphView extends JPanel implements ActionListener {
 				getNL().saveGraphWithoutVariables(getNL().initialGraph, false);
 	        	getNL().loadGraph();
 	        	getPView().restorePValues();
-	        	if (parent.getPView().jrbRCorrelation.isSelected()) {
-	        		if (!Configuration.getInstance().getClassProperty(this.getClass(), "showParamInfo", "yes").equals("no")) {
-	        			JCheckBox tellMeAgain = new JCheckBox("Don't show me this info again.");
-	        			String message = "This test is appropriate if the p-values\n" +
-	        					"belong to one-sided test-statistics with a joint\n" +
-	        					"multivariate normal null distribution.";
-	        			JOptionPane.showConfirmDialog(new JFrame(), new Object[] {message, tellMeAgain}, "Info", JOptionPane.OK_OPTION);
-	        			if (tellMeAgain.isSelected()) {
-	        				Configuration.getInstance().setClassProperty(this.getClass(), "showParamInfo", "no");
-	        			}
-	        		}
-	        	}
+	        	showParamInfo();
 				parent.glassPane.start();				
 				startTesting();
 				correlation = parent.getPView().getParameters();
@@ -294,6 +284,7 @@ public class GraphView extends JPanel implements ActionListener {
 					getNL().saveGraphWithoutVariables(getNL().initialGraph, false);
 		        	getNL().loadGraph();					
 					getPView().restorePValues();
+					showParamInfo();
 				}
 				parent.glassPane.start();
 				//startTesting();
@@ -318,6 +309,21 @@ public class GraphView extends JPanel implements ActionListener {
 				worker.execute();
 			}
 		}
+	}
+
+	private void showParamInfo() {
+		if (parent.getPView().jrbRCorrelation.isSelected()) {
+    		if (!Configuration.getInstance().getClassProperty(this.getClass(), "showParamInfo", "yes").equals("no")) {
+    			JCheckBox tellMeAgain = new JCheckBox("Don't show me this info again.");
+    			String message = "This test is appropriate if the p-values\n" +
+    					"belong to one-sided test-statistics with a joint\n" +
+    					"multivariate normal distribution under the null.";
+    			JOptionPane.showMessageDialog(new JFrame(), new Object[] {message, tellMeAgain}, "Info", JOptionPane.INFORMATION_MESSAGE);
+    			if (tellMeAgain.isSelected()) {
+    				Configuration.getInstance().setClassProperty(this.getClass(), "showParamInfo", "no");
+    			}
+    		}
+    	}
 	}
 
 	public void stopTesting() {
