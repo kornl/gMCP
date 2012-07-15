@@ -1,12 +1,17 @@
 ## Adapted and extended from the code from http://rwiki.sciviews.org/doku.php?id=developers:runit
-unitTestsGMCP <- function(extended=FALSE, java=FALSE, interactive=FALSE, junitLibrary, outputPath=getwd()) {
+unitTestsGMCP <- function(extended=FALSE, java=FALSE, interactive=FALSE, junitLibrary, outputPath) {
 	if(!require("RUnit", quietly=TRUE)) {
 		stop("Please install package RUnit to run the unit tests.")
 	}
-	if (extended) Sys.setenv(GMCP_UNIT_TESTS="extended")
-	if (interactive) Sys.setenv(GMCP_UNIT_TESTS="interactive")
-	if (interactive && extended) Sys.setenv(GMCP_UNIT_TESTS="all")
-	Sys.setenv(GMCP_UNIT_TEST_OPATH=outputPath)
+	if (extended) Sys.setenv(GMCP_UNIT_TESTS=paste(Sys.getenv("GMCP_UNIT_TESTS"),"extended"))
+	if (interactive) Sys.setenv(GMCP_UNIT_TESTS=paste(Sys.getenv("GMCP_UNIT_TESTS"),"interactive"))
+	if (missing(outputPath)) {
+		if (Sys.getenv("GMCP_UNIT_TEST_OPATH")=="") {
+			Sys.setenv(GMCP_UNIT_TEST_OPATH=getwd())
+		}
+	} else {
+		Sys.setenv(GMCP_UNIT_TEST_OPATH=outputPath)
+	}
 	pkg <- "gMCP" 
 	path <- system.file("unitTests", package=pkg)
 	cat("\nRunning unit tests\n")
@@ -39,11 +44,14 @@ unitTestsGMCP <- function(extended=FALSE, java=FALSE, interactive=FALSE, junitLi
 	printTextProtocol(tests, showDetails=TRUE,
 			fileName=paste(pathReport, ".txt", sep=""))
 	
-	if (java) {
+	if (java || "java" %in% strsplit(Sys.getenv("GMCP_UNIT_TESTS"),",")[[1]]) {
 		# Test whether junit*.jar is in classpath
 		if (!missing(junitLibrary)) {
 			.jaddClassPath(junitLibrary)
-		}		
+		}
+		if (Sys.getenv("GMCP_JUNIT_LIBRARY")!="") {
+			.jaddClassPath(Sys.getenv("GMCP_JUNIT_LIBRARY"))
+		}
 		#testClass <- .jcall(.jnew("tests/RControlTest"), "Ljava/lang/Class;", method="getClass")
 		testClasses <- .jcall(.jnew("tests/TestSuite"), "[Ljava/lang/Class;", method="getClasses", evalArray=FALSE)
 		result <- try(.jcall("org.junit.runner.JUnitCore", "Lorg/junit/runner/Result;", method="runClasses", testClasses))

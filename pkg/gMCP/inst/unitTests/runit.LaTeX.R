@@ -20,14 +20,15 @@ test.LaTeX <- function() {
 			BauerEtAl2001(),
 			BretzEtAl2009a(),
 			BretzEtAl2009b(),
-			BretzEtAl2009c())
+			BretzEtAl2009c(),
+			Ferber2011())
 	
 	report <- gMCP:::LaTeXHeader()
 	for (graph in graphs) {
 		report <- paste(report, graph2latex(graph), sep="\n")
 	}
 	report <- paste(report, "\\end{document}", sep="\n")
-	if (interactive() && Sys.getenv("GMCP_UNIT_TESTS") %in% c("interactive", "all")) {
+	if (interactive() && "interactive" %in% strsplit(Sys.getenv("GMCP_UNIT_TESTS"),",")[[1]]) {
 		file <- paste(Sys.getenv("GMCP_UNIT_TEST_OPATH"), "report_test.tex", sep="/")
 		cat(report, file=file)
 		exitValue <- system(paste("pdflatex", file))

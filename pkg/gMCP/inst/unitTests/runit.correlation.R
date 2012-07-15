@@ -19,7 +19,7 @@ test.gMCP.correlation <- function() {
 }
 
 test.gMCP.correlation.Alpha.Simulation <- function() {
-	if (!Sys.getenv("GMCP_UNIT_TESTS") %in% c("extended", "all")) {
+	if (!"extended" %in% strsplit(Sys.getenv("GMCP_UNIT_TESTS"),",")[[1]]) {
 		cat("Skipping alpha level simulation.\n")
 		return()
 	}

@@ -53,15 +53,21 @@ graphGUI <- function(...) {invisible(NULL)}
 \end{minipage}
 \begin{minipage}{0.90\textwidth}
 
-This package provides functions and graphical user interfaces for graph based multiple test procedures.
-You can use this package completely from the R command line and also completely from the graphical user interface (GUI) without the need to know any R at all.
+This package provides functions and graphical user interfaces for graph based
+multiple test procedures.
+You can use this package completely from the R command line and also completely
+from the graphical user interface (GUI) without the need to know any R at all.
 This guick start guide only describes the steps to start the GUI.
 
 \end{minipage}
 
 \subsection*{Install and Start}
 
-If you not already have R then download the installer from the following URL and use it to install the latest version of R: \url{http://cran.r-project.org/bin/windows/base/release.htm}
+If you not already have R then download the installer from the following URL
+and use it to install
+\href{http://cran.r-project.org/bin/windows/base/release.htm}{the latest release
+of R}.
+%the latest release of R: \url{http://cran.r-project.org/bin/windows/base/release.htm}
 
 \begin{minipage}{0.60\textwidth}
 
