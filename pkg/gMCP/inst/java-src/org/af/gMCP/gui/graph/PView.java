@@ -383,5 +383,9 @@ public class PView extends JPanel implements KeyListener, ActionListener {
 		}
 		return param;
 	}
+
+	public void renameNode(int i, String name) {
+		panels.get(i).label.setText(name);		
+	}
 	
 }

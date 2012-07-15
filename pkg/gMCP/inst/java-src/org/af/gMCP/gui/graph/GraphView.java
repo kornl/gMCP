@@ -485,4 +485,11 @@ public class GraphView extends JPanel implements ActionListener {
 		//statusBar.setText("Result up-to-date: "+resultUpToDate);
 		this.resultUpToDate = resultUpToDate;
 	}
+
+	public void renameNode(Node node, String name) {
+		int i = getNL().whichNode(node.getName());
+		parent.getPView().renameNode(i, name);
+		parent.getDataTable().renameNode(i, name);
+		node.setName(name);		
+	}
 }

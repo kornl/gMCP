@@ -69,5 +69,10 @@ public class DataTable extends JTable {
 	public String getRMatrix() {
 		return getModel().getDataFrame().getRMatrix();
 	}
+
+	public void renameNode(int i, String name) {
+		getModel().df.setName(i, name);	
+		getModel().fireTableStructureChanged();
+	}
 	
 }

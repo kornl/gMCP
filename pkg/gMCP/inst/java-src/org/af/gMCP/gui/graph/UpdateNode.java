@@ -85,7 +85,7 @@ public class UpdateNode extends JDialog implements ActionListener {
 		node.setWeight(w, null);
 		int which = netzListe.whichNode(tfname.getText());
 		if (which == -1 || netzListe.getNodes().get(which) == node) {
-			node.setName(tfname.getText());
+			gv.renameNode(node, tfname.getText());			
 			//TODO Change Name in PView and RDataFrameRef(which, tfname.getText())
 			dispose();
 		} else {
