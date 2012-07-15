@@ -1,9 +1,12 @@
-## Adapted from the code from http://rwiki.sciviews.org/doku.php?id=developers:runit
-unitTestsGMCP <- function(extended=FALSE, java=FALSE, junitLibrary) {
+## Adapted and extended from the code from http://rwiki.sciviews.org/doku.php?id=developers:runit
+unitTestsGMCP <- function(extended=FALSE, java=FALSE, interactive=FALSE, junitLibrary, outputPath=getwd()) {
 	if(!require("RUnit", quietly=TRUE)) {
 		stop("Please install package RUnit to run the unit tests.")
 	}
-	if (extended) Sys.setenv(GMC_UNIT_TESTS="extended")
+	if (extended) Sys.setenv(GMCP_UNIT_TESTS="extended")
+	if (interactive) Sys.setenv(GMCP_UNIT_TESTS="interactive")
+	if (interactive && extended) Sys.setenv(GMCP_UNIT_TESTS="all")
+	Sys.setenv(GMCP_UNIT_TEST_OPATH=outputPath)
 	pkg <- "gMCP" 
 	path <- system.file("unitTests", package=pkg)
 	cat("\nRunning unit tests\n")

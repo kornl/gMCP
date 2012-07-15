@@ -8,7 +8,7 @@
 	Runs the R unit (and optional the JUnit) test suite for gMCP and prints the results.
 }
 \usage{
-	unitTestsGMCP(extended=FALSE, java=FALSE, junitLibrary)
+	unitTestsGMCP(extended=FALSE, java=FALSE, interactive=FALSE, junitLibrary, outputPath=getwd())
 }
 
 \arguments{
@@ -22,9 +22,16 @@
     JUnit 4 classes in the classpath or specify the path to a JUnit 4 jar file
     via the parameter junitLibrary. 
   } 
+  \item{interactive}{
+    If \code{TRUE} the interactive part of the RUnit tests is run.
+    The user have to look at results and answer questions.
+  }
   \item{junitLibrary}{
     A character String specifying the path to a JUnit 4 jar file to run the JUnit tests.
     You can download it from \url{http://www.junit.org/}.
+  }
+  \item{outputPath}{
+    During the RUnit tests files maybe produced at this location.
   }
 }
 \value{

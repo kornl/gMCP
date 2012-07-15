@@ -27,7 +27,20 @@ test.LaTeX <- function() {
 		report <- paste(report, graph2latex(graph), sep="\n")
 	}
 	report <- paste(report, "\\end{document}", sep="\n")
-	#if (Sys.getenv("USER")=="kornel") cat(report, file="/home/kornel/test.tex")
+	if (interactive() && Sys.getenv("GMCP_UNIT_TESTS") %in% c("interactive", "all")) {
+		file <- paste(Sys.getenv("GMCP_UNIT_TEST_OPATH"), "report_test.tex", sep="/")
+		cat(report, file=file)
+		exitValue <- system(paste("pdflatex", file))
+		if (exitValue != 0) {
+			stop("Error calling pdflatex.")
+		}
+		answer <- readline(paste("Does report_test.pdf look fine (Y/n)? "))
+		if (substr(answer, 1, 1) %in% c("n","N")) {
+			stop("User reported error for report_test.pdf.")
+		}
+	} else {
+		cat("Skipping interactive control of LaTeX output.\n")
+	}
 }
 
 test.fractionStrings <- function() {
