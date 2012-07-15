@@ -256,7 +256,7 @@ setMethod("show", "graphMCP",
 				cat(paste("Sum of weight: ",sum(getWeights(object)),"\n", sep=""))
 			}			
 			for (node in getNodes(object)) {
-				cat(paste(node, " (",ifelse(nodeAttr(object, node, "rejected"),"rejected","not rejected"),", weight=",format(object@weights[node], digits=4, drop0trailing=TRUE),")\n", sep=""))
+				cat(paste(node, " (",ifelse(nodeAttr(object, node, "rejected"),"rejected, ",""),"weight=",format(object@weights[node], digits=4, drop0trailing=TRUE),")\n", sep=""))
 			}
 			printEdge <- FALSE;
 			for (i in getNodes(object)) {

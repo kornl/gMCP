@@ -8,7 +8,7 @@
 	Performs a graph based multiple test procedure for a given graph and unadjusted p-values.
 }
 \usage{
-	gMCP(graph, pvalues, test="Bonferroni", correlation, alpha=0.05, 
+	gMCP(graph, pvalues, test, correlation, alpha=0.05, 
 	     approxEps=TRUE, eps=10^(-3), ..., useC=FALSE, 
 	     verbose=FALSE, keepWeights=TRUE, adjPValues=TRUE)
 %	     , alternatives="less"
@@ -23,7 +23,7 @@
   	Note that for the parametric tests  
   } 
   \item{test}{
-    By default the Bonferroni-based test procedures are used.
+    By default the Bonferroni-based test procedures are used if no correlation is specified and the algorithm from Bretz et al. 2011 if a correlation is specified.
   	If test is set to \code{"Simes"} the weighted Simes test will be performed for each subset of hypotheses.
   	If test equals \code{"Bretz2011"} the weighted parametric test described in Bretz et al. 2011 is performed.
   	If test equals \code{"simple-parametric"} for each subset a weighted parametric test is performed at the reduced

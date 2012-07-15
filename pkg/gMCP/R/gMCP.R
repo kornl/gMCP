@@ -1,4 +1,4 @@
-gMCP <- function(graph, pvalues, test="Bonferroni", correlation, alpha=0.05, 
+gMCP <- function(graph, pvalues, test, correlation, alpha=0.05, 
 		approxEps=TRUE, eps=10^(-3), ..., useC=FALSE, 
 		verbose=FALSE, keepWeights=TRUE, adjPValues=TRUE) {
 #		, alternatives="less") {	
@@ -21,7 +21,7 @@ gMCP <- function(graph, pvalues, test="Bonferroni", correlation, alpha=0.05,
 	if (is.null(names(pvalues))) {
 		names(pvalues) <- getNodes(graph)
 	}
-	if (test == "Bonferroni") {
+	if ((missing(test) && missing(correlation)) || !missing(test) && test == "Bonferroni") {
 		if (!missing(correlation)) stop("Bonferroni test can not take correlation into account. Please specify test procedure.")
 		# Bonferroni-based test procedure		
 		if (useC) {
@@ -42,7 +42,7 @@ gMCP <- function(graph, pvalues, test="Bonferroni", correlation, alpha=0.05,
 			adjPValues <- adjPValues(sequence[[1]], pvalues, verbose)@adjPValues
 			return(new("gMCPResult", graphs=sequence, alpha=alpha, pvalues=pvalues, rejected=getRejected(graph), adjPValues=adjPValues))
 		}
-	} else if (test == "Bretz2011" || test == "simple-parametric") {				
+	} else if ((missing(test) && !missing(correlation)) || !missing(test) && test == "Bretz2011" || !missing(test) && test == "simple-parametric") {				
 		if (missing(correlation) || !is.matrix(correlation)) {
 			stop("Procedure for correlated tests, expects a correlation matrix as parameter \"correlation\".")
 		} else {
@@ -64,14 +64,14 @@ gMCP <- function(graph, pvalues, test="Bonferroni", correlation, alpha=0.05,
 				#myTest <- generateTest(Gm, w, correlation, alpha)
 				#zScores <- -qnorm(pvalues)
 				#rejected <- myTest(zScores)
-                adjP <- generatePvals(Gm, w, correlation, pvalues, exhaust=(test=="Bretz2011"))#, alternatives=alternatives)
+                adjP <- generatePvals(Gm, w, correlation, pvalues, exhaust=(missing(test) || test == "Bretz2011")) #, alternatives=alternatives)
                 rejected <- adjP <= alpha
                 names(adjP) <- getNodes(graph)
 				names(rejected) <- getNodes(graph)
 			}
 			return(new("gMCPResult", graphs=sequence, alpha=alpha, pvalues=pvalues, rejected=rejected, adjPValues=adjP))
 		}
-	} else if (test=="Simes") {		
+	} else if (!missing(test) && test=="Simes") {		
 		m <- graph2matrix(graph)
 		if (!adjPValues) {
 			if (all(pvalues>alpha)) {
