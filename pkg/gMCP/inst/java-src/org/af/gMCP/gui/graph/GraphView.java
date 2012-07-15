@@ -218,14 +218,18 @@ public class GraphView extends JPanel implements ActionListener {
 				SwingWorker<Void, Void> worker = new SwingWorker<Void, Void>() {
 					@Override
 					protected Void doInBackground() throws Exception {
-						if (!isResultUpToDate()) {
-							RControl.getR().evalVoid(result+" <- gMCP("+getNL().initialGraph+getGMCPOptions()+")");
-							setResultUpToDate(true);
+						try {
+							if (!isResultUpToDate()) {
+								RControl.getR().evalVoid(result+" <- gMCP("+getNL().initialGraph+getGMCPOptions()+")");
+								setResultUpToDate(true);
+							}
+							double[] alpha = RControl.getR().eval(""+getPView().getTotalAlpha()+"*getWeights("+result+")").asRNumeric().getData();
+							boolean[] rejected = RControl.getR().eval("getRejected("+result+")").asRLogical().getData();
+							parent.glassPane.stop();
+							new DialogConfIntEstVar(parent, nl, rejected, alpha);
+						} catch (Exception ex) {
+							ErrorHandler.getInstance().makeErrDialog(ex.getMessage(), ex);
 						}
-						double[] alpha = RControl.getR().eval(""+getPView().getTotalAlpha()+"*getWeights("+result+")").asRNumeric().getData();
-						boolean[] rejected = RControl.getR().eval("getRejected("+result+")").asRLogical().getData();
-						parent.glassPane.stop();
-						new DialogConfIntEstVar(parent, nl, rejected, alpha);
 						return null;
 					}  
 				};
@@ -247,17 +251,21 @@ public class GraphView extends JPanel implements ActionListener {
 				SwingWorker<Void, Void> worker = new SwingWorker<Void, Void>() {
 					@Override
 					protected Void doInBackground() throws Exception {
-						if (!isResultUpToDate()) {
-							RControl.getR().evalVoid(result+" <- gMCP("+getNL().initialGraph+getGMCPOptions()+", alternatives="+alternatives+")");
-							setResultUpToDate(true);
+						try {
+							if (!isResultUpToDate()) {
+								RControl.getR().evalVoid(result+" <- gMCP("+getNL().initialGraph+getGMCPOptions()+", alternatives="+alternatives+")");
+								setResultUpToDate(true);
+							}
+							boolean[] rejected = RControl.getR().eval(result+"@rejected").asRLogical().getData();
+							String output = null;
+							if (Configuration.getInstance().getGeneralConfig().verbose() && RControl.getR().eval("!is.null(attr("+result+", \"output\"))").asRLogical().getData()[0]) {
+								output = RControl.getR().eval("attr("+result+", \"output\")").asRChar().getData()[0];
+							}
+							parent.glassPane.stop();
+							new RejectedDialog(parent, rejected, parent.getGraphView().getNL().getNodes(), output);
+						} catch (Exception ex) {
+							ErrorHandler.getInstance().makeErrDialog(ex.getMessage(), ex);
 						}
-						boolean[] rejected = RControl.getR().eval(result+"@rejected").asRLogical().getData();
-						String output = null;
-						if (Configuration.getInstance().getGeneralConfig().verbose() && RControl.getR().eval("!is.null(attr("+result+", \"output\"))").asRLogical().getData()[0]) {
-							output = RControl.getR().eval("attr("+result+", \"output\")").asRChar().getData()[0];
-						}
-						parent.glassPane.stop();
-						new RejectedDialog(parent, rejected, parent.getGraphView().getNL().getNodes(), output);
 						return null;
 					}  
 				};
@@ -281,14 +289,18 @@ public class GraphView extends JPanel implements ActionListener {
 				correlation = parent.getPView().getParameters();
 				SwingWorker<Void, Void> worker = new SwingWorker<Void, Void>() {
 					@Override
-					protected Void doInBackground() throws Exception {						
-						if (!isResultUpToDate()) {
-							RControl.getR().evalVoid(result+" <- gMCP("+getNL().initialGraph+getGMCPOptions()+")");
-							setResultUpToDate(true);
-						}
-						double[] adjPValues = RControl.getR().eval(result+"@adjPValues").asRNumeric().getData();
-						parent.glassPane.stop();
-						new AdjustedPValueDialog(parent, getPView().pValues, adjPValues, getNL().getNodes());
+					protected Void doInBackground() throws Exception {
+						try {
+							if (!isResultUpToDate()) {
+								RControl.getR().evalVoid(result+" <- gMCP("+getNL().initialGraph+getGMCPOptions()+")");
+								setResultUpToDate(true);
+							}
+							double[] adjPValues = RControl.getR().eval(result+"@adjPValues").asRNumeric().getData();
+							parent.glassPane.stop();
+							new AdjustedPValueDialog(parent, getPView().pValues, adjPValues, getNL().getNodes());
+						} catch (Exception ex) {
+							ErrorHandler.getInstance().makeErrDialog(ex.getMessage(), ex);
+						} 
 						return null;
 					}  
 				};
