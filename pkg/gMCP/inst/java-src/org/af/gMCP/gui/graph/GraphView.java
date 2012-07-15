@@ -12,7 +12,9 @@ import java.util.Date;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JFileChooser;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -243,7 +245,16 @@ public class GraphView extends JPanel implements ActionListener {
 	        	getNL().loadGraph();
 	        	getPView().restorePValues();
 	        	if (parent.getPView().jrbRCorrelation.isSelected()) {
-	        		alternatives = new AlternativesDialog(parent, getNL()).getAlternatives();
+	        		if (!Configuration.getInstance().getClassProperty(this.getClass(), "showParamInfo", "yes").equals("no")) {
+	        			JCheckBox tellMeAgain = new JCheckBox("Don't show me this info again.");
+	        			String message = "This test is appropriate if the p-values\n" +
+	        					"belong to one-sided test-statistics with a joint\n" +
+	        					"multivariate normal null distribution.";
+	        			JOptionPane.showConfirmDialog(new JFrame(), new Object[] {message, tellMeAgain}, "Info", JOptionPane.OK_OPTION);
+	        			if (tellMeAgain.isSelected()) {
+	        				Configuration.getInstance().setClassProperty(this.getClass(), "showParamInfo", "no");
+	        			}
+	        		}
 	        	}
 				parent.glassPane.start();				
 				startTesting();
@@ -253,7 +264,7 @@ public class GraphView extends JPanel implements ActionListener {
 					protected Void doInBackground() throws Exception {
 						try {
 							if (!isResultUpToDate()) {
-								RControl.getR().evalVoid(result+" <- gMCP("+getNL().initialGraph+getGMCPOptions()+", alternatives="+alternatives+")");
+								RControl.getR().evalVoid(result+" <- gMCP("+getNL().initialGraph+getGMCPOptions()+")");
 								setResultUpToDate(true);
 							}
 							boolean[] rejected = RControl.getR().eval(result+"@rejected").asRLogical().getData();
@@ -390,6 +401,7 @@ public class GraphView extends JPanel implements ActionListener {
 				+", alpha="+getPView().getTotalAlpha()
 				+", eps="+Configuration.getInstance().getGeneralConfig().getEpsilon()
 				+", verbose="+(Configuration.getInstance().getGeneralConfig().verbose()?"TRUE":"FALSE"
+				//+", alternatives="+alternatives
 			    +", callFromGUI=TRUE");
 	}
 

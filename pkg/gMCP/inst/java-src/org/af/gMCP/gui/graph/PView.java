@@ -374,9 +374,9 @@ public class PView extends JPanel implements KeyListener, ActionListener {
 	 * adds parameters to the gMCP call depending on the selected correlation.
 	 */
 	public String getParameters() {
-		String param = "";
+		String param = ", test=\"Bonferroni\"";
 		if (jrbRCorrelation.isSelected()) {
-			param = ", correlation="+jcbCorObject.getSelectedItem()+"";
+			param = ", correlation="+jcbCorObject.getSelectedItem()+", test=\"Bretz2011\"";
 		} else if (jrbSimes.isSelected()) {
 			param = ", test=\"Simes\"";
 		}
