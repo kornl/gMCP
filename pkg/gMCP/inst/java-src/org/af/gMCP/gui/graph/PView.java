@@ -211,7 +211,7 @@ public class PView extends JPanel implements KeyListener, ActionListener {
 
 	    jcbCorObject.setEnabled(!b);
 	    jbLoadPValues.setEnabled(!b);
-	    refresh();
+	    if (!b) refresh();
 	}
 
 	public String getPValuesString() {		
