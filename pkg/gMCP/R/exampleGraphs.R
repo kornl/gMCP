@@ -418,7 +418,11 @@ generalSuccessive <- function(weights=c(1/2,1/2)) {
 HuqueAloshEtBhore2011 <- function() {
 	graph <- HungEtWang2010()
 	graph <- replaceVariables(graph, variables=list("nu"=1/2, "omega"=1/2, "tau"=0))
+	# TODO: Create function for renaming of graph nodes in R
 	rownames(graph@m) <- colnames(graph@m) <- paste("H", 1:4, sep="")
+	names(graph@nodeAttr$rejected) <- rownames(graph@m)
+	names(graph@weights) <- rownames(graph@m)
+	# END of Todo
 	graph@m["H4","H2"] <- 1
 	attr(graph, "description") <- paste("Graph representing the procedure from Huque, Alosh and Bhore (2011)", 
 			"",

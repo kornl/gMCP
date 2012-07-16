@@ -19,6 +19,8 @@ Changes in version 0.7-11 (15-07-2012, Rev. 1377)
 
 - Power simulations for different variable values. 
 
+- The GUI is updated immediately after renaming of nodes.
+
 - The Reset Button resets to the graph with variables.  
 
 - A backslash is allowed in node names (e.g. \alpha) in the GUI.

@@ -1,27 +1,29 @@
+TODO for 0.7-11:
+- look at warnings regarding exhaustAlpha (also optimality of graph)
+- Give link to Bundle in QuickStart-Guide
+- Create archive of Bundles on Algorithm-Forge
+- Email subscription on start page (also tell user after 10th start of GUI)
+Not necessary, but would be great for this release:
+- Show RCode and all parameters that reproduces the results.
+- Warn user if he uses a version that is older than 1 year.
+- Warn/inform user about changes.
+- Does contrMat(n=c(10, 20, 30, 40), type ="Dunnett") do what I want?!?
+- Copy&Paste of Results (Table, Text, allow to save)
+
 - Description (.Rd files) of graphGUI and corMatWizard
-- exhaustAlpha=TRUE as default + warning
 - Bauer & Hackel
 - "Find out what's changed in ggplot2 with"
   "news(Version=="0.9.1", package="ggplot")"
-- Changing the names of hypotheses is not updated in the GUI  
-- Copy&Paste of Results (Table, Text, allow to save)
-- Show RCode and all parameters that reproduces the results.
-- Email subscription on start page (also tell user after 10th start of GUI)
-- Warn user if he uses a version that is older than 1 year.
-- Does contrMat(n=c(10, 20, 30, 40), type ="Dunnett") do what I want?!?
 - Add line width to edge attributes (as color)
 - As soon as weights for nodes are implemented, change Improved Fallback one to (w_1,w_2,w_3) and edges (now 1/2,1/2) to \gamma, 1-\gamma with \gamma=w2/(w1_w2))
-- Calling a node \delta causes gMCP to crash (every OS? Java? R? JMathLaTeX?) I guess it's \d (file end?) given to RJava.
 - Save power scenarios
-- Give link to Bundle in QuickStart-Guide
-- Create archive of Bundles on Algorithm-Forge
 - Correlation matrix save & restore
 - Does gMCP calculate correctly in 0.6-6 in the Console?
 - positive Definitheit!
 - Sample size is ignored in CorMatDialog
 - Konsonanz erzwingen?
 - Ist der Single-Step-Dunnett als Graph darstellbar?
-- don't allow two-sided tests for didactic/interpretatory reasons.
+- two-sided tests?
 - Unify single NCP and multiple NCPs
 - Export user defined functions and allow names for them
 - CI Dialog testen!
@@ -40,7 +42,7 @@
 - Sequentielle Power ist schwierig (basiert am Ende auf zu wenig Fallzahl der Simulation)
 - verbose output for parametric tests
 - integrate the two files "tests.R" and "unirootbug.Rd" in directory "unitTests" into unit tests. 
-- improve behaviour of tables if "Automatically enter the editing mode, whenever a table cell gets the focus" is set to false.
+- improve behavior of tables if "Automatically enter the editing mode, whenever a table cell gets the focus" is set to false.
 - round values in CI Dialog
 - Check whether 0.7-11 is regarded as newer than 0.7-9
 
@@ -89,6 +91,7 @@ H3 (NA, weight=NA)
 H4 (NA, weight=NA)
 > gMCP(g, runif(4))
 Fehler in if (m[i, node] * m[node, i] < 1) { : Argument hat Länge 0
+- Create function for renaming of graph nodes in R
 - Check installed structure of Windows binary.
 
 High priority:
@@ -191,6 +194,7 @@ In library(package, lib.loc = lib.loc, character.only = TRUE, logical.return = T
 
 Additional features / low priority:
 ===================================
+- Giving \d to RJava causes a segmentation fault.
 - \gamma or \delta are pretty small on edges.
 - Save ConfIntPlot as png/bmp or copy to system clip board
 - Do we really need PolynomF as dependencies?
