@@ -17,7 +17,9 @@ import javax.imageio.ImageIO;
 import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -211,7 +213,7 @@ public class PView extends JPanel implements KeyListener, ActionListener {
 
 	    jcbCorObject.setEnabled(!b);
 	    jbLoadPValues.setEnabled(!b);
-	    if (!b) refresh();
+	    if (!b) refresh(false);
 	}
 
 	public String getPValuesString() {		
@@ -264,7 +266,7 @@ public class PView extends JPanel implements KeyListener, ActionListener {
 	public JPanel getCorrelatedPanel() {
 		
 		if (correlatedPanel!=null) {
-			refresh();		
+			refresh(false);		
 			return correlatedPanel;
 		}
 		
@@ -283,7 +285,7 @@ public class PView extends JPanel implements KeyListener, ActionListener {
 		
 	    jcbCorObject = new JComboBox(new String[] {});
 	    jcbCorObject.addActionListener(this);
-	    refresh();
+	    refresh(false);
 
 	    jrbNoCorrelation.setSelected(true);
 
@@ -327,7 +329,7 @@ public class PView extends JPanel implements KeyListener, ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		parent.getGraphView().setResultUpToDate(false);
 		if (e.getSource()==refresh) {
-			refresh();
+			refresh(true);
 		} else if (e.getSource()==jrbNoCorrelation) {
 			if (parent.getGraphView().getNL().getNodes().size()>0) {
 				parent.getGraphView().buttonConfInt.setEnabled(true);
@@ -348,15 +350,25 @@ public class PView extends JPanel implements KeyListener, ActionListener {
 				String obj = jcbCorObject.getSelectedItem().toString();
 				String matrix = obj.endsWith("matrices found.")?null:obj;
 				new MatrixCreationDialog(parent, matrix, MatrixCreationDialog.getNames(parent.getGraphView().getNL().getNodes()));
-				refresh();
+				refresh(false);
 			}
 		}
 	}
 
-	private void refresh() {
+	private void refresh(boolean showInfo) {
 		jcbCorObject.removeAllItems();
 		int dim = parent.getGraphView().getNL().getNodes().size();
 		String[] matrices = RControl.getR().eval("gMCP:::getAllQuadraticMatrices(n="+dim+")").asRChar().getData();
+		if (showInfo && !Configuration.getInstance().getClassProperty(this.getClass(), "showRefreshInfo", "yes").equals("no")) {
+			JCheckBox tellMeAgain = new JCheckBox("Don't show me this info again.");
+			int n = (matrices.length==1 && matrices[0].endsWith("matrices found."))?0:+matrices.length;
+			String message = "Searched and found "+n+((n==1)?" matrix":" matrices")+" of\n" +
+					"dimension "+dim+" in the R global environment.";
+			JOptionPane.showMessageDialog(parent, new Object[] {message, tellMeAgain}, "Info", JOptionPane.INFORMATION_MESSAGE);
+			if (tellMeAgain.isSelected()) {
+				Configuration.getInstance().setClassProperty(this.getClass(), "showRefreshInfo", "no");
+			}
+		}
 		if (matrices.length==1 && matrices[0].endsWith("matrices found.")) {
 			jcbCorObject.setEnabled(false);
 			jrbRCorrelation.setEnabled(false);

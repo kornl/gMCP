@@ -23,6 +23,7 @@ import javax.swing.JToggleButton;
 import javax.swing.filechooser.FileFilter;
 
 import org.af.commons.errorhandling.ErrorHandler;
+import org.af.commons.tools.OSTools;
 import org.af.commons.widgets.DesktopPaneBG;
 import org.af.gMCP.config.Configuration;
 import org.af.gMCP.gui.CreateGraphGUI;
@@ -318,7 +319,7 @@ public class GraphView extends JPanel implements ActionListener {
     			String message = "This test is appropriate if the p-values\n" +
     					"belong to one-sided test-statistics with a joint\n" +
     					"multivariate normal distribution under the null.";
-    			JOptionPane.showMessageDialog(new JFrame(), new Object[] {message, tellMeAgain}, "Info", JOptionPane.INFORMATION_MESSAGE);
+    			JOptionPane.showMessageDialog(parent, new Object[] {message, tellMeAgain}, "Info", JOptionPane.INFORMATION_MESSAGE);
     			if (tellMeAgain.isSelected()) {
     				Configuration.getInstance().setClassProperty(this.getClass(), "showParamInfo", "no");
     			}
@@ -418,7 +419,7 @@ public class GraphView extends JPanel implements ActionListener {
 	public void saveGraphImage(File file) {
 		BufferedImage img = getNL().getImage();
 		try {
-			ImageIO.write( img, "png", file );
+			ImageIO.write(img, "png", file);
 		} catch( Exception ex ) {
 			JOptionPane.showMessageDialog(this, "Saving image to '" + file.getAbsolutePath() + "' failed: " + ex.getMessage(), "Saving failed.", JOptionPane.ERROR_MESSAGE);
 		}
@@ -473,6 +474,17 @@ public class GraphView extends JPanel implements ActionListener {
 	}
 
 	public void copyGraphToClipboard() {
+		if (OSTools.isLinux() && !Configuration.getInstance().getClassProperty(this.getClass(), "showClipboardInfo", "yes").equals("no")) {
+			String message = "An old bug from 2007 that is widely known but never\n" +
+					"fixed from Sun/Oracle in Java will most likely prevent this\n" +
+					"feature to work on a Linux machine.\n" +
+					"We are sorry…";
+			JCheckBox tellMeAgain = new JCheckBox("Don't show me this info again.");			
+			JOptionPane.showMessageDialog(parent, new Object[] {message, tellMeAgain}, "Will most likely not work under Linux", JOptionPane.WARNING_MESSAGE);
+			if (tellMeAgain.isSelected()) {
+				Configuration.getInstance().setClassProperty(this.getClass(), "showClipboardInfo", "no");
+			}
+		}
 		TransferableImage.copyImageToClipboard(getNL().getImage());
 	}
 	
