@@ -1,4 +1,6 @@
 TODO for 0.7-11:
+- Remove edges from simple successive and try again parametric - no changes!
+- .asRLogical().getData()[0] can be true but NA in R
 - look at warnings regarding exhaustAlpha (also optimality of graph)
 - Give link to Bundle in QuickStart-Guide
 - Create archive of Bundles on Algorithm-Forge
@@ -44,7 +46,7 @@ Not necessary, but would be great for this release:
 - integrate the two files "tests.R" and "unirootbug.Rd" in directory "unitTests" into unit tests. 
 - improve behavior of tables if "Automatically enter the editing mode, whenever a table cell gets the focus" is set to false.
 - round values in CI Dialog
-- Check whether 0.7-11 is regarded as newer than 0.7-9
+- Check whether 0.7-11 is regarded as newer than 0.7-9 
 
 - Update replaceVariables doc (matrix allowed)
 - Check whether replaceVariables replaces correctly a,b,c, etc. (interactive and not) 
@@ -82,22 +84,12 @@ Critical:
 - Think about JavaGD devices. (User wants to plot in R Console etc.)
 - Does Deducer interfere JavaGD? (When is .onLoad executed?)
 - Make JavaGD only a suggest (Solaris and generally safer)
-- g <- HuqueAloshEtBhore2011()
-> g
-A graphMCP graph
-H1 (NA, weight=NA)
-H2 (NA, weight=NA)
-H3 (NA, weight=NA)
-H4 (NA, weight=NA)
-> gMCP(g, runif(4))
-Fehler in if (m[i, node] * m[node, i] < 1) { : Argument hat Länge 0
 - Create function for renaming of graph nodes in R
 - Check installed structure of Windows binary.
 
 High priority:
 ==============
 
-- Graphs with variables should be set back to the version with variables.
 - Show optional dialog when refresh button is pressed.
 - Check java.awt.Desktop.open in the newest Ubuntu (or is there something else wrong?)
 - graphTest's last.alphas at least contain strange NaN in some cases
@@ -149,7 +141,6 @@ attr(,"last.alphas")
 - What happens if we start the GUI a second time?
 I have no idea which 1/2*alpha I'm referring here to: 
 - Why does matrix(c(0,1/2,0,0),2) loose half an alpha?
-- Example graphs from Ferber?
 - Flag 1+epsilon>1 in line sum
 - round adjusted p-Values up
 - Think about "-Xrs" - see paragraph below.

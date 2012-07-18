@@ -36,7 +36,14 @@ Changes in version 0.7-11 (15-07-2012, Rev. 1377)
   Option java=TRUE will run JUnit tests for GUI testing.
   Option interactive=TRUE will run interactive tests.
   
+- Added a few message dialogs with additional information.
+  All of these can be disabled by a CheckBox:
+  "Don't show me this info again."
+
+- Epsilon edges can be (optionally) show as dashed lines.
+
 - New example graph from Ferber et al. 2011.
+
 
 Changes in version 0.7-10 (15-06-2012, Rev. 1291)
 ================================================
