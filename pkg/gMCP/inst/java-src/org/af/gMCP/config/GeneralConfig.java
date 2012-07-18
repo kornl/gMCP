@@ -319,12 +319,21 @@ public class GeneralConfig extends SpecificConfig {
 	public boolean focusEqualsEdit() {
 		return Boolean.parseBoolean(getProperty("focusEqualsEdit", "true"));
 	}
+	
 	public void setFocusEqualsEdit(boolean b) {
 		setProperty("focusEqualsEdit", ""+b);		
 	}
 
 	public boolean askWhenGraphIsNotSaved() {
 		return Boolean.parseBoolean(getProperty("askWhenGraphIsNotSaved", "false"));
+	}
+
+	public boolean markEpsilon() {
+		return Boolean.parseBoolean(getProperty("markEpsilon", "true"));
+	}
+	
+	public void setMarkEpsilon(boolean b) {
+		setProperty("markEpsilon", ""+b);		
 	}
 	
 }

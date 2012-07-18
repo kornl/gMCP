@@ -15,7 +15,7 @@ public class EdgeWeight {
 	
 	private static final Log logger = LogFactory.getLog(EdgeWeight.class);
 	
-	protected String weightStr = null; 
+	private String weightStr = null; 
 	protected double[] weight = null;
 	
 	static DecimalFormat formatSmall = new DecimalFormat("#.###E0");
@@ -137,6 +137,14 @@ public class EdgeWeight {
 			replaceStr = replaceStr.replaceAll(""+greek[i], greekLaTeX[i]);
 		}
 		return replaceStr;
+	}
+
+	public boolean isEpsilon() {
+		try {
+			return RControl.getR().eval("eval(parse(text=gsub(\"\\\\\\\\epsilon\", 0, \""+getPreciseWeightStr().replaceAll("\\\\", "\\\\\\\\")+"\")))==0").asRLogical().getData()[0];
+		} catch (Exception e) {
+			return false;
+		}
 	}
 	
 }

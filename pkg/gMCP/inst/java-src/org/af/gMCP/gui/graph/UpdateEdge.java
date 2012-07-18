@@ -8,8 +8,10 @@ import javax.swing.JCheckBox;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JSpinner;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
+import javax.swing.SpinnerNumberModel;
 
 import org.af.gMCP.config.Configuration;
 import org.af.gMCP.gui.dialogs.ColorChooseDialog;
@@ -28,6 +30,7 @@ public class UpdateEdge extends JDialog implements ActionListener {
 	GraphView control;
 	JTabbedPane tabbedPane = new JTabbedPane();
 	JCheckBox jcbAnchored = new JCheckBox("Weight is anchored and does not follows nodes when moved.");
+	JSpinner spinner = new JSpinner(new SpinnerNumberModel(2, 1, 10, 1));
 	
 	public UpdateEdge(Edge edge, NetList netzListe, GraphView control) {
 		super(netzListe.control.parent, "Updating Edge from node "+edge.from.getName()+" to "+edge.to.getName(), true);
@@ -94,14 +97,21 @@ public class UpdateEdge extends JDialog implements ActionListener {
         panel.setLayout(layout);
         CellConstraints cc = new CellConstraints();
         
-        panel.add(new JLabel("Color:"), cc.xy(2, 2));
+        int row = 2;
+        panel.add(new JLabel("Color:"), cc.xy(2, row));
 		
         colorLabel.setOpaque(true);
         colorLabel.setBackground(edge.color);
-        panel.add(colorLabel, cc.xy(4, 2));
+        panel.add(colorLabel, cc.xy(4, row));
         
         jbColor.addActionListener(this);
-        panel.add(jbColor, cc.xy(6, 2));
+        panel.add(jbColor, cc.xy(6, row));
+        
+        row += 2;
+        
+        panel.add(new JLabel("Line width:"), cc.xy(2, row));
+		
+        panel.add(spinner, cc.xy(4, row));
         
 		return panel;
 	}
@@ -131,7 +141,9 @@ public class UpdateEdge extends JDialog implements ActionListener {
 			control.getDataTable().getModel().setValueAt(new EdgeWeight(0), netzListe.getNodes().indexOf(edge.from), netzListe.getNodes().indexOf(edge.to));
 			netzListe.removeEdge(edge);			
 		} else {
-			edge.setW(tf.getText());	
+			edge.setW(tf.getText());
+			int n = Integer.parseInt(spinner.getModel().getValue().toString());
+			//TODO Set line width n.
 			control.getDataTable().getModel().setValueAt(new EdgeWeight(tf.getText()), netzListe.getNodes().indexOf(edge.from), netzListe.getNodes().indexOf(edge.to));
 		}
 		netzListe.repaint();

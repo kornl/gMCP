@@ -20,6 +20,7 @@ import javax.swing.JPanel;
 import org.af.commons.images.GraphDrawHelper;
 import org.af.commons.images.GraphException;
 import org.af.gMCP.config.Configuration;
+import org.af.gMCP.gui.RControl;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.scilab.forge.jlatexmath.TeXConstants;
@@ -38,6 +39,7 @@ public class Edge {
 	public Node from;
 	public boolean fixed = false;
 	public Color color = Color.BLACK;
+	public Integer linewidth = null;
 	
 	NetList nl;
 	
@@ -221,12 +223,29 @@ public class Edge {
 			*/
 			g2d = (Graphics2D) g;			
 			g2d.setColor(color);
+			Stroke oldStroke = g2d.getStroke();
+			BasicStroke stroke = new BasicStroke(Configuration.getInstance().getGeneralConfig().getLineWidth());
+			if (linewidth!=null) {
+				stroke = new BasicStroke(linewidth);				
+			}
+			try {
+				if (ew.isEpsilon() && Configuration.getInstance().getGeneralConfig().markEpsilon()) {
+					float dash[] = { 5.0f };	
+					stroke = new BasicStroke(stroke.getLineWidth(),
+							BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 10.0f, dash, 0.0f);
+				}
+			} catch (Exception e) {
+				//TODO:
+				System.out.println("Error: "+e.getMessage());
+			}
+			g2d.setStroke(stroke);
 			drawEdge(g,	(int) (x1 * nl.getZoom()), (int) (y1 * nl.getZoom()), 
 					(int) (k1* nl.getZoom()),
 					(int) (k2 * nl.getZoom()),
 					(int) (x2 * nl.getZoom()), (int) (y2 * nl.getZoom()), 
 					(int) (8 * nl.getZoom()), 35, true);
 			g2d.setColor(Color.BLACK);
+			g2d.setStroke(oldStroke);
 		} 
 	}
 	

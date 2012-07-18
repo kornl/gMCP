@@ -19,6 +19,7 @@ public class MiscPanel extends OptionsPanel {
     private JCheckBox exportTransparent;
     private JCheckBox unanchorEdges;
     private JCheckBox focusEqualsEdit;
+    private JCheckBox enableNewFeatures;
     
     private Configuration conf;
 
@@ -40,6 +41,8 @@ public class MiscPanel extends OptionsPanel {
         unanchorEdges.setSelected(conf.getGeneralConfig().getUnAnchor());
         focusEqualsEdit = new JCheckBox("Automatically enter the editing mode, whenever a table cell gets the focus");
         focusEqualsEdit.setSelected(conf.getGeneralConfig().focusEqualsEdit());
+        enableNewFeatures = new JCheckBox("Enable highly experimental features");
+        enableNewFeatures.setSelected(conf.getGeneralConfig().experimentalFeatures());
     }
 
     private void doTheLayout() {
@@ -70,6 +73,10 @@ public class MiscPanel extends OptionsPanel {
         
         row += 2;	
 
+        p1.add(enableNewFeatures, cc.xyw(1, row, 3));
+        
+        row += 2;	
+        
         add(p1);
     }
 
@@ -79,5 +86,6 @@ public class MiscPanel extends OptionsPanel {
        	conf.getGeneralConfig().setExportTransparent(exportTransparent.isSelected());
        	conf.getGeneralConfig().setUnAnchor(unanchorEdges.isSelected());
        	conf.getGeneralConfig().setFocusEqualsEdit(focusEqualsEdit.isSelected());
+       	conf.getGeneralConfig().setExperimental(enableNewFeatures.isSelected());
     }
 }

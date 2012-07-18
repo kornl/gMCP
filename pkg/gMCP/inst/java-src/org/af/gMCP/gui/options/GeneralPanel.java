@@ -43,6 +43,7 @@ public class GeneralPanel extends OptionsPanel implements ActionListener {
     private JCheckBox showRejected;
     private JCheckBox showFractions;
     private JCheckBox useJLaTeXMath;
+    private JCheckBox markEpsilon;
 
 	JFrame parent;
 
@@ -96,6 +97,9 @@ public class GeneralPanel extends OptionsPanel implements ActionListener {
         
         useJLaTeXMath = new JCheckBox("Use JLaTeXMath");
         useJLaTeXMath.setSelected(conf.getGeneralConfig().useJLaTeXMath());
+        
+        markEpsilon = new JCheckBox("Show epsilon edges as dashed lines.");
+        markEpsilon.setSelected(conf.getGeneralConfig().markEpsilon());
 
     }
 
@@ -151,6 +155,10 @@ public class GeneralPanel extends OptionsPanel implements ActionListener {
         
         row += 2;
         
+        p1.add(markEpsilon, cc.xyw(1, row, 3));    
+        
+        row += 2;
+        
         add(p1);
     }
 
@@ -202,6 +210,7 @@ public class GeneralPanel extends OptionsPanel implements ActionListener {
        	conf.getGeneralConfig().setShowRejected(showRejected.isSelected());
        	conf.getGeneralConfig().setShowFractions(showFractions.isSelected());
        	conf.getGeneralConfig().setUseJLaTeXMath(useJLaTeXMath.isSelected());
+       	conf.getGeneralConfig().setMarkEpsilon(markEpsilon.isSelected());
 
        	try {
        		String currentLF = conf.getJavaConfig().getLooknFeel(); // UIManager.getLookAndFeel();

@@ -543,7 +543,8 @@ public class NetList extends JPanel implements MouseMotionListener, MouseListene
 			edge.paintEdgeLabel(g);			
 		}
 		
-		if (endPoint!=null && startingPoint!=null) {
+		/* Draw selection box if something is selected */
+		if (endPoint!=null && startingPoint!=null && Configuration.getInstance().getGeneralConfig().experimentalFeatures()) {
 			int x = Math.min(startingPoint[0], endPoint[0]);
 			int y = Math.min(startingPoint[1], endPoint[1]);
 			int width = Math.abs(startingPoint[0] - endPoint[0]);
