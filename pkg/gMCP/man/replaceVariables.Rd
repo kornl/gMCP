@@ -13,7 +13,7 @@
 
 \arguments{
   \item{graph}{
-	A graph of class \code{\link{graphMCP}}.
+	A graph of class \code{\link{graphMCP}} or a character matrix.
   }
   \item{variables}{
     A named list with the specified real values, for example \code{list(a=0.5, b=0.8, "tau"=0.5)}.
@@ -25,7 +25,7 @@
   }
 }
 \value{
-	A graph with variables replaced by the specified numeric values.
+	A graph or a matrix with variables replaced by the specified numeric values.
 }
 \author{
 	Kornelius Rohmeyer \email{rohmeyer@small-projects.de}

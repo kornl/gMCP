@@ -11,6 +11,8 @@ Not necessary, but would be great for this release:
 - Does contrMat(n=c(10, 20, 30, 40), type ="Dunnett") do what I want?!?
 - Copy&Paste of Results (Table, Text, allow to save)
 
+- For parametric procedures there is no "reset" button (->variables)
+- Right click menu for GUI
 - Description (.Rd files) of graphGUI and corMatWizard
 - Bauer & Hackel
 - "Find out what's changed in ggplot2 with"
@@ -46,9 +48,6 @@ Not necessary, but would be great for this release:
 - improve behavior of tables if "Automatically enter the editing mode, whenever a table cell gets the focus" is set to false.
 - round values in CI Dialog
 - Check whether 0.7-11 is regarded as newer than 0.7-9 
-
-- Update replaceVariables doc (matrix allowed)
-- Check whether replaceVariables replaces correctly a,b,c, etc. (interactive and not) 
 
 - Characterize optimal graphs.
 

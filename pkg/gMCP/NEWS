@@ -45,7 +45,7 @@ Changes in version 0.7-11 (15-07-2012, Rev. 1377)
   All of these can be disabled by a CheckBox:
   "Don't show me this info again."
 
-- Epsilon edges can be (optionally) show as dashed lines.
+- Epsilon edges can be (optionally) shown as dashed lines.
 
 - New example graph from Ferber et al. 2011.
 
