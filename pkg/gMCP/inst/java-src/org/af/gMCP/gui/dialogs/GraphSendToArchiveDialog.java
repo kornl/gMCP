@@ -117,7 +117,7 @@ public class GraphSendToArchiveDialog extends JDialog implements ActionListener 
         row += 2;
         panel.add(new JTextField(), cc.xy(2, row));
         row += 2;        
-        panel.add(new JLabel("Description"), cc.xy(2, row));
+        panel.add(new JLabel("Description and References"), cc.xy(2, row));
         row += 2;
         panel.add(new JScrollPane(jtDescr), cc.xy(2, row));
         row += 2;       

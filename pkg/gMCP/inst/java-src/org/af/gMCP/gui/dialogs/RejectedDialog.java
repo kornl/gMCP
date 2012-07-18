@@ -53,9 +53,9 @@ public class RejectedDialog extends JDialog implements ActionListener {
 		if (code != null) {
 			jta2.setText(code);
 			jta2.setMargin(new Insets(4,4,4,4));
-			c.gridx=0; c.weighty=1; c.gridwidth = 2;
+			c.gridx=0; c.gridwidth = 2;
 			getContentPane().add(new JLabel("R code for reproducing these results:"), c);
-			c.gridy++;
+			c.gridy++; c.weighty=1;
 			jta2.setFont(new Font("Monospaced", Font.PLAIN, 12));
 			jta2.setLineWrap(false);
 			//jta.setWrapStyleWord(true);
@@ -84,6 +84,9 @@ public class RejectedDialog extends JDialog implements ActionListener {
 		} else {
 			//System.out.println("pack");
 			pack();
+		}
+		if (getHeight()>800) {
+			setSize(800,800);
 		}
 		
 	    setLocationRelativeTo(mainFrame);
