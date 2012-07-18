@@ -12,7 +12,8 @@ Changes in version 0.7-11 (15-07-2012, Rev. 1377)
   Also there is no default anymore for parametric tests.
   The user has to decide between "simple-parametric" and "Bretz2011".
 
-- Function replaceVariables can handle greek and latin alphabet.
+- Function replaceVariables can handle greek and latin alphabet
+  and gained argument "ask" for interactive sessions.
 
 - Round output of power simulations to level of precision.
 

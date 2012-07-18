@@ -6,7 +6,6 @@ TODO for 0.7-11:
 - Create archive of Bundles on Algorithm-Forge
 - Email subscription on start page (also tell user after 10th start of GUI)
 Not necessary, but would be great for this release:
-- Show RCode and all parameters that reproduces the results.
 - Warn user if he uses a version that is older than 1 year.
 - Warn/inform user about changes.
 - Does contrMat(n=c(10, 20, 30, 40), type ="Dunnett") do what I want?!?
