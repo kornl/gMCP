@@ -225,6 +225,7 @@ public class GraphView extends JPanel implements ActionListener {
 						try {
 							if (!isResultUpToDate()) {
 								RControl.getR().evalVoid(result+" <- gMCP("+getNL().initialGraph+getGMCPOptions()+")");
+								rCode = RControl.getR().eval("gMCP:::createGMCPCall("+getNL().initialGraph+getGMCPOptions()+")").asRChar().getData()[0];
 								setResultUpToDate(true);
 							}
 							double[] alpha = RControl.getR().eval(""+getPView().getTotalAlpha()+"*getWeights("+result+")").asRNumeric().getData();
@@ -256,6 +257,7 @@ public class GraphView extends JPanel implements ActionListener {
 						try {
 							if (!isResultUpToDate()) {
 								RControl.getR().evalVoid(result+" <- gMCP("+getNL().initialGraph+getGMCPOptions()+")");
+								rCode = RControl.getR().eval("gMCP:::createGMCPCall("+getNL().initialGraph+getGMCPOptions()+")").asRChar().getData()[0];
 								setResultUpToDate(true);
 							}
 							boolean[] rejected = RControl.getR().eval(result+"@rejected").asRLogical().getData();
@@ -264,7 +266,7 @@ public class GraphView extends JPanel implements ActionListener {
 								output = RControl.getR().eval("attr("+result+", \"output\")").asRChar().getData()[0];
 							}
 							parent.glassPane.stop();
-							new RejectedDialog(parent, rejected, parent.getGraphView().getNL().getNodes(), output);
+							new RejectedDialog(parent, rejected, parent.getGraphView().getNL().getNodes(), output, rCode);
 						} catch (Exception ex) {
 							ErrorHandler.getInstance().makeErrDialog(ex.getMessage(), ex);
 						}
@@ -293,9 +295,10 @@ public class GraphView extends JPanel implements ActionListener {
 				SwingWorker<Void, Void> worker = new SwingWorker<Void, Void>() {
 					@Override
 					protected Void doInBackground() throws Exception {
-						try {
+						try {							
 							if (!isResultUpToDate()) {
 								RControl.getR().evalVoid(result+" <- gMCP("+getNL().initialGraph+getGMCPOptions()+")");
+								rCode = RControl.getR().eval("gMCP:::createGMCPCall("+getNL().initialGraph+getGMCPOptions()+")").asRChar().getData()[0];
 								setResultUpToDate(true);
 							}
 							double[] adjPValues = RControl.getR().eval(result+"@adjPValues").asRNumeric().getData();
@@ -311,6 +314,8 @@ public class GraphView extends JPanel implements ActionListener {
 			}
 		}
 	}
+	
+	String rCode = "";
 
 	private void showParamInfo() {
 		if (parent.getPView().jrbRCorrelation.isSelected()) {
