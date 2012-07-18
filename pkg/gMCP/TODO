@@ -1,4 +1,6 @@
 TODO for 0.7-11:
+- let users choose test for parametric test
+- Options: Show R Code
 - .asRLogical().getData()[0] can be true but NA in R
 - look at warnings regarding exhaustAlpha (also optimality of graph)
 - Create archive of Bundles on Algorithm-Forge

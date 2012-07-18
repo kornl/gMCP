@@ -19,7 +19,7 @@ replaceVariables <-function(graph, variables=list()) {
 			"omicron", "pi", "rho", "sigma", "tau", "nu", "phi",
 			"chi", "psi", "omega")
 	if (is.matrix(graph)) { m <- graph } else {m <- graph@m}	
-	for (g in greek) {
+	for (g in c(greek,  letters)) {
 		if (length(grep(g, m))!=0) {
 			if (is.null(answer <- variables[[g]])) {
 				if(interactive()) {
@@ -28,7 +28,7 @@ replaceVariables <-function(graph, variables=list()) {
 					stop(paste("Value for variable",g,"not specified."))
 				}
 			}
-			m <- gsub(paste("\\\\", g, sep=""), answer, m) 
+			m <- gsub(paste(ifelse(nchar(g)==1,"","\\\\"), g, sep=""), answer, m) 
 		}
 	}
 	if (is.matrix(graph)) return(parse2numeric(m))

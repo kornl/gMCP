@@ -1,6 +1,8 @@
 Changes in version 0.7-11 (15-07-2012, Rev. 1377)
 ================================================
 
+- GUI shows R code to reproduce results in R.
+
 - Fixed a bug introduced in the last versions:
   In the GUI the alpha-Field was always set back to 0.05 regardless 
   of what the user entered.
@@ -9,7 +11,9 @@ Changes in version 0.7-11 (15-07-2012, Rev. 1377)
   which prerequisites must be met.
   Also there is no default anymore for parametric tests.
   The user has to decide between "simple-parametric" and "Bretz2011".
-  
+
+- Function replaceVariables can handle greek and latin alphabet.
+
 - Round output of power simulations to level of precision.
 
 - When graphs are saved from the GUI the slot graph@m is now

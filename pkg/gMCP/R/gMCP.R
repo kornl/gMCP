@@ -168,21 +168,13 @@ gMCP <- function(graph, pvalues, test, correlation, alpha=0.05,
 createGMCPCall <- function(graph, pvalues, test, correlation, alpha=0.05, 
 		approxEps=TRUE, eps=10^(-3), ..., useC=FALSE, 
 		verbose=FALSE, keepWeights=TRUE, adjPValues=TRUE) {
-	command <- "m <- rbind("
-	for (i in 1:(dim(graph@m)[1])) {
-		command <- paste(command, 
-				ifelse(i==1,"","           "),
-				getNodes(graph)[i],
-				"=",
-				dput2(unname(graph@m[i,])),
-				ifelse(i==dim(graph@m)[1],")\n",",\n"),
-				sep="")
-	}			
+	command <- "m <- "
+	command <- paste(command, dputMatrix(graph@m, indent=11, rowNames=TRUE), sep="")
 	command <- paste(command, "weights <- ",dput2(unname(graph@weights)),"\n", sep="")
-	command <- paste(command, "graph <- new(\"graphMCP\", m=m, weights=weights)\n\n", sep="")
+	command <- paste(command, "graph <- new(\"graphMCP\", m=m, weights=weights)\n", sep="")
 	command <- paste(command, "pvalues <- ",dput2(unname(pvalues)),"\n", sep="")
 	if (!missing(correlation)) {
-		command <- paste(command, "cr <- ",dput2(unname(correlation)),"\n", sep="")
+		command <- paste(command, "cr <- ",dputMatrix(correlation, indent=12),"\n", sep="")
 	}
 	command <- paste(command, "gMCP(graph, pvalues", sep="")
 	if (!missing(test)) {
@@ -194,6 +186,20 @@ createGMCPCall <- function(graph, pvalues, test, correlation, alpha=0.05,
 	command <- paste(command, ", alpha=",alpha, sep="")
 	command <- paste(command, ")\n", sep="")
 	return(command)
+}
+
+dputMatrix <- function(m, indent=6, rowNames=FALSE) {
+	s <- "rbind("
+	for (i in 1:(dim(m)[1])) {
+		name <- ifelse(rowNames, paste(row.names(m)[i],"=",sep=""), "")
+		s <- paste(s, 
+			ifelse(i==1,"",paste(rep(" ",indent),collapse="")),
+			name,
+			dput2(unname(m[i,])),
+			ifelse(i==dim(m)[1],")\n",",\n"),
+			sep="")
+	}
+	return(s)
 }
 
 dput2 <- function(x) {
