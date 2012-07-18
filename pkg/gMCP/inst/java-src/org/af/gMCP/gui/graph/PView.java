@@ -19,7 +19,6 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -280,15 +279,9 @@ public class PView extends JPanel implements KeyListener, ActionListener {
 		}
 		refresh.setToolTipText("search again for matrices in R");
 		createMatrix.setToolTipText("create matrix with GUI");
+        refresh.addActionListener(this);
+        createMatrix.addActionListener(this);
 		
-		correlatedPanel = new JPanel();
-		
-	    jcbCorObject = new JComboBox(new String[] {});
-	    jcbCorObject.addActionListener(this);
-	    refresh(false);
-
-	    jrbNoCorrelation.setSelected(true);
-
 	    ButtonGroup group = new ButtonGroup();
 	    group.add(jrbNoCorrelation);
 	    group.add(jrbRCorrelation);
@@ -297,6 +290,16 @@ public class PView extends JPanel implements KeyListener, ActionListener {
 	    jrbNoCorrelation.addActionListener(this);
 	    jrbRCorrelation.addActionListener(this);
 	    jrbSimes.addActionListener(this);
+		
+		correlatedPanel = new JPanel();
+		
+	    jcbCorObject = new JComboBox(new String[] {});
+	    jcbCorObject.addActionListener(this);
+	    refresh(false);
+
+	    if (!jrbRCorrelation.isSelected() && !jrbSimes.isSelected()) {
+	    	jrbNoCorrelation.setSelected(true);
+	    }
 		
         String cols = "5dlu, pref, 5dlu, fill:pref:grow, 5dlu, pref, 5dlu, pref, 5dlu";
         String rows = "5dlu, pref, 5dlu, pref, 5dlu, pref, 5dlu, pref, 5dlu, pref, 5dlu";
@@ -319,9 +322,6 @@ public class PView extends JPanel implements KeyListener, ActionListener {
         row += 2;
         
         correlatedPanel.add(jrbSimes,     cc.xyw(2, row, 7));
-                
-        refresh.addActionListener(this);
-        createMatrix.addActionListener(this);
         
         return correlatedPanel;
 	}
@@ -351,6 +351,7 @@ public class PView extends JPanel implements KeyListener, ActionListener {
 				String matrix = obj.endsWith("matrices found.")?null:obj;
 				new MatrixCreationDialog(parent, matrix, MatrixCreationDialog.getNames(parent.getGraphView().getNL().getNodes()));
 				refresh(false);
+				jrbRCorrelation.setSelected(true);
 			}
 		}
 	}
@@ -370,8 +371,11 @@ public class PView extends JPanel implements KeyListener, ActionListener {
 			}
 		}
 		if (matrices.length==1 && matrices[0].endsWith("matrices found.")) {
+			/*if(jrbRCorrelation.isSelected()) {
+				jrbNoCorrelation.setSelected(true);
+			}*/
 			jcbCorObject.setEnabled(false);
-			jrbRCorrelation.setEnabled(false);
+			jrbRCorrelation.setEnabled(false);			
 		} else {				
 			jcbCorObject.setEnabled(true);
 			jrbRCorrelation.setEnabled(true);
@@ -387,6 +391,10 @@ public class PView extends JPanel implements KeyListener, ActionListener {
 	 * adds parameters to the gMCP call depending on the selected correlation.
 	 */
 	public String getParameters() {
+		if (jrbRCorrelation.isSelected() && !jrbRCorrelation.isEnabled()) {
+			JOptionPane.showMessageDialog(parent, "No correlation matrix available.\nUsing Bonferroni based test.", "No correlation matrix available.", JOptionPane.WARNING_MESSAGE);
+			jrbNoCorrelation.setSelected(true);
+		}
 		String param = ", test=\"Bonferroni\"";
 		if (jrbRCorrelation.isSelected()) {
 			param = ", correlation="+jcbCorObject.getSelectedItem()+", test=\"Bretz2011\"";

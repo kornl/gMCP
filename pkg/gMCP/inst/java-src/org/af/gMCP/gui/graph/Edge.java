@@ -20,7 +20,6 @@ import javax.swing.JPanel;
 import org.af.commons.images.GraphDrawHelper;
 import org.af.commons.images.GraphException;
 import org.af.gMCP.config.Configuration;
-import org.af.gMCP.gui.RControl;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.scilab.forge.jlatexmath.TeXConstants;

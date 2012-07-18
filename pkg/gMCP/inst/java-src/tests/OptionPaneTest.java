@@ -3,8 +3,6 @@ package tests;
 import javax.swing.JCheckBox;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JTextArea;
 
 public class OptionPaneTest extends JFrame {
 	public static void main(String[] args) {

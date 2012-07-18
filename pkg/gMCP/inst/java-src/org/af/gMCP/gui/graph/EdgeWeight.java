@@ -94,11 +94,13 @@ public class EdgeWeight {
 			'χ', 'ψ', 'ω'
 	};
 	
+	public final static String NO_GREEK_CHARACTER = "No greek character";
+	
 	public static String UTF2LaTeX(char greekC) {
 		for (int i=0; i<greek.length; i++) {
 			if (greekC == greek[i]) return greekLaTeX[i];
 		}
-		return "Error";
+		return ""+greekC;// NO_GREEK_CHARACTER;
 	}
 	
 	public List<String> getVariables() {

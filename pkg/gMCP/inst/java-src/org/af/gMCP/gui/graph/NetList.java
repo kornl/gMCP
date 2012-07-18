@@ -695,7 +695,7 @@ public class NetList extends JPanel implements MouseMotionListener, MouseListene
 		}		
 		graphName = RControl.getR().eval("make.names(\""+graphName+"\")").asRChar().getData()[0];
 		saveGraph(graphName, verbose, null);
-		RControl.getR().eval(graphName+"<- gMCP:::replaceVariables("+graphName+", variables="+getRVariableList(ht)+")");
+		RControl.getR().eval(graphName+"<- gMCP:::replaceVariables("+graphName+", variables="+getRVariableList(ht)+", ask=FALSE)");
 		loadGraph(graphName);
 		return saveGraph(graphName, verbose, ht);
 	}

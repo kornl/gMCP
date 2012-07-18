@@ -3,6 +3,7 @@ package org.af.gMCP.gui.dialogs;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Vector;
@@ -51,7 +52,10 @@ public class RejectedDialog extends JDialog implements ActionListener {
 
 		if (code != null) {
 			jta2.setText(code);
+			jta2.setMargin(new Insets(4,4,4,4));
 			c.gridx=0; c.weighty=1; c.gridwidth = 2;
+			getContentPane().add(new JLabel("R code for reproducing these results:"), c);
+			c.gridy++;
 			jta2.setFont(new Font("Monospaced", Font.PLAIN, 12));
 			jta2.setLineWrap(false);
 			//jta.setWrapStyleWord(true);
@@ -61,6 +65,7 @@ public class RejectedDialog extends JDialog implements ActionListener {
 		
 		if (output != null) {
 			jta.setText(output);
+			jta.setMargin(new Insets(4,4,4,4));
 			c.gridx=0; c.weighty=1; c.gridwidth = 2;
 			jta.setFont(new Font("Monospaced", Font.PLAIN, 12));
 			jta.setLineWrap(false);
