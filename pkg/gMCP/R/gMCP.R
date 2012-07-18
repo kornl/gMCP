@@ -165,6 +165,41 @@ gMCP <- function(graph, pvalues, test, correlation, alpha=0.05,
 	}
 }
 
+createGMCPCall <- function(graph, pvalues, test, correlation, alpha=0.05, 
+		approxEps=TRUE, eps=10^(-3), ..., useC=FALSE, 
+		verbose=FALSE, keepWeights=TRUE, adjPValues=TRUE) {
+	command <- "m <- rbind("
+	for (i in 1:(dim(graph@m)[1])) {
+		command <- paste(command, 
+				ifelse(i==1,"","           "),
+				getNodes(graph)[i],
+				"=",
+				dput2(unname(graph@m[i,])),
+				ifelse(i==dim(graph@m)[1],")\n",",\n"),
+				sep="")
+	}			
+	command <- paste(command, "weights <- ",dput2(unname(graph@weights)),"\n", sep="")
+	command <- paste(command, "graph <- new(\"graphMCP\", m=m, weights=weights)\n\n", sep="")
+	command <- paste(command, "pvalues <- ",dput2(unname(pvalues)),"\n", sep="")
+	if (!missing(correlation)) {
+		command <- paste(command, "cr <- ",dput2(unname(correlation)),"\n", sep="")
+	}
+	command <- paste(command, "gMCP(graph, pvalues", sep="")
+	if (!missing(test)) {
+		command <- paste(command, ", test=\"",test,"\"", sep="")
+	}
+	if (!missing(correlation)) {
+		command <- paste(command, ", correlation=cr", sep="")
+	}
+	command <- paste(command, ", alpha=",alpha, sep="")
+	command <- paste(command, ")\n", sep="")
+	return(command)
+}
+
+dput2 <- function(x) {
+	paste(capture.output(dput(x)), collapse=" ")
+}
+
 # This function calculates the number of uncorrelated test statistics given the correlation structure and the number of p-values.
 getBalancedDesign <- function (correlation, numberOfPValues) {
 	if (correlation == "Dunnett") {
