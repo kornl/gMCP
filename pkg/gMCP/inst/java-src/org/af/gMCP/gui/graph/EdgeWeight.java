@@ -50,6 +50,7 @@ public class EdgeWeight {
 				weightStr = RControl.getFraction(weight, true);
 			}
 		}	
+		isEpsilon = null;
 	}
 
 	public String toString() {
@@ -141,9 +142,14 @@ public class EdgeWeight {
 		return replaceStr;
 	}
 
+	private Boolean isEpsilon = null;
+	
 	public boolean isEpsilon() {
 		try {
-			return RControl.getR().eval("eval(parse(text=gsub(\"\\\\\\\\epsilon\", 0, \""+getPreciseWeightStr().replaceAll("\\\\", "\\\\\\\\")+"\")))==0").asRLogical().getData()[0];
+			if (isEpsilon==null) {
+				isEpsilon = RControl.getR().eval("eval(parse(text=gsub(\"\\\\\\\\epsilon\", 0, \""+getPreciseWeightStr().replaceAll("\\\\", "\\\\\\\\")+"\")))==0").asRLogical().getData()[0];
+			}
+			return isEpsilon;
 		} catch (Exception e) {
 			return false;
 		}

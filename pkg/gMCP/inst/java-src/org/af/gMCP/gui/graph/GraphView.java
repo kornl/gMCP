@@ -352,6 +352,7 @@ public class GraphView extends JPanel implements ActionListener {
 	}
 
 	public void startTesting() {
+		//getPView().savePValues();
 		if (getNL().testingStarted || !getPView().jrbNoCorrelation.isSelected()) return;
 		getPView().savePValues();
 		try {

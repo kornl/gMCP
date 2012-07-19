@@ -78,6 +78,11 @@ public class PView extends JPanel implements KeyListener, ActionListener {
 		String debug = "Saving PValues: ";
 		pValues = new Vector<Double>();
 		for (PPanel panel : panels) {
+			/*TODO The following line is a work-around for the following problem:
+			 * If I insert pvalues with the middle mouse button no keyTyped event has been raised.
+			 * Also InputMethodListener does not work. 
+			 */
+			panel.keyTyped(null);
 			pValues.add(panel.getP());
 			debug += Configuration.getInstance().getGeneralConfig().getDecFormat().format(panel.getP())+"; ";
 		}
