@@ -290,7 +290,10 @@ public class NetList extends JPanel implements MouseMotionListener, MouseListene
 				}
 			}
 		}
-		return img.getSubimage(minX-offset, minY-offset, maxX-minX+2*offset, maxY-minY+2*offset);
+		return img.getSubimage(Math.max(0, minX-offset), 
+				Math.max(0, minY-offset), 
+				Math.min(maxX-minX+2*offset, img.getWidth()), 
+				Math.min(maxY-minY+2*offset, img.getHeight()));
 	}
 
 	public Vector<Node> getNodes() {
@@ -362,6 +365,11 @@ public class NetList extends JPanel implements MouseMotionListener, MouseListene
 		}
 	}
 	
+	private void showPopUp(MouseEvent e, Node node, Edge edge){
+        NetListPopUpMenu menu = new NetListPopUpMenu(this, node, edge);
+        menu.show(e.getComponent(), e.getX(), e.getY());
+    }
+	
 	public void mouseClicked(MouseEvent e) {}
 
 	public void mouseDragged(MouseEvent e) {
@@ -412,10 +420,24 @@ public class NetList extends JPanel implements MouseMotionListener, MouseListene
 	protected int[] startingPoint = null;
 	protected int[] endPoint = null;
 	
-	public void mousePressed(MouseEvent e) {
+	public void mousePressed(MouseEvent e) {		
+		if (e.isPopupTrigger()) {
+			for (int i = 0; i < nodes.size(); i++) {
+				if (nodes.get(i).inYou(e.getX(), e.getY())) {
+					//TODO
+					showPopUp(e, nodes.get(i), null);
+				}
+			}
+			for (int i = edges.size()-1; i >=0 ; i--) {
+				if (edges.get(i).inYou(e.getX(), e.getY())) {
+					showPopUp(e, null, edges.get(i));
+				}
+			}	
+		}
 		if (e.getButton()==MouseEvent.BUTTON2) {
 			newVertex = false;
 			control.buttonNewVertex.setSelected(false);
+			return;
 		}
 		//logger.debug("MousePressed at ("+e.getX()+","+ e.getY()+").");
 		if (newVertex && vertexSelected(e.getX(), e.getY())==null) {
