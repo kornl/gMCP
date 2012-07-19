@@ -5,6 +5,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Hashtable;
 
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import org.af.commons.errorhandling.ErrorDialog;
@@ -59,8 +60,9 @@ public class ErrorDialogGMCP extends ErrorDialog {
     		/* Seriously, if something goes wrong here, 
     		 * we simply don't attach the following information.
     		 * Further error handling could easily create infinite loops.
-    		 * So no code in the catch clause. 
     		 */
+    		 JOptionPane.showMessageDialog(this, "Not all information could be collected for error reporting:\n"+e.getMessage(), "Error while reporting error", JOptionPane.ERROR_MESSAGE);
+    		 e.printStackTrace();
     	}
         return files;
     }

@@ -26,6 +26,7 @@ import org.af.commons.tools.OSTools;
 import org.af.commons.widgets.DesktopPaneBG;
 import org.af.gMCP.config.Configuration;
 import org.af.gMCP.gui.CreateGraphGUI;
+import org.af.gMCP.gui.ErrorDialogGMCP;
 import org.af.gMCP.gui.RControl;
 import org.af.gMCP.gui.datatable.DataTable;
 import org.af.gMCP.gui.dialogs.AdjustedPValueDialog;
