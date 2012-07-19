@@ -127,3 +127,21 @@ getCorrMat <- function(n, type) {
 	r <- s%*%m%*%s
 	return(as.numeric(r))
 }
+
+# Given a character string x only the letters are returned (upper and lower case)
+removeSymbols <- function(x, numbers=TRUE) {
+	pattern <-ifelse(numbers, "[a-z]|[0-9]", "[a-z]")
+	m <- gregexpr(pattern, x, ignore.case=TRUE)
+	return(paste(regmatches(x, m)[[1]], collapse=""))
+}
+
+nextAvailableName <- function(x) {
+	if (exists(x)) {
+		i <- 1
+		while (exists(paste(x, i, sep=""))) {
+			i <- i + 1
+		}
+		x <- paste(x, i, sep="")
+	}
+	return(x)
+}
