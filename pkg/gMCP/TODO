@@ -1,5 +1,6 @@
+- Why is RControl.getR().getHistory() not accessible when the gMCP call fails?
 - Ferber graph can not be converted to LaTeX
-- 
+- Umlaute in literatur.bib, e.g. Röhmel
 - let users choose test for parametric test
 - Options: Show R Code
 - .asRLogical().getData()[0] can be true but NA in R
@@ -284,3 +285,14 @@ Warning: unable to move temporary installation 'C:\Program Files\R\R-2.13.0\libr
 
 The downloaded packages are in
         C:\Documents and Settings\Student\Local Settings\Temp\RtmpBJn6oK\downloaded_packages
+
+---
+        
+The current api for setting a popupMenu in Swing is
+
+  myComponent.setComponentPopupMenu(myPopupMenu)
+
+this way it will be shown automagically, both for mouse and keyboard triggers (the latter depends on LAF). Plus, it supports re-using the same popup across a container's children. To enable that feature:
+
+  myChild.setInheritsPopupMenu(true)
+        

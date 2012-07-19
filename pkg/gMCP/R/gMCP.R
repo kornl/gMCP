@@ -128,7 +128,11 @@ gMCP <- function(graph, pvalues, test, correlation, alpha=0.05,
 					for (j in J) {
 						Jj <- subset!=0 & (pvalues2 <= pvalues2[j]) # & (1:n)!=j
 						if (adjPValues) {
-							mJt <- pvalues2[j]/sum(weights[i, Jj])
+							mJt <- pvalues2[j]/sum(weights[i, Jj])	
+							if (is.na(mJt)) { # this happens only if pvalues2[j] is 0
+								mJt <- 0
+							}
+							#cat("pvalues2:\n", pvalues2, "\nmJt: ", mJt, "\nmJ: ", mJ, "\nj: ", j, "\nJ: ", J, "\nsubset: ", subset, "\n")
 							if (mJt<mJ) {
 								mJ <- mJt
 							}

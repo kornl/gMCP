@@ -612,7 +612,8 @@ transformation $\Phi^{-1}(1-p_i)$ to raw p-values from a two-sided
 test will not in general lead to a multivariate normal
 distribution.
 
-For further information please take a look at the vignette "\emph{Weighted
+For further information please take a look at the vignette
+"\href{http://cran.r-project.org/web/packages/gMCP/vignettes/parametric.pdf}{Weighted
 parametric tests defined by graphs}".
 
 \subsection{Correlation matrix creation}\index{correlation matrix}
