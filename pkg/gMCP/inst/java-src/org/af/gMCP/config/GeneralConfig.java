@@ -335,5 +335,12 @@ public class GeneralConfig extends SpecificConfig {
 	public void setMarkEpsilon(boolean b) {
 		setProperty("markEpsilon", ""+b);		
 	}
+
+	public String getParametricTest() {
+		return getProperty("parametricTest", "Bretz2011");
+	}
 	
+	public void setParametricTest(String test) {
+		setProperty("parametricTest", test);
+	}
 }

@@ -48,5 +48,6 @@ public class NetListPopUpMenu extends JPopupMenu implements ActionListener {
     			nl.removeEdge(edge);
     		}
     	}
+    	nl.repaint();
     }
 }

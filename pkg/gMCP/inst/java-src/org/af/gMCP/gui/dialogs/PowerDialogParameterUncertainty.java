@@ -14,6 +14,7 @@ import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
@@ -424,12 +425,16 @@ public class PowerDialogParameterUncertainty extends JDialog implements ActionLi
 		}
 		if (e.getSource() == loadCV) {
 			VariableNameDialog vnd = new VariableNameDialog(parent);
-			double[] result = RControl.getR().eval("as.numeric("+vnd.getName()+")").asRNumeric().getData();
-			int n = nodes.size();
-			for (int i=0; i<n; i++) {
-				for (int j=0; j<n; j++) {
-					dfp.getTable().getModel().setValueAt(new EdgeWeight(result[i*n+j]), i, j);
+			try {
+				double[] result = RControl.getR().eval("as.numeric("+vnd.getName()+")").asRNumeric().getData();
+				int n = nodes.size();
+				for (int i=0; i<n; i++) {
+					for (int j=0; j<n; j++) {
+						dfp.getTable().getModel().setValueAt(new EdgeWeight(result[i*n+j]), i, j);
+					}
 				}
+			} catch (Exception exc) {
+				JOptionPane.showMessageDialog(this, "Could not load matrix \""+vnd.getName()+"\":\n"+exc.getMessage(), "Could not load matrix", JOptionPane.ERROR_MESSAGE);
 			}
 			return;
 		}
