@@ -9,11 +9,13 @@ http://www.java.com/en/download/
 If you have not R already installed and use a 32 bit system, you can 
 download it bundled with gMCP and all dependencies from:
 
- http://www.algorithm-forge.com/gMCP/R_with_gMCP.zip 
+ http://www.algorithm-forge.com/gMCP/bundle/
  Unzip it and double click on the R.exe in folder "bin" to
  bring up an R console with an automatically started gMCP GUI.
  
-If you have an 64 bit Windows system, please start the RGUI (64-bit).
+If you have an 64-bit Windows system, please start the RGUI 64-bit if
+your Java Runtime Environment is also 64-bit. If the installed Java is
+32-bit please run the 32-bit R. 
 
 If you run into any problems, please write us an email at:
 
