@@ -223,7 +223,7 @@ public class MenuBarMGraph extends JMenuBar implements ActionListener {
 
 	public void loadGraph(String string) {
 		control.getNL().loadGraph(string);
-		control.setGraphName(string);
+		control.setGraphName(RControl.getR().eval("gMCP:::nextAvailableName(gMCP:::removeSymbols(\""+string+"\"))").asRChar().getData()[0]);
 		control.getMainFrame().validate();
 	}
 
