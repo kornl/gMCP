@@ -171,14 +171,13 @@ gMCP <- function(graph, pvalues, test, correlation, alpha=0.05,
 
 createGMCPCall <- function(graph, pvalues, test, correlation, alpha=0.05, 
 		approxEps=TRUE, eps=10^(-3), ..., useC=FALSE, 
-		verbose=FALSE, keepWeights=TRUE, adjPValues=TRUE) {
-	command <- "m <- "
-	command <- paste(command, dputMatrix(graph@m, indent=11, rowNames=TRUE), sep="")
+		verbose=FALSE, keepWeights=TRUE, adjPValues=TRUE) {	
+	command <- paste(dputMatrix(graph@m, name="m", indent=11, rowNames=TRUE), sep="")
 	command <- paste(command, "weights <- ",dput2(unname(graph@weights)),"\n", sep="")
 	command <- paste(command, "graph <- new(\"graphMCP\", m=m, weights=weights)\n", sep="")
 	command <- paste(command, "pvalues <- ",dput2(unname(pvalues)),"\n", sep="")
 	if (!missing(correlation)) {
-		command <- paste(command, "cr <- ",dputMatrix(correlation, indent=12),"\n", sep="")
+		command <- paste(command, dputMatrix(correlation, name="cr", indent=12),"\n", sep="")
 	}
 	command <- paste(command, "gMCP(graph, pvalues", sep="")
 	if (!missing(test)) {
@@ -192,16 +191,30 @@ createGMCPCall <- function(graph, pvalues, test, correlation, alpha=0.05,
 	return(command)
 }
 
-dputMatrix <- function(m, indent=6, rowNames=FALSE) {
+dputMatrix <- function(m, name, indent=6, rowNames=FALSE) {
 	s <- "rbind("
+	if (!missing(name)) s <- paste(name,"<- rbind(") 
 	for (i in 1:(dim(m)[1])) {
-		name <- ifelse(rowNames, paste(row.names(m)[i],"=",sep=""), "")
+		nameLater <- FALSE
+		if (any(make.names(row.names(m))!=row.names(m))) {
+			rowNames <- FALSE
+			nameLater <- TRUE
+		}
+		rName <- ifelse(rowNames, paste(row.names(m)[i],"=",sep=""), "")
 		s <- paste(s, 
 			ifelse(i==1,"",paste(rep(" ",indent),collapse="")),
-			name,
+			rName,
 			dput2(unname(m[i,])),
 			ifelse(i==dim(m)[1],")\n",",\n"),
-			sep="")
+			sep="")	    
+	}
+	if (nameLater) {
+		if (missing(name)) {
+			warning("Can set row names if no name for matrix is given.")
+			return(s)
+		}
+		s <- paste(s, 
+				"row.names(",name,") <- ", dput2(row.names(m)), "\n", sep="")
 	}
 	return(s)
 }

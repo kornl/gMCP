@@ -1,5 +1,4 @@
 - Why is RControl.getR().getHistory() not accessible when the gMCP call fails?
-- Ferber graph can not be converted to LaTeX
 - Umlaute in literatur.bib, e.g. Röhmel
 - let users choose test for parametric test
 - Options: Show R Code

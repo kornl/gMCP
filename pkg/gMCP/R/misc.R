@@ -132,7 +132,7 @@ getCorrMat <- function(n, type) {
 removeSymbols <- function(x, numbers=TRUE) {
 	pattern <-ifelse(numbers, "[a-z]|[0-9]", "[a-z]")
 	m <- gregexpr(pattern, x, ignore.case=TRUE)
-	return(paste(regmatches(x, m)[[1]], collapse=""))
+	return(unlist(lapply(regmatches(x, m), paste, collapse="")))
 }
 
 nextAvailableName <- function(x) {

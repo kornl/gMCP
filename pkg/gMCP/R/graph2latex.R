@@ -9,6 +9,8 @@ graph2latex <- function(graph, package="TikZ", scale=1, alpha=0.05, pvalues,
 	} else {
 		tikz <- ""
 	}
+	nodes2 <- getUsableNames(getNodes(graph))
+	names(nodes2) <- getNodes(graph)
 	#tikz <- paste(tikz, "\\tikzset{help lines/.style=very thin}", paste="\n")	
 	for (node in getNodes(graph)) {
 		nodeColor <- ifelse(getRejected(graph, node),fill$reject, fill$retain)
@@ -28,7 +30,7 @@ graph2latex <- function(graph, package="TikZ", scale=1, alpha=0.05, pvalues,
 			}
 			if (canBeRejected(graph, node, alpha, pvalues)) { double <- "double," }
 		}		
-		nodeLine <- paste("\\node (",node,")",
+		nodeLine <- paste("\\node (",nodes2[node],")",
 				" at (",x+offset[1],"bp,",-y-offset[2],"bp)",
 				"[draw,circle split,",ifelse(missing(nodeTikZ),"",paste(nodeTikZ,", ",sep="")),double,"fill=",nodeColor,"]",
 				" {$",node,"$ \\nodepart{lower} $",weight,"$};",sep="")
@@ -42,7 +44,7 @@ graph2latex <- function(graph, package="TikZ", scale=1, alpha=0.05, pvalues,
 				to <- ifelse(graph@m[j,i]==0, "auto", "bend left=15")
 				#weight <- ifelse(edgeL[i]==0, "\\epsilon", getLaTeXFraction(edgeL[i])) # format(edgeL[i], digits=3, drop0trailing=TRUE))
 				weight <- getWeightStr(graph, i, j, LaTeX=TRUE) 
-				edgeLine <- paste("\\draw [->,line width=1pt] (",i,") to[",to,"] node[",labelTikZ,"] {$",weight,"$} (",j,");",sep="")
+				edgeLine <- paste("\\draw [->,line width=1pt] (",nodes2[i],") to[",to,"] node[",labelTikZ,"] {$",weight,"$} (",nodes2[j],");",sep="")
 				tikz <- paste(tikz, edgeLine,sep="\n")
 			}
 		}
@@ -52,6 +54,22 @@ graph2latex <- function(graph, package="TikZ", scale=1, alpha=0.05, pvalues,
 		tikz <- paste(paste("{\\", fontsize, sep=""), tikz, "}",sep="\n")
 	}
 	return(tikz)
+}
+
+# x <- c("H+1","H-1","H/1","H1","H2","H1+")
+# getUsableNames(x)
+# [1] "H1"  "H12" "H13" "H14" "H2"  "H15"
+getUsableNames <- function(x) {
+	x <- removeSymbols(x)
+	for (i in which(duplicated(x))) {
+		name <- x[i]
+		j <- 2
+		while (any(x==paste(x[i],j,sep=""))) {
+			j <- j + 1
+		}
+		x[i] <- paste(x[i],j,sep="")
+	}
+	return(x)
 }
 
 getLaTeXFraction <- function(x) {

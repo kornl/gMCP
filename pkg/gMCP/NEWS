@@ -58,6 +58,9 @@ Changes in version 0.7-11 (15-07-2012, Rev. 1377)
 - Fixed an error that occured if a graph was exported as PNG file
   and was really close to the border of the visible area. 
 
+- During testing menu entries for loading graphs were not
+  disabled, but did not work in this case. Now they always work.
+ 
 
 Changes in version 0.7-10 (15-06-2012, Rev. 1291)
 ================================================
