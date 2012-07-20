@@ -50,6 +50,7 @@ public class NetList extends JPanel implements MouseMotionListener, MouseListene
 	
 	public String initialGraph = ".InitialGraph" + (new Date()).getTime();
 	public String resetGraph = ".ResetGraph" + (new Date()).getTime();
+	public String tmpGraph = ".tmpGraph" + (new Date()).getTime();
 
 	boolean newEdge = false;
 	boolean newVertex = false;	
@@ -301,7 +302,10 @@ public class NetList extends JPanel implements MouseMotionListener, MouseListene
 	}
 	
 	public String getLaTeX() {
-		DecimalFormat format = Configuration.getInstance().getGeneralConfig().getDecFormat();
+		saveGraph(tmpGraph, false);
+		return RControl.getR().eval("graph2latex("+tmpGraph+")").asRChar().getData()[0];
+		//TODO Compare this with R code.
+		/*DecimalFormat format = Configuration.getInstance().getGeneralConfig().getDecFormat();
 		String latex = "";
 		double scale=0.5;
 		latex += "\\begin{tikzpicture}[scale="+scale+"]";
@@ -322,7 +326,7 @@ public class NetList extends JPanel implements MouseMotionListener, MouseListene
 
 		}
 		latex += "\\end{tikzpicture}\n\n";
-		return latex;
+		return latex;*/
 	}
 	
 	public double getZoom() {
