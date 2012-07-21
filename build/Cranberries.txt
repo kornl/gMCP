@@ -1270,3 +1270,103 @@ Diff between gMCP versions 0.7-9 dated 2012-05-07 and 0.7-10 dated 2012-06-15
  src/gMCP.c                                        |   28 ++++++++++-------
  18 files changed, 137 insertions(+), 47 deletions(-)
 
+Diff between gMCP versions 0.7-10 dated 2012-06-15 and 0.7-11 dated 2012-07-21
+
+ gMCP-0.7-10/gMCP/inst/doc/pictures/IndefiniteProgressBar.png                                |only
+ gMCP-0.7-10/gMCP/inst/doc/pictures/optionsDialog.png                                        |only
+ gMCP-0.7-10/gMCP/inst/doc/pictures/optionsDialog2.png                                       |only
+ gMCP-0.7-10/gMCP/inst/doc/pictures/optionsDialog3.png                                       |only
+ gMCP-0.7-10/gMCP/inst/unitTests/runit.JavaImportExport.R                                    |only
+ gMCP-0.7-10/gMCP/inst/unitTests/tests.R                                                     |only
+ gMCP-0.7-10/gMCP/inst/unitTests/unirootbug.Rd                                               |only
+ gMCP-0.7-11/gMCP/DESCRIPTION                                                                |    6 
+ gMCP-0.7-11/gMCP/INSTALL                                                                    |    6 
+ gMCP-0.7-11/gMCP/MD5                                                                        |  169 +++--
+ gMCP-0.7-11/gMCP/NAMESPACE                                                                  |    5 
+ gMCP-0.7-11/gMCP/NEWS                                                                       |  181 ++++--
+ gMCP-0.7-11/gMCP/R/analysis.R                                                               |   43 -
+ gMCP-0.7-11/gMCP/R/calcPower.R                                                              |   68 +-
+ gMCP-0.7-11/gMCP/R/doRUnitTests.R                                                           |   41 +
+ gMCP-0.7-11/gMCP/R/exampleGraphs.R                                                          |   53 +
+ gMCP-0.7-11/gMCP/R/gACT-internal.R                                                          |   36 -
+ gMCP-0.7-11/gMCP/R/gMCP.R                                                                   |  119 +++-
+ gMCP-0.7-11/gMCP/R/generateBounds.R                                                         |    4 
+ gMCP-0.7-11/gMCP/R/generatePvals.R                                                          |    4 
+ gMCP-0.7-11/gMCP/R/generateTest.R                                                           |    4 
+ gMCP-0.7-11/gMCP/R/graph2latex.R                                                            |   24 
+ gMCP-0.7-11/gMCP/R/graphMCP.R                                                               |    2 
+ gMCP-0.7-11/gMCP/R/graphTest.R                                                              |    2 
+ gMCP-0.7-11/gMCP/R/misc.R                                                                   |   18 
+ gMCP-0.7-11/gMCP/R/startGUIs.R                                                              |   11 
+ gMCP-0.7-11/gMCP/R/subVariables.R                                                           |   34 -
+ gMCP-0.7-11/gMCP/TODO                                                                       |   68 +-
+ gMCP-0.7-11/gMCP/inst/doc/AQuickStart.Rnw                                                   |   22 
+ gMCP-0.7-11/gMCP/inst/doc/AQuickStart.pdf                                                   |binary
+ gMCP-0.7-11/gMCP/inst/doc/gMCP.pdf                                                          |binary
+ gMCP-0.7-11/gMCP/inst/doc/gMCP/gMCP.Rnw                                                     |  291 ++++++----
+ gMCP-0.7-11/gMCP/inst/doc/literatur.bib                                                     |   32 +
+ gMCP-0.7-11/gMCP/inst/doc/parametric.Rnw                                                    |   57 +
+ gMCP-0.7-11/gMCP/inst/doc/parametric.pdf                                                    |binary
+ gMCP-0.7-11/gMCP/inst/doc/pictures/FullFeaturedGUI.png                                      |binary
+ gMCP-0.7-11/gMCP/inst/doc/pictures/edge.png                                                 |binary
+ gMCP-0.7-11/gMCP/inst/doc/pictures/filemenu.png                                             |binary
+ gMCP-0.7-11/gMCP/inst/doc/pictures/vertex.png                                               |binary
+ gMCP-0.7-11/gMCP/inst/java-src/org/af/gMCP/config/Configuration.java                        |    2 
+ gMCP-0.7-11/gMCP/inst/java-src/org/af/gMCP/config/GeneralConfig.java                        |   18 
+ gMCP-0.7-11/gMCP/inst/java-src/org/af/gMCP/gui/ErrorDialogGMCP.java                         |    4 
+ gMCP-0.7-11/gMCP/inst/java-src/org/af/gMCP/gui/MenuBarMGraph.java                           |  140 ++--
+ gMCP-0.7-11/gMCP/inst/java-src/org/af/gMCP/gui/datatable/DataTable.java                     |    5 
+ gMCP-0.7-11/gMCP/inst/java-src/org/af/gMCP/gui/datatable/RDataFrameRef.java                 |    4 
+ gMCP-0.7-11/gMCP/inst/java-src/org/af/gMCP/gui/dialogs/AdjustedPValueDialog.java            |    2 
+ gMCP-0.7-11/gMCP/inst/java-src/org/af/gMCP/gui/dialogs/AlternativesDialog.java              |only
+ gMCP-0.7-11/gMCP/inst/java-src/org/af/gMCP/gui/dialogs/GraphSendToArchiveDialog.java        |    2 
+ gMCP-0.7-11/gMCP/inst/java-src/org/af/gMCP/gui/dialogs/GroupDialog.java                     |    6 
+ gMCP-0.7-11/gMCP/inst/java-src/org/af/gMCP/gui/dialogs/MatrixCreationDialog.java            |   59 +-
+ gMCP-0.7-11/gMCP/inst/java-src/org/af/gMCP/gui/dialogs/PowerDialogParameterUncertainty.java |   84 ++
+ gMCP-0.7-11/gMCP/inst/java-src/org/af/gMCP/gui/dialogs/RejectedDialog.java                  |   25 
+ gMCP-0.7-11/gMCP/inst/java-src/org/af/gMCP/gui/graph/DView.java                             |   11 
+ gMCP-0.7-11/gMCP/inst/java-src/org/af/gMCP/gui/graph/Edge.java                              |   25 
+ gMCP-0.7-11/gMCP/inst/java-src/org/af/gMCP/gui/graph/EdgeWeight.java                        |   20 
+ gMCP-0.7-11/gMCP/inst/java-src/org/af/gMCP/gui/graph/GraphView.java                         |  123 +++-
+ gMCP-0.7-11/gMCP/inst/java-src/org/af/gMCP/gui/graph/NetList.java                           |  129 +++-
+ gMCP-0.7-11/gMCP/inst/java-src/org/af/gMCP/gui/graph/NetListPopUpMenu.java                  |only
+ gMCP-0.7-11/gMCP/inst/java-src/org/af/gMCP/gui/graph/PPanel.java                            |   11 
+ gMCP-0.7-11/gMCP/inst/java-src/org/af/gMCP/gui/graph/PView.java                             |   72 +-
+ gMCP-0.7-11/gMCP/inst/java-src/org/af/gMCP/gui/graph/UpdateEdge.java                        |   28 
+ gMCP-0.7-11/gMCP/inst/java-src/org/af/gMCP/gui/graph/UpdateNode.java                        |   11 
+ gMCP-0.7-11/gMCP/inst/java-src/org/af/gMCP/gui/graph/images/edge.png                        |binary
+ gMCP-0.7-11/gMCP/inst/java-src/org/af/gMCP/gui/graph/images/vertex.png                      |binary
+ gMCP-0.7-11/gMCP/inst/java-src/org/af/gMCP/gui/options/GeneralPanel.java                    |    9 
+ gMCP-0.7-11/gMCP/inst/java-src/org/af/gMCP/gui/options/MiscPanel.java                       |    8 
+ gMCP-0.7-11/gMCP/inst/java-src/org/af/gMCP/gui/options/NumericPanel.java                    |   15 
+ gMCP-0.7-11/gMCP/inst/java-src/tests/DataTableTest.java                                     |only
+ gMCP-0.7-11/gMCP/inst/java-src/tests/EdgeTest.java                                          |only
+ gMCP-0.7-11/gMCP/inst/java-src/tests/InteractionTest.java                                   |only
+ gMCP-0.7-11/gMCP/inst/java-src/tests/LoadSaveTest.java                                      |only
+ gMCP-0.7-11/gMCP/inst/java-src/tests/NetListTest.java                                       |only
+ gMCP-0.7-11/gMCP/inst/java-src/tests/NodeTest.java                                          |only
+ gMCP-0.7-11/gMCP/inst/java-src/tests/OptionPaneTest.java                                    |only
+ gMCP-0.7-11/gMCP/inst/java-src/tests/PPanelTest.java                                        |only
+ gMCP-0.7-11/gMCP/inst/java-src/tests/PowerTest.java                                         |only
+ gMCP-0.7-11/gMCP/inst/java-src/tests/RControlTest.java                                      |    3 
+ gMCP-0.7-11/gMCP/inst/java-src/tests/TestSuite.java                                         |only
+ gMCP-0.7-11/gMCP/inst/java-src/tests/TexFormulaTest.java                                    |only
+ gMCP-0.7-11/gMCP/inst/java-src/tests/ToolTest.java                                          |only
+ gMCP-0.7-11/gMCP/inst/java/gsrmtp.jar                                                       |binary
+ gMCP-0.7-11/gMCP/inst/unitTests/runit.LaTeX.R                                               |   18 
+ gMCP-0.7-11/gMCP/inst/unitTests/runit.correlation.R                                         |   29 
+ gMCP-0.7-11/gMCP/inst/unitTests/runit.fastgMCP.R                                            |    2 
+ gMCP-0.7-11/gMCP/inst/unitTests/runit.misc.R                                                |    7 
+ gMCP-0.7-11/gMCP/inst/unitTests/runit.power.R                                               |only
+ gMCP-0.7-11/gMCP/man/calcPower.Rd                                                           |    8 
+ gMCP-0.7-11/gMCP/man/corMatWizard.Rd                                                        |only
+ gMCP-0.7-11/gMCP/man/doUnitTestsForGMCP.Rd                                                  |   36 -
+ gMCP-0.7-11/gMCP/man/exampleGraphs.Rd                                                       |    7 
+ gMCP-0.7-11/gMCP/man/gMCP-package.Rd                                                        |    4 
+ gMCP-0.7-11/gMCP/man/gMCP.Rd                                                                |   73 +-
+ gMCP-0.7-11/gMCP/man/generateBounds.Rd                                                      |   63 +-
+ gMCP-0.7-11/gMCP/man/generatePvals.Rd                                                       |  166 +++--
+ gMCP-0.7-11/gMCP/man/generateTest.Rd                                                        |   64 +-
+ gMCP-0.7-11/gMCP/man/graphGUI.Rd                                                            |    4 
+ gMCP-0.7-11/gMCP/man/replaceVariables.Rd                                                    |   11 
+ 97 files changed, 1841 insertions(+), 767 deletions(-)

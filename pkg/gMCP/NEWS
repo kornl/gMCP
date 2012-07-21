@@ -61,6 +61,8 @@ Changes in version 0.7-11 (21-07-2012, Rev. 1404)
 - During testing menu entries for loading graphs were not
   disabled, but did not work in this case. Now they always work.
  
+ 97 files changed, 1841 insertions(+), 767 deletions(-)
+ 
 
 Changes in version 0.7-10 (15-06-2012, Rev. 1291)
 ================================================
