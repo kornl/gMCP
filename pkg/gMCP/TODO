@@ -1,18 +1,16 @@
 - Why is RControl.getR().getHistory() not accessible when the gMCP call fails?
+- Parsing \\epsilon creates a lot of error messages in the R terminal for edges with variables.
 - Umlaute in literatur.bib, e.g. Röhmel
-- let users choose test for parametric test
 - Options: Show R Code
 - .asRLogical().getData()[0] can be true but NA in R
 - look at warnings regarding exhaustAlpha (also optimality of graph)
 - Email subscription on start page (also tell user after 10th start of GUI)
-Not necessary, but would be great for this release:
 - Warn user if he uses a version that is older than 1 year.
 - Warn/inform user about changes.
 - Does contrMat(n=c(10, 20, 30, 40), type ="Dunnett") do what I want?!?
 - Copy&Paste of Results (Table, Text, allow to save)
 
 - For parametric procedures there is no "reset" button (->variables)
-- Right click menu for GUI
 - Description (.Rd files) of graphGUI and corMatWizard
 - Bauer & Hackel
 - "Find out what's changed in ggplot2 with"
