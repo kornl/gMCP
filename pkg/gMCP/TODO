@@ -1,3 +1,4 @@
+- Test everything with empty graph - (for example LateX Output throws here an error instead of telling the user to first create a graph).
 - Why is RControl.getR().getHistory() not accessible when the gMCP call fails?
 - Parsing \\epsilon creates a lot of error messages in the R terminal for edges with variables.
 - Umlaute in literatur.bib, e.g. Röhmel

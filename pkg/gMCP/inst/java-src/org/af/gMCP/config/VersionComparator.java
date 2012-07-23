@@ -103,6 +103,11 @@ public class VersionComparator extends JDialog implements ActionListener {
         }
     }
     
+    public static void main(String[] args) {
+    	System.out.println("0.7-1 > 0.7-8 ? "+(compare("0.7-1","0.7-8")>0));
+    	System.out.println("0.7-11 > 0.7-8 ? "+(compare("0.7-11","0.7-8")>0));
+    }
+    
 	public static void getOnlineVersion() {
 		try {
 			if (Configuration.getInstance().getGeneralConfig().checkOnline()) {
@@ -136,7 +141,9 @@ public class VersionComparator extends JDialog implements ActionListener {
 				}
 				in.close();
 
-				if (Configuration.getInstance().getGeneralConfig().reminderNewVersion() && compare(onlineversion, Configuration.getInstance().getGeneralConfig().getVersionNumber())>0) 
+				boolean newerVersionAvailable = compare(onlineversion, Configuration.getInstance().getGeneralConfig().getVersionNumber())>0;
+				logger.info(onlineversion+" > "+Configuration.getInstance().getGeneralConfig().getVersionNumber()+"=="+newerVersionAvailable);
+				if (Configuration.getInstance().getGeneralConfig().reminderNewVersion() && newerVersionAvailable) 
 				{					
 					String message = "The newest version on CRAN is "+onlineversion+". "+
 									 "Your version is "+version+".\n"+
