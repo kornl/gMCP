@@ -146,7 +146,8 @@ nextAvailableName <- function(x) {
 	return(x)
 }
 
-# The following code under GPL is taken directly from the R base package. 
+# The following code of regmatches under GPL is taken directly from the R base package. 
+# Copyright (C) 2012 The R Foundation for Statistical Computing
 # It was introduced in R 2.14.0 - but for backward-compatibility we also include it in gMCP.
 
 regmatches <- function (x, m, invert = FALSE) {
