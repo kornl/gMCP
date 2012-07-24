@@ -1,3 +1,11 @@
+Changes in version 0.8-0 (??-??-2012, Rev. 14??)
+================================================
+
+- gMCP 0.7-11 relied on function regmatches that was introduced in R 2.14. 
+  Therefore the GUI did not work for R 2.13 and previous versions.
+  This is fixed now and gMCP is again compatible with older R versions
+  including R 2.8.0. 
+
 Changes in version 0.7-11 (21-07-2012, Rev. 1404)
 ================================================
 
