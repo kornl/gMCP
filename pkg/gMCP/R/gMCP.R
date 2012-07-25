@@ -191,6 +191,14 @@ createGMCPCall <- function(graph, pvalues, test, correlation, alpha=0.05,
 	return(command)
 }
 
+#TODO: Set rejected.
+dputGraph <- function(g, name="graph") {
+	s <- dputMatrix(g@m, name="m", indent=11, rowNames=TRUE)
+	s <- paste(s, "weights <- ",dput2(unname(g@weights)),"\n", sep="")
+	s <- paste(s, name, " <- new(\"graphMCP\", m=m, weights=weights)\n", sep="")
+	return(s)
+}
+
 dputMatrix <- function(m, name, indent=6, rowNames=FALSE) {
 	s <- "rbind("
 	if (!missing(name)) s <- paste(name,"<- rbind(") 
