@@ -27,6 +27,7 @@ import javax.swing.JPanel;
 import org.af.commons.images.GraphDrawHelper;
 import org.af.gMCP.config.Configuration;
 import org.af.gMCP.gui.RControl;
+import org.af.gMCP.gui.ReproducableLog;
 import org.af.gMCP.gui.dialogs.VariableDialog;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -76,6 +77,7 @@ public class NetList extends JPanel implements MouseMotionListener, MouseListene
 		control.getPView().savePValues();
 		saveGraph(".tmpGraph", false);
 		RControl.getR().eval(".tmpGraph <- substituteEps(.tmpGraph, eps="+Configuration.getInstance().getGeneralConfig().getEpsilon()+")");
+		ReproducableLog.logR(RControl.getR().eval("dputGraph(.tmpGraph, \".tmpGraph+\"").asRChar().getData()[0]);
 		RControl.getR().eval(".tmpGraph <- rejectNode(.tmpGraph, \""+node.getName()+"\")");
 		reset();
 		new GraphMCP(".tmpGraph", this);
