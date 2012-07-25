@@ -153,6 +153,11 @@ public class RControl {
 		return s.substring(0, s.length()-1)+")";
 	}
 
+	public static void evalAndLog(String command) {
+		ReproducableLog.logR(command);
+		getR().eval(command);		
+	}
+
 }
 
 class LoggingOutputStream extends ByteArrayOutputStream { 

@@ -45,7 +45,7 @@ public class CreateGraphGUI extends JFrame implements WindowListener, AbortListe
 	public InfiniteProgressPanel glassPane;
 	protected static Log logger = LogFactory.getLog(CreateGraphGUI.class);
 	public boolean isGraphSaved = true;
-	
+	public static CreateGraphGUI lastCreatedGUI;
 	
 	public CreateGraphGUI(String graph, double[] pvalues, boolean debug, double grid, boolean experimentalFeatures) {
 		super("gMCP GUI");
@@ -149,6 +149,7 @@ public class CreateGraphGUI extends JFrame implements WindowListener, AbortListe
 			}
 		});
 		
+		lastCreatedGUI = this;
 	}
 	
 	/**

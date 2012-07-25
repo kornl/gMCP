@@ -77,8 +77,8 @@ public class NetList extends JPanel implements MouseMotionListener, MouseListene
 		control.getPView().savePValues();
 		saveGraph(".tmpGraph", false);
 		RControl.getR().eval(".tmpGraph <- substituteEps(.tmpGraph, eps="+Configuration.getInstance().getGeneralConfig().getEpsilon()+")");
-		ReproducableLog.logR(RControl.getR().eval("dputGraph(.tmpGraph, \".tmpGraph+\"").asRChar().getData()[0]);
-		RControl.getR().eval(".tmpGraph <- rejectNode(.tmpGraph, \""+node.getName()+"\")");
+		ReproducableLog.logR(RControl.getR().eval("gMCP:::dputGraph(.tmpGraph, \".tmpGraph\")").asRChar().getData()[0]);
+		RControl.evalAndLog(".tmpGraph <- rejectNode(.tmpGraph, \""+node.getName()+"\")");
 		reset();
 		new GraphMCP(".tmpGraph", this);
 		control.getPView().restorePValues();
