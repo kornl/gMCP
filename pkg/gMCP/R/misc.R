@@ -121,8 +121,8 @@ getAvailableStandardDesigns <- function(n) {
 }
 
 getCorrMat <- function(n, type) {
-	m <- contrMat(n, type)
-	m <- m%*%t(m)
+	m <- contrMat(n, type)	
+	m <- m%*%diag(1/sqrt(n))%*%t(m)
 	s <- diag(1/sqrt(diag(m)))
 	r <- s%*%m%*%s
 	return(as.numeric(r))
