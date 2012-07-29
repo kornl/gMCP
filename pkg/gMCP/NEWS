@@ -1,4 +1,4 @@
-Changes in version 0.8-0 (??-??-2012, Rev. 14??)
+Changes in version 0.7-12 (??-??-2012, Rev. 14??)
 ================================================
 
 - gMCP 0.7-11 relied on function regmatches that was introduced in R 2.14. 
