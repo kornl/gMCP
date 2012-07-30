@@ -28,8 +28,8 @@ public class PPanel implements ActionListener, KeyListener, NodeListener, FocusL
 	String name;
 	
 	JLabel label;
-	JTextField wTF;
-	JTextField pTF;
+	private JTextField wTF;
+	private JTextField pTF;
 	JButton jb;
 	
 	Node node;
@@ -167,7 +167,7 @@ public class PPanel implements ActionListener, KeyListener, NodeListener, FocusL
 
 	private String getWString() {	
 		if (testing) {
-			return format.format(w*pview.getTotalAlpha()).replace(",", ".");
+			return format.format(w/**pview.getTotalAlpha()*/).replace(",", ".");
 		} else {
 			return RControl.getFraction(w);
 		}

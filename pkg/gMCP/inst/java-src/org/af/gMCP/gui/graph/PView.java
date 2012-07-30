@@ -46,7 +46,7 @@ public class PView extends JPanel implements KeyListener, ActionListener {
 	JLabel statusLabel = new JLabel("");
 	JLabel weightLabel = new JLabel("Weight");
 	JLabel alphaLabel = new JLabel("Total α: ");
-	RealTextField totalAlpha = new RealTextField("totalAlpha", 0, 1);
+	private RealTextField totalAlpha = new RealTextField("totalAlpha", 0, 1);
 	GridBagConstraints c = new GridBagConstraints();
 	CreateGraphGUI parent;
 	JButton jbLoadPValues = new JButton("Load p-values from R"); 
@@ -241,6 +241,7 @@ public class PView extends JPanel implements KeyListener, ActionListener {
 		try {
 			return Double.parseDouble(totalAlpha.getText());
 		} catch (NumberFormatException e) {
+			JOptionPane.showMessageDialog(parent, "Alpha "+totalAlpha.getText()+" is no valid number between 0 and 1.", "Error parsing alpha", JOptionPane.ERROR_MESSAGE);
 			return 1;
 		}
 	}
