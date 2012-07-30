@@ -428,17 +428,7 @@ public class NetList extends JPanel implements MouseMotionListener, MouseListene
 	
 	public void mousePressed(MouseEvent e) {		
 		if (e.isPopupTrigger()) {
-			for (int i = 0; i < nodes.size(); i++) {
-				if (nodes.get(i).inYou(e.getX(), e.getY())) {
-					//TODO
-					showPopUp(e, nodes.get(i), null);
-				}
-			}
-			for (int i = edges.size()-1; i >=0 ; i--) {
-				if (edges.get(i).inYou(e.getX(), e.getY())) {
-					showPopUp(e, null, edges.get(i));
-				}
-			}	
+			popUp(e);	
 		}
 		if (e.getButton()==MouseEvent.BUTTON2) {
 			newVertex = false;
@@ -516,6 +506,9 @@ public class NetList extends JPanel implements MouseMotionListener, MouseListene
 	 * @see java.awt.event.MouseListener#mouseReleased(java.awt.event.MouseEvent)
 	 */
 	public void mouseReleased(MouseEvent e) {
+		if (e.isPopupTrigger()) {
+			popUp(e);	
+		}
 		if (edrag != -1) {			
 			edges.get(edrag).setFixed(true);
 		}
@@ -536,6 +529,20 @@ public class NetList extends JPanel implements MouseMotionListener, MouseListene
 
 			repaint();
 			return;
+		}
+	}
+	
+	public void popUp(MouseEvent e) {
+		for (int i = 0; i < nodes.size(); i++) {
+			if (nodes.get(i).inYou(e.getX(), e.getY())) {
+				//TODO
+				showPopUp(e, nodes.get(i), null);
+			}
+		}
+		for (int i = edges.size()-1; i >=0 ; i--) {
+			if (edges.get(i).inYou(e.getX(), e.getY())) {
+				showPopUp(e, null, edges.get(i));
+			}
 		}
 	}
 	
