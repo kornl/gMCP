@@ -55,3 +55,9 @@ parse2numeric <- function(graph) {
 	graph@m <- m
 	return(graph)
 }
+
+isEpsilon <- function(w) {
+	x <- try(eval(parse(text = gsub("\\\\epsilon", 0, w))), silent=TRUE)
+	if ("try-error" %in% class(x)) return(FALSE)
+	return(x==0)
+}

@@ -1,4 +1,3 @@
-- Disable pop up menu entries like "edit" and "delete" during testing.
 - Give more information about "testing mode" - one time JOptionPane for example.
 - Test everything with empty graph - (for example LateX Output throws here an error instead of telling the user to first create a graph).
 - Why is RControl.getR().getHistory() not accessible when the gMCP call fails?
