@@ -16,8 +16,8 @@ public class NetListPopUpMenu extends JPopupMenu implements ActionListener {
 		this.nl = nl;
 		this.node = node;
 		this.edge = edge;
-		add(makeMenuItem("Properties", "properties"));
-		add(makeMenuItem("Delete", "delete"));		
+		add(makeMenuItem("Properties", "properties", !nl.isTesting()));
+		add(makeMenuItem("Delete", "delete", !nl.isTesting()));		
 	}
 	
 	protected JMenuItem makeMenuItem(String text, String action) {
