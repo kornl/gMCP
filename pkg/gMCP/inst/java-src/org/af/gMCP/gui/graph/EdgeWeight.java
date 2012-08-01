@@ -147,7 +147,7 @@ public class EdgeWeight {
 	public boolean isEpsilon() {
 		try {
 			if (isEpsilon==null) {
-				isEpsilon = RControl.getR().eval("eval(parse(text=gsub(\"\\\\\\\\epsilon\", 0, \""+getPreciseWeightStr().replaceAll("\\\\", "\\\\\\\\")+"\")))==0").asRLogical().getData()[0];
+				isEpsilon = RControl.getR().eval("gMCP:::isEpsilon(\""+getPreciseWeightStr().replaceAll("\\\\", "\\\\\\\\")+"\")").asRLogical().getData()[0];
 			}
 			return isEpsilon;
 		} catch (Exception e) {
