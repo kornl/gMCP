@@ -1370,3 +1370,32 @@ Diff between gMCP versions 0.7-10 dated 2012-06-15 and 0.7-11 dated 2012-07-21
  gMCP-0.7-11/gMCP/man/graphGUI.Rd                                                            |    4 
  gMCP-0.7-11/gMCP/man/replaceVariables.Rd                                                    |   11 
  97 files changed, 1841 insertions(+), 767 deletions(-)
+
+Diff between gMCP versions 0.7-11 dated 2012-07-21 and 0.7-12 dated 2012-08-02
+
+ DESCRIPTION                                               |    6 
+ MD5                                                       |   45 +-
+ NEWS                                                      |   17 
+ R/gMCP.R                                                  |    8 
+ R/misc.R                                                  |   64 +++
+ R/subVariables.R                                          |    6 
+ TODO                                                      |    7 
+ inst/doc/AQuickStart.pdf                                  |binary
+ inst/doc/gMCP.pdf                                         |binary
+ inst/doc/parametric.pdf                                   |binary
+ inst/java-src/org/af/gMCP/config/VersionComparator.java   |    9 
+ inst/java-src/org/af/gMCP/gui/CreateGraphGUI.java         |    3 
+ inst/java-src/org/af/gMCP/gui/ErrorDialogGMCP.java        |  267 +++++++++++++-
+ inst/java-src/org/af/gMCP/gui/RControl.java               |    5 
+ inst/java-src/org/af/gMCP/gui/ReproducableLog.java        |only
+ inst/java-src/org/af/gMCP/gui/graph/EdgeWeight.java       |    2 
+ inst/java-src/org/af/gMCP/gui/graph/GraphView.java        |    1 
+ inst/java-src/org/af/gMCP/gui/graph/NetList.java          |   33 +
+ inst/java-src/org/af/gMCP/gui/graph/NetListPopUpMenu.java |    4 
+ inst/java-src/org/af/gMCP/gui/graph/PPanel.java           |    6 
+ inst/java-src/org/af/gMCP/gui/graph/PView.java            |    3 
+ inst/java-src/tests/InteractionTest.java                  |    4 
+ inst/java-src/tests/PPanelTest.java                       |    9 
+ inst/java/gsrmtp.jar                                      |binary
+ 
+ 24 files changed, 439 insertions(+), 60 deletions(-)
