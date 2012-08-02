@@ -18,6 +18,10 @@ public class NetListPopUpMenu extends JPopupMenu implements ActionListener {
 		this.edge = edge;
 		add(makeMenuItem("Properties", "properties", !nl.isTesting()));
 		add(makeMenuItem("Delete", "delete", !nl.isTesting()));		
+		if (node!=null/* && nl.isTesting()*/)	{
+			addSeparator();
+			add(makeMenuItem("Reject", "reject", nl.isTesting() && node.isRejectable()));
+		}
 	}
 	
 	protected JMenuItem makeMenuItem(String text, String action) {
@@ -47,6 +51,8 @@ public class NetListPopUpMenu extends JPopupMenu implements ActionListener {
     		if (edge!=null) {
     			nl.removeEdge(edge);
     		}
+    	} else if (e.getActionCommand().equals("reject")) {
+    		node.reject();
     	}
     	nl.repaint();
     }

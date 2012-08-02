@@ -760,7 +760,10 @@ public class NetList extends JPanel implements MouseMotionListener, MouseListene
 	 * the corresponding Double values. Should not be null, but can be empty.
 	 * @return
 	 */
-	public String saveGraph(String graphName, boolean verbose, Hashtable<String,Double> ht) {		
+	public String saveGraph(String graphName, boolean verbose, Hashtable<String,Double> ht) {
+		if (nodes.size()==0) {
+			throw new RuntimeException("Cannot save empty graph.");
+		}
 		graphName = RControl.getR().eval("make.names(\""+graphName+"\")").asRChar().getData()[0];		
 		String alpha = "";
 		String nodeStr = "";
@@ -890,5 +893,5 @@ public class NetList extends JPanel implements MouseMotionListener, MouseListene
 			}
 		}		
 	}
-	
+
 }

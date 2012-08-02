@@ -42,7 +42,7 @@ public class GraphMCP {
 			for (int i=0; i<nodes.length; i++) {
 				logger.debug("Adding node "+nodes[i]+" at ("+x[i]+","+y[i]+").");
 				knoten.add(new Node(nodes[i], (int) x[i], (int) y[i], alpha[i], nl));
-				if (rejected[i]) knoten.lastElement().reject();
+				if (rejected[i]) knoten.lastElement().rejected = true;
 			}
 			// Edges:
 			RList edgeL = RControl.getR().eval("gMCP:::getEdges("+name+")").asRList();

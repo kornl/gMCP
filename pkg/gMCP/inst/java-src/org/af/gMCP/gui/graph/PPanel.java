@@ -76,25 +76,23 @@ public class PPanel implements ActionListener, KeyListener, NodeListener, FocusL
 
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource()==jb) {
-			reject();
-			updateGraph();
+			node.reject();			
 		} else {
 			updateMe(false);
 		}
 	}
 
-	private void reject() {
+	/**
+	 *  
+	 * @see org.af.gMCP.gui.graph.NodeListener#reject()
+	 */
+	public void reject() {
 		wTF.setEnabled(false);
 		pTF.setEnabled(false);
 		jb.setEnabled(false);
 		label.setText(label.getText()+" rejected!");
-		label.setForeground(new Color(0,100,0));
-		node.setColor(new Color(50,255,50));
+		label.setForeground(new Color(0,100,0));		
 		rejected = true;
-	}
-
-	private void updateGraph() {
-		node.nl.acceptNode(node);
 		pview.recalculate();
 	}
 
@@ -130,6 +128,15 @@ public class PPanel implements ActionListener, KeyListener, NodeListener, FocusL
 		updateMe(false);
 	}
 
+	/**
+	 * Update the Panel, i.e.
+	 * - calculate and show which nodes are rejectable
+	 * - update the labels showing the total sum of weights
+	 *   and possible warnings (like alpha or weight >1)
+	 * - if (setText==true) set the p-values and weights
+	 *   in the corresponding text fields. 
+	 * @param setText Should the p-values and weights be updated in the corresponding text fields?
+	 */
 	void updateMe(boolean setText) {
 		if (setText) {
 			wTF.setText(getWString());
@@ -137,7 +144,7 @@ public class PPanel implements ActionListener, KeyListener, NodeListener, FocusL
 		}
 		if (p<=w*pview.getTotalAlpha()) {
 			//logger.debug("Is "+p+"<="+w+"*"+pview.getTotalAlpha()+"?");
-			node.setColor(new Color(50, 255, 50));
+			node.setRejectable(true);
 			wTF.setBackground(new Color(50, 255, 50));
 			if (testing) {
 				jb.setEnabled(true);
@@ -145,7 +152,7 @@ public class PPanel implements ActionListener, KeyListener, NodeListener, FocusL
 				jb.setEnabled(false);
 			}
 		} else {
-			node.setColor(Color.WHITE);
+			node.setRejectable(false);
 			wTF.setBackground(Color.WHITE);
 			jb.setEnabled(false);
 		}
@@ -198,6 +205,6 @@ public class PPanel implements ActionListener, KeyListener, NodeListener, FocusL
 			}
 			updateMe(true);
 		}
-	}	
+	}
 
 }

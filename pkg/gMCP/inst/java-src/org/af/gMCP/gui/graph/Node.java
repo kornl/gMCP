@@ -18,62 +18,76 @@ import org.scilab.forge.jlatexmath.TeXIcon;
 
 public class Node {
 	
-	public Vector<NodeListener> listener = new Vector<NodeListener>(); 
-	int x;
-	int y;
-	private String name;
-	NetList nl;
-	private double weight;
-	private String stringW = "";
-	private Color color = Color.WHITE;
-	boolean rejected = false;
-
-	public static int r = 25;
-	
 	static DecimalFormat format = new DecimalFormat("#.####");
 	static DecimalFormat formatSmall = new DecimalFormat("#.###E0");
-	
-	int lastFontSize = 14;
-
-	public static void setRadius(int radius) {
-		r = radius;
-	}
-
-	static int count = 1;
-	
+	public static int r = 25;	
+	private Color color = Color.WHITE;
 	TeXIcon iconName, iconWeight;
+	int lastFontSize = 14;
+	public Vector<NodeListener> listener = new Vector<NodeListener>();
 
+	Double localPower = null;
+	
+	private String name;
+	NetList nl;
+	
+	private boolean rejectable = false;
+
+	boolean rejected = false;
+
+	private String stringW = "";	
+	private double weight;
+
+	int x;
+	
+	int y;
+	
 	public Node(String name, int x, int y, double alpha, NetList vs) {
-		count++;
 		this.nl = vs;
 		setName(name);
 		setX(x);
 		setY(y);		
 		setWeight(alpha, null);		
 	}
+
+	public void addNodeListener(NodeListener l) {
+		listener.add(l);		
+	}
+
+	public Color getColor() {
+		if (rejected) return Color.MAGENTA;
+		return color;
+	}
+
+	public String getName() { return name; }
+
+	public double getWeight() { return weight; }
+	
+	private String getWS() { return stringW; }
+
+	public int getX() { return x; }
+
+	public int getY() { return y; }
+
+	public boolean inYou(int x, int y) {
+		return ((x / nl.getZoom() - this.x - r)
+				* (x / nl.getZoom() - this.x - r)
+				+ (y / nl.getZoom() - this.y - r)
+				* (y / nl.getZoom() - this.y - r) <= (r * r));
+	}
+
+	public static int getRadius() { return r; }
+	
+	public static void setRadius(int radius) { r = radius; }
+
+	public boolean isRejectable() {
+		return rejectable && !rejected;
+	}
+
+	public boolean isRejected() { 	return rejected; }
 	
 	public int[] offset(int x2, int y2) {
 		return new int[] {(int) (x* nl.getZoom())-x2, (int) (y* nl.getZoom())-y2};
-	}
-	
-	public int getX() {
-		return x;
-	}
-
-	public void setX(int x) {
-		int grid = Configuration.getInstance().getGeneralConfig().getGridSize();
-		x = ((x+ (int)(0.5*grid)) / grid)*grid;
-		this.x = x;
-	}
-
-	public int getY() {
-		return y;
-	}
-
-	public void setY(int y) {
-		int grid = Configuration.getInstance().getGeneralConfig().getGridSize();
-		y = ((y+ (int)(0.5*grid)) / grid)*grid;
-		this.y = y;
 	}
 
 	public void paintYou(Graphics g) {
@@ -133,20 +147,42 @@ public class Node {
 		}
 		
 	}
+
+	/**
+	 * This method will save the graph,
+	 * call rejectNode in R and show the result.
+	 * All nodeListeners (i.e. PPanel) are notified.
+	 */
+	public void reject() {		
+		nl.acceptNode(this);
+		for (NodeListener l : listener) {
+			l.reject();
+		}
+	}
 	
-	private String getWS() {		
-		return stringW;
+	public void setColor(Color color) {
+		this.color = color;
+		nl.repaint();
 	}
 
-	public static int getRadius() {
-		return r;
+	public void setLocalPower(double d) {
+		localPower = d;	
+	}
+	
+	public void setName(String name) {
+		this.name = name;	
+		TeXFormula formula = new TeXFormula("\\mathbf{"+name+"}"); 
+		iconName = formula.createTeXIcon(TeXConstants.ALIGN_CENTER, (int) (14 * nl.getZoom()));
+		nl.graphHasChanged();
 	}
 
-	public boolean inYou(int x, int y) {
-		return ((x / nl.getZoom() - this.x - r)
-				* (x / nl.getZoom() - this.x - r)
-				+ (y / nl.getZoom() - this.y - r)
-				* (y / nl.getZoom() - this.y - r) <= (r * r));
+	public void setRejectable(boolean rejectable) {
+		if (rejectable) {
+			setColor(new Color(50, 255, 50));
+		} else {
+			setColor(Color.WHITE);
+		}
+		this.rejectable = rejectable;
 	}
 
 	public void setWeight(double w, NodeListener me) {
@@ -175,53 +211,21 @@ public class Node {
 		nl.graphHasChanged();
 		nl.repaint();
 	}
-
-	public double getWeight() {
-		return weight;
-	}
-
-	public void setColor(Color color) {
-		this.color = color;
-		nl.repaint();
-	}
-
-	public Color getColor() {
-		if (rejected) return Color.MAGENTA;
-		return color;
-	}
-
-	public void addNodeListener(NodeListener l) {
-		listener.add(l);		
-	}
-
-	public String getName() {		
-		return name;
-	}
 	
+	public void setX(int x) {
+		int grid = Configuration.getInstance().getGeneralConfig().getGridSize();
+		x = ((x+ (int)(0.5*grid)) / grid)*grid;
+		this.x = x;
+	}
+
+	public void setY(int y) {
+		int grid = Configuration.getInstance().getGeneralConfig().getGridSize();
+		y = ((y+ (int)(0.5*grid)) / grid)*grid;
+		this.y = y;
+	}
+
 	public String toString() {		
 		return name+" (w: "+getWS()+")";
-	}
-
-	public void setName(String name) {
-		this.name = name;	
-		TeXFormula formula = new TeXFormula("\\mathbf{"+name+"}"); 
-		iconName = formula.createTeXIcon(TeXConstants.ALIGN_CENTER, (int) (14 * nl.getZoom()));
-		nl.graphHasChanged();
-	}
-	
-	public boolean isRejected() {		
-		return rejected;
-	}
-
-	public void reject() {
-		color = Color.MAGENTA;
-		rejected = true;
-	}
-
-	Double localPower = null;
-	
-	public void setLocalPower(double d) {
-		localPower = d;	
 	}
 
 }
