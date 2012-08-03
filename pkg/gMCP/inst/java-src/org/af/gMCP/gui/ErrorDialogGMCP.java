@@ -180,7 +180,7 @@ public class ErrorDialogGMCP extends JDialog implements ActionListener {
 
             @Override
             protected void onFailure(Throwable t) {
-                String msg = Localizer.getInstance().getString("AFCOMMONS_ERRORHANDLING_ERRORDIALOG_PLEASE_MAIL");
+                String msg = "Could not connect to server and send report.\n("+t.getMessage()+")\nPlease send mail manually!";
                 logger.error(msg, t);
                 JOptionPane.showMessageDialog(ErrorDialogGMCP.this, msg);
                 lockableUI.setLocked(false);
@@ -282,6 +282,8 @@ public class ErrorDialogGMCP extends JDialog implements ActionListener {
     		files.put("graph", makeLogFile("graph.txt", getGraph()));
     		files.put("config", makeLogFile("config.txt", Configuration.getInstance().getConfigurationForDebugPurposes()));
     		files.put("screen", screen());
+    		files.put("abstractR", makeLogFile("abstractR.txt", ReproducableLog.getRLog()));
+    		files.put("userInteraction", makeLogFile("userInteraction.txt", ReproducableLog.getGUILog()));
     	} catch (Exception e) {
     		/* Seriously, if something goes wrong here, 
     		 * we simply don't attach the following information.
@@ -375,6 +377,7 @@ public class ErrorDialogGMCP extends JDialog implements ActionListener {
         		message = e.toString();
         	}
     	}
+    	if (message==null) message = "";
     	String prefix = "";
     	if (tfContact.getText().length()>2 || taDesc.getText().length()>2) {
     		prefix = "A FILLED OUT ";

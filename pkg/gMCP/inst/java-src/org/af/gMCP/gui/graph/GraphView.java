@@ -27,6 +27,7 @@ import org.af.commons.widgets.DesktopPaneBG;
 import org.af.gMCP.config.Configuration;
 import org.af.gMCP.gui.CreateGraphGUI;
 import org.af.gMCP.gui.RControl;
+import org.af.gMCP.gui.ReproducableLog;
 import org.af.gMCP.gui.datatable.DataTable;
 import org.af.gMCP.gui.dialogs.AdjustedPValueDialog;
 import org.af.gMCP.gui.dialogs.DialogConfIntEstVar;
@@ -47,7 +48,7 @@ public class GraphView extends JPanel implements ActionListener {
 	JLabel statusBar;
 	public NetList nl;
 	
-	JToggleButton buttonNewVertex;
+	JToggleButton buttonNewNode;
 	JButton buttonNewEdge;
 	JButton buttonZoomOut;
 	JButton buttonZoomIn;
@@ -117,12 +118,12 @@ public class GraphView extends JPanel implements ActionListener {
 			((FlowLayout) (toolPanel.getLayout()))
 					.setAlignment(FlowLayout.LEFT);
 			
-			buttonNewVertex = new JToggleButton(
+			buttonNewNode = new JToggleButton(
 					new ImageIcon(ImageIO.read(DesktopPaneBG.class
 											.getResource("/org/af/gMCP/gui/graph/images/vertex.png"))));
-			toolPanel.add(buttonNewVertex);
-			buttonNewVertex.addActionListener(this);
-			buttonNewVertex.setToolTipText("new vertex");
+			toolPanel.add(buttonNewNode);
+			buttonNewNode.addActionListener(this);
+			buttonNewNode.setToolTipText("new vertex");
 			
 			buttonNewEdge = new JButton(
 					new ImageIcon(ImageIO.read(DesktopPaneBG.class
@@ -187,12 +188,14 @@ public class GraphView extends JPanel implements ActionListener {
 			nl.setZoom(nl.getZoom() / 1.25);
 			getNL().refresh();
 		} else if (e.getSource().equals(buttonNewEdge)) {
+			ReproducableLog.logGUI("Button \"new edge\"");
 			nl.newVertex = false;
-			buttonNewVertex.setSelected(false);
+			buttonNewNode.setSelected(false);
 			nl.newEdge = true;
 			getNL().statusBar.setText("Select a node from which this edge should start.");
-		} else if (e.getSource().equals(buttonNewVertex)) {
-			if (buttonNewVertex.isSelected()) {
+		} else if (e.getSource().equals(buttonNewNode)) {
+			ReproducableLog.logGUI("Button \"new node\"");
+			if (buttonNewNode.isSelected()) {
 				nl.newVertex = true;
 				nl.newEdge = false;
 				nl.arrowHeadPoint = null;
@@ -203,6 +206,7 @@ public class GraphView extends JPanel implements ActionListener {
 			nl.repaint();
 			getNL().statusBar.setText("Click on the graph panel to place the node.");
 		} else if (e.getSource().equals(buttonConfInt)) {
+			ReproducableLog.logGUI("Button \"confint\"");
 			if (!getNL().isTesting()) {
 				getPView().savePValues();
 				getNL().saveGraph(getNL().resetGraph, false);
@@ -239,6 +243,7 @@ public class GraphView extends JPanel implements ActionListener {
 				worker.execute();				
 			}
 		} else if (e.getSource().equals(buttonStart)) {
+			ReproducableLog.logGUI("Button \"start testing\"");
 			if (!getNL().isTesting()) {				
 				getPView().savePValues();
 				getNL().saveGraph(getNL().resetGraph, false);
@@ -276,6 +281,7 @@ public class GraphView extends JPanel implements ActionListener {
 				stopTesting();
 			}
 		} else if (e.getSource().equals(buttonadjPval)) {
+			ReproducableLog.logGUI("Button \"calculate p-values\"");
 			if (getNL().getNodes().size()==0) {
 				JOptionPane.showMessageDialog(parent, "Please create first a graph.", "Please create first a graph.", JOptionPane.ERROR_MESSAGE);				
 			} else {
@@ -340,7 +346,7 @@ public class GraphView extends JPanel implements ActionListener {
 		getPView().setTesting(false);
 		getPView().revalidate();
 		getPView().repaint();
-		buttonNewVertex.setEnabled(true);
+		buttonNewNode.setEnabled(true);
 		buttonNewEdge.setEnabled(true);
 		try {
 			buttonStart.setIcon(new ImageIcon(ImageIO.read(DesktopPaneBG.class
@@ -359,7 +365,7 @@ public class GraphView extends JPanel implements ActionListener {
 			getNL().saveGraph();
 			getDataTable().setTesting(true);
 			getPView().setTesting(true);			
-			buttonNewVertex.setEnabled(false);
+			buttonNewNode.setEnabled(false);
 			buttonNewEdge.setEnabled(false);				
 			buttonStart.setIcon(new ImageIcon(ImageIO.read(DesktopPaneBG.class
 					.getResource("/org/af/gMCP/gui/graph/images/Reset.png"))));

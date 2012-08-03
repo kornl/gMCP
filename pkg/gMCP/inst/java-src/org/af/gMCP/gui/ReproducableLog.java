@@ -2,6 +2,7 @@ package org.af.gMCP.gui;
 
 import java.util.Vector;
 
+import org.af.commons.tools.StringTools;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -28,6 +29,14 @@ public class ReproducableLog {
 		logGUI.add(s);
 		log.add(s);
 		logger.info("GUI: "+s);
+	}
+
+	public static String getRLog() {		
+		return StringTools.collapseStringList(logR, "\n");
+	}
+
+	public static String getGUILog() {
+		return StringTools.collapseStringList(logGUI, "\n");
 	}	
 	
 }

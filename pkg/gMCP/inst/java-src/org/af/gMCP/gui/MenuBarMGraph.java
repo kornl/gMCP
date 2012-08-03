@@ -249,6 +249,7 @@ public class MenuBarMGraph extends JMenuBar implements ActionListener {
     }
 
 	public void actionPerformed(ActionEvent e) {
+		ReproducableLog.logGUI("Menu entry \""+e.getActionCommand()+"\"");
         if (e.getActionCommand().startsWith("LOAD_GRAPH")) {        	
         	String s = e.getActionCommand().substring(10);
         	logger.info("Trying to load \""+s+"\"");

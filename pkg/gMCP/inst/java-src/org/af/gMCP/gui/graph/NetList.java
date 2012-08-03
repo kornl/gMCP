@@ -432,7 +432,7 @@ public class NetList extends JPanel implements MouseMotionListener, MouseListene
 		}
 		if (e.getButton()==MouseEvent.BUTTON2) {
 			newVertex = false;
-			control.buttonNewVertex.setSelected(false);
+			control.buttonNewNode.setSelected(false);
 			return;
 		}
 		//logger.debug("MousePressed at ("+e.getX()+","+ e.getY()+").");
@@ -506,8 +506,11 @@ public class NetList extends JPanel implements MouseMotionListener, MouseListene
 	 * @see java.awt.event.MouseListener#mouseReleased(java.awt.event.MouseEvent)
 	 */
 	public void mouseReleased(MouseEvent e) {
-		if (e.isPopupTrigger()) {
-			popUp(e);	
+		//if (e != null) 
+		{
+			if (e.isPopupTrigger()) {
+				popUp(e);	
+			}
 		}
 		if (edrag != -1) {			
 			edges.get(edrag).setFixed(true);

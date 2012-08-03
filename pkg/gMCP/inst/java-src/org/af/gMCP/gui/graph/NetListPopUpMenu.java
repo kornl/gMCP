@@ -2,11 +2,13 @@ package org.af.gMCP.gui.graph;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.List;
 
 import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
 
 public class NetListPopUpMenu extends JPopupMenu implements ActionListener {
+
 	JMenuItem anItem;
 	NetList nl;
 	Node node;
