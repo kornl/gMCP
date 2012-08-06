@@ -41,15 +41,31 @@ public class PView extends JPanel implements KeyListener, ActionListener {
 
 	private static final Log logger = LogFactory.getLog(PView.class);
 
-	private Vector<PPanel> panels = new Vector<PPanel>();
-	CellConstraints cc = new CellConstraints();	
-	JLabel statusLabel = new JLabel("");
-	JLabel weightLabel = new JLabel("Weight");
 	JLabel alphaLabel = new JLabel("Total α: ");
-	private RealTextField totalAlpha = new RealTextField("totalAlpha", 0, 1);
-	GridBagConstraints c = new GridBagConstraints();
+	GridBagConstraints c = new GridBagConstraints();	
+	CellConstraints cc = new CellConstraints();
+	JPanel correlatedPanel = null;
+	JButton createMatrix;
+	JButton jbLoadPValues = new JButton("Load p-values from R");
+	public JComboBox jcbCorObject;
+	
+	protected JRadioButton jrbNoCorrelation = new JRadioButton("No Information about correlations");
+	public JRadioButton jrbRCorrelation = new JRadioButton("Select an R correlation matrix"); 
+	protected JRadioButton jrbSimes = new JRadioButton("Correlation applicable for Simes test (new feature that needs still testing)");
+	
+	private Vector<PPanel> panels = new Vector<PPanel>();
+	
 	CreateGraphGUI parent;
-	JButton jbLoadPValues = new JButton("Load p-values from R"); 
+	
+	List<Double> pValues = null;
+	
+	JButton refresh;
+	
+	JLabel statusLabel = new JLabel("");
+	
+	private RealTextField totalAlpha = new RealTextField("totalAlpha", 0, 1);
+	
+	JLabel weightLabel = new JLabel("Weight");
 	
 	public PView(CreateGraphGUI parent) {
 		this.parent = parent;
@@ -65,209 +81,43 @@ public class PView extends JPanel implements KeyListener, ActionListener {
 		
 		jbLoadPValues.addActionListener(this);
     }
-	
+
+	public void actionPerformed(ActionEvent e) {
+		parent.getGraphView().setResultUpToDate(false);
+		if (e.getSource()==refresh) {
+			refresh(true);
+		} else if (e.getSource()==jrbNoCorrelation) {
+			if (parent.getGraphView().getNL().getNodes().size()>0) {
+				parent.getGraphView().buttonConfInt.setEnabled(true);
+				parent.getGraphView().buttonadjPval.setEnabled(true);
+			}
+		}  else if (e.getSource()==jrbRCorrelation) {
+			parent.getGraphView().buttonConfInt.setEnabled(false);
+			parent.getGraphView().buttonadjPval.setEnabled(true);
+		} else if (e.getSource()==jrbSimes) {
+			parent.getGraphView().buttonConfInt.setEnabled(false);
+			parent.getGraphView().buttonadjPval.setEnabled(true);
+		} else if (e.getSource()==jbLoadPValues) {
+			parent.getGraphView().loadPValuesFromR(); 
+		} else if (e.getSource()==createMatrix) {
+			if (parent.getGraphView().getNL().getNodes().size()<2) {
+				JOptionPane.showMessageDialog(parent, "Correlation makes only sense for more than one hypothesis.", "No correlation for one hypothesis", JOptionPane.ERROR_MESSAGE);
+			} else {				
+				String obj = jcbCorObject.getSelectedItem().toString();
+				String matrix = obj.endsWith("matrices found.")?null:obj;
+				new MatrixCreationDialog(parent, matrix, MatrixCreationDialog.getNames(parent.getGraphView().getNL().getNodes()));
+				refresh(false);
+				jrbRCorrelation.setSelected(true);
+			}
+		}
+	}
+
 	public void addPPanel(Node node) {
 		panels.add(new PPanel(node, this));
 		//logger.debug("Added panel for node "+node.getName());		
 		setUp();
 	}
-	
-	List<Double> pValues = null;
-	
-	public void savePValues() {
-		String debug = "Saving PValues: ";
-		pValues = new Vector<Double>();
-		for (PPanel panel : panels) {
-			/*TODO The following line is a work-around for the following problem:
-			 * If I insert pvalues with the middle mouse button no keyTyped event has been raised.
-			 * Also InputMethodListener does not work. 
-			 */
-			panel.keyTyped(null);
-			pValues.add(panel.getP());
-			debug += Configuration.getInstance().getGeneralConfig().getDecFormat().format(panel.getP())+"; ";
-		}
-		logger.debug(debug);
-	}
-	
-	public void setPValues(Double[] pvalues) {
-		pValues = Arrays.asList(pvalues);
-		restorePValues();
-	}
-	
-	public void setPValues(double[] pvalues) {
-		setPValues(ArrayUtils.toObject(pvalues));
-	}
 
-	
-	public void restorePValues() {
-		String debug = "Restoring PValues: ";
-		if (pValues != null) {
-			for (int i=0; i<pValues.size(); i++) {
-				if (i<panels.size()) {
-					panels.get(i).setP(pValues.get(i));
-					debug += Configuration.getInstance().getGeneralConfig().getDecFormat().format(pValues.get(i))+"; ";
-				}
-			}
-		}
-		logger.debug(debug);
-	}
-	
-	public void setUp() {
-		JPanel panel = new JPanel();
-		
-		String cols = "5dlu, fill:pref:grow, 5dlu, fill:pref:grow, 5dlu, fill:pref:grow, 5dlu, fill:pref:grow, 5dlu";
-        String rows = "5dlu, pref, 5dlu, pref, 5dlu, pref, 5dlu";
-        for (PPanel p : panels) {
-        	rows += ", pref, 5dlu";
-        }
-        
-        FormLayout layout = new FormLayout(cols, rows);
-        panel.setLayout(layout);        
-		
-    	panel.add(new JLabel("Hypothesis"), cc.xy(2, 2));
-    	
-    	panel.add(weightLabel, cc.xy(4, 2));
-    	//panel.add(new JLabel("Signif. Level"), cc.xy(4, 2));
-
-    	panel.add(new JLabel("P-Value"), cc.xy(6, 2));
-				
-		int row = 4;
-		for (PPanel p : panels) {
-			int col=2;
-			for (Component c : p.getComponent()) {
-				panel.add(c, cc.xy(col, row));	
-				col += 2;
-			}
-			row += 2;
-		}		
-		panel.add(statusLabel, cc.xyw(2, row, 3));
-		panel.add(jbLoadPValues, cc.xy(6, row));
-		row += 2;
-		panel.add(alphaLabel, cc.xy(2, row));    	
-    	panel.add(totalAlpha, cc.xy(4, row));
-    	//totalAlpha.setText("0.05");
-    	totalAlpha.addKeyListener(this);
-    	
-    	updateLabels();
-		panel.revalidate();		
-		removeAll();		
-		add(panel, c);
-		c.gridy++;
-		add(getCorrelatedPanel(), c);
-		revalidate();
-	}
-	
-	public void updateLabels() {
-		double weight = 0;
-		for (PPanel p : panels) {
-			if (!p.rejected) {
-				weight += p.w;
-			}
-		}
-		String text = "Sum of weights: "+Configuration.getInstance().getGeneralConfig().getDecFormat().format(weight);
-		if (weight>1.0001) {
-			statusLabel.setForeground(Color.RED);
-			text += "; The total weight is greater 1!";
-		} else {
-			statusLabel.setForeground(Color.BLACK);
-		}		
-		statusLabel.setText(text);
-	}
-
-	public void recalculate() {
-		for (PPanel p : panels) {
-			p.updateMe(true);
-		}
-		revalidate();
-		repaint();		
-	}
-
-	public void newGraph() {
-		panels.removeAllElements();		
-	}
-
-	public void removePPanel(Node node) {
-		for (int i=panels.size()-1;i>=0;i--) {
-			if (panels.get(i).node==node) {
-				panels.remove(i);
-				//logger.debug("Removed panel for node "+node.getName());
-			}
-		}
-		setUp();		
-	}
-	
-	public void setTesting(boolean b) {
-		Configuration.getInstance().getClassProperty(this.getClass(), totalAlpha.getText());
-		PPanel.setTesting(b);
-		for (PPanel p : panels) {
-			p.updateMe(true);
-		}
-		totalAlpha.setEditable(!b);
-		if (b) {
-			weightLabel.setText("α Level");
-		} else {
-			weightLabel.setText("Weight");
-		}
-		refresh.setEnabled(!b);
-		createMatrix.setEnabled(!b);
-		
-		jrbNoCorrelation.setEnabled(!b);
-		jrbRCorrelation.setEnabled(!b);
-	    jrbSimes.setEnabled(!b);
-
-	    jcbCorObject.setEnabled(!b);
-	    jbLoadPValues.setEnabled(!b);
-	    if (!b) refresh(false);
-	}
-
-	public String getPValuesString() {		
-		String s = "c(";
-		for (PPanel panel : panels) {		
-			s += panel.getP()+", ";
-		}
-		return s.substring(0, s.length()-2)+")";
-	}
-
-	public double getPValue(Node node) {
-		for (int i=panels.size()-1;i>=0;i--) {
-			if (panels.get(i).node==node) {
-				return panels.get(i).p;
-			}
-		}
-		throw new RuntimeException("Something happend that should never happen. Please report!");
-	}
-
-	public double getTotalAlpha() {
-		try {
-			return Double.parseDouble(totalAlpha.getText());
-		} catch (NumberFormatException e) {
-			JOptionPane.showMessageDialog(parent, "Alpha "+totalAlpha.getText()+" is no valid number between 0 and 1.", "Error parsing alpha", JOptionPane.ERROR_MESSAGE);
-			return 1;
-		}
-	}
-
-	public void keyPressed(KeyEvent e) {keyTyped(e);}
-
-	public void keyReleased(KeyEvent e) {keyTyped(e);}
-
-	public void keyTyped(KeyEvent e) {
-		parent.getGraphView().setResultUpToDate(false);
-		for (PPanel p : panels) {
-			p.updateMe(false);
-		}
-	}
-	
-	JButton refresh;
-	JButton createMatrix;
-	
-	protected JRadioButton jrbNoCorrelation = new JRadioButton("No Information about correlations");
-    public JRadioButton jrbRCorrelation = new JRadioButton("Select an R correlation matrix");
-    protected JRadioButton jrbSimes = new JRadioButton("Correlation applicable for Simes test (new feature that needs still testing)");
-
-    public JComboBox jcbCorObject;
-    
-    JPanel correlatedPanel = null;
-    
 	public JPanel getCorrelatedPanel() {
 		
 		if (correlatedPanel!=null) {
@@ -331,37 +181,74 @@ public class PView extends JPanel implements KeyListener, ActionListener {
         
         return correlatedPanel;
 	}
+	
+	/**
+	 * Constructs a String to be included in the gMCP call.
+	 * @return String that is either empty or starts with a comma and 
+	 * adds parameters to the gMCP call depending on the selected correlation.
+	 */
+	public String getParameters() {
+		if (jrbRCorrelation.isSelected() && !jrbRCorrelation.isEnabled()) {
+			JOptionPane.showMessageDialog(parent, "No correlation matrix available.\nUsing Bonferroni based test.", "No correlation matrix available.", JOptionPane.WARNING_MESSAGE);
+			jrbNoCorrelation.setSelected(true);
+		}
+		String param = ", test=\"Bonferroni\"";
+		if (jrbRCorrelation.isSelected()) {
+			param = ", correlation="+jcbCorObject.getSelectedItem()+", test=\""+Configuration.getInstance().getGeneralConfig().getParametricTest()+"\"";
+		} else if (jrbSimes.isSelected()) {
+			param = ", test=\"Simes\"";
+		}
+		return param;
+	}
 
-	public void actionPerformed(ActionEvent e) {
-		parent.getGraphView().setResultUpToDate(false);
-		if (e.getSource()==refresh) {
-			refresh(true);
-		} else if (e.getSource()==jrbNoCorrelation) {
-			if (parent.getGraphView().getNL().getNodes().size()>0) {
-				parent.getGraphView().buttonConfInt.setEnabled(true);
-				parent.getGraphView().buttonadjPval.setEnabled(true);
+	public double getPValue(Node node) {
+		for (int i=panels.size()-1;i>=0;i--) {
+			if (panels.get(i).node==node) {
+				return panels.get(i).p;
 			}
-		}  else if (e.getSource()==jrbRCorrelation) {
-			parent.getGraphView().buttonConfInt.setEnabled(false);
-			parent.getGraphView().buttonadjPval.setEnabled(true);
-		} else if (e.getSource()==jrbSimes) {
-			parent.getGraphView().buttonConfInt.setEnabled(false);
-			parent.getGraphView().buttonadjPval.setEnabled(true);
-		} else if (e.getSource()==jbLoadPValues) {
-			parent.getGraphView().loadPValuesFromR(); 
-		} else if (e.getSource()==createMatrix) {
-			if (parent.getGraphView().getNL().getNodes().size()<2) {
-				JOptionPane.showMessageDialog(parent, "Correlation makes only sense for more than one hypothesis.", "No correlation for one hypothesis", JOptionPane.ERROR_MESSAGE);
-			} else {				
-				String obj = jcbCorObject.getSelectedItem().toString();
-				String matrix = obj.endsWith("matrices found.")?null:obj;
-				new MatrixCreationDialog(parent, matrix, MatrixCreationDialog.getNames(parent.getGraphView().getNL().getNodes()));
-				refresh(false);
-				jrbRCorrelation.setSelected(true);
-			}
+		}
+		throw new RuntimeException("Something happend that should never happen. Please report!");
+	}
+
+	public String getPValuesString() {		
+		String s = "c(";
+		for (PPanel panel : panels) {		
+			s += panel.getP()+", ";
+		}
+		return s.substring(0, s.length()-2)+")";
+	}
+
+	public double getTotalAlpha() {
+		try {
+			return Double.parseDouble(totalAlpha.getText());
+		} catch (NumberFormatException e) {
+			JOptionPane.showMessageDialog(parent, "Alpha "+totalAlpha.getText()+" is no valid number between 0 and 1.", "Error parsing alpha", JOptionPane.ERROR_MESSAGE);
+			return 1;
 		}
 	}
 
+	public void keyPressed(KeyEvent e) {keyTyped(e);}
+
+	public void keyReleased(KeyEvent e) {keyTyped(e);}
+
+	public void keyTyped(KeyEvent e) {
+		parent.getGraphView().setResultUpToDate(false);
+		for (PPanel p : panels) {
+			p.updateMe(false);
+		}
+	}
+	
+	public void newGraph() {
+		panels.removeAllElements();		
+	}
+	public void recalculate() {
+		for (PPanel p : panels) {
+			p.updateMe(true);
+		}
+		revalidate();
+		repaint();		
+	}
+	
 	private void refresh(boolean showInfo) {
 		jcbCorObject.removeAllItems();
 		int dim = parent.getGraphView().getNL().getNodes().size();
@@ -390,28 +277,140 @@ public class PView extends JPanel implements KeyListener, ActionListener {
 			jcbCorObject.addItem(s);
 		}
 	}
-
-	/**
-	 * Constructs a String to be included in the gMCP call.
-	 * @return String that is either empty or starts with a comma and 
-	 * adds parameters to the gMCP call depending on the selected correlation.
-	 */
-	public String getParameters() {
-		if (jrbRCorrelation.isSelected() && !jrbRCorrelation.isEnabled()) {
-			JOptionPane.showMessageDialog(parent, "No correlation matrix available.\nUsing Bonferroni based test.", "No correlation matrix available.", JOptionPane.WARNING_MESSAGE);
-			jrbNoCorrelation.setSelected(true);
+    public void removePPanel(Node node) {
+		for (int i=panels.size()-1;i>=0;i--) {
+			if (panels.get(i).node==node) {
+				panels.remove(i);
+				//logger.debug("Removed panel for node "+node.getName());
+			}
 		}
-		String param = ", test=\"Bonferroni\"";
-		if (jrbRCorrelation.isSelected()) {
-			param = ", correlation="+jcbCorObject.getSelectedItem()+", test=\""+Configuration.getInstance().getGeneralConfig().getParametricTest()+"\"";
-		} else if (jrbSimes.isSelected()) {
-			param = ", test=\"Simes\"";
-		}
-		return param;
+		setUp();		
+	}
+    public void renameNode(int i, String name) {
+		panels.get(i).label.setText(name);		
 	}
 
-	public void renameNode(int i, String name) {
-		panels.get(i).label.setText(name);		
+    public void restorePValues() {
+		String debug = "Restoring PValues: ";
+		if (pValues != null) {
+			for (int i=0; i<pValues.size(); i++) {
+				if (i<panels.size()) {
+					panels.get(i).setP(pValues.get(i));
+					debug += Configuration.getInstance().getGeneralConfig().getDecFormat().format(pValues.get(i))+"; ";
+				}
+			}
+		}
+		logger.debug(debug);
+	}
+    
+    public void savePValues() {
+		String debug = "Saving PValues: ";
+		pValues = new Vector<Double>();
+		for (PPanel panel : panels) {
+			/*TODO The following line is a work-around for the following problem:
+			 * If I insert pvalues with the middle mouse button no keyTyped event has been raised.
+			 * Also InputMethodListener does not work. 
+			 */
+			panel.keyTyped(null);
+			pValues.add(panel.getP());
+			debug += Configuration.getInstance().getGeneralConfig().getDecFormat().format(panel.getP())+"; ";
+		}
+		logger.debug(debug);
+	}
+    
+	public void setPValues(double[] pvalues) {
+		setPValues(ArrayUtils.toObject(pvalues));
+	}
+
+	public void setPValues(Double[] pvalues) {
+		pValues = Arrays.asList(pvalues);
+		restorePValues();
+	}
+
+	public void setTesting(boolean b) {
+		Configuration.getInstance().getClassProperty(this.getClass(), totalAlpha.getText());
+		PPanel.setTesting(b);
+		for (PPanel p : panels) {
+			p.updateMe(true);
+		}
+		totalAlpha.setEditable(!b);
+		if (b) {
+			weightLabel.setText("α Level");
+		} else {
+			weightLabel.setText("Weight");
+		}
+		refresh.setEnabled(!b);
+		createMatrix.setEnabled(!b);
+		
+		jrbNoCorrelation.setEnabled(!b);
+		jrbRCorrelation.setEnabled(!b);
+	    jrbSimes.setEnabled(!b);
+
+	    jcbCorObject.setEnabled(!b);
+	    jbLoadPValues.setEnabled(!b);
+	    if (!b) refresh(false);
+	}
+
+	public void setUp() {
+		JPanel panel = new JPanel();
+		
+		String cols = "5dlu, fill:pref:grow, 5dlu, fill:pref:grow, 5dlu, fill:pref:grow, 5dlu, fill:pref:grow, 5dlu";
+        String rows = "5dlu, pref, 5dlu, pref, 5dlu, pref, 5dlu";
+        for (PPanel p : panels) {
+        	rows += ", pref, 5dlu";
+        }
+        
+        FormLayout layout = new FormLayout(cols, rows);
+        panel.setLayout(layout);        
+		
+    	panel.add(new JLabel("Hypothesis"), cc.xy(2, 2));
+    	
+    	panel.add(weightLabel, cc.xy(4, 2));
+    	//panel.add(new JLabel("Signif. Level"), cc.xy(4, 2));
+
+    	panel.add(new JLabel("P-Value"), cc.xy(6, 2));
+				
+		int row = 4;
+		for (PPanel p : panels) {
+			int col=2;
+			for (Component c : p.getComponent()) {
+				panel.add(c, cc.xy(col, row));	
+				col += 2;
+			}
+			row += 2;
+		}		
+		panel.add(statusLabel, cc.xyw(2, row, 3));
+		panel.add(jbLoadPValues, cc.xy(6, row));
+		row += 2;
+		panel.add(alphaLabel, cc.xy(2, row));    	
+    	panel.add(totalAlpha, cc.xy(4, row));
+    	//totalAlpha.setText("0.05");
+    	totalAlpha.addKeyListener(this);
+    	
+    	updateLabels();
+		panel.revalidate();		
+		removeAll();		
+		add(panel, c);
+		c.gridy++;
+		add(getCorrelatedPanel(), c);
+		revalidate();
+	}
+
+	public void updateLabels() {
+		double weight = 0;
+		for (PPanel p : panels) {
+			if (!p.rejected) {
+				weight += p.w;
+			}
+		}
+		String text = "Sum of weights: "+Configuration.getInstance().getGeneralConfig().getDecFormat().format(weight);
+		if (weight>1.0001) {
+			statusLabel.setForeground(Color.RED);
+			text += "; The total weight is greater 1!";
+		} else {
+			statusLabel.setForeground(Color.BLACK);
+		}		
+		statusLabel.setText(text);
 	}
 	
 }

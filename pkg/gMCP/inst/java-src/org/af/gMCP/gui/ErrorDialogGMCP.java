@@ -50,59 +50,63 @@ import com.jgoodies.forms.layout.FormLayout;
 
 public class ErrorDialogGMCP extends JDialog implements ActionListener {
 
+    static int count = 0;
+
     protected static Log logger = LogFactory.getLog(ErrorDialogGMCP.class);
+
+    public static File makeLogFile(String fileName, String content) throws IOException{
+        File tempDir = new File(System.getProperty("java.io.tmpdir"));
+        File output = new File(tempDir, fileName);
+        FileWriter fw = new FileWriter(output);
+        fw.write(content);
+        fw.close();
+        return output;
+    }
+    
+    protected ApplicationLog al;
 
     // throwable which caused the error, might be null
     protected final Object e;
-
+    
     // is this a fatal error?
     protected final boolean fatal;
-    
-    static int count = 0;
-
-    // displayed error message
-    protected final String msg;
-    
-    // header, for error message
-    protected MultiLineLabel taHeader;
-    // other contact details of user
-    protected JTextField tfContact;
-    // description
-    protected JTextArea taDesc;
     // message in header
     protected String informMsg = "";
     // to disable the whole dialog
     protected LockableUI lockableUI;
+    // displayed error message
+    protected final String msg;
+    // description
+    protected JTextArea taDesc;
     
-    public void showDialog() {
-    	
-    	setTitle(getDialogTitle());
-        setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
-        addWindowListener(new WindowAdapter() {
-            public void windowClosing(WindowEvent e) {
-                onExit();
-            }
-        });
-    	makeComponents();
-    	doTheLayout();
-    	setResizable(true);
-    	setAlwaysOnTop(true);
-    	setVisible(true);
-    }
+    // header, for error message
+    protected MultiLineLabel taHeader;
     
-    protected String getDialogTitle() {
-    	return msg;
-    }
+    // other contact details of user
+    protected JTextField tfContact;
+
+    public ErrorDialogGMCP(String msg, Object e, boolean fatal) {				
+        super(GUIToolKit.findActiveFrame(), true);        
+        this.fatal = fatal;
+        this.e = e;
+        //super(msg, e, fatal);
+        this.msg = msg;      
+	}
+
 
     /**
-     * Create and initialize the widgets.
+     * Dispatch actions from buttons
+     *
+     * @param e the action event
      */
-    private void makeComponents() {
-        taHeader = new MultiLineLabel(informMsg);
-        tfContact = new JTextField();
-        taDesc = new JTextArea(4,30);
+    public void actionPerformed(ActionEvent e) {
+        if (e.getActionCommand().equals(HorizontalButtonPane.CANCEL_CMD)) {
+            onExit();
+        }
+        if (e.getActionCommand().equals(HorizontalButtonPane.OK_CMD)) {
+            onInform();
+        }
     }
-
 
     /**
      * Arranges the widgets.
@@ -136,139 +140,7 @@ public class ErrorDialogGMCP extends JDialog implements ActionListener {
         pack();
         setLocationRelativeTo(getParent());
     }
-
-    /**
-     * Dispatch actions from buttons
-     *
-     * @param e the action event
-     */
-    public void actionPerformed(ActionEvent e) {
-        if (e.getActionCommand().equals(HorizontalButtonPane.CANCEL_CMD)) {
-            onExit();
-        }
-        if (e.getActionCommand().equals(HorizontalButtonPane.OK_CMD)) {
-            onInform();
-        }
-    }
     
-
-    /**
-     * Handler for exit action. Overwrite this method if you want another behavior.
-     */
-    protected void onExit() {
-    	dispose();
-    }
-
-    /**
-     * Handler for inform button
-     */
-    protected void onInform() {
-        lockableUI.setLocked(true);
-
-        SafeSwingWorker<Void, Void> worker = new SafeSwingWorker<Void, Void>() {
-            @Override
-            protected Void doInBackground() throws Exception {
-            	(new HTTPPoster()).post(ErrorHandler.getInstance().getReportURL(), getInfoTable(), getAttachedFiles());                
-            	return null;
-            }
-            
-			@Override
-            protected void onSuccess(Void result) {
-                JOptionPane.showMessageDialog(ErrorDialogGMCP.this, Localizer.getInstance().getString("AFCOMMONS_ERRORHANDLING_ERRORDIALOG_REPORTSENT"));
-                dispose();
-            }
-
-            @Override
-            protected void onFailure(Throwable t) {
-                String msg = "Could not connect to server and send report.\n("+t.getMessage()+")\nPlease send mail manually!";
-                logger.error(msg, t);
-                JOptionPane.showMessageDialog(ErrorDialogGMCP.this, msg);
-                lockableUI.setLocked(false);
-                
-                // Open mail client in Java 6:
-                String subject = "Error%20report";
-                String body = "Description%20and%20contact%20information:";
-                String mailtoURI = "mailto:"+ErrorHandler.getInstance().getDeveloperAddress()+"?SUBJECT="+subject+"&BODY="+body;
-
-                /* This is a Wrapper for Desktop.getDesktop().mail(uriMailTo);
-                 * that will do that for Java >=6 and nothing for
-                 * Java 5.
-                 */    
-        		try {	
-        			URI uriMailTo = new URI(mailtoURI);
-        			Method main = Class.forName("java.awt.Desktop").getDeclaredMethod("getDesktop");
-        			Object obj = main.invoke(new Object[0]);
-        			Method second = obj.getClass().getDeclaredMethod("mail", new Class[] { URI.class }); 
-        			second.invoke(obj, uriMailTo);
-        		} catch (Exception e) {			
-        			logger.warn("No Desktop class in Java 5 or URI error.",e);
-        		}
-            }
-        };
-        worker.execute();
-    }
-    
-    protected JPanel getPanel() {
-        JPanel p = new JPanel();
-        String cols = "left:pref, 5dlu, f:d:g";
-        String rows = "pref, 5dlu, f:p:g, 5dlu, pref, 5dlu, pref, 5dlu, pref, 5dlu, pref";
-        FormLayout layout = new FormLayout(cols, rows);
-
-        p.setLayout(layout);
-        CellConstraints cc = new CellConstraints();
-
-        int row = 1;
-        
-        p.add(new JLabel("<html>" + msg.replaceAll("\n", "<br>") + "</html>"),                  cc.xyw(1, row, 3));
-
-        p.add(taHeader,                                                 cc.xyw(1, row, 3));
-
-        row += 2;
-
-        p.add(new JLabel(Localizer.getInstance().getString("AFCOMMONS_ERRORHANDLING_ERRORDIALOG_ERRORDESCRIPTION")),           cc.xy(1, row));
-        JScrollPane sp1 = new JScrollPane(taDesc);
-        p.add(sp1,                                                      cc.xy(3, row));
-
-        row += 2;
-
-        p.add(new JLabel(Localizer.getInstance().getString("AFCOMMONS_ERRORHANDLING_ERRORDIALOG_OPTIONAL")), cc.xyw(1, row, 3));
-
-        row += 2;
-
-        p.add(new JLabel(Localizer.getInstance().getString("AFCOMMONS_ERRORHANDLING_ERRORDIALOG_CONTACT")),            cc.xy(1, row));
-        p.add(tfContact,                                                  cc.xy(3, row));
-
-        row += 2;
-
-        p.add(getOptionalPanel(),                                       cc.xyw(1, row, 3));
-
-        return p;
-    }
-
-    protected ApplicationLog al;
-
-	public ErrorDialogGMCP(String msg, Object e, boolean fatal) {				
-        super(GUIToolKit.findActiveFrame(), true);        
-        this.fatal = fatal;
-        this.e = e;
-        //super(msg, e, fatal);
-        this.msg = msg;      
-	}
-
-    protected JPanel getOptionalPanel() {
-    	al = LoggingSystem.getInstance().getApplicationLog();
-        JPanel p = new JPanel();
-        String cols = "left:pref, 5dlu, pref:grow";
-        String rows = "pref";
-        FormLayout layout = new FormLayout(cols, rows);
-        p.setLayout(layout);    
-
-        /* 
-         CellConstraints cc = new CellConstraints();
-         p.add(new JLabel("attach Data=")),    cc.xy(1, 1));
-         p.add(chbAttachDf,                    cc.xy(3, 1)); */
-        return p;
-    }
 
     protected Hashtable<String, File> getAttachedFiles() throws IOException {
     	Hashtable<String, File> files = new Hashtable<String, File>();
@@ -294,60 +166,14 @@ public class ErrorDialogGMCP extends JDialog implements ActionListener {
     	}
         return files;
     }
+
+    protected String getDialogTitle() {
+    	return msg;
+    }
     
     private String getGraph() {
     	return StringTools.collapseStringArray(RControl.getR().eval("gMCP:::getDebugInfo()").asRChar().getData());
 	}
-
-	private String getSystemInfo() {		
-		return al.getSystemInfo();
-	}
-
-	private String getROptions() {		
-		return StringTools.collapseStringArray(RControl.getR().eval("paste(capture.output(options()), collapse=\"\\n\")").asRChar().getData());
-	}
-
-	private String getRSessionInfo() {
-		return StringTools.collapseStringArray(RControl.getR().eval("paste(capture.output(sessionInfo()), collapse=\"\\n\")").asRChar().getData());
-	}
-	
-	private String getTraceBack() {
-		return StringTools.collapseStringArray(RControl.getR().eval("paste(capture.output(traceback()), collapse=\"\\n\")").asRChar().getData());
-	}
-
-	/**
-     * @return the location of the (human readable) log file
-     */
-    public File getReadableLogFile() {
-        return new File(getReadableLogFileAppender().getFile());
-    }
-    
-    /**
-     * @return the FileAppender for the (human readable) log file 
-     */
-    public FileAppender getReadableLogFileAppender() {
-        return (FileAppender)Logger.getRootLogger().getAppender("READABLE_FILE");
-    }
-
-    public File screen() throws IOException {
-    	JFrame f = CreateGraphGUI.lastCreatedGUI;
-    	BufferedImage image = new BufferedImage(f.getWidth(), f.getHeight(), BufferedImage.TYPE_INT_RGB);
-    	Graphics2D graphics2D = image.createGraphics();
-    	f.paint(graphics2D);
-    	File tempDir = new File(System.getProperty("java.io.tmpdir"));
-    	File file = new File(tempDir, "screen.jpg");
-    	ImageIO.write(image, "jpeg", file);
-    	return file;
-    }
-    
-    public static File makeLogFile(String fileName, String content) throws IOException{
-        File tempDir = new File(System.getProperty("java.io.tmpdir"));
-        File output = new File(tempDir, fileName);
-        FileWriter fw = new FileWriter(output);
-        fw.write(content);
-        fw.close();
-        return output;
-    }
 
     protected Hashtable<String, String> getInfoTable() {
     	Hashtable<String, String> table = new Hashtable<String,String>();
@@ -389,6 +215,181 @@ public class ErrorDialogGMCP extends JDialog implements ActionListener {
     			(message.length()<40?message:message.substring(0, 37)+"...");
     	table.put("Subject", subject);
     	return table;
+    }
+
+	protected JPanel getOptionalPanel() {
+    	al = LoggingSystem.getInstance().getApplicationLog();
+        JPanel p = new JPanel();
+        String cols = "left:pref, 5dlu, pref:grow";
+        String rows = "pref";
+        FormLayout layout = new FormLayout(cols, rows);
+        p.setLayout(layout);    
+
+        /* 
+         CellConstraints cc = new CellConstraints();
+         p.add(new JLabel("attach Data=")),    cc.xy(1, 1));
+         p.add(chbAttachDf,                    cc.xy(3, 1)); */
+        return p;
+    }
+
+    protected JPanel getPanel() {
+        JPanel p = new JPanel();
+        String cols = "left:pref, 5dlu, f:d:g";
+        String rows = "pref, 5dlu, f:p:g, 5dlu, pref, 5dlu, pref, 5dlu, pref, 5dlu, pref";
+        FormLayout layout = new FormLayout(cols, rows);
+
+        p.setLayout(layout);
+        CellConstraints cc = new CellConstraints();
+
+        int row = 1;
+        
+        p.add(new JLabel("<html>" + msg.replaceAll("\n", "<br>") + "</html>"),                  cc.xyw(1, row, 3));
+
+        p.add(taHeader,                                                 cc.xyw(1, row, 3));
+
+        row += 2;
+
+        p.add(new JLabel(Localizer.getInstance().getString("AFCOMMONS_ERRORHANDLING_ERRORDIALOG_ERRORDESCRIPTION")),           cc.xy(1, row));
+        JScrollPane sp1 = new JScrollPane(taDesc);
+        p.add(sp1,                                                      cc.xy(3, row));
+
+        row += 2;
+
+        p.add(new JLabel(Localizer.getInstance().getString("AFCOMMONS_ERRORHANDLING_ERRORDIALOG_OPTIONAL")), cc.xyw(1, row, 3));
+
+        row += 2;
+
+        p.add(new JLabel(Localizer.getInstance().getString("AFCOMMONS_ERRORHANDLING_ERRORDIALOG_CONTACT")),            cc.xy(1, row));
+        p.add(tfContact,                                                  cc.xy(3, row));
+
+        row += 2;
+
+        p.add(getOptionalPanel(),                                       cc.xyw(1, row, 3));
+
+        return p;
+    }
+
+    /**
+     * @return the location of the (human readable) log file
+     */
+    public File getReadableLogFile() {
+        return new File(getReadableLogFileAppender().getFile());
+    }
+    
+    /**
+     * @return the FileAppender for the (human readable) log file 
+     */
+    public FileAppender getReadableLogFileAppender() {
+        return (FileAppender)Logger.getRootLogger().getAppender("READABLE_FILE");
+    }
+
+	private String getROptions() {		
+		return StringTools.collapseStringArray(RControl.getR().eval("paste(capture.output(options()), collapse=\"\\n\")").asRChar().getData());
+	}
+
+	private String getRSessionInfo() {
+		return StringTools.collapseStringArray(RControl.getR().eval("paste(capture.output(sessionInfo()), collapse=\"\\n\")").asRChar().getData());
+	}
+
+	private String getSystemInfo() {		
+		return al.getSystemInfo();
+	}
+	
+	private String getTraceBack() {
+		return StringTools.collapseStringArray(RControl.getR().eval("paste(capture.output(traceback()), collapse=\"\\n\")").asRChar().getData());
+	}
+
+	/**
+     * Create and initialize the widgets.
+     */
+    private void makeComponents() {
+        taHeader = new MultiLineLabel(informMsg);
+        tfContact = new JTextField();
+        taDesc = new JTextArea(4,30);
+    }
+    
+    /**
+     * Handler for exit action. Overwrite this method if you want another behavior.
+     */
+    protected void onExit() {
+    	dispose();
+    }
+
+    /**
+     * Handler for inform button
+     */
+    protected void onInform() {
+        lockableUI.setLocked(true);
+
+        SafeSwingWorker<Void, Void> worker = new SafeSwingWorker<Void, Void>() {
+            @Override
+            protected Void doInBackground() throws Exception {
+            	(new HTTPPoster()).post(ErrorHandler.getInstance().getReportURL(), getInfoTable(), getAttachedFiles());                
+            	return null;
+            }
+            
+			@Override
+            protected void onFailure(Throwable t) {
+                String msg = "Could not connect to server and send report.\n("+t.getMessage()+")\nPlease send mail manually!";
+                logger.error(msg, t);
+                JOptionPane.showMessageDialog(ErrorDialogGMCP.this, msg);
+                lockableUI.setLocked(false);
+                
+                // Open mail client in Java 6:
+                String subject = "Error%20report";
+                String body = "Description%20and%20contact%20information:";
+                String mailtoURI = "mailto:"+ErrorHandler.getInstance().getDeveloperAddress()+"?SUBJECT="+subject+"&BODY="+body;
+
+                /* This is a Wrapper for Desktop.getDesktop().mail(uriMailTo);
+                 * that will do that for Java >=6 and nothing for
+                 * Java 5.
+                 */    
+        		try {	
+        			URI uriMailTo = new URI(mailtoURI);
+        			Method main = Class.forName("java.awt.Desktop").getDeclaredMethod("getDesktop");
+        			Object obj = main.invoke(new Object[0]);
+        			Method second = obj.getClass().getDeclaredMethod("mail", new Class[] { URI.class }); 
+        			second.invoke(obj, uriMailTo);
+        		} catch (Exception e) {			
+        			logger.warn("No Desktop class in Java 5 or URI error.",e);
+        		}
+            }
+
+            @Override
+            protected void onSuccess(Void result) {
+                JOptionPane.showMessageDialog(ErrorDialogGMCP.this, Localizer.getInstance().getString("AFCOMMONS_ERRORHANDLING_ERRORDIALOG_REPORTSENT"));
+                dispose();
+            }
+        };
+        worker.execute();
+    }
+    
+    public File screen() throws IOException {
+    	JFrame f = CreateGraphGUI.lastCreatedGUI;
+    	BufferedImage image = new BufferedImage(f.getWidth(), f.getHeight(), BufferedImage.TYPE_INT_RGB);
+    	Graphics2D graphics2D = image.createGraphics();
+    	f.paint(graphics2D);
+    	File tempDir = new File(System.getProperty("java.io.tmpdir"));
+    	File file = new File(tempDir, "screen.jpg");
+    	ImageIO.write(image, "jpeg", file);
+    	return file;
+    }
+
+    public void showDialog() {
+    	new ErrorDialogChooseLevel(null);
+    	
+    	setTitle(getDialogTitle());
+        setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
+        addWindowListener(new WindowAdapter() {
+            public void windowClosing(WindowEvent e) {
+                onExit();
+            }
+        });
+    	makeComponents();
+    	doTheLayout();
+    	setResizable(true);
+    	setAlwaysOnTop(true);
+    	setVisible(true);
     }
   
     
