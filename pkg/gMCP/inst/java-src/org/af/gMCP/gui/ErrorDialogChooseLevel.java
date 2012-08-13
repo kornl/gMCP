@@ -1,7 +1,11 @@
 package org.af.gMCP.gui;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import javax.swing.ButtonGroup;
 import javax.swing.JCheckBox;
+import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JRadioButton;
@@ -11,12 +15,16 @@ import org.af.gMCP.config.Configuration;
 import com.jgoodies.forms.layout.CellConstraints;
 import com.jgoodies.forms.layout.FormLayout;
 
-public class ErrorDialogChooseLevel extends JDialog {
+public class ErrorDialogChooseLevel extends JDialog implements ActionListener {
 
-	protected JRadioButton jrbNo = new JRadioButton("Send no error report.");
-	protected JRadioButton jrbMinimal = new JRadioButton("Minimal: Just send the stack trace + version + OS type"); 
-	protected JRadioButton jrbDefault = new JRadioButton("Default: Send the most important information");
-	protected JRadioButton jrbMax = new JRadioButton("Maximal: Includes more information about the system");
+	String[] reportLevels = new String[] {
+			"Send no error report.",
+			"Minimal: Just send the stack trace + version + OS type",
+			"Default: Send the most important information",
+			"Maximal: Includes more information about the system"
+	};
+	
+	protected JComboBox jcbReportLevel;
 	protected JCheckBox jcbScreenshot = new JCheckBox("Send screenshot of GUI");	
 	
 	public ErrorDialogChooseLevel(JFrame parent) {
@@ -29,45 +37,33 @@ public class ErrorDialogChooseLevel extends JDialog {
 		FormLayout layout = new FormLayout(cols, rows);
 		getContentPane().setLayout(layout);
 		CellConstraints cc = new CellConstraints();
-
-		ButtonGroup group = new ButtonGroup();
-	    group.add(jrbNo);
-	    group.add(jrbMinimal);
-	    group.add(jrbDefault);
-	    group.add(jrbMax);
-	    
-	    String reportLevel = Configuration.getInstance().getClassProperty(this.getClass(), "report level", "default");
-	    
-	    if (reportLevel.equals("no")) {
-	    	jrbNo.setSelected(true);
-	    } else if (reportLevel.equals("minimal")) {
-	    	jrbMinimal.setSelected(true);
-	    } else if (reportLevel.equals("default")) {
-	    	jrbDefault.setSelected(true);
-	    } else if (reportLevel.equals("max")) {
-	    	jrbMax.setSelected(true);
-	    } 
 		
+		jcbReportLevel = new JComboBox(reportLevels);
+
+	    int rLevel;
+	    try {
+	    	rLevel = Integer.parseInt(Configuration.getInstance().getClassProperty(this.getClass(), "reportLevel", "2"));
+	    } catch (Exception e) {
+	    	rLevel = 2;
+	    }
+	    
 		int row = 2;
 		
-		getContentPane().add(jrbNo, cc.xyw(2, row, 3));
+		getContentPane().add(jcbReportLevel, cc.xyw(2, row, 3));
+		getContentPane().add(jcbReportLevel, cc.xyw(2, row, 3));
 		
-		row += 2;
-		
-		getContentPane().add(jrbMinimal, cc.xyw(2, row, 3));
-		
-		row += 2;
-		
-		getContentPane().add(jrbDefault, cc.xyw(2, row, 3));
-		
-		row += 2;
-		
-		getContentPane().add(jrbMax, cc.xyw(2, row, 3));
-		
-		row += 2;
+		row += 2; 
 		
 		getContentPane().add(jcbScreenshot, cc.xyw(2, row, 3));
 		
+		pack();
+		
 		setVisible(true);
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		Configuration.getInstance().setClassProperty(this.getClass(), "reportLevel", ""+jcbReportLevel.getSelectedIndex());
+	
 	}
 }
