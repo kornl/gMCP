@@ -1,6 +1,9 @@
 Changes in version 0.8-0 (??-??-2012, Rev. 1???)
 ================================================
 
+- Fixed: If edges or nodes were changed with a double click,
+  after that 
+
 Planed for this release are:
 
 - Entangled graphs (graphs with memory, i.e. linear convex combinations
@@ -10,7 +13,7 @@ Planed for this release are:
 
 - Annotation features.
 
-- Improved bug reporting.
+- Improved logging and bug reporting (showing less but more relevant information).
   
 - Improved documentation and user guidance.
 
