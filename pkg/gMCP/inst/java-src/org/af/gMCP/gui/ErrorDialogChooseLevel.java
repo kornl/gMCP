@@ -9,6 +9,7 @@ import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JRadioButton;
+import javax.swing.JTextArea;
 
 import org.af.gMCP.config.Configuration;
 
@@ -46,11 +47,30 @@ public class ErrorDialogChooseLevel extends JDialog implements ActionListener {
 	    } catch (Exception e) {
 	    	rLevel = 2;
 	    }
+	    jcbReportLevel.setSelectedIndex(rLevel);
 	    
 		int row = 2;
 		
+		JTextArea jlabel = new JTextArea("We are sorry that an error occurred.\n" +
+				"Please give us details about this error so that we can fix it.");
+		jlabel.setOpaque(false);
+		jlabel.setEditable(false);
+		
+		getContentPane().add(jlabel, cc.xyw(2, row, 3));
+		
+		row += 2;		
+		
 		getContentPane().add(jcbReportLevel, cc.xyw(2, row, 3));
-		getContentPane().add(jcbReportLevel, cc.xyw(2, row, 3));
+
+		jlabel = new JTextArea("The following information will be send to us:");
+		jlabel.setOpaque(false);
+		jlabel.setEditable(false);
+		
+		getContentPane().add(jlabel, cc.xyw(2, row, 3));
+		
+		row += 2;		
+
+		
 		
 		row += 2; 
 		

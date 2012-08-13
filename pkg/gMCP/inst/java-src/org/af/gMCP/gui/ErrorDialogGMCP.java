@@ -24,7 +24,6 @@ import javax.swing.JTabbedPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
-import org.af.commons.Localizer;
 import org.af.commons.errorhandling.ErrorHandler;
 import org.af.commons.errorhandling.HTTPPoster;
 import org.af.commons.io.FileTools;
@@ -116,7 +115,7 @@ public class ErrorDialogGMCP extends JDialog implements ActionListener {
 
         JTabbedPane dd = new JTabbedPane();
         dd.setTabLayoutPolicy(JTabbedPane.SCROLL_TAB_LAYOUT);
-        dd.add(Localizer.getInstance().getString("AFCOMMONS_ERRORHANDLING_ERRORDIALOG_REPORT"), getPanel());
+        dd.add("Report", getPanel());
         
         Hashtable<String, File> files = new Hashtable<String, File>();
         try {
@@ -130,12 +129,10 @@ public class ErrorDialogGMCP extends JDialog implements ActionListener {
             	}
             }
         } catch (IOException e) {
-			JOptionPane.showMessageDialog(this, Localizer.getInstance().getString("AFCOMMONS_ERRORHANDLING_ERRORDIALOG_IOERR"));
+			JOptionPane.showMessageDialog(this, "IO-Error while accessing log file!");
 		}
         
-        HorizontalButtonPane bp = new OkCancelButtonPane(
-                Localizer.getInstance().getString("AFCOMMONS_ERRORHANDLING_ERRORDIALOG_INFORM"),
-                Localizer.getInstance().getString("AFCOMMONS_ERRORHANDLING_ERRORDIALOG_EXIT"));
+        HorizontalButtonPane bp = new OkCancelButtonPane("Ok", "Cancel");
         setContentPane(WidgetFactory.makeDialogPanelWithButtons(dd, bp, this));
         pack();
         setLocationRelativeTo(getParent());
@@ -153,7 +150,7 @@ public class ErrorDialogGMCP extends JDialog implements ActionListener {
     		files.put("traceback", makeLogFile("taceback.txt", getTraceBack()));
     		files.put("graph", makeLogFile("graph.txt", getGraph()));
     		files.put("config", makeLogFile("config.txt", Configuration.getInstance().getConfigurationForDebugPurposes()));
-    		files.put("screen", screen());
+    		//files.put("screen", screen());
     		files.put("abstractR", makeLogFile("abstractR.txt", ReproducableLog.getRLog()));
     		files.put("userInteraction", makeLogFile("userInteraction.txt", ReproducableLog.getGUILog()));
     	} catch (Exception e) {
@@ -165,10 +162,6 @@ public class ErrorDialogGMCP extends JDialog implements ActionListener {
     		 e.printStackTrace();
     	}
         return files;
-    }
-
-    protected String getDialogTitle() {
-    	return msg;
     }
     
     private String getGraph() {
@@ -249,17 +242,17 @@ public class ErrorDialogGMCP extends JDialog implements ActionListener {
 
         row += 2;
 
-        p.add(new JLabel(Localizer.getInstance().getString("AFCOMMONS_ERRORHANDLING_ERRORDIALOG_ERRORDESCRIPTION")),           cc.xy(1, row));
+        p.add(new JLabel("Description:"),           cc.xy(1, row));
         JScrollPane sp1 = new JScrollPane(taDesc);
         p.add(sp1,                                                      cc.xy(3, row));
 
         row += 2;
 
-        p.add(new JLabel(Localizer.getInstance().getString("AFCOMMONS_ERRORHANDLING_ERRORDIALOG_OPTIONAL")), cc.xyw(1, row, 3));
+        p.add(new JLabel("OPTIONAL: If you want to help or get feedback, give us some way to contact you:"), cc.xyw(1, row, 3));
 
         row += 2;
 
-        p.add(new JLabel(Localizer.getInstance().getString("AFCOMMONS_ERRORHANDLING_ERRORDIALOG_CONTACT")),            cc.xy(1, row));
+        p.add(new JLabel("Optional contact (email, phone)"),            cc.xy(1, row));
         p.add(tfContact,                                                  cc.xy(3, row));
 
         row += 2;
@@ -357,7 +350,7 @@ public class ErrorDialogGMCP extends JDialog implements ActionListener {
 
             @Override
             protected void onSuccess(Void result) {
-                JOptionPane.showMessageDialog(ErrorDialogGMCP.this, Localizer.getInstance().getString("AFCOMMONS_ERRORHANDLING_ERRORDIALOG_REPORTSENT"));
+                JOptionPane.showMessageDialog(ErrorDialogGMCP.this, "Report was sent.");
                 dispose();
             }
         };
@@ -376,9 +369,9 @@ public class ErrorDialogGMCP extends JDialog implements ActionListener {
     }
 
     public void showDialog() {
-    	new ErrorDialogChooseLevel(null);
+    	//new ErrorDialogChooseLevel(null);
     	
-    	setTitle(getDialogTitle());
+    	setTitle("Sorry, an error occured - please tell us about it.");
         setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
         addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent e) {
