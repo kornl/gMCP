@@ -3,12 +3,10 @@ package org.af.gMCP.gui;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.ButtonGroup;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
-import javax.swing.JRadioButton;
 import javax.swing.JTextArea;
 
 import org.af.gMCP.config.Configuration;

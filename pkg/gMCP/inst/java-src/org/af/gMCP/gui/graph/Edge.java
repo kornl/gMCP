@@ -194,6 +194,11 @@ public class Edge {
 		return ew.toString();
 	}
 
+	public boolean containsYou(int[] start, int[] end) {
+		return Math.min(start[0], end[0])<=x+w && Math.max(start[0], end[0])>=x
+				&& Math.min(start[1], end[1])<=y+h && Math.max(start[1], end[1])>=y; 
+	}
+	
 	public boolean inYou(int x2, int y2) {
 		return x2>=x && x2 <= x+w && y2 >= y && y2 <= y+h;
 	}

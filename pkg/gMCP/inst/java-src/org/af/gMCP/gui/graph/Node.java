@@ -75,6 +75,12 @@ public class Node {
 				+ (y / nl.getZoom() - this.y - r)
 				* (y / nl.getZoom() - this.y - r) <= (r * r));
 	}
+	
+
+	public boolean containsYou(int[] start, int[] end) {
+		return Math.min(start[0], end[0])/ nl.getZoom()<=x+r && Math.max(start[0], end[0])/ nl.getZoom()>=x-r
+				&& Math.min(start[1], end[1])/ nl.getZoom()<=y+r && Math.max(start[1], end[1])/ nl.getZoom()>=y-r; 
+	}
 
 	public static int getRadius() { return r; }
 	

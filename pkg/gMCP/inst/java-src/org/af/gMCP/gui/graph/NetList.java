@@ -39,8 +39,8 @@ public class NetList extends JPanel implements MouseMotionListener, MouseListene
 	
 	GraphMCP graph;
 	
-	int[] drag = new int[0];
-	int[] edrag = new int[0];
+	int[] dragN = new int[0];
+	int[] dragE = new int[0];
 	boolean unAnchor = false;
 	
 	protected Vector<Edge> edges = new Vector<Edge>();
@@ -392,31 +392,31 @@ public class NetList extends JPanel implements MouseMotionListener, MouseListene
 			repaint();
 			return;
 		}
-		if (drag.length==0 && edrag.length==0) { /* Dragging without objects creates a rectangular. */
+		if (dragN.length==0 && dragE.length==0) { /* Dragging without objects creates a rectangular. */
 			endPoint = new int[] {e.getX(), e.getY()};
 			repaint();
 			return;
 		}
-		if (drag.length!=0) {
-			for (int i : drag) {
-				if (!unAnchor && Configuration.getInstance().getGeneralConfig().getUnAnchor()) { 
-					for (Edge edge : getEdges()) {
-						if (edge.from == nodes.get(i) || edge.to == nodes.get(i)) {
-							edge.fixed = false;
-						}
+
+		for (int i : dragN) {
+			if (!unAnchor && Configuration.getInstance().getGeneralConfig().getUnAnchor()) { 
+				for (Edge edge : getEdges()) {
+					if (edge.from == nodes.get(i) || edge.to == nodes.get(i)) {
+						edge.fixed = false;
 					}
-					unAnchor = true;
 				}
-				nodes.get(i).setX( (int) ((e.getX()+offsetN[i][0]) / (double) getZoom()));
-				nodes.get(i).setY( (int) ((e.getY()+offsetN[i][1]) / (double) getZoom()));
-				placeUnfixedNodes(nodes.get(i));
+				unAnchor = true;
 			}
-		} else {
-			for (int i : edrag) {		
-				edges.get(i).setK1( (int) ((e.getX()+offsetE[i][0]) / (double) getZoom()));
-				edges.get(i).setK2( (int) ((e.getY()+offsetE[i][1]) / (double) getZoom()));
-			}
+			nodes.get(i).setX( (int) ((e.getX()+offsetN[i][0]) / (double) getZoom()));
+			nodes.get(i).setY( (int) ((e.getY()+offsetN[i][1]) / (double) getZoom()));
+			placeUnfixedNodes(nodes.get(i));
 		}
+
+		for (int i : dragE) {		
+			edges.get(i).setK1( (int) ((e.getX()+offsetE[i][0]) / (double) getZoom()));
+			edges.get(i).setK2( (int) ((e.getY()+offsetE[i][1]) / (double) getZoom()));
+		}
+
 		calculateSize();
 		repaint();
 	}
@@ -440,15 +440,17 @@ public class NetList extends JPanel implements MouseMotionListener, MouseListene
 	protected int[] endPoint = null;
 	
 	public void mousePressed(MouseEvent e) {		
+		// Trigger PopUp
 		if (e.isPopupTrigger()) {
 			popUp(e);	
 		}
+		// Right-click stops placement of new nodes
 		if (e.getButton()==MouseEvent.BUTTON2) {
 			newVertex = false;
 			control.buttonNewNode.setSelected(false);
 			return;
 		}
-		//logger.debug("MousePressed at ("+e.getX()+","+ e.getY()+").");
+		// Check whether to add new node
 		if (newVertex && vertexSelected(e.getX(), e.getY())==null) {
 			addDefaultNode((int)(e.getX() / getZoom()) - Node.r, 
 						(int) (e.getY() / getZoom()) - Node.r);
@@ -456,6 +458,7 @@ public class NetList extends JPanel implements MouseMotionListener, MouseListene
 			repaint();
 			return;
 		}
+		// Check whether to add new edge
 		if (newEdge) {
 			if (!firstVertexSelected) {
 				firstVertex = vertexSelected(e.getX(), e.getY());
@@ -477,20 +480,36 @@ public class NetList extends JPanel implements MouseMotionListener, MouseListene
 			repaint();
 			return;
 		}
-
-		for (int i = 0; i < nodes.size(); i++) {
-			if (nodes.get(i).inYou(e.getX(), e.getY())) {
-				drag = new int[] {i};
-				offsetN = new int[][] {nodes.get(i).offset(e.getX(), e.getY())};
+		
+		// Drag'n'drop
+		if (dragN.length!=0 || dragE.length!=0) {
+			offsetN = new int[nodes.size()][2];
+			offsetE = new int[edges.size()][2];
+			for (int i : dragN) {
+				offsetN[i] = nodes.get(i).offset(e.getX(), e.getY());
+			}
+			for (int i : dragE) {
+				offsetE[i] = edges.get(i).offset(e.getX(), e.getY());
+			}
+		} else {
+			for (int i = 0; i < nodes.size(); i++) {
+				if (nodes.get(i).inYou(e.getX(), e.getY())) {
+					dragN = new int[] {i};
+					offsetN = new int[nodes.size()][2];
+					offsetN[i] = nodes.get(i).offset(e.getX(), e.getY());
+				}
+			}
+			for (int i = edges.size()-1; i >=0 ; i--) {
+				if (edges.get(i).inYou(e.getX(), e.getY())) {
+					dragN = new int[0];
+					dragE = new int[] {i};
+					offsetE = new int[edges.size()][2];
+					offsetE[i] = edges.get(i).offset(e.getX(), e.getY());
+				}
 			}
 		}
-		for (int i = edges.size()-1; i >=0 ; i--) {
-			if (edges.get(i).inYou(e.getX(), e.getY())) {
-				drag = new int[0];
-				edrag = new int[] {i};
-				offsetE = new int[][] {edges.get(i).offset(e.getX(), e.getY())};
-			}
-		}
+		
+		// Double click opens dialog for changing nodes or edges. 
 		if (e.getClickCount() == 2 && !testingStarted) {			
 			for (int i = edges.size()-1; i >=0 ; i--) {
 				if (edges.get(i).inYou(e.getX(), e.getY())) {
@@ -508,7 +527,8 @@ public class NetList extends JPanel implements MouseMotionListener, MouseListene
 					return;
 				}
 			}
-		}		
+		}
+		
 		startingPoint = new int[] {e.getX(), e.getY()};
 		repaint();
 	}
@@ -519,18 +539,34 @@ public class NetList extends JPanel implements MouseMotionListener, MouseListene
 	 * @see java.awt.event.MouseListener#mouseReleased(java.awt.event.MouseEvent)
 	 */
 	public void mouseReleased(MouseEvent e) {
+		dragN = new int[0];
+		dragE = new int[0];
+		
 		if (e != null)	{
 			if (endPoint!=null && startingPoint!=null && Configuration.getInstance().getGeneralConfig().experimentalFeatures()) {
-				
+				Vector<Node> nodes = new Vector<Node>();
+				Vector<Edge> edges = new Vector<Edge>(); 
+				for (Edge edge : this.edges) {
+					if (edge.containsYou(startingPoint, endPoint)) {
+						edges.add(edge);
+					}
+				}
+				for (Node node : this.nodes) {
+					if (node.containsYou(startingPoint, endPoint)) {
+						nodes.add(node);
+					}
+				}
+				NetListSelectionPopUpMenu menu = new NetListSelectionPopUpMenu(this, nodes, edges);
+				menu.show(e.getComponent(), e.getX(), e.getY());
 			} else 	if (e.isPopupTrigger()) {
 				popUp(e);	
 			}
 		}
-		for(int i : edrag) {			
+		
+		for(int i : dragE) {			
 			edges.get(i).setFixed(true);
 		}
-		drag = new int[0];
-		edrag = new int[0];
+		
 		unAnchor = false;
 		endPoint = null;
 		if (e !=null && newEdge && firstVertexSelected) {				
@@ -677,7 +713,7 @@ public class NetList extends JPanel implements MouseMotionListener, MouseListene
 			}
 		}
 		edges.remove(edge);
-		edrag= new int[0];
+		dragE= new int[0];
 		control.getDataTable().getModel().setValueAt(new EdgeWeight(0), getNodes().indexOf(edge.from), getNodes().indexOf(edge.to));
 		graphHasChanged();
 	}

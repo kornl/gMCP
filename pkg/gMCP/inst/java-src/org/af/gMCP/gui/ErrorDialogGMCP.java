@@ -88,7 +88,7 @@ public class ErrorDialogGMCP extends JDialog implements ActionListener {
         super(GUIToolKit.findActiveFrame(), true);        
         this.fatal = fatal;
         this.e = e;
-        //super(msg, e, fatal);
+        if (e!=null && e instanceof Throwable) ((Throwable)e).printStackTrace();
         this.msg = msg;      
 	}
 
@@ -369,8 +369,7 @@ public class ErrorDialogGMCP extends JDialog implements ActionListener {
     }
 
     public void showDialog() {
-    	//new ErrorDialogChooseLevel(null);
-    	
+    	//new ErrorDialogChooseLevel(null);    	
     	setTitle("Sorry, an error occured - please tell us about it.");
         setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
         addWindowListener(new WindowAdapter() {

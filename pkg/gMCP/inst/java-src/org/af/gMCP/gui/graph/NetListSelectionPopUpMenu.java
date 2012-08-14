@@ -34,8 +34,15 @@ public class NetListSelectionPopUpMenu extends JPopupMenu implements ActionListe
     }
 
     public void actionPerformed(ActionEvent e) {
-    	if (e.getActionCommand().equals("move")) {       	
-    		
+    	if (e.getActionCommand().equals("move")) {
+    		nl.dragN = new int[nodes.size()];
+    		nl.dragE = new int[edges.size()];
+    		for (int i=0; i<nodes.size(); i++) {
+    			nl.dragN[i] = nl.getNodes().indexOf(nodes.get(i));
+    		}
+    		for (int i=0; i<edges.size(); i++) {
+    			nl.dragE[i] = nl.getEdges().indexOf(edges.get(i));
+    		}
     	} else if (e.getActionCommand().equals("subfamily")) {       	
     		
     	}
