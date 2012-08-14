@@ -520,7 +520,9 @@ public class NetList extends JPanel implements MouseMotionListener, MouseListene
 	 */
 	public void mouseReleased(MouseEvent e) {
 		if (e != null)	{
-			if (e.isPopupTrigger()) {
+			if (endPoint!=null && startingPoint!=null && Configuration.getInstance().getGeneralConfig().experimentalFeatures()) {
+				
+			} else 	if (e.isPopupTrigger()) {
 				popUp(e);	
 			}
 		}

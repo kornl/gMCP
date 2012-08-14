@@ -45,6 +45,7 @@ public class MenuBarMGraph extends JMenuBar implements ActionListener {
 	GraphView control;
     private static final Log logger = LogFactory.getLog(MenuBarMGraph.class);
     JMenu fmenu = new JMenu("File");
+    JMenu extraMenu = new JMenu("Extras");
 
 	public MenuBarMGraph(GraphView control) {
 		
@@ -136,26 +137,8 @@ public class MenuBarMGraph extends JMenuBar implements ActionListener {
 
 		add(menu);
 
-		menu = new JMenu("Extras");
-		menu.add(makeMenuItem("Options", "showOptions", KeyEvent.VK_O));
-		menu.add(makeMenuItem("Set all options back to default", "clearOptions", KeyEvent.VK_C));
-		menu.addSeparator();
-		menu.add(makeMenuItem("Change Layout of graph", "changeGraphLayout", KeyEvent.VK_G));
-		menu.add(makeMenuItem("Set variables to specific real values", "replaceVariables", KeyEvent.VK_V));
-		menu.addSeparator();
-		menu.add(makeMenuItem("Log", "showLog", KeyEvent.VK_L));
-		menu.add(makeMenuItem("Report error", "reportError", KeyEvent.VK_R));
-		menu.add(makeMenuItem("Submit your own graph to gMCP archive", "submitGraph"));
-		if (System.getProperty("eclipse") != null) {		
-			menu.add(makeMenuItem("Debug console", "debugConsole", KeyEvent.VK_D));
-		}
-		menu.setMnemonic(KeyEvent.VK_E);
-		if (Configuration.getInstance().getGeneralConfig().experimentalFeatures()) {
-			menu.addSeparator();
-			menu.add(makeMenuItem("Entangled Graphs", "entangledGraphs"));
-			menu.add(makeMenuItem("Adaptive Designs", "adaptiveDesigns"));
-		}
-		add(menu);
+		createExtraMenu();
+		add(extraMenu);
 
 		menu = new JMenu("Help");
 		menu.setMnemonic(KeyEvent.VK_H);
@@ -174,6 +157,28 @@ public class MenuBarMGraph extends JMenuBar implements ActionListener {
 
 	}
 	
+	public void createExtraMenu() {
+		extraMenu.removeAll();
+		extraMenu.add(makeMenuItem("Options", "showOptions", KeyEvent.VK_O));
+		extraMenu.add(makeMenuItem("Set all options back to default", "clearOptions", KeyEvent.VK_C));
+		extraMenu.addSeparator();
+		extraMenu.add(makeMenuItem("Change Layout of graph", "changeGraphLayout", KeyEvent.VK_G));
+		extraMenu.add(makeMenuItem("Set variables to specific real values", "replaceVariables", KeyEvent.VK_V));
+		extraMenu.addSeparator();
+		extraMenu.add(makeMenuItem("Log", "showLog", KeyEvent.VK_L));
+		extraMenu.add(makeMenuItem("Report error", "reportError", KeyEvent.VK_R));
+		extraMenu.add(makeMenuItem("Submit your own graph to gMCP archive", "submitGraph"));
+		if (System.getProperty("eclipse") != null) {		
+			extraMenu.add(makeMenuItem("Debug console", "debugConsole", KeyEvent.VK_D));
+		}
+		extraMenu.setMnemonic(KeyEvent.VK_E);
+		if (Configuration.getInstance().getGeneralConfig().experimentalFeatures()) {
+			extraMenu.addSeparator();
+			extraMenu.add(makeMenuItem("Entangled Graphs", "entangledGraphs"));
+			//extraMenu.add(makeMenuItem("Adaptive Designs", "adaptiveDesigns"));
+		}
+	}
+
 	private void createLastUsed() {
 		List<String> graphs = Configuration.getInstance().getGeneralConfig().getLatestGraphs();
 		
