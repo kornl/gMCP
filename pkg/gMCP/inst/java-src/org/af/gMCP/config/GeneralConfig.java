@@ -343,4 +343,8 @@ public class GeneralConfig extends SpecificConfig {
 	public void setParametricTest(String test) {
 		setProperty("parametricTest", test);
 	}
+
+	public Double getExportZoom() {		
+		return getProperty("Exportzoom", "null")=="null"?null:Double.parseDouble(getProperty("Exportzoom", "null"));		
+	}
 }

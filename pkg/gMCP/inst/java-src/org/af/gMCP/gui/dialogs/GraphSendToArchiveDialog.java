@@ -67,7 +67,7 @@ public class GraphSendToArchiveDialog extends JDialog implements ActionListener 
 		c.ipadx=10; c.ipady=10;
 		c.weightx=1; c.weighty=0;
 
-		BufferedImage img = control.nl.getImage();
+		BufferedImage img = control.nl.getImage(1d);
 		
 		if (MAXWIDTH/img.getWidth()<1 || MAXHEIGHT/img.getHeight()<1) {
 			if (MAXWIDTH/img.getWidth()>MAXHEIGHT/img.getHeight()) {

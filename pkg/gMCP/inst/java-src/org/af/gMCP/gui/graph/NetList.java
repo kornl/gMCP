@@ -39,8 +39,8 @@ public class NetList extends JPanel implements MouseMotionListener, MouseListene
 	
 	GraphMCP graph;
 	
-	int drag = -1;
-	int edrag = -1;
+	int[] drag = new int[0];
+	int[] edrag = new int[0];
 	boolean unAnchor = false;
 	
 	protected Vector<Edge> edges = new Vector<Edge>();
@@ -60,7 +60,7 @@ public class NetList extends JPanel implements MouseMotionListener, MouseListene
 
 	public boolean testingStarted = false;
 
-	double zoom = 1.00;
+	double zoom = 1d;
 	
 	static DecimalFormat format = new DecimalFormat("#.####");
 
@@ -193,7 +193,6 @@ public class NetList extends JPanel implements MouseMotionListener, MouseListene
 	/**
 	 * Calculates the size of the panel to view all nodes and resizes the panel.
 	 */
-
 	public int[] calculateSize() {
 		int maxX = 0;
 		int maxY = 0;
@@ -232,7 +231,17 @@ public class NetList extends JPanel implements MouseMotionListener, MouseListene
 		return edges;
 	}
 
-	public BufferedImage getImage() {
+	/**
+	 * Returns an image of the graph.
+	 * @param zoom Zoom used for the image. Bigger values result in higher resolutions.
+	 * If "null" the current zoom is used.
+	 * @return Returns an image of the graph with a border of 5 pixel in most cases.
+	 */
+	public BufferedImage getImage(Double zoom) {
+		if (zoom == null) zoom = getZoom();
+		double oldZoom = getZoom();
+		setZoom(zoom);
+		
 		long maxX = 0;
 		long maxY = 0;
 		for (Node node : nodes) {
@@ -270,18 +279,17 @@ public class NetList extends JPanel implements MouseMotionListener, MouseListene
 			edge.paintEdgeLabel(g);			
 		}
 		
-		img = cutImage(img);
+		img = cutImage(img, 5);
+		setZoom(oldZoom);
 		
 		return img;
-
 	}
 	
-	private BufferedImage cutImage(BufferedImage img) {
+	private BufferedImage cutImage(BufferedImage img, int offset) {
 		int minX = img.getWidth();
 		int minY = img.getHeight();
 		int maxX = 0;
-		int maxY = 0;
-		int offset = 5;
+		int maxY = 0;		
 		//System.out.println(img.getRGB(1, 1));
 		for (int x=0; x<img.getWidth(); x++) {
 			for(int y=0; y<img.getHeight(); y++) {				
@@ -342,10 +350,10 @@ public class NetList extends JPanel implements MouseMotionListener, MouseListene
 	public GraphMCP loadGraph() {
 		control.stopTesting();
 		reset();
-		this.updateGUI = false;
+		updateGUI = false;
 		graph = new GraphMCP(initialGraph, this);
 		control.getPView().restorePValues();
-		this.updateGUI = true;
+		updateGUI = true;
 		graphHasChanged();
 		revalidate();
 		repaint();
@@ -384,26 +392,30 @@ public class NetList extends JPanel implements MouseMotionListener, MouseListene
 			repaint();
 			return;
 		}
-		if (drag==-1 && edrag == -1) { /* Dragging without objects creates a rectangular. */
+		if (drag.length==0 && edrag.length==0) { /* Dragging without objects creates a rectangular. */
 			endPoint = new int[] {e.getX(), e.getY()};
 			repaint();
 			return;
 		}
-		if (drag!=-1) {
-			if (!unAnchor && Configuration.getInstance().getGeneralConfig().getUnAnchor()) { 
-				for (Edge edge : getEdges()) {
-					if (edge.from == nodes.get(drag) || edge.to == nodes.get(drag)) {
-						edge.fixed = false;
+		if (drag.length!=0) {
+			for (int i : drag) {
+				if (!unAnchor && Configuration.getInstance().getGeneralConfig().getUnAnchor()) { 
+					for (Edge edge : getEdges()) {
+						if (edge.from == nodes.get(i) || edge.to == nodes.get(i)) {
+							edge.fixed = false;
+						}
 					}
+					unAnchor = true;
 				}
-				unAnchor = true;
+				nodes.get(i).setX( (int) ((e.getX()+offsetN[i][0]) / (double) getZoom()));
+				nodes.get(i).setY( (int) ((e.getY()+offsetN[i][1]) / (double) getZoom()));
+				placeUnfixedNodes(nodes.get(i));
 			}
-			nodes.get(drag).setX( (int) ((e.getX()+offset[0]) / (double) getZoom()));
-			nodes.get(drag).setY( (int) ((e.getY()+offset[1]) / (double) getZoom()));
-			placeUnfixedNodes(nodes.get(drag));
 		} else {
-			edges.get(edrag).setK1( (int) ((e.getX()+offset[0]) / (double) getZoom()));
-			edges.get(edrag).setK2( (int) ((e.getY()+offset[1]) / (double) getZoom()));
+			for (int i : edrag) {		
+				edges.get(i).setK1( (int) ((e.getX()+offsetE[i][0]) / (double) getZoom()));
+				edges.get(i).setK2( (int) ((e.getY()+offsetE[i][1]) / (double) getZoom()));
+			}
 		}
 		calculateSize();
 		repaint();
@@ -422,7 +434,8 @@ public class NetList extends JPanel implements MouseMotionListener, MouseListene
 		}
 	}
 
-	protected int[] offset;
+	protected int[][] offsetE;
+	protected int[][] offsetN;
 	protected int[] startingPoint = null;
 	protected int[] endPoint = null;
 	
@@ -467,15 +480,15 @@ public class NetList extends JPanel implements MouseMotionListener, MouseListene
 
 		for (int i = 0; i < nodes.size(); i++) {
 			if (nodes.get(i).inYou(e.getX(), e.getY())) {
-				drag = i;
-				offset = nodes.get(i).offset(e.getX(), e.getY());
+				drag = new int[] {i};
+				offsetN = new int[][] {nodes.get(i).offset(e.getX(), e.getY())};
 			}
 		}
 		for (int i = edges.size()-1; i >=0 ; i--) {
 			if (edges.get(i).inYou(e.getX(), e.getY())) {
-				drag = -1;
-				edrag = i;
-				offset = edges.get(i).offset(e.getX(), e.getY());
+				drag = new int[0];
+				edrag = new int[] {i};
+				offsetE = new int[][] {edges.get(i).offset(e.getX(), e.getY())};
 			}
 		}
 		if (e.getClickCount() == 2 && !testingStarted) {			
@@ -506,17 +519,16 @@ public class NetList extends JPanel implements MouseMotionListener, MouseListene
 	 * @see java.awt.event.MouseListener#mouseReleased(java.awt.event.MouseEvent)
 	 */
 	public void mouseReleased(MouseEvent e) {
-		//if (e != null) 
-		{
+		if (e != null)	{
 			if (e.isPopupTrigger()) {
 				popUp(e);	
 			}
 		}
-		if (edrag != -1) {			
-			edges.get(edrag).setFixed(true);
+		for(int i : edrag) {			
+			edges.get(i).setFixed(true);
 		}
-		drag = -1;
-		edrag = -1;
+		drag = new int[0];
+		edrag = new int[0];
 		unAnchor = false;
 		endPoint = null;
 		if (e !=null && newEdge && firstVertexSelected) {				
@@ -663,7 +675,7 @@ public class NetList extends JPanel implements MouseMotionListener, MouseListene
 			}
 		}
 		edges.remove(edge);
-		edrag = -1;
+		edrag= new int[0];
 		control.getDataTable().getModel().setValueAt(new EdgeWeight(0), getNodes().indexOf(edge.from), getNodes().indexOf(edge.to));
 		graphHasChanged();
 	}

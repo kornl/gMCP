@@ -427,7 +427,7 @@ public class GraphView extends JPanel implements ActionListener {
 	}
 	
 	public void saveGraphImage(File file) {
-		BufferedImage img = getNL().getImage();
+		BufferedImage img = getNL().getImage(Configuration.getInstance().getGeneralConfig().getExportZoom());
 		try {
 			ImageIO.write(img, "png", file);
 		} catch( Exception ex ) {
@@ -495,7 +495,7 @@ public class GraphView extends JPanel implements ActionListener {
 				Configuration.getInstance().setClassProperty(this.getClass(), "showClipboardInfo", "no");
 			}
 		}
-		TransferableImage.copyImageToClipboard(getNL().getImage());
+		TransferableImage.copyImageToClipboard(getNL().getImage(Configuration.getInstance().getGeneralConfig().getExportZoom()));
 	}
 	
 	
