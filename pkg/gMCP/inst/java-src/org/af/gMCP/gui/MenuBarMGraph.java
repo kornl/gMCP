@@ -565,6 +565,10 @@ public class MenuBarMGraph extends JMenuBar implements ActionListener {
 	}
 	
 	public void exportLaTeXGraph() {
+		if (control.getNL().getNodes().size()==0) {
+    		JOptionPane.showMessageDialog(control.getMainFrame(), "No LaTeX output for empty graph.", "No LaTeX output for empty graph.", JOptionPane.ERROR_MESSAGE);
+    		return;
+    	}
 		writeLaTeX(control.getNL().getLaTeX());
 	}
 	
@@ -572,6 +576,10 @@ public class MenuBarMGraph extends JMenuBar implements ActionListener {
 	 * Opens a TextFileViewer dialog and displays the LaTeX source to display the graph.
 	 */
 	public void showLaTeXGraph() {
+		if (control.getNL().getNodes().size()==0) {
+    		JOptionPane.showMessageDialog(control.getMainFrame(), "No LaTeX output for empty graph.", "No LaTeX output for empty graph.", JOptionPane.ERROR_MESSAGE);
+    		return;
+    	}
 		String latexCode = control.getNL().getLaTeX();
 		Toolkit.getDefaultToolkit().getSystemClipboard().setContents(new StringSelection(latexCode), null);		
 		new TextFileViewer(control.getGraphGUI(), "LaTeX code", latexCode, 
@@ -610,6 +618,10 @@ public class MenuBarMGraph extends JMenuBar implements ActionListener {
 	 * Opens a JFilechooser and saves the graph as an PNG image to the selected file.
 	 */
 	private void saveGraphImage() {
+		if (control.getNL().getNodes().size()==0) {
+    		JOptionPane.showMessageDialog(control.getMainFrame(), "Will not save empty graph.", "Empty graph", JOptionPane.ERROR_MESSAGE);
+    		return;
+    	}
 		JFileChooser fc = new JFileChooser(Configuration.getInstance().getClassProperty(this.getClass(), "ImageDirectory"));		
         fc.setFileSelectionMode(JFileChooser.FILES_ONLY);
         fc.setDialogType(JFileChooser.SAVE_DIALOG);

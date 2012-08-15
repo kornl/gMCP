@@ -301,6 +301,7 @@ public class NetList extends JPanel implements MouseMotionListener, MouseListene
 				}
 			}
 		}
+		//System.out.println(Math.max(0, minX-offset)+","	+Math.max(0, minY-offset)+","+Math.min(maxX-minX+2*offset, img.getWidth())+"," +Math.min(maxY-minY+2*offset, img.getHeight()));
 		return img.getSubimage(Math.max(0, minX-offset), 
 				Math.max(0, minY-offset), 
 				Math.min(maxX-minX+2*offset, img.getWidth()), 

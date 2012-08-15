@@ -492,6 +492,10 @@ public class GraphView extends JPanel implements ActionListener {
 				Configuration.getInstance().setClassProperty(this.getClass(), "showClipboardInfo", "no");
 			}
 		}
+		if (getNL().getNodes().size()==0) {
+    		JOptionPane.showMessageDialog(getMainFrame(), "Graph is empty - nothing copied to clipboard.", "Empty graph", JOptionPane.ERROR_MESSAGE);
+    		return;
+    	}
 		TransferableImage.copyImageToClipboard(getNL().getImage(Configuration.getInstance().getGeneralConfig().getExportZoom()));
 	}
 	
