@@ -2,12 +2,18 @@ Changes in version 0.8-0 (??-??-2012, Rev. 1???)
 ================================================
 
 - Fixed: If edges or nodes were changed with a double click,
-  after that 
+  after that an error dialog was shown although nothing was wrong. 
+
+- You can select more than one node or edge and move them around.
+
+- New class for entangled graphs (graphs with memory, i.e. linear convex 
+  combinations of graphs with the same nodes).
+
+- As experimental (and mostly undocumented) feature that can be activated
+  in the options: Entangled graphs (graphs with memory, i.e. linear convex 
+  combinations of graphs with the same nodes).
 
 Planed for this release are:
-
-- Entangled graphs (graphs with memory, i.e. linear convex combinations
-  of graphs with the same nodes).
 
 - Support for sub-families of hypotheses.
 
