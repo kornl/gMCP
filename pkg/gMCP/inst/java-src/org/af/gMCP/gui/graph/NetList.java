@@ -821,11 +821,11 @@ public class NetList extends JPanel implements MouseMotionListener, MouseListene
 	 * the corresponding Double values. Should not be null, but can be empty.
 	 * @return
 	 */
-	public String saveGraph(String graphName, boolean verbose, Hashtable<String,Double> ht) {
+	public String saveGraph(String graphNameOld, boolean verbose, Hashtable<String,Double> ht) {
 		if (nodes.size()==0) {
 			throw new RuntimeException("Cannot save empty graph.");
 		}
-		graphName = RControl.getR().eval("make.names(\""+graphName+"\")").asRChar().getData()[0];		
+		String graphName = RControl.getR().eval("make.names(\""+graphNameOld+"\")").asRChar().getData()[0];		
 		String alpha = "";
 		String nodeStr = "";
 		String x = "";
@@ -833,7 +833,7 @@ public class NetList extends JPanel implements MouseMotionListener, MouseListene
 		for (Node n : nodes) {
 			//alpha += "\""+n.getWS() +"\",";
 			alpha += n.getWeight() +",";
-			nodeStr += "\""+n.getName() +"\","; 
+			nodeStr += "\""+n.getRName() +"\","; 
 			x += n.getX() + ",";
 			y += n.getY() + ",";
 		}
@@ -844,17 +844,22 @@ public class NetList extends JPanel implements MouseMotionListener, MouseListene
 		
 		RControl.getR().evalVoid(".gsrmtVar <- list()");
 		RControl.getR().evalVoid(".gsrmtVar$alpha <- c("+alpha+")");
-		RControl.getR().evalVoid(".gsrmtVar$hnodes <- c("+nodeStr.replaceAll("\\\\", "\\\\\\\\")+")");
-		RControl.getR().evalVoid(".gsrmtVar$m <- matrix(0, nrow="+nodes.size()+", ncol="+nodes.size()+")");
-		RControl.getR().evalVoid("rownames(.gsrmtVar$m) <- colnames(.gsrmtVar$m) <- .gsrmtVar$hnodes");
-		for (Edge e : edges) {
-			RControl.getR().evalVoid(".gsrmtVar$m[\""+e.from.getName().replaceAll("\\\\", "\\\\\\\\") +"\",\""+e.to.getName().replaceAll("\\\\", "\\\\\\\\") +"\"] <- \""+ e.getPreciseWeightStr().replaceAll("\\\\", "\\\\\\\\") +"\"");
+		RControl.getR().evalVoid(".gsrmtVar$hnodes <- c("+nodeStr+")");
+		for (int i=0; i<control.getDataFramePanel().getTable().size(); i++) {
+			RControl.getR().evalVoid(".gsrmtVar$m"+i+" <- matrix(0, nrow="+nodes.size()+", ncol="+nodes.size()+")");
+			RControl.getR().evalVoid("rownames(.gsrmtVar$m"+i+") <- colnames(.gsrmtVar$m"+i+") <- .gsrmtVar$hnodes");
 		}
-		if (RControl.getR().eval("!any(is.na(as.numeric(.gsrmtVar$m)))").asRLogical().getData()[0]) {
-			RControl.getR().evalVoid(".gsrmtVar$m <- matrix(as.numeric(.gsrmtVar$m), nrow="+nodes.size()+")");
-			RControl.getR().evalVoid("rownames(.gsrmtVar$m) <- colnames(.gsrmtVar$m) <- .gsrmtVar$hnodes");
-		}		
-		RControl.getR().evalVoid(graphName+" <- new(\"graphMCP\", m=.gsrmtVar$m, weights=.gsrmtVar$alpha)");
+		
+		for (Edge e : edges) {
+			RControl.getR().evalVoid(".gsrmtVar$m"+e.layer+"[\""+e.from.getRName() +"\",\""+e.to.getRName() +"\"] <- \""+ e.getPreciseWeightStr().replaceAll("\\\\", "\\\\\\\\") +"\"");
+		}
+		for (int i=0; i<control.getDataFramePanel().getTable().size(); i++) {
+			if (RControl.getR().eval("!any(is.na(as.numeric(.gsrmtVar$m"+i+")))").asRLogical().getData()[0]) {
+				RControl.getR().evalVoid(".gsrmtVar$m"+i+" <- matrix(as.numeric(.gsrmtVar$m"+i+"), nrow="+nodes.size()+")");
+				RControl.getR().evalVoid("rownames(.gsrmtVar$m"+i+") <- colnames(.gsrmtVar$m"+i+") <- .gsrmtVar$hnodes");
+			}		
+		}
+		RControl.getR().evalVoid(graphName+" <- new(\"graphMCP\", m=.gsrmtVar$m0, weights=.gsrmtVar$alpha)");
 		for (int i=nodes.size()-1; i>=0; i--) {
 			Node n = nodes.get(i);
 			if (n.isRejected()) {
@@ -864,19 +869,20 @@ public class NetList extends JPanel implements MouseMotionListener, MouseListene
 		RControl.getR().evalVoid(graphName+"@nodeAttr$X <- c("+x+")");
 		RControl.getR().evalVoid(graphName+"@nodeAttr$Y <- c("+y+")");
 		for (Edge e : edges) {				
-			RControl.getR().evalVoid("edgeAttr("+graphName+", \""+e.from.getName().replaceAll("\\\\", "\\\\\\\\") +"\", \""+e.to.getName().replaceAll("\\\\", "\\\\\\\\") +"\", \"labelX\") <- "+(e.k1-Node.getRadius()));
-			RControl.getR().evalVoid("edgeAttr("+graphName+", \""+e.from.getName().replaceAll("\\\\", "\\\\\\\\") +"\", \""+e.to.getName().replaceAll("\\\\", "\\\\\\\\") +"\", \"labelY\") <- "+(e.k2-Node.getRadius()));
+			RControl.getR().evalVoid("edgeAttr("+graphName+", \""+e.from.getRName() +"\", \""+e.to.getRName() +"\", \"labelX\") <- "+(e.k1-Node.getRadius()));
+			RControl.getR().evalVoid("edgeAttr("+graphName+", \""+e.from.getRName() +"\", \""+e.to.getRName() +"\", \"labelY\") <- "+(e.k2-Node.getRadius()));
 			//logger.debug("Weight is: "+e.getW(ht));
 			if (((Double)e.getW(ht)).isNaN()) {
-				RControl.getR().evalVoid("edgeAttr("+graphName+", \""+e.from.getName().replaceAll("\\\\", "\\\\\\\\") +"\", \""+e.to.getName().replaceAll("\\\\", "\\\\\\\\") +"\", \"variableWeight\") <- \""+e.getWS().replaceAll("\\\\", "\\\\\\\\")+"\"");
+				//TODO Is the following line necessary? Are we still using the edge attribute "variableWeight"?
+				RControl.getR().evalVoid("edgeAttr("+graphName+", \""+e.from.getRName() +"\", \""+e.to.getRName() +"\", \"variableWeight\") <- \""+e.getWS().replaceAll("\\\\", "\\\\\\\\")+"\"");
 			}
 			if (e.getW(ht)==0) {
-				RControl.getR().evalVoid(graphName +"@m[\""+e.from.getName().replaceAll("\\\\", "\\\\\\\\") +"\", \""+e.to.getName().replaceAll("\\\\", "\\\\\\\\") +"\"] <- 0");
+				RControl.getR().evalVoid(graphName +"@m"+e.layer+"[\""+e.from.getRName() +"\", \""+e.to.getRName() +"\"] <- 0");
 			}			
 		}	
 		RControl.getR().evalVoid("attr("+graphName+", \"description\") <- \""+ control.getDView().getDescription()+"\"");
 		RControl.getR().evalVoid("attr("+graphName+", \"pvalues\") <- "+ control.getPView().getPValuesString());
-		if (verbose) { JOptionPane.showMessageDialog(this, "The graph as been exported to R under ther variable name:\n\n"+graphName, "Saved as \""+graphName+"\"", JOptionPane.INFORMATION_MESSAGE); }
+		if (verbose && !graphName.equals(graphNameOld)) { JOptionPane.showMessageDialog(this, "The graph as been exported to R under ther variable name:\n\n"+graphName, "Saved as \""+graphName+"\"", JOptionPane.INFORMATION_MESSAGE); }
 		return graphName;
 	}
 	

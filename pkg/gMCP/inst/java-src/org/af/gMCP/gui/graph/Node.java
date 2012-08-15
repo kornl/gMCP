@@ -60,6 +60,8 @@ public class Node {
 	}
 
 	public String getName() { return name; }
+	
+	public String getRName() { return name.replaceAll("\\\\", "\\\\\\\\"); }
 
 	public double getWeight() { return weight; }
 	
