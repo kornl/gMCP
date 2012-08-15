@@ -14,6 +14,10 @@ public class RDataFrameRef {
 	List<String> rcNames = new Vector<String>();
 	Vector<Vector<EdgeWeight>> data = new Vector<Vector<EdgeWeight>>();
 
+	public List<String> getNames() {
+		return rcNames;
+	}
+	
 	public String getColName(int col) {
 		return rcNames.get(col);
 	}

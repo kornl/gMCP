@@ -52,10 +52,14 @@ public class DataFramePanel extends JTabbedPane {
     }
 
 	public void addLayer() {
-		// TODO Auto-generated method stub
-		RDataFrameRef dfRefW = null; // TODO!!! <-
+		RDataFrameRef dfRefW = new RDataFrameRef();
 		DataTable dt = new DataTable(dfRefW);
 		dt.setDefaultEditor(EdgeWeight.class, new CellEditorE(control, dt, table.size()));
+		for (String s : table.get(0).getNames()) {
+			dt.getModel().addRowCol(s);
+		}
+		table.add(dt);
+		this.addTab("Entangled graph layer "+table.size(), getPanel(dt));
 	}
 
 	public void renameNode(int i, String name) {

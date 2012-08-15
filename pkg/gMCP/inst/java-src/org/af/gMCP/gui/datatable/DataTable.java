@@ -2,6 +2,7 @@ package org.af.gMCP.gui.datatable;
 
 import java.awt.Component;
 import java.awt.Dimension;
+import java.util.List;
 
 import javax.swing.JTable;
 import javax.swing.JTextField;
@@ -73,6 +74,10 @@ public class DataTable extends JTable {
 	public void renameNode(int i, String name) {
 		getModel().df.setName(i, name);	
 		getModel().fireTableStructureChanged();
+	}
+
+	public List<String> getNames() {		
+		return getModel().df.getNames();
 	}
 	
 }
