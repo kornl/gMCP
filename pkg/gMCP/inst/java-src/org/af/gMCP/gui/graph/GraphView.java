@@ -28,6 +28,7 @@ import org.af.gMCP.config.Configuration;
 import org.af.gMCP.gui.CreateGraphGUI;
 import org.af.gMCP.gui.RControl;
 import org.af.gMCP.gui.ReproducableLog;
+import org.af.gMCP.gui.datatable.DataFramePanel;
 import org.af.gMCP.gui.datatable.DataTable;
 import org.af.gMCP.gui.dialogs.AdjustedPValueDialog;
 import org.af.gMCP.gui.dialogs.DialogConfIntEstVar;
@@ -76,12 +77,8 @@ public class GraphView extends JPanel implements ActionListener {
 		return parent.getPView();
 	}
 
-	public void updateEdge(int from, int to, Double w) {
-		updateEdge(from, to, new EdgeWeight(w));
-	}
-
-	public DataTable getDataTable() {		
-		return parent.getDataTable();
+	public void updateEdge(int from, int to, Double w, int layer) {
+		updateEdge(from, to, new EdgeWeight(w), layer);
 	}
 
 	public CreateGraphGUI getGraphGUI() {
@@ -341,7 +338,7 @@ public class GraphView extends JPanel implements ActionListener {
 		getNL().stopTesting();
 		getNL().reset();
 		getNL().loadGraph(getNL().resetGraph);
-		getDataTable().setTesting(false);
+		getDataFramePanel().setTesting(false);
 		getPView().restorePValues();
 		getPView().setTesting(false);
 		getPView().revalidate();
@@ -363,7 +360,7 @@ public class GraphView extends JPanel implements ActionListener {
 		try {
 			getNL().startTesting();
 			getNL().saveGraph();
-			getDataTable().setTesting(true);
+			getDataFramePanel().setTesting(true);
 			getPView().setTesting(true);			
 			buttonNewNode.setEnabled(false);
 			buttonNewEdge.setEnabled(false);				
@@ -389,7 +386,7 @@ public class GraphView extends JPanel implements ActionListener {
 		RControl.getR().eval("gMCPReport(.exportGraphToLaTeX, file=\""+filename+"\")");
 	}
 
-	public void updateEdge(int from, int to, EdgeWeight weight) {
+	public void updateEdge(int from, int to, EdgeWeight weight, int layer) {
 		logger.info("Adding Edge from "+from+" to "+to+" with weight "+weight.toString()+".");
 		Edge e = getNL().findEdge(getNL().getNodes().get(from), getNL().getNodes().get(to));
 		if (e!=null) {
@@ -401,7 +398,7 @@ public class GraphView extends JPanel implements ActionListener {
 				getNL().removeEdge(e);
 			}
 		} else {
-			getNL().setEdge(getNL().getNodes().get(from), getNL().getNodes().get(to), weight);
+			getNL().setEdge(getNL().getNodes().get(from), getNL().getNodes().get(to), weight, layer);
 		}
 		getNL().repaint();		
 	}
@@ -511,7 +508,11 @@ public class GraphView extends JPanel implements ActionListener {
 	public void renameNode(Node node, String name) {
 		int i = getNL().whichNode(node.getName());
 		parent.getPView().renameNode(i, name);
-		parent.getDataTable().renameNode(i, name);
+		parent.getDataFramePanel().renameNode(i, name);
 		node.setName(name);		
+	}
+
+	public DataFramePanel getDataFramePanel() {		
+		return parent.dfp;
 	}
 }

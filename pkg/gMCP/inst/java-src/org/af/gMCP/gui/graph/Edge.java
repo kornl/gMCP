@@ -39,6 +39,7 @@ public class Edge {
 	public boolean fixed = false;
 	public Color color = Color.BLACK;
 	public Integer linewidth = null;
+	public int layer = 0;
 	
 	NetList nl;
 	

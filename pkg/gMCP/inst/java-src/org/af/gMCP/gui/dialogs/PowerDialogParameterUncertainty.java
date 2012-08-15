@@ -25,7 +25,7 @@ import org.af.gMCP.config.Configuration;
 import org.af.gMCP.gui.CreateGraphGUI;
 import org.af.gMCP.gui.RControl;
 import org.af.gMCP.gui.datatable.CellEditorE;
-import org.af.gMCP.gui.datatable.DataFramePanel;
+import org.af.gMCP.gui.datatable.SingleDataFramePanel;
 import org.af.gMCP.gui.datatable.RDataFrameRef;
 import org.af.gMCP.gui.graph.EdgeWeight;
 import org.af.gMCP.gui.graph.Node;
@@ -41,7 +41,7 @@ public class PowerDialogParameterUncertainty extends JDialog implements ActionLi
     List<JTextField> jtl, jtlMu, jtlN, jtlSigma;
     List<JTextField> jtlVar = new Vector<JTextField>();
     JTextArea jta = new JTextArea();
-    DataFramePanel dfp;
+    SingleDataFramePanel dfp;
     JTextField jtUserDefined = new JTextField();
     DefaultListModel listModel;
     JList listUserDefined;
@@ -199,7 +199,7 @@ public class PowerDialogParameterUncertainty extends JDialog implements ActionLi
 			df.addRowCol(n.getName());
 			df.setValue(df.getColumnCount()-1, df.getColumnCount()-1, new EdgeWeight(1));
 		}		
-		dfp = new DataFramePanel(df);
+		dfp = new SingleDataFramePanel(df);
 		dfp.getTable().getModel().diagEditable = true;
 		dfp.getTable().setDefaultEditor(EdgeWeight.class, new CellEditorE(null, dfp.getTable()));
 		dfp.getTable().getModel().setCheckRowSum(false);

@@ -107,19 +107,19 @@ public class NetList extends JPanel implements MouseMotionListener, MouseListene
 		}
 		if (old != null) edges.remove(old);
 		edges.add(e);
-		control.getDataTable().getModel().setValueAt(e.getEdgeWeight(), getNodes().indexOf(e.from), getNodes().indexOf(e.to));
+		control.getDataFramePanel().setValueAt(e.getEdgeWeight(), getNodes().indexOf(e.from), getNodes().indexOf(e.to), e.layer);
 		graphHasChanged();
 	}
 
-	public void setEdge(Node from, Node to) {
-		setEdge(from, to, 1d);		
+	public void setEdge(Node from, Node to, int layer) {
+		setEdge(from, to, 1d, layer);		
 	}
 	
-	public void setEdge(Node from, Node to, Double w) {	
-		setEdge(from, to, new EdgeWeight(w));
+	public void setEdge(Node from, Node to, Double w, int layer) {	
+		setEdge(from, to, new EdgeWeight(w), layer);
 	}
 
-	public void setEdge(Node from, Node to, EdgeWeight w) {
+	public void setEdge(Node from, Node to, EdgeWeight w, int layer) {
 		Integer x = null;
 		Integer y = null;
 		boolean curve = false;
@@ -144,7 +144,7 @@ public class NetList extends JPanel implements MouseMotionListener, MouseListene
 			}
 			edges.lastElement().curve = curve;
 		}
-		control.getDataTable().getModel().setValueAt(w, getNodes().indexOf(from), getNodes().indexOf(to));
+		control.getDataFramePanel().setValueAt(w, getNodes().indexOf(from), getNodes().indexOf(to), layer);
 		graphHasChanged();
 	}
 
@@ -152,7 +152,7 @@ public class NetList extends JPanel implements MouseMotionListener, MouseListene
 		control.enableButtons(true);		
 		nodes.add(node);
 		control.getPView().addPPanel(node);
-		control.getDataTable().getModel().addRowCol(node.getName());
+		control.getDataFramePanel().addRowCol(node.getName());
 		calculateSize();
 		graphHasChanged();
 	}
@@ -470,8 +470,8 @@ public class NetList extends JPanel implements MouseMotionListener, MouseListene
 				Node secondVertex = vertexSelected(e.getX(), e.getY());
 				if (secondVertex == null || secondVertex == firstVertex) {
 					return;
-				}
-				setEdge(firstVertex, secondVertex);
+				}	
+				setEdge(firstVertex, secondVertex, askForLayer());
 				newEdge = false;
 				arrowHeadPoint = null;
 				firstVertexSelected = false;
@@ -533,6 +533,14 @@ public class NetList extends JPanel implements MouseMotionListener, MouseListene
 		repaint();
 	}
 	
+	private int askForLayer() {
+		int layer = 0;
+		if (control.getDataFramePanel().getTable().size()>1) {
+			// TODO Ask for layer
+		}
+		return layer;
+	}
+
 	/*
 	 * Unfortunately a double click resulting in opening a new dialog does not trigger a mouseReleased-event in the end.
 	 * Therefore the method can be called with e=null whenever a dialog is opened that way.
@@ -557,7 +565,7 @@ public class NetList extends JPanel implements MouseMotionListener, MouseListene
 					}
 				}
 				NetListSelectionPopUpMenu menu = new NetListSelectionPopUpMenu(this, nodes, edges);
-				menu.show(e.getComponent(), e.getX(), e.getY());
+				menu.show(e.getComponent(), e.getX()-20, e.getY()-20);
 			} else 	if (e.isPopupTrigger()) {
 				popUp(e);	
 			}
@@ -574,7 +582,7 @@ public class NetList extends JPanel implements MouseMotionListener, MouseListene
 			if (secondVertex == null || secondVertex == firstVertex) {
 				return;
 			}
-			setEdge(firstVertex, secondVertex);
+			setEdge(firstVertex, secondVertex, askForLayer());
 			newEdge = false;
 			arrowHeadPoint = null;
 			firstVertexSelected = false;
@@ -713,8 +721,8 @@ public class NetList extends JPanel implements MouseMotionListener, MouseListene
 			}
 		}
 		edges.remove(edge);
-		dragE= new int[0];
-		control.getDataTable().getModel().setValueAt(new EdgeWeight(0), getNodes().indexOf(edge.from), getNodes().indexOf(edge.to));
+		dragE = new int[0];
+		control.getDataFramePanel().setValueAt(new EdgeWeight(0), getNodes().indexOf(edge.from), getNodes().indexOf(edge.to), edge.layer);
 		graphHasChanged();
 	}
 
@@ -726,7 +734,7 @@ public class NetList extends JPanel implements MouseMotionListener, MouseListene
 				edges.remove(e);
 			}
 		}
-		control.getDataTable().getModel().delRowCol(getNodes().indexOf(node));
+		control.getDataFramePanel().delRowCol(getNodes().indexOf(node));
 		nodes.remove(node);
 		control.getPView().removePPanel(node);
 		if (nodes.size()==0) {

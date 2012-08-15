@@ -15,6 +15,7 @@ public class CellEditorE extends DefaultCellEditor implements TableCellEditor {
     DataTable dt;
     int row;
     int col;
+    int layer = 0;
     
     public CellEditorE(GraphView agc, DataTable dt) {    	
         super(new JTextField());
@@ -22,7 +23,12 @@ public class CellEditorE extends DefaultCellEditor implements TableCellEditor {
 		this.dt = dt;
     }
 
-    public Component getTableCellEditorComponent(JTable table, Object value,
+    public CellEditorE(GraphView agc, DataTable dt, int layer) {
+		this(agc, dt);
+		this.layer = layer;
+	}
+
+	public Component getTableCellEditorComponent(JTable table, Object value,
                                                  boolean isSelected, int row, int col) {
         String s = value.toString();
         this.row = row;
@@ -43,7 +49,7 @@ public class CellEditorE extends DefaultCellEditor implements TableCellEditor {
     	String s = ((JTextField)getComponent()).getText();
     	oldVal = new EdgeWeight(s);
     	if (agc!=null) { 
-    		agc.updateEdge(row, col, oldVal); 
+    		agc.updateEdge(row, col, oldVal, layer); 
     	} else {
     		dt.getModel().setValueAt(oldVal, row, col);
     		dt.getModel().setValueAt(oldVal, col, row);

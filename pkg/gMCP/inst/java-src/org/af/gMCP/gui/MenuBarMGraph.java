@@ -174,7 +174,7 @@ public class MenuBarMGraph extends JMenuBar implements ActionListener {
 		extraMenu.setMnemonic(KeyEvent.VK_E);
 		if (Configuration.getInstance().getGeneralConfig().experimentalFeatures()) {
 			extraMenu.addSeparator();
-			extraMenu.add(makeMenuItem("Entangled Graphs", "entangledGraphs"));
+			extraMenu.add(makeMenuItem("Add entangled graph", "entangledGraphs"));
 			//extraMenu.add(makeMenuItem("Adaptive Designs", "adaptiveDesigns"));
 		}
 	}
@@ -372,7 +372,7 @@ public class MenuBarMGraph extends JMenuBar implements ActionListener {
         	control.getNL().saveGraphWithoutVariables(control.getNL().initialGraph, false);
         	control.getNL().loadGraph();
         } else if (e.getActionCommand().equals("entangledGraphs")) {
-        	
+        	control.getDataFramePanel().addLayer();
         } else if (e.getActionCommand().equals("adaptiveDesigns")) {
         	
         } else if (e.getActionCommand().equals("bht")) {

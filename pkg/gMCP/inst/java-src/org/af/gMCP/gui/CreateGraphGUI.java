@@ -5,6 +5,7 @@ import java.awt.Toolkit;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.util.Locale;
+import java.util.Vector;
 
 import javax.swing.ImageIcon;
 import javax.swing.JComponent;
@@ -41,7 +42,7 @@ public class CreateGraphGUI extends JFrame implements WindowListener, AbortListe
 	GraphView control;
 	PView pview;
 	DView dview;
-	DataFramePanel dfp;
+	public DataFramePanel dfp;
 	public InfiniteProgressPanel glassPane;
 	protected static Log logger = LogFactory.getLog(CreateGraphGUI.class);
 	public boolean isGraphSaved = true;
@@ -89,6 +90,7 @@ public class CreateGraphGUI extends JFrame implements WindowListener, AbortListe
 		dview = new DView(this);
 		dfp = new DataFramePanel(new RDataFrameRef());
 		control = new GraphView(graph, this);  // NetList object is created here.
+		dfp.registerControl(control);
 		pview = new PView(this);
 		setJMenuBar(new MenuBarMGraph(control));		
 		makeContent();
@@ -174,8 +176,7 @@ public class CreateGraphGUI extends JFrame implements WindowListener, AbortListe
 	JSplitPaneBugWorkAround splitPane1;
 	JSplitPaneBugWorkAround splitPane2;
 	
-	private void makeContent() {
-		dfp.getTable().setDefaultEditor(EdgeWeight.class, new CellEditorE(control, dfp.getTable()));
+	private void makeContent() {		
 		splitPane1 = new JSplitPaneBugWorkAround(JSplitPane.VERTICAL_SPLIT, control, dview);		
 		splitPane2 = new JSplitPaneBugWorkAround(JSplitPane.VERTICAL_SPLIT, new JScrollPane(dfp), new JScrollPane(pview));		
 		splitPane = new JSplitPaneBugWorkAround(JSplitPane.HORIZONTAL_SPLIT, splitPane1, splitPane2);		
@@ -219,10 +220,6 @@ public class CreateGraphGUI extends JFrame implements WindowListener, AbortListe
 		return control;
 	}
 
-	public DataTable getDataTable() {		
-		return dfp.getTable();
-	}
-
 	public void abort() {
 		if (RControl.getR().getREngine().getClass() == JRIEngine.class) {
 			JRIEngine engine = (JRIEngine) RControl.getR().getREngine();
@@ -255,6 +252,10 @@ public class CreateGraphGUI extends JFrame implements WindowListener, AbortListe
 
 	public DView getDView() {		
 		return dview;
+	}
+	
+	public DataFramePanel getDataFramePanel() {
+		return dfp;
 	}
 	
 	private void setLooknFeel() throws ClassNotFoundException, IllegalAccessException,

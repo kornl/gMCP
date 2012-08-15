@@ -32,7 +32,7 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import org.af.gMCP.gui.RControl;
-import org.af.gMCP.gui.datatable.DataFramePanel;
+import org.af.gMCP.gui.datatable.SingleDataFramePanel;
 import org.af.gMCP.gui.datatable.DataTableModel;
 import org.af.gMCP.gui.datatable.RDataFrameRef;
 import org.af.gMCP.gui.graph.EdgeWeight;
@@ -53,10 +53,10 @@ public class MatrixCreationDialog extends JDialog implements ActionListener, Cha
 	JFrame parent;
     List<String> names;
     JTextArea jta = new JTextArea();
-    DataFramePanel dfp;
-    DataFramePanel dfpDiag;
-    DataFramePanel dfpInterCor;
-    DataFramePanel dfpIntraCor;
+    SingleDataFramePanel dfp;
+    SingleDataFramePanel dfpDiag;
+    SingleDataFramePanel dfpInterCor;
+    SingleDataFramePanel dfpIntraCor;
     JTextField tfname = new JTextField();
     JList hypotheses;
     JLabel warning = new JLabel();
@@ -95,7 +95,7 @@ public class MatrixCreationDialog extends JDialog implements ActionListener, Cha
 			df.addRowCol(n);
 			df.setValue(df.getColumnCount()-1, df.getColumnCount()-1, new EdgeWeight(1));
 		}		
-		dfp = new DataFramePanel(df);
+		dfp = new SingleDataFramePanel(df);
 		dfp.getTable().getModel().diagEditable = true;
 		dfp.getTable().getModel().setCheckRowSum(false);
 		
@@ -265,7 +265,7 @@ public class MatrixCreationDialog extends JDialog implements ActionListener, Cha
 			df.addRowCol(names.get(i));
 			df.setValue(df.getColumnCount()-1, df.getColumnCount()-1, new EdgeWeight(1));
 		}		
-		dfpDiag = new DataFramePanel(df);
+		dfpDiag = new SingleDataFramePanel(df);
 		dfpDiag.getTable().getModel().setCheckRowSum(false);
 		
 		panel.add(new JScrollPane(dfpDiag), cc.xyw(2, row, 3));
@@ -337,7 +337,7 @@ public class MatrixCreationDialog extends JDialog implements ActionListener, Cha
 			df.addRowCol("T"+(i+1));
 			df.setValue(df.getColumnCount()-1, df.getColumnCount()-1, new EdgeWeight(1));
 		}		
-		dfpIntraCor = new DataFramePanel(df);
+		dfpIntraCor = new SingleDataFramePanel(df);
 		dfpIntraCor.getTable().getModel().setCheckRowSum(false);
 		
 		panel.add(new JScrollPane(dfpIntraCor), cc.xyw(2, row, 3));
@@ -371,7 +371,7 @@ public class MatrixCreationDialog extends JDialog implements ActionListener, Cha
 			df.addRowCol("E"+(i+1));
 			df.setValue(df.getColumnCount()-1, df.getColumnCount()-1, new EdgeWeight(1));
 		}		
-		dfpInterCor = new DataFramePanel(df);
+		dfpInterCor = new SingleDataFramePanel(df);
 		dfpInterCor.getTable().getModel().setCheckRowSum(false);
 		
 		panel.add(new JScrollPane(dfpInterCor), cc.xyw(2, row, 3));
