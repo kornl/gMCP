@@ -388,7 +388,7 @@ public class GraphView extends JPanel implements ActionListener {
 
 	public void updateEdge(int from, int to, EdgeWeight weight, int layer) {
 		logger.info("Adding Edge from "+from+" to "+to+" with weight "+weight.toString()+".");
-		Edge e = getNL().findEdge(getNL().getNodes().get(from), getNL().getNodes().get(to));
+		Edge e = getNL().findEdge(getNL().getNodes().get(from), getNL().getNodes().get(to), layer);
 		if (e!=null) {
 			int x = e.getK1();
 			int y = e.getK2();			

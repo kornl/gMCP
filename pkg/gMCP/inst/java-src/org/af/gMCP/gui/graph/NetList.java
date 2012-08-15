@@ -218,9 +218,9 @@ public class NetList extends JPanel implements MouseMotionListener, MouseListene
 		return new int[] {maxX, maxY};
 	}
 	
-	public Edge findEdge(Node von, Node nach) {
+	public Edge findEdge(Node von, Node nach, int layer) {
 		for (Edge e : edges) {
-			if (von == e.from && nach == e.to) {
+			if (von == e.from && nach == e.to && e.layer == layer) {
 				return e;
 			}
 		}
@@ -542,7 +542,7 @@ public class NetList extends JPanel implements MouseMotionListener, MouseListene
 		return layer;
 	}
 
-	/*
+	/**
 	 * Unfortunately a double click resulting in opening a new dialog does not trigger a mouseReleased-event in the end.
 	 * Therefore the method can be called with e=null whenever a dialog is opened that way.
 	 * @see java.awt.event.MouseListener#mouseReleased(java.awt.event.MouseEvent)
@@ -612,7 +612,6 @@ public class NetList extends JPanel implements MouseMotionListener, MouseListene
 	 * We use paintComponent() instead of paint(), since the later one
 	 * is not called by a revalidate of the scrollbars.
 	 */
-
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		int grid = Configuration.getInstance().getGeneralConfig().getGridSize();
@@ -707,7 +706,6 @@ public class NetList extends JPanel implements MouseMotionListener, MouseListene
 	/**
 	 * Repaints the NetzListe and sets the preferredSize etc.
 	 */
-
 	public void refresh() {
 		calculateSize();
 		revalidate();
@@ -717,7 +715,7 @@ public class NetList extends JPanel implements MouseMotionListener, MouseListene
 	public void removeEdge(Edge edge) {
 		logger.info("Removing "+edge);
 		for (Edge e : edges) {
-			if (e.from == edge.to && e.to == edge.from) {
+			if (e.from == edge.to && e.to == edge.from && e.layer == edge.layer) {
 				e.curve = false;				
 			}
 		}
