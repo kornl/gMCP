@@ -14,13 +14,13 @@ import com.jgoodies.forms.layout.CellConstraints;
 import com.jgoodies.forms.layout.FormLayout;
 
 public class DataFramePanel extends JTabbedPane {
-    private Vector<DataTable> table = new Vector<DataTable>();
+    private Vector<DataTable> tables = new Vector<DataTable>();
     private JScrollPane scrollPane;
     GraphView control;
 
     public DataFramePanel(RDataFrameRef dfRefW) {
-    	table.add(new DataTable(dfRefW));
-    	this.addTab("Adjacency Matrix", getPanel(table.get(0)));
+    	tables.add(new DataTable(dfRefW));
+    	this.addTab("Adjacency Matrix", getPanel(tables.get(0)));
     }
     
     private JPanel getPanel(DataTable table) {
@@ -48,18 +48,18 @@ public class DataFramePanel extends JTabbedPane {
     }
     
     public Vector<DataTable> getTable() {
-        return table;
+        return tables;
     }
 
 	public void addLayer() {
 		RDataFrameRef dfRefW = new RDataFrameRef();
 		DataTable dt = new DataTable(dfRefW);
-		dt.setDefaultEditor(EdgeWeight.class, new CellEditorE(control, dt, table.size()));
-		for (String s : table.get(0).getNames()) {
+		dt.setDefaultEditor(EdgeWeight.class, new CellEditorE(control, dt, tables.size()));
+		for (String s : tables.get(0).getNames()) {
 			dt.getModel().addRowCol(s);
 		}
-		table.add(dt);
-		this.addTab("Entangled graph layer "+table.size(), getPanel(dt));
+		tables.add(dt);
+		this.addTab("Entangled graph layer "+tables.size(), getPanel(dt));
 	}
 
 	public void renameNode(int i, String name) {

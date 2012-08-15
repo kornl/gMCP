@@ -393,7 +393,7 @@ public class GraphView extends JPanel implements ActionListener {
 			int x = e.getK1();
 			int y = e.getK2();			
 			if (!weight.toString().equals("0")) {
-				getNL().setEdge(new Edge(getNL().getNodes().get(from), getNL().getNodes().get(to), weight, getNL(), x, y));
+				getNL().setEdge(new Edge(getNL().getNodes().get(from), getNL().getNodes().get(to), weight, getNL(), x, y, layer));
 			} else {
 				getNL().removeEdge(e);
 			}

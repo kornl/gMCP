@@ -41,13 +41,21 @@ public class Edge {
 	public Integer linewidth = null;
 	public int layer = 0;
 	
+	public Color[] layerColors = new Color[] {
+			Color.BLACK,
+			Color.BLUE,
+			Color.RED,
+			Color.YELLOW,
+			Color.GREEN
+	};
+	
 	NetList nl;
 	
 	private EdgeWeight ew;
 	
 	int lastFontSize = 16;
 
-	public Edge(Node von, Node nach, Double w, NetList nl) {		
+	public Edge(Node von, Node nach, Double w, NetList nl, int layer) {		
 		int x1, x2, y1, y2;
 		x1 = von.getX() + Node.getRadius();
 		x2 = nach.getX() + Node.getRadius();
@@ -58,7 +66,9 @@ public class Edge {
 		this.from = von;
 		this.to = nach;
 		this.ew = new EdgeWeight(w);
-		this.nl = nl;
+		this.nl = nl;		
+		this.layer = layer;
+		this.color = layerColors[layer%layerColors.length];
 	}
 	
 	public static int[] getK(Node from, Node to, boolean curve) {
@@ -94,37 +104,39 @@ public class Edge {
 		return new int[] {k1, k2};
 	}
 	
-	public Edge(Node from, Node to, Double w, NetList nl, boolean curve) {
-		this(from, to, w, nl);
+	public Edge(Node from, Node to, Double w, NetList nl, boolean curve, int layer) {
+		this(from, to, w, nl, layer);
 		int[] k = getK(from, to, curve);
 		k1 = k[0];
 		k2 = k[1];
 	}
 	
-	public Edge(Node von, Node nach, Double w, NetList nl, int k1, int k2) {
+	public Edge(Node von, Node nach, Double w, NetList nl, int k1, int k2, int layer) {
 		this.from = von;
 		this.to = nach;
 		this.ew = new EdgeWeight(w);
 		this.nl = nl;
 		this.k1 = k1;
 		this.k2 = k2;
+		this.layer = layer;
+		this.color = layerColors[layer%layerColors.length];
 	}
 	
-	public Edge(Node from, Node to, String wStr, NetList nl, boolean curve) {
-		this(from, to, new EdgeWeight(wStr), nl, curve);
+	public Edge(Node from, Node to, String wStr, NetList nl, boolean curve, int layer) {
+		this(from, to, new EdgeWeight(wStr), nl, curve, layer);
 	}
 
-	public Edge(Node from, Node to, String wStr, NetList nl, int i, int j) {
-		this(from, to, new EdgeWeight(wStr), nl, i, j);	
+	public Edge(Node from, Node to, String wStr, NetList nl, int i, int j, int layer) {
+		this(from, to, new EdgeWeight(wStr), nl, i, j, layer);	
 	}
 
-	public Edge(Node from, Node to, EdgeWeight ew, NetList nl, int k1, int k2) {
-		this(from, to, 0d, nl, k1, k2);
+	public Edge(Node from, Node to, EdgeWeight ew, NetList nl, int k1, int k2, int layer) {
+		this(from, to, 0d, nl, k1, k2, layer);
 		this.ew = ew;
 	}
 
-	public Edge(Node from, Node to, EdgeWeight ew, NetList nl, boolean curve) {
-		this(from, to, 0d, nl, curve);
+	public Edge(Node from, Node to, EdgeWeight ew, NetList nl, boolean curve, int layer) {
+		this(from, to, 0d, nl, curve, layer);
 		this.ew = ew;
 	}
 

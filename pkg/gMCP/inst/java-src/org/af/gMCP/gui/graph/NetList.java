@@ -97,10 +97,10 @@ public class NetList extends JPanel implements MouseMotionListener, MouseListene
 	public void setEdge(Edge e) {
 		Edge old = null;
 		for (Edge e2 : edges) {
-			if (e2.from == e.from && e2.to == e.to) {
+			if (e2.from == e.from && e2.to == e.to && e2.layer == e.layer) {
 				old = e2;
 			}
-			if (e2.from == e.to && e2.to == e.from) {
+			if (e2.from == e.to && e2.to == e.from && e2.layer == e.layer) {
 				e.curve = true;
 				e2.curve = true;
 			}
@@ -124,23 +124,23 @@ public class NetList extends JPanel implements MouseMotionListener, MouseListene
 		Integer y = null;
 		boolean curve = false;
 		for (int i = edges.size()-1; i >= 0; i--) {
-			if (edges.get(i).from == from && edges.get(i).to == to) {
+			if (edges.get(i).from == from && edges.get(i).to == to && edges.get(i).layer == layer) {
 				x = edges.get(i).getK1();
 				y = edges.get(i).getK2();
 				removeEdge(edges.get(i));				
 			}
 		}
 		for (Edge e : edges) {
-			if (e.from == to && e.to == from) {
+			if (e.from == to && e.to == from && e.layer == layer) {
 				e.curve = true;
 				curve = true;
 			}
 		}		
 		if (!w.toString().equals("0")) {
 			if (x!=null) {
-				edges.add(new Edge(from, to, w, this, x, y));
+				edges.add(new Edge(from, to, w, this, x, y, layer));
 			} else {
-				edges.add(new Edge(from, to, w, this, curve));
+				edges.add(new Edge(from, to, w, this, curve, layer));
 			}
 			edges.lastElement().curve = curve;
 		}
@@ -536,7 +536,8 @@ public class NetList extends JPanel implements MouseMotionListener, MouseListene
 	private int askForLayer() {
 		int layer = 0;
 		if (control.getDataFramePanel().getTable().size()>1) {
-			// TODO Ask for layer
+			//We could ask with a JOptionPane window for the layer - but for now we just take the active tab from the DataFramePanel:
+			layer = control.getDataFramePanel().getSelectedIndex();
 		}
 		return layer;
 	}

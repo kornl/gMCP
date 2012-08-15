@@ -68,18 +68,19 @@ public class GraphMCP {
 					int yl = (int) labelY[i];
 					//if (yl<-50) yl = (fromNode.getY()+toNode.getY())/2;				
 					boolean curve = curved[i];
+					int layer = 0;
 					if (!((Double)weight[i]).toString().equals("NaN")) {
 						if (xl < -50 || yl < -50) {
-							edges.add(new Edge(fromNode, toNode, weight[i], nl,  curve));
+							edges.add(new Edge(fromNode, toNode, weight[i], nl,  curve, layer));
 						} else {
-							edges.add(new Edge(fromNode, toNode, weight[i], nl, xl+Node.getRadius(), yl+Node.getRadius()));
+							edges.add(new Edge(fromNode, toNode, weight[i], nl, xl+Node.getRadius(), yl+Node.getRadius(), layer));
 							edges.lastElement().setFixed(true);
 						}
 					} else {
 						if (xl < -50 || yl < -50) {
-							edges.add(new Edge(fromNode, toNode, weightStr[i], nl, /* xl+Node.getRadius(), yl+Node.getRadius(),*/ curve));
+							edges.add(new Edge(fromNode, toNode, weightStr[i], nl, /* xl+Node.getRadius(), yl+Node.getRadius(),*/ curve, layer));
 						} else {
-							edges.add(new Edge(fromNode, toNode, weightStr[i], nl, xl+Node.getRadius(), yl+Node.getRadius()));
+							edges.add(new Edge(fromNode, toNode, weightStr[i], nl, xl+Node.getRadius(), yl+Node.getRadius(), layer));
 							edges.lastElement().setFixed(true);
 						}
 					}
