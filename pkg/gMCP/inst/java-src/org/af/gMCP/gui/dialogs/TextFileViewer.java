@@ -19,6 +19,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
 import org.af.commons.io.FileTools;
+import org.af.commons.widgets.RightClickTextMenuListener;
 import org.af.gMCP.config.Configuration;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -42,12 +43,14 @@ public class TextFileViewer extends JDialog implements ActionListener {
 			dispose();
 			return;
 		}
-		setUp(text, null);		
+		setUp(text, null);	
+		jta.addMouseListener(new RightClickTextMenuListener(jta));
 	}
 	
 	public TextFileViewer(JFrame p, String title, String text) {
 		super(p, title);
 		setUp(text, null);
+		jta.addMouseListener(new RightClickTextMenuListener(jta));
 	}
 	
 	public TextFileViewer(JFrame p, String title, String text, boolean save) {
@@ -58,6 +61,7 @@ public class TextFileViewer extends JDialog implements ActionListener {
 		} else {
 			setUp(text, null);
 		}
+		jta.addMouseListener(new RightClickTextMenuListener(jta));
 	}
 	
 	public TextFileViewer(JFrame p, String title, String text, String label) {
@@ -66,6 +70,7 @@ public class TextFileViewer extends JDialog implements ActionListener {
 		jlabel.setOpaque(false);
 		jlabel.setEditable(false);
 		setUp(text, jlabel);
+		jta.addMouseListener(new RightClickTextMenuListener(jta));
 	}
 
 	public void actionPerformed(ActionEvent e) {
