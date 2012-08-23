@@ -36,6 +36,7 @@ We provide the following Java libraries:
  \item Apache POI under Apache License 2.0, \url{http://poi.apache.org/}, Copyright 2001-2007 The Apache Software Foundation
  \item Apache Commons Collections under the Apache License, Version 2.0, January 2004, \url{http://commons.apache.org/collections/}, Copyright 2001-2008 The Apache Software Foundation
  \item Apache Commons Validator under the Apache License, Version 2.0, January 2004, \url{http://commons.apache.org/validator/}, Copyright 2001-2010 The Apache Software Foundation
+ \item Apache Commons IO under the Apache License, Version 2.2 (last compatible with JDK 1.5), 2004, \url{http://commons.apache.org/io/}, Copyright 2002-2012 The Apache Software Foundation
  \item JLaTeXMath under GPL >= 2.0, \url{http://forge.scilab.org/index.php/p/jlatexmath/}, Copyright 2004-2007, 2009 Calixte, Coolsaet, Cleemput, Vermeulen and Universiteit Gent
  \item iText 2.1.4 under LGPL, \url{http://itextpdf.com/}, Copyright by Bruno Lowagie 
  \item SwingWorker under LGPL, \url{https://swingworker.dev.java.net/}, Copyright (c) 2005 Sun Microsystems 
