@@ -79,7 +79,6 @@ public class ErrorDialogChooseLevel extends JDialog implements ActionListener {
 		setVisible(true);
 	}
 
-	@Override
 	public void actionPerformed(ActionEvent e) {
 		Configuration.getInstance().setClassProperty(this.getClass(), "reportLevel", ""+jcbReportLevel.getSelectedIndex());
 	
