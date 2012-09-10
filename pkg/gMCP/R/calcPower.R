@@ -17,6 +17,7 @@ calcPower <- function(weights, alpha, G, mean = rep(0, nrow(sigma)),
                       nSim = 10000, seed = NULL, type = c("quasirandom", "pseudorandom"),
 					  f=list()) {
 	type <- match.arg(type)
+	if (any(is.na(sigma))) stop("While parameter 'cr' can contain NAs, this does not make sense for 'sigma'.")
 	#print(G)
 	if (is.list(mean)) {
 	  result <- list()

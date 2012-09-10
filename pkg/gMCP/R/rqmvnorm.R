@@ -10,7 +10,7 @@ rqmvnorm <- function(n, mean = rep(0, nrow(sigma)), sigma = diag(length(mean)),
     }
     type <- match.arg(type)
     dm <- length(mean)
-    clSig <- chol(sigma)
+    clSig <- chol(sigma, pivot=TRUE)
     if(!is.null(seed)){
       set.seed(seed)
     }

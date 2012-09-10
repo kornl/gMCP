@@ -9,9 +9,13 @@ Changes in version 0.8-0 (??-??-2012, Rev. 1???)
 - New class for entangled graphs (graphs with memory, i.e. linear convex 
   combinations of graphs with the same nodes).
 
-- As experimental (and mostly undocumented) feature that can be activated
+- Experimental (and mostly undocumented) feature that can be activated
   in the options: Entangled graphs (graphs with memory, i.e. linear convex 
   combinations of graphs with the same nodes).
+
+- Better error messages when input doesn't meet demands
+
+- Improved: Power simulations for singular correlation matrices.
 
 Planed for this release are:
 
