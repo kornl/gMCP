@@ -17,7 +17,7 @@ calcPower <- function(weights, alpha, G, mean = rep(0, nrow(sigma)),
                       nSim = 10000, seed = NULL, type = c("quasirandom", "pseudorandom"),
 					  f=list()) {
 	type <- match.arg(type)
-	print(G)
+	#print(G)
 	if (is.list(mean)) {
 	  result <- list()
 	  for (m in mean) {

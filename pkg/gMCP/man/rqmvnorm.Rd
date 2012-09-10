@@ -12,7 +12,8 @@ rqmvnorm(n, mean = rep(0, nrow(sigma)), sigma = diag(length(mean)),
 }
 \arguments{
   \item{n}{ Number of samples, when type = "quasirandom" is used this
-    number is rounded up to the next power of 2 (e.g. 1000 to 1024=2^10) }
+    number is rounded up to the next power of 2 (e.g. 1000 to 1024=2^10) 
+    and at least 1024.}
   \item{mean}{ Mean vector }
   \item{sigma}{ Covariance matrix }
   \item{seed}{ If spcecified a seed for the Sobol sequence is set.  }
