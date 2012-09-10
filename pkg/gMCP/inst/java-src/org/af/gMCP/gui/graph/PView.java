@@ -51,7 +51,7 @@ public class PView extends JPanel implements KeyListener, ActionListener {
 	
 	protected JRadioButton jrbNoCorrelation = new JRadioButton("No Information about correlations");
 	public JRadioButton jrbRCorrelation = new JRadioButton("Select an R correlation matrix"); 
-	protected JRadioButton jrbSimes = new JRadioButton("Correlation applicable for Simes test (new feature that needs still testing)");
+	public JRadioButton jrbSimes = new JRadioButton("Correlation applicable for Simes test (new feature that needs still testing)");
 	
 	private Vector<PPanel> panels = new Vector<PPanel>();
 	

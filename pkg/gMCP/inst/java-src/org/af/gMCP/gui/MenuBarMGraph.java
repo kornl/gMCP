@@ -359,6 +359,10 @@ public class MenuBarMGraph extends JMenuBar implements ActionListener {
         		JOptionPane.showMessageDialog(control.getMainFrame(), "Graph is empty!", "Graph is empty!", JOptionPane.ERROR_MESSAGE);
         		return;
         	}
+        	if (control.getMainFrame().getPView().jrbSimes.isSelected()) {
+        		JOptionPane.showMessageDialog(control.getMainFrame(), "Simes test not yet supported in power calculations.", "Simes test not yet supported", JOptionPane.ERROR_MESSAGE);
+        		return;
+        	}
         	new PowerDialogParameterUncertainty(control.getMainFrame());
         } else if (e.getActionCommand().equals("load p-values from R")) {
         	control.loadPValuesFromR(); 

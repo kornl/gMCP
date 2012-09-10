@@ -486,12 +486,22 @@ public class PowerDialogParameterUncertainty extends JDialog implements ActionLi
 			String mean = RControl.getRString(means);
 			settings = ", mean="+mean;
 
-			RControl.getR().eval(".powerResult <- calcPower(weights="+weights+", alpha="+alpha+", G="+G+settings
+			String rCommand = ".powerResult <- calcPower(weights="+weights+", alpha="+alpha+", G="+G+settings
 					+","+"sigma = " + dfp.getTable().getModel().getDataFrame().getRMatrix() //diag(length(mean)),corr = NULL,"+
 					+userDefinedF
+					+getMatrixForParametricTest()
 					+", nSim = "+Configuration.getInstance().getGeneralConfig().getNumberOfSimulations()
 					+", type = \""+Configuration.getInstance().getGeneralConfig().getTypeOfRandom()+"\""
-					+")");
+					+")";
+			
+			if (parent.getPView().jrbRCorrelation.isSelected()) {
+				int answer = JOptionPane.showConfirmDialog(this, "The power calculations for parametric tests take a lot of time.\n"+
+						"If you select 'yes' the GUI will run the following command:\n"+
+						rCommand+"\n Continue?", "Parametric tests take a lot of time", JOptionPane.YES_NO_OPTION);
+				if (answer==JOptionPane.NO_OPTION) return;
+			}
+			
+			RControl.getR().eval(rCommand);
 			double[] localPower = RControl.getR().eval(".powerResult$LocalPower").asRNumeric().getData();
 			double expRejections = RControl.getR().eval(".powerResult$ExpRejections").asRNumeric().getData()[0];
 			double powAtlst1 = RControl.getR().eval(".powerResult$PowAtlst1").asRNumeric().getData()[0];
@@ -510,6 +520,7 @@ public class PowerDialogParameterUncertainty extends JDialog implements ActionLi
 					+ ", nL = " + pPanelN.getRList();
 			String result = RControl.getR().eval("gMCP:::calcMultiPower(weights="+weights+", alpha="+alpha+", G="+G+settings
 					+","+"sigma = " + dfp.getTable().getModel().getDataFrame().getRMatrix() //diag(length(mean)),corr = NULL,"+
+					+getMatrixForParametricTest()
 					+userDefinedF
 					+", nSim = "+Configuration.getInstance().getGeneralConfig().getNumberOfSimulations()
 					+", type = \""+Configuration.getInstance().getGeneralConfig().getTypeOfRandom()+"\""
@@ -518,6 +529,13 @@ public class PowerDialogParameterUncertainty extends JDialog implements ActionLi
 			new TextFileViewer(parent, "Power results", result, true);
 		}				
 		dispose();
+	}
+
+	private String getMatrixForParametricTest() {
+		if (parent.getPView().jrbRCorrelation.isSelected()) {
+			return ", cr="+parent.getPView().jcbCorObject.getSelectedItem();
+		}
+		return "";
 	}
 
 	/**

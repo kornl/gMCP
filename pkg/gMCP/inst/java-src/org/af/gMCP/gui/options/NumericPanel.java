@@ -145,7 +145,7 @@ public class NumericPanel extends OptionsPanel implements ActionListener {
         	JOptionPane.showMessageDialog(this, "\""+numberOfSimulations.getText()+"\" is not a valid integer.", "Invalid input", JOptionPane.ERROR_MESSAGE);
         }
        	conf.getGeneralConfig().setTypeOfRandom(randomNumbers.getSelectedItem().toString());
-       	conf.getGeneralConfig().setParametricTest(randomNumbers.getSelectedItem().toString());
+       	conf.getGeneralConfig().setParametricTest(parametricAlgo.getSelectedItem().toString());
     }
 
 	public void actionPerformed(ActionEvent e) {

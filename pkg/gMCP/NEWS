@@ -4,6 +4,8 @@ Changes in version 0.8-0 (??-??-2012, Rev. 1???)
 - Fixed: If edges or nodes were changed with a double click,
   after that an error dialog was shown although nothing was wrong. 
 
+- Fixed: You could not change the type of parametric test in the options.
+
 - You can select more than one node or edge and move them around.
 
 - New class for entangled graphs (graphs with memory, i.e. linear convex 
