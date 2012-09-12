@@ -341,6 +341,10 @@ public class MenuBarMGraph extends JMenuBar implements ActionListener {
         } else if (e.getActionCommand().equals("debugConsole")) {
         	RControl.console.setVisible(true);
         } else if (e.getActionCommand().equals("submitGraph")) {
+        	if (control.getNL().getNodes().size()==0) {
+        		JOptionPane.showMessageDialog(control.getMainFrame(), "Will not submit empty graph.", "Empty graph", JOptionPane.ERROR_MESSAGE);
+        		return;
+        	}        	
         	submitGraph();
         } else if (e.getActionCommand().equals("userSubmitted")) {
         	JOptionPane.showMessageDialog(control.getMainFrame(), "This is a brand new feature and there are no user submitted graphs yet.\n"+
@@ -367,11 +371,16 @@ public class MenuBarMGraph extends JMenuBar implements ActionListener {
         } else if (e.getActionCommand().equals("load p-values from R")) {
         	control.loadPValuesFromR(); 
         } else if (e.getActionCommand().equals("changeGraphLayout")) {
+        	if (control.getNL().getNodes().size()==0) {
+        		JOptionPane.showMessageDialog(control.getMainFrame(), "Graph is empty.", "Empty graph", JOptionPane.ERROR_MESSAGE);
+        		return;
+        	}        	
         	new RearrangeNodesDialog(control.getMainFrame());
         } else if (e.getActionCommand().equals("replaceVariables")) {
         	Set<String> variables = control.getNL().getAllVariables();
         	if (variables.isEmpty() || (variables.size()==1 && variables.contains("ε"))) {
         		JOptionPane.showMessageDialog(control.getMainFrame(), "No variables to replace!", "No variables to replace!", JOptionPane.INFORMATION_MESSAGE);
+        		return;
         	}
         	control.getNL().saveGraphWithoutVariables(control.getNL().initialGraph, false);
         	control.getNL().loadGraph();
