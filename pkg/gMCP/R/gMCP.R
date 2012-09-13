@@ -2,6 +2,12 @@ gMCP <- function(graph, pvalues, test, correlation, alpha=0.05,
 		approxEps=TRUE, eps=10^(-3), ..., useC=FALSE, 
 		verbose=FALSE, keepWeights=TRUE, adjPValues=TRUE) {
 #		, alternatives="less") {	
+	if ("entangledMCP" %in% class(graph)) {
+		if (!missing(correlation) || !missing(test) && test != "Bonferroni") {
+			stop("Only Bonferroni based testing procedures are supported for entangled graphs in this version.")
+		}
+		
+	}
 	output <- ""
 	callFromGUI <- !is.null(list(...)[["callFromGUI"]])
 	if (verbose) {

@@ -384,3 +384,38 @@ setMethod("show","gPADInterim",
 			print(tab)
 		}
 )
+
+############################## Entangled graphs #################################
+
+## Entangled graph representation in gMCP
+setClass("entangledMCP",	
+		representation(graphs="list", 
+				weights="numeric",
+				graphAttr="list"),
+		validity=function(object) validEntangledGraph(object))
+
+
+validEntangledGraph <- function(object) {
+	# if (sum(object@weights)>1)
+	return(TRUE)
+}
+
+setGeneric("getMatrices", function(object, ...) standardGeneric("getMatrices"))
+
+setMethod("getMatrices", c("entangledMCP"),
+		function(object, ...) {
+			result <- list()
+			for (g in object@graphs) {
+				result <- c(result, g@m)
+			}
+			return(result)
+		})
+
+setMethod("getWeights", c("entangledMCP"),
+		function(object, ...) {
+			result <- c()
+			for (g in object@graphs) {
+				result <- rbind(result, g@weights)
+			}
+			return(result)
+		})

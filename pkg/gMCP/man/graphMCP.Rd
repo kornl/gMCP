@@ -68,9 +68,6 @@
   }
 }
 \author{Kornelius Rohmeyer \email{rohmeyer@small-projects.de}}
-\seealso{
-\code{\link[graph:graphNEL-class]{graphNEL}}
-}
 \examples{
 
 m <- rbind(H11=c(0,   0.5, 0,   0.5, 0,   0  ),
