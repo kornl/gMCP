@@ -406,7 +406,7 @@ setMethod("getMatrices", c("entangledMCP"),
 		function(object, ...) {
 			result <- list()
 			for (g in object@graphs) {
-				result <- c(result, g@m)
+				result[[length(result)+1]] <- g@m
 			}
 			return(result)
 		})
