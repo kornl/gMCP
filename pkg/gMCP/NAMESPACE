@@ -4,8 +4,10 @@ import(utils)
 import(rJava)
 importFrom(graphics, plot)
 
-exportClasses(graphMCP, gMCPResult, gPADInterim)
-exportMethods(plot, print, getWeights, getMatrix, getMatrices, setWeights, getRejected, "setRejected<-", getXCoordinates, getYCoordinates, simConfint, setEdge, edgeAttr, "edgeAttr<-", nodeAttr, "nodeAttr<-", getNodes)
+exportClasses(graphMCP, gMCPResult, gPADInterim, entangledMCP)
+exportMethods(plot, print)
+exportMethods(getWeights, getMatrix, getMatrices, setWeights, getRejected, "setRejected<-", getXCoordinates, getYCoordinates)
+exportMethods(simConfint, setEdge, edgeAttr, "edgeAttr<-", nodeAttr, "nodeAttr<-", getNodes)
 
 export(graphGUI, corMatWizard)
 export(gMCP, rejectNode, substituteEps, placeNodes)
