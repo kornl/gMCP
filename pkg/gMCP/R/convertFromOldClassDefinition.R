@@ -1,5 +1,6 @@
 updateGraphToNewClassDefinition <- function(object, askToInstallGraph=TRUE) {
-	if (!class(try(object@m, silent=TRUE))=="try-error") return(object)
+	if ("entangledMCP" %in% class(object)) return(object)
+	if (!("try-error"%in% class(try(object@m, silent=TRUE)))) return(object)
 	requireLibrary("graph")
 	nodes <- object@nodes
 	edges <- object@edgeL
