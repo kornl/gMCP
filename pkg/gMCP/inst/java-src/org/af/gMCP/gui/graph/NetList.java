@@ -536,7 +536,7 @@ public class NetList extends JPanel implements MouseMotionListener, MouseListene
 	
 	private int askForLayer() {
 		int layer = 0;
-		if (control.getDataFramePanel().getTable().size()>1) {
+		if (control.getNumberOfLayers()>1) {
 			//We could ask with a JOptionPane window for the layer - but for now we just take the active tab from the DataFramePanel:
 			layer = control.getDataFramePanel().getSelectedIndex();
 		}
@@ -825,7 +825,30 @@ public class NetList extends JPanel implements MouseMotionListener, MouseListene
 		if (nodes.size()==0) {
 			throw new RuntimeException("Cannot save empty graph.");
 		}
-		String graphName = RControl.getR().eval("make.names(\""+graphNameOld+"\")").asRChar().getData()[0];		
+		String graphName = RControl.getR().eval("make.names(\""+graphNameOld+"\")").asRChar().getData()[0];
+		if (control.getNumberOfLayers()==1) {
+			saveSingleLayerGraph(graphName, verbose, ht, 1);
+		} else {
+			String graphs = "";
+			String weights = "";
+			for (int i=1; i<=control.getNumberOfLayers(); i++) {
+				saveSingleLayerGraph(tmpGraph+"_layer_"+i, verbose, ht, i);
+				graphs += tmpGraph+"_layer_"+i;
+				weights += 1/control.getNumberOfLayers(); //TODO!
+				if (i!=control.getNumberOfLayers()) {
+					graphs += ", ";
+					weights += ", ";
+				}
+			}
+			RControl.getR().evalVoid(graphName+" <- new(\"entangledMCP\", graphs=list("+graphs+"), weights=c("+weights+"))");
+		}
+		RControl.getR().evalVoid("attr("+graphName+", \"description\") <- \""+ control.getDView().getDescription()+"\"");
+		RControl.getR().evalVoid("attr("+graphName+", \"pvalues\") <- "+ control.getPView().getPValuesString());
+		if (verbose && !graphName.equals(graphNameOld)) { JOptionPane.showMessageDialog(this, "The graph as been exported to R under ther variable name:\n\n"+graphName, "Saved as \""+graphName+"\"", JOptionPane.INFORMATION_MESSAGE); }
+		return graphName;
+	}
+	
+	private void saveSingleLayerGraph(String graphName, boolean verbose, Hashtable<String, Double> ht, int layer) {
 		String alpha = "";
 		String nodeStr = "";
 		String x = "";
@@ -879,13 +902,9 @@ public class NetList extends JPanel implements MouseMotionListener, MouseListene
 			if (e.getW(ht)==0) {
 				RControl.getR().evalVoid(graphName +"@m"+e.layer+"[\""+e.from.getRName() +"\", \""+e.to.getRName() +"\"] <- 0");
 			}			
-		}	
-		RControl.getR().evalVoid("attr("+graphName+", \"description\") <- \""+ control.getDView().getDescription()+"\"");
-		RControl.getR().evalVoid("attr("+graphName+", \"pvalues\") <- "+ control.getPView().getPValuesString());
-		if (verbose && !graphName.equals(graphNameOld)) { JOptionPane.showMessageDialog(this, "The graph as been exported to R under ther variable name:\n\n"+graphName, "Saved as \""+graphName+"\"", JOptionPane.INFORMATION_MESSAGE); }
-		return graphName;
+		}			
 	}
-	
+
 	public void setEdges(Vector<Edge> edges) {
 		this.edges = edges;
 		graphHasChanged();

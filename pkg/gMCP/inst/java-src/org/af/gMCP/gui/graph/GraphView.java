@@ -519,4 +519,8 @@ public class GraphView extends JPanel implements ActionListener {
 	public DataFramePanel getDataFramePanel() {		
 		return parent.dfp;
 	}
+
+	public int getNumberOfLayers() {
+		return getDataFramePanel().getTable().size();
+	}
 }
