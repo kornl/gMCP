@@ -10,7 +10,14 @@ rqmvnorm <- function(n, mean = rep(0, nrow(sigma)), sigma = diag(length(mean)),
     }
     type <- match.arg(type)
     dm <- length(mean)
-    clSig <- chol(sigma, pivot=TRUE)
+    clSig <- try(chol(sigma), silent=TRUE)
+	if ("try-error" %in% class(clSig)) {
+		# Check for negative eigenvalues
+		if(min(eigen(sigma)$values)<sqrt(.Machine$double.eps)) stop("sigma has negative eigen values")
+		clSig <- chol(sigma, pivot=TRUE)
+		clSig <- clSig[,order(attr(clSig,'pivot'))]
+	}
+	
     if(!is.null(seed)){
       set.seed(seed)
     }

@@ -53,7 +53,7 @@ checkPSD <- function(m) {
 placeNodes <- function(graph, nrow, ncol, byrow = TRUE, force = FALSE) {
 	entangled <- NULL
 	# If the graph is entangled only place the nodes of the first graph
-	if ("entangledMCP" %in% class(object)) {
+	if ("entangledMCP" %in% class(graph)) {
 		entangled <- graph
 		graph <- entangled@graphs[[1]]
 	}
