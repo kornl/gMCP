@@ -51,6 +51,12 @@ checkPSD <- function(m) {
 }
 
 placeNodes <- function(graph, nrow, ncol, byrow = TRUE, force = FALSE) {
+	entangled <- NULL
+	# If the graph is entangled only place the nodes of the first graph
+	if ("entangledMCP" %in% class(object)) {
+		entangled <- graph
+		graph <- entangled@graphs[[1]]
+	}
 	# Only place nodes if  no placement data exists or parameter force is set to TRUE
 	if (is.null(graph@nodeAttr$X) || force) {
 		n <- length(getNodes(graph))
@@ -88,6 +94,10 @@ placeNodes <- function(graph, nrow, ncol, byrow = TRUE, force = FALSE) {
 			}
 		}		
 	}	
+	if (!is.null(entangled)) {
+		entangled@graphs[[1]] <- graph
+		return(entangled)
+	}
 	return(graph)	
 }
 

@@ -13,7 +13,7 @@
 
 \arguments{
   \item{graph}{
-	A graph of class \code{\link{graphMCP}}.
+	A graph of class \code{\link{graphMCP}} or class \code{\link{entangledMCP}}.
   }
   \item{nrow}{The desired number of rows.}
   \item{ncol}{The desired number of columns.}
@@ -35,7 +35,7 @@
 }
 
 \seealso{
-\code{\link{graphMCP}}
+\code{\link{graphMCP}}, \code{\link{entangledMCP}}
 }
 \examples{
 
