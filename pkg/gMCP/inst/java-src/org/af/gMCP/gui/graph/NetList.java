@@ -91,7 +91,7 @@ public class NetList extends JPanel implements MouseMotionListener, MouseListene
 			i = i + 1;
 			name = "H" + i;
 		}
-		addNode(new Node(name, x, y, 0d, this));		
+		addNode(new Node(name, x, y, new double[] {0d}, this));		
 	}
 
 	public void setEdge(Edge e) {
@@ -855,7 +855,7 @@ public class NetList extends JPanel implements MouseMotionListener, MouseListene
 		String y = "";
 		for (Node n : nodes) {
 			//alpha += "\""+n.getWS() +"\",";
-			alpha += n.getWeight() +",";
+			alpha += n.getWeight().get(layer-1) +",";
 			nodeStr += "\""+n.getRName() +"\","; 
 			x += n.getX() + ",";
 			y += n.getY() + ",";

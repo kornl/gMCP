@@ -397,19 +397,20 @@ public class PView extends JPanel implements KeyListener, ActionListener {
 	}
 
 	public void updateLabels() {
-		double weight = 0;
-		for (PPanel p : panels) {
-			if (!p.rejected) {
-				weight += p.w;
+		statusLabel.setForeground(Color.BLACK);
+		String text = "Sum of weights: ";
+		for (int i=0; i<parent.getGraphView().getNumberOfLayers(); i++) {
+			double weight = 0;
+			for (PPanel p : panels) {
+				if (!p.rejected) {
+					weight += p.w.get(i);
+				}
 			}
+			if (weight>1.0001) {
+				statusLabel.setForeground(Color.RED);
+			}
+			text += Configuration.getInstance().getGeneralConfig().getDecFormat().format(weight)+"; ";
 		}
-		String text = "Sum of weights: "+Configuration.getInstance().getGeneralConfig().getDecFormat().format(weight);
-		if (weight>1.0001) {
-			statusLabel.setForeground(Color.RED);
-			text += "; The total weight is greater 1!";
-		} else {
-			statusLabel.setForeground(Color.BLACK);
-		}		
 		statusLabel.setText(text);
 	}
 	

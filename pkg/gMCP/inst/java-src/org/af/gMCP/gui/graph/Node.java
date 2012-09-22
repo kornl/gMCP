@@ -8,10 +8,14 @@ import java.awt.font.FontRenderContext;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Rectangle2D;
 import java.text.DecimalFormat;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Vector;
 
+import org.af.commons.tools.StringTools;
 import org.af.gMCP.config.Configuration;
 import org.af.gMCP.gui.RControl;
+import org.apache.commons.lang.ArrayUtils;
 import org.scilab.forge.jlatexmath.TeXConstants;
 import org.scilab.forge.jlatexmath.TeXFormula;
 import org.scilab.forge.jlatexmath.TeXIcon;
@@ -22,7 +26,8 @@ public class Node {
 	static DecimalFormat formatSmall = new DecimalFormat("#.###E0");
 	public static int r = 25;	
 	private Color color = Color.WHITE;
-	TeXIcon iconName, iconWeight;
+	TeXIcon iconName;
+	List<TeXIcon> iconWeight;
 	int lastFontSize = 14;
 	public Vector<NodeListener> listener = new Vector<NodeListener>();
 
@@ -35,19 +40,19 @@ public class Node {
 
 	boolean rejected = false;
 
-	private String stringW = "";	
-	private double weight;
+	private List<String> stringW = new Vector<String>();	
+	private List<Double> weight = new Vector<Double>();
 
 	int x;
 	
 	int y;
 	
-	public Node(String name, int x, int y, double alpha, NetList vs) {
+	public Node(String name, int x, int y, double[] alpha, NetList vs) {
 		this.nl = vs;
 		setName(name);
 		setX(x);
 		setY(y);		
-		setWeight(alpha, null);		
+		setWeight(Arrays.asList(ArrayUtils.toObject(alpha)), null);		
 	}
 
 	public void addNodeListener(NodeListener l) {
@@ -63,9 +68,9 @@ public class Node {
 	
 	public String getRName() { return name.replaceAll("\\\\", "\\\\\\\\"); }
 
-	public double getWeight() { return weight; }
+	public List<Double> getWeight() { return weight; }
 	
-	private String getWS() { return stringW; }
+	private List<String> getWS() { return stringW; }
 
 	public int getX() { return x; }
 
@@ -134,26 +139,37 @@ public class Node {
 					(float) ((x + r) * nl.getZoom() - rc.getWidth() / 2), 
 					(float) ((y + r - 0.25*r) * nl.getZoom())); // +rc.getHeight()/2));
 
-			rc = g2d.getFont().getStringBounds(getWS(), frc);
-			g2d.drawString(getWS(),
+			//TODO Color for different weights:
+			rc = g2d.getFont().getStringBounds(StringTools.collapseStringList(getWS(), " "), frc);
+			g2d.drawString(StringTools.collapseStringList(getWS(), " "),
 					(float) ((x + r) * nl.getZoom() - rc.getWidth() / 2),
 					(float) ((y + 1.5 * r) * nl.getZoom())); 
 		} else {		
 			if (lastFontSize != (int) (14 * nl.getZoom())) {
 				lastFontSize = (int) (14 * nl.getZoom());
-				iconWeight = Edge.getTeXIcon(this.nl.control.getGraphGUI(), stringW, lastFontSize);
+				createWeightIcons();
 				TeXFormula formula = new TeXFormula("\\mathbf{"+name+"}");
 				iconName = formula.createTeXIcon(TeXConstants.ALIGN_CENTER, lastFontSize);
 			}
-			iconName.paintIcon(Edge.panel, g2d,
+			iconName.paintIcon(LaTeXTool.panel, g2d,
 					(int) ((x + r) * nl.getZoom() - iconName.getIconWidth() / 2), 
 					(int) ((y + r - 0.6*r) * nl.getZoom()));	
 
-			iconWeight.paintIcon(Edge.panel, g2d,
-					(int) ((x + r) * nl.getZoom() - iconWeight.getIconWidth() / 2), 
-					(int) ((y + 1.1 * r) * nl.getZoom()));
+			for (TeXIcon icon : iconWeight) {
+				//TODO Color and correct x coordinates:
+				icon.paintIcon(LaTeXTool.panel, g2d,
+						(int) ((x + r) * nl.getZoom() - icon.getIconWidth() / 2), 
+						(int) ((y + 1.1 * r) * nl.getZoom()));
+			}
 		}
 		
+	}
+
+	private void createWeightIcons() {
+		iconWeight = new Vector<TeXIcon>();
+		for (String w : getWS()) {
+			iconWeight.add(LaTeXTool.getTeXIcon(this.nl.control.getGraphGUI(), w, lastFontSize));
+		}
 	}
 
 	/**
@@ -193,23 +209,28 @@ public class Node {
 		this.rejectable = rejectable;
 	}
 
-	public void setWeight(double w, NodeListener me) {
-		this.weight = w;	
+	public void setWeight(List<Double> wList, NodeListener me) {
+		this.weight = wList;	
 		DecimalFormat format = Configuration.getInstance().getGeneralConfig().getDecFormat();
-		if (!Configuration.getInstance().getGeneralConfig().showFractions()) {
-			stringW = format.format(w);
-		} else {
-			if (weight!=0 && weight < Math.pow(0.1, 3)) {
-				stringW = formatSmall.format(weight);
+		
+		stringW = new Vector<String>();
+		for (double w : wList) {
+			if (!Configuration.getInstance().getGeneralConfig().showFractions()) {
+				stringW.add(format.format(w));
 			} else {
-				stringW = RControl.getFraction(w, 5);
-				if (stringW.length()>7) {
-					stringW = "\\sim "+format.format(w);
+				if (w!=0 && w < Math.pow(0.1, 3)) {
+					stringW.add(formatSmall.format(w));
+				} else {
+					String wS = RControl.getFraction(w, 5);
+					if (wS.length()>7) {
+						wS = "\\sim "+format.format(w);
+					}
+					stringW.add(wS);
 				}
 			}
 		}
 		
-		iconWeight = Edge.getTeXIcon(this.nl.control.getGraphGUI(), stringW, (int) (14 * nl.getZoom()));
+		createWeightIcons();
 		
 		for (NodeListener l : listener) {
 			if (me!=l) {

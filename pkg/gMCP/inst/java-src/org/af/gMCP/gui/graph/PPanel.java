@@ -9,6 +9,7 @@ import java.awt.event.FocusListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.text.DecimalFormat;
+import java.util.List;
 import java.util.Vector;
 
 import javax.swing.JButton;
@@ -24,11 +25,11 @@ public class PPanel implements ActionListener, KeyListener, NodeListener, FocusL
 	private static final Log logger = LogFactory.getLog(PPanel.class);
 	
 	double p = 0;
-	double w;
+	List<Double> w;
 	String name;
 	
 	JLabel label;
-	private JTextField wTF;
+	private List<JTextField> wTFList = new Vector<JTextField>();
 	private JTextField pTF;
 	JButton jb;
 	
@@ -40,7 +41,9 @@ public class PPanel implements ActionListener, KeyListener, NodeListener, FocusL
 	public Vector<Component> getComponent() {
 		Vector<Component> v = new Vector<Component>();
 		v.add(label);
-		v.add(wTF);
+		for (JTextField wTF : wTFList) {
+			v.add(wTF);
+		}
 		v.add(pTF);
 		v.add(jb);
 		return v;
@@ -55,10 +58,13 @@ public class PPanel implements ActionListener, KeyListener, NodeListener, FocusL
         
         label = new JLabel(name);
 		
-		wTF = new JTextField(RControl.getFraction(w), 7);
-		wTF.addActionListener(this);
-		wTF.addFocusListener(this);
-		wTF.addKeyListener(this);
+        for (Double wd : w) {
+        	JTextField wTF = new JTextField(RControl.getFraction(wd), 7);
+        	wTF.addActionListener(this);
+        	wTF.addFocusListener(this);
+        	wTF.addKeyListener(this);
+        	wTFList.add(wTF);
+        }
 		
 		pTF = new JTextField(format.format(p), 7);
 		pTF.addActionListener(this);
@@ -87,7 +93,9 @@ public class PPanel implements ActionListener, KeyListener, NodeListener, FocusL
 	 * @see org.af.gMCP.gui.graph.NodeListener#reject()
 	 */
 	public void reject() {
-		wTF.setEnabled(false);
+		for (JTextField wTF : wTFList) {
+			wTF.setEnabled(false);
+		}
 		pTF.setEnabled(false);
 		jb.setEnabled(false);
 		label.setText(label.getText()+" rejected!");
@@ -108,21 +116,27 @@ public class PPanel implements ActionListener, KeyListener, NodeListener, FocusL
 			//logger.warn("Either \""+pTF.getText()+"\" or \""+pTF.getText()+"\" is no double number.");
 			pTF.setBackground(Color.RED);
 		}
-		try {
-			if (wTF.getText().length()!=0) { /* This if-clause is due to a bug/version conflict in JHLIR/REngine/rJava/R for R 2.8 */
-				double tempw = RControl.getR().eval(wTF.getText().replace(",", ".")).asRNumeric().getData()[0];		
-				if (!Double.isInfinite(tempw) && !Double.isNaN(tempw)) {
-					wTF.setBackground(Color.WHITE);
-					w = tempw;
+		w = new Vector<Double>();
+		for (JTextField wTF : wTFList) {
+			try {
+				if (wTF.getText().length()!=0) { /* This if-clause is due to a bug/version conflict in JHLIR/REngine/rJava/R for R 2.8 */
+					double tempw = RControl.getR().eval(wTF.getText().replace(",", ".")).asRNumeric().getData()[0];		
+					if (!Double.isInfinite(tempw) && !Double.isNaN(tempw)) {
+						wTF.setBackground(Color.WHITE);
+						w.add(tempw);
+					} else {
+						wTF.setBackground(Color.RED);
+						return;
+					}				
 				} else {
 					wTF.setBackground(Color.RED);
-				}				
-			} else {
+					return;
+				}
+			} catch (Exception nfe) {		
 				wTF.setBackground(Color.RED);
-			}
-		} catch (Exception nfe) {		
-			wTF.setBackground(Color.RED);
-		}		
+				return;
+			}	
+		}
 		node.setWeight(w, this);
 		//logger.info("P: "+p+", W: "+w);
 		updateMe(false);
@@ -139,29 +153,37 @@ public class PPanel implements ActionListener, KeyListener, NodeListener, FocusL
 	 */
 	void updateMe(boolean setText) {
 		if (setText) {
-			wTF.setText(getWString());
 			pTF.setText(format.format(p).replace(",", "."));
-		}
-		if (p<=w*pview.getTotalAlpha()) {
-			//logger.debug("Is "+p+"<="+w+"*"+pview.getTotalAlpha()+"?");
-			node.setRejectable(true);
-			wTF.setBackground(new Color(50, 255, 50));
-			if (testing) {
-				jb.setEnabled(true);
-			} else  {
-				jb.setEnabled(false);
-			}
-		} else {
-			node.setRejectable(false);
-			wTF.setBackground(Color.WHITE);
-			jb.setEnabled(false);
-		}
+		}		
 		if (testing) {
-			wTF.setEditable(false);
 			pTF.setEditable(false);
 		} else {
-			wTF.setEditable(true);
 			pTF.setEditable(true);
+		}
+		for (int i=0; i<wTFList.size(); i++) {
+			JTextField wTF = wTFList.get(i); 
+			if (setText) {
+				wTF.setText(getWString().get(i));
+			}
+			if (true) { //TODO p<=w*pview.getTotalAlpha()) {
+				//logger.debug("Is "+p+"<="+w+"*"+pview.getTotalAlpha()+"?");
+				node.setRejectable(true);
+				wTF.setBackground(new Color(50, 255, 50));
+				if (testing) {
+					jb.setEnabled(true);
+				} else  {
+					jb.setEnabled(false);
+				}
+			} else {
+				node.setRejectable(false);
+				wTF.setBackground(Color.WHITE);
+				jb.setEnabled(false);
+			}
+			if (testing) {
+				wTF.setEditable(false);
+			} else {
+				wTF.setEditable(true);
+			}
 		}
 		pview.updateLabels();
 	}
@@ -172,12 +194,16 @@ public class PPanel implements ActionListener, KeyListener, NodeListener, FocusL
 		updateMe(true);
 	}
 
-	private String getWString() {	
-		if (testing) {
-			return format.format(w/**pview.getTotalAlpha()*/).replace(",", ".");
-		} else {
-			return RControl.getFraction(w);
+	private Vector<String> getWString() {
+		Vector<String> result = new Vector<String>();
+		for (double wd : w) {
+			if (testing) {
+				result.add(format.format(wd/**pview.getTotalAlpha()*/).replace(",", "."));
+			} else {
+				result.add(RControl.getFraction(wd));
+			}		
 		}
+		return result;
 	}
 
 	public double getP() {		
@@ -198,10 +224,13 @@ public class PPanel implements ActionListener, KeyListener, NodeListener, FocusL
 	public void focusGained(FocusEvent e) {	}
 
 	public void focusLost(FocusEvent e) {
-		if (wTF.isEditable()) {
+		if (wTFList.get(0).isEditable()) {
 			keyTyped(null);
-			if (e.getSource()==wTF && !testing) {
-				wTF.setText(RControl.getFraction(w));
+			for (int i=0; i<wTFList.size(); i++) {
+				JTextField wTF = wTFList.get(i); 
+				if (e.getSource()==wTF && !testing) {
+					wTF.setText(RControl.getFraction(w.get(i)));
+				}
 			}
 			updateMe(true);
 		}

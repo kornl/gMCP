@@ -3,6 +3,8 @@ package org.af.gMCP.gui.graph;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.List;
+import java.util.Vector;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -17,7 +19,7 @@ import com.jgoodies.forms.layout.FormLayout;
 
 public class UpdateNode extends JDialog implements ActionListener {
 	
-	JTextField tf;
+	List<JTextField> tfList = new Vector<JTextField>();
 	JTextField tfname;
 	JButton jb = new JButton("Update Node");
 	JButton jbDeleteNode = new JButton("Delete Node");
@@ -31,7 +33,10 @@ public class UpdateNode extends JDialog implements ActionListener {
 		this.gv = gv;
 		this.netzListe = gv.getNL();
 		String cols = "5dlu, fill:pref:grow, 5dlu, fill:pref:grow, 5dlu";
-        String rows = "5dlu, pref, 5dlu, pref, 5dlu, pref, 5dlu";
+        String rows = "5dlu, pref, 5dlu, pref, 5dlu";
+        for (double w : node.getWeight()) {
+        	rows += ", pref, 5dlu";
+        }
         
         FormLayout layout = new FormLayout(cols, rows);
         getContentPane().setLayout(layout);
@@ -39,14 +44,16 @@ public class UpdateNode extends JDialog implements ActionListener {
 		
         int row = 2;
         
-        getContentPane().add(new JLabel("Weight for node "+node.getName()), cc.xy(2, row));
-
-        tf = new JTextField("", 7);
-        tf.setText(""+RControl.getFraction(node.getWeight()));
-        tf.addActionListener(this);
-        getContentPane().add(tf, cc.xy(4, row));
-
-        row += 2;
+        JTextField tf;
+        for (double w : node.getWeight()) {
+        	getContentPane().add(new JLabel("Weight for node "+node.getName()), cc.xy(2, row));
+        	tf = new JTextField("", 7);
+        	tf.setText(""+RControl.getFraction(w));
+        	tf.addActionListener(this);
+        	tfList.add(tf);
+        	getContentPane().add(tf, cc.xy(4, row));
+        	row += 2;
+        }
         
         getContentPane().add(new JLabel("New name"), cc.xy(2, row));
 
@@ -74,15 +81,19 @@ public class UpdateNode extends JDialog implements ActionListener {
 			dispose();		
 			return;
 		}	
-		Double w = 0d;		
-		try {
-			w = RControl.getR().eval(tf.getText().replace(",", ".")).asRNumeric().getData()[0];		
-			tf.setBackground(Color.WHITE);
-		} catch (Exception nfe) {		
-			tf.setBackground(Color.RED);
-			JOptionPane.showMessageDialog(this, "The expression \""+tf.getText()+"\" is not a valid number.", "Not a valid number", JOptionPane.ERROR_MESSAGE);
+		List<Double> wList = new Vector<Double>();
+		for (JTextField tf : tfList) {
+			try {			
+				double w = RControl.getR().eval(tf.getText().replace(",", ".")).asRNumeric().getData()[0];		
+				tf.setBackground(Color.WHITE);	
+				wList.add(w);
+			} catch (Exception nfe) {		
+				tf.setBackground(Color.RED);
+				JOptionPane.showMessageDialog(this, "The expression \""+tf.getText()+"\" is not a valid number.", "Not a valid number", JOptionPane.ERROR_MESSAGE);
+				return;
+			}
 		}
-		node.setWeight(w, null);
+		node.setWeight(wList, null);
 		int which = netzListe.whichNode(tfname.getText());
 		if (which == -1 || netzListe.getNodes().get(which) == node) {
 			gv.renameNode(node, tfname.getText());			
