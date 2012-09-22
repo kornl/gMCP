@@ -6,8 +6,17 @@ test.calcpower <- function() {
 }
 
 test.rqmvnorm <- function() {
-	# Check whether the correlation is correctly processed
-	# (especially in the right order)
-	R <- kronecker(matrix(.3,2,2)+diag(.7,2), matrix(1/2,3,3)+diag(1/2,3))
-	checkTrue(all(round(cov(rqmvnorm(100000,mean=1:6,sigma=R)),2)==R))
+	if (!"extended" %in% strsplit(Sys.getenv("GMCP_UNIT_TESTS"),",")[[1]]) {		
+		# Check whether the correlation is correctly processed
+		# (especially in the right order)
+		R <- kronecker(matrix(.3,2,2)+diag(.7,2), matrix(1/2,3,3)+diag(1/2,3))
+		checkTrue(all(round(cov(rqmvnorm(1000000, mean=1:6, sigma=R)),2)==R))
+		
+		# Singular matrix (min eigen value -1.562001e-16 on my system):
+		x <- contrMat(rep(10,5), type="UmbrellaWilliams")
+		R <- t(x) %*% x
+		checkTrue(all(round(cov(rqmvnorm(1000000, mean=1:5, sigma=R)),2)==round(R, 2)))
+	} else {
+		cat("Skipping checks for rqmvnorm.\n")
+	}
 }

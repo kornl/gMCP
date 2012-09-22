@@ -419,3 +419,16 @@ setMethod("getWeights", c("entangledMCP"),
 			}
 			return(result)
 		})
+
+setMethod("getNodes", c("entangledMCP"),
+		function(object, ...) {			
+			return(getNodes(object@graphs[[1]]))
+		})
+
+setMethod("getXCoordinates", c("graphMCP"), function(graph, node) {			
+			return(getXCoordinates(graph@graphs[[1]], node))
+		})
+
+setMethod("getYCoordinates", c("graphMCP"), function(graph, node) {
+			return(getYCoordinates(graph@graphs[[1]], node))
+		})
