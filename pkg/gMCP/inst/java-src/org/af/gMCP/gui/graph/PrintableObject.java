@@ -20,11 +20,11 @@ public class PrintableObject implements Printable {
 		this.nl = nl;
 	}
 
-	public int print(Graphics g, PageFormat pf, int iPage) throws PrinterException {		
-		if (0 != iPage)
+	public int print(Graphics g, PageFormat pf, int pageIndex) throws PrinterException {		
+		if (0 != pageIndex) {
 			return NO_SUCH_PAGE;
+		}
 		try {
-
 			double width = pf.getImageableWidth();
 			double height = pf.getImageableHeight();
 			Graphics2D g2 = (Graphics2D) g;
