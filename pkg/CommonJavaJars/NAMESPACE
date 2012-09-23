@@ -1,1 +1,2 @@
 export(showGuideForJavaGUIs)
+export(loadJars)

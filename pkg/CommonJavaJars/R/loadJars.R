@@ -5,7 +5,7 @@ loadJars <- function(jars, java="J5") {
 	if (java=="J5") {
 		files <- grep("J6", files, TRUE, value = TRUE, invert = TRUE)
 	}
-	for (j in jarsSC) {
+	for (j in jars) {
 		# Always take the newest jar per default:
 		jarsFullname <- c(jarsFullname, sort(grep(j, files, TRUE, value = TRUE), decreasing = TRUE)[1])
 	}

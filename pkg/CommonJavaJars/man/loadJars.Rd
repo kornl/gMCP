@@ -8,7 +8,7 @@
 	Registers all Java classes from the specified jar files from this package.
 }
 \usage{
-	loadJars <- function(jars, java="J5")
+	loadJars(jars, java="J5")
 }
 \arguments{
   \item{jars}{
@@ -24,7 +24,7 @@
   }
 }
 \details{
-	
+	Registers all Java classes from the specified jar files from this package.
 }
 \value{
 	The function returns the full names (sometimes including the version number) 
