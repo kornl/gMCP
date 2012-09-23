@@ -432,3 +432,8 @@ setMethod("getXCoordinates", c("entangledMCP"), function(graph, node) {
 setMethod("getYCoordinates", c("entangledMCP"), function(graph, node) {
 			return(getYCoordinates(graph@graphs[[1]], node))
 		})
+
+setMethod("getRejected", c("entangledMCP"), function(object, node, ...) {
+			return(getRejected(graph@graphs[[1]], node))
+		})
+
