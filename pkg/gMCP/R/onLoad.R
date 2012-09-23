@@ -8,7 +8,7 @@
 	jars <- c("commons-collections-3.2.1.jar", "commons-lang-2.6.jar", 
 			"commons-logging-1.1.1.jar", "commons-validator-1.3.1.jar", "forms-1.2.0.jar", 
 			"iText-2.1.4.jar", "jhlir.jar", "jlatexmath-0.9.4.jar", "jxlayer.jar", 
-			"log4j-1.2.15.jar", "mysql-connector-java-5.1.16-bin.jar", "poi-3.6-20091214.jar", 
+			"log4j-1.2.15.jar", "mysql-connector-java-5.1.16-bin.jar", 
 			"swing-worker-1.1.jar")
 	
 	.jpackage("CommonJavaJars", jars=jars)
