@@ -38,14 +38,26 @@ options(digits=4)
 
 \section*{CommonJavaJars - A package with useful libraries for Java GUIs}
 
-To reduce the package size of other R packages with Java GUIs and to reduce jar file conflicts,
-this package provides a few commonly used Java libraries.
+To reduce the package size of other R packages with Java GUIs and to reduce jar
+file conflicts, this package provides a few commonly used Java libraries.
 
-You should be able to load them by calling the rJava \texttt{.jpackage} function (a good place is most likely the \texttt{.onLoad} function of your package):
+You should be able to load them by calling the rJava \texttt{.jpackage} function
+(a good place is most likely the \texttt{.onLoad} function of your package):
 
 <<echo=TRUE,eval=F>>=
 
 .jpackage("CommonJavaJars", jars=c("forms-1.2.0.jar", "iText-2.1.4.jar"))
+
+@
+
+But since the version numbers of the jar files in CommonJavaJars can change,
+best practice is to use the function \texttt{loadJars} and to specify only an
+unambiguous part of the name, if there are no reasons not to use the latest
+version:
+
+<<echo=TRUE,eval=F>>=
+
+loadJars(c("forms", "iText"))
 
 @
 
