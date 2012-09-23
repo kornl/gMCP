@@ -17,7 +17,8 @@
 	# For now always ignore the jars that require Java >= 6.
 	files <- grep("J6", files, TRUE, value = TRUE, invert = TRUE)
 	for (j in jarsSC) {
-		jars <- c(jars, grep(j, files, TRUE, value = TRUE)[1])
+		# Always take the newest jar per default:
+		jars <- c(jars, sort(grep(j, files, TRUE, value = TRUE), decreasing = TRUE)[1])
 	}
 	
 	.jpackage("CommonJavaJars", jars=jars)
