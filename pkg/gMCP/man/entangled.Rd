@@ -9,6 +9,7 @@
 \alias{getRejected,entangledMCP-method}
 \alias{getXCoordinates,entangledMCP-method}
 \alias{getYCoordinates,entangledMCP-method}
+\alias{getNodes,entangledMCP-method}
 \title{Class entangledMCP}
 \description{A entangledMCP object describes ... TODO}
 \section{Slots}{  
