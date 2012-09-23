@@ -63,6 +63,14 @@ public class NetList extends JPanel implements MouseMotionListener, MouseListene
 	double zoom = 1d;
 	
 	static DecimalFormat format = new DecimalFormat("#.####");
+	
+	public static Color[] layerColors = new Color[] {
+		Color.BLACK,
+		Color.BLUE,
+		Color.RED,
+		Color.YELLOW,
+		Color.GREEN
+	};
 
 	public NetList(JLabel statusBar, GraphView graphview) {
 		this.statusBar = statusBar;

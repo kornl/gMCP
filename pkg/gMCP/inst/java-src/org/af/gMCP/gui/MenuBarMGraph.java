@@ -385,7 +385,7 @@ public class MenuBarMGraph extends JMenuBar implements ActionListener {
         	control.getNL().saveGraphWithoutVariables(control.getNL().initialGraph, false);
         	control.getNL().loadGraph();
         } else if (e.getActionCommand().equals("entangledGraphs")) {
-        	control.getDataFramePanel().addLayer();
+        	control.addEntangledLayer();
         } else if (e.getActionCommand().equals("adaptiveDesigns")) {
         	
         } else if (e.getActionCommand().equals("bht")) {

@@ -523,4 +523,11 @@ public class GraphView extends JPanel implements ActionListener {
 	public int getNumberOfLayers() {
 		return getDataFramePanel().getTable().size();
 	}
+
+	public void addEntangledLayer() {
+		getDataFramePanel().addLayer();
+		for (Node n : nl.getNodes()) {
+			n.addLayer();
+		}
+	}
 }

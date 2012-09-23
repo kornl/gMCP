@@ -13,6 +13,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
 import org.af.gMCP.gui.RControl;
+import org.apache.commons.lang.ArrayUtils;
 
 import com.jgoodies.forms.layout.CellConstraints;
 import com.jgoodies.forms.layout.FormLayout;
@@ -93,7 +94,7 @@ public class UpdateNode extends JDialog implements ActionListener {
 				return;
 			}
 		}
-		node.setWeight(wList, null);
+		node.setWeight(ArrayUtils.toPrimitive((Double[])wList.toArray(new Double[0])), null);
 		int which = netzListe.whichNode(tfname.getText());
 		if (which == -1 || netzListe.getNodes().get(which) == node) {
 			gv.renameNode(node, tfname.getText());			

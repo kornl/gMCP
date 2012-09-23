@@ -28,7 +28,9 @@ public class Node {
 	private Color color = Color.WHITE;
 	TeXIcon iconName;
 	List<TeXIcon> iconWeight;
+	/** lastFontSize is used to check whether TeXItems have to be reconstructed */
 	int lastFontSize = 14;
+	/** Normally each node has exactly one PPanel as NodeListener waiting for changes */
 	public Vector<NodeListener> listener = new Vector<NodeListener>();
 
 	Double localPower = null;
@@ -52,7 +54,7 @@ public class Node {
 		setName(name);
 		setX(x);
 		setY(y);		
-		setWeight(Arrays.asList(ArrayUtils.toObject(alpha)), null);		
+		setWeight(alpha, null);		
 	}
 
 	public void addNodeListener(NodeListener l) {
@@ -155,17 +157,20 @@ public class Node {
 					(int) ((x + r) * nl.getZoom() - iconName.getIconWidth() / 2), 
 					(int) ((y + r - 0.6*r) * nl.getZoom()));	
 
+			int layer = 0;
 			for (TeXIcon icon : iconWeight) {
+				 g2d.setColor(NetList.layerColors[layer%NetList.layerColors.length]);
 				//TODO Color and correct x coordinates:
 				icon.paintIcon(LaTeXTool.panel, g2d,
 						(int) ((x + r) * nl.getZoom() - icon.getIconWidth() / 2), 
 						(int) ((y + 1.1 * r) * nl.getZoom()));
 			}
+			//g2d.setColor(Color.BLACK);
 		}
 		
 	}
 
-	private void createWeightIcons() {
+	public void createWeightIcons() {
 		iconWeight = new Vector<TeXIcon>();
 		for (String w : getWS()) {
 			iconWeight.add(LaTeXTool.getTeXIcon(this.nl.control.getGraphGUI(), w, lastFontSize));
@@ -209,25 +214,13 @@ public class Node {
 		this.rejectable = rejectable;
 	}
 
-	public void setWeight(List<Double> wList, NodeListener me) {
-		this.weight = wList;	
+	public void setWeight(double[] alpha, NodeListener me) {
 		DecimalFormat format = Configuration.getInstance().getGeneralConfig().getDecFormat();
-		
+		weight = new Vector<Double>();
 		stringW = new Vector<String>();
-		for (double w : wList) {
-			if (!Configuration.getInstance().getGeneralConfig().showFractions()) {
-				stringW.add(format.format(w));
-			} else {
-				if (w!=0 && w < Math.pow(0.1, 3)) {
-					stringW.add(formatSmall.format(w));
-				} else {
-					String wS = RControl.getFraction(w, 5);
-					if (wS.length()>7) {
-						wS = "\\sim "+format.format(w);
-					}
-					stringW.add(wS);
-				}
-			}
+		
+		for (double w : alpha) {
+			addSingleLayerWeight(w);
 		}
 		
 		createWeightIcons();
@@ -239,6 +232,29 @@ public class Node {
 		}
 		nl.graphHasChanged();
 		nl.repaint();
+	}
+	
+	public void addSingleLayerWeight(double w) {	
+		weight.add(w);
+		if (!Configuration.getInstance().getGeneralConfig().showFractions()) {
+			stringW.add(format.format(w));
+		} else {
+			if (w!=0 && w < Math.pow(0.1, 3)) {
+				stringW.add(formatSmall.format(w));
+			} else {
+				String wS = RControl.getFraction(w, 5);
+				if (wS.length()>7) {
+					wS = "\\sim "+format.format(w);
+				}
+				stringW.add(wS);
+			}
+		}
+	}
+	
+	public void addLayer() {
+		addSingleLayerWeight(0);
+		// Force recalculation of TeXItems:
+		lastFontSize = 0;
 	}
 	
 	public void setX(int x) {

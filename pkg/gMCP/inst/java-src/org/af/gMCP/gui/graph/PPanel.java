@@ -17,6 +17,7 @@ import javax.swing.JLabel;
 import javax.swing.JTextField;
 
 import org.af.gMCP.gui.RControl;
+import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -137,7 +138,7 @@ public class PPanel implements ActionListener, KeyListener, NodeListener, FocusL
 				return;
 			}	
 		}
-		node.setWeight(w, this);
+		node.setWeight(ArrayUtils.toPrimitive((Double[])w.toArray(new Double[0])), this);
 		//logger.info("P: "+p+", W: "+w);
 		updateMe(false);
 	}

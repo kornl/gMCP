@@ -17,6 +17,7 @@ import org.af.gMCP.gui.CreateGraphGUI;
 import org.af.gMCP.gui.MenuBarMGraph;
 import org.af.gMCP.gui.graph.Edge;
 import org.af.gMCP.gui.graph.Node;
+import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -99,7 +100,7 @@ public class OptionsDialog extends JDialog implements ActionListener {
                 	//TODO Update edge weights
                 }
                 for (Node node : parent.getGraphView().getNL().getNodes()) {
-                	node.setWeight(node.getWeight(), null);
+                	node.createWeightIcons();
                 }
                 parent.repaint();
             } catch (ValidationException exc) {
