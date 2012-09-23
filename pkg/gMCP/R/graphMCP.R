@@ -425,10 +425,10 @@ setMethod("getNodes", c("entangledMCP"),
 			return(getNodes(object@graphs[[1]]))
 		})
 
-setMethod("getXCoordinates", c("graphMCP"), function(graph, node) {			
+setMethod("getXCoordinates", c("entangledMCP"), function(graph, node) {			
 			return(getXCoordinates(graph@graphs[[1]], node))
 		})
 
-setMethod("getYCoordinates", c("graphMCP"), function(graph, node) {
+setMethod("getYCoordinates", c("entangledMCP"), function(graph, node) {
 			return(getYCoordinates(graph@graphs[[1]], node))
 		})

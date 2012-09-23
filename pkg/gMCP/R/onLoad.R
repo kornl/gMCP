@@ -13,7 +13,7 @@
 	
 	jars <- c()	
 	classes <- system.file("java", package = "CommonJavaJars", lib.loc = NULL)
-	files <- list.files(classes, full.names = TRUE)
+	files <- list.files(classes, full.names = FALSE)
 	# For now always ignore the jars that require Java >= 6.
 	files <- grep("J6", files, TRUE, value = TRUE, invert = TRUE)
 	for (j in jarsSC) {
