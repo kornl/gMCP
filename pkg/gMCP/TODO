@@ -1,5 +1,5 @@
 - Give more information about "testing mode" - one time JOptionPane for example.
-- Loading of jars from CommonJavaJars when version number changes?
+- Find good color set for entangled graphs.
 - Check whether parametric test mode is set correctly in power simulations.
 - Why is RControl.getR().getHistory() not accessible when the gMCP call fails?
 - Parsing \\epsilon creates a lot of error messages in the R terminal for edges with variables.

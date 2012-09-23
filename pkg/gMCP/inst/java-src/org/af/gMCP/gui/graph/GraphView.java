@@ -529,5 +529,6 @@ public class GraphView extends JPanel implements ActionListener {
 		for (Node n : nl.getNodes()) {
 			n.addLayer();
 		}
+		nl.repaint();
 	}
 }

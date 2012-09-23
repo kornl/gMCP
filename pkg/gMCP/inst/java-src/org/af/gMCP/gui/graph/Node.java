@@ -157,23 +157,28 @@ public class Node {
 					(int) ((x + r) * nl.getZoom() - iconName.getIconWidth() / 2), 
 					(int) ((y + r - 0.6*r) * nl.getZoom()));	
 
-			int layer = 0;
-			for (TeXIcon icon : iconWeight) {
-				 g2d.setColor(NetList.layerColors[layer%NetList.layerColors.length]);
+			int offset = (int)(-((iconWeight.size()-1)/2.0)*10);
+			for (TeXIcon icon : iconWeight) {				
 				//TODO Color and correct x coordinates:
 				icon.paintIcon(LaTeXTool.panel, g2d,
-						(int) ((x + r) * nl.getZoom() - icon.getIconWidth() / 2), 
+						(int) ((x + r + offset) * nl.getZoom() - icon.getIconWidth() / 2), 
 						(int) ((y + 1.1 * r) * nl.getZoom()));
+				offset+=10;
 			}
-			//g2d.setColor(Color.BLACK);
 		}
 		
 	}
 
 	public void createWeightIcons() {
+		lastFontSize = (int) (14 * nl.getZoom());
+		int fontSize = (int) (14 * nl.getZoom() * (getWS().size()==1?1:0.8));
 		iconWeight = new Vector<TeXIcon>();
-		for (String w : getWS()) {
-			iconWeight.add(LaTeXTool.getTeXIcon(this.nl.control.getGraphGUI(), w, lastFontSize));
+		int layer = 0;
+		for (String w : getWS()) {			
+			TeXIcon icon = LaTeXTool.getTeXIcon(this.nl.control.getGraphGUI(), w, fontSize);
+			icon.setForeground(NetList.layerColors[layer%NetList.layerColors.length]);
+			iconWeight.add(icon);	
+			layer++;
 		}
 	}
 

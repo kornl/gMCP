@@ -67,7 +67,7 @@ public class NetList extends JPanel implements MouseMotionListener, MouseListene
 	public static Color[] layerColors = new Color[] {
 		Color.BLACK,
 		Color.BLUE,
-		Color.RED,
+		Color.RED, //TODO: Find better Colors then the following:
 		Color.YELLOW,
 		Color.GREEN
 	};
