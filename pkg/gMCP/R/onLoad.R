@@ -5,17 +5,26 @@
 	.jpackage(pkgname)	
 	.jpackage("JavaGD")
 	
-	jars <- c("commons-collections-3.2.1.jar", "commons-lang-2.6.jar", 
-			"commons-logging-1.1.1.jar", "commons-validator-1.3.1.jar", "forms-1.2.0.jar", 
-			"iText-2.1.4.jar", "jhlir.jar", "jlatexmath-0.9.4.jar", "jxlayer.jar", 
-			"log4j-1.2.15.jar", "mysql-connector-java-5.1.16-bin.jar", 
-			"swing-worker-1.1.jar")
+	jarsSC <- c("commons-collections", "commons-lang", 
+			"commons-logging", "commons-validator", "forms", 
+			"iText", "jhlir.jar", "jlatexmath", "jxlayer", 
+			"log4j", "mysql-connector-java", 
+			"swing-worker")
+	
+	jars <- c()	
+	classes <- system.file("java", package = "CommonJavaJars", lib.loc = NULL)
+	files <- list.files(classes, full.names = TRUE)
+	# For now always ignore the jars that require Java >= 6.
+	files <- grep("J6", files, TRUE, value = TRUE, invert = TRUE)
+	for (j in jarsSC) {
+		jars <- c(jars, grep(j, files, TRUE, value = TRUE)[1])
+	}
 	
 	.jpackage("CommonJavaJars", jars=jars)
 	
 	# The following few lines are based on the code of the rJava .jpackage function
 	classes <- system.file("jri", package = "rJava", lib.loc = NULL)
-	if (nchar(classes)) {
+	if (nzchar(classes)) {
 		.jaddClassPath(classes)
 		jars <- grep(".*\\.jar", list.files(classes, full.names = TRUE), TRUE, value = TRUE)
 		if (length(jars)) { 
@@ -26,7 +35,7 @@
 	# If we have a rJava version < 0.8-3 load JRIEngine.jar and REngine.jar
     if (!is.null(sessionInfo()$otherPkgs$rJava$Version) && sessionInfo()$otherPkgs$rJava$Version < "0.8-3") {
 		classes <- system.file("R28", package = "CommonJavaJars", lib.loc = NULL)
-		if (nchar(classes)) {
+		if (nzchar(classes)) {
 			.jaddClassPath(classes)
 			jars <- grep(".*\\.jar", list.files(classes, full.names = TRUE), TRUE, value = TRUE)
 			if (length(jars)) { 
