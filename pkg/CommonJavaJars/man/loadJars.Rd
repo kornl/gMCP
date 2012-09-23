@@ -25,6 +25,7 @@
 }
 \details{
 	Registers all Java classes from the specified jar files from this package.
+	An error is thrown if no matching jar file could be found for some of the specified jars.
 }
 \value{
 	The function returns the full names (sometimes including the version number) 
@@ -39,8 +40,7 @@
 \dontrun{
 jars <- c("commons-collections", "commons-lang", "commons-logging", 
           "commons-validator", "forms",	"iText", "jhlir.jar", 
-          "jlatexmath", "jxlayer", "log4j", "mysql-connector-java", 
-		  "swing-worker")
+          "jlatexmath", "jxlayer", "log4j", "swing-worker")
 		  
 fullNames <- loadJars(jars)
 

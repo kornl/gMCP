@@ -8,8 +8,7 @@
 	jarsSC <- c("commons-collections", "commons-lang", 
 			"commons-logging", "commons-validator", "forms", 
 			"iText", "jhlir.jar", "jlatexmath", "jxlayer", 
-			"log4j", "mysql-connector-java", 
-			"swing-worker")
+			"log4j", "swing-worker")
 	
 	jars <- c()	
 	classes <- system.file("java", package = "CommonJavaJars", lib.loc = NULL)

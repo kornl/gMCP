@@ -7,7 +7,11 @@ loadJars <- function(jars, java="J5") {
 	}
 	for (j in jars) {
 		# Always take the newest jar per default:
-		jarsFullname <- c(jarsFullname, sort(grep(j, files, TRUE, value = TRUE), decreasing = TRUE)[1])
+		x <- sort(grep(j, files, TRUE, value = TRUE), decreasing = TRUE)
+		if (length(x)==0) {
+			stop(paste("No jar that matches \"",j,"\" could be found.",sep=""))
+		}
+		jarsFullname <- c(jarsFullname, x[1])
 	}
 	
 	.jpackage("CommonJavaJars", jars=jarsFullname)

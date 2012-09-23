@@ -45,7 +45,7 @@ We provide the following Java libraries:
  \item AFCommons under BSD License, \url{http://www.algorithm-forge.com/afcommons/}, Copyright (c) 2007-2010 by Kornelius Rohmeyer and Bernd Bischl
  \item JHLIR under BSD License, \url{http://jhlir.r-forge.r-project.org/}, Copyright (c) 2008-2010 by Bernd Bischl and Kornelius Rohmeyer  
  \item SGTK under BSD License, \url{http://www.algorithm-forge.com/rjavaclient/}, Copyright (c) 2007-2010 by Bernd Bischl and Kornelius Rohmeyer 
- \item MySQL-Connector under GPL 2, \url{http://www.mysql.com/downloads/connector/j/}, Copyright (c) 2000, 2010 by Oracle and/or its affiliates
+% \item MySQL-Connector under GPL 2, \url{http://www.mysql.com/downloads/connector/j/}, Copyright (c) 2000, 2010 by Oracle and/or its affiliates
  \item JRIEngine and REngine under LGPL-2.1, \url{http://www.rforge.net/rJava/}, Copyright 2010 by Simon Urbanek. Please use these two jar files only if package rJava does not provide them. 
  \item InfoNode Docking Windows under GPL-2, \url{http://www.infonode.net/index.html?idw}, Copyright 1998-2009 NNL Technology 	 
  } 
