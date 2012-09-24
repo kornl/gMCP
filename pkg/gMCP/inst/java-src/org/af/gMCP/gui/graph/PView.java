@@ -359,6 +359,9 @@ public class PView extends JPanel implements KeyListener, ActionListener {
         for (PPanel p : panels) {
         	rows += ", pref, 5dlu";
         }
+        for (int i=0; i<parent.getGraphView().getNumberOfLayers(); i++) {
+        	cols += ", fill:pref:grow, 5dlu";
+        }
         
         FormLayout layout = new FormLayout(cols, rows);
         panel.setLayout(layout);        
@@ -367,20 +370,27 @@ public class PView extends JPanel implements KeyListener, ActionListener {
     	
     	panel.add(weightLabel, cc.xy(4, 2));
     	//panel.add(new JLabel("Signif. Level"), cc.xy(4, 2));
-
-    	panel.add(new JLabel("P-Value"), cc.xy(6, 2));
+    	
+    	int col = 6;
+    	
+    	for (int i=1; i<parent.getGraphView().getNumberOfLayers(); i++) {
+    		panel.add(new JLabel("Layer "+(i+1)), cc.xy(col, 2));
+    		col += 2;
+    	}
+    	
+    	panel.add(new JLabel("P-Value"), cc.xy(col, 2));
 				
 		int row = 4;
 		for (PPanel p : panels) {
-			int col=2;
+			int col2=2;
 			for (Component c : p.getComponent()) {
-				panel.add(c, cc.xy(col, row));	
-				col += 2;
+				panel.add(c, cc.xy(col2, row));	
+				col2 += 2;
 			}
 			row += 2;
 		}		
-		panel.add(statusLabel, cc.xyw(2, row, 3));
-		panel.add(jbLoadPValues, cc.xy(6, row));
+		panel.add(statusLabel, cc.xyw(2, row, col-3));
+		panel.add(jbLoadPValues, cc.xy(col, row));
 		row += 2;
 		panel.add(alphaLabel, cc.xy(2, row));    	
     	panel.add(totalAlpha, cc.xy(4, row));
