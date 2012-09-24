@@ -17,7 +17,6 @@ import org.af.gMCP.gui.CreateGraphGUI;
 import org.af.gMCP.gui.MenuBarMGraph;
 import org.af.gMCP.gui.graph.Edge;
 import org.af.gMCP.gui.graph.Node;
-import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 

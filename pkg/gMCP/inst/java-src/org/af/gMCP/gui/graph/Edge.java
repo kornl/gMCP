@@ -13,7 +13,6 @@ import java.awt.geom.Rectangle2D;
 import java.util.Collection;
 import java.util.Hashtable;
 
-
 import org.af.commons.images.GraphDrawHelper;
 import org.af.commons.images.GraphException;
 import org.af.gMCP.config.Configuration;

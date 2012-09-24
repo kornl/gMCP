@@ -29,7 +29,6 @@ import org.af.gMCP.gui.CreateGraphGUI;
 import org.af.gMCP.gui.RControl;
 import org.af.gMCP.gui.ReproducableLog;
 import org.af.gMCP.gui.datatable.DataFramePanel;
-import org.af.gMCP.gui.datatable.DataTable;
 import org.af.gMCP.gui.dialogs.AdjustedPValueDialog;
 import org.af.gMCP.gui.dialogs.DialogConfIntEstVar;
 import org.af.gMCP.gui.dialogs.RejectedDialog;

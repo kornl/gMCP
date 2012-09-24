@@ -8,14 +8,12 @@ import java.awt.font.FontRenderContext;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Rectangle2D;
 import java.text.DecimalFormat;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Vector;
 
 import org.af.commons.tools.StringTools;
 import org.af.gMCP.config.Configuration;
 import org.af.gMCP.gui.RControl;
-import org.apache.commons.lang.ArrayUtils;
 import org.scilab.forge.jlatexmath.TeXConstants;
 import org.scilab.forge.jlatexmath.TeXFormula;
 import org.scilab.forge.jlatexmath.TeXIcon;

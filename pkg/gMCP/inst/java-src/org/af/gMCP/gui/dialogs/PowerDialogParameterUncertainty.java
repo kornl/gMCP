@@ -25,8 +25,8 @@ import org.af.gMCP.config.Configuration;
 import org.af.gMCP.gui.CreateGraphGUI;
 import org.af.gMCP.gui.RControl;
 import org.af.gMCP.gui.datatable.CellEditorE;
-import org.af.gMCP.gui.datatable.SingleDataFramePanel;
 import org.af.gMCP.gui.datatable.RDataFrameRef;
+import org.af.gMCP.gui.datatable.SingleDataFramePanel;
 import org.af.gMCP.gui.graph.EdgeWeight;
 import org.af.gMCP.gui.graph.Node;
 

@@ -32,9 +32,9 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import org.af.gMCP.gui.RControl;
-import org.af.gMCP.gui.datatable.SingleDataFramePanel;
 import org.af.gMCP.gui.datatable.DataTableModel;
 import org.af.gMCP.gui.datatable.RDataFrameRef;
+import org.af.gMCP.gui.datatable.SingleDataFramePanel;
 import org.af.gMCP.gui.graph.EdgeWeight;
 import org.af.gMCP.gui.graph.Node;
 import org.af.jhlir.call.RChar;
