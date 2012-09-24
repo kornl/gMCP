@@ -1,4 +1,5 @@
 - Give more information about "testing mode" - one time JOptionPane for example.
+- For gMCP 0.8-1: Require CommonJavaJars (>= 1.0.3), remove afcommons.jar from package and add it to loadJars.
 - Find good color set for entangled graphs.
 - Check whether parametric test mode is set correctly in power simulations.
 - Why is RControl.getR().getHistory() not accessible when the gMCP call fails?

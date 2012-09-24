@@ -96,4 +96,12 @@ public class DataFramePanel extends JTabbedPane {
 	public void setValueAt(EdgeWeight value, int row, int col, int layer) {
 		getTable().get(layer).getModel().setValueAt(value, row, col);		
 	}
+
+	public void reset() {
+		for (int i=tables.size()-1; i>0; i--) {
+			tables.remove(i);
+			remove(i);
+		}
+		
+	}
 }
