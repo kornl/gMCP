@@ -23,6 +23,8 @@
 \alias{BretzEtAl2009b}
 \alias{BretzEtAl2009c}
 \alias{Ferber2011}
+\alias{Entangled1Maurer2012}
+\alias{Entangled2Maurer2012}
 \title{
 	Functions that create different example graphs
 }
@@ -56,6 +58,8 @@
 	BretzEtAl2009b()
 	BretzEtAl2009c()
 	Ferber2011()
+	Entangled1Maurer2012()
+	Entangled2Maurer2012()
 }
 
 \arguments{
@@ -104,6 +108,9 @@
 	}
 	\item{\code{Ferber2011}}{
 	    Graph from Ferber et al. See references (Ferber et al. 2011).
+	}
+	\item{\code{Entangled1Maurer2012}}{
+		Entangled graph from Maurer et al. TODO: Add references as soon as they are available.
 	}
   }	
 }

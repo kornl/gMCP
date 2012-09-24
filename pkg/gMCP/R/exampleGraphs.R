@@ -642,3 +642,81 @@ Ferber2011 <- function() {
 	
 	return(graph)
 }
+
+Entangled1Maurer2012 <- function() {
+	m <- rbind(H1=c(0, 0, 1, 0, 0),
+			H2=c(0, 0, 1, 0, 0),
+			H3=c(0, 0, 0, "1-\\epsilon", "\\epsilon"),
+			H4=c(0, 1, 0, 0, 0),
+			H5=c(0, 0, 0, 0, 0))
+	
+	weights <- c(1, 0, 0, 0, 0)
+	
+	graph1 <- new("graphMCP", m=m, weights=weights)
+	
+	attr(graph1, "description") <- paste("Graph from Maurer and Bretz 2012",
+			"",
+			"Literature: Not yet published.", sep="\n")
+	
+	graph1@nodeAttr$X <- c(100, 300, 200, 100, 300)
+	graph1@nodeAttr$Y <- c(100, 100, 200, 300, 300)
+	
+	edgeAttr(graph1, "H4", "H2", "labelX") <- 50
+	edgeAttr(graph1, "H4", "H2", "labelY") <- 50
+	
+	m <- rbind(H1=c(0, 0, 1, 0, 0),
+			H2=c(0, 0, 1, 0, 0),
+			H3=c(0, 0, 0, "\\epsilon", "1-\\epsilon"),
+			H4=c(0, 0, 0, 0, 0),
+			H5=c(1, 0, 0, 0, 0))
+	
+	weights <- c(0, 1, 0, 0, 0)
+	
+	graph2 <- new("graphMCP", m=m, weights=weights)
+	
+	edgeAttr(graph2, "H5", "H1", "labelX") <- 350
+	edgeAttr(graph2, "H5", "H1", "labelY") <- 50
+	
+	graph <- new("entangledMCP", graphs=list(graph1,graph2), weights=c(0.5,0.5))
+	
+	return(graph)
+}
+
+Entangled2Maurer2012 <- function() {
+	m <- rbind(H1=c(0, 0, 1, 0, 0),
+			H2=c(0, 0, 0, 0, 1),
+			H3=c(0, 0, 0, 1, 0),
+			H4=c(0, 1, 0, 0, 0),
+			H5=c(0, 0, 0, 0, 0))
+	
+	weights <- c(1, 0, 0, 0, 0)
+	
+	graph1 <- new("graphMCP", m=m, weights=weights)
+	
+	attr(graph1, "description") <- paste("Graph from Maurer and Bretz 2012",
+			"",
+			"Literature: Not yet published.", sep="\n")
+	
+	graph1@nodeAttr$X <- c(100, 300, 200, 100, 300)
+	graph1@nodeAttr$Y <- c(100, 100, 200, 300, 300)
+	
+	edgeAttr(graph1, "H4", "H2", "labelX") <- 50
+	edgeAttr(graph1, "H4", "H2", "labelY") <- 50
+	
+	m <- rbind(H1=c(0, 0, 0, 1, 0),
+			H2=c(0, 0, 1, 0, 0),
+			H3=c(0, 0, 0, 0, 1),
+			H4=c(0, 0, 0, 0, 0),
+			H5=c(1, 0, 0, 0, 0))
+	
+	weights <- c(0, 1, 0, 0, 0)
+	
+	graph2 <- new("graphMCP", m=m, weights=weights)
+	
+	edgeAttr(graph2, "H5", "H1", "labelX") <- 350
+	edgeAttr(graph2, "H5", "H1", "labelY") <- 50
+	
+	graph <- new("entangledMCP", graphs=list(graph1,graph2), weights=c(0.5,0.5))
+	
+	return(graph)
+}
