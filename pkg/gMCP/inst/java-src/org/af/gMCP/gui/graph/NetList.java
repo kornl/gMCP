@@ -356,6 +356,8 @@ public class NetList extends JPanel implements MouseMotionListener, MouseListene
 		return testingStarted;
 	}
 
+	// This function neither sets the description nor the pvalues.
+	// TODO Is this really a good design?
 	public GraphMCP loadGraph() {
 		control.stopTesting();
 		reset();
@@ -385,6 +387,9 @@ public class NetList extends JPanel implements MouseMotionListener, MouseListene
 		}		
 		if (graph.pvalues!=null && graph.pvalues.length>1) {
 			control.getPView().setPValues(graph.pvalues);
+		}
+		if (graph.entangledWeights!= null) {
+			control.getPView().setEntangledWeights(graph.entangledWeights);
 		}
 	}
 	
@@ -843,7 +848,7 @@ public class NetList extends JPanel implements MouseMotionListener, MouseListene
 			for (int i=0; i<control.getNumberOfLayers(); i++) {
 				saveSingleLayerGraph(tmpGraph+"_layer_"+i, verbose, ht, i);
 				graphs += tmpGraph+"_layer_"+i;
-				weights += 1/control.getNumberOfLayers(); //TODO!
+				weights += control.getPView().entangledWeights.get(i).getText();
 				if (i!=control.getNumberOfLayers()-1) {
 					graphs += ", ";
 					weights += ", ";

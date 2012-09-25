@@ -23,6 +23,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
+import javax.swing.JTextField;
 
 import org.af.commons.widgets.DesktopPaneBG;
 import org.af.commons.widgets.validate.RealTextField;
@@ -58,6 +59,7 @@ public class PView extends JPanel implements KeyListener, ActionListener {
 	CreateGraphGUI parent;
 	
 	List<Double> pValues = null;
+	List<JTextField> entangledWeights = new Vector<JTextField>();
 	
 	JButton refresh;
 	
@@ -362,6 +364,9 @@ public class PView extends JPanel implements KeyListener, ActionListener {
         for (int i=0; i<parent.getGraphView().getNumberOfLayers(); i++) {
         	cols += ", fill:pref:grow, 5dlu";
         }
+        if (parent.getGraphView().getNumberOfLayers()>1) {
+        	rows += ", pref, 5dlu";
+        }
         
         FormLayout layout = new FormLayout(cols, rows);
         panel.setLayout(layout);        
@@ -397,6 +402,21 @@ public class PView extends JPanel implements KeyListener, ActionListener {
     	//totalAlpha.setText("0.05");
     	totalAlpha.addKeyListener(this);
     	
+    	if (parent.getGraphView().getNumberOfLayers()>1) {
+    		row += 2;
+    		panel.add(new JLabel("Subgraph alpha splitting: "), cc.xy(2, row));
+        	    
+    		for (int i=entangledWeights.size(); i<parent.getGraphView().getNumberOfLayers(); i++) {
+    			entangledWeights.add(new JTextField());
+    		}
+    		
+    		col = 4;
+        	for (int i=0; i<parent.getGraphView().getNumberOfLayers(); i++) {        		
+        		panel.add(entangledWeights.get(i), cc.xy(col, row));
+        		col += 2;
+        	}
+    	}
+    	
     	updateLabels();
 		panel.revalidate();		
 		removeAll();		
@@ -409,6 +429,7 @@ public class PView extends JPanel implements KeyListener, ActionListener {
 	public void updateLabels() {
 		statusLabel.setForeground(Color.BLACK);
 		String text = "Sum of weights: ";
+		if (parent.getGraphView().getNumberOfLayers()>1) text = "Subgraph sum of weights: ";
 		for (int i=0; i<parent.getGraphView().getNumberOfLayers(); i++) {
 			double weight = 0;
 			for (PPanel p : panels) {
@@ -422,6 +443,15 @@ public class PView extends JPanel implements KeyListener, ActionListener {
 			text += Configuration.getInstance().getGeneralConfig().getDecFormat().format(weight)+"; ";
 		}
 		statusLabel.setText(text);
+	}
+
+	public void setEntangledWeights(double[] ew) {
+		/*for (int i = entangledWeights.size(); i<ew.length; i++) {
+			entangledWeights.add(new JTextField());
+		}*/
+		for (int i=0; i<ew.length; i++) {
+			entangledWeights.get(i).setText(""+ew[i]);
+		}		
 	}
 	
 }

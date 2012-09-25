@@ -19,6 +19,7 @@ public class GraphMCP {
 	
 	String description;
 	double[] pvalues = null;
+	double[] entangledWeights = null;
 
 	public GraphMCP(String name, NetList nl) {
 		this.name = name;
@@ -39,6 +40,7 @@ public class GraphMCP {
 				double[] x = RControl.getR().eval("getXCoordinates("+name+")").asRNumeric().getData();
 				double[] y = RControl.getR().eval("getYCoordinates("+name+")").asRNumeric().getData();
 				boolean[] rejected = RControl.getR().eval("getRejected("+name+")").asRLogical().getData();
+				entangledWeights = RControl.getR().eval(name+"@weights").asRNumeric().getData();
 				//Nodes:
 				for (int i=0; i<nodeArray.length; i++) {
 					logger.debug("Adding node "+nodeArray[i]+" at ("+x[i]+","+y[i]+").");
