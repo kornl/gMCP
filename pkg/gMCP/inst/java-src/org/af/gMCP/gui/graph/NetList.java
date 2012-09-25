@@ -626,11 +626,11 @@ public class NetList extends JPanel implements MouseMotionListener, MouseListene
 		int grid = Configuration.getInstance().getGeneralConfig().getGridSize();
 		g.setColor(Color.LIGHT_GRAY);
 		if (grid>1) {
-			for(int x=(-Node.r/grid)*grid; x < getWidth(); x += grid) {				
-				g.drawLine(x+Node.r, 0, x+Node.r, getHeight());	
+			for(int x=(int)(Node.r*getZoom()); x < getWidth(); x += grid*getZoom()) {				
+				g.drawLine(x, 0, x, getHeight());	
 			}
-			for(int y=(-Node.r/grid)*grid; y < getHeight(); y += grid) {
-				g.drawLine(0, y+Node.r, getWidth(), y+Node.r);
+			for(int y=(int)(Node.r*getZoom()); y < getHeight(); y += grid*getZoom()) {
+				g.drawLine(0, y, getWidth(), y);
 			}
 		}
 		BasicStroke stroke = new BasicStroke(Configuration.getInstance().getGeneralConfig().getLineWidth());

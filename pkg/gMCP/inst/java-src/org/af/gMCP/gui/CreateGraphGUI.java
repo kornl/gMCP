@@ -180,7 +180,7 @@ public class CreateGraphGUI extends JFrame implements WindowListener, AbortListe
 	}
 
 	public static void main(String[] args) {
-		new CreateGraphGUI("graph", new double[] {}, true,  10, true);
+		new CreateGraphGUI("graph", new double[] {}, true,  50, true);
 	}
 
 	/**
