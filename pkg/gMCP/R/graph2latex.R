@@ -18,7 +18,7 @@ graph2latex <- function(graph, package="TikZ", scale=1, alpha=0.05, pvalues,
 		x <- getXCoordinates(graph, node)*scale
 		y <- getYCoordinates(graph, node)*scale
 		#alpha <- format(getWeights(graph,node), digits=3, drop0trailing=TRUE)
-		weight <- getLaTeXFraction(getWeights(graph,node))
+		weight <- paste(getLaTeXFraction(getWeights(graph,node)), collapse=" ")
 		if (weight == 1) {
 			weight <- "\\alpha"
 		} else if (weight != "0") {
@@ -39,8 +39,8 @@ graph2latex <- function(graph, package="TikZ", scale=1, alpha=0.05, pvalues,
 	}
 	# A second loop for the edges is necessary:
 	if ("entangledMCP" %in% class(graph)) {
-		for(i in 1:length(graph@subgraphs)) {
-			subgraph <- graph@subgraphs[[i]]
+		for(k in 1:length(graph@subgraphs)) {
+			subgraph <- graph@subgraphs[[k]]
 			for (i in getNodes(subgraph)) {
 				for (j in getNodes(subgraph)) {			
 					if (subgraph@m[i,j]!=0) {
@@ -48,7 +48,7 @@ graph2latex <- function(graph, package="TikZ", scale=1, alpha=0.05, pvalues,
 						to <- ifelse(subgraph@m[j,i]==0, "auto", "bend left=15")
 						#weight <- ifelse(edgeL[i]==0, "\\epsilon", getLaTeXFraction(edgeL[i])) # format(edgeL[i], digits=3, drop0trailing=TRUE))
 						weight <- getWeightStr(subgraph, i, j, LaTeX=TRUE) 
-						edgeLine <- paste("\\draw [draw=",colors[which(i==getNodes(subgraph))%%length(colors)+1],",->,line width=1pt] (",nodes2[i],") to[",to,"] node[",labelTikZ,"] {$",weight,"$} (",nodes2[j],");",sep="")
+						edgeLine <- paste("\\draw [draw=",colors[k%%length(colors)+1],",->,line width=1pt] (",nodes2[i],") to[",to,"] node[",labelTikZ,"] {$",weight,"$} (",nodes2[j],");",sep="")
 						tikz <- paste(tikz, edgeLine,sep="\n")
 					}
 				}
@@ -92,9 +92,15 @@ getUsableNames <- function(x) {
 }
 
 getLaTeXFraction <- function(x) {
-	nom <- strsplit(as.character(getFractionString(x)),split="/")[[1]]
-	if (length(nom)==1) return(nom)
-	return(paste("\\frac{",nom[1],"}{",nom[2],"}", sep=""))
+	result <- c()
+	for (nom in strsplit(as.character(getFractionString(x)),split="/")) {		
+		if (length(nom)==1) {
+			result <- c(result, nom)
+		} else {
+			result <- c(result, paste("\\frac{",nom[1],"}{",nom[2],"}", sep=""))
+		}
+	}
+	return(result)
 }
 
 gMCPReport <- function(object, file="", ...) {
