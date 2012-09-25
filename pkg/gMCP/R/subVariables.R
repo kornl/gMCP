@@ -1,6 +1,6 @@
 substituteEps <- function(graph, eps=10^(-3)) {
 	# Call this function recursivly for entangled graphs.
-	if ("entangledMCP" %in% class(graph)){
+	if ("entangledMCP" %in% class(graph)) {
 		for(i in 1:length(graph@subgraphs)) {
 			graph@subgraphs[[i]] <- substituteEps(graph@subgraphs[[i]], eps)
 		}
@@ -23,7 +23,7 @@ substituteEps <- function(graph, eps=10^(-3)) {
 
 replaceVariables <-function(graph, variables=list(), ask=TRUE) {
 	# Call this function recursivly for entangled graphs.
-	if ("entangledMCP" %in% class(graph)){
+	if ("entangledMCP" %in% class(graph)) {
 		for(i in 1:length(graph@subgraphs)) {
 			graph@subgraphs[[i]] <- replaceVariables(graph@subgraphs[[i]], variables, ask)
 		}
@@ -61,7 +61,7 @@ replaceVariables <-function(graph, variables=list(), ask=TRUE) {
 
 parse2numeric <- function(graph) {
 	# Call this function recursivly for entangled graphs.
-	if ("entangledMCP" %in% class(graph)){
+	if ("entangledMCP" %in% class(graph)) {
 		for(i in 1:length(graph@subgraphs)) {
 			graph@subgraphs[[i]] <- parse2numeric(graph@subgraphs[[i]])
 		}

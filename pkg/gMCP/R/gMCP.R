@@ -200,6 +200,19 @@ createGMCPCall <- function(graph, pvalues, test, correlation, alpha=0.05,
 
 #TODO: Set rejected.
 dputGraph <- function(g, name="graph") {
+	# Entangled graphs and recursive calls:
+	if ("entangledMCP" %in% class(g)) {
+		s <- c()
+		i <- 1
+		for (graph in g@subgraphs) {
+			s <- paste(s, dputGraph(graph, paste("subgraph",i,sep="")), "\n\n", sep="")
+			i <- i + 1
+		}
+		s <- paste(s, "weights <- ",dput2(unname(g@weights)),"\n", sep="")
+		s <- paste(s, name, " <- new(\"entangledMCP\", subgraphs=list(", paste(paste("subgraph",1:length(g@subgraphs),sep=""), collapse=", "), "), weights=weights)\n", sep="")
+		return(s)
+	}
+	# Normal graphs:
 	s <- dputMatrix(g@m, name="m", indent=11, rowNames=TRUE)
 	s <- paste(s, "weights <- ",dput2(unname(g@weights)),"\n", sep="")
 	s <- paste(s, name, " <- new(\"graphMCP\", m=m, weights=weights)\n", sep="")
