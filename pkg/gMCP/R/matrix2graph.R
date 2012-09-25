@@ -15,6 +15,13 @@ matrix2graph <- function(m, weights=rep(1/dim(m)[1],dim(m)[1])) {
 	return(graph)
 }
 
-graph2matrix <- function(graph) {	
-	return(graph@m)
+graph2matrix <- function(graph) {
+	if (class(graph) %in% "graphMCP") {
+		return(graph@m)
+	} else if (class(graph) %in% "entangledMCP"){
+		# TODO What do we want to return in this case?
+		return(graph@graphs[[1]]@m)
+	} else {
+		stop("This function should only be used for objects of class graphMCP or entangledMCP.")
+	}
 }
