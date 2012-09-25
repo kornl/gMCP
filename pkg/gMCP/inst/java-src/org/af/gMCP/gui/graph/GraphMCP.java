@@ -48,7 +48,7 @@ public class GraphMCP {
 				}
 				//Edges:
 				for (int layer=0; layer<RControl.getR().eval("gMCP:::layers("+name+")").asRInteger().getData()[0]; layer++) {
-					RList edgeL = RControl.getR().eval("gMCP:::getEdges("+name+"@graphs[["+(layer+1)+"]])").asRList();
+					RList edgeL = RControl.getR().eval("gMCP:::getEdges("+name+"@subgraphs[["+(layer+1)+"]])").asRList();
 					addEdges(edgeL, layer);
 					if (layer!=0) nl.control.addEntangledLayer();
 				}

@@ -849,7 +849,7 @@ public class NetList extends JPanel implements MouseMotionListener, MouseListene
 					weights += ", ";
 				}
 			}
-			RControl.getR().evalVoid(graphName+" <- new(\"entangledMCP\", graphs=list("+graphs+"), weights=c("+weights+"))");
+			RControl.getR().evalVoid(graphName+" <- new(\"entangledMCP\", subgraphs=list("+graphs+"), weights=c("+weights+"))");
 		}
 		RControl.getR().evalVoid("attr("+graphName+", \"description\") <- \""+ control.getDView().getDescription()+"\"");
 		RControl.getR().evalVoid("attr("+graphName+", \"pvalues\") <- "+ control.getPView().getPValuesString());
