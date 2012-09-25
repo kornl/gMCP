@@ -4,6 +4,7 @@ graph2latex <- function(graph, package="TikZ", scale=1, alpha=0.05, pvalues,
 		nodeTikZ, labelTikZ="near start,above,fill=blue!20",
 		tikzEnv=TRUE, offset=c(0,0),fill=list(reject="red!80",retain="green!80")) {
 	graph <- placeNodes(graph)
+	colors <- c("yellow","black","blue","red","green")
 	if (tikzEnv) {
 		tikz <- paste("\\begin{tikzpicture}[scale=",scale,"]\n", sep="")
 	} else {
@@ -37,15 +38,33 @@ graph2latex <- function(graph, package="TikZ", scale=1, alpha=0.05, pvalues,
 		tikz <- paste(tikz, nodeLine,sep="\n")			
 	}
 	# A second loop for the edges is necessary:
-	for (i in getNodes(graph)) {
-		for (j in getNodes(graph)) {
-			if (graph@m[i,j]!=0) {
-				# The following to lines test whether the edge in opposite direction exists:				
-				to <- ifelse(graph@m[j,i]==0, "auto", "bend left=15")
-				#weight <- ifelse(edgeL[i]==0, "\\epsilon", getLaTeXFraction(edgeL[i])) # format(edgeL[i], digits=3, drop0trailing=TRUE))
-				weight <- getWeightStr(graph, i, j, LaTeX=TRUE) 
-				edgeLine <- paste("\\draw [->,line width=1pt] (",nodes2[i],") to[",to,"] node[",labelTikZ,"] {$",weight,"$} (",nodes2[j],");",sep="")
-				tikz <- paste(tikz, edgeLine,sep="\n")
+	if ("entangledMCP" %in% class(graph)) {
+		for(i in 1:length(graph@subgraphs)) {
+			subgraph <- graph@subgraphs[[i]]
+			for (i in getNodes(subgraph)) {
+				for (j in getNodes(subgraph)) {			
+					if (subgraph@m[i,j]!=0) {
+						# The following to lines test whether the edge in opposite direction exists:				
+						to <- ifelse(subgraph@m[j,i]==0, "auto", "bend left=15")
+						#weight <- ifelse(edgeL[i]==0, "\\epsilon", getLaTeXFraction(edgeL[i])) # format(edgeL[i], digits=3, drop0trailing=TRUE))
+						weight <- getWeightStr(subgraph, i, j, LaTeX=TRUE) 
+						edgeLine <- paste("\\draw [draw=",colors[which(i==getNodes(subgraph))%%length(colors)+1],",->,line width=1pt] (",nodes2[i],") to[",to,"] node[",labelTikZ,"] {$",weight,"$} (",nodes2[j],");",sep="")
+						tikz <- paste(tikz, edgeLine,sep="\n")
+					}
+				}
+			}
+		}
+	} else {
+		for (i in getNodes(graph)) {
+			for (j in getNodes(graph)) {			
+				if (graph@m[i,j]!=0) {
+					# The following to lines test whether the edge in opposite direction exists:				
+					to <- ifelse(graph@m[j,i]==0, "auto", "bend left=15")
+					#weight <- ifelse(edgeL[i]==0, "\\epsilon", getLaTeXFraction(edgeL[i])) # format(edgeL[i], digits=3, drop0trailing=TRUE))
+					weight <- getWeightStr(graph, i, j, LaTeX=TRUE) 
+					edgeLine <- paste("\\draw [->,line width=1pt] (",nodes2[i],") to[",to,"] node[",labelTikZ,"] {$",weight,"$} (",nodes2[j],");",sep="")
+					tikz <- paste(tikz, edgeLine,sep="\n")
+				}
 			}
 		}
 	}

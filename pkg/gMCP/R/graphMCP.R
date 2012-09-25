@@ -412,10 +412,10 @@ setMethod("getMatrices", c("entangledMCP"),
 		})
 
 setMethod("getWeights", c("entangledMCP"),
-		function(object, ...) {
+		function(object, node, ...) {
 			result <- c()
 			for (g in object@subgraphs) {
-				result <- rbind(result, g@weights)
+				result <- rbind(result, getWeights(g, node, ...))
 			}
 			return(result)
 		})
