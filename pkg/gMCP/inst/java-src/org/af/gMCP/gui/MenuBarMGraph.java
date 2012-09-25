@@ -161,7 +161,7 @@ public class MenuBarMGraph extends JMenuBar implements ActionListener {
 		if (Configuration.getInstance().getGeneralConfig().experimentalFeatures()) {
 			subMenu = new JMenu("Entangled graphs");		
 			subMenu.add(makeMenuItem("Entangled Graph I from Maurer et al. (2012)", "entangled1"));
-			subMenu.add(makeMenuItem("Entangled Graph II from Maurer et al. (20012) simplified", "entangled2"));
+			subMenu.add(makeMenuItem("Entangled Graph II from Maurer et al. (20012)", "entangled2"));
 			exampleMenu.add(subMenu);
 		}
 		
