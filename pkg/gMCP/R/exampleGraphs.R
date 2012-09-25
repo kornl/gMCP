@@ -660,6 +660,18 @@ Entangled1Maurer2012 <- function() {
 	edgeAttr(graph1, "H4", "H2", "labelX") <- 50
 	edgeAttr(graph1, "H4", "H2", "labelY") <- 50
 	
+	edgeAttr(graph1, "H1", "H3", "labelX") <- 170
+	edgeAttr(graph1, "H1", "H3", "labelY") <- 130
+	
+	edgeAttr(graph1, "H2", "H3", "labelX") <- 270
+	edgeAttr(graph1, "H2", "H3", "labelY") <- 170
+	
+	edgeAttr(graph1, "H3", "H4", "labelX") <- 170
+	edgeAttr(graph1, "H3", "H4", "labelY") <- 270
+	
+	edgeAttr(graph1, "H3", "H5", "labelX") <- 270
+	edgeAttr(graph1, "H3", "H5", "labelY") <- 230
+	
 	m <- rbind(H1=c(0, 0, 1, 0, 0),
 			H2=c(0, 0, 1, 0, 0),
 			H3=c(0, 0, 0, "\\epsilon", "1-\\epsilon"),
@@ -672,6 +684,18 @@ Entangled1Maurer2012 <- function() {
 	
 	edgeAttr(graph2, "H5", "H1", "labelX") <- 350
 	edgeAttr(graph2, "H5", "H1", "labelY") <- 50
+	
+	edgeAttr(graph2, "H1", "H3", "labelX") <- 130
+	edgeAttr(graph2, "H1", "H3", "labelY") <- 170
+	
+	edgeAttr(graph2, "H2", "H3", "labelX") <- 230
+	edgeAttr(graph2, "H2", "H3", "labelY") <- 130
+	
+	edgeAttr(graph2, "H3", "H4", "labelX") <- 130
+	edgeAttr(graph2, "H3", "H4", "labelY") <- 230
+	
+	edgeAttr(graph2, "H3", "H5", "labelX") <- 230
+	edgeAttr(graph2, "H3", "H5", "labelY") <- 270
 	
 	graph <- new("entangledMCP", graphs=list(graph1,graph2), weights=c(0.5,0.5))
 
