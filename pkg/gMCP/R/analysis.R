@@ -1,4 +1,7 @@
 graphAnalysis <- function(graph, file="") {
+	if ("entangledMCP" %in% class(graph)) {
+		return("Analysis of entangled graphs is not yet supported.")
+	}
 	result <- checkOptimal(graph, verbose=FALSE)
 	cat(result, file=file)
 	return(invisible(result))

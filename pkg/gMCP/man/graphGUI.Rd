@@ -13,7 +13,9 @@
 
 \arguments{
   \item{graph}{
-  	Either a variable name for the graph, given as a character string. (If it is not a syntactically valid name, \code{\link{make.names}} is called to change it to a valid one.)
+  	Either a variable name for the graph, given as a character string. 
+  	(If it is not a syntactically valid name, \code{\link{make.names}} is called 
+  	to change it to a valid one.)
   	Or an object of class \code{\link{graphMCP}}.
   }
   \item{pvalues}{
@@ -22,20 +24,24 @@
   \item{grid}{
 	Positive integer that sets the grid size for easier placement of nodes.
 	(Therefore grid size 1 allows unrestricted placement and disables the grid.) 
-	The default grid=0 uses the last used grid value or if the GUI is started the first time a value of 50.
+	The default grid=0 uses the last used grid value or if the GUI is started the 
+	first time a value of 50.
   }
   \item{debug}{
 	Logical. If \code{TRUE} debug output is printed to the R console.
   }
   \item{experimentalFeatures}{
-	Logical. If \code{TRUE} some unfinished / little tested experimental features are available in the GUI.
+	Logical. If \code{TRUE} some unfinished / insufficiently tested experimental features 
+	are available in the GUI.
   }
 }
 \details{
-	See the vignette of this package for further details, since describing a GUI interface is better done with a lot of nice pictures.
+	See the vignette of this package for further details, since describing a GUI interface 
+	is better done with a lot of nice pictures.
 }
 \value{
-	The function itself returns NULL. But with the GUI a graph can be created or edited that will be available in R under the specified variable name after saving.
+	The function itself returns NULL. But with the GUI a graph can be created or edited 
+	that will be available in R under the specified variable name after saving.
 }
 \author{
 	Kornelius Rohmeyer \email{rohmeyer@small-projects.de}
