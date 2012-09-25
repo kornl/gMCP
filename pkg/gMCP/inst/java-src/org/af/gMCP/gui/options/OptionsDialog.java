@@ -111,6 +111,7 @@ public class OptionsDialog extends JDialog implements ActionListener {
         if (e.getActionCommand().equals(OkApplyCancelButtonPane.CANCEL_CMD)) {
             dispose();
         }
+        ((MenuBarMGraph)parent.getJMenuBar()).createExampleMenu();
         ((MenuBarMGraph)parent.getJMenuBar()).createExtraMenu();
     }
 
