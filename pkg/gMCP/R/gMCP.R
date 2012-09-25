@@ -288,6 +288,14 @@ adjPValues <- function(graph, pvalues, verbose=FALSE) {
 }
 
 rejectNode <- function(graph, node, verbose=FALSE, keepWeights=TRUE) {
+	# Entangled graphs
+	if ("entangledMCP" %in% class(graph)) {
+		for(i in 1:length(graph@subgraphs)) {
+			graph@subgraphs[[i]] <- rejectNode(graph@subgraphs[[i]], node, verbose, keepWeights)
+		}
+		return(graph)
+	}
+	# Normal graphs
 	weights <- graph@weights
 	graph@weights <- weights+weights[node]*graph@m[node,]
 	m <- graph@m	
