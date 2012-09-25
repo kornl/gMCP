@@ -13,7 +13,7 @@
 
 \arguments{
   \item{graph}{
-	A graph of class \code{\link{graphMCP}}.
+	A graph of class \code{\link{graphMCP}} or class \code{\link{entangledMCP}}.
   }
   \item{eps}{
   	A numeric scalar specifying a value for epsilon edges.
@@ -30,7 +30,7 @@
 }
 
 \seealso{
-\code{\link{graphMCP}}
+\code{\link{graphMCP}}, \code{\link{entangledMCP}}
 }
 \examples{
 

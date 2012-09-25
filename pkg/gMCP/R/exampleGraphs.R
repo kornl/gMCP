@@ -697,7 +697,7 @@ Entangled1Maurer2012 <- function() {
 	edgeAttr(graph2, "H3", "H5", "labelX") <- 230
 	edgeAttr(graph2, "H3", "H5", "labelY") <- 270
 	
-	graph <- new("entangledMCP", graphs=list(graph1,graph2), weights=c(0.5,0.5))
+	graph <- new("entangledMCP", subgraphs=list(graph1,graph2), weights=c(0.5,0.5))
 
 	attr(graph, "description") <- paste("Graph from Maurer and Bretz 2012",
 			"",
@@ -736,7 +736,7 @@ Entangled2Maurer2012 <- function() {
 	edgeAttr(graph2, "H5", "H1", "labelX") <- 350
 	edgeAttr(graph2, "H5", "H1", "labelY") <- 50
 	
-	graph <- new("entangledMCP", graphs=list(graph1,graph2), weights=c(0.5,0.5))
+	graph <- new("entangledMCP", subgraphs=list(graph1,graph2), weights=c(0.5,0.5))
 	
 	attr(graph, "description") <- paste("Graph from Maurer and Bretz 2012",
 			"",

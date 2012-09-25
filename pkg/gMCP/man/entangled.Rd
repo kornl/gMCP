@@ -14,7 +14,7 @@
 \description{A entangledMCP object describes ... TODO}
 \section{Slots}{  
   \describe{    
-    \item{\code{graphs}:}{A list of graphs of class graphMCP.}
+    \item{\code{subgraphs}:}{A list of graphs of class graphMCP.}
     \item{\code{weights}:}{A numeric.}
     \item{\code{graphAttr}:}{A list for graph attributes like color, etc.}
   }
@@ -47,7 +47,7 @@
 g1 <- BonferroniHolm(2)
 g2 <- BonferroniHolm(2)
 
-graph <- new("entangledMCP", graphs=list(g1,g2), weights=c(0.5,0.5))
+graph <- new("entangledMCP", subgraphs=list(g1,g2), weights=c(0.5,0.5))
 
 getMatrices(graph)
 getWeights(graph)

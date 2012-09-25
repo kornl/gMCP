@@ -389,7 +389,7 @@ setMethod("show","gPADInterim",
 
 ## Entangled graph representation in gMCP
 setClass("entangledMCP",	
-		representation(graphs="list", 
+		representation(subgraphs="list", 
 				weights="numeric",
 				graphAttr="list"),
 		validity=function(object) validEntangledGraph(object))
@@ -405,7 +405,7 @@ setGeneric("getMatrices", function(object, ...) standardGeneric("getMatrices"))
 setMethod("getMatrices", c("entangledMCP"),
 		function(object, ...) {
 			result <- list()
-			for (g in object@graphs) {
+			for (g in object@subgraphs) {
 				result[[length(result)+1]] <- g@m
 			}
 			return(result)
@@ -414,7 +414,7 @@ setMethod("getMatrices", c("entangledMCP"),
 setMethod("getWeights", c("entangledMCP"),
 		function(object, ...) {
 			result <- c()
-			for (g in object@graphs) {
+			for (g in object@subgraphs) {
 				result <- rbind(result, g@weights)
 			}
 			return(result)
@@ -422,18 +422,18 @@ setMethod("getWeights", c("entangledMCP"),
 
 setMethod("getNodes", c("entangledMCP"),
 		function(object, ...) {			
-			return(getNodes(object@graphs[[1]]))
+			return(getNodes(object@subgraphs[[1]]))
 		})
 
 setMethod("getXCoordinates", c("entangledMCP"), function(graph, node) {			
-			return(getXCoordinates(graph@graphs[[1]], node))
+			return(getXCoordinates(graph@subgraphs[[1]], node))
 		})
 
 setMethod("getYCoordinates", c("entangledMCP"), function(graph, node) {
-			return(getYCoordinates(graph@graphs[[1]], node))
+			return(getYCoordinates(graph@subgraphs[[1]], node))
 		})
 
 setMethod("getRejected", c("entangledMCP"), function(object, node, ...) {
-			return(getRejected(object@graphs[[1]], node))
+			return(getRejected(object@subgraphs[[1]], node))
 		})
 
