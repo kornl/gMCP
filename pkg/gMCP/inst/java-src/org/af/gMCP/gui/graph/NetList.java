@@ -364,6 +364,9 @@ public class NetList extends JPanel implements MouseMotionListener, MouseListene
 		updateGUI = false;
 		graph = new GraphMCP(initialGraph, this);
 		control.getPView().restorePValues();
+		if (graph.entangledWeights!= null) {
+			control.getPView().setEntangledWeights(graph.entangledWeights);
+		}
 		updateGUI = true;
 		graphHasChanged();
 		revalidate();
@@ -387,9 +390,6 @@ public class NetList extends JPanel implements MouseMotionListener, MouseListene
 		}		
 		if (graph.pvalues!=null && graph.pvalues.length>1) {
 			control.getPView().setPValues(graph.pvalues);
-		}
-		if (graph.entangledWeights!= null) {
-			control.getPView().setEntangledWeights(graph.entangledWeights);
 		}
 	}
 	
