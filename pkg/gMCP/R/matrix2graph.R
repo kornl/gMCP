@@ -20,7 +20,8 @@ graph2matrix <- function(graph) {
 		return(graph@m)
 	} else if (class(graph) %in% "entangledMCP"){
 		# TODO What do we want to return in this case?
-		return(graph@graphs[[1]]@m)
+		warning("graph2matrix only returns the adjacency matrix of the first subgraph.")
+		return(graph@subgraphs[[1]]@m)
 	} else {
 		stop("This function should only be used for objects of class graphMCP or entangledMCP.")
 	}
