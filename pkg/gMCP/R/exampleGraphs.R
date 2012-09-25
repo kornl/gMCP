@@ -654,10 +654,6 @@ Entangled1Maurer2012 <- function() {
 	
 	graph1 <- new("graphMCP", m=m, weights=weights)
 	
-	attr(graph1, "description") <- paste("Graph from Maurer and Bretz 2012",
-			"",
-			"Literature: Not yet published.", sep="\n")
-	
 	graph1@nodeAttr$X <- c(100, 300, 200, 100, 300)
 	graph1@nodeAttr$Y <- c(100, 100, 200, 300, 300)
 	
@@ -678,6 +674,10 @@ Entangled1Maurer2012 <- function() {
 	edgeAttr(graph2, "H5", "H1", "labelY") <- 50
 	
 	graph <- new("entangledMCP", graphs=list(graph1,graph2), weights=c(0.5,0.5))
+
+	attr(graph, "description") <- paste("Graph from Maurer and Bretz 2012",
+			"",
+			"Literature: Not yet published.", sep="\n")
 	
 	return(graph)
 }
@@ -692,10 +692,6 @@ Entangled2Maurer2012 <- function() {
 	weights <- c(1, 0, 0, 0, 0)
 	
 	graph1 <- new("graphMCP", m=m, weights=weights)
-	
-	attr(graph1, "description") <- paste("Graph from Maurer and Bretz 2012",
-			"",
-			"Literature: Not yet published.", sep="\n")
 	
 	graph1@nodeAttr$X <- c(100, 300, 200, 100, 300)
 	graph1@nodeAttr$Y <- c(100, 100, 200, 300, 300)
@@ -717,6 +713,10 @@ Entangled2Maurer2012 <- function() {
 	edgeAttr(graph2, "H5", "H1", "labelY") <- 50
 	
 	graph <- new("entangledMCP", graphs=list(graph1,graph2), weights=c(0.5,0.5))
+	
+	attr(graph, "description") <- paste("Graph from Maurer and Bretz 2012",
+			"",
+			"Literature: Not yet published.", sep="\n")
 	
 	return(graph)
 }
