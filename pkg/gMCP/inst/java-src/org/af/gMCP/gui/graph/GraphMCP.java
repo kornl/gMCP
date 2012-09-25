@@ -41,10 +41,10 @@ public class GraphMCP {
 				boolean[] rejected = RControl.getR().eval("getRejected("+name+")").asRLogical().getData();
 				for (int i=0; i<RControl.getR().eval("gMCP:::layers("+name+")").asRInteger().getData()[0]; i++) {
 					logger.debug("Adding node "+nodeArray[i]+" at ("+x[i]+","+y[i]+").");
-					double[] alpha = RControl.getR().eval("getWeights("+name+")["+(i+1)+",]").asRNumeric().getData();
+					double[] alpha = RControl.getR().eval("getWeights("+name+")[,"+(i+1)+"]").asRNumeric().getData();
 					nodes.add(new Node(nodeArray[i], (int) x[i], (int) y[i], alpha, nl));
 					if (rejected[i]) nodes.lastElement().rejected = true;
-					nl.control.addEntangledLayer();
+					if (i!=0) nl.control.addEntangledLayer();
 				}
 			} else {
 				String[] nodeArray = RControl.getR().eval("getNodes("+name+")").asRChar().getData();
