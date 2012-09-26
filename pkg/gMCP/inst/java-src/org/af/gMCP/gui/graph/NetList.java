@@ -986,13 +986,24 @@ public class NetList extends JPanel implements MouseMotionListener, MouseListene
 		this.repaint();
 	}
 
-
 	private void placeUnfixedNodes(Node node) {
 		for (Edge e : edges) {
 			if ((e.from == node || e.to == node) && !e.isFixed()) {
 				e.move();
 			}
 		}		
+	}
+
+	public void removeLayer(int layer) {
+		for (int i = edges.size(); i>0; i--) {
+			if (edges.get(i-1).layer == layer) {
+				edges.remove(i-1);
+			}
+		}
+		for (Node n : nodes) {
+			n.removeLayer(layer);
+		}
+		refresh();
 	}
 
 }

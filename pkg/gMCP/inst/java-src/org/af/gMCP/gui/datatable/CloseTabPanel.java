@@ -58,9 +58,9 @@ import javax.swing.plaf.basic.BasicButtonUI;
 
 public class CloseTabPanel extends JPanel {
 
-    private final JTabbedPane pane;
+    private final DataFramePanel pane;
 
-    public CloseTabPanel(final JTabbedPane pane) {
+    public CloseTabPanel(final DataFramePanel pane) {
         //unset default FlowLayout' gaps
         super(new FlowLayout(FlowLayout.LEFT, 0, 0));
         if (pane == null) {
@@ -114,7 +114,7 @@ public class CloseTabPanel extends JPanel {
         public void actionPerformed(ActionEvent e) {
             int i = pane.indexOfTabComponent(CloseTabPanel.this);
             if (i != -1) {
-                pane.remove(i);
+                pane.removeLayer(i);
             }
         }
 

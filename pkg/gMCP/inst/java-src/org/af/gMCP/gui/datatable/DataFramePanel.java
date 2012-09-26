@@ -59,10 +59,16 @@ public class DataFramePanel extends JTabbedPane {
 			dt.getModel().addRowCol(s);
 		}
 		tables.add(dt);
-		this.addTab("Entangled graph layer "+tables.size(), getPanel(dt));
+		addTab("Entangled graph layer "+tables.size(), getPanel(dt));
 		setTabComponentAt(getTabCount()-1, new CloseTabPanel(this));
 	}
 
+	public void removeLayer(int i) {
+		remove(i);
+		tables.remove(i);
+		control.nl.removeLayer(i);
+	}
+	
 	public void renameNode(int i, String name) {
 		for (DataTable dt : getTable()) {
 			dt.renameNode(i, name);
