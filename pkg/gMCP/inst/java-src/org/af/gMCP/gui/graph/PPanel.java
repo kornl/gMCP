@@ -237,4 +237,21 @@ public class PPanel implements ActionListener, KeyListener, NodeListener, FocusL
 		}
 	}
 
+	public void addEntangledLayer() {
+		JTextField wTF = new JTextField("0", 7);
+    	wTF.addActionListener(this);
+    	wTF.addFocusListener(this);
+    	wTF.addKeyListener(this);
+    	wTFList.add(wTF);	
+    	w.add(0.0);
+	}
+
+	public void removeEntangledLayer(int layer) {
+		wTFList.get(layer).removeActionListener(this);
+		wTFList.remove(layer);
+		/* We don't have to remove a value from variable w,
+		 * since it will be updated via the NodeListener functionality.
+		 */		
+	}
+
 }

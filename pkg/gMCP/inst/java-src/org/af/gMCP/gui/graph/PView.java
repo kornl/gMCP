@@ -407,7 +407,7 @@ public class PView extends JPanel implements KeyListener, ActionListener {
     		panel.add(new JLabel("Subgraph alpha splitting: "), cc.xy(2, row));
         	    
     		for (int i=entangledWeights.size(); i<parent.getGraphView().getNumberOfLayers(); i++) {
-    			entangledWeights.add(new JTextField());
+    			entangledWeights.add(new JTextField("0"));
     		}
     		
     		col = 4;
@@ -452,6 +452,20 @@ public class PView extends JPanel implements KeyListener, ActionListener {
 		for (int i=0; i<ew.length; i++) {
 			entangledWeights.get(i).setText(""+ew[i]);
 		}		
+	}
+
+	public void addEntangledLayer() {
+		for (PPanel p : panels) {
+			p.addEntangledLayer();
+		}
+		setUp();		
+	}
+
+	public void removeEntangledLayer(int layer) {
+		for (PPanel p : panels) {
+			p.removeEntangledLayer(layer);
+		}
+		setUp();		
 	}
 	
 }

@@ -525,9 +525,15 @@ public class GraphView extends JPanel implements ActionListener {
 
 	public void addEntangledLayer() {
 		getDataFramePanel().addLayer();
-		for (Node n : nl.getNodes()) {
-			n.addLayer();
-		}
-		nl.repaint();
+		getPView().addEntangledLayer();
+		nl.addEntangledLayer();
+	}
+	
+	/* This method should be called only from DataFramePanel.removeLayer()
+	 * or if not, DataFramePanel.removeLayer() must be called separately.
+	 */
+	public void removeEntangledLayer(int layer) {
+		nl.removeLayer(layer);
+		getPView().removeEntangledLayer(layer);
 	}
 }

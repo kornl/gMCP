@@ -66,7 +66,7 @@ public class DataFramePanel extends JTabbedPane {
 	public void removeLayer(int i) {
 		remove(i);
 		tables.remove(i);
-		control.nl.removeLayer(i);
+		control.removeEntangledLayer(i);
 	}
 	
 	public void renameNode(int i, String name) {

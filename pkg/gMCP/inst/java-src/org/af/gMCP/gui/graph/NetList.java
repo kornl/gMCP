@@ -1006,4 +1006,11 @@ public class NetList extends JPanel implements MouseMotionListener, MouseListene
 		refresh();
 	}
 
+	public void addEntangledLayer() {
+		for (Node n : nodes) {
+			n.addLayer();
+		}
+		refresh();
+	}
+
 }
