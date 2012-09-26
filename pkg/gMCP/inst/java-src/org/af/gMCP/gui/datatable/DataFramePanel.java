@@ -60,6 +60,7 @@ public class DataFramePanel extends JTabbedPane {
 		}
 		tables.add(dt);
 		this.addTab("Entangled graph layer "+tables.size(), getPanel(dt));
+		setTabComponentAt(getTabCount()-1, new CloseTabPanel(this));
 	}
 
 	public void renameNode(int i, String name) {
