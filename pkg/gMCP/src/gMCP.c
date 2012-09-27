@@ -3,8 +3,7 @@
 #include <Rdefines.h>
 
 SEXP cgMCP(double *oldM, double *oldW, double *p, double *a, int *n, double *s, double *m, double *w) {
-    /* Declaration of variables that where declared formerly in the 'for' loops.
-     * Since declarations in 'for' loops are only allowed in C99 mode and we can
+    /* Since declarations in 'for' loops are only allowed in C99 mode and we can
      * only expect an ISO C99 C compiler for R > 2.12, we now declare these variables
      * in the beginning.
      * See http://cran.r-project.org/doc/manuals/R-ints.html#R-coding-standards
@@ -57,6 +56,7 @@ SEXP cgMCP(double *oldM, double *oldW, double *p, double *a, int *n, double *s, 
 				}
 			}
 		}
+
 		/* Remove all edges from and to node j: */
 		for(l=0; l<*n; l++) {
 			mtemp[l+*n*j] = 0;
