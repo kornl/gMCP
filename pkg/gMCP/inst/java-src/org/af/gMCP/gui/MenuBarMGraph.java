@@ -653,6 +653,13 @@ public class MenuBarMGraph extends JMenuBar implements ActionListener {
 		JFileChooser fc = new JFileChooser(Configuration.getInstance().getClassProperty(this.getClass(), "ImageDirectory"));		
         fc.setFileSelectionMode(JFileChooser.FILES_ONLY);
         fc.setDialogType(JFileChooser.SAVE_DIALOG);
+        fc.setFileFilter(new FileFilter() {
+			public boolean accept(File f) {
+				if (f.isDirectory()) return true;
+				return f.getName().toLowerCase().endsWith(".png");
+			}
+			public String getDescription () { return "PNG image files"; }  
+		});
         int returnVal = fc.showOpenDialog(this);
         if (returnVal == JFileChooser.APPROVE_OPTION) {
             File f = fc.getSelectedFile();
