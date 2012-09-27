@@ -7,7 +7,7 @@
   the same task.
 }
 \usage{
-  graphTest(pvalues, weights = NULL, alpha = 0.05, G = NULL, subgraphWeights = 1, cr = NULL, graph = NULL, verbose = FALSE)
+  graphTest(pvalues, weights = NULL, alpha = 0.05, G = NULL, cr = NULL, graph = NULL, verbose = FALSE, subgraphWeights = 1)
 }
 \arguments{
   \item{pvalues}{ Either a vector or a matrix containing the local p-values
@@ -84,7 +84,7 @@ out <- graphTest(pvals, weights, alpha=0.025, G=list(G1, G2), subgraphWeights=c(
 
 ## now again with many p-values
 pvals <- matrix(rbeta(5e4, 1, 30), ncol = 5)
-out <- graphTest(pvals, weights, alpha=0.025, G=list(G1, G2))
+out <- graphTest(pvals, weights, alpha=0.025, G=list(G1, G2), subgraphWeights=c(1/2,1/2))
 head(out)
 }
 \keyword{ htest }

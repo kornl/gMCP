@@ -1,6 +1,11 @@
-graphTest <- function(pvalues, weights = NULL, alpha = 0.05, G = NULL, subgraphWeights = 1, cr = NULL, graph = NULL, verbose = FALSE) {
+graphTest <- function(pvalues, weights = NULL, alpha = 0.05, G = NULL, cr = NULL, graph = NULL, verbose = FALSE, subgraphWeights = 1) {
 	
 	usegraph <- !is.null(graph)
+	if (!is.list(G) && length(subgraphWeights)!=1) {
+		stop("For only one graph subgraphWeights should be simply 1.")
+	} else if (is.list(G) && length(subgraphWeights)!=length(G)) {
+		stop("length of subgraphWeights and G should match")
+	}
 	if(usegraph & (class(graph) != "graphMCP"))
 		stop("graph needs to be an object of class graphMCP")
 	if(usegraph & ((!is.null(weights)||!is.null(G))))
