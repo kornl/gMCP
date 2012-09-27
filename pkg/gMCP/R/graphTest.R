@@ -1,4 +1,4 @@
-graphTest <- function(pvalues, weights = NULL, alpha = 0.05, G = NULL, cr = NULL, graph = NULL, verbose = FALSE) {
+graphTest <- function(pvalues, weights = NULL, alpha = 0.05, G = NULL, subgraphWeights = 1, cr = NULL, graph = NULL, verbose = FALSE) {
 	
 	usegraph <- !is.null(graph)
 	if(usegraph & (class(graph) != "graphMCP"))
@@ -35,7 +35,7 @@ graphTest <- function(pvalues, weights = NULL, alpha = 0.05, G = NULL, cr = NULL
 		}
 		if(!is.matrix(pvalues)){
 			res <- .C("graphproc", h=double(nH), a=as.double(alphas), G=as.double(G),
-					as.double(pvalues), nH, as.double(G), as.integer(nGraphs),
+					as.double(pvalues), nH, as.double(G), as.integer(nGraphs), as.double(subgraphWeights),
 					as.integer(verbose))
 			out <- c(H = res$h)
 			attr(out, "last.alphas") <- res$a
@@ -47,7 +47,7 @@ graphTest <- function(pvalues, weights = NULL, alpha = 0.05, G = NULL, cr = NULL
 					as.double(alphas), double(nGraphs*nH),
 					as.double(G), as.double(G), as.double(G),
 					as.double(pvalues), double(nH), nCount, nH,
-					as.integer(nGraphs), as.integer(verbose))
+					as.integer(nGraphs), as.double(subgraphWeights), as.integer(verbose))
 			out <- matrix(res$h, nrow = nCount)
 			if(is.null(colnames(G))) {
 				colnames(out) <- paste("H", 1:nH, sep="")

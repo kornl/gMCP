@@ -16,7 +16,7 @@ int aind(int row, int col, int layer, int nrow){
 
 void graphproc(double *h, double *a, double *G,
 		double *p, int *nH, double *G1,
-		int *nGraphs, int *print){
+		int *nGraphs, double *sw, int *print){
 	int grId,i,j,rej,dm,sumrej=0,nG;
 	double asum,tmp;
 	dm = *nH;
@@ -29,7 +29,7 @@ void graphproc(double *h, double *a, double *G,
 		for(i = 0; i < dm; i++){
 			asum = 0;
 			for(grId = 0; grId < nG; grId++){
-				asum += a[ind(grId,i,nG)];
+				asum += a[ind(grId,i,nG)]*sw[grId];
 			}
 			rej = (p[i] < asum)*(i+1);
 			if(rej){
@@ -120,7 +120,7 @@ void graphmult(double *hmat, double *hwork,
 		double *G, double *Gwork, double *G1work,
 		double *pmat, double *pwork,
 		int *nCount, int *nH,
-		int *nGraphs, int *print){
+		int *nGraphs, double *sw, int *print){
 	int i,count;
 
 	for(count = 0; count < *nCount; count++){
@@ -138,7 +138,7 @@ void graphmult(double *hmat, double *hwork,
 			G1work[i] = 0;
 		}
 		graphproc(hwork, awork, Gwork, pwork, nH,
-				G1work, nGraphs, print);
+				G1work, nGraphs, sw, print);
 		for(i = 0; i < *nH; i++){
 			hmat[ind(count, i, *nCount)] = hwork[i];
 		}

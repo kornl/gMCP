@@ -7,7 +7,7 @@
   the same task.
 }
 \usage{
-  graphTest(pvalues, weights = NULL, alpha = 0.05, G = NULL, cr = NULL, graph = NULL, verbose = FALSE)
+  graphTest(pvalues, weights = NULL, alpha = 0.05, G = NULL, subgraphWeights = 1, cr = NULL, graph = NULL, verbose = FALSE)
 }
 \arguments{
   \item{pvalues}{ Either a vector or a matrix containing the local p-values
@@ -19,6 +19,10 @@
     procedure. Note that the diagonal need to contain only 0s, while the
     rows need to sum to 1. When multiple graphs should be used this
     needs to be a list containing the different graphs as elements. }
+  \item{subgraphWeights}{ Numeric vector of length equal to the number of graphs 
+    specified in argument \code{G}. Specifies how the alpha should be 
+    distributed between the subgraphs.
+  }
   \item{graph}{ As an alternative to the specification via \code{alphas}
     and \code{G} one can also hand over a \code{graphMCP} object to the
     code. \code{graphMCP} objects can be created for example with the
@@ -75,8 +79,8 @@ G2 <- rbind(c(0,0,1,0,0), c(0.5,0,0.5,0,0),
             c(0, 0, 0, 0.01, 1-0.01), c(0, 0, 0, 0, 0),
             c(1, 0, 0, 0, 0))
 weights <- rbind(c(1, 0, 0, 0, 0), c(0, 1, 0, 0, 0))
-pvals <- c(0.024, 0.05, 0.01, 0.003, 0.009)
-out <- graphTest(pvals, weights, alpha=0.025, G=list(G1, G2), verbose = TRUE)
+pvals <- c(0.012, 0.025, 0.005, 0.0015, 0.0045)
+out <- graphTest(pvals, weights, alpha=0.025, G=list(G1, G2), subgraphWeights=c(1/2,1/2), verbose = TRUE)
 
 ## now again with many p-values
 pvals <- matrix(rbeta(5e4, 1, 30), ncol = 5)
