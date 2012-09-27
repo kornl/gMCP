@@ -1,10 +1,10 @@
-graphTest <- function(pvalues, weights = NULL, alpha = 0.05, G = NULL, cr = NULL, graph = NULL, verbose = FALSE, subgraphWeights = 1) {
+graphTest <- function(pvalues, weights = NULL, alpha = 0.05, G = NULL, cr = NULL, graph = NULL, verbose = FALSE) {
 	
 	usegraph <- !is.null(graph)
-	if (!is.list(G) && length(subgraphWeights)!=1) {
-		stop("For only one graph subgraphWeights should be simply 1.")
-	} else if (is.list(G) && length(subgraphWeights)!=length(G)) {
-		stop("length of subgraphWeights and G should match")
+	if (!is.list(G) && length(alpha)!=1) {
+		stop("length of alpha should be one for only one graph.")
+	} else if (is.list(G) && length(alpha)!=length(G)) {
+		stop("length of alpha and G should match")
 	}
 	if(usegraph & (class(graph) != "graphMCP"))
 		stop("graph needs to be an object of class graphMCP")
@@ -23,6 +23,9 @@ graphTest <- function(pvalues, weights = NULL, alpha = 0.05, G = NULL, cr = NULL
 	checkArgs(pvalues, alphas, G, nH)
 	
 	if (!is.null(cr)) { # parametric case
+		if (is.list(G)) {
+			stop("The parametric case does not support multiple graphs yet.")
+		}
 		hint <- generateWeights(G, weights)
 		out <- matrix(0, nrow=0, ncol=dim(pvalues)[2])
 		colnames(out) <- colnames(G)
@@ -40,7 +43,7 @@ graphTest <- function(pvalues, weights = NULL, alpha = 0.05, G = NULL, cr = NULL
 		}
 		if(!is.matrix(pvalues)){
 			res <- .C("graphproc", h=double(nH), a=as.double(alphas), G=as.double(G),
-					as.double(pvalues), nH, as.double(G), as.integer(nGraphs), as.double(subgraphWeights),
+					as.double(pvalues), nH, as.double(G), as.integer(nGraphs),
 					as.integer(verbose))
 			out <- c(H = res$h)
 			attr(out, "last.alphas") <- res$a
@@ -52,7 +55,7 @@ graphTest <- function(pvalues, weights = NULL, alpha = 0.05, G = NULL, cr = NULL
 					as.double(alphas), double(nGraphs*nH),
 					as.double(G), as.double(G), as.double(G),
 					as.double(pvalues), double(nH), nCount, nH,
-					as.integer(nGraphs), as.double(subgraphWeights), as.integer(verbose))
+					as.integer(nGraphs), as.integer(verbose))
 			out <- matrix(res$h, nrow = nCount)
 			if(is.null(colnames(G))) {
 				colnames(out) <- paste("H", 1:nH, sep="")
