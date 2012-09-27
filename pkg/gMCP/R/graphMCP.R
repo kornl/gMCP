@@ -291,9 +291,9 @@ getWeightStr <- function(graph, from, to, LaTeX=FALSE) {
 	return(as.character(weight))	
 }
 
-getFractionString <- function(x, eps=0.000001) {
+getFractionString <- function(x, eps=1e-07) {
 	xStr <- as.character(fractions(x))
-	xStr <- ifelse(sapply(xStr, function(x) {eval(parse(text=x))})-x>eps, as.character(x), xStr)
+	xStr <- ifelse(abs(sapply(xStr, function(x) {eval(parse(text=x))})-x)>eps, as.character(x), xStr)
 	return(xStr)
 }
 
