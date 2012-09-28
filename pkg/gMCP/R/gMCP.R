@@ -6,7 +6,7 @@ gMCP <- function(graph, pvalues, test, correlation, alpha=0.05,
 		if (!missing(correlation) || !missing(test) && test != "Bonferroni") {
 			stop("Only Bonferroni based testing procedures are supported for entangled graphs in this version.")
 		}
-		out <- graphTest(pvalues=pvalues, weights=getWeights(graph), alpha=alpha, G=getMatrices(graph))
+		out <- graphTest(pvalues=pvalues, weights=getWeights(graph), alpha=alpha*graph@weights, G=getMatrices(graph))
 		return(new("gMCPResult", graphs=list(graph), alpha=alpha, pvalues=pvalues, rejected=(out==1), adjPValues=numeric(0)))
 	}
 	output <- ""
@@ -191,7 +191,7 @@ createGMCPCall <- function(graph, pvalues, test, correlation, alpha=0.05,
 	if (!missing(correlation)) {
 		command <- paste(command, ", correlation=cr", sep="")
 	}
-	command <- paste(command, ", alpha=",alpha, sep="")
+	command <- paste(command, ", alpha=",dput2(alpha), sep="")
 	command <- paste(command, ")\n", sep="")
 	return(command)
 }
