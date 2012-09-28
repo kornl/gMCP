@@ -30,9 +30,11 @@ public class PPanel implements ActionListener, KeyListener, NodeListener, FocusL
 	String name;
 	
 	JLabel label;
+	/** JTextFields for weights of the different layers */
 	private List<JTextField> wTFList = new Vector<JTextField>();
+	/** JTextField for p-Value */
 	private JTextField pTF;
-	JButton jb;
+	JButton jbReject;
 	
 	Node node;
 	PView pview;
@@ -46,7 +48,7 @@ public class PPanel implements ActionListener, KeyListener, NodeListener, FocusL
 			v.add(wTF);
 		}
 		v.add(pTF);
-		v.add(jb);
+		v.add(jbReject);
 		return v;
 	}
 	
@@ -71,9 +73,9 @@ public class PPanel implements ActionListener, KeyListener, NodeListener, FocusL
 		pTF.addActionListener(this);
 		pTF.addKeyListener(this);
 		
-		jb = new JButton("Reject and pass α");
-		jb.setEnabled(false);
-		jb.addActionListener(this);
+		jbReject = new JButton("Reject and pass α");
+		jbReject.setEnabled(false);
+		jbReject.addActionListener(this);
 		if (node.isRejected()) {
 			reject();
 		} else {
@@ -82,7 +84,7 @@ public class PPanel implements ActionListener, KeyListener, NodeListener, FocusL
 	}
 
 	public void actionPerformed(ActionEvent e) {
-		if (e.getSource()==jb) {
+		if (e.getSource()==jbReject) {
 			node.reject();			
 		} else {
 			updateMe(false);
@@ -98,7 +100,7 @@ public class PPanel implements ActionListener, KeyListener, NodeListener, FocusL
 			wTF.setEnabled(false);
 		}
 		pTF.setEnabled(false);
-		jb.setEnabled(false);
+		jbReject.setEnabled(false);
 		label.setText(label.getText()+" rejected!");
 		label.setForeground(new Color(0,100,0));		
 		rejected = true;
@@ -166,25 +168,39 @@ public class PPanel implements ActionListener, KeyListener, NodeListener, FocusL
 			if (setText) {
 				wTF.setText(getWString().get(i));
 			}
-			if (true) { //TODO p<=w*pview.getTotalAlpha()) {
-				//logger.debug("Is "+p+"<="+w+"*"+pview.getTotalAlpha()+"?");
-				node.setRejectable(true);
-				wTF.setBackground(new Color(50, 255, 50));
-				if (testing) {
-					jb.setEnabled(true);
-				} else  {
-					jb.setEnabled(false);
+		}
+		
+		double sumW = 0;
+		if (w.size()==1) {
+			sumW = w.get(0);
+		} else {		
+			for (int k=0; k<w.size(); k++)  {
+				try {
+					sumW += w.get(k) * Double.parseDouble(pview.entangledWeights.get(k).getText());
+				} catch (Exception e) {
+					//TODO Do we have to do anything here? I guess not.
 				}
-			} else {
-				node.setRejectable(false);
-				wTF.setBackground(Color.WHITE);
-				jb.setEnabled(false);
 			}
+		}
+		if (p<=sumW*pview.getTotalAlpha()) {
+			//logger.debug(""+p+"<="+sumW+"*"+pview.getTotalAlpha());
+			node.setRejectable(true);
+			pTF.setBackground(new Color(50, 255, 50));
 			if (testing) {
-				wTF.setEditable(false);
-			} else {
-				wTF.setEditable(true);
+				jbReject.setEnabled(!node.isRejected());
+			} else  {
+				jbReject.setEnabled(false);
 			}
+		} else {
+			//logger.debug("NOT: "+p+"<="+sumW+"*"+pview.getTotalAlpha());
+			node.setRejectable(false);
+			pTF.setBackground(Color.WHITE);
+			jbReject.setEnabled(false);
+		}
+		if (testing) {
+			pTF.setEditable(false);
+		} else {
+			pTF.setEditable(true);
 		}
 		pview.updateLabels();
 	}

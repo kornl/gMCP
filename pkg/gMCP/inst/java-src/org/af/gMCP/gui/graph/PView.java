@@ -59,7 +59,7 @@ public class PView extends JPanel implements KeyListener, ActionListener {
 	CreateGraphGUI parent;
 	
 	List<Double> pValues = null;
-	List<JTextField> entangledWeights = new Vector<JTextField>();
+	List<RealTextField> entangledWeights = new Vector<RealTextField>();
 	
 	JButton refresh;
 	
@@ -407,7 +407,10 @@ public class PView extends JPanel implements KeyListener, ActionListener {
     		panel.add(new JLabel("Subgraph alpha splitting: "), cc.xy(2, row));
         	    
     		for (int i=entangledWeights.size(); i<parent.getGraphView().getNumberOfLayers(); i++) {
-    			entangledWeights.add(new JTextField("0"));
+    			RealTextField tf = new RealTextField("totalAlpha", 0, 1);
+    			tf.setText("0");
+    			tf.addKeyListener(this);
+    			entangledWeights.add(tf);
     		}
     		
     		col = 4;
@@ -467,5 +470,18 @@ public class PView extends JPanel implements KeyListener, ActionListener {
 		}
 		setUp();		
 	}
+
+	/*public String getAlpha() {
+		int layers = parent.getGraphView().getNumberOfLayers();
+		if (layers==1) return ""+getTotalAlpha();
+		String weights = "c(";
+		for (int i=0; i<layers; i++) {
+			weights += entangledWeights.get(i).getText();
+			if (i!=layers-1) {				
+				weights += ", ";
+			}
+		}
+		return weights+")*"+getTotalAlpha();
+	}*/
 	
 }
