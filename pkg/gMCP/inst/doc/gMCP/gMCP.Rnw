@@ -670,28 +670,27 @@ cat(graph2latex(improvedParallelGatekeeping(), scale=0.7, fontsize="tiny", nodeT
   \caption{\label{gatekeeping}\index{parallel gatekeeping}\index{gatekeeping!parallel}\index{gatekeeping!improved parallel} The Parallel Gatekeeping and the Improved Parallel Gatekeeping Procedure.}
 \end{figure}
 
-\commentout{
 
-Algorithm of Bretz et al. \cite{bretzEtAl2009power} for rejecting a node:
+%Algorithm of Bretz et al. \cite{bretzEtAl2009power} for rejecting a node:
 
-\[\alpha_l \leftarrow \begin{cases}\alpha_l+a_jg_{jl}&l\in I\\0&\text{otherwise}\end{cases}\]
+%\[\alpha_l \leftarrow \begin{cases}\alpha_l+a_jg_{jl}&l\in I\\0&\text{otherwise}\end{cases}\]
 
-\[g_{lk} \leftarrow \begin{cases}\frac{g_{lk}+g_{lj}g_{jk}}{1-g_{lj}g_{jl}}&k,l\in I, l\neq k, g_{lj}g_{jl}<1\\0&\text{otherwise}\end{cases}\]
+%\[g_{lk} \leftarrow \begin{cases}\frac{g_{lk}+g_{lj}g_{jk}}{1-g_{lj}g_{jl}}&k,l\in I, l\neq k, g_{lj}g_{jl}<1\\0&\text{otherwise}\end{cases}\]
 
-We want now investigate what happens if a edge weight $\epsilon>0$ approaches $0$.
-In respect to 
+%We want now investigate what happens if a edge weight $\epsilon>0$ approaches
+% $0$.
+%In respect to 
 
-\[\alpha_l \leftarrow \begin{cases}0=\lim\limits_{g_{jl}\rightarrow0}(\alpha_l+a_jg_{jl})&l\in I\\0&\text{otherwise}\end{cases}\]
+%\[\alpha_l \leftarrow \begin{cases}0=\lim\limits_{g_{jl}\rightarrow0}(\alpha_l+a_jg_{jl})&l\in I\\0&\text{otherwise}\end{cases}\]
 
-The only question is, what happens if and $l\in I, l\neq k, g_{lj}g_{jl}<1$.
-If $g_{lj}g_{jl}==1$ still $g_{lk}<-0$.
+%The only question is, what happens if and $l\in I, l\neq k, g_{lj}g_{jl}<1$.
+%If $g_{lj}g_{jl}==1$ still $g_{lk}<-0$.
  
-\[\lim\limits_{g_{jl}\rightarrow0}\left(\frac{g_{lk}+g_{lj}g_{jk}}{1-g_{lj}g_{jl}}\right)
-=\begin{cases}
-  \frac{g_{lk}+g_{lj}g_{jk}}{1-g_{lj}g_{jl}}&g_{lj}g_{jl}<1\\
-  0&g_{lj}g_{jl}=1\\a\\b\\\end{cases}
-=\]
-}
+%\[\lim\limits_{g_{jl}\rightarrow0}\left(\frac{g_{lk}+g_{lj}g_{jk}}{1-g_{lj}g_{jl}}\right)
+%=\begin{cases}
+%  \frac{g_{lk}+g_{lj}g_{jk}}{1-g_{lj}g_{jl}}&g_{lj}g_{jl}<1\\
+%  0&g_{lj}g_{jl}=1\\a\\b\\\end{cases}
+%=\]
 
 
 \scriptsize
@@ -712,6 +711,41 @@ gMCP(graph, pvalues=c(0.02, 0.04, 0.01, 0.02), eps=0.001)
 
 @
 \normalsize
+
+\section{Entangled graphs}\index{entangled graphs}\index{graphs!entangled}
+
+
+
+\begin{figure}[ht]
+  \centering
+  
+\begin{tikzpicture}[scale=0.7]
+\node (H1) at (70bp,-70bp)[draw,circle split,fill=green!80] {$H1$ \nodepart{lower} $1 0\alpha$};
+\node (H2) at (210bp,-70bp)[draw,circle split,fill=green!80] {$H2$ \nodepart{lower} $0 1\alpha$};
+\node (H3) at (140bp,-140bp)[draw,circle split,fill=green!80] {$H3$ \nodepart{lower} $0 0\alpha$};
+\node (H4) at (70bp,-210bp)[draw,circle split,fill=green!80] {$H4$ \nodepart{lower} $0 0\alpha$};
+\node (H5) at (210bp,-210bp)[draw,circle split,fill=green!80] {$H5$ \nodepart{lower} $0 0\alpha$};
+\draw [draw=black,->,line width=1pt] (H1) to[auto] node[near start,above,fill=blue!20] {$1$} (H3);
+\draw [draw=black,->,line width=1pt] (H2) to[auto] node[near start,above,fill=blue!20] {$1$} (H3);
+\draw [draw=black,->,line width=1pt] (H3) to[auto] node[near start,above,fill=blue!20] {$1-\epsilon$} (H4);
+\draw [draw=black,->,line width=1pt] (H3) to[auto] node[near start,above,fill=blue!20] {$\epsilon$} (H5);
+\draw [draw=black,->,line width=1pt] (H4) to[auto] node[near start,above,fill=blue!20] {$1$} (H2);
+\draw [draw=blue,->,line width=1pt] (H1) to[auto] node[near start,above,fill=blue!20] {$1$} (H3);
+\draw [draw=blue,->,line width=1pt] (H2) to[auto] node[near start,above,fill=blue!20] {$1$} (H3);
+\draw [draw=blue,->,line width=1pt] (H3) to[auto] node[near start,above,fill=blue!20] {$\epsilon$} (H4);
+\draw [draw=blue,->,line width=1pt] (H3) to[auto] node[near start,above,fill=blue!20] {$1-\epsilon$} (H5);
+\draw [draw=blue,->,line width=1pt] (H5) to[auto] node[near start,above,fill=blue!20] {$1$} (H1);
+\end{tikzpicture}
+
+  
+% Chunk 20 + 1
+%<<echo=FALSE,results=tex>>=
+%
+%cat(graph2latex(Entangled1Maurer2012(), scale=0.7, fontsize="tiny"))
+%
+%@
+%  \caption{\label{powergraph} Entangled graph from Maurer et Bretz}
+\end{figure}
 
 \section{Power Simulations}\index{power simulation}
 

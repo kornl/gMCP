@@ -68,3 +68,40 @@ unitTestsGMCP <- function(extended=FALSE, java=FALSE, interactive=FALSE, junitLi
 		}
 	}
 }
+
+equals <- function(graph1, graph2, checkAttributes=FALSE, verbose=FALSE) {
+	if (length(getNodes(graph1))!=length(getNodes(graph2))) {
+		if (verbose) cat("Wrong number of hypotheses.\n")
+		return(FALSE);
+	}
+	if (any(getNodes(graph1)!=getNodes(graph2))) {
+		if (verbose) cat("Names of nodes differ.\n")
+		return(FALSE);
+	}
+	if ("entangledMCP" %in% class(graph1) != "entangledMCP" %in% class(graph2)) {
+		if (verbose) cat("Only one graph is of class entangledMCP.\n")
+		return(FALSE);
+	}
+	# Call this function recursivly for entangled graphs.	
+	if ("entangledMCP" %in% class(graph1)) {
+		equal <- TRUE
+		for(i in 1:length(graph1@subgraphs)) {
+			if (verbose) cat("Checking subgraphs at position ",i,".\n")
+			if (!equals(graph1@subgraphs[[i]], graph2@subgraphs[[i]])) {
+				equal <- FALSE
+			}
+		}
+		return(equal)
+	}
+	# Real function:
+	if (any(graph1@m!=graph2@m)) {
+		if (verbose) cat("Adjacency matrices differ.\n")
+		return(FALSE);
+	}
+	if (any(graph1@weights!=graph2@weights)) {
+		if (verbose) cat("Node weights differ.\n")
+		return(FALSE);
+	}
+	return(TRUE)
+	#TODO Implement checkAttributes=TRUE	
+}
