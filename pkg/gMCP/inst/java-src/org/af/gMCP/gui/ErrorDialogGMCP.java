@@ -12,6 +12,8 @@ import java.io.IOException;
 import java.lang.reflect.Method;
 import java.net.URI;
 import java.util.Hashtable;
+import java.util.List;
+import java.util.Vector;
 
 import javax.imageio.ImageIO;
 import javax.swing.JDialog;
@@ -144,7 +146,12 @@ public class ErrorDialogGMCP extends JDialog implements ActionListener {
     	try {
     		files.put("log", getReadableLogFile());
     		files.put("systeminfo", makeLogFile("system_info.txt", getSystemInfo()));
-    		files.put("rcommands", makeLogFile("r_commands.txt", StringTools.collapseStringList(RControl.getR().getHistory(),"\n")));
+    		List<String> rhistory = new Vector<String>();
+    		// We copy the history, to avoid a ConcurrentModificationException when there are still R commands executed.
+    		for (int i=0; i < RControl.getR().getHistory().size(); i++) {
+    			rhistory.add(RControl.getR().getHistory().get(i));
+    		}
+    		files.put("rcommands", makeLogFile("r_commands.txt", StringTools.collapseStringList(rhistory,"\n")));
     		files.put("sessioninfo", makeLogFile("session_info.txt", getRSessionInfo()));
     		files.put("roptions", makeLogFile("r_options.txt", getROptions()));
     		files.put("traceback", makeLogFile("taceback.txt", getTraceBack()));

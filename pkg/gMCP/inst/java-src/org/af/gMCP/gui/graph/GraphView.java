@@ -181,8 +181,12 @@ public class GraphView extends JPanel implements ActionListener {
 			nl.setZoom(nl.getZoom() * 1.25);
 			getNL().refresh();
 		} else if (e.getSource().equals(buttonZoomOut)) { 
-			nl.setZoom(nl.getZoom() / 1.25);
-			getNL().refresh();
+			if (nl.getZoom()>0.025) {
+				nl.setZoom(nl.getZoom() / 1.25);
+				getNL().refresh();
+			} else {
+				JOptionPane.showMessageDialog(parent, "Highest zoom level. This is no Mandelbrot set.", "Highest zoom level", JOptionPane.INFORMATION_MESSAGE);
+			}
 		} else if (e.getSource().equals(buttonNewEdge)) {
 			ReproducableLog.logGUI("Button \"new edge\"");
 			nl.newVertex = false;
@@ -316,6 +320,7 @@ public class GraphView extends JPanel implements ActionListener {
 	}
 	
 	String rCode = "";
+	public boolean isGraphSaved = true;
 
 	private void showParamInfo() {
 		if (parent.getPView().jrbRCorrelation.isSelected()) {

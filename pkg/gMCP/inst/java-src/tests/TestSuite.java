@@ -17,7 +17,7 @@ public class TestSuite {
 		"MaurerEtAl1995()",
 		"improvedFallbackI(weights=rep(1/3, 3))",
 		"improvedFallbackII(weights=rep(1/3, 3))",
-		"cycleGraph(nodes=paste(\"H\",1:4,sep=\"\"), weights=rep(1/4, 4))",
+		"cycleGraph(nodes=paste(\\\"H\\\",1:4,sep=\\\"\\\"), weights=rep(1/4, 4))",
 		"fixedSequence(5)",
 		"fallback(weights=rep(1/4, 4))",
 		"generalSuccessive(weights = c(1/2, 1/2))",
@@ -36,17 +36,18 @@ public class TestSuite {
 	}
 	
     public static Class[] getClasses() {
-    	return new Class[] { DataTableTest.class,
-    			EdgeTest.class,
-    			InteractionTest.class,
+    	return new Class[] { 
     			LoadSaveTest.class,
+    			/*DataTableTest.class,
+    			EdgeTest.class,
+    			InteractionTest.class,    			
     			NetListTest.class,
     			NodeTest.class,
     			PowerTest.class,
     			PPanelTest.class,
     			RControlTest.class,
     			TexFormulaTest.class,
-    			ToolTest.class};
+    			ToolTest.class*/};
     }
     
     public static String getResultString(Result result) {

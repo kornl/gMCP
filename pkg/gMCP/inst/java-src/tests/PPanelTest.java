@@ -18,8 +18,8 @@ public class PPanelTest {
     @Before
     public void setUp() {
     	ctrl = RControl.getRControl(true);
-    	gui = new CreateGraphGUI("graph", new double[] {}, true,  10, true);
-    	nl = gui.getGraphView().getNL();
+    	//gui = new CreateGraphGUI("graph", new double[] {}, true,  10, true);
+    	//nl = gui.getGraphView().getNL();
     }
 
     @After

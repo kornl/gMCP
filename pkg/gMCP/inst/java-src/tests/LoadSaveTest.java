@@ -1,6 +1,11 @@
 package tests;
 
+import javax.swing.JLabel;
+
+import org.af.gMCP.gui.CreateGraphGUI;
 import org.af.gMCP.gui.RControl;
+import org.af.gMCP.gui.graph.GraphMCP;
+import org.af.gMCP.gui.graph.GraphView;
 import org.af.gMCP.gui.graph.NetList;
 import org.junit.After;
 import org.junit.Before;
@@ -10,10 +15,15 @@ public class LoadSaveTest {
 
     protected RControl ctrl;
     protected NetList nl;
+    protected CreateGraphGUI gui;
 
     @Before
     public void setUp() {
     	ctrl = RControl.getRControl(true);
+    	RControl.getR().evalVoid("library(gMCP)");
+    	gui = new CreateGraphGUI("graph", new double[] {}, true,  10, true);
+    	nl = gui.getGraphView().getNL();
+    	//nl = new NetList(new JLabel(), new GraphView("graph", null));
     }
 
     @After
@@ -22,13 +32,19 @@ public class LoadSaveTest {
 
     @Test
     public void testLoadSave() {
-        for (String graph : TestSuite.exampleGraphs) {
-        	//TODO Netlist should be created with GraphView=null
-        	//TODO Implement R function for equals(graph1, graph2) 
-        	//nl.loadGraph("graph");
-        	//nl.saveGraph(".testGraph", false);        	 
-        	//ctrl.getR().eval("");
+    	String graph = TestSuite.exampleGraphs[1];
+        //for (String graph : TestSuite.exampleGraphs)   	
+    	{
+        	RControl.getR().evalVoid("graph <- "+graph);
+        	nl.updateGUI = false;
+        	nl.reset();        	
+        	nl.graph = new GraphMCP("graph", nl);
+        	nl.saveGraph(".testGraph", false);
+        	nl.refresh();
+        	nl.updateGUI = true;
+        	//ctrl.getR().eval("gMCP:::equals(graph, .testGraph)");
         }
+    	gui.dispose();
     }
     
   }

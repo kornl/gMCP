@@ -41,7 +41,6 @@ public class CreateGraphGUI extends JFrame implements WindowListener, AbortListe
 	public DataFramePanel dfp;
 	public InfiniteProgressPanel glassPane;
 	protected static Log logger = LogFactory.getLog(CreateGraphGUI.class);
-	public boolean isGraphSaved = true;
 	public static CreateGraphGUI lastCreatedGUI;
 	
 	public CreateGraphGUI(String graph, double[] pvalues, boolean debug, double grid, boolean experimentalFeatures) {
@@ -187,7 +186,7 @@ public class CreateGraphGUI extends JFrame implements WindowListener, AbortListe
 	 * Closes the R console if we are in bundled mode and checks for unsaved changes. 
 	 */
 	public void windowClosing(WindowEvent e) {
-		if (!isGraphSaved && Configuration.getInstance().getGeneralConfig().askWhenGraphIsNotSaved()) {
+		if (!control.isGraphSaved && Configuration.getInstance().getGeneralConfig().askWhenGraphIsNotSaved()) {
 			int answer = JOptionPane.showConfirmDialog(this, "The current graph is not saved yet!\nDo you want to save it?", 
 					"Do you want to save the graph?",
 					JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE);

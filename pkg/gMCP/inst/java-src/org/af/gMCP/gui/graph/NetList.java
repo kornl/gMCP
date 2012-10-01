@@ -37,7 +37,7 @@ public class NetList extends JPanel implements MouseMotionListener, MouseListene
 	private static final Log logger = LogFactory.getLog(NetList.class);
 	GraphView control;
 	
-	GraphMCP graph;
+	public GraphMCP graph;
 	
 	int[] dragN = new int[0];
 	int[] dragE = new int[0];
@@ -179,7 +179,7 @@ public class NetList extends JPanel implements MouseMotionListener, MouseListene
 	public void graphHasChanged() {
 		expRejections = null; powAtlst1 = null; rejectAll = null; userDefined = null;
 		control.setResultUpToDate(false);
-		control.getMainFrame().isGraphSaved = false;
+		control.isGraphSaved = false;
 		if (!updateGUI) return;
 		String analysis = null;
 		Set<String> variables = getAllVariables();
@@ -627,14 +627,27 @@ public class NetList extends JPanel implements MouseMotionListener, MouseListene
 	 * is not called by a revalidate of the scrollbars.
 	 */
 	public void paintComponent(Graphics g) {
+		// Apart from speed issues we shouldn't draw the graph while it is modified.
+		if (!updateGUI) return;
+		/* TODO Actually we also have to check whether paintComponent is in progress,
+		 * otherwise for example "for (Node node : nodes) { node.paintYou(g) }"
+		 * will throw a ConcurrentModificationException.
+		 */
 		super.paintComponent(g);
+		System.out.println(getZoom());
 		int grid = Configuration.getInstance().getGeneralConfig().getGridSize();
 		g.setColor(Color.LIGHT_GRAY);
 		if (grid>1) {
 			for(int x=(int)(Node.r*getZoom()); x < getWidth(); x += grid*getZoom()) {				
 				g.drawLine(x, 0, x, getHeight());	
 			}
+			for(int x=(int)(Node.r*getZoom()); x > 0; x -= grid*getZoom()) {				
+				g.drawLine(x, 0, x, getHeight());	
+			}
 			for(int y=(int)(Node.r*getZoom()); y < getHeight(); y += grid*getZoom()) {
+				g.drawLine(0, y, getWidth(), y);
+			}
+			for(int y=(int)(Node.r*getZoom()); y > 0; y -= grid*getZoom()) {
 				g.drawLine(0, y, getWidth(), y);
 			}
 		}
@@ -775,7 +788,7 @@ public class NetList extends JPanel implements MouseMotionListener, MouseListene
 		control.getDataFramePanel().reset();
 		control.getDView().setDescription("Enter a description for the graph.");
 		graphHasChanged();
-		control.getMainFrame().isGraphSaved = true;
+		control.isGraphSaved = true;
 	}
 
 	public void saveGraph() {
