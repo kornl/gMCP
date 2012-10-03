@@ -34,7 +34,14 @@ import org.apache.commons.logging.LogFactory;
 import org.rosuda.REngine.JRI.JRIEngine;
 
 public class CreateGraphGUI extends JFrame implements WindowListener, AbortListener {
-	
+	 static { // Static initializer block to set the Locale
+		 Locale.setDefault(Locale.ENGLISH);
+		 JComponent.setDefaultLocale(Locale.ENGLISH);
+		 /* If you wonder if other things work, look whether JFileChooser
+		  * displays "All Files" or "Alle Dateien" on a German system. 
+		  */
+	 };
+	 
 	GraphView control;
 	PView pview;
 	DView dview;
@@ -45,8 +52,6 @@ public class CreateGraphGUI extends JFrame implements WindowListener, AbortListe
 	
 	public CreateGraphGUI(String graph, double[] pvalues, boolean debug, double grid, boolean experimentalFeatures) {
 		super("gMCP GUI");
-		Locale.setDefault(Locale.US);
-		JComponent.setDefaultLocale(Locale.US); 
 		RControl.getRControl(debug);
 		if (grid>0) {
 			Configuration.getInstance().getGeneralConfig().setGridSize((int)grid);
