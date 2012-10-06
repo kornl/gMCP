@@ -35,14 +35,32 @@ public class MiscPanel extends OptionsPanel {
     private void makeComponents() {
         checkOnlineForUpdate = new JCheckBox("Check online for updates");
         checkOnlineForUpdate.setSelected(conf.getGeneralConfig().checkOnline());
+        checkOnlineForUpdate.setToolTipText("<html>On start-up gMCP can check automatically whether a new version<br>\n" +
+        		"of gMCP is available. Only your version of R (like 2.13.1),<br>\n" +
+        		"the version of gMCP (like 0.7-5) and a random number<br>\n" +
+        		"(to distinguish different requests) are transmitted.</html>");
         exportTransparent = new JCheckBox("Export images with transparent background");
         exportTransparent.setSelected(conf.getGeneralConfig().exportTransparent());
+        exportTransparent.setToolTipText("<html>If checked the background of exported PNG graphics will be transparent.<br>\n" +
+        		"Otherwise the graphs are displayed on a white background.</html>");
         unanchorEdges = new JCheckBox("Edge weights should adjust their position, whenever a node is dragged");
         unanchorEdges.setSelected(conf.getGeneralConfig().getUnAnchor());
+        unanchorEdges.setToolTipText("<html>If selected the edges will always repositioned whenever a node is dragged.<br>\n" +
+        		"Otherwise only newly added eges behave that way and edges that have<br>\n" +
+        		"been dragged themselves are considered \"anchored\" and will stay<br>\n" +
+        		"with the edge weight label at the same position.</html>");
         focusEqualsEdit = new JCheckBox("Automatically enter the editing mode, whenever a table cell gets the focus");
         focusEqualsEdit.setSelected(conf.getGeneralConfig().focusEqualsEdit());
+        focusEqualsEdit.setToolTipText("<html>People are used to different behaviour of tables (mostly<br>"+
+    "depending on which spreadsheet applications they use regularly). If this<br>"+
+    "option is set to true it is easy to change the values of the cells but<br>"+
+    "navigating with arrow keys is hard since in the editing mode the right and<br>"+
+    "left key will move the cursor only in the currently selected cell.</html>");
         enableNewFeatures = new JCheckBox("Enable highly experimental features");
         enableNewFeatures.setSelected(conf.getGeneralConfig().experimentalFeatures());
+        enableNewFeatures.setToolTipText("<html>The gMCP GUI often contains new features that are not that well tested.<br>" +
+        		"If you want to use or take a look at them, activate this option.<br>" +
+        		"But be prepared that things might go wrong.</html>");
     }
 
     private void doTheLayout() {

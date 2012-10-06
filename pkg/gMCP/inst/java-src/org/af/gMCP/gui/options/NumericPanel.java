@@ -44,31 +44,58 @@ public class NumericPanel extends OptionsPanel implements ActionListener {
         useEpsApprox.setSelected(conf.getGeneralConfig().useEpsApprox());
         useEpsApprox.addActionListener(this);
         useEpsApprox.setEnabled(false);
+        useEpsApprox.setToolTipText("<html>" +
+        		"In this version this value can not be changed.<br>" +
+        		"No calculations with infinitesimal small values are done<br>" +
+        		"but instead the epsilon is approximated by a small real number." +
+        		"</html>");
         
         jtfEps = new JTextField(30);
         jtfEps.setText(""+conf.getGeneralConfig().getEpsilon()); 
         jtfEps.setEnabled(conf.getGeneralConfig().useEpsApprox());
+        jtfEps.setToolTipText("<html>" +
+        		"The small real value that should be used to approximate<br>" +
+        		"the infinitesimal small epsilon. Default is 0.001.</html>");
         
         tryToSimplify = new JCheckBox("Try to show fractions / rounded numbers");
         tryToSimplify.setSelected(conf.getGeneralConfig().simplify());
         tryToSimplify.addActionListener(this);
         tryToSimplify.setEnabled(false);
+        tryToSimplify.setToolTipText("<html>" +
+        		"</html>");
         
         jtfDigits = new JTextField(30);
         jtfDigits.setText(""+conf.getGeneralConfig().getDigits2()); 
         jtfDigits.setEnabled(conf.getGeneralConfig().simplify());
+        jtfDigits.setToolTipText("<html>" +
+        		"</html>");
         
         verbose = new JCheckBox("Verbose output of algorithms");
         verbose.setSelected(conf.getGeneralConfig().verbose());
+        verbose.setToolTipText("<html>" +
+        		"If checked the selected the algorithms produce a verbose<br>" +
+        		"output that is shown in the GUI. For example the Simes<br>" +
+        		"test specifies for each intersection of elementar hypotheses<br>" +
+        		"whether and why it could be rejected.</html>");
         
         numberOfSimulations = new JTextField(30);
-        numberOfSimulations.setText(""+conf.getGeneralConfig().getNumberOfSimulations()); 
+        numberOfSimulations.setText(""+conf.getGeneralConfig().getNumberOfSimulations());
+        numberOfSimulations.setToolTipText("<html>" +
+        		"The Monte Carlo sample size for power calculations.<br>" +
+        		"Default is 10000.</html>");
         
         randomNumbers = new JComboBox(new String[] {"quasirandom", "pseudorandom"});
         randomNumbers.setSelectedIndex(conf.getGeneralConfig().getTypeOfRandom().equals("quasirandom")?0:1);
+        randomNumbers.setToolTipText("<html>" +
+        		"You can select quasirandom or pseudorandom numbers for<br>" +
+        		"power calculations. The quasirandom option uses a randomized<br>" +
+        		"Lattice rule, and should be more efficient than the<br>" +
+        		"pseudorandom option that uses ordinary (pseudo) random numbers.</html>");
         
         parametricAlgo = new JComboBox(new String[] {"Bretz2011", "simple-parametric"});
         parametricAlgo.setSelectedIndex(conf.getGeneralConfig().getParametricTest().equals("Bretz2011")?0:1);
+        parametricAlgo.setToolTipText("<html>" +
+        		"Please see the manual for an explanation.</html>");
     }
 
     private void doTheLayout() {

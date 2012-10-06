@@ -62,13 +62,28 @@ public class GeneralPanel extends OptionsPanel implements ActionListener {
     private void makeComponents() {
         cbFontSize = new IntegerJComboBox(8, 20);
         cbFontSize.setSelectedObject(conf.getGeneralConfig().getFontSize());
+        cbFontSize.setToolTipText("<html>" +
+        		"Font size of the text in the GUI widgets.</html>");
         jtfGrid = new JTextField(30);
-        jtfGrid.setText(""+conf.getGeneralConfig().getGridSize()); 
+        jtfGrid.setText(""+conf.getGeneralConfig().getGridSize());
+        jtfGrid.setToolTipText("<html>" +
+        		"For easier placement of nodes a grid can be used that aligns the<br>" +
+        		"nodes to its intersections. You can specify a positive integer<br>" +
+        		"that sets the grid size, i.e. the width in pixels between two<br>" +
+        		"proximate parallel lines. If you set the grid size to 1 this would<br>" +
+        		"allow unrestricted placement and therefore disables the grid.</html>");
         jtfNumberOfDigits = new JTextField(30);
-        jtfNumberOfDigits.setText(""+conf.getGeneralConfig().getDigits()); 
+        jtfNumberOfDigits.setText(""+conf.getGeneralConfig().getDigits());
+        jtfNumberOfDigits.setToolTipText("<html>" +
+        		"Number of digits to be shown at various places.<br>" +
+        		"In this version not every part of the GUI will use<br>" +
+        		"this value, but this will improve in further versions.</html>");
         jtfLineWidth = new JTextField(30);
         jtfLineWidth.setText(""+conf.getGeneralConfig().getLineWidth());
-
+        jtfLineWidth.setToolTipText("<html>" +
+        		"Especially if you want to use exported PNG graphics in other<br>" +
+        		"documents, you may want to adjust the line width of edges<br>" +
+        		"and nodes, when borders look to thin or thick.</html>");
         
         Vector<String> looknfeel = new Vector<String>();
         looknfeel.add("System");
@@ -85,21 +100,51 @@ public class GeneralPanel extends OptionsPanel implements ActionListener {
             if (getLooknFeel().equals(currentLookNFeel)) break;
             logger.debug("Not " + getLooknFeel());
         }
+        cbLookAndFeel.setToolTipText("<html>" +
+        		"The way the widgets of a GUI look and how the behave is<br>" +
+        		"called \"look and feel\" in Java. Depending on your operating<br>" +
+        		"system and classpath several Look'n'Feel implementations may<br>" +
+        		"be available (e.g. Metal (Java default), Windows, Mac OS,<br>" +
+        		"Motif and/or System/GTK).<br>" +
+        		"If you are used to a particular Look'n'Feel, you can select<br>" +
+        		"it here. But if you have problems with the graphical interface,<br>" +
+        		"please try to use the default Metal theme to check whether it<br>" +
+        		"could be a problem with the selected Look'n'Feel.</html>");
         
         colorImages = new JCheckBox("Colored image files and pdf reports");
         colorImages.setSelected(conf.getGeneralConfig().getColoredImages());
+        colorImages.setToolTipText("<html>" +
+        		"Colors are used to highlight different conditions in the graph<br>" +
+        		"like hypotheses that could be rejected. While these colors are<br>" +
+        		"helpful in the GUI, you perhaps prefer black and white PNG image<br>" +
+        		"files and PDF reports.</html>");
         
         showFractions = new JCheckBox("Show fractions instead of decimal numbers");
         showFractions.setSelected(conf.getGeneralConfig().showFractions());
+        showFractions.setToolTipText("<html></html>");
         
         showRejected = new JCheckBox("Show rejected nodes in GUI");
         showRejected.setSelected(conf.getGeneralConfig().showRejected());
+        showRejected.setToolTipText("<html>" +
+        		"When using the GUI to for stepwise rejection of hypotheses,<br>" +
+        		"this options determines whether rejected nodes should<br>" +
+        		"\"disappear\" or whether they remain on the screen and are<br>" +
+        		"only marked as rejected.</html>");
         
         useJLaTeXMath = new JCheckBox("Use JLaTeXMath");
         useJLaTeXMath.setSelected(conf.getGeneralConfig().useJLaTeXMath());
+        useJLaTeXMath.setToolTipText("<html>" +
+        		"There are not many reasons not to use the free Java library<br>" +
+        		"JLaTeXMath to render numbers, symbols and formulas in the<br>" +
+        		"GUI. The option is mainly provided in case that errors occur<br>" +
+        		"displaying the numbers and formulas.</html>");
         
         markEpsilon = new JCheckBox("Show epsilon edges as dashed lines.");
         markEpsilon.setSelected(conf.getGeneralConfig().markEpsilon());
+        markEpsilon.setToolTipText("<html>" +
+        		"You can set whether epsilon edges should<br>" +
+        		"been shown as dashed or solid lines." +
+        		"</html>");
 
     }
 
