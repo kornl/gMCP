@@ -714,27 +714,29 @@ gMCP(graph, pvalues=c(0.02, 0.04, 0.01, 0.02), eps=0.001)
 
 \section{Entangled graphs}\index{entangled graphs}\index{graphs!entangled}
 
-
+We support entangled graphs as a new feature. But since it is not yet well
+tested, you have to activate it in the options (see \ref{experimentalFeatures}).
 
 \begin{figure}[ht]
   \centering
   
-\begin{tikzpicture}[scale=0.7]
+% This is also a good example how we could improve the graph2latex function:
+\begin{tikzpicture}[scale=1]
 \node (H1) at (70bp,-70bp)[draw,circle split,fill=green!80] {$H1$ \nodepart{lower} $1 0\alpha$};
 \node (H2) at (210bp,-70bp)[draw,circle split,fill=green!80] {$H2$ \nodepart{lower} $0 1\alpha$};
 \node (H3) at (140bp,-140bp)[draw,circle split,fill=green!80] {$H3$ \nodepart{lower} $0 0\alpha$};
 \node (H4) at (70bp,-210bp)[draw,circle split,fill=green!80] {$H4$ \nodepart{lower} $0 0\alpha$};
 \node (H5) at (210bp,-210bp)[draw,circle split,fill=green!80] {$H5$ \nodepart{lower} $0 0\alpha$};
-\draw [draw=black,->,line width=1pt] (H1) to[auto] node[near start,above,fill=blue!20] {$1$} (H3);
-\draw [draw=black,->,line width=1pt] (H2) to[auto] node[near start,above,fill=blue!20] {$1$} (H3);
-\draw [draw=black,->,line width=1pt] (H3) to[auto] node[near start,above,fill=blue!20] {$1-\epsilon$} (H4);
-\draw [draw=black,->,line width=1pt] (H3) to[auto] node[near start,above,fill=blue!20] {$\epsilon$} (H5);
-\draw [draw=black,->,line width=1pt] (H4) to[auto] node[near start,above,fill=blue!20] {$1$} (H2);
-\draw [draw=blue,->,line width=1pt] (H1) to[auto] node[near start,above,fill=blue!20] {$1$} (H3);
-\draw [draw=blue,->,line width=1pt] (H2) to[auto] node[near start,above,fill=blue!20] {$1$} (H3);
-\draw [draw=blue,->,line width=1pt] (H3) to[auto] node[near start,above,fill=blue!20] {$\epsilon$} (H4);
-\draw [draw=blue,->,line width=1pt] (H3) to[auto] node[near start,above,fill=blue!20] {$1-\epsilon$} (H5);
-\draw [draw=blue,->,line width=1pt] (H5) to[auto] node[near start,above,fill=blue!20] {$1$} (H1);
+\draw [draw=black,->,line width=1pt] (H1) to[bend left=15] node[near start,above,fill=blue!20] {$1$} (H3);
+\draw [draw=black,->,line width=1pt] (H2) to[bend left=15] node[near start,above,fill=blue!20] {$1$} (H3);
+\draw [draw=black,->,line width=1pt] (H3) to[bend left=15] node[near start,above,fill=blue!20] {$1-\epsilon$} (H4);
+\draw [draw=black,->,line width=1pt] (H3) to[bend left=15] node[near start,above,fill=blue!20] {$\epsilon$} (H5);
+\draw [draw=black,->,line width=1pt] (H4.135) arc(-120:-310:100bp) node[fill=blue!20] {$1$} to (H2);
+\draw [draw=blue,->,line width=1pt] (H1) to[bend right=15] node[near start,above,fill=blue!20] {$1$} (H3);
+\draw [draw=blue,->,line width=1pt] (H2) to[bend right=15] node[near start,above,fill=blue!20] {$1$} (H3);
+\draw [draw=blue,->,line width=1pt] (H3) to[bend right=15] node[near start,above,fill=blue!20] {$\epsilon$} (H4);
+\draw [draw=blue,->,line width=1pt] (H3) to[bend right=15] node[near start,above,fill=blue!20] {$1-\epsilon$} (H5);
+\draw [draw=blue,->,line width=1pt] (H5.45) arc(-60:130:100bp) node[fill=blue!20] {$1$} to (H1);
 \end{tikzpicture}
 
   
@@ -834,11 +836,15 @@ graph
     While these colors are helpful in the GUI, you perhaps prefer black and
     white PNG image files and PDF reports.
   \item[Show rejected nodes in GUI] When using the GUI to for stepwise rejection
-    of hypotheses, this options 
+    of hypotheses, this options determines whether rejected nodes should
+    "disappear" or whether they remain on the screen and are only marked as
+    rejected.
   \item[Use JLaTeXMath] There are not many reasons not to use the free Java
     library JLaTeXMath to render numbers, symbols and formulas in the
     GUI. The option is mainly provided in case that errors occur
     displaying the numbers and formulas.
+  \item[Show epsilon edges as dashed lines] You can set whether epsilon
+    edges should been shown as dashed or solid lines.
   \item[Show fractions instead of decimal numbers] Floating point numbers are used
     for all calculations and values like $1/3$ would be normally shown as
     $0.3333333$. When this option is active the method fractions from package
@@ -859,7 +865,7 @@ graph
 %  description, we sometimes try to display fractions instead of floating point
 %  numbers. This option will assure that the shown fraction does not
 %  differ in more than the specified value from the floating point number.
-  \item[Verbose output of algorithms] If selected the algorithms produce a
+  \item[Verbose output of algorithms] If checked the selected the algorithms produce a
   verbose output that is shown in the GUI. For example the Simes test specifies
   for each intersection of elementar hypotheses whether and why it could be
   rejected.
@@ -873,6 +879,8 @@ graph
     whether a new version of gMCP is available. Only your version of R (like
     2.13.1), the version of gMCP (like 0.7-5) and a random number (to
     distinguish different requests) are transmitted.
+  \item[Type of parametric test] You can select between "Bretz2011" and
+    "simple-parametric". %TODO Explain these options.
   \item[Export images with transparent background] If checked the background of
     exported PNG graphics will be transparent. Otherwise the graphs are
     displayed on a white background.
@@ -882,11 +890,11 @@ graph
     are considered "anchored" and will stay with the edge weight label at the
     same position.
   \item[Automatically enter the editing mode, whenever a table cell
-    gets the focus] People are used to different behaviour of tables (mostly
-    depending on which spreadsheet applications they use regularly). If this
-    option is set to true it is easy to change the values of the cells but
-    navigating with arrow keys is hard since in the editing mode the right and
-    left key will move the cursor only in the currently selected cell.
+    gets the focus] 
+  \item[Enable highly experimental feature]\label{experimentalFeatures} The gMCP
+    GUI often contains new features that are not that well tested. If you want
+    to use or take a look at them, activate this option. But be prepared that
+    things might go wrong.
 \end{description}
 
 \subsubsection{Privacy}

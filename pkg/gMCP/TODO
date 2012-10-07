@@ -53,6 +53,10 @@
 - round values in CI Dialog
 - Check whether 0.7-11 is regarded as newer than 0.7-9 
 
+- TikZ:
+\tkzCircumCenter(A,B,C)\tkzGetPoint{O}\tkzDrawArc(O,A)(C)
+You can use H4.90 to get the point leaving H4 at angle 90°
+
 - Characterize optimal graphs.
 
 - Join two graphs in GUI.

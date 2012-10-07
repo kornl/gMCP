@@ -11,7 +11,7 @@ Changes in version 0.8-0 (??-09-2012, Rev. 15??)
 - New class for entangled graphs (graphs with memory, i.e. linear convex 
   combinations of graphs with the same nodes).
 
-- Better error messages when input doesn't meet demands
+- Better error messages when input doesn't meet demands.
 
 - Improved: Power simulations for singular correlation matrices.
 
@@ -20,6 +20,8 @@ Changes in version 0.8-0 (??-09-2012, Rev. 15??)
 
 - Two entangled example graphs (Entangled1Maurer2012, Entangled2Maurer2012)
   from Maurer et al.
+
+- Tooltips in options dialog.
 
 Planed for this release are:
 
