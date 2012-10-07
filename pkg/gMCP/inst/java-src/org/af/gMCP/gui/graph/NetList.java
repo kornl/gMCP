@@ -633,8 +633,7 @@ public class NetList extends JPanel implements MouseMotionListener, MouseListene
 		 * otherwise for example "for (Node node : nodes) { node.paintYou(g) }"
 		 * will throw a ConcurrentModificationException.
 		 */
-		super.paintComponent(g);
-		System.out.println(getZoom());
+		super.paintComponent(g);		
 		int grid = Configuration.getInstance().getGeneralConfig().getGridSize();
 		g.setColor(Color.LIGHT_GRAY);
 		if (grid>1) {

@@ -121,7 +121,12 @@ public class GeneralPanel extends OptionsPanel implements ActionListener {
         
         showFractions = new JCheckBox("Show fractions instead of decimal numbers");
         showFractions.setSelected(conf.getGeneralConfig().showFractions());
-        showFractions.setToolTipText("<html></html>");
+        showFractions.setToolTipText("<html>" +
+        		"Floating point numbers are used for all calculations and<br>" +
+        		"values like $1/3$ would be normally shown as $0.3333333$.<br>" +
+        		"When this option is active the method fractions from package<br>" +
+        		"MASS is used to display fractions whenever the floating point<br>" +
+        		"numbers are close to a fraction that looks right.</html>");
         
         showRejected = new JCheckBox("Show rejected nodes in GUI");
         showRejected.setSelected(conf.getGeneralConfig().showRejected());

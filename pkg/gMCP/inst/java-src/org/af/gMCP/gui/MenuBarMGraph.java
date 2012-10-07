@@ -86,7 +86,7 @@ public class MenuBarMGraph extends JMenuBar implements ActionListener {
 		menu.add(makeMenuItem("Graph analysis", "graphAnalysis"));
 		//if (Configuration.getInstance().getGeneralConfig().experimentalFeatures()) {
 		menu.addSeparator();
-		menu.add(makeMenuItem("Power analysis (no correlation and still experimental)", "powerAnalysis"));		
+		menu.add(makeMenuItem("Power analysis (still experimental)", "powerAnalysis"));		
 		//}
 
 		add(menu);
