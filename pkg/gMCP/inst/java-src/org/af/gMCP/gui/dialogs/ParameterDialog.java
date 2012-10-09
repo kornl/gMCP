@@ -31,6 +31,9 @@ public class ParameterDialog extends JDialog implements ActionListener, ChangeLi
 	String command;
 	JButton ok = new JButton("Ok");
 	JSpinner spinnerN;
+	JSpinner spinnerNDoses;
+	JSpinner spinnerNTimes;
+	JTextField jtW;
 	JPanel weightsPanel;
 	Hashtable<String,Object> parameters;
 	List<JTextField> weightsV = new Vector<JTextField>();
@@ -52,6 +55,19 @@ public class ParameterDialog extends JDialog implements ActionListener, ChangeLi
         if (parameters.get("weights")!=null) {
         	rows += ", pref:grow, 5dlu";
         }
+        
+        if (parameters.get("times")!=null) {
+        	rows += ", pref, 5dlu";
+        }
+        
+        if (parameters.get("doses")!=null) {
+        	rows += ", pref, 5dlu";
+        }
+        
+        if (parameters.get("w")!=null) {
+        	rows += ", pref, 5dlu";
+        }
+        
                
         FormLayout layout = new FormLayout(cols, rows);
         getContentPane().setLayout(layout);
@@ -103,6 +119,41 @@ public class ParameterDialog extends JDialog implements ActionListener, ChangeLi
         	row += 2;
         }
         
+        if (parameters.get("times")!=null) {
+        	int[] n = (int[]) parameters.get("times");
+
+        	spinnerNTimes = new JSpinner(new SpinnerNumberModel(n[1], n[0], n[2], 1));    	
+        	spinnerNTimes.addChangeListener(this);
+
+        	getContentPane().add(new JLabel("Number of time points:"),     cc.xy(2, row));
+        	getContentPane().add(spinnerNTimes, cc.xy(4, row));        
+
+        	row += 2;
+        }
+        
+        if (parameters.get("doses")!=null) {
+        	int[] n = (int[]) parameters.get("doses");
+
+        	spinnerNDoses = new JSpinner(new SpinnerNumberModel(n[1], n[0], n[2], 1));    	
+        	spinnerNDoses.addChangeListener(this);
+
+        	getContentPane().add(new JLabel("Number of dose levels:"),     cc.xy(2, row));
+        	getContentPane().add(spinnerNDoses, cc.xy(4, row));        
+
+        	row += 2;        
+        }
+        
+        if (parameters.get("w")!=null) {
+        	Double w = (Double) parameters.get("w");
+
+        	jtW = new JTextField(""+w);
+
+        	getContentPane().add(new JLabel("Number of dose levels:"),     cc.xy(2, row));
+        	getContentPane().add(jtW, cc.xy(4, row));        
+
+        	row += 2;        
+        }
+        
         
         getContentPane().add(ok, cc.xy(4, row));
         ok.addActionListener(this);        
@@ -123,6 +174,16 @@ public class ParameterDialog extends JDialog implements ActionListener, ChangeLi
 			}
 			command = command.substring(0, command.length()-1)+"),";
 		}
+		if (parameters.get("times")!=null) {
+			command += "times="+spinnerNTimes.getModel().getValue()+",";
+        }
+        
+        if (parameters.get("doses")!=null) {
+        	command += "doses="+spinnerNDoses.getModel().getValue()+",";
+        }        
+        if (parameters.get("w")!=null) {
+        	command += "w="+jtW.getText()+",";
+        }        
 		mbar.loadGraph(command.substring(0, command.length()-1)+")");
 		dispose();
 	}

@@ -302,4 +302,11 @@ The current api for setting a popupMenu in Swing is
 this way it will be shown automagically, both for mouse and keyboard triggers (the latter depends on LAF). Plus, it supports re-using the same popup across a container's children. To enable that feature:
 
   myChild.setInheritsPopupMenu(true)
+
+---
         
+Is this correct from R check?
+  Mismatches in argument default values:
+    Name: 'w' Code: "\\nu" Docs: "\nu"
+
+---

@@ -155,7 +155,8 @@ public class MenuBarMGraph extends JMenuBar implements ActionListener {
 		subMenu.add(makeMenuItem("Graph from Hommel et al. (2007) simplified", "hommelEtAlSimple"));
 		//subMenu.addSeparator();
 		subMenu.add(makeMenuItem("Drug clinical trial example (serial gatekeeping) from Maurer et al. (1995)", "maurer1995"));
-		subMenu.add(makeMenuItem("Graph from Ferber et al. (2011)", "ferber2011"));
+		subMenu.add(makeMenuItem("Graph I from Ferber et al. (2011)", "ferber2011"));
+		subMenu.add(makeMenuItem("Graph II from Ferber et al. (2011)", "ferber2011b"));
 		exampleMenu.add(subMenu);
 		
 		if (Configuration.getInstance().getGeneralConfig().experimentalFeatures()) {
@@ -454,7 +455,13 @@ public class MenuBarMGraph extends JMenuBar implements ActionListener {
         	loadGraph("Entangled1Maurer2012()");
         } else if (e.getActionCommand().equals("entangled2")) {     	
         	loadGraph("Entangled2Maurer2012()");
-        }
+        } else if (e.getActionCommand().equals("ferber2011b")) {     	
+        	Hashtable<String,Object> ht = new Hashtable<String,Object>();
+        	ht.put("times", new int[] {1,5,20});
+        	ht.put("doses", new int[] {1,3,20});
+        	ht.put("w", new Double(0.5));
+        	new ParameterDialog(control.getGraphGUI(), ht, this, "FerberTimeDose2011");
+        } 
 	}
 	
 	private void submitGraph() {
