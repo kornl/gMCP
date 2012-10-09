@@ -8,7 +8,7 @@
 	Places the nodes of a graph according to a specified layout. 
 }
 \usage{
-	placeNodes(graph, nrow, ncol, byrow = TRUE, force = FALSE)
+	placeNodes(graph, nrow, ncol, byrow = TRUE, topdown = TRUE, force = FALSE)
 }
 
 \arguments{
@@ -19,6 +19,8 @@
   \item{ncol}{The desired number of columns.}
   \item{byrow}{Logical whether the graph is filled by
           rows (otherwise by columns).}
+  \item{topdown}{Logical whether the rows are filled top-down
+          or bottom-up.}          
   \item{force}{Logical whether a graph that has already
           a layout should be given the specified new layout.}
 }

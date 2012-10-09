@@ -50,7 +50,7 @@ checkPSD <- function(m) {
 	return("")
 }
 
-placeNodes <- function(graph, nrow, ncol, byrow = TRUE, force = FALSE) {
+placeNodes <- function(graph, nrow, ncol, byrow = TRUE, topdown = TRUE, force = FALSE) {
 	entangled <- NULL
 	# If the graph is entangled only place the nodes of the first graph
 	if ("entangledMCP" %in% class(graph)) {
@@ -82,6 +82,7 @@ placeNodes <- function(graph, nrow, ncol, byrow = TRUE, force = FALSE) {
 				nodeX <- rep(((1:ncol)-1)*200+100, each = nrow)
 				nodeY <- rep(((1:nrow)-1)*200+100, ncol)
 			}
+			if (!topdown) nodeY <- max(nodeY) - nodeY + 100
 		}
 		graph@nodeAttr$X <- nodeX[1:n]
 		graph@nodeAttr$Y <- nodeY[1:n]

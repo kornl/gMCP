@@ -595,6 +595,35 @@ improvedFallbackII <- function(weights=rep(1/3, 3)) {
 } 
 
 
+FerberTimeDose2011 <- function(times, doses, w="\\nu") {
+	# TODO This method is not complete!!!
+	# Nodes:
+	hnodes <- paste(rep(paste("N", 1:times, sep=""), each=doses), 1:doses, sep="")
+	if (times<2) stop("times has to be an integer > 1")
+	if (doses<2) stop("doses has to be an integer > 1")
+	# Edges:
+	m <- matrix(0, times*doses, times*doses)
+	w2 <- paste("1-", w, sep="")
+	for (i in 2:(doses)) {
+		m[i-1,i] <- w	
+		m[doses*(times-1)+i, doses*(times-1)+i-1] <- w2
+		for (j in 2:(times)) {			
+			m[doses*(j-1)+(i-1),doses*(j-2)+i] <- w		
+			m[doses*(j-2)+i, doses*(j-1)+(i-1)] <- w2
+		}
+	}
+	for (j in 2:(times)) {
+		m[doses*(j-2)+1, doses*(j-1)+1] <- w2
+		m[doses*(j), doses*(j-1)] <- w
+	}
+	rownames(m) <- colnames(m) <- hnodes 
+	# Graph creation
+	graph <- new("graphMCP", m=m, weights=c(rep(0, times*doses-1), 1))
+	# Placing nodes
+	graph <- placeNodes(graph, times, doses, topdown=FALSE)
+	return(graph)
+}
+
 Ferber2011 <- function() {
 	# Nodes:
 	hnodes <- c("\\delta", "\\theta", "\\beta", "\\alpha", "\\alpha_1", 
