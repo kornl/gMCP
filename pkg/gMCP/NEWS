@@ -21,6 +21,8 @@ Changes in version 0.8-0 (??-09-2012, Rev. 15??)
 - Two entangled example graphs (Entangled1Maurer2012, Entangled2Maurer2012)
   from Maurer et al.
 
+- New example graph from Ferber et al. 2011.
+
 - Tooltips in options dialog.
 
 Planed for this release are:
