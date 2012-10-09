@@ -25,6 +25,7 @@
 \alias{Ferber2011}
 \alias{Entangled1Maurer2012}
 \alias{Entangled2Maurer2012}
+\alias{FerberTimeDose2011}
 \title{
 	Functions that create different example graphs
 }
@@ -58,6 +59,7 @@
 	BretzEtAl2009b()
 	BretzEtAl2009c()
 	Ferber2011()
+	FerberTimeDose2011(times, doses, w="\\\\nu")
 	Entangled1Maurer2012()
 	Entangled2Maurer2012()
 }
@@ -71,6 +73,15 @@
   }
   \item{weights}{
   	Numeric vector of node weights.
+  }
+  \item{times}{
+    Number of time points. 
+  }
+  \item{doses}{
+    Number of dose levels. 
+  }
+  \item{w}{
+    Further variable weight(s) in graph.
   }
 }
 \details{
@@ -109,6 +120,9 @@
 	\item{\code{Ferber2011}}{
 	    Graph from Ferber et al. See references (Ferber et al. 2011).
 	}
+	\item{\code{FerberTimeDose2011}}{
+	    Graph from Ferber et al. See references (Ferber et al. 2011).
+	}	
 	\item{\code{Entangled1Maurer2012}}{
 		Entangled graph from Maurer et al. TODO: Add references as soon as they are available.
 	}

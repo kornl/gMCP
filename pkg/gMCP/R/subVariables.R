@@ -59,7 +59,7 @@ replaceVariables <-function(graph, variables=list(), ask=TRUE) {
 	return(parse2numeric(graph))
 }
 
-parse2numeric <- function(graph) {
+parse2numeric <- function(graph, force=FALSE) {
 	# Call this function recursivly for entangled graphs.
 	if ("entangledMCP" %in% class(graph)) {
 		for(i in 1:length(graph@subgraphs)) {
@@ -74,6 +74,7 @@ parse2numeric <- function(graph) {
 						result <- try(eval(parse(text=x)), silent=TRUE);
 						ifelse(class(result)=="try-error",NA,result)
 					}), nrow=dim(m)[1])
+	if (!force && any(is.na(m))) return(graph)
 	rownames(m) <- colnames(m) <- names
 	if (is.matrix(graph)) return(m)
 	graph@m <- m
