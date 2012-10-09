@@ -148,7 +148,7 @@ public class ParameterDialog extends JDialog implements ActionListener, ChangeLi
 
         	jtW = new JTextField(""+w);
 
-        	getContentPane().add(new JLabel("Number of dose levels:"),     cc.xy(2, row));
+        	getContentPane().add(new JLabel("Weight:"),     cc.xy(2, row));
         	getContentPane().add(jtW, cc.xy(4, row));        
 
         	row += 2;        
