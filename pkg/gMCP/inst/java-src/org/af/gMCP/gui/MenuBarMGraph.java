@@ -459,7 +459,7 @@ public class MenuBarMGraph extends JMenuBar implements ActionListener {
         	Hashtable<String,Object> ht = new Hashtable<String,Object>();
         	ht.put("times", new int[] {1,5,20});
         	ht.put("doses", new int[] {1,3,20});
-        	ht.put("w", new Double(0.5));
+        	//ht.put("w", new Double(0.5));
         	new ParameterDialog(control.getGraphGUI(), ht, this, "FerberTimeDose2011");
         } 
 	}
