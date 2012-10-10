@@ -1,4 +1,5 @@
 - GUI speed optimization (try Ferber II with 15x5)
+- Also check layout of (result) dialogs for big graphs.
 - Highlight edges (and perhaps nodes) depending on the focus in the dataframe. 
 - Check copyright notes for code under BSD Licence
 - Give more information about "testing mode" - one time JOptionPane for example.
