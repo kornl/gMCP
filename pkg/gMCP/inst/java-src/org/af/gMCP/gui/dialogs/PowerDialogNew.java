@@ -48,8 +48,7 @@ public class PowerDialogNew extends JDialog implements ActionListener {
 
 	JButton addAnother = new JButton("Add another power function");
     List<JButton> buttons = new Vector<JButton>();
-    List<JButton> buttons2 = new Vector<JButton>();
-    GridBagConstraints c = new GridBagConstraints();
+    List<JButton> buttons2 = new Vector<JButton>();    
     JButton createCV = new JButton("Advanced Matrix Creation");
     SingleDataFramePanel dfp;
     JTextArea jta = new JTextArea();
@@ -74,17 +73,35 @@ public class PowerDialogNew extends JDialog implements ActionListener {
 	 */
 	
 	JButton ok = new JButton("Ok");
-	JPanel panel = new JPanel();
+	
+	
 	CreateGraphGUI parent;
 	PowerParameterPanel pPanelMeans, pPanelSigmas, pPanelN;
-	JPanel singleMuSigmaN = new JPanel();
 	
+	JPanel panel2 = new JPanel();
+	// consists of
+	JPanel panelOne = new JPanel();
+	JPanel panelMany = new JPanel();
+	
+	JPanel panel = new JPanel();
+	// consists of
+	JPanel singleMuSigmaN = new JPanel();	
 	JPanel singleNCP = new JPanel();
 	
 	JButton switchNCP = new JButton("Enter µ, σ and n instead of ncp");
 	JTabbedPane tPanel = new JTabbedPane();
 
 	Object[] variables;
+	
+	public static GridBagConstraints getDefaultGridBagConstraints() {
+		GridBagConstraints c = new GridBagConstraints();
+		c.fill = GridBagConstraints.BOTH;		
+		c.gridx=0; c.gridy=0;
+		c.gridwidth = 1; c.gridheight = 1;
+		c.ipadx=10; c.ipady=10;
+		c.weightx=1; c.weighty=1;
+		return c;
+	}
 	
 	/**
 	 * Constructor
@@ -102,15 +119,13 @@ public class PowerDialogNew extends JDialog implements ActionListener {
 			parent.getPView().jcbCorObject.getSelectedItem();
 		}
 		parent.getPView().getParameters();
-
-        c.fill = GridBagConstraints.BOTH;		
-		c.gridx=0; c.gridy=0;
-		c.gridwidth = 1; c.gridheight = 1;
-		c.ipadx=10; c.ipady=10;
-		c.weightx=1; c.weighty=0;
+		GridBagConstraints c = getDefaultGridBagConstraints();
 		
-		tPanel.addTab("Single NCP Setting", getSingleSettingPanel());
-		tPanel.addTab("Multiple NCP Settings", getMultiSettingPanel());
+		getContentPane().setLayout(new GridBagLayout());
+		//getContentPane().add(numberOfSettings, c);
+		
+		tPanel.addTab("NCP Settings", getSettingPanel());
+		//tPanel.addTab("Multiple NCP Settings", getMultiSettingPanel());
 		tPanel.addTab("Covariance Matrix", getCVPanel());
 		tPanel.addTab("User defined power function", getUserDefinedFunctions());
 		Set<String> variables = parent.getGraphView().getNL().getAllVariables();
@@ -121,13 +136,11 @@ public class PowerDialogNew extends JDialog implements ActionListener {
 			tPanel.addTab("Variables", getVariablePanel(variables));
 		}
 		
-		c.weighty=1;
+		getContentPane().add(tPanel, c);
 		
-		getContentPane().add(tPanel);
-		
-		c.weighty=0;
+		c.weighty=0; c.gridy++; c.weightx=0; c.fill=GridBagConstraints.NONE;
 		c.anchor = GridBagConstraints.EAST;
-		getContentPane().add(ok);
+		getContentPane().add(ok, c);
 		
         pack();
         setLocationRelativeTo(parent);
@@ -135,6 +148,18 @@ public class PowerDialogNew extends JDialog implements ActionListener {
 	} 
 	
 	public void actionPerformed(ActionEvent e) {
+		if (e.getSource() == numberOfSettings) {
+			panel2.removeAll();
+			GridBagConstraints c = getDefaultGridBagConstraints();
+			if (numberOfSettings.getSelectedIndex()==0) {
+				panel2.add(panelOne, c);
+			} else {
+				panel2.add(panelMany, c);
+			}			
+			panel2.revalidate();
+			panel2.repaint();
+			return;
+		}
 		if (e.getSource() == createCV) {			
 			MatrixCreationDialog mcd = new MatrixCreationDialog(parent, dfp.getTable().getRMatrix(), MatrixCreationDialog.getNames(parent.getGraphView().getNL().getNodes()));
 			dfp.getTable().getModel().copy(mcd.dfp.getTable().getModel()); 
@@ -157,6 +182,7 @@ public class PowerDialogNew extends JDialog implements ActionListener {
 		}
 		if (switchNCP == e.getSource()) {
 			panel.removeAll();
+			GridBagConstraints c = getDefaultGridBagConstraints();
 			if (ncp) {
 				switchNCP.setText("Enter ncp instead of µ, σ and n");
 				ncp = false;				
@@ -254,6 +280,7 @@ public class PowerDialogNew extends JDialog implements ActionListener {
 	 */
 	public JPanel getCVPanel() {
 		JPanel mPanel = new JPanel();
+		GridBagConstraints c = getDefaultGridBagConstraints();
 		
 		RDataFrameRef df = new RDataFrameRef();
 		for (Node n: parent.getGraphView().getNL().getNodes()) {
@@ -329,8 +356,37 @@ public class PowerDialogNew extends JDialog implements ActionListener {
 		return mPanel;
 	}
 	
+	public JPanel getSettingPanel() {		
+		panelOne = getSingleSettingPanel();
+		panelMany = getMultiSettingPanel();
+		
+		JPanel mPanel = new JPanel();
+		String cols = "5dlu, pref, 5dlu, fill:pref:grow, 5dlu";        
+        String rows = "5dlu, pref, 5dlu, fill:pref:grow, 5dlu";
+        
+        mPanel.setLayout(new FormLayout(cols, rows));
+        CellConstraints cc = new CellConstraints();
+        
+        int row = 2;
+		
+		mPanel.add(new JLabel("Number of Settings: "), cc.xy(2, row));
+		mPanel.add(numberOfSettings, cc.xy(4, row));
+		numberOfSettings.addActionListener(this);
+		
+		row += 2;
+		
+		panel2.setLayout(new GridBagLayout());	
+		panel2.add(panelOne, getDefaultGridBagConstraints());
+		
+		mPanel.add(panel2, cc.xyw(2, row, 3));
+		
+        return mPanel;
+	}
+	
+	
 	public JPanel getSingleSettingPanel() {
 		JPanel mPanel = new JPanel();
+		GridBagConstraints c = getDefaultGridBagConstraints();
 		
         String cols = "5dlu, pref, 5dlu, fill:pref:grow, 5dlu";
         String cols2 = "5dlu, pref, 5dlu, fill:pref:grow, 5dlu, fill:pref:grow, 5dlu, fill:pref:grow, 5dlu";

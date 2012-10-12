@@ -1,6 +1,7 @@
 package org.af.gMCP.gui;
 
 import java.awt.Dimension;
+import java.awt.GridBagConstraints;
 import java.awt.Toolkit;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
@@ -264,4 +265,5 @@ public class CreateGraphGUI extends JFrame implements WindowListener, AbortListe
         WidgetFactory.setFontSizeGlobal(Configuration.getInstance().getGeneralConfig().getFontSize());
 		SwingUtilities.updateComponentTreeUI(this);
 	}
+	
 }
