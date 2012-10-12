@@ -288,6 +288,10 @@ public class GeneralConfig extends SpecificConfig {
 		return Boolean.parseBoolean(getProperty("simplify", "false"));
 	}
 
+	/**
+	 * Not used in the moment. (Number of Digits to assure)
+	 * @return
+	 */
 	public int getDigits2() {
 		return Integer.parseInt(getProperty("digits2", "6"));		
 	}

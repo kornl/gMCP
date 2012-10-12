@@ -12,6 +12,7 @@ import java.util.Vector;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
+import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -45,23 +46,46 @@ import com.jgoodies.forms.layout.FormLayout;
  */
 public class PowerDialogNew extends JDialog implements ActionListener {
 
-	JButton ok = new JButton("Ok");
-    CreateGraphGUI parent;
-    Vector<Node> nodes;
-    List<JTextField> jtl, jtlMu, jtlN, jtlSigma;
-    List<JTextField> jtlVar = new Vector<JTextField>();
-    JTextArea jta = new JTextArea();
-    SingleDataFramePanel dfp;
-    JTextField jtUserDefined = new JTextField();
-    DefaultListModel listModel;
-    JList listUserDefined;
-    JTabbedPane tPanel = new JTabbedPane();
-    
-    GridBagConstraints c = new GridBagConstraints();
-    
+	JButton addAnother = new JButton("Add another power function");
     List<JButton> buttons = new Vector<JButton>();
     List<JButton> buttons2 = new Vector<JButton>();
+    GridBagConstraints c = new GridBagConstraints();
+    JButton createCV = new JButton("Advanced Matrix Creation");
+    SingleDataFramePanel dfp;
+    JTextArea jta = new JTextArea();
+    List<JTextField> jtl, jtlMu, jtlN, jtlSigma;
+    List<JTextField> jtlVar = new Vector<JTextField>();
+    JTextField jtUserDefined = new JTextField();
+    DefaultListModel listModel;
+    
+    JList listUserDefined;
+    
+    JButton loadCV = new JButton("Load Matrix from R");
+    
+    boolean ncp = true;
+    Vector<Node> nodes;
 
+	private JComboBox numberOfSettings = new JComboBox(new String[] {"Single setting", "Multiple settings"});
+	
+	/*
+	  "Above you can specify the noncentrality parameter and covariance matrix of a multivariate\n" +
+				"normal distribution that is used for power calculations.\n" +
+				"\n" +
+	 */
+	
+	JButton ok = new JButton("Ok");
+	JPanel panel = new JPanel();
+	CreateGraphGUI parent;
+	PowerParameterPanel pPanelMeans, pPanelSigmas, pPanelN;
+	JPanel singleMuSigmaN = new JPanel();
+	
+	JPanel singleNCP = new JPanel();
+	
+	JButton switchNCP = new JButton("Enter µ, σ and n instead of ncp");
+	JTabbedPane tPanel = new JTabbedPane();
+
+	Object[] variables;
+	
 	/**
 	 * Constructor
 	 * @param parent Parent JFrame
@@ -83,7 +107,7 @@ public class PowerDialogNew extends JDialog implements ActionListener {
 		c.gridx=0; c.gridy=0;
 		c.gridwidth = 1; c.gridheight = 1;
 		c.ipadx=10; c.ipady=10;
-		c.weightx=1; c.weighty=1;
+		c.weightx=1; c.weighty=0;
 		
 		tPanel.addTab("Single NCP Setting", getSingleSettingPanel());
 		tPanel.addTab("Multiple NCP Settings", getMultiSettingPanel());
@@ -97,341 +121,19 @@ public class PowerDialogNew extends JDialog implements ActionListener {
 			tPanel.addTab("Variables", getVariablePanel(variables));
 		}
 		
+		c.weighty=1;
+		
 		getContentPane().add(tPanel);
+		
+		c.weighty=0;
+		c.anchor = GridBagConstraints.EAST;
+		getContentPane().add(ok);
 		
         pack();
         setLocationRelativeTo(parent);
         setVisible(true);
-	}
+	} 
 	
-	/*
-	  "Above you can specify the noncentrality parameter and covariance matrix of a multivariate\n" +
-				"normal distribution that is used for power calculations.\n" +
-				"\n" +
-	 */
-	
-	JButton switchNCP = new JButton("Enter µ, σ and n instead of ncp");
-	boolean ncp = true;
-	JPanel singleNCP = new JPanel();
-	JPanel singleMuSigmaN = new JPanel();
-	JPanel panel = new JPanel();
-	
-	public JPanel getSingleSettingPanel() {
-		JPanel mPanel = new JPanel();
-		
-        String cols = "5dlu, pref, 5dlu, fill:pref:grow, 5dlu";
-        String cols2 = "5dlu, pref, 5dlu, fill:pref:grow, 5dlu, fill:pref:grow, 5dlu, fill:pref:grow, 5dlu";
-        String rows = "5dlu, pref, 5dlu";
-        
-        for (Node n : nodes) {
-        	rows += ", pref, 5dlu";
-        }
-        
-        FormLayout layout = new FormLayout(cols, rows);
-        singleNCP.setLayout(layout);
-        
-        layout = new FormLayout(cols2, rows);
-        singleMuSigmaN.setLayout(layout);
-        
-        CellConstraints cc = new CellConstraints();
-
-        int row = 2;
-        
-        singleMuSigmaN.add(new JLabel("µ"), cc.xy(4, row));
-        
-        singleMuSigmaN.add(new JLabel("σ"), cc.xy(6, row));
-        
-        singleMuSigmaN.add(new JLabel("n"), cc.xy(8, row));
-        
-        jtl = new Vector<JTextField>();
-        jtlMu = new Vector<JTextField>();
-        jtlSigma = new Vector<JTextField>();
-        jtlN = new Vector<JTextField>();
-        
-        for (Node n : nodes) {        	
-        	JTextField jt = new JTextField("0");        	
-        	singleNCP.add(new JLabel("Noncentrality parameter for '"+n.getName()+"':"), cc.xy(2, row));
-        	singleNCP.add(jt, cc.xy(4, row));
-        	jtl.add(jt);
-
-        	row += 2;
-        	
-        	singleMuSigmaN.add(new JLabel("Parameters for '"+n.getName()+"':"), cc.xy(2, row));
-        	
-        	jt = new JTextField("0");        	
-        	singleMuSigmaN.add(jt, cc.xy(4, row));
-        	jtlMu.add(jt);
-            
-        	jt = new JTextField("1");
-            singleMuSigmaN.add(jt, cc.xy(6, row));
-            jtlSigma.add(jt);
-            
-            jt = new JTextField("10");
-            singleMuSigmaN.add(jt, cc.xy(8, row));
-            jtlN.add(jt);
-        }
-        
-        cols = "5dlu, fill:pref:grow, 5dlu, fill:pref:grow, 5dlu";
-        rows = "5dlu, pref, 5dlu, fill:pref:grow, 5dlu, pref, 5dlu";
-        
-        mPanel.setLayout(new FormLayout(cols, rows));
-        cc = new CellConstraints();
-		
-		row = 2;
-		
-		mPanel.add(new JLabel("Noncentrality parameter of multivariate normal distribution"), cc.xy(2, row));
-		
-		row +=2;
-		
-		panel.setLayout(new GridBagLayout());	
-		panel.add(singleNCP, c);
-		
-		mPanel.add(new JScrollPane(panel), cc.xy(2, row));
-        
-		row +=2;
-		
-		mPanel.add(switchNCP, cc.xy(2, row));
-		switchNCP.addActionListener(this);
-		
-		mPanel.add(ok, cc.xy(4, row));
-		ok.addActionListener(this);
-		
-		return mPanel;
-	}
-	
-	JButton createCV = new JButton("Advanced Matrix Creation");
-	JButton loadCV = new JButton("Load Matrix from R");
-
-	/**
-	 * Constructs and returns the panel for the covariance matrix.
-	 * @return the panel for the covariance matrix
-	 */
-	public JPanel getCVPanel() {
-		JPanel mPanel = new JPanel();
-		
-		RDataFrameRef df = new RDataFrameRef();
-		for (Node n: parent.getGraphView().getNL().getNodes()) {
-			df.addRowCol(n.getName());
-			df.setValue(df.getColumnCount()-1, df.getColumnCount()-1, new EdgeWeight(1));
-		}		
-		dfp = new SingleDataFramePanel(df);
-		dfp.getTable().getModel().diagEditable = true;
-		dfp.getTable().setDefaultEditor(EdgeWeight.class, new CellEditorE(null, dfp.getTable()));
-		dfp.getTable().getModel().setCheckRowSum(false);
-		
-        CellConstraints cc = new CellConstraints();
-
-        int row = 2;
-        
-        String cols = "5dlu, fill:pref:grow, 5dlu, fill:pref:grow, 5dlu";
-        String rows = "5dlu, pref, 5dlu, fill:pref:grow, 5dlu, pref, 5dlu";
-        
-        mPanel.setLayout(new FormLayout(cols, rows));
-        cc = new CellConstraints();
-		
-		mPanel.add(new JLabel("Covariance matrix"), cc.xyw(2, row, 3));
-		
-		row +=2;
-		
-		panel.setLayout(new GridBagLayout());	
-		panel.add(singleNCP, c);
-		
-		mPanel.add(new JScrollPane(dfp), cc.xyw(2, row, 3));
-		
-		row +=2;
-		
-		mPanel.add(loadCV, cc.xy(2, row));
-		loadCV.addActionListener(this);
-		
-		mPanel.add(createCV, cc.xy(4, row));
-		createCV.addActionListener(this);
-		
-		return mPanel;
-	}
-	
-	JButton ok2 = new JButton("Ok");
-	PowerParameterPanel pPanelMeans, pPanelSigmas, pPanelN; 
-	
-	public JPanel getMultiSettingPanel() {
-		JPanel mPanel = new JPanel();
-		
-		JTabbedPane parameters = new JTabbedPane();
-		
-		pPanelMeans = new PowerParameterPanel("mean", 0d, nodes, parent);
-		pPanelSigmas = new PowerParameterPanel("sd", 1d, nodes, parent);
-		pPanelN = new PowerParameterPanel("sample size", 10d, nodes, parent);
-		parameters.addTab("Mean µ", pPanelMeans);
-		parameters.addTab("Standard deviation σ", pPanelSigmas);
-		parameters.addTab("Sample size n", pPanelN);
-		
-		String cols = "5dlu, fill:pref:grow, 5dlu, fill:pref:grow, 5dlu";
-		String rows = "5dlu, fill:pref:grow, 5dlu, pref, 5dlu";
-        
-        mPanel.setLayout(new FormLayout(cols, rows));
-        CellConstraints cc = new CellConstraints();
-		
-		int row = 2;
-		
-		mPanel.add(parameters, cc.xy(2, row));
-        
-		//mPanel.add(new JScrollPane(dfp), cc.xy(4, row));
-		
-		row +=2;
-		
-		mPanel.add(ok2, cc.xy(4, row));
-		ok2.addActionListener(this);		
-		
-		return mPanel;
-	}
-
-	JButton addAnother = new JButton("Add another power function");
-	
-	public JPanel getUserDefinedFunctions() {
-		JPanel mPanel = new JPanel();
-		
-		JButton b = new JButton("(");
-		b.setActionCommand("(");
-		buttons.add(b);
-
-		b = new JButton(")");
-		b.setActionCommand(")");
-		buttons.add(b);
-		
-		b = new JButton("AND");
-		b.setActionCommand("&&");
-		buttons.add(b);
-		
-		b = new JButton("OR");
-		b.setActionCommand("||");
-		buttons.add(b);
-		
-		b = new JButton("NOT");
-		b.setActionCommand("!");		
-		buttons.add(b);		
-		
-		for (int i=0; i<nodes.size(); i++) {
-			b = new JButton(nodes.get(i).getName());
-			b.setActionCommand("x["+(i+1)+"]");			
-			buttons2.add(b);
-		}
-		
-		JPanel hypPanel = new JPanel();
-		for (JButton button : buttons2) {
-			button.addActionListener(this);
-			hypPanel.add(button);
-		}
-		
-		JPanel opPanel = new JPanel();
-		for (JButton button : buttons) {
-			button.addActionListener(this);
-			opPanel.add(button);
-		}
-		
-		jta.setMargin(new Insets(4,4,4,4));
-		jta.setText(
-				"In the text field above you can enter an user defined power function.\n" +
-				"Use the R syntax and \"x[i]\" to specify the proposition that hypothesis i\n"+
-				"could be rejected. Alternatively use the buttons below.\n" +
-				"Example:  (x[1] && x[2]) || x[4]\n" +
-				"This calculates the probability that the first and second\n" +
-				"or (not exclusive) the fourth null hypothesis can be rejected.\n"+
-				/*"- if the test statistic follows a t-distribution, enter the non-centrality parameter µ*sqrt(n)/σ\n"+
-				"  (µ=difference of real mean and mean under null hypothesis, n=sample size, σ=standard deviation)\n"+
-				"- triangle(min, peak, max)\n"+
-				"- rnorm(1, mean=0.5, sd=1)\n"+*/
-				"Note that you can use all R commands, for example also\n"+
-				"any(x) to see whether any hypotheses was rejected or\n" +
-				"all(x[1:4]) to see whether all of the first four hypotheses were rejected.\n"+
-				"Hit return to add another user defined power functions.");
-		
-
-        String cols = "5dlu, fill:pref:grow, 5dlu, fill:pref:grow, 5dlu";
-        String rows = "5dlu, pref, 5dlu, fill:pref:grow, 5dlu, pref, 5dlu, pref, 5dlu";
-        
-        mPanel.setLayout(new FormLayout(cols, rows));
-        CellConstraints cc = new CellConstraints();
-		
-		int row = 2;
-		
-		jtUserDefined.addActionListener(this);
-		mPanel.add(jtUserDefined, cc.xy(2, row));
-		
-		addAnother.addActionListener(this);
-		mPanel.add(addAnother, cc.xy(4, row));
-		
-		row +=2;
-		
-		listModel = new DefaultListModel();
-		listUserDefined = new JList(listModel);
-		
-		mPanel.add(new JScrollPane(jta), cc.xy(2, row));
-	
-		mPanel.add(new JScrollPane(listUserDefined), cc.xy(4, row));
-	
-		row +=2;		
-				
-		mPanel.add(new JScrollPane(hypPanel), cc.xyw(2, row, 3));
-
-		row +=2;
-		
-		mPanel.add(new JScrollPane(opPanel), cc.xyw(2, row, 3));
-
-		row +=2;
-		
-		return mPanel;
-	}
-	
-	Object[] variables;
-	
-	public JPanel getVariablePanel(Set<String> v) {
-		JPanel vPanel = new JPanel();		
-		variables = v.toArray();
-		
-        String cols = "5dlu, pref, 5dlu, fill:pref:grow, 5dlu";
-        String rows = "5dlu, pref, 5dlu";
-        
-        for (Object s : variables) {
-        	rows += ", pref, 5dlu";
-        }
-        
-        FormLayout layout = new FormLayout(cols, rows);
-        vPanel.setLayout(layout);
-        CellConstraints cc = new CellConstraints();
-
-        int row = 2;
-        
-        jtlVar = new Vector<JTextField>();
-        
-        for (Object s : variables) {        	
-        	JTextField jt = new JTextField("0");
-        	if (s.equals("ε")) {
-        		jt.setText(""+Configuration.getInstance().getGeneralConfig().getEpsilon());
-        	} else {
-        		jt.setText(""+Configuration.getInstance().getGeneralConfig().getVariable(s.toString()));
-        	}
-        	vPanel.add(new JLabel("Value for '"+s+"':"), cc.xy(2, row));
-        	vPanel.add(jt, cc.xy(4, row));
-        	jtlVar.add(jt);        	
-        	
-        	row += 2;
-        }
-        
-        return vPanel;
-	}
-	
-	public String getVariables() {
-		if (jtlVar.size()>0) {
-			String s = ", variables=list("; 
-			for (int i=0; i<variables.length; i++) {
-				s = s + EdgeWeight.UTF2LaTeX(variables[i].toString().charAt(0))+" = "+ jtlVar.get(i).getText();
-				if (i!=variables.length-1) s = s + ", ";
-			}		
-			return s+")";
-		} else {
-			return "";
-		}
-	}
-
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == createCV) {			
 			MatrixCreationDialog mcd = new MatrixCreationDialog(parent, dfp.getTable().getRMatrix(), MatrixCreationDialog.getNames(parent.getGraphView().getNL().getNodes()));
@@ -546,13 +248,167 @@ public class PowerDialogNew extends JDialog implements ActionListener {
 		dispose();
 	}
 
+	/**
+	 * Constructs and returns the panel for the covariance matrix.
+	 * @return the panel for the covariance matrix
+	 */
+	public JPanel getCVPanel() {
+		JPanel mPanel = new JPanel();
+		
+		RDataFrameRef df = new RDataFrameRef();
+		for (Node n: parent.getGraphView().getNL().getNodes()) {
+			df.addRowCol(n.getName());
+			df.setValue(df.getColumnCount()-1, df.getColumnCount()-1, new EdgeWeight(1));
+		}		
+		dfp = new SingleDataFramePanel(df);
+		dfp.getTable().getModel().diagEditable = true;
+		dfp.getTable().setDefaultEditor(EdgeWeight.class, new CellEditorE(null, dfp.getTable()));
+		dfp.getTable().getModel().setCheckRowSum(false);
+		
+        CellConstraints cc = new CellConstraints();
+
+        int row = 2;
+        
+        String cols = "5dlu, fill:pref:grow, 5dlu, fill:pref:grow, 5dlu";
+        String rows = "5dlu, pref, 5dlu, fill:pref:grow, 5dlu, pref, 5dlu";
+        
+        mPanel.setLayout(new FormLayout(cols, rows));
+        cc = new CellConstraints();
+		
+		mPanel.add(new JLabel("Covariance matrix"), cc.xyw(2, row, 3));
+		
+		row +=2;
+		
+		panel.setLayout(new GridBagLayout());	
+		panel.add(singleNCP, c);
+		
+		mPanel.add(new JScrollPane(dfp), cc.xyw(2, row, 3));
+		
+		row +=2;
+		
+		mPanel.add(loadCV, cc.xy(2, row));
+		loadCV.addActionListener(this);
+		
+		mPanel.add(createCV, cc.xy(4, row));
+		createCV.addActionListener(this);
+		
+		return mPanel;
+	}
+	
 	private String getMatrixForParametricTest() {
 		if (parent.getPView().jrbRCorrelation.isSelected()) {
 			return ", cr="+parent.getPView().jcbCorObject.getSelectedItem();
 		}
 		return "";
 	}
+	
+	public JPanel getMultiSettingPanel() {
+		JPanel mPanel = new JPanel();
+		
+		JTabbedPane parameters = new JTabbedPane();
+		
+		pPanelMeans = new PowerParameterPanel("mean", 0d, nodes, parent);
+		pPanelSigmas = new PowerParameterPanel("sd", 1d, nodes, parent);
+		pPanelN = new PowerParameterPanel("sample size", 10d, nodes, parent);
+		parameters.addTab("Mean µ", pPanelMeans);
+		parameters.addTab("Standard deviation σ", pPanelSigmas);
+		parameters.addTab("Sample size n", pPanelN);
+		
+		String cols = "5dlu, fill:pref:grow, 5dlu, fill:pref:grow, 5dlu";
+		String rows = "5dlu, fill:pref:grow, 5dlu, pref, 5dlu";
+        
+        mPanel.setLayout(new FormLayout(cols, rows));
+        CellConstraints cc = new CellConstraints();
+		
+		int row = 2;
+		
+		mPanel.add(parameters, cc.xy(2, row));
+        
+		//mPanel.add(new JScrollPane(dfp), cc.xy(4, row));
+		
+		return mPanel;
+	}
+	
+	public JPanel getSingleSettingPanel() {
+		JPanel mPanel = new JPanel();
+		
+        String cols = "5dlu, pref, 5dlu, fill:pref:grow, 5dlu";
+        String cols2 = "5dlu, pref, 5dlu, fill:pref:grow, 5dlu, fill:pref:grow, 5dlu, fill:pref:grow, 5dlu";
+        String rows = "5dlu, pref, 5dlu";
+        
+        for (Node n : nodes) {
+        	rows += ", pref, 5dlu";
+        }
+        
+        FormLayout layout = new FormLayout(cols, rows);
+        singleNCP.setLayout(layout);
+        
+        layout = new FormLayout(cols2, rows);
+        singleMuSigmaN.setLayout(layout);
+        
+        CellConstraints cc = new CellConstraints();
 
+        int row = 2;
+        
+        singleMuSigmaN.add(new JLabel("µ"), cc.xy(4, row));
+        
+        singleMuSigmaN.add(new JLabel("σ"), cc.xy(6, row));
+        
+        singleMuSigmaN.add(new JLabel("n"), cc.xy(8, row));
+        
+        jtl = new Vector<JTextField>();
+        jtlMu = new Vector<JTextField>();
+        jtlSigma = new Vector<JTextField>();
+        jtlN = new Vector<JTextField>();
+        
+        for (Node n : nodes) {        	
+        	JTextField jt = new JTextField("0");        	
+        	singleNCP.add(new JLabel("Noncentrality parameter for '"+n.getName()+"':"), cc.xy(2, row));
+        	singleNCP.add(jt, cc.xy(4, row));
+        	jtl.add(jt);
+
+        	row += 2;
+        	
+        	singleMuSigmaN.add(new JLabel("Parameters for '"+n.getName()+"':"), cc.xy(2, row));
+        	
+        	jt = new JTextField("0");        	
+        	singleMuSigmaN.add(jt, cc.xy(4, row));
+        	jtlMu.add(jt);
+            
+        	jt = new JTextField("1");
+            singleMuSigmaN.add(jt, cc.xy(6, row));
+            jtlSigma.add(jt);
+            
+            jt = new JTextField("10");
+            singleMuSigmaN.add(jt, cc.xy(8, row));
+            jtlN.add(jt);
+        }
+        
+        cols = "5dlu, fill:pref:grow, 5dlu, fill:pref:grow, 5dlu";
+        rows = "5dlu, pref, 5dlu, fill:pref:grow, 5dlu, pref, 5dlu";
+        
+        mPanel.setLayout(new FormLayout(cols, rows));
+        cc = new CellConstraints();
+		
+		row = 2;
+		
+		mPanel.add(new JLabel("Noncentrality parameter of multivariate normal distribution"), cc.xy(2, row));
+		
+		row +=2;
+		
+		panel.setLayout(new GridBagLayout());	
+		panel.add(singleNCP, c);
+		
+		mPanel.add(new JScrollPane(panel), cc.xy(2, row));
+        
+		row +=2;
+		
+		mPanel.add(switchNCP, cc.xy(2, row));
+		switchNCP.addActionListener(this);
+		
+		return mPanel;
+	}
+	
 	/**
 	 * Constructs String that contains the parameter f for user defined
 	 * functions used by calcPower and extractPower
@@ -568,5 +424,149 @@ public class PowerDialogNew extends JDialog implements ActionListener {
 			if (i!=listModel.getSize()-1) s+= ",";
 		}		
 		return s + ")";
+	}
+
+	public JPanel getUserDefinedFunctions() {
+		JPanel mPanel = new JPanel();
+		
+		JButton b = new JButton("(");
+		b.setActionCommand("(");
+		buttons.add(b);
+
+		b = new JButton(")");
+		b.setActionCommand(")");
+		buttons.add(b);
+		
+		b = new JButton("AND");
+		b.setActionCommand("&&");
+		buttons.add(b);
+		
+		b = new JButton("OR");
+		b.setActionCommand("||");
+		buttons.add(b);
+		
+		b = new JButton("NOT");
+		b.setActionCommand("!");		
+		buttons.add(b);		
+		
+		for (int i=0; i<nodes.size(); i++) {
+			b = new JButton(nodes.get(i).getName());
+			b.setActionCommand("x["+(i+1)+"]");			
+			buttons2.add(b);
+		}
+		
+		JPanel hypPanel = new JPanel();
+		for (JButton button : buttons2) {
+			button.addActionListener(this);
+			hypPanel.add(button);
+		}
+		
+		JPanel opPanel = new JPanel();
+		for (JButton button : buttons) {
+			button.addActionListener(this);
+			opPanel.add(button);
+		}
+		
+		jta.setMargin(new Insets(4,4,4,4));
+		jta.setText(
+				"In the text field above you can enter an user defined power function.\n" +
+				"Use the R syntax and \"x[i]\" to specify the proposition that hypothesis i\n"+
+				"could be rejected. Alternatively use the buttons below.\n" +
+				"Example:  (x[1] && x[2]) || x[4]\n" +
+				"This calculates the probability that the first and second\n" +
+				"or (not exclusive) the fourth null hypothesis can be rejected.\n"+
+				/*"- if the test statistic follows a t-distribution, enter the non-centrality parameter µ*sqrt(n)/σ\n"+
+				"  (µ=difference of real mean and mean under null hypothesis, n=sample size, σ=standard deviation)\n"+
+				"- triangle(min, peak, max)\n"+
+				"- rnorm(1, mean=0.5, sd=1)\n"+*/
+				"Note that you can use all R commands, for example also\n"+
+				"any(x) to see whether any hypotheses was rejected or\n" +
+				"all(x[1:4]) to see whether all of the first four hypotheses were rejected.\n"+
+				"Hit return to add another user defined power functions.");
+		
+
+        String cols = "5dlu, fill:pref:grow, 5dlu, fill:pref:grow, 5dlu";
+        String rows = "5dlu, pref, 5dlu, fill:pref:grow, 5dlu, pref, 5dlu, pref, 5dlu";
+        
+        mPanel.setLayout(new FormLayout(cols, rows));
+        CellConstraints cc = new CellConstraints();
+		
+		int row = 2;
+		
+		jtUserDefined.addActionListener(this);
+		mPanel.add(jtUserDefined, cc.xy(2, row));
+		
+		addAnother.addActionListener(this);
+		mPanel.add(addAnother, cc.xy(4, row));
+		
+		row +=2;
+		
+		listModel = new DefaultListModel();
+		listUserDefined = new JList(listModel);
+		
+		mPanel.add(new JScrollPane(jta), cc.xy(2, row));
+	
+		mPanel.add(new JScrollPane(listUserDefined), cc.xy(4, row));
+	
+		row +=2;		
+				
+		mPanel.add(new JScrollPane(hypPanel), cc.xyw(2, row, 3));
+
+		row +=2;
+		
+		mPanel.add(new JScrollPane(opPanel), cc.xyw(2, row, 3));
+
+		row +=2;
+		
+		return mPanel;
+	}
+
+	public JPanel getVariablePanel(Set<String> v) {
+		JPanel vPanel = new JPanel();		
+		variables = v.toArray();
+		
+        String cols = "5dlu, pref, 5dlu, fill:pref:grow, 5dlu";
+        String rows = "5dlu, pref, 5dlu";
+        
+        for (Object s : variables) {
+        	rows += ", pref, 5dlu";
+        }
+        
+        FormLayout layout = new FormLayout(cols, rows);
+        vPanel.setLayout(layout);
+        CellConstraints cc = new CellConstraints();
+
+        int row = 2;
+        
+        jtlVar = new Vector<JTextField>();
+        
+        for (Object s : variables) {        	
+        	JTextField jt = new JTextField("0");
+        	if (s.equals("ε")) {
+        		jt.setText(""+Configuration.getInstance().getGeneralConfig().getEpsilon());
+        	} else {
+        		jt.setText(""+Configuration.getInstance().getGeneralConfig().getVariable(s.toString()));
+        	}
+        	vPanel.add(new JLabel("Value for '"+s+"':"), cc.xy(2, row));
+        	vPanel.add(jt, cc.xy(4, row));
+        	jtlVar.add(jt);        	
+        	
+        	row += 2;
+        }
+        
+        return vPanel;
+	}
+
+	public String getVariables() {
+		if (jtlVar.size()>0) {
+			String s = ", variables=list("; 
+			for (int i=0; i<variables.length; i++) {
+				s = s + EdgeWeight.UTF2LaTeX(variables[i].toString().charAt(0))+" = "+ jtlVar.get(i).getText();
+				if (i!=variables.length-1) s = s + ", ";
+			}		
+			return s+")";
+		} else {
+			return "";
+		}
 	}	
 }
