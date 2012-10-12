@@ -12,10 +12,8 @@ import java.util.List;
 import java.util.Vector;
 
 import org.af.commons.io.pdf.PDFHelper;
-import org.af.commons.io.pdf.PageNumbers;
 import org.af.gMCP.config.Configuration;
 import org.af.gMCP.gui.RControl;
-import org.af.gMCP.gui.datatable.RDataFrameRef;
 import org.af.gMCP.gui.graph.GraphView;
 import org.af.jhlir.call.RDataFrame;
 import org.af.jhlir.call.RObj;

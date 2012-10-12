@@ -1,7 +1,6 @@
 package tests;
 
 import org.af.gMCP.gui.CreateGraphGUI;
-import org.af.gMCP.gui.MenuBarMGraph;
 import org.af.gMCP.gui.RControl;
 import org.af.gMCP.gui.graph.NetList;
 import org.junit.After;

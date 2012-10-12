@@ -1,11 +1,8 @@
 package tests;
 
-import javax.swing.JLabel;
-
 import org.af.gMCP.gui.CreateGraphGUI;
 import org.af.gMCP.gui.RControl;
 import org.af.gMCP.gui.graph.GraphMCP;
-import org.af.gMCP.gui.graph.GraphView;
 import org.af.gMCP.gui.graph.NetList;
 import org.junit.After;
 import org.junit.Before;
