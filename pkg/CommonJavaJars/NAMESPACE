@@ -1,2 +1,4 @@
+importFrom(rJava, .jpackage)
+
 export(showGuideForJavaGUIs)
 export(loadJars)

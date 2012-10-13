@@ -54,3 +54,7 @@
 	
 	# packageStartupMessage or cat for furter information (package incompatibilities / updates)
 }  
+
+.onUnload <- function(libpath) {
+	# TODO Unload jars?
+}
