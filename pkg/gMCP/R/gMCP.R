@@ -12,7 +12,7 @@ gMCP <- function(graph, pvalues, test, correlation, alpha=0.05,
 	output <- ""
 	callFromGUI <- !is.null(list(...)[["callFromGUI"]])
 	if (verbose) {
-		output <- paste(output, checkOptimal(graph), sep="\n")
+		output <- paste(output, checkOptimal(graph, verbose=FALSE), sep="\n")
 	}
 	if (approxEps && !is.numeric(graph@m)) {
 		graph <- substituteEps(graph, eps=eps)
