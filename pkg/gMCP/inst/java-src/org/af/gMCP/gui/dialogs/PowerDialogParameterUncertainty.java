@@ -195,6 +195,8 @@ public class PowerDialogParameterUncertainty extends JDialog implements ActionLi
 		}
 		if (e.getSource() == secondCV) {
 			dfp2.setEnabled(secondCV.isSelected());
+			loadCV2.setEnabled(secondCV.isSelected());
+			createCV2.setEnabled(secondCV.isSelected());
 			return;
 		}
 		if (e.getSource() == createCV) {			
@@ -202,19 +204,17 @@ public class PowerDialogParameterUncertainty extends JDialog implements ActionLi
 			dfp.getTable().getModel().copy(mcd.dfp.getTable().getModel()); 
 			return;
 		}
+		if (e.getSource() == createCV2) {			
+			MatrixCreationDialog mcd = new MatrixCreationDialog(parent, dfp2.getTable().getRMatrix(), MatrixCreationDialog.getNames(parent.getGraphView().getNL().getNodes()));
+			dfp2.getTable().getModel().copy(mcd.dfp.getTable().getModel()); 
+			return;
+		}		
 		if (e.getSource() == loadCV) {
-			VariableNameDialog vnd = new VariableNameDialog(parent);
-			try {
-				double[] result = RControl.getR().eval("as.numeric("+vnd.getName()+")").asRNumeric().getData();
-				int n = nodes.size();
-				for (int i=0; i<n; i++) {
-					for (int j=0; j<n; j++) {
-						dfp.getTable().getModel().setValueAt(new EdgeWeight(result[i*n+j]), i, j);
-					}
-				}
-			} catch (Exception exc) {
-				JOptionPane.showMessageDialog(this, "Could not load matrix \""+vnd.getName()+"\":\n"+exc.getMessage(), "Could not load matrix", JOptionPane.ERROR_MESSAGE);
-			}
+			load(dfp);
+			return;
+		}
+		if (e.getSource() == loadCV2) {
+			load(dfp2);
 			return;
 		}
 		if (switchNCP == e.getSource()) {
@@ -315,6 +315,21 @@ public class PowerDialogParameterUncertainty extends JDialog implements ActionLi
 		dispose();
 	}
 
+	private void load(SingleDataFramePanel dfp) {
+		VariableNameDialog vnd = new VariableNameDialog(parent);
+		try {
+			double[] result = RControl.getR().eval("as.numeric("+vnd.getName()+")").asRNumeric().getData();
+			int n = nodes.size();
+			for (int i=0; i<n; i++) {
+				for (int j=0; j<n; j++) {
+					dfp.getTable().getModel().setValueAt(new EdgeWeight(result[i*n+j]), i, j);
+				}
+			}
+		} catch (Exception exc) {
+			JOptionPane.showMessageDialog(this, "Could not load matrix \""+vnd.getName()+"\":\n"+exc.getMessage(), "Could not load matrix", JOptionPane.ERROR_MESSAGE);
+		}
+	}
+
 	/**
 	 * Constructs and returns the panel for the covariance matrix.
 	 * @return the panel for the covariance matrix
@@ -364,9 +379,11 @@ public class PowerDialogParameterUncertainty extends JDialog implements ActionLi
 
 			mPanel.add(loadCV2, cc.xy(2, row));
 			loadCV2.addActionListener(this);
+			loadCV2.setEnabled(false);
 
 			mPanel.add(createCV2, cc.xy(4, row));
 			createCV2.addActionListener(this);
+			createCV2.setEnabled(false);
 
 		}
 		return mPanel;
@@ -599,7 +616,7 @@ public class PowerDialogParameterUncertainty extends JDialog implements ActionLi
 				"Note that you can use all R commands, for example also\n"+
 				"any(x) to see whether any hypotheses was rejected or\n" +
 				"all(x[1:4]) to see whether all of the first four hypotheses were rejected.\n"+
-				"Hit return to add another user defined power functions.");
+				"Hit return to add another power function.");
 		
 
         String cols = "5dlu, fill:pref:grow, 5dlu, fill:pref:grow, 5dlu, fill:pref:grow, 5dlu";
