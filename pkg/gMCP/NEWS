@@ -1,4 +1,18 @@
-Changes in version 0.8-0 (??-09-2012, Rev. 15??)
+Changes in version 0.8-1 (??-??-2012, Rev. 15??)
+================================================
+
+Planed for this release are:
+
+- Support for sub-families of hypotheses.
+
+- Annotation features.
+
+- Improved logging and bug reporting (showing less but more relevant information).
+  
+- Improved documentation and user guidance.
+
+
+Changes in version 0.8-0 (14-10-2012, Rev. 1536)
 ================================================
 
 - Fixed: If edges or nodes were changed with a double click,
@@ -25,15 +39,8 @@ Changes in version 0.8-0 (??-09-2012, Rev. 15??)
 
 - Tooltips in options dialog.
 
-Planed for this release are:
+- Improved power dialog.
 
-- Support for sub-families of hypotheses.
-
-- Annotation features.
-
-- Improved logging and bug reporting (showing less but more relevant information).
-  
-- Improved documentation and user guidance.
 
 Changes in version 0.7-12 (02-08-2012, Rev. 1420)
 ================================================
