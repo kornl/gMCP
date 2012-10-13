@@ -62,6 +62,7 @@ public class PowerDialogParameterUncertainty extends JDialog implements ActionLi
     JButton createCV = new JButton("Advanced Matrix Creation");
     JButton loadCV2 = new JButton("Load Matrix from R");
     JButton createCV2 = new JButton("Advanced Matrix Creation");
+    JButton clearList = new JButton("Clear");
     
     boolean ncp = true;
     Vector<Node> nodes;
@@ -180,6 +181,10 @@ public class PowerDialogParameterUncertainty extends JDialog implements ActionLi
 	} 
 	
 	public void actionPerformed(ActionEvent e) {
+		if (e.getSource() == clearList) {
+			listModel.removeAllElements();
+			return;
+		}
 		if (e.getSource() == numberOfSettings) {
 			panel2.removeAll();
 			GridBagConstraints c = getDefaultGridBagConstraints();
@@ -392,7 +397,7 @@ public class PowerDialogParameterUncertainty extends JDialog implements ActionLi
 	private String getMatrixForParametricTest() {
 		if (parent.getPView().jrbRCorrelation.isSelected()) {			
 			SingleDataFramePanel df = secondCV.isSelected()?dfp2:dfp;			
-			return ", cr="+df.getTable().getModel().getDataFrame().getRMatrix();
+			return ", cr="+df.getTable().getModel().getDataFrame().getRMatrix()+", test=\""+Configuration.getInstance().getGeneralConfig().getParametricTest()+"\"";
 		}
 		return "";
 	}
@@ -619,7 +624,7 @@ public class PowerDialogParameterUncertainty extends JDialog implements ActionLi
 				"Hit return to add another power function.");
 		
 
-        String cols = "5dlu, fill:pref:grow, 5dlu, fill:pref:grow, 5dlu, fill:pref:grow, 5dlu";
+        String cols = "5dlu, fill:pref:grow, 5dlu, fill:pref:grow, 5dlu";
         String rows = "5dlu, pref, 5dlu, fill:pref:grow, 5dlu, pref, 5dlu, pref, 5dlu, pref, 5dlu";
         
         mPanel.setLayout(new FormLayout(cols, rows));
@@ -631,7 +636,10 @@ public class PowerDialogParameterUncertainty extends JDialog implements ActionLi
 		mPanel.add(jtUserDefined, cc.xy(2, row));
 		
 		addAnother.addActionListener(this);
-		mPanel.add(addAnother, cc.xyw(4, row, 3));
+		mPanel.add(addAnother, cc.xy(4, row));
+		
+		/*clearList.addActionListener(this);
+		mPanel.add(addAnother, cc.xy(4, row));*/		
 		
 		row +=2;
 		
@@ -640,20 +648,21 @@ public class PowerDialogParameterUncertainty extends JDialog implements ActionLi
 		
 		mPanel.add(new JScrollPane(jta), cc.xywh(2, row, 1, 3));
 	
-		mPanel.add(new JScrollPane(listUserDefined), cc.xyw(4, row, 3));
+		mPanel.add(new JScrollPane(listUserDefined), cc.xy(4, row));
 	
 		row +=2;
 		
-		mPanel.add(loadUDPF, cc.xy(4, row));		
-		mPanel.add(saveUDPF, cc.xy(6, row));
+		clearList.addActionListener(this);
+		mPanel.add(clearList, cc.xy(4, row));		
+		//mPanel.add(saveUDPF, cc.xy(6, row));
 		
 		row +=2;		
 				
-		mPanel.add(new JScrollPane(hypPanel), cc.xyw(2, row, 5));
+		mPanel.add(new JScrollPane(hypPanel), cc.xyw(2, row, 3));
 
 		row +=2;
 		
-		mPanel.add(new JScrollPane(opPanel), cc.xyw(2, row, 5));
+		mPanel.add(new JScrollPane(opPanel), cc.xyw(2, row, 3));
 		
 		
 

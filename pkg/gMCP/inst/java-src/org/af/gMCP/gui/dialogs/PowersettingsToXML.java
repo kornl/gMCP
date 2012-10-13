@@ -16,9 +16,9 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
-public class PowerfunctionsToXML {
+public class PowersettingsToXML {
 	
-	private static final Log logger = LogFactory.getLog(PowerfunctionsToXML.class);
+	private static final Log logger = LogFactory.getLog(PowersettingsToXML.class);
 	
 	public static void loadConfigFromXML (File file, CreateGraphGUI gui) {
 		Document document;
