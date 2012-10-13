@@ -83,7 +83,8 @@ We provide the following Java libraries:
  \item JRIEngine and REngine under LGPL-2.1, \url{http://www.rforge.net/rJava/},
  Copyright 2010 by Simon Urbanek. Please use these two jar files only if
  package rJava does not provide them.
- \item InfoNode Docking Windows under GPL-2, \url{http://www.infonode.net/index.html?idw}, Copyright 1998-2009 NNL Technology 	 
+% \item InfoNode Docking Windows under GPL-2,
+ % \url{http://www.infonode.net/index.html?idw}, Copyright 1998-2009 NNL Technology
 \end{itemize}
 
 Please note that we only recommend to use JRIEngine and REngine from this
