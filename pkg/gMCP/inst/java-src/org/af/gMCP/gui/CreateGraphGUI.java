@@ -107,11 +107,12 @@ public class CreateGraphGUI extends JFrame implements WindowListener, AbortListe
 	    // Place the frame in the middle of the screen with a border of inset = 50 pixel.
 		int inset = 50;
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-		setBounds(inset, inset,
-				screenSize.width  - inset*2,
-				screenSize.height - inset*2);
-
+		//System.out.println("Screen width:" + screenSize.width + " Height: " +screenSize.height);
+		setBounds(inset, inset,	screenSize.width  - inset*2, screenSize.height - inset*2);
+		//getContentPane().setPreferredSize(Toolkit.getDefaultToolkit().getScreenSize());
+		setExtendedState(getExtendedState()|JFrame.MAXIMIZED_BOTH);
 		setVisible(true);
+		
 		splitPane1.setDividerLocation(0.75);
 		splitPane2.setDividerLocation(0.5);
 		splitPane1.setResizeWeight(0.75);
