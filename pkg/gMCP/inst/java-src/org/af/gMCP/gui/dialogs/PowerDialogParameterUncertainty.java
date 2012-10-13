@@ -1,5 +1,6 @@
 package org.af.gMCP.gui.dialogs;
 
+import java.awt.Component;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -11,6 +12,7 @@ import java.util.Vector;
 
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
@@ -22,6 +24,8 @@ import javax.swing.JTabbedPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
+import org.af.commons.widgets.buttons.HorizontalButtonPane;
+import org.af.commons.widgets.buttons.OkCancelButtonPane;
 import org.af.gMCP.config.Configuration;
 import org.af.gMCP.gui.CreateGraphGUI;
 import org.af.gMCP.gui.RControl;
@@ -41,6 +45,7 @@ public class PowerDialogParameterUncertainty extends JDialog implements ActionLi
     List<JButton> buttons2 = new Vector<JButton>();    
     JButton createCV = new JButton("Advanced Matrix Creation");
     SingleDataFramePanel dfp;
+    SingleDataFramePanel dfp2;
     JTextArea jta = new JTextArea();
     List<JTextField> jtl, jtlMu, jtlN, jtlSigma;
     List<JTextField> jtlVar = new Vector<JTextField>();
@@ -48,6 +53,7 @@ public class PowerDialogParameterUncertainty extends JDialog implements ActionLi
     DefaultListModel listModel;
     
     JList listUserDefined;
+    JCheckBox secondCV = new JCheckBox("Use another matrix for the parametric test (misspecified or contains NA values)");
     
     JButton loadCV = new JButton("Load Matrix from R");
     
@@ -60,10 +66,7 @@ public class PowerDialogParameterUncertainty extends JDialog implements ActionLi
 	  "Above you can specify the noncentrality parameter and covariance matrix of a multivariate\n" +
 				"normal distribution that is used for power calculations.\n" +
 				"\n" +
-	 */
-	
-	JButton ok = new JButton("Ok");
-	
+	 */	
 	
 	CreateGraphGUI parent;
 	PowerParameterPanel pPanelMeans, pPanelSigmas, pPanelN;
@@ -104,9 +107,40 @@ public class PowerDialogParameterUncertainty extends JDialog implements ActionLi
 		this.parent = parent;
 		nodes = parent.getGraphView().getNL().getNodes();
 		
-		if (parent.getPView().jrbRCorrelation.isSelected()) {
-			//TODO Set df to this object:
-			parent.getPView().jcbCorObject.getSelectedItem();
+		RDataFrameRef df = new RDataFrameRef();
+		RDataFrameRef df2 = new RDataFrameRef();
+		for (Node n: nodes) {
+			df.addRowCol(n.getName());
+			df2.addRowCol(n.getName());
+			df.setValue(df.getColumnCount()-1, df.getColumnCount()-1, new EdgeWeight(1));
+			df2.setValue(df2.getColumnCount()-1, df2.getColumnCount()-1, new EdgeWeight(1));
+		}		
+
+		dfp = new SingleDataFramePanel(df);
+		dfp.getTable().getModel().diagEditable = true;
+		dfp.getTable().setDefaultEditor(EdgeWeight.class, new CellEditorE(null, dfp.getTable()));
+		dfp.getTable().getModel().setCheckRowSum(false);
+		
+		dfp2 = new SingleDataFramePanel(df);
+		dfp2.getTable().getModel().diagEditable = true;
+		dfp2.getTable().setDefaultEditor(EdgeWeight.class, new CellEditorE(null, dfp.getTable()));
+		dfp2.getTable().getModel().setCheckRowSum(false);
+		dfp2.setEnabled(false);		
+		
+		if (parent.getPView().jrbRCorrelation.isSelected()) {			
+			String name = parent.getPView().jcbCorObject.getSelectedItem().toString();
+			try {
+				double[] result = RControl.getR().eval("as.numeric("+name+")").asRNumeric().getData();
+				int n = nodes.size();
+				for (int i=0; i<n; i++) {
+					for (int j=0; j<n; j++) {
+						dfp.getTable().getModel().setValueAt(new EdgeWeight(result[i*n+j]), i, j);
+						dfp2.getTable().getModel().setValueAt(new EdgeWeight(result[i*n+j]), i, j);
+					}
+				}
+			} catch (Exception exc) {
+				JOptionPane.showMessageDialog(this, "Could not load matrix \""+name+"\":\n"+exc.getMessage(), "Could not load matrix", JOptionPane.ERROR_MESSAGE);
+			}
 		}
 		parent.getPView().getParameters();
 		GridBagConstraints c = getDefaultGridBagConstraints();
@@ -130,7 +164,9 @@ public class PowerDialogParameterUncertainty extends JDialog implements ActionLi
 		
 		c.weighty=0; c.gridy++; c.weightx=0; c.fill=GridBagConstraints.NONE;
 		c.anchor = GridBagConstraints.EAST;
-		getContentPane().add(ok, c);
+		HorizontalButtonPane bp = new OkCancelButtonPane();
+		getContentPane().add(bp, c);
+		bp.addActionListener(this);		
 		
         pack();
         setLocationRelativeTo(parent);
@@ -148,6 +184,10 @@ public class PowerDialogParameterUncertainty extends JDialog implements ActionLi
 			}			
 			panel2.revalidate();
 			panel2.repaint();
+			return;
+		}
+		if (e.getSource() == secondCV) {
+			dfp2.setEnabled(secondCV.isSelected());
 			return;
 		}
 		if (e.getSource() == createCV) {			
@@ -208,59 +248,62 @@ public class PowerDialogParameterUncertainty extends JDialog implements ActionLi
 		// TODO: Do we still need sometimes something as parse2numeric? I guess yes.
 		//RControl.getR().eval(parent.getGraphView().getNL().getGraphName()+"<-gMCP:::parse2numeric("+parent.getGraphView().getNL().getGraphName()+")");
 
-		if (e.getSource()==ok) { /** Single Setting */
-			for (int i=0; i<means.length; i++) {
-				if (ncp) {
-					means[i] = Double.parseDouble(jtl.get(i).getText());
-				} else {
-					means[i] = Double.parseDouble(jtlMu.get(i).getText())*Math.sqrt(Double.parseDouble(jtlN.get(i).getText()))/Double.parseDouble(jtlSigma.get(i).getText());
+		if (e.getActionCommand().equals(HorizontalButtonPane.OK_CMD)) {
+			if (numberOfSettings.getSelectedIndex()==0) { /** Single Setting */
+
+				for (int i=0; i<means.length; i++) {
+					if (ncp) {
+						means[i] = Double.parseDouble(jtl.get(i).getText());
+					} else {
+						means[i] = Double.parseDouble(jtlMu.get(i).getText())*Math.sqrt(Double.parseDouble(jtlN.get(i).getText()))/Double.parseDouble(jtlSigma.get(i).getText());
+					}
 				}
-			}
-			String mean = RControl.getRString(means);
-			settings = ", mean="+mean;
+				String mean = RControl.getRString(means);
+				settings = ", mean="+mean;
 
-			String rCommand = "calcPower(weights="+weights+", alpha="+alpha+", G="+G+settings+"\n"
-					+","+"sigma = " + dfp.getTable().getModel().getDataFrame().getRMatrix() //diag(length(mean)),corr = NULL,"+
-					+getMatrixForParametricTest()+"\n"
-					+userDefinedF
-					+", nSim = "+Configuration.getInstance().getGeneralConfig().getNumberOfSimulations()
-					+", type = \""+Configuration.getInstance().getGeneralConfig().getTypeOfRandom()+"\""
-					+")";
-			
-			if (parent.getPView().jrbRCorrelation.isSelected()) {
-				int answer = JOptionPane.showConfirmDialog(this, "The power calculations for parametric tests take a lot of time.\n"+
-						"If you select 'yes' the GUI will run the following command:\n"+
-						rCommand+"\n The GUI will be unresponsive during this time. Continue?", "Parametric tests take a lot of time", JOptionPane.YES_NO_OPTION);
-				if (answer==JOptionPane.NO_OPTION) return;
-			}
-			
-			RControl.getR().eval(".powerResult <- "+rCommand);
-			double[] localPower = RControl.getR().eval(".powerResult$LocalPower").asRNumeric().getData();
-			double expRejections = RControl.getR().eval(".powerResult$ExpRejections").asRNumeric().getData()[0];
-			double powAtlst1 = RControl.getR().eval(".powerResult$PowAtlst1").asRNumeric().getData()[0];
-			double rejectAll = RControl.getR().eval(".powerResult$RejectAll").asRNumeric().getData()[0];
-			Double[] userDefined = new Double[listModel.getSize()];
-			String[] functions = new String[listModel.getSize()];
-			for (int i=0; i<listModel.getSize(); i++) {
-				functions[i] = listModel.get(i).toString();
-				userDefined[i] = RControl.getR().eval(".powerResult$userDefined"+i).asRNumeric().getData()[0];
-			}
-			parent.getGraphView().getNL().setPower(localPower, expRejections, powAtlst1, rejectAll, userDefined, functions);
+				String rCommand = "calcPower(weights="+weights+", alpha="+alpha+", G="+G+settings+"\n"
+						+","+"sigma = " + dfp.getTable().getModel().getDataFrame().getRMatrix() //diag(length(mean)),corr = NULL,"+
+						+getMatrixForParametricTest()+"\n"
+						+userDefinedF
+						+", nSim = "+Configuration.getInstance().getGeneralConfig().getNumberOfSimulations()
+						+", type = \""+Configuration.getInstance().getGeneralConfig().getTypeOfRandom()+"\""
+						+")";
 
-		} else { /** Multiple Settings */
-			settings = ", muL = " + pPanelMeans.getRList()
-					+ ", sigmaL = " + pPanelSigmas.getRList()
-					+ ", nL = " + pPanelN.getRList();
-			String result = RControl.getR().eval("gMCP:::calcMultiPower(weights="+weights+", alpha="+alpha+", G="+G+settings
-					+","+"sigma = " + dfp.getTable().getModel().getDataFrame().getRMatrix() //diag(length(mean)),corr = NULL,"+
-					+getMatrixForParametricTest()
-					+userDefinedF
-					+", nSim = "+Configuration.getInstance().getGeneralConfig().getNumberOfSimulations()
-					+", type = \""+Configuration.getInstance().getGeneralConfig().getTypeOfRandom()+"\""
-					+getVariables()
-					+")").asRChar().getData()[0];
-			new TextFileViewer(parent, "Power results", result, true);
-		}				
+				if (parent.getPView().jrbRCorrelation.isSelected()) {
+					int answer = JOptionPane.showConfirmDialog(this, "The power calculations for parametric tests take a lot of time.\n"+
+							"If you select 'yes' the GUI will run the following command:\n"+
+							rCommand+"\n The GUI will be unresponsive during this time. Continue?", "Parametric tests take a lot of time", JOptionPane.YES_NO_OPTION);
+					if (answer==JOptionPane.NO_OPTION) return;
+				}
+
+				RControl.getR().eval(".powerResult <- "+rCommand);
+				double[] localPower = RControl.getR().eval(".powerResult$LocalPower").asRNumeric().getData();
+				double expRejections = RControl.getR().eval(".powerResult$ExpRejections").asRNumeric().getData()[0];
+				double powAtlst1 = RControl.getR().eval(".powerResult$PowAtlst1").asRNumeric().getData()[0];
+				double rejectAll = RControl.getR().eval(".powerResult$RejectAll").asRNumeric().getData()[0];
+				Double[] userDefined = new Double[listModel.getSize()];
+				String[] functions = new String[listModel.getSize()];
+				for (int i=0; i<listModel.getSize(); i++) {
+					functions[i] = listModel.get(i).toString();
+					userDefined[i] = RControl.getR().eval(".powerResult$userDefined"+i).asRNumeric().getData()[0];
+				}
+				parent.getGraphView().getNL().setPower(localPower, expRejections, powAtlst1, rejectAll, userDefined, functions);
+
+			} else { /** Multiple Settings */
+				settings = ", muL = " + pPanelMeans.getRList()
+						+ ", sigmaL = " + pPanelSigmas.getRList()
+						+ ", nL = " + pPanelN.getRList();
+				String result = RControl.getR().eval("gMCP:::calcMultiPower(weights="+weights+", alpha="+alpha+", G="+G+settings
+						+","+"sigma = " + dfp.getTable().getModel().getDataFrame().getRMatrix() //diag(length(mean)),corr = NULL,"+
+						+getMatrixForParametricTest()
+						+userDefinedF
+						+", nSim = "+Configuration.getInstance().getGeneralConfig().getNumberOfSimulations()
+						+", type = \""+Configuration.getInstance().getGeneralConfig().getTypeOfRandom()+"\""
+						+getVariables()
+						+")").asRChar().getData()[0];
+				new TextFileViewer(parent, "Power results", result, true);
+			}
+		}
 		dispose();
 	}
 
@@ -271,33 +314,22 @@ public class PowerDialogParameterUncertainty extends JDialog implements ActionLi
 	public JPanel getCVPanel() {
 		JPanel mPanel = new JPanel();
 		GridBagConstraints c = getDefaultGridBagConstraints();
-		
-		RDataFrameRef df = new RDataFrameRef();
-		for (Node n: parent.getGraphView().getNL().getNodes()) {
-			df.addRowCol(n.getName());
-			df.setValue(df.getColumnCount()-1, df.getColumnCount()-1, new EdgeWeight(1));
-		}		
-		dfp = new SingleDataFramePanel(df);
-		dfp.getTable().getModel().diagEditable = true;
-		dfp.getTable().setDefaultEditor(EdgeWeight.class, new CellEditorE(null, dfp.getTable()));
-		dfp.getTable().getModel().setCheckRowSum(false);
-		
-        CellConstraints cc = new CellConstraints();
+		CellConstraints cc = new CellConstraints();
 
-        int row = 2;
-        
-        String cols = "5dlu, fill:pref:grow, 5dlu, fill:pref:grow, 5dlu";
-        String rows = "5dlu, pref, 5dlu, fill:pref:grow, 5dlu, pref, 5dlu";
-        
-        mPanel.setLayout(new FormLayout(cols, rows));
-        cc = new CellConstraints();
+		int row = 2;
+
+		String cols = "5dlu, fill:pref:grow, 5dlu, fill:pref:grow, 5dlu";
+		String rows = "5dlu, pref, 5dlu, fill:pref:grow, 5dlu, pref, 5dlu";
+		if (parent.getPView().jrbRCorrelation.isSelected()) {
+			rows += ", pref, 5dlu, fill:pref:grow, 5dlu, pref, 5dlu";
+		}
+
+		mPanel.setLayout(new FormLayout(cols, rows));
+		cc = new CellConstraints();
 		
-		mPanel.add(new JLabel("Covariance matrix"), cc.xyw(2, row, 3));
+		mPanel.add(new JLabel("Covariance matrix of test statistics"), cc.xyw(2, row, 3));
 		
 		row +=2;
-		
-		panel.setLayout(new GridBagLayout());	
-		panel.add(singleNCP, c);
 		
 		mPanel.add(new JScrollPane(dfp), cc.xyw(2, row, 3));
 		
@@ -309,12 +341,33 @@ public class PowerDialogParameterUncertainty extends JDialog implements ActionLi
 		mPanel.add(createCV, cc.xy(4, row));
 		createCV.addActionListener(this);
 		
+		row +=2;
+		
+		if (parent.getPView().jrbRCorrelation.isSelected()) {
+
+			mPanel.add(secondCV, cc.xyw(2, row, 3));
+			secondCV.addActionListener(this);
+
+			row +=2;
+
+			mPanel.add(new JScrollPane(dfp2), cc.xyw(2, row, 3));
+
+			row +=2;
+
+			mPanel.add(loadCV, cc.xy(2, row));
+			loadCV.addActionListener(this);
+
+			mPanel.add(createCV, cc.xy(4, row));
+			createCV.addActionListener(this);
+
+		}
 		return mPanel;
 	}
 	
 	private String getMatrixForParametricTest() {
-		if (parent.getPView().jrbRCorrelation.isSelected()) {
-			return ", cr="+parent.getPView().jcbCorObject.getSelectedItem();
+		if (parent.getPView().jrbRCorrelation.isSelected()) {			
+			SingleDataFramePanel df = secondCV.isSelected()?dfp2:dfp;			
+			return ", cr="+df.getTable().getModel().getDataFrame().getRMatrix();
 		}
 		return "";
 	}

@@ -6,6 +6,7 @@ import java.util.List;
 
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.table.TableCellRenderer;
 
 import org.af.gMCP.config.Configuration;
 import org.af.gMCP.gui.graph.EdgeWeight;
@@ -78,6 +79,12 @@ public class DataTable extends JTable {
 
 	public List<String> getNames() {		
 		return getModel().df.getNames();
+	}
+	
+	public Component prepareRenderer (final TableCellRenderer renderer, int row, int column) {
+		Component renderer2 = super.prepareRenderer(renderer, row, column);
+		renderer2.setEnabled(isEnabled());
+		return renderer2;
 	}
 	
 }
