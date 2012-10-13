@@ -5,7 +5,7 @@
 	.jpackage(pkgname)	
 	.jpackage("JavaGD")
 	
-	jars <- c("commons-collections", "commons-lang", 
+	jars <- c("afcommons", "commons-collections", "commons-lang", 
 			"commons-logging", "commons-validator", "forms", 
 			"iText", "jhlir.jar", "jlatexmath", "jxlayer", 
 			"log4j", "swing-worker")
