@@ -41,6 +41,8 @@ Changes in version 0.8-0 (14-10-2012, Rev. 1536)
 
 - Improved power dialog.
 
+ 86 files changed, 3005 insertions(+), 1600 deletions(-)
+
 
 Changes in version 0.7-12 (02-08-2012, Rev. 1420)
 ================================================

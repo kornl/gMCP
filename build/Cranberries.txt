@@ -1400,3 +1400,95 @@ Diff between gMCP versions 0.7-11 dated 2012-07-21 and 0.7-12 dated 2012-08-02
  
  24 files changed, 439 insertions(+), 60 deletions(-)
 
+
+Diff between gMCP versions 0.7-12 dated 2012-08-02 and 0.8-0 dated 2012-10-14
+
+ DESCRIPTION                                                                |    6 
+ MD5                                                                        |  165 +-
+ NAMESPACE                                                                  |    9 
+ NEWS                                                                       |   40 
+ R/analysis.R                                                               |    3 
+ R/calcPower.R                                                              |    3 
+ R/convertFromOldClassDefinition.R                                          |    3 
+ R/doRUnitTests.R                                                           |   37 
+ R/exampleGraphs.R                                                          |  133 +
+ R/gMCP.R                                                                   |   36 
+ R/graph2latex.R                                                            |   51 
+ R/graphMCP.R                                                               |   57 
+ R/graphTest.R                                                              |    8 
+ R/helperGUI.R                                                              |   15 
+ R/matrix2graph.R                                                           |   12 
+ R/misc.R                                                                   |   10 
+ R/onLoad.R                                                                 |   36 
+ R/rqmvnorm.R                                                               |    9 
+ R/subVariables.R                                                           |   27 
+ TODO                                                                       |   24 
+ inst/doc/AQuickStart.pdf                                                   |binary
+ inst/doc/gMCP.pdf                                                          |binary
+ inst/doc/gMCP/gMCP.Rnw                                                     |   86 -
+ inst/doc/parametric.pdf                                                    |binary
+ inst/java-src/org/af/gMCP/config/GeneralConfig.java                        |    8 
+ inst/java-src/org/af/gMCP/gui/CreateGraphGUI.java                          |   43 
+ inst/java-src/org/af/gMCP/gui/ErrorDialogChooseLevel.java                  |only
+ inst/java-src/org/af/gMCP/gui/ErrorDialogGMCP.java                         |  435 +++---
+ inst/java-src/org/af/gMCP/gui/MenuBarMGraph.java                           |  180 +-
+ inst/java-src/org/af/gMCP/gui/ReproducableLog.java                         |    9 
+ inst/java-src/org/af/gMCP/gui/datatable/CellEditorE.java                   |   10 
+ inst/java-src/org/af/gMCP/gui/datatable/CloseTabPanel.java                 |only
+ inst/java-src/org/af/gMCP/gui/datatable/DataFramePanel.java                |   89 +
+ inst/java-src/org/af/gMCP/gui/datatable/DataTable.java                     |   12 
+ inst/java-src/org/af/gMCP/gui/datatable/RDataFrameRef.java                 |    4 
+ inst/java-src/org/af/gMCP/gui/datatable/SingleDataFramePanel.java          |only
+ inst/java-src/org/af/gMCP/gui/dialogs/GraphSendToArchiveDialog.java        |    2 
+ inst/java-src/org/af/gMCP/gui/dialogs/MatrixCreationDialog.java            |   18 
+ inst/java-src/org/af/gMCP/gui/dialogs/ParameterDialog.java                 |   61 
+ inst/java-src/org/af/gMCP/gui/dialogs/PowerDialogParameterUncertainty.java |  680 ++++++----
+ inst/java-src/org/af/gMCP/gui/dialogs/PowersettingsToXML.java              |only
+ inst/java-src/org/af/gMCP/gui/dialogs/TextFileViewer.java                  |    7 
+ inst/java-src/org/af/gMCP/gui/graph/DView.java                             |    2 
+ inst/java-src/org/af/gMCP/gui/graph/Edge.java                              |  120 -
+ inst/java-src/org/af/gMCP/gui/graph/GraphMCP.java                          |  152 +-
+ inst/java-src/org/af/gMCP/gui/graph/GraphPanel.java                        |only
+ inst/java-src/org/af/gMCP/gui/graph/GraphView.java                         |   89 -
+ inst/java-src/org/af/gMCP/gui/graph/LaTeXTool.java                         |only
+ inst/java-src/org/af/gMCP/gui/graph/NetList.java                           |  341 +++--
+ inst/java-src/org/af/gMCP/gui/graph/NetListPopUpMenu.java                  |    7 
+ inst/java-src/org/af/gMCP/gui/graph/NetListSelectionPopUpMenu.java         |only
+ inst/java-src/org/af/gMCP/gui/graph/Node.java                              |  261 ++-
+ inst/java-src/org/af/gMCP/gui/graph/NodeListener.java                      |    6 
+ inst/java-src/org/af/gMCP/gui/graph/PPanel.java                            |  186 +-
+ inst/java-src/org/af/gMCP/gui/graph/PView.java                             |  557 ++++----
+ inst/java-src/org/af/gMCP/gui/graph/Physics.java                           |only
+ inst/java-src/org/af/gMCP/gui/graph/PrintableObject.java                   |    6 
+ inst/java-src/org/af/gMCP/gui/graph/SubFamily.java                         |only
+ inst/java-src/org/af/gMCP/gui/graph/UpdateEdge.java                        |    4 
+ inst/java-src/org/af/gMCP/gui/graph/UpdateNode.java                        |   48 
+ inst/java-src/org/af/gMCP/gui/graph/annotations                            |only
+ inst/java-src/org/af/gMCP/gui/options/GeneralPanel.java                    |   56 
+ inst/java-src/org/af/gMCP/gui/options/MiscPanel.java                       |   18 
+ inst/java-src/org/af/gMCP/gui/options/NumericPanel.java                    |   31 
+ inst/java-src/org/af/gMCP/gui/options/OptionsDialog.java                   |    5 
+ inst/java-src/org/af/gMCP/gui/pdf                                          |only
+ inst/java-src/tests/InteractionTest.java                                   |    7 
+ inst/java-src/tests/LoadSaveTest.java                                      |   25 
+ inst/java-src/tests/PPanelTest.java                                        |    4 
+ inst/java-src/tests/TestSuite.java                                         |   11 
+ inst/java/afcommons.jar                                                    |binary
+ inst/java/gsrmtp.jar                                                       |binary
+ inst/unitTests/runit.entangled.R                                           |only
+ inst/unitTests/runit.power.R                                               |   16 
+ man/calcPower.Rd                                                           |    2 
+ man/entangled.Rd                                                           |only
+ man/exampleGraphs.Rd                                                       |   21 
+ man/graphGUI.Rd                                                            |   16 
+ man/graphMCP.Rd                                                            |    3 
+ man/graphTest.Rd                                                           |    6 
+ man/placeNodes.Rd                                                          |    8 
+ man/replaceVariables.Rd                                                    |    4 
+ man/rqmvnorm.Rd                                                            |    3 
+ man/substituteEps.Rd                                                       |    4 
+ src/gMCP.c                                                                 |    4 
+ src/mcp.c                                                                  |  254 +--
+ 
+ 86 files changed, 3005 insertions(+), 1600 deletions(-)
+
