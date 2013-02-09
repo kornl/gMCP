@@ -76,9 +76,9 @@
 \tableofcontents
 
 % Bibliotheken - Chunk 1
-<<echo=FALSE,results='hide'>>=
+<<echo=FALSE,results='hide',message=FALSE>>=
 
-library(gMCP)
+library(gMCP, quietly=TRUE)
 options(width=140)
 options(digits=4)
 gMCPReport <- function(...) {invisible(NULL)}
@@ -246,7 +246,7 @@ Let's reproduce this with the \texttt{gMCP} package. We start R and enter:
 
 \scriptsize
 % Chunk 4
-<<echo=TRUE>>=
+<<echo=FALSE>>=
 
 library(gMCP)
 graphGUI()
@@ -301,7 +301,7 @@ figure \ref{exampleGraphBretz}.
 
 \scriptsize
 % Chunk 7
-<<echo=TRUE>>=
+<<echo=TRUE, tidy=FALSE>>=
 
 m <- rbind(H11=c(0,   0.5, 0,   0.5, 0,   0  ),
            H21=c(1/3, 0,   1/3, 0,   1/3, 0  ),
