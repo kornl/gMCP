@@ -1,7 +1,7 @@
 \documentclass[a4paper, 10pt]{article}
 \usepackage[T1]{fontenc}
 \usepackage{url}
-
+\usepackage{Sweave}
 \usepackage{graphicx}
 \usepackage{tikz}
 \usetikzlibrary{snakes,arrows,shapes}
@@ -76,7 +76,7 @@
 \tableofcontents
 
 % Bibliotheken - Chunk 1
-<<echo=FALSE,results='hide'>>=
+<<echo=FALSE,results=hide>>=
 
 library(gMCP)
 options(width=140)
@@ -191,7 +191,7 @@ and edges have weights.
 \begin{figure}[ht]
   \centering
 % Chunk 2
-<<echo=FALSE,results='asis'>>=
+<<echo=FALSE,results=tex>>=
 
 graph <- BonferroniHolm(3)
 cat(graph2latex(graph, scale=0.7, fontsize="tiny", labelTikZ="near start,fill=blue!20"))
@@ -225,7 +225,7 @@ edge weights.
 \begin{figure}[ht]
   \centering
 % Chunk 3
-<<echo=FALSE,results='asis'>>=
+<<echo=FALSE,results=tex>>=
 
 graph <- BonferroniHolm(3)
 cat(graph2latex(graph, scale=0.7, fontsize="tiny", nodeTikZ="minimum size=1.2cm"))
@@ -246,7 +246,7 @@ Let's reproduce this with the \texttt{gMCP} package. We start R and enter:
 
 \scriptsize
 % Chunk 4
-<<echo=TRUE>>=
+<<echo=TRUE, size=scriptsize>>=
 
 library(gMCP)
 graphGUI()
@@ -264,7 +264,7 @@ If we don't want to use the GUI we can also use R:
 
 \scriptsize
 % Chunk 5
-<<echo=TRUE>>=
+<<echo=TRUE, size=scriptsize>>=
 
 library(gMCP)
 graph <- BonferroniHolm(3)
@@ -281,7 +281,7 @@ must be created.
 \begin{figure}[ht]
   \centering   
 % Chunk 6
-<<echo=FALSE,results='asis'>>=
+<<echo=FALSE,results=tex>>=
 
 graph <- BretzEtAl2011()
 cat(graph2latex(graph, scale=0.7, fontsize="tiny"))
@@ -301,7 +301,7 @@ figure \ref{exampleGraphBretz}.
 
 \scriptsize
 % Chunk 7
-<<echo=TRUE>>=
+<<echo=TRUE, size=scriptsize>>=
 
 m <- rbind(H11=c(0,   0.5, 0,   0.5, 0,   0  ),
            H21=c(1/3, 0,   1/3, 0,   1/3, 0  ),
@@ -323,7 +323,7 @@ Let's print the newly created graph:
 
 \scriptsize
 % Chunk 8
-<<echo=TRUE>>=
+<<echo=TRUE, size=scriptsize>>=
 
 print(graph)
 
@@ -336,7 +336,7 @@ pages of method \texttt{nodeAttr}).
 
 \scriptsize
 % Chunk 9
-<<echo=TRUE>>=
+<<echo=TRUE, size=scriptsize>>=
 
 graph@nodeAttr$X <- c(H11=100, H21=300, H31=500, H12=100, H22=300, H32=500)
 graph@nodeAttr$Y <- c(H11=100, H21=100, H31=100, H12=300, H22=300, H32=300)	
@@ -350,7 +350,7 @@ the two lines of R code above.
 
 \scriptsize
 % Chunk 10
-<<echo=TRUE>>=
+<<echo=TRUE, size=scriptsize>>=
 
 graph <- placeNodes(graph, nrow=2)
 
@@ -368,7 +368,7 @@ Let's take a look at the graph in {\LaTeX} rendered with TikZ
 %\lstset{language=[LaTeX]TeX}
 %\begin{lstlisting}
 % Chunk 11
-<<echo=TRUE>>=
+<<echo=TRUE, size=scriptsize>>=
 
 cat(graph2latex(graph))
 
@@ -383,7 +383,7 @@ position (200, 80):
 
 \scriptsize
 % Chunk 12
-<<echo=TRUE>>=
+<<echo=TRUE, size=scriptsize>>=
 
 edgeAttr(graph, "H11", "H21", "labelX") <- 200
 edgeAttr(graph, "H11", "H21", "labelY") <- 80
@@ -409,7 +409,7 @@ edit.
 
 \scriptsize
 % Chunk 13
-<<echo=TRUE>>=
+<<echo=TRUE, size=scriptsize>>=
 
 graphGUI("graph")
 
@@ -461,7 +461,7 @@ method \texttt{gMCP}:
 
 \scriptsize
 % Chunk 14
-<<echo=TRUE,tidy=FALSE>>=
+<<echo=TRUE,keep.source=TRUE, size=scriptsize>>=
 
 graph <- BretzEtAl2011()
 
@@ -482,7 +482,7 @@ We can create a TikZ graphic from the last graph with
 \begin{figure}[ht]
   \centering   
 % Chunk 15
-<<echo=FALSE,results='asis'>>=
+<<echo=FALSE,results=tex>>=
 
 cat(graph2latex(result@graphs[[4]], scale=0.7, fontsize="tiny"))
 
@@ -495,7 +495,7 @@ full report of the testing procedure:
 
 \scriptsize
 % Chunk 16
-<<echo=TRUE>>=
+<<echo=TRUE, size=scriptsize>>=
 
 gMCPReport(result, "Report.tex")
 
@@ -507,7 +507,7 @@ gMCPReport(result, "Report.tex")
 Also adjusted p-values and simultaneous confidence intervals can be computed.
 
 % Chunk 17
-<<echo=FALSE,results='hide'>>=
+<<echo=FALSE,results=hide>>=
 
 d1 <- c(1.68005156523844, 1.95566697423700, 0.00137860945822299, 0.660052238622464, 
 		1.06731835721526, 0.39479303427265, -0.312462050794408, 0.323637755662837, 
@@ -550,7 +550,7 @@ by using the Bonferroni-Holm-Procedure with $\alpha=0.025$.
 
 \scriptsize
 % Chunk 18
-<<echo=TRUE, tidy=FALSE>>=
+<<echo=TRUE, keep.source=TRUE, size=scriptsize>>=
 
 # Estimates:
 est <- c("H1"=0.860382, "H2"=0.9161474, "H3"=0.9732953)
@@ -660,7 +660,7 @@ e.g.\ \texttt{1-2*\textbackslash epsilon+1/3*\textbackslash epsilon\^{}2} for $1
   \centering
   \begin{tikzpicture}[scale=0.7]
 % Chunk 19
-<<echo=FALSE,results='asis'>>=
+<<echo=FALSE,results=tex>>=
 
 cat(graph2latex(parallelGatekeeping(), scale=0.7, fontsize="tiny", nodeTikZ="minimum size=1.2cm", tikzEnv=FALSE))
 cat(graph2latex(improvedParallelGatekeeping(), scale=0.7, fontsize="tiny", nodeTikZ="minimum size=1.2cm", tikzEnv=FALSE, offset=c(300, 0)))
@@ -695,7 +695,7 @@ cat(graph2latex(improvedParallelGatekeeping(), scale=0.7, fontsize="tiny", nodeT
 
 \scriptsize
 % Chunk 20
-<<echo=TRUE, tidy=FALSE>>=
+<<echo=TRUE, keep.source=TRUE, size=scriptsize>>=
 
 m <- rbind(H1=c(0,           0,           0.5,           0.5          ),
            H2=c(0,           0,           0.5,           0.5          ),
@@ -754,7 +754,7 @@ tested, you have to activate it in the options (see \ref{experimentalFeatures}).
 \begin{figure}[ht]
   \centering
 % Chunk 21
-<<echo=FALSE,results='asis'>>=
+<<echo=FALSE,results=tex>>=
 
 cat(graph2latex(generalSuccessive(), scale=0.7, fontsize="tiny"))
 
@@ -798,7 +798,7 @@ $\omega$.
 
 \scriptsize
 % Chunk 22
-<<echo=TRUE, tidy=FALSE>>=
+<<echo=TRUE, keep.source=TRUE, size=scriptsize>>=
 
 graph <- generalSuccessive()
 graph
@@ -958,7 +958,7 @@ Let's start with this graph in figure \ref{uglygraph}:
 \begin{figure}[ht]
   \centering
 % Chunk 23
-<<echo=FALSE,results='asis'>>=
+<<echo=FALSE,results=tex>>=
 
 cat(graph2latex(result@graphs[[3]], pvalues=pvalues, scale=0.7, fontsize="tiny"))
 
@@ -1008,7 +1008,7 @@ In this subsection we show how to use gMCP to reproduce the results of the paper
 
 \scriptsize
 % Chunk 24
-<<echo=TRUE>>=
+<<echo=TRUE, size=scriptsize>>=
 
 data(hydroquinone)
 
@@ -1036,7 +1036,7 @@ pvalues
 \begin{figure}[ht]
 \begin{center}
 % Chunk 25
-<<echo=FALSE,fig.width=8,fig.height=6>>=
+<<echo=FALSE,fig=TRUE,width=8,height=6>>=
 
 data(hydroquinone)
 boxplot(micronuclei~group, data=hydroquinone)

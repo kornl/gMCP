@@ -33,10 +33,11 @@ parametric.pdf: parametric.Rnw
 gMCP.pdf: gMCP/gMCP.Rnw
 	cp -f gMCP/gMCP.Rnw gMCP.Rnw
 #	$(RPROG) CMD Stangle gMCP.Rnw
-	$(RSCRIPT) --vanilla -e "require(highlight); driver <- HighlightWeaveLatex(boxes = FALSE, bg = 'white' ); Sweave( 'gMCP.Rnw', driver = driver ); "
-	$(RSCRIPT) --vanilla -e "tools::texi2dvi( 'gMCP.tex', pdf = TRUE, clean = FALSE )"
-	bibtex gMCP
-	makeindex -s myIndex.ist gMCP.idx
-	$(RSCRIPT) -e "tools::texi2dvi( 'gMCP.tex', pdf = TRUE, clean = TRUE, index = FALSE )"
-	rm -fr gMCP.tex gMCP.bbl gMCP.blg gMCP.aux gMCP.out gMCP.log gMCP.ilg gMCP.ind gMCP-*.pdf Rplots.pdf
+	$(R_HOME)/bin/Rscript -e "library(knitr); knit2pdf('gMCP.Rnw')"
+#	$(RSCRIPT) --vanilla -e "require(highlight); driver <- HighlightWeaveLatex(boxes = FALSE, bg = 'white' ); Sweave( 'gMCP.Rnw', driver = driver ); "
+#	$(RSCRIPT) --vanilla -e "tools::texi2dvi( 'gMCP.tex', pdf = TRUE, clean = FALSE )"
+#	bibtex gMCP
+#	makeindex -s myIndex.ist gMCP.idx
+#	$(RSCRIPT) -e "tools::texi2dvi( 'gMCP.tex', pdf = TRUE, clean = TRUE, index = FALSE )"
+#	rm -fr gMCP.tex gMCP.bbl gMCP.blg gMCP.aux gMCP.out gMCP.log gMCP.ilg gMCP.ind gMCP-*.pdf Rplots.pdf
 	cp -f gMCP/gMCP-fake.Rnw gMCP.Rnw
