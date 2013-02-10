@@ -17,6 +17,8 @@
   	(If it is not a syntactically valid name, \code{\link{make.names}} is called 
   	to change it to a valid one.)
   	Or an object of class \code{\link{graphMCP}}.
+  	If the object is modified (even just by updating the class definition or arranging the nodes)
+  	it will be saved in the global environment. 
   }
   \item{pvalues}{
 	Numeric value that optionally specifies the p-values. 
