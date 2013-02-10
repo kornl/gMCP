@@ -1,4 +1,7 @@
 - GUI speed optimization (try Ferber II with 15x5)
+- Is there a better way than to assign everything to the global environment:
+     assign(newGraphName, x, envir=globalenv())
+  (The main point is the usability not technical problems!)   
 - Also check layout of (result) dialogs for big graphs.
 - Highlight edges (and perhaps nodes) depending on the focus in the dataframe. 
 - Check copyright notes for code under BSD Licence
