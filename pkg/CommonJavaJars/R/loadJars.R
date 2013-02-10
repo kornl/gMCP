@@ -14,6 +14,6 @@ loadJars <- function(jars, java="J5") {
 		jarsFullname <- c(jarsFullname, x[1])
 	}
 	
-	.jpackage("CommonJavaJars", jars=jarsFullname)
+	rJava::.jpackage("CommonJavaJars", jars=jarsFullname)
 	return(invisible(jarsFullname))
 }

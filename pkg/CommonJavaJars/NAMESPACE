@@ -1,4 +1,2 @@
 export(showGuideForJavaGUIs)
 export(loadJars)
-
-importFrom(rJava,.jpackage)
