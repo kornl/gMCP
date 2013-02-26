@@ -144,10 +144,17 @@ public class EdgeWeight {
 
 	private Boolean isEpsilon = null;
 	
+	public static Hashtable<String, Boolean> isEpsTable = new Hashtable<String, Boolean>();
+	
 	public boolean isEpsilon() {
+		String s = getPreciseWeightStr();
 		try {
 			if (isEpsilon==null) {
-				isEpsilon = RControl.getR().eval("gMCP:::isEpsilon(\""+getPreciseWeightStr().replaceAll("\\\\", "\\\\\\\\")+"\")").asRLogical().getData()[0];
+				isEpsilon = isEpsTable.get(s);
+				if (isEpsilon==null) {
+					isEpsilon = RControl.getR().eval("gMCP:::isEpsilon(\""+s.replaceAll("\\\\", "\\\\\\\\")+"\")").asRLogical().getData()[0];
+					isEpsTable.put(s, isEpsilon);
+				}
 			}
 			return isEpsilon;
 		} catch (Exception e) {
