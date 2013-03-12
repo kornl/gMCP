@@ -193,12 +193,9 @@ and edges have weights.
 
 \begin{figure}[ht]
   \centering
-% Chunk 2
 <<echo=FALSE,results='asis'>>=
-
 graph <- BonferroniHolm(3)
 cat(graph2latex(graph, scale=0.7, fontsize="tiny", labelTikZ="near start,fill=blue!20"))
-
 @
   \caption{\label{exampleHolm} Graph representing the
     Bonferroni-Holm-Procedure for three hypotheses.}
@@ -227,9 +224,7 @@ edge weights.
 
 \begin{figure}[ht]
   \centering
-% Chunk 3
 <<echo=FALSE,results='asis'>>=
-
 graph <- BonferroniHolm(3)
 cat(graph2latex(graph, scale=0.7, fontsize="tiny", nodeTikZ="minimum size=1.2cm"))
 cat("$\\downarrow$ reject $H_1$\\\\")
@@ -238,7 +233,6 @@ cat(graph2latex(graph, scale=0.7, fontsize="tiny", nodeTikZ="minimum size=1.2cm"
 cat("$\\downarrow$ reject $H_3$\\\\")
 graph <- rejectNode(graph, "H3")
 cat(graph2latex(graph, scale=0.7, fontsize="tiny", nodeTikZ="minimum size=1.2cm"))
-
 @
   \caption{\label{exampleHolmP} Example showing how two
     null hypotheses can be rejected with p-values $p_1=0.01$,
@@ -247,12 +241,9 @@ cat(graph2latex(graph, scale=0.7, fontsize="tiny", nodeTikZ="minimum size=1.2cm"
 
 Let's reproduce this with the \texttt{gMCP} package. We start R and enter:
 
-% Chunk 4
 <<echo=TRUE, eval=FALSE>>=
-
 library(gMCP)
 graphGUI()
-
 @
 
 The GUI seen in Figure \ref{fullGUI} is shown and we select from the
@@ -264,11 +255,9 @@ test procedure and can sequentially reject all three hypotheses.
 If we don't want to use the GUI we can also use R:
 
 <<echo=TRUE>>=
-
 library(gMCP)
 graph <- BonferroniHolm(3)
 gMCP(graph, pvalues=c(0.01,0.07,0.02), alpha=0.05)
-
 @
 
 \section{Creating Weighted Graphs}
@@ -278,12 +267,9 @@ must be created.
 
 \begin{figure}[ht]
   \centering   
-% Chunk 6
 <<echo=FALSE,results='asis'>>=
-
 graph <- BretzEtAl2011()
 cat(graph2latex(graph, scale=0.7, fontsize="tiny"))
-
 @
   \caption{\label{exampleGraphBretz} Example graph from \cite{bretzEtAl2009power} that we will create in this vignette.}
 \end{figure}
@@ -297,7 +283,6 @@ graph from Bretz et al. \cite{bretzEtAl2009power} that you can see in
 figure \ref{exampleGraphBretz}.
 
 <<echo=TRUE, tidy=FALSE>>=
-
 m <- rbind(H11=c(0,   0.5, 0,   0.5, 0,   0  ),
            H21=c(1/3, 0,   1/3, 0,   1/3, 0  ),
            H31=c(0,   0.5, 0,   0,   0,   0.5),
@@ -307,7 +292,6 @@ m <- rbind(H11=c(0,   0.5, 0,   0.5, 0,   0  ),
 
 graph <- matrix2graph(m)
 graph <- setWeights(graph, c(1/3, 1/3, 1/3, 0, 0, 0))
-
 @
 
 For accessing the weights and adjacency matrix of an existing graph
@@ -358,7 +342,6 @@ position (200, 80):
 <<echo=TRUE>>=
 edgeAttr(graph, "H11", "H21", "labelX") <- 200
 edgeAttr(graph, "H11", "H21", "labelY") <- 80
-
 @
 
 \subsection{Using the GUI}
