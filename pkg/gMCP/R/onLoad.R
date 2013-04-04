@@ -33,6 +33,17 @@
 			}		
 		}
 	}
+	# If we have a rJava version > 0.9-3 load JRIEngine.jar and REngine.jar
+    if (!is.null(sessionInfo()$otherPkgs$rJava$Version) && sessionInfo()$otherPkgs$rJava$Version > "0.9-3") {
+		classes <- system.file("JRI", package = "CommonJavaJars", lib.loc = NULL)
+		if (nzchar(classes)) {
+			.jaddClassPath(classes)
+			jars <- grep(".*\\.jar", list.files(classes, full.names = TRUE), TRUE, value = TRUE)
+			if (length(jars)) { 
+				.jaddClassPath(jars)
+			}		
+		}
+	}
 	
 	## We supply our own JavaGD class
 	Sys.setenv("JAVAGD_CLASS_NAME"="org/mutoss/gui/JavaGD")  
