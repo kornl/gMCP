@@ -1,4 +1,12 @@
+Planed for this release are:
 
+- Support for sub-families of hypotheses.
+
+- Annotation features.
+
+- Improved logging and bug reporting (showing less but more relevant information).
+  
+- Improved documentation and user guidance.
 
 - Parametric tests for the two-sided test case.
 

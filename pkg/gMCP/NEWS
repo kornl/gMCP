@@ -1,15 +1,12 @@
-Changes in version 0.8-1 (??-??-2012, Rev. 15??)
+Changes in version 0.8-1 (05-04-2012, Rev. 1567)
 ================================================
 
-Planed for this release are:
+- An rJava update to 0.9-4 removed necessary files for gMCP 0.8-0.
+  This is now fixed and CommonJavaJars (>= 1.0.3) are required.
 
-- Support for sub-families of hypotheses.
+- Since package highlight is now orphaned we instead use knitr.
 
-- Annotation features.
-
-- Improved logging and bug reporting (showing less but more relevant information).
-  
-- Improved documentation and user guidance.
+- Fix for loading the namespace when just the base namespace is loaded.
 
 
 Changes in version 0.8-0 (14-10-2012, Rev. 1536)
