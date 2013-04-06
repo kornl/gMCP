@@ -9,7 +9,7 @@ pdfclean:
 	rm -f AQuickStart.pdf gMCP.pdf parametric.pdf
 
 clean:
-	rm -f *.tex *.bbl *.blg *.aux *.out *.log *.idx *.toc *.ind *.ilg
+	rm -f *.tex *.bbl *.blg *.aux *.out *.log *.idx *.toc *.ind *.ilg *.loa *.lof *.lot
 
 setvars:
 ifeq (${R_HOME},)
