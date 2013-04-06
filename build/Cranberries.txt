@@ -1492,3 +1492,35 @@ Diff between gMCP versions 0.7-12 dated 2012-08-02 and 0.8-0 dated 2012-10-14
  
  86 files changed, 3005 insertions(+), 1600 deletions(-)
 
+ Diff between gMCP versions 0.8-0 dated 2012-10-14 and 0.8-1 dated 2013-04-06
+
+ gMCP-0.8-0/gMCP/inst/java/afcommons.jar                                                    |only
+ gMCP-0.8-1/gMCP/DESCRIPTION                                                                |   12 
+ gMCP-0.8-1/gMCP/MD5                                                                        |   48 +--
+ gMCP-0.8-1/gMCP/NAMESPACE                                                                  |    1 
+ gMCP-0.8-1/gMCP/NEWS                                                                       |   13 
+ gMCP-0.8-1/gMCP/R/onLoad.R                                                                 |   56 +--
+ gMCP-0.8-1/gMCP/R/subVariables.R                                                           |    2 
+ gMCP-0.8-1/gMCP/TODO                                                                       |    3 
+ gMCP-0.8-1/gMCP/inst/doc/AQuickStart.pdf                                                   |binary
+ gMCP-0.8-1/gMCP/inst/doc/Makefile                                                          |   13 
+ gMCP-0.8-1/gMCP/inst/doc/figure                                                            |only
+ gMCP-0.8-1/gMCP/inst/doc/gMCP.loa                                                          |only
+ gMCP-0.8-1/gMCP/inst/doc/gMCP.lof                                                          |only
+ gMCP-0.8-1/gMCP/inst/doc/gMCP.lot                                                          |only
+ gMCP-0.8-1/gMCP/inst/doc/gMCP.pdf                                                          |binary
+ gMCP-0.8-1/gMCP/inst/doc/gMCP/gMCP-Sweave.Rnw                                              |only
+ gMCP-0.8-1/gMCP/inst/doc/gMCP/gMCP.Rnw                                                     |  160 ++--------
+ gMCP-0.8-1/gMCP/inst/doc/parametric.pdf                                                    |binary
+ gMCP-0.8-1/gMCP/inst/java-src/org/af/gMCP/gui/dialogs/PowerDialogParameterUncertainty.java |    5 
+ gMCP-0.8-1/gMCP/inst/java-src/org/af/gMCP/gui/dialogs/PowersettingsToXML.java              |    1 
+ gMCP-0.8-1/gMCP/inst/java-src/org/af/gMCP/gui/graph/EdgeWeight.java                        |    9 
+ gMCP-0.8-1/gMCP/inst/java-src/org/af/gMCP/gui/graph/annotations/Ellipse.java               |    3 
+ gMCP-0.8-1/gMCP/inst/java-src/org/af/gMCP/gui/graph/annotations/Line.java                  |   18 +
+ gMCP-0.8-1/gMCP/inst/java-src/org/af/gMCP/gui/graph/annotations/Note.java                  |   18 +
+ gMCP-0.8-1/gMCP/inst/java-src/org/af/gMCP/gui/graph/annotations/Rectangle.java             |    4 
+ gMCP-0.8-1/gMCP/inst/java-src/org/af/gMCP/gui/graph/annotations/Text.java                  |    5 
+ gMCP-0.8-1/gMCP/inst/java-src/org/af/gMCP/tests/FormatTest.java                            |    1 
+ gMCP-0.8-1/gMCP/man/graphGUI.Rd                                                            |    2
+  
+ 28 files changed, 177 insertions(+), 197 deletions(-)

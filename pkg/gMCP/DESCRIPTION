@@ -1,7 +1,7 @@
 Package: gMCP
 Type: Package
 Title: Graph Based Multiple Comparison Procedures
-Version: 0.8-1
+Version: 0.8-2
 Author: Kornelius Rohmeyer, Florian Klinglmueller (parametric tests, adaptive designs), Bjoern Bornkamp (power simulations)
 Maintainer: Kornelius Rohmeyer <rohmeyer@small-projects.de>
 Description: This package provides functions and a graphical user interface for graphical described multiple test procedures.

@@ -1,4 +1,8 @@
-Changes in version 0.8-1 (05-04-2012, Rev. 1567)
+Changes in version 0.8-2 (??-??-2013, Rev. 1???)
+================================================
+
+
+Changes in version 0.8-1 (06-04-2013, Rev. 1567)
 ================================================
 
 - An rJava update to 0.9-4 removed necessary files for gMCP 0.8-0.
@@ -8,6 +12,8 @@ Changes in version 0.8-1 (05-04-2012, Rev. 1567)
 
 - Fix for loading the namespace when just the base namespace is loaded.
 
+ 28 files changed, 177 insertions(+), 197 deletions(-)
+ 
 
 Changes in version 0.8-0 (14-10-2012, Rev. 1536)
 ================================================
