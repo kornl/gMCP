@@ -315,3 +315,9 @@ Is this correct from R check?
     Name: 'w' Code: "\\nu" Docs: "\nu"
 
 ---
+
+Trick to open PDF files from R:
+ filepath <- system.file("xy.pdf", package = "yz")
+ obj <- list(file = NULL, pdf = filepath, topic = NULL)
+ class(obj) <- "vignette"
+ print(obj)
