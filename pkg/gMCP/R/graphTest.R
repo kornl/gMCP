@@ -1,4 +1,4 @@
-graphTest <- function(pvalues, weights = NULL, alpha = 0.05, G = NULL, cr = NULL, graph = NULL, verbose = FALSE) {
+graphTest <- function(pvalues, weights = NULL, alpha = 0.05, G = NULL, cr = NULL, graph = NULL, verbose = FALSE, test = "Bretz2011") {
 	
 	usegraph <- !is.null(graph)
 	if (!is.list(G) && length(alpha)!=1) {

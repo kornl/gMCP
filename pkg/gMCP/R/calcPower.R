@@ -15,7 +15,7 @@ extractPower <- function(x, f=list()) {
 calcPower <- function(weights, alpha, G, mean = rep(0, nrow(sigma)),
                       sigma = diag(length(mean)), cr = NULL,
                       nSim = 10000, seed = NULL, type = c("quasirandom", "pseudorandom"),
-					  f=list()) {
+					  f=list(), test = "Bretz2011") {
 	type <- match.arg(type)
 	if (any(is.na(sigma))) stop("While parameter 'cr' can contain NAs, this does not make sense for 'sigma'.")
 	#print(G)
@@ -24,7 +24,7 @@ calcPower <- function(weights, alpha, G, mean = rep(0, nrow(sigma)),
 	  for (m in mean) {
 		  sims <- rqmvnorm(nSim, mean = m, sigma = sigma, seed = seed, type = type)
 		  pvals <- pnorm(sims, lower.tail = FALSE)
-		  out <- graphTest(pvals, weights, alpha, G, cr)
+		  out <- graphTest(pvals, weights, alpha, G, cr, test)
 		  out <- extractPower(out, f)
 		  label <- attr(m, "label")		  
 		  if (!is.null(label)) {
