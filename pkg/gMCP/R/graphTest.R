@@ -1,4 +1,4 @@
-graphTest <- function(pvalues, weights = NULL, alpha = 0.05, G = NULL, cr = NULL, graph = NULL, verbose = FALSE, test = "Bretz2011") {
+graphTest <- function(pvalues, weights = NULL, alpha = 0.05, G = NULL, cr = NULL, graph = NULL, verbose = FALSE, test) {
 	
 	usegraph <- !is.null(graph)
 	if (!is.list(G) && length(alpha)!=1) {
@@ -30,7 +30,7 @@ graphTest <- function(pvalues, weights = NULL, alpha = 0.05, G = NULL, cr = NULL
 		out <- matrix(0, nrow=0, ncol=dim(pvalues)[2])
 		colnames(out) <- colnames(G)
 		for (i in 1:(dim(pvalues)[1])) {
-			adjP <- generatePvals(G, weights, cr, pvalues[i,], hint=hint)
+			adjP <- generatePvals(G, weights, cr, pvalues[i,], hint=hint, exhaust=(missing(test) || test == "Bretz2011"))
 			out <- rbind(out, ifelse(adjP<=alpha,1,0))
 		}
 		return(out)

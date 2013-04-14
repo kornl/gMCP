@@ -15,7 +15,7 @@ extractPower <- function(x, f=list()) {
 calcPower <- function(weights, alpha, G, mean = rep(0, nrow(sigma)),
                       sigma = diag(length(mean)), cr = NULL,
                       nSim = 10000, seed = NULL, type = c("quasirandom", "pseudorandom"),
-					  f=list(), test = "Bretz2011") {
+					  f=list(), test) {
 	type <- match.arg(type)
 	if (any(is.na(sigma))) stop("While parameter 'cr' can contain NAs, this does not make sense for 'sigma'.")
 	#print(G)
