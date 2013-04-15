@@ -23,7 +23,7 @@
  \item{mean}{ Mean under the alternative }
   \item{sigma}{ Covariance matrix under the alternative. }
   \item{cr}{ Correlation matrix that should be used for the parametric test.
-  If \code{cr==NULL} the Bonferroni based test procedure is used. }
+  If \code{cr==NULL} the Bonferroni based test procedure is used. Can contain NAs.}
   \item{seed}{ Optional seed for pseudo random numbers and the random shift of
     the lattice rule. }
   \item{type}{ What type of random numbers to use. \code{quasirandom}
