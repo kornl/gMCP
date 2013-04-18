@@ -333,7 +333,7 @@ public class NetList extends JPanel implements MouseMotionListener, MouseListene
 			latex += "\\node ("+node.getName().replace("_", "-")+") at ("+node.getX()+"bp,"+(-node.getY())+"bp)\n";
 			String nodeColor = "green!80";
 			if (node.isRejected()) {nodeColor = "red!80";}
-			latex += "[draw,circle split,fill="+nodeColor+"] {$"+node.getName()+"$ \\nodepart{lower} $"+format.format(node.getWeight())+"$};\n";			
+			latex += "[draw,circle split,fill="+nodeColor+"] {$"+node.getName()+"$ \\nodepart{lower} $"+format.format(node.getWeight().get(0))+"$};\n";			
 		}
 		for (int i = 0; i < getEdges().size(); i++) {
 			Node node1 = getEdges().get(i).from;
