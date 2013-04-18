@@ -1,0 +1,19 @@
+Version: 1.0
+
+RestoreWorkspace: Yes
+SaveWorkspace: Yes
+AlwaysSaveHistory: Yes
+
+EnableCodeIndexing: Yes
+UseSpacesForTab: Yes
+NumSpacesForTab: 2
+Encoding: UTF-8
+
+RnwWeave: knitr
+LaTeX: pdfLaTeX
+RootDocument: pkg/gMCP/inst/doc/gMCP/gMCP.Rnw
+
+BuildType: Package
+PackagePath: pkg/gMCP
+PackageInstallArgs: --no-multiarch
+PackageCheckArgs: --as-cran

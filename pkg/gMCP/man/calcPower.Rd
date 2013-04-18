@@ -11,7 +11,7 @@
   calcPower(weights, alpha, G, mean = rep(0, nrow(sigma)),
             sigma = diag(length(mean)), cr = NULL,
             nSim = 10000, seed = NULL,
-            type = c("quasirandom", "pseudorandom"), f=list())
+            type = c("quasirandom", "pseudorandom"), f=list(), test)
 }
 \arguments{
   \item{weights}{ Initial weight levels for the test procedure, see graphTest function. }
@@ -36,8 +36,14 @@
     in the power to reject hypotheses 1 and 3 one could specify
     \code{f=list(function(x) {x[1] && x[3]})}
   }  
+  \item{test}{ In the parametric case there is more than one way to handle 
+    subgraphs with less than the full alpha. If the parameter \code{test} is missing,
+    the tests are performed as described by Bretz et al. (2011), 
+    i.e. tests of intersection null hypotheses 
+    always exhaust the full alpha level even if the sum of weights is strictly
+    smaller than one. If \code{test="simple-parametric"} the tests are performed 
+    as defined in Equation (3) of Bretz et al. (2011).}
 }
-
 \value{
   A list containg three elements
   \item{LocalPower }{A numeric giving the local powers for the hypotheses}

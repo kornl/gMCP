@@ -7,7 +7,7 @@
   the same task.
 }
 \usage{
-  graphTest(pvalues, weights = NULL, alpha = 0.05, G = NULL, cr = NULL, graph = NULL, verbose = FALSE)
+  graphTest(pvalues, weights = NULL, alpha = 0.05, G = NULL, cr = NULL, graph = NULL, verbose = FALSE, test)
 }
 \arguments{
   \item{pvalues}{ Either a vector or a matrix containing the local p-values
@@ -28,6 +28,13 @@
     If \code{cr==NULL} the Bonferroni based test procedure is used. }
   \item{verbose}{ If verbose is TRUE, additional information about the graphical
     rejection procedure is displayed.  }
+  \item{test}{ In the parametric case there is more than one way to handle 
+    subgraphs with less than the full alpha. If the parameter \code{test} is missing,
+    the tests are performed as described by Bretz et al. (2011), 
+    i.e. tests of intersection null hypotheses 
+    always exhaust the full alpha level even if the sum of weights is strictly
+    smaller than one. If \code{test="simple-parametric"} the tests are performed 
+    as defined in Equation (3) of Bretz et al. (2011).}
 }
 \value{
   A vector or a matrix containing the test results for the hypotheses under

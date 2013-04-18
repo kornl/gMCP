@@ -59,10 +59,21 @@ graph2latex <- function(graph, package="TikZ", scale=1, alpha=0.05, pvalues,
 			for (j in getNodes(graph)) {			
 				if (graph@m[i,j]!=0) {
 					# The following to lines test whether the edge in opposite direction exists:				
-					to <- ifelse(graph@m[j,i]==0, "auto", "bend left=15")
+					to <- paste("to[",ifelse(graph@m[j,i]==0, "auto", "bend left=15"),"]", sep="")
+          # New arc function:
+					x <- try(unlist(edgeAttr(graph, i, j, "labelX")), silent = TRUE)          
+					y <- try(unlist(edgeAttr(graph, i, j, "labelY")), silent = TRUE)
+					print(x)
+					print(y)
+					if (class(x)!="try-error" && !is.null(x) && !is.na(x) && class(y)!="try-error" && !is.null(y) && !is.na(y) && x>-10 && y>-10) {
+					  b <- c(x,y)
+					  x <- getXCoordinates(graph, c(i,j))*scale
+					  y <- getYCoordinates(graph, c(i,j))*scale
+					  #to <- getArc(c(x[1],y[1]),b,c(x[2],y[2]), weight)					  
+					}          
 					#weight <- ifelse(edgeL[i]==0, "\\epsilon", getLaTeXFraction(edgeL[i])) # format(edgeL[i], digits=3, drop0trailing=TRUE))
 					weight <- getWeightStr(graph, i, j, LaTeX=TRUE) 
-					edgeLine <- paste("\\draw [->,line width=1pt] (",nodes2[i],") to[",to,"] node[",labelTikZ,"] {$",weight,"$} (",nodes2[j],");",sep="")
+					edgeLine <- paste("\\draw [->,line width=1pt] (",nodes2[i],") ",to," node[",labelTikZ,"] {$",weight,"$} (",nodes2[j],");",sep="")
 					tikz <- paste(tikz, edgeLine,sep="\n")
 				}
 			}
@@ -74,6 +85,104 @@ graph2latex <- function(graph, package="TikZ", scale=1, alpha=0.05, pvalues,
 	}
 	return(tikz)
 }
+
+# Arc from a to b and from b to c.
+getArc <- function(a, b, c, weight, col="black") {
+  m <- getCenter(a,b,c,0.001)
+  r <- sqrt(sum((m-a)^2))
+  d <- sqrt(sum((m-a)^2))
+  phi <- getAngle(a,b,c,m)
+  return(paste("arc(",round(phi[1]),":",round(phi[2]),":",round(r),"bp)",sep=""))
+}
+
+getAngle <- function(a,b,c,m) {
+  #TODO What is the radius of the nodes?
+  nodeR <- 15
+  # phi correction factor:
+  r <- sqrt((m[1]-a[1])*(m[1]-a[1])+(m[2]-a[2])*(m[2]-a[2]))
+  phiCF <- (nodeR*360)/(2*pi*r)
+  
+  if ((a[1]-m[1])==0) {
+    phi1 <- 90 + ifelse((m[2]-a[2]>0),0,180)
+  } else {
+    phi1 <- atan((-a[2]+m[2])/(a[1]-m[1]))*360/(2*pi)+ifelse((a[1]-m[1]<0),180,0)
+  }
+  if ((c[1]-m[1])==0) {
+    phi2 <- 90 + ifelse((m[2]-c[2]>0),0,180)
+  } else {
+    phi2 <- atan((-c[2]+m[2])/(c[1]-m[1]))*360/(2*pi)+ifelse((c[1]-m[1]<0),180,0)
+  }
+  if ((b[1]-m[1])==0) {
+    phi3 <- 90 + ifelse((m[2]-b[2]>0),0,180)
+  } else {
+    phi3 <- atan((-b[2]+m[2])/(b[1]-m[1]))*360/(2*pi)+ifelse((b[1]-m[1]<0),180,0)
+  }		
+  phi1 <- (phi1 + 360) %% 360
+  phi2 <- (phi2 + 360) %% 360
+  phi3 <- (phi3 + 360) %% 360
+  if (phi2 > phi1) {
+    if (phi2 > phi3 && phi3 > phi1) {	
+      phi1 <- phi1 + phiCF
+      phi2 <- phi2 - phiCF
+      return(c(phi1, phi2-phi1, phi1, phi2, phi3))			
+    } else {
+      phi1 <- phi1 - phiCF
+      phi2 <- phi2 + phiCF
+      return(c(phi2, (phi1-phi2+360) %% 360, phi1, phi2, phi3))			
+    }
+  }
+  if (phi1 > phi3 && phi3 > phi2) {
+    phi1 <- phi1 - phiCF
+    phi2 <- phi2 + phiCF
+    return(c(phi1, phi2-phi1, phi1, phi2, phi3))
+  } else {
+    phi1 <- phi2 + phiCF
+    phi2 <- phi2 - phiCF
+    return(c(phi1, (phi2-phi1+360) %% 360, phi1, phi2, phi3))
+  }
+}
+
+getCenter <- function(a,b,c, eps=0.05) {  
+  if((b[2]-c[2])==0) {
+    x <- c(0,1)
+  } else {
+    x <- c(1,-(b[1]-c[1])/(b[2]-c[2]))
+  }
+  if ((a[2]-b[2])==0) {
+    z <- c(0,1)
+  } else {
+    z <- c(1,-(a[1]-b[1])/(a[2]-b[2]))
+  }
+  if (abs((b[1]-a[1])/(b[2]-a[2])-(c[1]-b[1])/(c[2]-b[2]))<eps && sign(b[1]-a[1])==sign(c[1]-b[1])) {
+    stop("Slopes are to similar")
+  }
+  if (z[1]!=0 && x[1]==0) {			
+    c <- (c[1]-a[1])/(2*z[1])
+    return(c((a[1]+b[1])/2+c*z[1], (a[2]+b[2])/2+c*z[2]))
+  } else if (x[1]!=0 && z[1]==0) {
+    d <- (a[1]-c[1])/(2*x[1])
+    return(c((b[1]+c[1])/2+d*x[1], (b[2]+c[2])/2+d*x[2]))
+  } else if ((x[1]==0 && z[1]==0)||(x[2]==0 && z[2]==0)) {
+    stop("Slopes are too similar.")
+  } else if (z[2]!=0 && x[2]==0) {			
+    c <- (c[2]-a[2])/(2*z[2])
+    return(c((a[1]+b[1])/2+c*z[1], (a[2]+b[2])/2+c*z[2]))
+  } else if (x[2]!=0 && z[2]==0) {			
+    d <- (a[2]-c[2])/(2*x[2])
+    return(c((b[1]+c[1])/2+d*x[1], (b[2]+c[2])/2+d*x[2]))
+  } else {
+    if ((x[2]-x[1]*z[2]/z[1])==0) {
+      if ((z[2]-z[1]*x[2]/x[1])==0) stop("Can this happen?")
+      c <- ((c[2]-a[2])/2+((a[1]-c[1])/2*x[1])*x2)/(z[2]-z[1]*x[2]/x[1])
+      return(c((a[1]+b[1])/2+c*z[1], (a[2]+b[2])/2+c*z[2]))			
+    }
+    d <- ((a[2]-c[2])/2+((c[1]-a[1])/2*z[1])*z[2])/(x[2]-x[1]*z[2]/z[1])		
+  }  
+  m <- c((b[1]+c[1])/2+d*x[1], (b[2]+c[2])/2+d*x[2])
+  return(m)
+}
+
+
 
 # x <- c("H+1","H-1","H/1","H1","H2","H1+")
 # getUsableNames(x)
