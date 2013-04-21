@@ -4,7 +4,7 @@
 \usepackage{Sweave}
 \usepackage{graphicx}
 \usepackage{tikz}
-\usetikzlibrary{snakes,arrows,shapes}
+\usetikzlibrary{decorations,arrows,shapes}
 \usepackage[margin=0.9in]{geometry}
 \usepackage{url}
 \usepackage{hyperref}
