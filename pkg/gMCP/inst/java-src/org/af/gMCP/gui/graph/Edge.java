@@ -253,11 +253,13 @@ public class Edge {
 	
 	public void drawEdge(Graphics g, double a1, double a2, double b1, double b2, double c1, double c2, int l, int grad, boolean fill) {
 		try {
+			System.out.println("a ("+a1+","+a2+"), b ("+b1+","+b2+") b ("+c1+","+c2+")");
 			double[] m = GraphDrawHelper.getCenter(a1, a2, b1, b2, c1, c2, 0.001);
-			double r = Math.sqrt((m[0]-a1)*(m[0]-a1)+(m[1]-a2)*(m[1]-a2));
-			double d = Math.sqrt((c1-a1)*(c1-a1)+(c2-a2)*(c2-a2));
+			double r = Math.sqrt((m[0]-a1)*(m[0]-a1)+(m[1]-a2)*(m[1]-a2));			
+			System.out.println("r ("+r+"), m ("+m[0]+","+m[1]+")");
 			//if (2*Math.PI*r/360>6*d/200) throw new GraphException("Edge is too linear.");			
-			double[] phi = getAngle(a1, a2, b1, b2, c1, c2, m[0], m[1]);			
+			double[] phi = getAngle(a1, a2, b1, b2, c1, c2, m[0], m[1]);
+			System.out.println("phi ("+phi[0]+","+phi[1]+")");
 			try {
 				java.awt.geom.Arc2D.Double arc = new java.awt.geom.Arc2D.Double(m[0]-r, m[1]-r, 2*r, 2*r, phi[0], phi[1], Arc2D.OPEN);
 				Graphics2D g2d = (Graphics2D)g;
@@ -295,6 +297,7 @@ public class Edge {
 		// phi correction factor:
 		double r = Math.sqrt((m1-a1)*(m1-a1)+(m2-a2)*(m2-a2));
 		double phiCF = (Node.r*360*nl.getZoom())/(2*Math.PI*r);
+		System.out.println("phiCF: "+phiCF);
 
 		if ((a1-m1)==0) {
 			phi1 = 90 + ((m2-a2>0)?0:180);
