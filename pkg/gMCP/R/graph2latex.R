@@ -58,8 +58,11 @@ graph2latex <- function(graph, package="TikZ", scale=1, alpha=0.05, pvalues,
 		for (i in getNodes(graph)) {
 			for (j in getNodes(graph)) {			
 				if (graph@m[i,j]!=0) {
-					# The following to lines test whether the edge in opposite direction exists:				
-					to <- paste(") to[",ifelse(graph@m[j,i]==0, "auto", "bend left=15"),"]", sep="")
+				  weight <- getWeightStr(graph, i, j, LaTeX=TRUE) 
+				  edgeNode <- paste("node[",labelTikZ,"] {$",weight,"$}",sep="")
+					# The following line test whether the edge in opposite direction exists:				          
+					to <- paste(") to[",ifelse(graph@m[j,i]==0, "auto", "bend left=15"),"] ", edgeNode, sep="")
+          edgeNode <- paste("node[","fill=blue!20","] {$",weight,"$}",sep="") # TODO labelTikZ is ignored in this case
           # New arc function:
 					x <- try(unlist(edgeAttr(graph, i, j, "labelX")), silent = TRUE)          
 					y <- try(unlist(edgeAttr(graph, i, j, "labelY")), silent = TRUE)
@@ -67,11 +70,10 @@ graph2latex <- function(graph, package="TikZ", scale=1, alpha=0.05, pvalues,
 					  b <- c(x,y) + nodeR
 					  x <- getXCoordinates(graph, c(i,j)) + nodeR
 					  y <- getYCoordinates(graph, c(i,j)) + nodeR
-					  to <- getArc(c(x[1],y[1]),b,c(x[2],y[2]), weight)					  
+					  to <- getArc(c(x[1],y[1]),b,c(x[2],y[2]), edgeNode)					  
 					}          
-					#weight <- ifelse(edgeL[i]==0, "\\epsilon", getLaTeXFraction(edgeL[i])) # format(edgeL[i], digits=3, drop0trailing=TRUE))
-					weight <- getWeightStr(graph, i, j, LaTeX=TRUE) 
-					edgeLine <- paste("\\draw [->,line width=1pt] (",nodes2[i],to," node[",labelTikZ,"] {$",weight,"$} (",nodes2[j],");",sep="")
+					#weight <- ifelse(edgeL[i]==0, "\\epsilon", getLaTeXFraction(edgeL[i])) # format(edgeL[i], digits=3, drop0trailing=TRUE))					
+					edgeLine <- paste("\\draw [->,line width=1pt] (",nodes2[i], to," (",nodes2[j],");",sep="")
 					tikz <- paste(tikz, edgeLine,sep="\n")
 				}
 			}
@@ -85,7 +87,7 @@ graph2latex <- function(graph, package="TikZ", scale=1, alpha=0.05, pvalues,
 }
 
 # Arc from a to b and from b to c.
-getArc <- function(a, b, c, weight, col="black") {
+getArc <- function(a, b, c, edgeNode, col="black") {
   #a <- invertY(a)
   #b <- invertY(b)
   #c <- invertY(c)
@@ -93,7 +95,7 @@ getArc <- function(a, b, c, weight, col="black") {
   r <- sqrt(sum((m-a)^2))
   phi <- getAngle(a,b,c,m)
   cat("a: ",a,", b: ",b,", c:", c,"m: ",m,"r: ",r,", phi: ",phi,"\n")
-  return(paste(".",round(phi[1]),") arc(",round(phi[1]),":",round(phi[2]),":",round(r),"bp) to",sep=""))
+  return(paste(".",round(phi[1]+ifelse(phi[1]>phi[2],-90,90)),") arc(",round(phi[1]),":",round(phi[3]),":",round(r),"bp) ",edgeNode," arc(",round(phi[3]),":",round(phi[2]),":",round(r),"bp) to",sep=""))
 }
 
 getAngleNew <- function(a,b,c,m, nodeR=20*scale, scale=1) {
@@ -112,7 +114,8 @@ invertY <- function(x) {
 getAngle <- function(a,b,c,m, nodeR=20) {
   # phi correction factor:
   r <- sqrt((m[1]-a[1])*(m[1]-a[1])+(m[2]-a[2])*(m[2]-a[2]))
-  phiCF <- (nodeR*360)/(2*pi*r)
+  #phiCF <- (nodeR*360)/(2*pi*r)
+  phiCF <- 2*asin(nodeR/(2*r))/(2*pi)*360
   
   if ((a[1]-m[1])==0) {
     phi1 <- 90 + ifelse((m[2]-a[2]>0),0,180)
@@ -136,7 +139,8 @@ getAngle <- function(a,b,c,m, nodeR=20) {
   if ((phi1 > phi2 && phi1 > phi3 && phi3 > phi2) || (phi2 > phi1 && (phi3>phi2 || phi3<phi1))) {  
     # Clockwise direction: phi2 < phi1
     phi1 <- phi1 - phiCF
-    phi2 <- phi2 + phiCF
+    phi2 <- phi2 + phiCF + 2
+    if (phi3>phi1) phi3 <- phi3 -360
     if (phi2<phi1){
       return(c(phi1, phi2, phi3))
     } else {
@@ -145,34 +149,13 @@ getAngle <- function(a,b,c,m, nodeR=20) {
   } else {
     # Counter clockwise: phi1 < phi2
     phi1 <- phi1 + phiCF
-    phi2 <- phi2 - phiCF
+    phi2 <- phi2 - phiCF - 2
+    if (phi3<phi1) phi3 <- phi3 + 360
     if (phi1<phi2) {      
       return(c(phi1, phi2, phi3))
     } else {
       return(c(phi1, phi2+360, phi3))
     }
-  }
-  
-  # Old stuff:
-  if (phi2 > phi1) {
-    if (phi2 > phi3 && phi3 > phi1) {	
-      phi1 <- phi1 + phiCF
-      phi2 <- phi2 - phiCF
-      return(c(phi1, phi2-phi1, phi1, phi2, phi3))			
-    } else {
-      phi1 <- phi1 - phiCF
-      phi2 <- phi2 + phiCF
-      return(c(phi2, (phi1-phi2+360) %% 360, phi1, phi2, phi3))			
-    }
-  }
-  if (phi1 > phi3 && phi3 > phi2) {
-    phi1 <- phi1 - phiCF
-    phi2 <- phi2 + phiCF
-    return(c(phi1, phi2-phi1, phi1, phi2, phi3))
-  } else {
-    phi1 <- phi2 + phiCF
-    phi2 <- phi2 - phiCF
-    return(c(phi1, (phi2-phi1+360) %% 360, phi1, phi2, phi3))
   }
 }
 
