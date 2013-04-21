@@ -99,6 +99,11 @@ public class Node {
 
 	public boolean isRejected() { 	return rejected; }
 	
+	/**
+	 * Given a point (x2,y2) this returns the offset (coordinate wise difference) 
+	 * of this node to this point in the current zoom level. 
+	 * @return offset (coordinate wise difference) of this node to this point
+	 */
 	public int[] offset(int x2, int y2) {
 		return new int[] {(int) (x* nl.getZoom())-x2, (int) (y* nl.getZoom())-y2};
 	}
