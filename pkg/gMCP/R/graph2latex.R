@@ -99,18 +99,9 @@ getArc <- function(a, b, c, edgeNode, col="black") {
   return(paste(".",round(phi[1]+ifelse(phi[1]>phi[2],-90,90)),") arc(",round(phi[1]),":",round(phi[3]),":",round(r),"bp) ",edgeNode," arc(",round(phi[3]),":",round(phi[2]),":",round(r),"bp) to",sep=""))
 }
 
-getAngleNew <- function(a,b,c,m, nodeR=20*scale, scale=1) {
-    
-  
-}
-
 invertY <- function(x) {
   return(c(x[1],-x[2]))
 }
-
-#getCenterOfNode <- function(x,r) {
-  #return(c(x[1]+r,x[2]-r))
-#}
 
 getAngle <- function(a,b,c,m, nodeR=20) {
   # phi correction factor:
@@ -199,8 +190,6 @@ getCenter <- function(a,b,c, eps=0.05) {
   m <- c((b[1]+c[1])/2+d*x[1], (b[2]+c[2])/2+d*x[2])
   return(m)
 }
-
-
 
 # x <- c("H+1","H-1","H/1","H1","H2","H1+")
 # getUsableNames(x)
