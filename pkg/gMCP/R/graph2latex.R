@@ -66,11 +66,12 @@ graph2latex <- function(graph, package="TikZ", scale=1, alpha=0.05, pvalues,
           # New arc function:
 					x <- try(unlist(edgeAttr(graph, i, j, "labelX")), silent = TRUE)          
 					y <- try(unlist(edgeAttr(graph, i, j, "labelY")), silent = TRUE)
-					if (class(x)!="try-error" && !is.null(x) && !is.na(x) && class(y)!="try-error" && !is.null(y) && !is.na(y) && x>-10 && y>-10) {
+					if (!("try-error" %in% class(x)) && !is.null(x) && !is.na(x) && class(y)!="try-error" && !is.null(y) && !is.na(y) && x>-10 && y>-10) {
 					  b <- c(x,y) + nodeR
 					  x <- getXCoordinates(graph, c(i,j)) + nodeR
 					  y <- getYCoordinates(graph, c(i,j)) + nodeR
-					  to <- getArc(c(x[1],y[1]),b,c(x[2],y[2]), edgeNode)					  
+					  to2 <- try(getArc(c(x[1],y[1]),b,c(x[2],y[2]), edgeNode))
+					  if (!("try-error" %in% class(to2))) to <- to2
 					}          
 					#weight <- ifelse(edgeL[i]==0, "\\epsilon", getLaTeXFraction(edgeL[i])) # format(edgeL[i], digits=3, drop0trailing=TRUE))					
 					edgeLine <- paste("\\draw [->,line width=1pt] (",nodes2[i], to," (",nodes2[j],");",sep="")
