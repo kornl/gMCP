@@ -61,9 +61,11 @@ Further installation hints are <a href="http://cran.at.r-project.org/web/package
 
 <p><img src="GUI.png" border="0" alt=""></p>
 
-<p>With lots of example graphs:</p>
+<p>If you created a graph based multiple test procedure, we would be glad to add it to our huge collection of example graphs from the literature:</p>
 
 <p><a href="ExampleGraphsWallpaper2.jpg"><img width="500" src="ExampleGraphsWallpaper.png" border="0" alt=""></a></p>
+
+<p>You'll find the descriptions and further examples in the package.</p>
 
 </body>
 </html>
