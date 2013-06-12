@@ -6,11 +6,9 @@
 - Highlight edges (and perhaps nodes) depending on the focus in the dataframe. 
 - Check copyright notes for code under BSD Licence
 - Give more information about "testing mode" - one time JOptionPane for example.
-- For gMCP 0.8-1: Require CommonJavaJars (>= 1.0.3), remove afcommons.jar from package and add it to loadJars.
 - Find good color set for entangled graphs.
 - Check whether parametric test mode is set correctly in power simulations.
 - Why is RControl.getR().getHistory() not accessible when the gMCP call fails?
-- Parsing \\epsilon creates a lot of error messages in the R terminal for edges with variables.
 - Umlaute in literatur.bib, e.g. Röhmel
 - Options: Show R Code
 - .asRLogical().getData()[0] can be true but NA in R
@@ -19,7 +17,6 @@
 - Warn user if he uses a version that is older than 1 year.
 - Warn/inform user about changes.
 - Does contrMat(n=c(10, 20, 30, 40), type ="Dunnett") do what I want?!?
-- Copy&Paste of Results (Table, Text, allow to save)
 - Read and check ?validObject
 - For parametric procedures there is no "reset" button (->variables)
 - Description (.Rd files) of graphGUI and corMatWizard
@@ -30,7 +27,6 @@
 - As soon as weights for nodes are implemented, change Improved Fallback one to (w_1,w_2,w_3) and edges (now 1/2,1/2) to \gamma, 1-\gamma with \gamma=w2/(w1_w2))
 - Save power scenarios
 - Correlation matrix save & restore
-- Does gMCP calculate correctly in 0.6-6 in the Console?
 - positive Definitheit!
 - Sample size is ignored in CorMatDialog
 - Konsonanz erzwingen?
@@ -43,7 +39,9 @@
 - Check in CI zu max(0, ..) bzw. min(0, ..) / means
 - keine p-Werte übernehmen
 - Buttons to load R objects for power dialog.
+=== POWER ===
 - Erben der Korrelationsmatrix vom Hauptfenster (warn if this is not the case?)
+- Copy&Paste of Results (Table, Text, allow to save)
 - Scenarios for power
 - listen von Stichproben
 - Output von power calculations
@@ -56,11 +54,6 @@
 - integrate the two files "tests.R" and "unirootbug.Rd" in directory "unitTests" into unit tests. 
 - improve behavior of tables if "Automatically enter the editing mode, whenever a table cell gets the focus" is set to false.
 - round values in CI Dialog
-- Check whether 0.7-11 is regarded as newer than 0.7-9 
-
-- TikZ:
-\tkzCircumCenter(A,B,C)\tkzGetPoint{O}\tkzDrawArc(O,A)(C)
-You can use H4.90 to get the point leaving H4 at angle 90°
 
 - Characterize optimal graphs.
 
@@ -81,7 +74,7 @@ You can use H4.90 to get the point leaving H4 at angle 90°
 - Options for Edge label font size etc?
 
 Is this still the case?
-- In CI-Dialog (initial weights instead of alpha are displayed - this are two errors)
+- In CI-Dialog (initial weights instead of alpha are displayed - these are two errors)
 
 - Activate parse2numeric again in PowerDialog if (and only if) graph@m doesn't contain NAs afterwards.
 
