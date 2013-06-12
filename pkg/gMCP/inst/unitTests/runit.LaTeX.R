@@ -28,10 +28,13 @@ test.LaTeX <- function() {
 		report <- paste(report, graph2latex(graph), sep="\n")
 	}
 	report <- paste(report, "\\end{document}", sep="\n")
-	if (interactive() && "interactive" %in% strsplit(Sys.getenv("GMCP_UNIT_TESTS"),",")[[1]]) {
+	if (interactive() && "interactive" %in% strsplit(Sys.getenv("GMCP_UNIT_TESTS"), " ")[[1]]) {
 		file <- paste(Sys.getenv("GMCP_UNIT_TEST_OPATH"), "report_test.tex", sep="/")
 		cat(report, file=file)
+    wd <- getwd()
+    setwd(Sys.getenv("GMCP_UNIT_TEST_OPATH"))
 		exitValue <- system(paste("pdflatex", file))
+    setwd(wd)
 		if (exitValue != 0) {
 			stop("Error calling pdflatex.")
 		}

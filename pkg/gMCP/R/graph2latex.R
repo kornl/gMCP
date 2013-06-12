@@ -92,11 +92,20 @@ getArc <- function(a, b, c, edgeNode, col="black") {
   #a <- invertY(a)
   #b <- invertY(b)
   #c <- invertY(c)
-  m <- getCenter(a,b,c,0.001)
+  m <- try(getCenter(a,b,c,0.001))
+  if ("try-error" %in% class(m)) {
+    return(getLine(a, b, c, edgeNode, col="black"))    
+  }
   r <- sqrt(sum((m-a)^2))
-  phi <- getAngle(a,b,c,m)
+  if (r>500) return(getLine(a, b, c, edgeNode, col="black"))
+  phi <- getAngle(a,b,c,m)  
   #cat("a: ",a,", b: ",b,", c:", c,"m: ",m,"r: ",r,", phi: ",phi,"\n")
   return(paste(".",round(phi[1]+ifelse(phi[1]>phi[2],-90,90)),") arc(",round(phi[1]),":",round(phi[3]),":",round(r),"bp) ",edgeNode," arc(",round(phi[3]),":",round(phi[2]),":",round(r),"bp) to",sep=""))
+}
+
+# Line from a to b and from b to c.
+getLine <- function(a, b, c, edgeNode, col="black") {
+  return(paste(") to (",round(b[1]),"bp, ",-round(b[2]),"bp) ",edgeNode," to",sep=""))
 }
 
 invertY <- function(x) {
