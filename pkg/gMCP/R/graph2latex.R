@@ -15,8 +15,8 @@ graph2latex <- function(graph, package="TikZ", scale=1, alpha=0.05, pvalues,
 	#tikz <- paste(tikz, "\\tikzset{help lines/.style=very thin}", paste="\n")	
 	for (node in getNodes(graph)) {
 		nodeColor <- ifelse(getRejected(graph, node),fill$reject, fill$retain)
-		x <- getXCoordinates(graph, node) + nodeR
-		y <- getYCoordinates(graph, node) + nodeR
+		x <- getXCoordinates(graph, node) + nodeR # Actually I'm not sure whether this "+ nodeR" in this function is really necessary.
+		y <- getYCoordinates(graph, node) + nodeR # It is more important to use nodeR to reduce the arc that should be drawn.
 		#alpha <- format(getWeights(graph,node), digits=3, drop0trailing=TRUE)
 		weight <- paste(getLaTeXFraction(getWeights(graph,node)), collapse=" ")
 		if (weight == 1) {
@@ -70,7 +70,7 @@ graph2latex <- function(graph, package="TikZ", scale=1, alpha=0.05, pvalues,
 					  b <- c(x,y) + nodeR
 					  x <- getXCoordinates(graph, c(i,j)) + nodeR
 					  y <- getYCoordinates(graph, c(i,j)) + nodeR
-					  to2 <- try(getArc(c(x[1],y[1]),b,c(x[2],y[2]), edgeNode))
+					  to2 <- try(getArc(c(x[1],y[1]),b,c(x[2],y[2]), edgeNode, nodeR=nodeR))
 					  if (!("try-error" %in% class(to2))) to <- to2
 					}          
 					#weight <- ifelse(edgeL[i]==0, "\\epsilon", getLaTeXFraction(edgeL[i])) # format(edgeL[i], digits=3, drop0trailing=TRUE))					
@@ -88,7 +88,7 @@ graph2latex <- function(graph, package="TikZ", scale=1, alpha=0.05, pvalues,
 }
 
 # Arc from a to b and from b to c.
-getArc <- function(a, b, c, edgeNode, col="black") {
+getArc <- function(a, b, c, edgeNode, col="black", nodeR=25) {
   #a <- invertY(a)
   #b <- invertY(b)
   #c <- invertY(c)
@@ -98,7 +98,7 @@ getArc <- function(a, b, c, edgeNode, col="black") {
   }
   r <- sqrt(sum((m-a)^2))
   if (r>500) return(getLine(a, b, c, edgeNode, col="black"))
-  phi <- getAngle(a,b,c,m)  
+  phi <- getAngle(a,b,c,m, nodeR)  
   #cat("a: ",a,", b: ",b,", c:", c,"m: ",m,"r: ",r,", phi: ",phi,"\n")
   return(paste(".",round(phi[1]+ifelse(phi[1]>phi[2],-90,90)),") arc(",round(phi[1]),":",round(phi[3]),":",round(r),"bp) ",edgeNode," arc(",round(phi[3]),":",round(phi[2]),":",round(r),"bp) to",sep=""))
 }
@@ -112,7 +112,7 @@ invertY <- function(x) {
   return(c(x[1],-x[2]))
 }
 
-getAngle <- function(a,b,c,m, nodeR=20) {
+getAngle <- function(a,b,c,m, nodeR=25) {
   # phi correction factor:
   r <- sqrt((m[1]-a[1])*(m[1]-a[1])+(m[2]-a[2])*(m[2]-a[2]))
   #phiCF <- (nodeR*360)/(2*pi*r)
@@ -191,7 +191,7 @@ getCenter <- function(a,b,c, eps=0.05) {
   } else {
     if ((x[2]-x[1]*z[2]/z[1])==0) {
       if ((z[2]-z[1]*x[2]/x[1])==0) stop("Can this happen?")
-      c <- ((c[2]-a[2])/2+((a[1]-c[1])/2*x[1])*x2)/(z[2]-z[1]*x[2]/x[1])
+      c <- ((c[2]-a[2])/2+((a[1]-c[1])/2*x[1])*x[2])/(z[2]-z[1]*x[2]/x[1])
       return(c((a[1]+b[1])/2+c*z[1], (a[2]+b[2])/2+c*z[2]))			
     }
     d <- ((a[2]-c[2])/2+((c[1]-a[1])/2*z[1])*z[2])/(x[2]-x[1]*z[2]/z[1])		

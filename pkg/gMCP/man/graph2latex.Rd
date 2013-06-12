@@ -12,7 +12,7 @@
 	fontsize=c("tiny","scriptsize", "footnotesize", "small",
 		"normalsize", "large", "Large", "LARGE", "huge", "Huge"), 
 		nodeTikZ, labelTikZ="near start,above,fill=blue!20",
-		tikzEnv=TRUE, offset=c(0,0),fill=list(reject="red!80",retain="green!80"))
+		tikzEnv=TRUE, offset=c(0,0),fill=list(reject="red!80",retain="green!80"), nodeR = 25)
 }
 
 \arguments{
@@ -54,6 +54,9 @@
         A list containing 2 elements \code{reject} and \code{retain}
   specifying node fill colour of rejected and retained (or not yet
   rejected) nodes. }
+  \item{nodeR}{
+      Radius of nodes (pixel in Java, bp in LaTeX).
+  }
 }
 \details{
 	For details see the given references.
