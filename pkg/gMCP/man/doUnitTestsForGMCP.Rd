@@ -48,7 +48,8 @@
 \examples{
 
 \dontrun{
-doUnitTestsForGMCP()
+unitTestsForGMCP()
+unitTestsGMCP(extended=TRUE, java=TRUE, interactive=TRUE, outputPath="~/RUnitTests")
 
 }
 
