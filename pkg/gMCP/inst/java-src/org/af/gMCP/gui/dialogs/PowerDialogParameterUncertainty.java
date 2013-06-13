@@ -133,9 +133,15 @@ public class PowerDialogParameterUncertainty extends JDialog implements ActionLi
 		dfp2.getTable().getModel().setCheckRowSum(false);
 		dfp2.setEnabled(false);		
 		
-		//if () {
-			
-		//}
+		if (parent.getPView().jrbRCorrelation.isSelected()) {
+			try {
+			String mat = parent.getPView().jcbCorObject.getSelectedItem().toString();
+			load(dfp, mat);
+			load(dfp2, mat);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
 		
 		if (parent.getPView().jrbRCorrelation.isSelected()) {			
 			String name = parent.getPView().jcbCorObject.getSelectedItem().toString();
