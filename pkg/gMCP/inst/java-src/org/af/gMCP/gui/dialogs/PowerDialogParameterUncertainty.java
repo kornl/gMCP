@@ -33,6 +33,8 @@ import org.af.gMCP.gui.datatable.RDataFrameRef;
 import org.af.gMCP.gui.datatable.SingleDataFramePanel;
 import org.af.gMCP.gui.graph.EdgeWeight;
 import org.af.gMCP.gui.graph.Node;
+import org.af.jhlir.call.RList;
+import org.jdesktop.swingworker.SwingWorker;
 
 import com.jgoodies.forms.layout.CellConstraints;
 import com.jgoodies.forms.layout.FormLayout;
@@ -189,6 +191,8 @@ public class PowerDialogParameterUncertainty extends JDialog implements ActionLi
         setVisible(true);
 	} 
 	
+	String rCommand = "";
+	
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == clearList) {
 			listModel.removeAllElements();
@@ -283,7 +287,7 @@ public class PowerDialogParameterUncertainty extends JDialog implements ActionLi
 				String mean = RControl.getRString(means);
 				settings = ", mean="+mean;
 
-				String rCommand = "calcPower(weights="+weights+", alpha="+alpha+", G="+G+settings+"\n"
+				rCommand = "calcPower(weights="+weights+", alpha="+alpha+", G="+G+settings+"\n"
 						+","+"sigma = " + dfp.getTable().getModel().getDataFrame().getRMatrix() //diag(length(mean)),corr = NULL,"+
 						+getMatrixForParametricTest()+"\n"
 						+userDefinedF
@@ -297,33 +301,87 @@ public class PowerDialogParameterUncertainty extends JDialog implements ActionLi
 							rCommand+"\n The GUI will be unresponsive during this time. Continue?", "Parametric tests take a lot of time", JOptionPane.YES_NO_OPTION);
 					if (answer==JOptionPane.NO_OPTION) return;
 				}
+				
+				parent.glassPane.start();
+				SwingWorker<Void, Void> worker = new SwingWorker<Void, Void>() {
+					
+					@Override
+					protected Void doInBackground() throws Exception {					
+						try {
+							RControl.getR().eval(".powerResult <- "+rCommand);
+							double[] localPower = RControl.getR().eval(".powerResult$LocalPower").asRNumeric().getData();
+							double expRejections = RControl.getR().eval(".powerResult$ExpRejections").asRNumeric().getData()[0];
+							double powAtlst1 = RControl.getR().eval(".powerResult$PowAtlst1").asRNumeric().getData()[0];
+							double rejectAll = RControl.getR().eval(".powerResult$RejectAll").asRNumeric().getData()[0];
+							Double[] userDefined = new Double[listModel.getSize()];
+							String[] functions = new String[listModel.getSize()];
+							for (int i=0; i<listModel.getSize(); i++) {
+								functions[i] = listModel.get(i).toString();
+								userDefined[i] = RControl.getR().eval(".powerResult$userDefined"+i).asRNumeric().getData()[0];
+							}
+							parent.getGraphView().getNL().setPower(localPower, expRejections, powAtlst1, rejectAll, userDefined, functions);
+						} catch (Exception e) {
+							String message = e.getMessage();
+							JOptionPane.showMessageDialog(parent, "R call produced an error:\n\n"+message+"\nWe will open a window with R code to reproduce this error for investigation.", "Error in R Call", JOptionPane.ERROR_MESSAGE);
+							JDialog d = new JDialog(parent, "R Error", true);
+							d.add(
+									new TextFileViewer(parent, "R Objects", "The following R code produced the following error:\n\n" +message+
+											rCommand, true)
+									);
+							d.pack();
+							d.setSize(800, 600);
+							d.setVisible(true);
+							e.printStackTrace();						
+						} finally {
+							parent.glassPane.stop();
+						}
+						return null;
+					}					 
+				};
+				worker.execute();
 
-				RControl.getR().eval(".powerResult <- "+rCommand);
-				double[] localPower = RControl.getR().eval(".powerResult$LocalPower").asRNumeric().getData();
-				double expRejections = RControl.getR().eval(".powerResult$ExpRejections").asRNumeric().getData()[0];
-				double powAtlst1 = RControl.getR().eval(".powerResult$PowAtlst1").asRNumeric().getData()[0];
-				double rejectAll = RControl.getR().eval(".powerResult$RejectAll").asRNumeric().getData()[0];
-				Double[] userDefined = new Double[listModel.getSize()];
-				String[] functions = new String[listModel.getSize()];
-				for (int i=0; i<listModel.getSize(); i++) {
-					functions[i] = listModel.get(i).toString();
-					userDefined[i] = RControl.getR().eval(".powerResult$userDefined"+i).asRNumeric().getData()[0];
-				}
-				parent.getGraphView().getNL().setPower(localPower, expRejections, powAtlst1, rejectAll, userDefined, functions);
-
+				
 			} else { /** Multiple Settings */
 				settings = ", muL = " + pPanelMeans.getRList()
 						+ ", sigmaL = " + pPanelSigmas.getRList()
 						+ ", nL = " + pPanelN.getRList();
-				String result = RControl.getR().eval("gMCP:::calcMultiPower(weights="+weights+", alpha="+alpha+", G="+G+settings
+				
+				rCommand = "gMCP:::calcMultiPower(weights="+weights+", alpha="+alpha+", G="+G+settings
 						+","+"sigma = " + dfp.getTable().getModel().getDataFrame().getRMatrix() //diag(length(mean)),corr = NULL,"+
 						+getMatrixForParametricTest()
 						+userDefinedF
 						+", nSim = "+Configuration.getInstance().getGeneralConfig().getNumberOfSimulations()
 						+", type = \""+Configuration.getInstance().getGeneralConfig().getTypeOfRandom()+"\""
 						+getVariables()
-						+")").asRChar().getData()[0];
-				new TextFileViewer(parent, "Power results", result, true);
+						+")";				
+				
+				parent.glassPane.start();
+				SwingWorker<Void, Void> worker = new SwingWorker<Void, Void>() {
+					
+					@Override
+					protected Void doInBackground() throws Exception {					
+						try {
+							String result = RControl.getR().eval(rCommand).asRChar().getData()[0];
+							new TextFileViewer(parent, "Power results", result, true);
+						} catch (Exception e) {
+							String message = e.getMessage();
+							JOptionPane.showMessageDialog(parent, "R call produced an error:\n\n"+message+"\nWe will open a window with R code to reproduce this error for investigation.", "Error in R Call", JOptionPane.ERROR_MESSAGE);
+							JDialog d = new JDialog(parent, "R Error", true);
+							d.add(
+									new TextFileViewer(parent, "R Objects", "The following R code produced the following error:\n\n" +message+
+											rCommand, true)
+									);
+							d.pack();
+							d.setSize(800, 600);
+							d.setVisible(true);
+							e.printStackTrace();						
+						} finally {
+							parent.glassPane.stop();
+						}
+						return null;
+					}					 
+				};
+				worker.execute();				
 			}
 		}
 		dispose();

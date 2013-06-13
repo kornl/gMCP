@@ -24,7 +24,7 @@ calcPower <- function(weights, alpha, G, mean = rep(0, nrow(sigma)),
 	  for (m in mean) {
 		  sims <- rqmvnorm(nSim, mean = m, sigma = sigma, seed = seed, type = type)
 		  pvals <- pnorm(sims, lower.tail = FALSE)
-		  out <- graphTest(pvals, weights, alpha, G, cr, test)
+		  out <- graphTest(pvals, weights, alpha, G, cr, test=test)
 		  out <- extractPower(out, f)
 		  label <- attr(m, "label")		  
 		  if (!is.null(label)) {
@@ -36,7 +36,7 @@ calcPower <- function(weights, alpha, G, mean = rep(0, nrow(sigma)),
   } else {
 	  sims <- rqmvnorm(nSim, mean = mean, sigma = sigma, seed = seed, type = type)
 	  pvals <- pnorm(sims, lower.tail = FALSE)
-	  out <- graphTest(pvals, weights, alpha, G, cr)
+	  out <- graphTest(pvals, weights, alpha, G, cr, test=test)
 	  extractPower(out, f)
   }
 }
@@ -44,7 +44,7 @@ calcPower <- function(weights, alpha, G, mean = rep(0, nrow(sigma)),
 calcMultiPower <- function(weights, alpha, G, muL, sigmaL, nL,
 		sigma = diag(length(muL[[1]])), cr = NULL,
 		nSim = 10000, seed = 4711, type = c("quasirandom", "pseudorandom"),
-		f=list(), digits=4, variables=NULL) {
+		f=list(), digits=4, variables=NULL, test) {
 	meanL <- list()
 	for (mu in muL) {
 		for (s in sigmaL) {
@@ -60,7 +60,7 @@ calcMultiPower <- function(weights, alpha, G, muL, sigmaL, nL,
 	g <- setWeights(g, weights)
 	if (is.null(variables)) {
 		sResult <- paste(sResult, "Graph:",paste(capture.output(print(g)), collapse="\n"), sep="\n")
-		resultL <- calcPower(weights, alpha, G, mean = meanL, sigma, cr, nSim, seed, type, f)
+		resultL <- calcPower(weights, alpha, G, mean = meanL, sigma, cr, nSim, seed, type, f, test=test)
 		sResult <- paste(sResult, resultL2Text(resultL, digits), sep="\n")
 	} else {
 		# For testing purposes: variables <- list(a=c(1,2), b=(3), x=c(2,3,4), d=c(1,2))
@@ -79,7 +79,7 @@ calcMultiPower <- function(weights, alpha, G, muL, sigmaL, nL,
 			print(alpha)
 			print(meanL)
 			additionalLabel <- paste(",", paste(paste(names(variables),"=",variablesII,sep=""), collapse=", "))
-			resultL <- calcPower(weights=weights, alpha=alpha, G=GII, mean = meanL, sigma, cr, nSim, seed, type, f)
+			resultL <- calcPower(weights=weights, alpha=alpha, G=GII, mean = meanL, sigma, cr, nSim, seed, type, f, test=test)
 			sResult <- paste(sResult, resultL2Text(resultL, digits, additionalLabel=additionalLabel), sep="\n")
 			# Going through all of the variable settings:
 			i[j] <- i[j] + 1
@@ -95,8 +95,7 @@ calcMultiPower <- function(weights, alpha, G, muL, sigmaL, nL,
 				}
 			}
 		}		
-	}
-	
+	}	
 	return(sResult)
 }
 

@@ -7,7 +7,8 @@ Changes in version 0.8-2 (??-??-2013, Rev. 1???)
 - If a correlation matrix is selected in the main window, the same 
   correlation matrix is loaded per default in the power analysis dialog.
   
-- 
+- Fixed a bug existing in gMCP 0.7-11 to 0.8-1 which caused errors for 
+  multiple power settings in the GUI.
 
 Changes in version 0.8-1 (06-04-2013, Rev. 1567)
 ================================================

@@ -3,6 +3,8 @@ test.calcpower <- function() {
 		# Here we can write down extended tests that will only be used if
 		# the environment variable GMC_UNIT_TESTS is set to "extended".
 	}
+	.tmpGraph <- BonferroniHolm(3)
+	gMCP:::calcMultiPower(weights=.tmpGraph@weights, alpha=0.05, G=.tmpGraph@m, muL = list(c(0, 0, 0)), sigmaL = list(c(1, 1, 1)), nL = list(c(10, 10, 10)),sigma = matrix(c(1,0,0,0,1,0,0,0,1), nrow=3), nSim = 10000, type = "quasirandom")
 }
 
 test.rqmvnorm <- function() {
