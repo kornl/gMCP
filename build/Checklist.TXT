@@ -1,0 +1,5 @@
+- Has ant been called and is the jar file up to date?
+- R CMD check --as-cran
+Mail:
+- Text-only?
+- From rohmeyer@small-projects.de?
