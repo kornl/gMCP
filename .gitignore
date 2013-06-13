@@ -6,3 +6,5 @@ pkg/gMCP/src/*.o
 pkg/gMCP/src/*.so
 pkg/*.Rcheck/
 pkg/*.tar.gz
+.RData
+.Rhistory
