@@ -166,18 +166,11 @@ Possible MalWare 'W32/NewMalware-Generic-8d27-f554' found in '5832765_287X_AZ-D_
 Medium priority:
 ================
 - graphAnalysis throws: negative values not allowed in adjacency matrix for e.g. improved parallel gatekeeping.
-- Contact Björn:
-  ~/workspace/gMCP/pkg/gMCP/src$ gcc -I/usr/share/R/include -Wunused -fpic  -std=gnu99 -O3 -pipe  -g -c mcp.c -o mcp.o
-  mcp.c: In function ‘graphproc’:
-  mcp.c:20:16: warning: unused variable ‘count’
-  mcp.c: In function ‘graphmult’:
-  mcp.c:124:9: warning: unused variable ‘j’
 - https://twitter.com/#!/hadleywickham: "@revodavid noooooooooooo. don't use strings + parse + eval. use calls + substitute + eval #rstats (there's also an R news article on macros)"
 - Does Indefinite ProgressPanel slow the calculation significantly down ?!?
 - graphAnalysis: Graph can be optimal despite the fact that some nodes are not accessible from others
 - Warn user when sum of edge weights is bigger than 1
 - Check mutator methods for errors (alpha > 1, edge weights > 1)
-- Update graph2latex to the much better algorithm already implemented in Java.
 - Guide for usage under MacOS
 - Test the option for rounding how many digits we want to see.
 (search for DecimalFormat and replace it with getDecFormat())

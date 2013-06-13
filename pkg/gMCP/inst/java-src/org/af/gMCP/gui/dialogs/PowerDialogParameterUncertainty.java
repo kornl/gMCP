@@ -133,6 +133,10 @@ public class PowerDialogParameterUncertainty extends JDialog implements ActionLi
 		dfp2.getTable().getModel().setCheckRowSum(false);
 		dfp2.setEnabled(false);		
 		
+		//if () {
+			
+		//}
+		
 		if (parent.getPView().jrbRCorrelation.isSelected()) {			
 			String name = parent.getPView().jcbCorObject.getSelectedItem().toString();
 			try {
@@ -321,8 +325,12 @@ public class PowerDialogParameterUncertainty extends JDialog implements ActionLi
 
 	private void load(SingleDataFramePanel dfp) {
 		VariableNameDialog vnd = new VariableNameDialog(parent);
+		load(dfp, vnd.getName());		
+	}
+
+	private void load(SingleDataFramePanel dfp3, String name) {
 		try {
-			double[] result = RControl.getR().eval("as.numeric("+vnd.getName()+")").asRNumeric().getData();
+			double[] result = RControl.getR().eval("as.numeric("+name+")").asRNumeric().getData();
 			int n = nodes.size();
 			for (int i=0; i<n; i++) {
 				for (int j=0; j<n; j++) {
@@ -330,7 +338,7 @@ public class PowerDialogParameterUncertainty extends JDialog implements ActionLi
 				}
 			}
 		} catch (Exception exc) {
-			JOptionPane.showMessageDialog(this, "Could not load matrix \""+vnd.getName()+"\":\n"+exc.getMessage(), "Could not load matrix", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(this, "Could not load matrix \""+name+"\":\n"+exc.getMessage(), "Could not load matrix", JOptionPane.ERROR_MESSAGE);
 		}
 	}
 
