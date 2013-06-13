@@ -5,6 +5,7 @@ bin
 pkg/gMCP/src/*.o
 pkg/gMCP/src/*.so
 pkg/gMCP/src/*.dll
+pkg/gMCP/src/symbols.rds
 pkg/*.Rcheck/
 pkg/*.tar.gz
 .RData
