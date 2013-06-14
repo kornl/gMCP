@@ -14,7 +14,8 @@
 	early stage and may change in the near future 
 }
 \usage{
-	secondStageTest(interim,select,matchCE=TRUE,zWeights="reject",G2=interim@preplanned)
+	secondStageTest(interim, select, matchCE=TRUE, 
+                  zWeights="reject", G2=interim@preplanned)
 }
 
 \arguments{

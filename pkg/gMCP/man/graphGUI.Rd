@@ -8,7 +8,8 @@
 	Starts a graphical user interface for the creation/modification of directed weighted graphs and applying graphical described multiple comparison procedures.
 }
 \usage{
-	graphGUI(graph="createdGraph", pvalues=numeric(0), grid=0, debug=FALSE, experimentalFeatures=FALSE)
+	graphGUI(graph="createdGraph", pvalues=numeric(0), grid=0, 
+           debug=FALSE, experimentalFeatures=FALSE)
 }
 
 \arguments{

@@ -12,7 +12,8 @@
 	fontsize=c("tiny","scriptsize", "footnotesize", "small",
 		"normalsize", "large", "Large", "LARGE", "huge", "Huge"), 
 		nodeTikZ, labelTikZ="near start,above,fill=blue!20",
-		tikzEnv=TRUE, offset=c(0,0),fill=list(reject="red!80",retain="green!80"), nodeR = 25)
+		tikzEnv=TRUE, offset=c(0,0),
+    fill=list(reject="red!80",retain="green!80"), nodeR = 25)
 }
 
 \arguments{

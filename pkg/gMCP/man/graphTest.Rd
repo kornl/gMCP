@@ -7,7 +7,8 @@
   the same task.
 }
 \usage{
-  graphTest(pvalues, weights = NULL, alpha = 0.05, G = NULL, cr = NULL, graph = NULL, verbose = FALSE, test)
+  graphTest(pvalues, weights = NULL, alpha = 0.05, G = NULL, cr = NULL,
+            graph = NULL, verbose = FALSE, test)
 }
 \arguments{
   \item{pvalues}{ Either a vector or a matrix containing the local p-values
