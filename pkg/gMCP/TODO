@@ -88,6 +88,7 @@ Error in calcPower(weights = .tmpGraph@weights, alpha = 0.05, G = .tmpGraph@m,  
 Critical:
 =========
 
+- Test (and perhaps fix) the following: graphGUI("graph", envir=new.env())
 - Think about JavaGD devices. (User wants to plot in R Console etc.)
 - Does Deducer interfere JavaGD? (When is .onLoad executed?)
 - Make JavaGD only a suggest (Solaris and generally safer)

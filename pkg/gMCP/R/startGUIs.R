@@ -1,13 +1,13 @@
-graphGUI <- function(graph="createdGraph", pvalues=numeric(0), grid=0, debug=FALSE, experimentalFeatures=FALSE) {
+graphGUI <- function(graph="createdGraph", pvalues=numeric(0), grid=0, debug=FALSE, experimentalFeatures=FALSE, envir=globalenv()) {
 	if (!is.character(graph)) {
 		if ("graphMCP" %in% class(graph)) {
 			newGraphName <- "createdGraph"
 			i <- 2
-			while(exists(newGraphName, envir=globalenv())) {
+			while(exists(newGraphName, envir=envir)) {
 				newGraphName <- paste("createdGraph", i, sep="")
 				i <- i + 1
 			}
-			assign(newGraphName, updateGraphToNewClassDefinition(graph), envir=globalenv())
+			assign(newGraphName, updateGraphToNewClassDefinition(graph), envir=envir)
 			graph <- newGraphName
 		} else {
 			warning("Please specify the variable name for the graph as character.")
@@ -17,17 +17,18 @@ graphGUI <- function(graph="createdGraph", pvalues=numeric(0), grid=0, debug=FAL
 			warning(paste("We guess you wanted to use graphGUI(\"",graph,"\")",sep=""))
 		}
 	} else {
-		if (exists(graph, envir=globalenv())) {
-			if ("graphMCP" %in% class(get(graph, envir=globalenv()))) {
-				assign(graph, updateGraphToNewClassDefinition(get(graph, envir=globalenv())), envir=globalenv())
-				if (is.null(getXCoordinates(get(graph, envir=globalenv())))||is.null(getYCoordinates(get(graph, envir=globalenv())))) {
-					assign(graph, placeNodes(get(graph, envir=globalenv())), envir=globalenv())
+		if (exists(graph, envir=envir)) {
+			if ("graphMCP" %in% class(get(graph, envir=envir))) {
+				assign(graph, updateGraphToNewClassDefinition(get(graph, envir=envir)), envir=envir)
+				if (is.null(getXCoordinates(get(graph, envir=envir)))||is.null(getYCoordinates(get(graph, envir=envir)))) {
+					assign(graph, placeNodes(get(graph, envir=envir)), envir=envir)
 				}
 			} else {
 				stop(paste("The variable",graph,"already exists and is no graphMCP object."))
 			}
 		}
 	}
+  assign("env", envir, envir=gMCP:::gMCPenv)
 	invisible(.jnew("org/af/gMCP/gui/CreateGraphGUI", make.names(graph), pvalues, debug, grid, experimentalFeatures))	
 }
 

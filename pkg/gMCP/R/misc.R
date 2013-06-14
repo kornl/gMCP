@@ -1,3 +1,5 @@
+gMCPenv <- new.env()
+
 checkValidWeights <- function(weights) {
 	if(!is.numeric(weights)) {
 		stop("Weights have to be numeric!")

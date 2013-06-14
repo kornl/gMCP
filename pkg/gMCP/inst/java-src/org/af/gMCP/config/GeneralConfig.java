@@ -340,6 +340,15 @@ public class GeneralConfig extends SpecificConfig {
 		setProperty("markEpsilon", ""+b);		
 	}
 
+	/* Environment where all objects should be loaded from / saved to. */ 
+	public String getEnvir() {
+		return getProperty("envir", ", envir=get(\"env\", gMCP:::gMCPenv)");
+	}
+	
+	public void setEnvir(String envir) {
+		setProperty("envir", envir);
+	}
+	
 	public String getParametricTest() {
 		return getProperty("parametricTest", "Bretz2011");
 	}

@@ -9,7 +9,7 @@
 }
 \usage{
 	graphGUI(graph="createdGraph", pvalues=numeric(0), grid=0, 
-           debug=FALSE, experimentalFeatures=FALSE)
+           debug=FALSE, experimentalFeatures=FALSE, envir=globalenv())
 }
 
 \arguments{
@@ -19,23 +19,27 @@
   	to change it to a valid one.)
   	Or an object of class \code{\link{graphMCP}}.
   	If the object is modified (even just by updating the class definition or arranging the nodes)
-  	it will be saved in the global environment. 
+  	it will be saved in the specified environment (default is the global environment). 
   }
   \item{pvalues}{
-	Numeric value that optionally specifies the p-values. 
+	  Numeric value that optionally specifies the p-values. 
   }
   \item{grid}{
-	Positive integer that sets the grid size for easier placement of nodes.
-	(Therefore grid size 1 allows unrestricted placement and disables the grid.) 
-	The default grid=0 uses the last used grid value or if the GUI is started the 
-	first time a value of 50.
+	  Positive integer that sets the grid size for easier placement of nodes.
+	  (Therefore grid size 1 allows unrestricted placement and disables the grid.) 
+	  The default grid=0 uses the last used grid value or if the GUI is started the 
+	  first time a value of 50.
   }
   \item{debug}{
-	Logical. If \code{TRUE} debug output is printed to the R console.
+	  Logical. If \code{TRUE} debug output is printed to the R console.
   }
   \item{experimentalFeatures}{
-	Logical. If \code{TRUE} some unfinished / insufficiently tested experimental features 
-	are available in the GUI.
+	  Logical. If \code{TRUE} some unfinished / insufficiently tested experimental features 
+	  are available in the GUI.
+  }
+  \item{envir}{
+    Environment where the object \var{graph} is located and/or it 
+    should be saved (default is the global environment).
   }
 }
 \details{
@@ -44,7 +48,7 @@
 }
 \value{
 	The function itself returns NULL. But with the GUI a graph can be created or edited 
-	that will be available in R under the specified variable name after saving.
+	that will be available in R under the specified variable name after saving in the specified environment.
 }
 \author{
 	Kornelius Rohmeyer \email{rohmeyer@small-projects.de}
@@ -55,7 +59,11 @@
 \dontrun{
 graphGUI()
 pvalues <- c(9.7, 1.5, 0.5, 0.6, 0.4, 0.8, 4)/100 
-graphGUI(HommelEtAl2007(), pvalues=pvalues)}
+graphGUI(HommelEtAl2007(), pvalues=pvalues)
+
+x <- new.env()
+assign("graph", BonferroniHolm(3), envir=x)
+graphGUI("graph", envir=x)}
 
 }
 \keyword{ misc }

@@ -4,6 +4,10 @@ Changes in version 0.8-3 (??-06-2013)
 - If a correlation matrix is selected in the main window, the same 
   correlation matrix is loaded per default in the power analysis dialog.
 
+- To comply with CRAN policies the function graphGUI has now an argument
+  envir to specify in which environment the object graph is located and/or 
+  it should be saved (default is the global environment).
+
 
 Changes in version 0.8-2 (14-06-2013)
 ================================================
@@ -21,6 +25,8 @@ Changes in version 0.8-2 (14-06-2013)
   Instead of subversion revision numbers you will find annotated tags specifying 
   the versions in the git repository.
   
+ (This version was not accepted on CRAN. See news for version 0.8-3.)
+
 
 Changes in version 0.8-1 (06-04-2013, Rev. 1567)
 ================================================
