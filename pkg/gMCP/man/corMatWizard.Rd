@@ -8,7 +8,8 @@
 	Starts a graphical user interface for the correlation matrices.
 }
 \usage{
-	corMatWizard(n=dim(matrix)[1], matrix=paste("diag(",n,")"), names=paste("H",1:n,sep=""))
+	corMatWizard(n=dim(matrix)[1], matrix=paste("diag(",n,")"), 
+               names=paste("H",1:n,sep=""))
 }
 
 \arguments{

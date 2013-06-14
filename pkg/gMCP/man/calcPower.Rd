@@ -109,7 +109,8 @@ simfunc <- function(nSim, a1, a2, g1, g2, rh, t1, t2, t3, t4, Gr){
 ## calculate power for all 14 scenarios
 outList <- list()
 for(i in 1:14){
-  outList[[i]] <- simfunc(10000, weights1[i], weights2[i], gam1[i], gam2[i], rho[i], th1[i], th2[i], th3[i], th4[i])
+  outList[[i]] <- simfunc(10000, weights1[i], weights2[i], 
+                    gam1[i], gam2[i], rho[i], th1[i], th2[i], th3[i], th4[i])
 }
 
 ## summarize data as in Stat Med paper Table I 
