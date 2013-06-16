@@ -63,7 +63,8 @@ public class RControl {
 				if (System.getProperty("libPath") != null) {
 					rcs.eval(".libPaths(new=\""+System.getProperty("libPath")+"\")");
 				}
-				rcs.eval("require(gMCP)");				
+				rcs.eval("require(gMCP)");	
+				rcs.eval("assign(\"env\", globalenv(), envir = gMCP:::gMCPenv)");
 				rcs.eval("graph <- BonferroniHolm(3)");
 				rcs.eval("graph2 <- BretzEtAl2011()");
 				rcs.eval("m <- matrix(0, nrow=2, ncol=2)");
