@@ -1,3 +1,4 @@
+- Disable CI and adj.P for entangled graphs.
 - GUI speed optimization (try Ferber II with 15x5)
 - Is there a better way than to assign everything to the global environment:
      assign(newGraphName, x, envir=globalenv())

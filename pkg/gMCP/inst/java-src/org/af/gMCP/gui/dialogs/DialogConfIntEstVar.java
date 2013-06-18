@@ -232,7 +232,7 @@ public class DialogConfIntEstVar extends JDialog implements ActionListener, Chan
 			panel.add(hypothesis, c);
 			c.gridx++;
 			
-			JLabel alpha = new JLabel(format.format(node.getWeight()));
+			JLabel alpha = new JLabel(format.format(node.getWeight().get(0)));
 			this.alphaLabel.add(alpha);
 			panel.add(alpha, c);
 			c.gridx++;
