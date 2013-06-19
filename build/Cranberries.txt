@@ -1524,3 +1524,48 @@ Diff between gMCP versions 0.7-12 dated 2012-08-02 and 0.8-0 dated 2012-10-14
  gMCP-0.8-1/gMCP/man/graphGUI.Rd                                                            |    2
   
  28 files changed, 177 insertions(+), 197 deletions(-)
+ 
+ Diff between gMCP versions 0.8-1 dated 2013-04-06 and 0.8-3 dated 2013-06-14
+
+ gMCP-0.8-1/gMCP/inst/doc/gMCP.loa                                                          |only
+ gMCP-0.8-1/gMCP/inst/doc/gMCP.lof                                                          |only
+ gMCP-0.8-1/gMCP/inst/doc/gMCP.lot                                                          |only
+ gMCP-0.8-3/gMCP/DESCRIPTION                                                                |    6 
+ gMCP-0.8-3/gMCP/MD5                                                                        |   74 ++---
+ gMCP-0.8-3/gMCP/NEWS                                                                       |   34 ++
+ gMCP-0.8-3/gMCP/R/calcPower.R                                                              |   15 -
+ gMCP-0.8-3/gMCP/R/graph2latex.R                                                            |  143 +++++++++-
+ gMCP-0.8-3/gMCP/R/graphTest.R                                                              |    4 
+ gMCP-0.8-3/gMCP/R/misc.R                                                                   |    2 
+ gMCP-0.8-3/gMCP/R/startGUIs.R                                                              |   17 -
+ gMCP-0.8-3/gMCP/TODO                                                                       |   32 --
+ gMCP-0.8-3/gMCP/inst/doc/AQuickStart.R                                                     |only
+ gMCP-0.8-3/gMCP/inst/doc/AQuickStart.Rnw                                                   |    2 
+ gMCP-0.8-3/gMCP/inst/doc/AQuickStart.pdf                                                   |binary
+ gMCP-0.8-3/gMCP/inst/doc/Makefile                                                          |    2 
+ gMCP-0.8-3/gMCP/inst/doc/figure/unnamed-chunk-23.pdf                                       |binary
+ gMCP-0.8-3/gMCP/inst/doc/gMCP.R                                                            |only
+ gMCP-0.8-3/gMCP/inst/doc/gMCP.pdf                                                          |binary
+ gMCP-0.8-3/gMCP/inst/doc/gMCP/gMCP.Rnw                                                     |    2 
+ gMCP-0.8-3/gMCP/inst/doc/parametric.R                                                      |only
+ gMCP-0.8-3/gMCP/inst/doc/parametric.Rnw                                                    |    2 
+ gMCP-0.8-3/gMCP/inst/doc/parametric.pdf                                                    |binary
+ gMCP-0.8-3/gMCP/inst/java-src/org/af/gMCP/config/GeneralConfig.java                        |    9 
+ gMCP-0.8-3/gMCP/inst/java-src/org/af/gMCP/gui/CreateGraphGUI.java                          |    2 
+ gMCP-0.8-3/gMCP/inst/java-src/org/af/gMCP/gui/MenuBarMGraph.java                           |    4 
+ gMCP-0.8-3/gMCP/inst/java-src/org/af/gMCP/gui/dialogs/PowerDialogParameterUncertainty.java |  110 ++++++-
+ gMCP-0.8-3/gMCP/inst/java-src/org/af/gMCP/gui/graph/Edge.java                              |    9 
+ gMCP-0.8-3/gMCP/inst/java-src/org/af/gMCP/gui/graph/NetList.java                           |    2 
+ gMCP-0.8-3/gMCP/inst/java-src/org/af/gMCP/gui/graph/Node.java                              |    5 
+ gMCP-0.8-3/gMCP/inst/java/gsrmtp.jar                                                       |binary
+ gMCP-0.8-3/gMCP/inst/unitTests/runit.LaTeX.R                                               |    5 
+ gMCP-0.8-3/gMCP/inst/unitTests/runit.power.R                                               |    2 
+ gMCP-0.8-3/gMCP/man/calcPower.Rd                                                           |   15 -
+ gMCP-0.8-3/gMCP/man/confint.Rd                                                             |    3 
+ gMCP-0.8-3/gMCP/man/corMatWizard.Rd                                                        |    3 
+ gMCP-0.8-3/gMCP/man/doUnitTestsForGMCP.Rd                                                  |    6 
+ gMCP-0.8-3/gMCP/man/graph2latex.Rd                                                         |    6 
+ gMCP-0.8-3/gMCP/man/graphGUI.Rd                                                            |   33 +-
+ gMCP-0.8-3/gMCP/man/graphTest.Rd                                                           |   10 
+ gMCP-0.8-3/gMCP/man/secondStageTest.Rd                                                     |    3 
+ 41 files changed, 422 insertions(+), 140 deletions(-)

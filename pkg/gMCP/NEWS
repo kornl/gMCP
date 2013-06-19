@@ -12,6 +12,8 @@ Changes in version 0.8-3 (14-06-2013)
   envir to specify in which environment the object graph is located and/or 
   it should be saved (default is the global environment).
 
+ 41 files changed, 422 insertions(+), 140 deletions(-)
+
 
 Changes in version 0.8-2 (14-06-2013)
 ================================================
