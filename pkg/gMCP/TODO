@@ -1,4 +1,7 @@
 - Disable CI and adj.P for entangled graphs.
+- graph2latex for entangled graphs.
+- Link to archive is wrong on bundle site.
+- Removing layer from entangled graphs does not remove weights?
 - GUI speed optimization (try Ferber II with 15x5)
 - Is there a better way than to assign everything to the global environment:
      assign(newGraphName, x, envir=globalenv())
