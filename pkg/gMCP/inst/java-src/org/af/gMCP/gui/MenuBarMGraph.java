@@ -162,7 +162,7 @@ public class MenuBarMGraph extends JMenuBar implements ActionListener {
 		if (Configuration.getInstance().getGeneralConfig().experimentalFeatures()) {
 			subMenu = new JMenu("Entangled graphs");		
 			subMenu.add(makeMenuItem("Entangled Graph I from Maurer et al. (2012)", "entangled1"));
-			subMenu.add(makeMenuItem("Entangled Graph II from Maurer et al. (20012)", "entangled2"));
+			subMenu.add(makeMenuItem("Entangled Graph II from Maurer et al. (2012)", "entangled2"));
 			exampleMenu.add(subMenu);
 		}
 		
@@ -484,6 +484,10 @@ public class MenuBarMGraph extends JMenuBar implements ActionListener {
 	private void notYetSupported() {
 		JOptionPane.showMessageDialog(control.getMainFrame(), "Not yet supported.", "Not yet supported", JOptionPane.INFORMATION_MESSAGE);
 	}
+	
+	String[] pdfViewers = new String[] {
+			"evince", "xpdf"
+	};
 
 	public void showFile(String s) {
 		File f = new File(RControl.getR().eval("system.file(\""+s+"\", package=\"gMCP\")").asRChar().getData()[0]);
@@ -503,7 +507,7 @@ public class MenuBarMGraph extends JMenuBar implements ActionListener {
 				Method second = obj.getClass().getDeclaredMethod("open", new Class[] { File.class }); 
 				second.invoke(obj, f);
 			} catch (Exception exc) {			
-				logger.warn("No Desktop class in Java 5 or URI error.");
+				logger.warn("No Desktop class in Java 5 or URI error: "+exc.getMessage(), exc);
 				if (f.getName().toLowerCase().endsWith(".html") || f.getName().toLowerCase().endsWith(".htm")) {
 					RControl.getR().eval("browseURL(\"file://"+f.getAbsolutePath().replace('\\', '/')+"\")");
 					return;
@@ -517,7 +521,16 @@ public class MenuBarMGraph extends JMenuBar implements ActionListener {
 						}*/						
 						p.waitFor();
 					} else {
-						JOptionPane.showMessageDialog(control.getMainFrame(), "Please open and read the following file:\n"+f.getAbsolutePath(), "Could not find appropriate viewer", JOptionPane.WARNING_MESSAGE);
+						boolean opened = false;						
+						for (String pdfViewer : pdfViewers) {
+							try {
+								if (!opened) Runtime.getRuntime().exec(pdfViewer + " "+ f.getAbsolutePath());
+								opened = true;
+							} catch (Exception ePDF) {
+								// Nothing to do here - we will try the next pdfViewer.
+							}
+						}
+						if (!opened) JOptionPane.showMessageDialog(control.getMainFrame(), "Please open and read the following file:\n"+f.getAbsolutePath(), "Could not find appropriate viewer", JOptionPane.WARNING_MESSAGE);
 					}
 				} catch (Exception e1) {
 					logger.error(e1.getMessage(), e1);					

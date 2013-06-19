@@ -54,7 +54,8 @@
   \item{fill}{
         A list containing 2 elements \code{reject} and \code{retain}
   specifying node fill colour of rejected and retained (or not yet
-  rejected) nodes. }
+  rejected) nodes. 
+  }
   \item{nodeR}{
       Radius of nodes (pixel in Java, bp in LaTeX).
   }

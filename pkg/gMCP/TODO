@@ -1,5 +1,15 @@
+- NICER BUGREPORT!
+- Add entangled graph paper to examples / literature. (Also correct second paper's "in press").
+- Let user choose colors for entangled graphs.
+- Simes + parametric test for entangled graphs.
+- Bug: Selection with mouse sometimes is drawn in window even after mouse left the window.
+- Optionally display alpha weighting directly in entangled graphs.
+- Save settings for power and remember them in the same session.
+- Names for userdefined functions.
+- Made node bigger for a huge number of entangled layers? (Or arrange them in a different way?)
 - Disable CI and adj.P for entangled graphs.
 - graph2latex for entangled graphs.
+- Black&White version in graph2latex
 - Link to archive is wrong on bundle site.
 - Removing layer from entangled graphs does not remove weights?
 - GUI speed optimization (try Ferber II with 15x5)

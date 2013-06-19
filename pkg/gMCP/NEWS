@@ -1,9 +1,9 @@
 Changes in version 0.8-4 (??-06-2013)
-================================================
+=====================================
 
 
 Changes in version 0.8-3 (14-06-2013)
-================================================
+=====================================
 
 - If a correlation matrix is selected in the main window, the same 
   correlation matrix is loaded per default in the power analysis dialog.
@@ -16,7 +16,7 @@ Changes in version 0.8-3 (14-06-2013)
 
 
 Changes in version 0.8-2 (14-06-2013)
-================================================
+=====================================
 
 - The output of graph2latex has greatly improved and you nearly get 
   in TikZ what you can see in the Java GUI. 
