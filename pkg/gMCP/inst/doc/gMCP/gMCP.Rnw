@@ -271,7 +271,7 @@ must be created.
 graph <- BretzEtAl2011()
 cat(graph2latex(graph, scale=0.7, fontsize="tiny"))
 @
-  \caption{\label{exampleGraphBretz} Example graph from \cite{bretzEtAl2009power} that we will create in this vignette.}
+  \caption{\label{exampleGraphBretz} Example graph from \cite{bretz2011test} that we will create in this vignette.}
 \end{figure}
 
 \subsection{Using R}
@@ -279,7 +279,7 @@ cat(graph2latex(graph, scale=0.7, fontsize="tiny"))
 The most convenient way to create a graph in R is to use the functions
 \texttt{matrix2graph}\index{matrix2graph} and
 \texttt{setWeights}\index{setWeights}.  As an example we create the
-graph from Bretz et al. \cite{bretzEtAl2009power} that you can see in
+graph from Bretz et al. \cite{bretz2011test} that you can see in
 figure \ref{exampleGraphBretz}.
 
 <<echo=TRUE, tidy=FALSE>>=
@@ -597,7 +597,7 @@ cat(graph2latex(improvedParallelGatekeeping(), scale=0.7, fontsize="tiny", nodeT
 \end{figure}
 
 
-%Algorithm of Bretz et al. \cite{bretzEtAl2009power} for rejecting a node:
+%Algorithm of Bretz et al. \cite{bretz2011test} for rejecting a node:
 
 %\[\alpha_l \leftarrow \begin{cases}\alpha_l+a_jg_{jl}&l\in I\\0&\text{otherwise}\end{cases}\]
 
