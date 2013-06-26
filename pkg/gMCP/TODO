@@ -324,3 +324,26 @@ Trick to open PDF files from R:
  obj <- list(file = NULL, pdf = filepath, topic = NULL)
  class(obj) <- "vignette"
  print(obj)
+ 
+ ---
+ Everything looks fine in CI dialog but:
+ 
+ > Exception in thread "SwingWorker-pool-1260566389-thread-1" java.lang.NoSuchMethodError: gdFlush
+	at org.rosuda.JRI.Rengine.rniEval(Native Method)
+	at org.rosuda.REngine.JRI.JRIEngine.eval(JRIEngine.java:281)
+	at org.rosuda.REngine.REngine.parseAndEval(REngine.java:102)
+	at org.af.jhlir.backends.rengine.RCallServicesREngine.engineEval(RCallServicesREngine.java:92)
+	at org.af.jhlir.backends.rengine.RCallServicesREngine.eval(RCallServicesREngine.java:70)
+	at org.af.gMCP.gui.dialogs.DialogConfIntEstVar.calculateCI(DialogConfIntEstVar.java:190)
+	at org.af.gMCP.gui.dialogs.DialogConfIntEstVar.getCIPanel(DialogConfIntEstVar.java:130)
+	at org.af.gMCP.gui.dialogs.DialogConfIntEstVar.<init>(DialogConfIntEstVar.java:88)
+	at org.af.gMCP.gui.graph.GraphView$1.doInBackground(GraphView.java:236)
+	at org.af.gMCP.gui.graph.GraphView$1.doInBackground(GraphView.java:1)
+	at org.jdesktop.swingworker.SwingWorker$1.call(Unknown Source)
+	at java.util.concurrent.FutureTask$Sync.innerRun(FutureTask.java:334)
+	at java.util.concurrent.FutureTask.run(FutureTask.java:166)
+	at org.jdesktop.swingworker.SwingWorker.run(Unknown Source)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1145)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:615)
+	at java.lang.Thread.run(Thread.java:722)
+ 
