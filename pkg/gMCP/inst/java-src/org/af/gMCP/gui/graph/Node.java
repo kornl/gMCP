@@ -281,9 +281,11 @@ public class Node {
 		return name+" (w: "+getWS()+")";
 	}
 
-	public void removeLayer(int layer) {
+	public void removeLayer(int layer) {				
 		weight.remove(layer);
-		stringW.remove(layer);		
+		stringW.remove(layer);	
+		// Force recalculation of TeXItems:
+		lastFontSize = 0;		
 	}
 
 }
