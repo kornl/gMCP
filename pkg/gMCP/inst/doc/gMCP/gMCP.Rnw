@@ -643,20 +643,20 @@ tested, you have to activate it in the options (see \ref{experimentalFeatures}).
   
 % This is also a good example how we could improve the graph2latex function:
 \begin{tikzpicture}[scale=1]
-\node (H1) at (70bp,-70bp)[draw,circle split,fill=green!80] {$H1$ \nodepart{lower} $1 0\alpha$};
-\node (H2) at (210bp,-70bp)[draw,circle split,fill=green!80] {$H2$ \nodepart{lower} $0 1\alpha$};
-\node (H3) at (140bp,-140bp)[draw,circle split,fill=green!80] {$H3$ \nodepart{lower} $0 0\alpha$};
-\node (H4) at (70bp,-210bp)[draw,circle split,fill=green!80] {$H4$ \nodepart{lower} $0 0\alpha$};
-\node (H5) at (210bp,-210bp)[draw,circle split,fill=green!80] {$H5$ \nodepart{lower} $0 0\alpha$};
-\draw [draw=black,->,line width=1pt] (H1) to[bend left=15] node[near start,above,fill=blue!20] {$1$} (H3);
-\draw [draw=black,->,line width=1pt] (H2) to[bend left=15] node[near start,above,fill=blue!20] {$1$} (H3);
-\draw [draw=black,->,line width=1pt] (H3) to[bend left=15] node[near start,above,fill=blue!20] {$1-\epsilon$} (H4);
-\draw [draw=black,->,line width=1pt] (H3) to[bend left=15] node[near start,above,fill=blue!20] {$\epsilon$} (H5);
+\node (H1) at (70bp,-70bp)[draw,circle split,fill=green!80] {$H1$ \nodepart{lower} $\frac\alpha2\;0$};
+\node (H2) at (210bp,-70bp)[draw,circle split,fill=green!80] {$H2$ \nodepart{lower} $\frac\alpha2\;0$};
+\node (H3) at (140bp,-140bp)[draw,circle split,fill=green!80] {$H3$ \nodepart{lower} $0\;0$};
+\node (H4) at (70bp,-210bp)[draw,circle split,fill=green!80] {$H4$ \nodepart{lower} $0\;0$};
+\node (H5) at (210bp,-210bp)[draw,circle split,fill=green!80] {$H5$ \nodepart{lower} $0\;0$};
+\draw [draw=black,->,line width=1pt] (H1) to[bend left=15] node[midway,above,fill=blue!20] {$1$} (H3);
+\draw [draw=black,->,line width=1pt] (H2) to[bend left=15] node[midway,above,fill=blue!20] {$1$} (H3);
+\draw [draw=black,->,line width=1pt] (H3) to[bend left=15] node[midway,above,fill=blue!20] {$1-\epsilon$} (H4);
+\draw [draw=black,->,line width=1pt] (H3) to[bend left=15] node[midway,above,fill=blue!20] {$\epsilon$} (H5);
 \draw [draw=black,->,line width=1pt] (H4.135) arc(-120:-310:100bp) node[fill=blue!20] {$1$} to (H2);
-\draw [draw=blue,->,line width=1pt] (H1) to[bend right=15] node[near start,above,fill=blue!20] {$1$} (H3);
-\draw [draw=blue,->,line width=1pt] (H2) to[bend right=15] node[near start,above,fill=blue!20] {$1$} (H3);
-\draw [draw=blue,->,line width=1pt] (H3) to[bend right=15] node[near start,above,fill=blue!20] {$\epsilon$} (H4);
-\draw [draw=blue,->,line width=1pt] (H3) to[bend right=15] node[near start,above,fill=blue!20] {$1-\epsilon$} (H5);
+\draw [draw=blue,->,line width=1pt] (H1) to[bend right=15] node[midway,above,fill=blue!20] {$1$} (H3);
+\draw [draw=blue,->,line width=1pt] (H2) to[bend right=15] node[midway,above,fill=blue!20] {$1$} (H3);
+\draw [draw=blue,->,line width=1pt] (H3) to[bend right=15] node[midway,above,fill=blue!20] {$\epsilon$} (H4);
+\draw [draw=blue,->,line width=1pt] (H3) to[bend right=15] node[midway,above,fill=blue!20] {$1-\epsilon$} (H5);
 \draw [draw=blue,->,line width=1pt] (H5.45) arc(-60:130:100bp) node[fill=blue!20] {$1$} to (H1);
 \end{tikzpicture}
 
@@ -665,7 +665,7 @@ tested, you have to activate it in the options (see \ref{experimentalFeatures}).
 %cat(graph2latex(Entangled1Maurer2012(), scale=0.7, fontsize="tiny"))
 %
 %@
-%  \caption{\label{powergraph} Entangled graph from Maurer et Bretz}
+  \caption{\label{entagledgraph} Entangled graph from Maurer et Bretz}
 \end{figure}
 
 \section{Power Simulations}\index{power simulation}
@@ -816,7 +816,7 @@ The GUI always asks before sending data to our server. It will do so to
 \begin{enumerate}
   \item check whether a new version of gMCP exists,  
   \item send a wishlist if the user chooses to,
-%  \item submit/load a graph to the online archive 
+  \item submit/load a graph to the online archive 
   \item send bug reports if an error occurs.
 \end{enumerate}
 
@@ -845,14 +845,19 @@ transparency with a checkerboard pattern.
 \subsection{Important TikZ commands for optimizing the reports}\index{graph2latex}\index{TikZ}
 A clear automatic placement of edges and weight labels without
 overlapping is a very difficult task and for complicated graphs the
-\texttt{gMCP} package will often fail to accomplish this.  There is
-the possibilty to adjust the edges and labels in the GUI, but since
-the {\LaTeX} graph layout is not (yet) exactly the same, there is
-perhaps the need for adjusting the graphs in the TikZ code.  The TikZ
-program is very useful and we recommend it for many purposes, but
-perhaps you don't have the time to read the 560 pages manual
-\cite{TikZ}, so here is a short overview of the most important
-commands for this kind of graphs.
+\texttt{gMCP} package will often fail to accomplish this
+automatically. If the result of \texttt{graph2latex} does not give you
+an acceptable layout, simply load the graph into the GUI and use the
+mouse to drag the edge labels around until you are satisfied with the
+placement. Save the graph and the TikZ output will be pretty close to
+graph seen in the GUI.
+
+PGF/TikZ is very useful \LaTeX-package, we recommend it for many
+purposes and it's totally worth reading its 560 pages manual
+\cite{TikZ}, but if you don't have the time right now, we will give
+you short overview of the most important commands for our kind of
+graphs so that you can easily adapt the output from
+\texttt{graph2latex}.
 
 Let's start with this graph in figure \ref{uglygraph}:
 
