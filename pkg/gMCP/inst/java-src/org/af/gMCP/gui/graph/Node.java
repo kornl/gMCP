@@ -18,6 +18,11 @@ import org.scilab.forge.jlatexmath.TeXConstants;
 import org.scilab.forge.jlatexmath.TeXFormula;
 import org.scilab.forge.jlatexmath.TeXIcon;
 
+/**
+ * Node of a graph. Knows the NetList it belongs to and 
+ * paints itself on a given Graphics object. 
+ *
+ */
 public class Node {
 	
 	static DecimalFormat format = new DecimalFormat("#.####");

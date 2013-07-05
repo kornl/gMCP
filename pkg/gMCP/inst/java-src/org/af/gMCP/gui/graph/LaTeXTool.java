@@ -12,6 +12,14 @@ import org.scilab.forge.jlatexmath.TeXIcon;
 
 public class LaTeXTool {
 
+	/**
+	 * Replaces certain symbols in a String with LaTeX markup commands.
+	 * For example: 
+	 * "3E-6"      ->   "\frac{3}{10^{6}}"
+	 * "(1+2ε)/3"  ->   "\frac{{(1+2ε)}}{3}"
+	 * @param s
+	 * @return
+	 */
 	public static String StringToLaTeX(String s) {
 		String latex = "";
 		if (s.indexOf("E-")!=-1) {
@@ -91,5 +99,10 @@ public class LaTeXTool {
 	}
 
 	public static Component panel = new JPanel();
+	
+	public static void main(String[] args) {
+		System.out.println(StringToLaTeX("3E-6"));
+		System.out.println(StringToLaTeX("(1+2ε)/3"));
+	}
 
 }

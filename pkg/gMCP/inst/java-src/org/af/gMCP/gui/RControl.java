@@ -81,8 +81,17 @@ public class RControl {
 		if (System.getProperty("eclipse") == null && !debug) System.setOut(new PrintStream(new LoggingOutputStream(logger), true));
 	}
 	
+	/** This Hashtable saves for Strings d+":"+cycles (d double, cycles int) the result from getFraction(Double d, int cycles). */
 	static Hashtable<String, String> fractions = new Hashtable<String, String>(); 
 	
+	/**
+	 * Given a Double d this function returns a String with a fraction representation of d 
+	 * if R's MASS::fractions can find such which differs less than GeneralConfig().getAccuracy() from d.
+	 * Otherwise as.character(d) will be returned.
+	 * @param d Double whose fraction representation is searched.
+	 * @param cycles The maximum number of steps in MASS::fractions' approximation process.
+	 * @return
+	 */
 	public static String getFraction(Double d, int cycles) {
 		String result = fractions.get(""+d+":"+cycles);
 		if (result != null) return result;
@@ -135,7 +144,7 @@ public class RControl {
 	 * Creates an ASCII R text representation of a double array.
 	 * This includes values -Inf, Inf and NaN.
 	 * @param x double array of interest
-	 * @return ASCII text R representation of  R numeric vector
+	 * @return ASCII text R representation of R numeric vector
 	 */
 	public static String getRString(double[] x) {
 		String s = "c(";

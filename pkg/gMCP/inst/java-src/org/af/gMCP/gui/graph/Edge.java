@@ -20,6 +20,11 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.scilab.forge.jlatexmath.TeXIcon;
 
+/**
+ * Edge of a graph. Knows the NetList it belongs to and has a lot of 
+ * code for painting itself on a given Graphics object. 
+ *
+ */
 public class Edge {
 
 	private static final Log logger = LogFactory.getLog(Edge.class);

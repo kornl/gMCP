@@ -12,6 +12,10 @@ import javax.swing.JTextArea;
 import org.rosuda.JRI.RMainLoopCallbacks;
 import org.rosuda.JRI.Rengine;
 
+/**
+ * This DebugTextConsole is only attached for development if java is  
+ * started with VM arguments -Declipse="true".
+ */
 public class DebugTextConsole implements RMainLoopCallbacks {
 	JFrame f;
 

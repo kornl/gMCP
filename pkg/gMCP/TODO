@@ -83,7 +83,10 @@
 - JToggleButton also for new edges.
 - Also let an dialog (optionally) pop up to ask for the edge weight. 
 
+Regarding LaTeXTool.StringToLaTeX:
 - (1+1/2)/2 as edge weight creates an error.
+- "(1+2ε)/3"  ->   "\frac{{(1+2ε)}}{3}" Why is ε not replaced.
+
 - Options for Edge label font size etc?
 
 Is this still the case?

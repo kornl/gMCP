@@ -37,8 +37,9 @@ public class CreateGraphGUI extends JFrame implements WindowListener, AbortListe
 	 static { // Static initializer block to set the Locale
 		 Locale.setDefault(Locale.ENGLISH);
 		 JComponent.setDefaultLocale(Locale.ENGLISH);
-		 /* If you wonder if other things work, look whether JFileChooser
-		  * displays "All Files" or "Alle Dateien" on a German system. 
+		 /* Comment: There are other ways, but if if this is ever changed, 
+		  * please check whether JFileChooser displays "All Files" or 
+		  * "Alle Dateien" on a German system. 
 		  */
 	 };
 	 
@@ -156,7 +157,7 @@ public class CreateGraphGUI extends JFrame implements WindowListener, AbortListe
 	}
 	
 	/**
-	 * The following three variables are only need at start time and ignored after that!
+	 * The following three variables are only needed at start time and ignored after that!
 	 */
 	static String graphStr;
 	static boolean debug;
@@ -225,7 +226,7 @@ public class CreateGraphGUI extends JFrame implements WindowListener, AbortListe
 		if (RControl.getR().getREngine().getClass() == JRIEngine.class) {
 			JRIEngine engine = (JRIEngine) RControl.getR().getREngine();
 			engine.getRni().rniStop(0);
-			// We try to evaluate something:
+			// We try to evaluate some non-trivial command to see whether the REngine works as expected:
 			try {
 				RControl.getR().eval("rmvnorm(n=5, mean=c(1,2), sigma=matrix(c(4,2,2,3), ncol=2))");
 			} catch (Exception e) {
@@ -262,7 +263,7 @@ public class CreateGraphGUI extends JFrame implements WindowListener, AbortListe
 	private void setLooknFeel() throws ClassNotFoundException, IllegalAccessException,
 	InstantiationException, UnsupportedLookAndFeelException {
 		UIManager.setLookAndFeel(Configuration.getInstance().getJavaConfig().getLooknFeel());
-        WidgetFactory.setFontSizeGlobal(Configuration.getInstance().getGeneralConfig().getFontSize());
+		WidgetFactory.setFontSizeGlobal(Configuration.getInstance().getGeneralConfig().getFontSize());
 		SwingUtilities.updateComponentTreeUI(this);
 	}
 	
