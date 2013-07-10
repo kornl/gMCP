@@ -1,6 +1,7 @@
 Changes in version 0.8-4 (??-06-2013)
 =====================================
 
+- Fixed: List of user defined power functions doesn't need to have names.
 
 Changes in version 0.8-3 (14-06-2013)
 =====================================
