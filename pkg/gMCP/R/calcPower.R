@@ -29,7 +29,7 @@ calcPower <- function(weights, alpha, G, mean = rep(0, nrow(sigma)),
 	  for (m in mean) {
 		  sims <- rqmvnorm(nSim, mean = m, sigma = sigma, seed = seed, type = type)
 		  pvals <- pnorm(sims, lower.tail = FALSE)
-		  out <- graphTest(pvals, weights, alpha, G, cr, test=test)
+		  out <- graphTest(pvalues=pvals, weights=weights, alpha=alpha, G=G, cr=cr, test=test)
 		  out <- extractPower(out, f)
 		  label <- attr(m, "label")		  
 		  if (!is.null(label)) {
@@ -41,7 +41,7 @@ calcPower <- function(weights, alpha, G, mean = rep(0, nrow(sigma)),
   } else {
 	  sims <- rqmvnorm(nSim, mean = mean, sigma = sigma, seed = seed, type = type)
 	  pvals <- pnorm(sims, lower.tail = FALSE)
-	  out <- graphTest(pvals, weights, alpha, G, cr, test=test)
+	  out <- graphTest(pvalues=pvals, weights=weights, alpha=alpha, G=G, cr=cr, test=test)
 	  extractPower(out, f)
   }
 }
