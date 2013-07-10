@@ -32,9 +32,11 @@
   \item{nSim}{ Monte Carlo sample size. If type = "quasirandom" this
     number is rounded up to the next power of 2, e.g. 1000 is rounded up
     to \eqn{1024=2^10}{1024=2^10} and at least 1024.}
-  \item{f}{ List of user defined power functions. If one is interested
-    in the power to reject hypotheses 1 and 3 one could specify
-    \code{f=list(function(x) {x[1] && x[3]})}
+  \item{f}{ List of user defined power functions (or just a single power function).
+   	If one is interested in the power to reject hypotheses 1 and 3 one could specify
+    \code{f=function(x) {x[1] && x[3]}}. If the power of rejecting hypotheses 1 and 2 is also of interest
+    one would use a (optionally named) list: \code{f=list(power1and3=function(x) {x[1] && x[3]}, power1and2=function(x) {x[1] && x[2]})}.
+    If the list has no names, the functions will be referenced as "func1", "func2", etc. in the output.
   }  
   \item{test}{ In the parametric case there is more than one way to handle 
     subgraphs with less than the full alpha. If the parameter \code{test} is missing,

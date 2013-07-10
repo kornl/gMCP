@@ -5,7 +5,12 @@ extractPower <- function(x, f=list()) {
   allPow <- mean(rowSums(x)==dim(x)[2])
   result <- list(LocalPower = pow, ExpRejections = avgPow,
 		  PowAtlst1 = atleast1, RejectAll = allPow)
-  if(length(unique(names(f)))!=length(f)) stop("f must be a named list with unique names.")
+  if (is.function(f)) {f <- list(f)}
+  n <- names(f)
+  if (is.null(n) || all(is.na(n))) n <- paste("func", 1:length(f), sep="")
+  n[n=="" | is.na(n)] <- paste("func", 1:sum(n==""), sep="")
+  n <- make.names(n, unique=TRUE)
+  names(f) <- n
   for (fn in names(f)) {
   	result[[fn]] <- sum(apply(x,1, f[[fn]]))/dim(x)[1]
   }
