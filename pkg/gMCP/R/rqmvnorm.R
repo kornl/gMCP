@@ -14,7 +14,11 @@ rqmvnorm <- function(n, mean = rep(0, nrow(sigma)), sigma = diag(length(mean)),
 	if ("try-error" %in% class(clSig)) {
 		# Check for negative eigenvalues
 		if(min(eigen(sigma)$values)<(-sqrt(.Machine$double.eps))) stop("sigma has negative eigen values")
+		# We know function "chol" will give a warning if sigma is only positive semi-definite and not positive definite.
+		warn <- getOption("warn")
+		options(warn=-1)
 		clSig <- chol(sigma, pivot=TRUE)
+		options(warn=warn)
 		clSig <- clSig[,order(attr(clSig,'pivot'))]
 	}
 	
