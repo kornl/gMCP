@@ -36,7 +36,7 @@
    	If one is interested in the power to reject hypotheses 1 and 3 one could specify
     \code{f=function(x) {x[1] && x[3]}}. If the power of rejecting hypotheses 1 and 2 is also of interest
     one would use a (optionally named) list: \code{f=list(power1and3=function(x) {x[1] && x[3]}, power1and2=function(x) {x[1] && x[2]})}.
-    If the list has no names, the functions will be referenced as "func1", "func2", etc. in the output.
+    If the list has no names, the functions will be referenced to as "func1", "func2", etc. in the output.
   }  
   \item{test}{ In the parametric case there is more than one way to handle 
     subgraphs with less than the full alpha. If the parameter \code{test} is missing,
