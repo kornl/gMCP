@@ -1,45 +1,37 @@
 
-
 rqmvnorm <- function(n, mean = rep(0, nrow(sigma)), sigma = diag(length(mean)),
                      seed = NULL , type = c("quasirandom", "pseudorandom")){
-    if (!isSymmetric(sigma, tol = sqrt(.Machine$double.eps))) {
-        stop("sigma must be a symmetric matrix")
-    }
-    if (length(mean) != nrow(sigma)) {
-        stop("mean and sigma have non-conforming size")
-    }
-    type <- match.arg(type)
-    dm <- length(mean)
-    clSig <- try(chol(sigma), silent=TRUE)
-	if ("try-error" %in% class(clSig)) {
-		# Check for negative eigenvalues
-		if(min(eigen(sigma)$values)<(-sqrt(.Machine$double.eps))) stop("sigma has negative eigen values")
-		# We know function "chol" will give a warning if sigma is only positive semi-definite and not positive definite.
-		warn <- getOption("warn")
-		options(warn=-1)
-		clSig <- chol(sigma, pivot=TRUE)
-		options(warn=warn)
-		clSig <- clSig[,order(attr(clSig,'pivot'))]
-	}
-	
-    if(!is.null(seed)){
-      set.seed(seed)
-    }
-    if(type == "quasirandom"){
-      ## random shift parameter
-      u <- runif(dm)
-      sims <- rlattice(n, dim = dm, u = u)
-      sims <- qnorm(sims)
-    }
-    if(type == "pseudorandom"){
-      sims <- matrix(rnorm(n*dm), nrow = n)
-    }
-    sims <- sims%*%clSig
-    sims <- sweep(sims, 2, mean, "+")
-    if(!is.null(names(mean))){
-      colnames(sims) <- names(mean)
-    }
-    sims
+  if (!isSymmetric(sigma, tol = sqrt(.Machine$double.eps))) {
+    stop("Sigma must be a symmetric matrix.")
+  }
+  if (length(mean) != nrow(sigma)) {
+    stop("Mean and sigma have non-conforming size.")
+  }
+  type <- match.arg(type)
+  dm <- length(mean)
+  
+  sigsvd <- svd(sigma)
+  if(!all(sigsvd$d >= -sqrt(.Machine$double.eps) * abs(sigsvd$d[1]))) stop("Sigma has negative eigen values.") # Condition copied from mvtnorm::rmvnorm for compatibility.
+  retval <- t(sigsvd$v %*% (t(sigsvd$u) * sqrt(sigsvd$d)))
+  
+  if(!is.null(seed)){
+    set.seed(seed)
+  }
+  if(type == "quasirandom"){
+    ## random shift parameter
+    u <- runif(dm)
+    sims <- rlattice(n, dim = dm, u = u)
+    sims <- qnorm(sims)
+  }
+  if(type == "pseudorandom"){
+    sims <- matrix(rnorm(n*dm), nrow = n)
+  }
+  sims <- sims%*%retval
+  sims <- sweep(sims, 2, mean, "+")
+  if(!is.null(names(mean))){
+    colnames(sims) <- names(mean)
+  }
+  sims
 }
 
 ## ## Skript to download generating vectors from Frances Kuo's website
