@@ -6,11 +6,13 @@ extractPower <- function(x, f=list()) {
   result <- list(LocalPower = pow, ExpRejections = avgPow,
 		  PowAtlst1 = atleast1, RejectAll = allPow)
   if (is.function(f)) {f <- list(f)}
-  n <- names(f)
-  if (is.null(n) || all(is.na(n))) n <- paste("func", 1:length(f), sep="")
-  n[n=="" | is.na(n)] <- paste("func", 1:sum(n==""), sep="")
-  n <- make.names(n, unique=TRUE)
-  names(f) <- n
+  if (length(f)>0) {
+    n <- names(f)
+    if (is.null(n) || all(is.na(n))) n <- paste("func", 1:length(f), sep="")
+    n[n=="" | is.na(n)] <- paste("func", 1:sum(n==""), sep="")
+    n <- make.names(n, unique=TRUE)
+    names(f) <- n
+  }
   for (fn in names(f)) {
   	result[[fn]] <- sum(apply(x,1, f[[fn]]))/dim(x)[1]
   }
@@ -39,6 +41,9 @@ calcPower <- function(weights, alpha, G, mean = rep(0, nrow(sigma)),
 	  }
 	  return(result)
   } else {
+    print(mean)
+    print(sigma)
+    print(nSim)
 	  sims <- rqmvnorm(nSim, mean = mean, sigma = sigma, seed = seed, type = type)
 	  pvals <- pnorm(sims, lower.tail = FALSE)
 	  out <- graphTest(pvalues=pvals, weights=weights, alpha=alpha, G=G, cr=cr, test=test)
