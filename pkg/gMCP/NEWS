@@ -1,7 +1,15 @@
-Changes in version 0.8-4 (??-06-2013)
+Changes in version 0.8-4 (12-07-2013)
 =====================================
 
+- R's base function chol for the Choleski Decomposition now defaults to LAPACK
+  resulting in meaningless results for not non-negative definite matrices (without 
+  any numerical tolerance!). Therefore power calculations for only semi-positive 
+  definite correlation matrices could be off under R 3.0.
+
 - Fixed: List of user defined power functions doesn't need to have names.
+
+- Further work on the experimental entangled graphs feature.
+
 
 Changes in version 0.8-3 (14-06-2013)
 =====================================
