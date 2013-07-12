@@ -6,3 +6,4 @@ Mail:
 - From rohmeyer@small-projects.de?
 Git:
 git tag -a v0.x-y -m 'Version 0.x-y (??-??-????)'
+git push origin --tags
