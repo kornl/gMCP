@@ -1,7 +1,7 @@
 inst/java-src
 inst/build.xml
-inst/doc/Makefile
-inst/doc/myIndex.ist
-inst/doc/gMCP.loa
-inst/doc/gMCP.lof
-inst/doc/gMCP.lot
+vignettes/Makefile
+vignettes/myIndex.ist
+vignettes/gMCP.loa
+vignettes/gMCP.lof
+vignettes/gMCP.lot

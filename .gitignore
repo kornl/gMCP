@@ -12,3 +12,4 @@ pkg/*.tar.gz
 .RData
 .Rhistory
 hs_err_pid*.log
+*~
