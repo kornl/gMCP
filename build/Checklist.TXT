@@ -1,5 +1,6 @@
 - Has ant been called and is the jar file up to date?
 - R CMD check --as-cran
+- Extensive RUnit Checks? unitTestsGMCP(extended=TRUE, interactive=TRUE, outputPath="/home/kornel/test/")
 Mail:
 - Text-only?
 - From rohmeyer@small-projects.de?
