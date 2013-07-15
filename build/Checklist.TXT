@@ -1,5 +1,6 @@
 - Has ant been called and is the jar file up to date?
-- R CMD check --as-cran
+- R CMD check --as-cran under development version of R
+- tested with Windows?
 - Extensive RUnit Checks? unitTestsGMCP(extended=TRUE, interactive=TRUE, outputPath="/home/kornel/test/")
 Mail:
 - Text-only?

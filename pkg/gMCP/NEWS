@@ -11,8 +11,12 @@ Changes in version 0.8-4 (12-07-2013)
 - Further work on the experimental entangled graphs feature.
 
 - Since the vignettes were moved from gMCP/inst/doc to gMCP/vignettes
-  most likely they will only be build with R (>= 2.14.0).
+  most likely they will only be build with R >= 2.14.0.
 
+- Moved MASS, PolynomF, multcomp, lattice, mvtnorm, Matrix, CommonJavaJars and methods 
+  from DEPENDS to IMPORTS. Therefore loading gMCP will no longer add these packages to
+  the search path and if for example you want to use contrMat you have to load/attach the 
+  package yourself.
 
 
 Changes in version 0.8-3 (14-06-2013)

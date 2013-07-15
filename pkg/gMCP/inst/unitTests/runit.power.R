@@ -15,7 +15,7 @@ test.rqmvnorm <- function() {
 		checkTrue(all(round(cov(rqmvnorm(1000000, mean=1:6, sigma=R)),2)==R))
 		
 		# Singular matrix (min eigen value -1.562001e-16 on my system):
-		x <- contrMat(rep(10,5), type="UmbrellaWilliams")
+		x <- multcomp::contrMat(rep(10,5), type="UmbrellaWilliams")
 		R <- t(x) %*% x
 		checkTrue(all(round(cov(rqmvnorm(1000000, mean=1:5, sigma=R)),2)==round(R, 2)))
 	} else {

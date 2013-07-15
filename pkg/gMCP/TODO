@@ -1,3 +1,6 @@
+- Hommel simplified caused print to console: Error in if (abs((b[1] - a[1])/(b[2] - a[2]) - (c[1] - b[1])/(c[2] - b[2])) <  : 
+  missing value where TRUE/FALSE needed
+- Report was send dialog is sometimes behind ErrorReport.
 - http://semver.org/ Should we switch from version numbers like 0.8-3 to 0.8.3?
 - NICER BUGREPORT!
 - Let user choose colors for entangled graphs.

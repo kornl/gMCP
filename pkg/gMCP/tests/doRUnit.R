@@ -1,10 +1,8 @@
 ## File from http://rwiki.sciviews.org/doku.php?id=developers:runit
 ## Unit tests will not be done if RUnit is not available
-if(require("RUnit", quietly=TRUE)) {
-	
+if(require("RUnit", quietly=TRUE)) {	
 	## --- Setup ---
-	
-	pkg <- "gMCP" 
+	pkg <- "gMCP"   
 	if(Sys.getenv("RCMDCHECK") == "FALSE") {
 		## Path to unit tests for standalone running under Makefile (not R CMD check)
 		## PKG/tests/../inst/unitTests
