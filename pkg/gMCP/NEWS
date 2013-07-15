@@ -1,10 +1,15 @@
+Changes in version 0.8-5 (??-??-2013)
+=====================================
+
+
 Changes in version 0.8-4 (12-07-2013)
 =====================================
 
-- R's base function chol for the Choleski Decomposition now defaults to LAPACK
+- R's base function chol for the Choleski Decomposition now defaults to LAPACK in R 3.0
   resulting in meaningless results for not non-negative definite matrices (without 
   any numerical tolerance!). Therefore power calculations for only semi-positive 
-  definite correlation matrices could be off under R 3.0.
+  definite correlation matrices could have been off under R 3.0 in previous versions.
+  We switched to the singular value decomposition.
 
 - Fixed: List of user defined power functions doesn't need to have names.
 
@@ -17,6 +22,8 @@ Changes in version 0.8-4 (12-07-2013)
   from DEPENDS to IMPORTS. Therefore loading gMCP will no longer add these packages to
   the search path and if for example you want to use contrMat you have to load/attach the 
   package yourself.
+
+ 37 files changed, 437 insertions(+), 136 deletions(-)
 
 
 Changes in version 0.8-3 (14-06-2013)

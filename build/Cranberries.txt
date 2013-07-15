@@ -1569,3 +1569,44 @@ Diff between gMCP versions 0.7-12 dated 2012-08-02 and 0.8-0 dated 2012-10-14
  gMCP-0.8-3/gMCP/man/graphTest.Rd                                                           |   10 
  gMCP-0.8-3/gMCP/man/secondStageTest.Rd                                                     |    3 
  41 files changed, 422 insertions(+), 140 deletions(-)
+
+Diff between gMCP versions 0.8-3 dated 2013-06-14 and 0.8-4 dated 2013-07-15
+
+ gMCP-0.8-3/gMCP/inst/doc/Makefile                                              |only
+ gMCP-0.8-3/gMCP/inst/doc/figure                                                |only
+ gMCP-0.8-3/gMCP/inst/doc/gMCP                                                  |only
+ gMCP-0.8-3/gMCP/inst/doc/literatur.bib                                         |only
+ gMCP-0.8-3/gMCP/inst/doc/myIndex.ist                                           |only
+ gMCP-0.8-3/gMCP/inst/doc/pictures                                              |only
+ gMCP-0.8-4/gMCP/.Rinstignore                                                   |    7 
+ gMCP-0.8-4/gMCP/DESCRIPTION                                                    |   17 
+ gMCP-0.8-4/gMCP/MD5                                                            |  265 ++++++++--
+ gMCP-0.8-4/gMCP/NAMESPACE                                                      |    4 
+ gMCP-0.8-4/gMCP/NEWS                                                           |   26 
+ gMCP-0.8-4/gMCP/R/calcPower.R                                                  |   16 
+ gMCP-0.8-4/gMCP/R/convertFromOldClassDefinition.R                              |    7 
+ gMCP-0.8-4/gMCP/R/rqmvnorm.R                                                   |   66 +-
+ gMCP-0.8-4/gMCP/R/startGUIs.R                                                  |    2 
+ gMCP-0.8-4/gMCP/TODO                                                           |   45 +
+ gMCP-0.8-4/gMCP/inst/classes                                                   |only
+ gMCP-0.8-4/gMCP/inst/doc/AQuickStart.pdf                                       |binary
+ gMCP-0.8-4/gMCP/inst/doc/gMCP.pdf                                              |binary
+ gMCP-0.8-4/gMCP/inst/doc/parametric.pdf                                        |binary
+ gMCP-0.8-4/gMCP/inst/java-src/org/af/gMCP/gui/CreateGraphGUI.java              |   15 
+ gMCP-0.8-4/gMCP/inst/java-src/org/af/gMCP/gui/DebugTextConsole.java            |    4 
+ gMCP-0.8-4/gMCP/inst/java-src/org/af/gMCP/gui/MenuBarMGraph.java               |   19 
+ gMCP-0.8-4/gMCP/inst/java-src/org/af/gMCP/gui/RControl.java                    |   16 
+ gMCP-0.8-4/gMCP/inst/java-src/org/af/gMCP/gui/dialogs/DialogConfIntEstVar.java |    2 
+ gMCP-0.8-4/gMCP/inst/java-src/org/af/gMCP/gui/graph/Edge.java                  |    5 
+ gMCP-0.8-4/gMCP/inst/java-src/org/af/gMCP/gui/graph/LaTeXTool.java             |   13 
+ gMCP-0.8-4/gMCP/inst/java-src/org/af/gMCP/gui/graph/Node.java                  |   11 
+ gMCP-0.8-4/gMCP/inst/java/gsrmtp.jar                                           |binary
+ gMCP-0.8-4/gMCP/inst/unitTests/runit.LaTeX.R                                   |    9 
+ gMCP-0.8-4/gMCP/inst/unitTests/runit.cover.everything.R                        |only
+ gMCP-0.8-4/gMCP/inst/unitTests/runit.power.R                                   |    2 
+ gMCP-0.8-4/gMCP/man/calcPower.Rd                                               |    8 
+ gMCP-0.8-4/gMCP/man/exampleGraphs.Rd                                           |    5 
+ gMCP-0.8-4/gMCP/man/graph2latex.Rd                                             |    3 
+ gMCP-0.8-4/gMCP/tests/doRUnit.R                                                |    6 
+ gMCP-0.8-4/gMCP/vignettes                                                      |only
+ 37 files changed, 437 insertions(+), 136 deletions(-)
