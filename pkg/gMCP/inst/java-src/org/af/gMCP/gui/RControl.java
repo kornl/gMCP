@@ -95,7 +95,7 @@ public class RControl {
 	public static String getFraction(Double d, int cycles) {
 		String result = fractions.get(""+d+":"+cycles);
 		if (result != null) return result;
-		result = RControl.getR().eval("as.character(fractions("+d+(cycles==-1?"":", cycles="+cycles)+"))").asRChar().getData()[0];
+		result = RControl.getR().eval("as.character(MASS::fractions("+d+(cycles==-1?"":", cycles="+cycles)+"))").asRChar().getData()[0];
 		boolean accurate = RControl.getR().eval("abs("+d+"-"+result+")<"+Configuration.getInstance().getGeneralConfig().getAccuracy()).asRLogical().getData()[0];
 		if (!accurate) {
 			//result = "~"+result; 
