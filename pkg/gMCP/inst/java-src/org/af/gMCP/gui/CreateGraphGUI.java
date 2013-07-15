@@ -228,7 +228,7 @@ public class CreateGraphGUI extends JFrame implements WindowListener, AbortListe
 			engine.getRni().rniStop(0);
 			// We try to evaluate some non-trivial command to see whether the REngine works as expected:
 			try {
-				RControl.getR().eval("rmvnorm(n=5, mean=c(1,2), sigma=matrix(c(4,2,2,3), ncol=2))");
+				RControl.getR().eval("mvtnorm::rmvnorm(n=5, mean=c(1,2), sigma=matrix(c(4,2,2,3), ncol=2))");
 			} catch (Exception e) {
 				/* There is a chance this first evaluation goes
 				 * wrong due to protect / unprotect issues caused
@@ -238,7 +238,7 @@ public class CreateGraphGUI extends JFrame implements WindowListener, AbortListe
 			}
 			// Now the second evaluation should be fine:
 			try {
-				RControl.getR().eval("rmvnorm(n=5, mean=c(1,2), sigma=matrix(c(4,2,2,3), ncol=2))");
+				RControl.getR().eval("mvtnorm::rmvnorm(n=5, mean=c(1,2), sigma=matrix(c(4,2,2,3), ncol=2))");
 			} catch (Exception e) {				
 				logger.error("There was an error in the 2. test eval after interrupt:\n"+e.getMessage(), e);
 				String message = "There was an error interrupting the R calculation.\n"
