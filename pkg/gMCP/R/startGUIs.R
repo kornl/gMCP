@@ -1,5 +1,4 @@
 graphGUI <- function(graph="createdGraph", pvalues=numeric(0), grid=0, debug=FALSE, experimentalFeatures=FALSE, envir=globalenv()) {
-  requireLibraries()
 	if (!is.character(graph)) {
 		if ("graphMCP" %in% class(graph)) {
 			newGraphName <- "createdGraph"
@@ -34,7 +33,6 @@ graphGUI <- function(graph="createdGraph", pvalues=numeric(0), grid=0, debug=FAL
 }
 
 corMatWizard <- function(n=dim(matrix)[1], matrix=paste("diag(",n,")"), names=paste("H",1:n,sep="")) {
-  requireLibraries()
 	if (!is.character(matrix)) {
 		warning("Please specify the matrix name as character.")
 		stack <- sys.calls()
@@ -43,11 +41,4 @@ corMatWizard <- function(n=dim(matrix)[1], matrix=paste("diag(",n,")"), names=pa
 		warning(paste("We guess you wanted to call corMatWizard(matrix=\"",matrix,"\")",sep=""))
 	}
 	invisible(.jnew("org/af/gMCP/gui/dialogs/MatrixCreationDialog", matrix, names))
-}
-
-requireLibraries <- function() {
-  library(MASS)
-  library(PolynomF)
-  library(multcomp)
-  library(lattice)
 }

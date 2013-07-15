@@ -46,6 +46,13 @@ updateGraphToNewClassDefinition <- function(object, askToInstallGraph=TRUE) {
 	return(new("graphMCP", m=m, weights=w, edgeAttr=edgeAttr, nodeAttr=nodeAttr))
 }
 
+# The function 'makeEpsilonString' takes the real part of the weight and 
+# a coefficent vector 'p' for different powers of epsilon and returns the combined weight as a character vector.
+# Examples:
+#  makeEpsilonString(1/2,c(1,-1,1/2)) == "1/2+\\epsilon-\\epsilon^2+1/2*\\epsilon^3"
+#  makeEpsilonString(0,c(1,-1,1/2)) == "\\epsilon-\\epsilon^2+1/2*\\epsilon^3"
+#  makeEpsilonString(1/2,c()) == "1/2"
+
 makeEpsilonString <- function(weight, p) {	
 	frac <- function(x) {as.character(fractions(x))}
 	e <- "\\epsilon"	

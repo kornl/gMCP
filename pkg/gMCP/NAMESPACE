@@ -45,3 +45,7 @@ export(plotSimCI)
 export(generateWeights, generateBounds, generateTest, generatePvals)
 
 export(doInterim,secondStageTest)
+
+# Export from multcomp and MASS
+export(fractions)
+export(contrMat)

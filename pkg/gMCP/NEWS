@@ -10,6 +10,9 @@ Changes in version 0.8-4 (12-07-2013)
 
 - Further work on the experimental entangled graphs feature.
 
+- Moved MASS, PolynomF, multcomp, lattice, mvtnorm, Matrix, CommonJavaJars and methods 
+  from DEPENDS to IMPORTS.
+
 
 Changes in version 0.8-3 (14-06-2013)
 =====================================

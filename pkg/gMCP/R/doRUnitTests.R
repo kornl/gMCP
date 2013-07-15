@@ -1,6 +1,5 @@
 ## Adapted and extended from the code from http://rwiki.sciviews.org/doku.php?id=developers:runit
 unitTestsGMCP <- function(extended=FALSE, java=FALSE, interactive=FALSE, junitLibrary, outputPath) {
-  gMCP:::requireLibraries()
 	if(!require("RUnit", quietly=TRUE)) {
 		stop("Please install package RUnit to run the unit tests.")
 	}
