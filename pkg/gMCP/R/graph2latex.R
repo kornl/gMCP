@@ -58,18 +58,20 @@ graph2latex <- function(graph, package="TikZ", scale=1, alpha=0.05, pvalues,
 		for (i in getNodes(graph)) {
 			for (j in getNodes(graph)) {			
 				if (graph@m[i,j]!=0) {
+				  
 				  weight <- getWeightStr(graph, i, j, LaTeX=TRUE) 
 				  edgeNode <- paste("node[",labelTikZ,"] {$",weight,"$}",sep="")
-					# The following line test whether the edge in opposite direction exists:				          
+					# The following line tests whether the edge in opposite direction exists:				          
 					to <- paste(") to[",ifelse(graph@m[j,i]==0, "auto", "bend left=15"),"] ", edgeNode, sep="")
+          
           edgeNode <- paste("node[","fill=blue!20","] {$",weight,"$}",sep="") # TODO labelTikZ is ignored in this case
           # New arc function:
 					x <- try(unlist(edgeAttr(graph, i, j, "labelX")), silent = TRUE)          
 					y <- try(unlist(edgeAttr(graph, i, j, "labelY")), silent = TRUE)
 					if (!("try-error" %in% class(x)) && !is.null(x) && !is.na(x) && class(y)!="try-error" && !is.null(y) && !is.na(y) && x>-10 && y>-10) {
-					  b <- c(x,y) + nodeR
-					  x <- getXCoordinates(graph, c(i,j)) + nodeR
-					  y <- getYCoordinates(graph, c(i,j)) + nodeR
+					  b <- c(x+offset[1],y-offset[2]) + nodeR
+					  x <- getXCoordinates(graph, c(i,j)) + nodeR + offset[1]
+					  y <- getYCoordinates(graph, c(i,j)) + nodeR - offset[2]
 					  to2 <- try(getArc(c(x[1],y[1]),b,c(x[2],y[2]), edgeNode, nodeR=nodeR))
 					  if (!("try-error" %in% class(to2))) to <- to2
 					}          

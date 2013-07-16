@@ -4,6 +4,8 @@ Changes in version 0.8-5 (16-07-2013)
 
 - Fix for problems with knitr 1.3.
 
+- Fixed: The rarly used offset parameter did not work well with the new edges consisting of arcs in TikZ.
+
 
 Changes in version 0.8-4 (15-07-2013)
 =====================================
