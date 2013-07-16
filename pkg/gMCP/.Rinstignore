@@ -1,6 +1,8 @@
 inst/java-src
 inst/build.xml
 vignettes/Makefile
+vignettes/createKnitrVignette.sh
+vignettes/createSweaveVignette.sh
 vignettes/myIndex.ist
 vignettes/gMCP.loa
 vignettes/gMCP.lof
