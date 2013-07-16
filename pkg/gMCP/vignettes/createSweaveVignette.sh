@@ -1,5 +1,5 @@
 RNWFILE=$1
-TEXFILE=$(basename $RNWFile .Rnw).tex
+TEXFILE=$(basename $RNWFILE .Rnw).tex
 if [ -n $R_HOME ]; then 
   R_HOME=$(R RHOME)
 fi
