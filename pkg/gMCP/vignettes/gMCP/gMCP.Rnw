@@ -21,7 +21,6 @@
 \setlength{\parindent}{0mm}
 \setlength{\parskip}{1mm}
 \newcommand{\commentout}[1]{}
-\renewcommand{\hlcomment}[1]{\textcolor[rgb]{0.4,0.4,0.4}{#1}}
 \renewcommand{\theequation}{\thesection.\arabic{\equation}}
 \numberwithin{equation}{section}
 
