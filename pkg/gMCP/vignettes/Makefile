@@ -15,7 +15,7 @@ AQuickStart.pdf: AQuickStart.Rnw
 	./createSweaveVignette.sh AQuickStart.Rnw
 
 parametric.pdf: parametric.Rnw
-	./createSweaveVignette.sh parametric.tex
+	./createSweaveVignette.sh parametric.Rnw
 
 gMCP.pdf: gMCP/gMCP.Rnw
 	./createKnitrVignette.sh gMCP.Rnw
