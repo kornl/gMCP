@@ -1,5 +1,6 @@
 Changes in version 0.8-5 (16-07-2013)
 =====================================
+
 - POSIX conforming Makefile fixes problems under Solaris.
 
 - Fix for problems with knitr 1.3.

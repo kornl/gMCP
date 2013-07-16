@@ -46,7 +46,7 @@ hypotheses. For the time being \gmcp implements the case of multiple
 inferences based on one-sided $z$-tests. 
 
 If the joint distribution of the p-values is known the sequentially
-rejective tests described in \cite{bretz2009graphical} may be
+rejective tests described in \cite{bretzEtAl2009graphical} may be
 performed using corresponding closed test procedures based on weighted
 min-$p$ tests for each intersection hypotheses.  It is assumed that
 under the global null hypothesis
