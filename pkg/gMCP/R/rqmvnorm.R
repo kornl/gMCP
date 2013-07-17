@@ -1,6 +1,6 @@
 
 rqmvnorm <- function(n, mean = rep(0, nrow(sigma)), sigma = diag(length(mean)),
-                     seed = NULL , type = c("quasirandom", "pseudorandom")){
+                     type = c("quasirandom", "pseudorandom")){
   if (!isSymmetric(sigma, tol = sqrt(.Machine$double.eps))) {
     stop("Sigma must be a symmetric matrix.")
   }
@@ -14,9 +14,6 @@ rqmvnorm <- function(n, mean = rep(0, nrow(sigma)), sigma = diag(length(mean)),
   if(!all(sigsvd$d >= -sqrt(.Machine$double.eps) * abs(sigsvd$d[1]))) stop("Sigma has negative eigen values.") # Condition copied from mvtnorm::rmvnorm for compatibility.
   retval <- t(sigsvd$v %*% (t(sigsvd$u) * sqrt(sigsvd$d)))
   
-  if(!is.null(seed)){
-    set.seed(seed)
-  }
   if(type == "quasirandom"){
     ## random shift parameter
     u <- runif(dm)

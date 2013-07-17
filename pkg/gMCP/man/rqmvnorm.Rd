@@ -8,7 +8,7 @@
 }
 \usage{
 rqmvnorm(n, mean = rep(0, nrow(sigma)), sigma = diag(length(mean)),
-         seed = NULL, type = c("quasirandom", "pseudorandom"))
+         type = c("quasirandom", "pseudorandom"))
 }
 \arguments{
   \item{n}{ Number of samples, when type = "quasirandom" is used this
@@ -16,7 +16,6 @@ rqmvnorm(n, mean = rep(0, nrow(sigma)), sigma = diag(length(mean)),
     and at least 1024.}
   \item{mean}{ Mean vector }
   \item{sigma}{ Covariance matrix }
-  \item{seed}{ If not \code{NULL}, the seed to use for random number generation (applies to \code{type="pseudorandom"} and \code{type = "quasirandom"}).   }
   \item{type}{ What type of random numbers to use. \code{quasirandom}
     uses a randomized Lattice rule, and should be more efficient than
     \code{pseudorandom} that uses ordinary (pseudo) random numbers. }

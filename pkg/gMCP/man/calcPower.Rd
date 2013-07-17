@@ -10,8 +10,8 @@
 \usage{
   calcPower(weights, alpha, G, mean = rep(0, nrow(sigma)),
             sigma = diag(length(mean)), cr = NULL,
-            nSim = 10000, seed = NULL,
-            type = c("quasirandom", "pseudorandom"), f=list(), test)
+            nSim = 10000, type = c("quasirandom", "pseudorandom"), 
+            f=list(), test)
 }
 \arguments{
   \item{weights}{ Initial weight levels for the test procedure, see graphTest function. }
@@ -20,12 +20,10 @@
     procedure. Note that the diagonal need to contain only 0s, while the
     rows need to sum to 1. When multiple graphs should be used this
     needs to be a list containing the different graphs as elements. }
- \item{mean}{ Mean under the alternative }
+  \item{mean}{ Mean under the alternative }
   \item{sigma}{ Covariance matrix under the alternative. }
   \item{cr}{ Correlation matrix that should be used for the parametric test.
-  If \code{cr==NULL} the Bonferroni based test procedure is used. Can contain NAs.}
-  \item{seed}{ Optional seed for pseudo random numbers and the random shift of
-    the lattice rule. }
+    If \code{cr==NULL} the Bonferroni based test procedure is used. Can contain NAs.}
   \item{type}{ What type of random numbers to use. \code{quasirandom}
     uses a randomized Lattice rule, and should be more efficient than
     \code{pseudorandom} that uses ordinary (pseudo) random numbers. }
@@ -36,7 +34,8 @@
    	If one is interested in the power to reject hypotheses 1 and 3 one could specify:
     \cr\code{f=function(x) {x[1] && x[3]}}.\cr
     If the power of rejecting hypotheses 1 and 2 is also of interest
-    one would use a (optionally named) list: \cr\code{f=list(power1and3=function(x) {x[1] && x[3]}, power1and2=function(x) {x[1] && x[2]})}.
+    one would use a (optionally named) list: \cr
+    \code{f=list(power1and3=function(x) {x[1] && x[3]}, power1and2=function(x) {x[1] && x[2]})}.
     If the list has no names, the functions will be referenced to as "func1", "func2", etc. in the output.
   }  
   \item{test}{ In the parametric case there is more than one way to handle 
@@ -83,7 +82,7 @@ corMat <- rbind(c(1, 0.5, 0.5, 0.5/2),
                 c(0.5,0.5/2,1,0.5),
                 c(0.5/2,0.5,0.5,1))
 theta <- c(3, 0, 0, 0)
-calcPower(weights, alpha=0.025, G, theta, corMat, seed = 4711, nSim = 100000)
+calcPower(weights, alpha=0.025, G, theta, corMat, nSim = 100000)
 
 
 ## now reproduce all 14 simulation scenarios
@@ -106,7 +105,7 @@ simfunc <- function(nSim, a1, a2, g1, g2, rh, t1, t2, t3, t4, Gr){
   G <- rbind(c(0, g1, 1-g1, 0), c(g2, 0, 0, 1-g2), c(0, 1, 0, 0), c(1, 0, 0, 0))
   corMat <- rbind(c(1, 0.5, rh, rh/2), c(0.5,1,rh/2,rh), c(rh,rh/2,1,0.5), c(rh/2,rh,0.5,1))
   mean <- c(t1, t2, t3, t4)
-  calcPower(al, alpha=0.025, G, mean, corMat, seed = 4711, nSim = nSim)
+  calcPower(al, alpha=0.025, G, mean, corMat, nSim = nSim)
 }
 
 ## calculate power for all 14 scenarios
