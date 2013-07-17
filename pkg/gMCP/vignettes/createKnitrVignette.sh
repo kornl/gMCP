@@ -1,6 +1,5 @@
 RNWFILE=$1
 TEXFILE=`basename $RNWFILE .Rnw`.tex
-echo $R_HOME >> ~/test.txt
 if [ -z $R_HOME ]; then 
   R_HOME=`R RHOME`
 fi
