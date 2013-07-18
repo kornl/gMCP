@@ -266,7 +266,12 @@ public class PowerDialogParameterUncertainty extends JDialog implements ActionLi
 		}
 		//Hashtable<String,Double> ht = getVariables();
 		String weights = parent.getGraphView().getNL().getGraphName() + "@weights";
-		double alpha = parent.getPView().getTotalAlpha();
+		double alpha;
+		try {
+			alpha = parent.getPView().getTotalAlpha();
+		} catch (Exception e1) {
+			return;
+		}
 		String G = parent.getGraphView().getNL().getGraphName() + "@m";
 		double[] means = new double[nodes.size()];
 		String settings = null;

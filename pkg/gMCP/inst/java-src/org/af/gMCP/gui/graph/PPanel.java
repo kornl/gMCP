@@ -182,20 +182,24 @@ public class PPanel implements ActionListener, KeyListener, NodeListener, FocusL
 				}
 			}
 		}
-		if (p<=sumW*pview.getTotalAlpha()) {
-			//logger.debug(""+p+"<="+sumW+"*"+pview.getTotalAlpha());
-			node.setRejectable(true);
-			pTF.setBackground(new Color(50, 255, 50));
-			if (testing) {
-				jbReject.setEnabled(!node.isRejected());
-			} else  {
+		try {
+			if (p<=sumW*pview.getTotalAlpha(false)) {
+				//logger.debug(""+p+"<="+sumW+"*"+pview.getTotalAlpha());
+				node.setRejectable(true);
+				pTF.setBackground(new Color(50, 255, 50));
+				if (testing) {
+					jbReject.setEnabled(!node.isRejected());
+				} else  {
+					jbReject.setEnabled(false);
+				}
+			} else {
+				//logger.debug("NOT: "+p+"<="+sumW+"*"+pview.getTotalAlpha());
+				node.setRejectable(false);
+				pTF.setBackground(Color.WHITE);
 				jbReject.setEnabled(false);
 			}
-		} else {
-			//logger.debug("NOT: "+p+"<="+sumW+"*"+pview.getTotalAlpha());
-			node.setRejectable(false);
-			pTF.setBackground(Color.WHITE);
-			jbReject.setEnabled(false);
+		} catch (Exception e) {
+			// Can not happen for warn = false.
 		}
 		if (testing) {
 			pTF.setEditable(false);

@@ -235,6 +235,10 @@ public class GraphView extends JPanel implements ActionListener {
 							parent.glassPane.stop();
 							new DialogConfIntEstVar(parent, nl, rejected, alpha);
 						} catch (Exception ex) {
+							if (ex instanceof WrongInputException) {
+								parent.glassPane.stop();
+								return null;
+							}
 							ErrorHandler.getInstance().makeErrDialog(ex.getMessage(), ex);
 						}
 						return null;
@@ -271,6 +275,10 @@ public class GraphView extends JPanel implements ActionListener {
 							parent.glassPane.stop();
 							new RejectedDialog(parent, rejected, parent.getGraphView().getNL().getNodes(), output, rCode);
 						} catch (Exception ex) {
+							if (ex instanceof WrongInputException) {
+								parent.glassPane.stop();
+								return null;
+							}
 							ErrorHandler.getInstance().makeErrDialog(ex.getMessage(), ex);
 						}
 						return null;
@@ -309,6 +317,10 @@ public class GraphView extends JPanel implements ActionListener {
 							parent.glassPane.stop();
 							new AdjustedPValueDialog(parent, getPView().pValues, adjPValues, getNL().getNodes());
 						} catch (Exception ex) {
+							if (ex instanceof WrongInputException) {
+								parent.glassPane.stop();
+								return null;
+							}
 							ErrorHandler.getInstance().makeErrDialog(ex.getMessage(), ex);
 						} 
 						return null;
@@ -413,7 +425,7 @@ public class GraphView extends JPanel implements ActionListener {
 		buttonStart.setEnabled(enabled);
 	}
 
-	public String getGMCPOptions() {
+	public String getGMCPOptions() throws Exception {
 		return ","+getPView().getPValuesString()
 				+ correlation
 				+", alpha="+getPView().getTotalAlpha()

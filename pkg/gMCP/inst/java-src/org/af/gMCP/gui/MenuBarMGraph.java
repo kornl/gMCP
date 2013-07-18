@@ -35,6 +35,7 @@ import org.af.gMCP.gui.dialogs.RearrangeNodesDialog;
 import org.af.gMCP.gui.dialogs.TextFileViewer;
 import org.af.gMCP.gui.dialogs.VariableNameDialog;
 import org.af.gMCP.gui.graph.GraphView;
+import org.af.gMCP.gui.graph.WrongInputException;
 import org.af.gMCP.gui.options.OptionsDialog;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -572,13 +573,21 @@ public class MenuBarMGraph extends JMenuBar implements ActionListener {
 		SwingWorker<Void, Void> worker = new SwingWorker<Void, Void>() {
 			@Override
 			protected Void doInBackground() throws Exception {
-				if (!control.isResultUpToDate()) {
-					RControl.getR().evalVoid(control.result+" <- gMCP("+control.getNL().initialGraph+control.getGMCPOptions()+")");
-					control.setResultUpToDate(true);
+				try {
+					if (!control.isResultUpToDate()) {
+						RControl.getR().evalVoid(control.result+" <- gMCP("+control.getNL().initialGraph+control.getGMCPOptions()+")");
+						control.setResultUpToDate(true);
+					}
+					String filename = f.getAbsolutePath().replaceAll("\\\\", "\\\\\\\\");
+					RControl.getR().eval("gMCPReport("+control.result+", file=\""+filename+"\")");
+					control.getMainFrame().glassPane.stop();
+				} catch (Exception ex) {
+					if (ex instanceof WrongInputException) {
+						control.getMainFrame().glassPane.stop();
+						return null;
+					}
+					ErrorHandler.getInstance().makeErrDialog(ex.getMessage(), ex);
 				}
-				String filename = f.getAbsolutePath().replaceAll("\\\\", "\\\\\\\\");
-				RControl.getR().eval("gMCPReport("+control.result+", file=\""+filename+"\")");
-				control.getMainFrame().glassPane.stop();
 				return null;
 			}  
 		};

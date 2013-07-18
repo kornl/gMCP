@@ -218,13 +218,21 @@ public class PView extends JPanel implements KeyListener, ActionListener {
 		}
 		return s.substring(0, s.length()-2)+")";
 	}
-
-	public double getTotalAlpha() {
+	
+	public double getTotalAlpha() throws Exception {
+		return getTotalAlpha(true);
+	}
+	
+	public double getTotalAlpha(boolean warn) throws Exception {
 		try {
 			return Double.parseDouble(totalAlpha.getText());
 		} catch (NumberFormatException e) {
-			JOptionPane.showMessageDialog(parent, "Alpha "+totalAlpha.getText()+" is no valid number between 0 and 1.", "Error parsing alpha", JOptionPane.ERROR_MESSAGE);
-			return 1;
+			if (warn) {
+				String error = "Alpha "+totalAlpha.getText()+" is no valid number between 0 and 1.";
+				JOptionPane.showMessageDialog(parent, error, "Error parsing alpha", JOptionPane.ERROR_MESSAGE);
+				throw (new WrongInputException(error));
+			}
+			return 0;
 		}
 	}
 
