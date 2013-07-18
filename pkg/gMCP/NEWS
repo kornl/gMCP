@@ -1,4 +1,8 @@
-Changes in version 0.8-5 (16-07-2013)
+Changes in version 0.8-6 (??-0?-2013)
+=====================================
+
+
+Changes in version 0.8-5 (18-07-2013)
 =====================================
 
 - Removed dangerous parameter seed from function rqmvnorm and calcPower.
@@ -7,16 +11,19 @@ Changes in version 0.8-5 (16-07-2013)
 
 - Fix for problems with knitr 1.3.
 
-- Fixed: The rarly used offset parameter did not work well with the new edges consisting of arcs in TikZ.
+- Fixed: The rarly used offset parameter did not work well with the new edges 
+   consisting of arcs in TikZ.
 
 
 Changes in version 0.8-4 (15-07-2013)
 =====================================
 
-- R's base function chol for the Choleski Decomposition now defaults to LAPACK in R 3.0
-  resulting in meaningless results for not non-negative definite matrices (without 
-  any numerical tolerance!). Therefore power calculations for only semi-positive 
-  definite correlation matrices could have been off under R 3.0 in previous versions.
+- R's base function chol for the Choleski Decomposition now defaults to LAPACK 
+  in R 3.0 resulting in meaningless results for not non-negative definite 
+  matrices (without any numerical tolerance! And in R devel it is by now defunct: 
+  ‘chol(pivot = TRUE, LINPACK = TRUE)’ is defunct.). 
+  Therefore power calculations for only semi-positive definite correlation 
+  matrices could have been off under R 3.0 in previous versions.
   We switched to the singular value decomposition.
 
 - Fixed: List of user defined power functions doesn't need to have names.
@@ -26,10 +33,10 @@ Changes in version 0.8-4 (15-07-2013)
 - Since the vignettes were moved from gMCP/inst/doc to gMCP/vignettes
   most likely they will only be build with R >= 2.14.0.
 
-- Moved MASS, PolynomF, multcomp, lattice, mvtnorm, Matrix, CommonJavaJars and methods 
-  from DEPENDS to IMPORTS. Therefore loading gMCP will no longer add these packages to
-  the search path and if for example you want to use contrMat from package multcomp you 
-  have to load/attach the package yourself.
+- Moved MASS, PolynomF, multcomp, lattice, mvtnorm, Matrix, CommonJavaJars and 
+  methods from DEPENDS to IMPORTS. Therefore loading gMCP will no longer add 
+  these packages to the search path and if for example you want to use 
+  contrMat from package multcomp you have to load/attach the package yourself.
 
  37 files changed, 437 insertions(+), 136 deletions(-)
 
