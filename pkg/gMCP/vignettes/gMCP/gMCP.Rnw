@@ -934,7 +934,7 @@ for (dose in c("30 mg/kg", "50 mg/kg", "75 mg/kg", "100 mg/kg", "C+")) {
 }
 pvalues
 
-library(coin)
+library(coin, quietly=TRUE)
 pvalues <- c() 
 for (dose in c("30 mg/kg", "50 mg/kg", "75 mg/kg", "100 mg/kg", "C+")) {
 	subdata <- droplevels(hydroquinone[hydroquinone$group %in% c("C-", dose),])
