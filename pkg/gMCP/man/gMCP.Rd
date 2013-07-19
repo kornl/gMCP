@@ -76,6 +76,10 @@
 %  }
 }
 \details{
+  For the Bonferroni procedure the p-values can arise from any statistical test, 
+  but if you improve the test by specifying a correlation matrix, the following
+  assumptions apply:
+
   It is assumed that under the global null hypothesis
   \eqn{(\Phi^{-1}(1-p_1),...,\Phi^{-1}(1-p_m))} follow a
   multivariate normal distribution with correlation matrix
