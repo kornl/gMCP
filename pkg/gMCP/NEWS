@@ -1,6 +1,9 @@
 Changes in version 0.8-6 (??-0?-2013)
 =====================================
 
+- Fixed: When the value of the alpha field was not a valid number in the GUI,
+  an infite loop of warninging dialogs popped up.
+
 
 Changes in version 0.8-5 (18-07-2013)
 =====================================
