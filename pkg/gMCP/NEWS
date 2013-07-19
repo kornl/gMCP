@@ -14,6 +14,8 @@ Changes in version 0.8-5 (18-07-2013)
 - Fixed: The rarly used offset parameter did not work well with the new edges 
    consisting of arcs in TikZ.
 
+ 24 files changed, 88 insertions(+), 248 deletions(-)
+
 
 Changes in version 0.8-4 (15-07-2013)
 =====================================

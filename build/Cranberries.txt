@@ -1610,3 +1610,31 @@ Diff between gMCP versions 0.8-3 dated 2013-06-14 and 0.8-4 dated 2013-07-15
  gMCP-0.8-4/gMCP/tests/doRUnit.R                                                |    6 
  gMCP-0.8-4/gMCP/vignettes                                                      |only
  37 files changed, 437 insertions(+), 136 deletions(-)
+
+Diff between gMCP versions 0.8-4 dated 2013-07-15 and 0.8-5 dated 2013-07-18
+
+ gMCP-0.8-4/gMCP/inst/classes                            |only
+ gMCP-0.8-5/gMCP/.Rinstignore                            |    2 
+ gMCP-0.8-5/gMCP/DESCRIPTION                             |    7 
+ gMCP-0.8-5/gMCP/MD5                                     |  198 +---------------
+ gMCP-0.8-5/gMCP/NEWS                                    |   28 +-
+ gMCP-0.8-5/gMCP/R/calcPower.R                           |   12 
+ gMCP-0.8-5/gMCP/R/graph2latex.R                         |   10 
+ gMCP-0.8-5/gMCP/R/rqmvnorm.R                            |    5 
+ gMCP-0.8-5/gMCP/inst/doc/AQuickStart.pdf                |binary
+ gMCP-0.8-5/gMCP/inst/doc/gMCP.Rnw                       |    2 
+ gMCP-0.8-5/gMCP/inst/doc/gMCP.pdf                       |binary
+ gMCP-0.8-5/gMCP/inst/doc/parametric.Rnw                 |    2 
+ gMCP-0.8-5/gMCP/inst/doc/parametric.pdf                 |binary
+ gMCP-0.8-5/gMCP/inst/unitTests/runit.cover.everything.R |   10 
+ gMCP-0.8-5/gMCP/man/calcPower.Rd                        |   22 -
+ gMCP-0.8-5/gMCP/man/rqmvnorm.Rd                         |    3 
+ gMCP-0.8-5/gMCP/vignettes/Makefile                      |   28 --
+ gMCP-0.8-5/gMCP/vignettes/createKnitrVignette.sh        |only
+ gMCP-0.8-5/gMCP/vignettes/createSweaveVignette.sh       |only
+ gMCP-0.8-5/gMCP/vignettes/figure/unnamed-chunk-23.pdf   |binary
+ gMCP-0.8-5/gMCP/vignettes/gMCP.Rnw                      |    2 
+ gMCP-0.8-5/gMCP/vignettes/gMCP/gMCP-fake.Rnw            |    2 
+ gMCP-0.8-5/gMCP/vignettes/gMCP/gMCP.Rnw                 |    1 
+ gMCP-0.8-5/gMCP/vignettes/parametric.Rnw                |    2 
+ 24 files changed, 88 insertions(+), 248 deletions(-)
