@@ -1,7 +1,7 @@
 \documentclass[a4paper, 11pt]{article}
 \usepackage[OT1]{fontenc}
 \usepackage{url}
-\usepackage{Sweave}
+
 \usepackage{graphicx}
 \usepackage{tikz}
 \usetikzlibrary{decorations,arrows,shapes}
@@ -301,7 +301,7 @@ knowledge of any correlations. This can be done using the function
 \texttt{generateWeights}. For both of our examples this looks like:
 
 <<>>=
-library(gMCP)
+library(gMCP, quietly=TRUE)
 generateWeights(Gm,w)
 @ 
 
