@@ -12,7 +12,9 @@
 \usepackage{xspace}
 \usepackage{tabularx}
 \usepackage{makeidx}\makeindex
-\usepackage[numbers]{natbib}
+%\usepackage[numbers]{natbib}
+\usepackage{natbib}
+\bibliographystyle{plainnat}
 \usepackage{algorithmic} 
 \usepackage{algorithm}
 %\usepackage[left=3cm,right=3cm,top=2cm,bottom=2cm]{geometry}
@@ -145,8 +147,8 @@ derived from $G_I$ and the weights for the weighted local test for
 $\bigcap_{j\in J}H_j$ are the weights of the nodes of $G_J$. To derive
 graph $G_J$ remove all nodes that are not in $J$ and update the edges
 of the graph according to Algorithm \ref{rmNodeAlg} (the order does not matter).
-For a more detailed version please take a look at \cite{Bretz11} that is freely
-available as OnlineOpen Article.
+For a more detailed version please take a look at the article from \cite{Bretz11} 
+that is freely available as OnlineOpen Article.
 
 \begin{algorithm}
 \caption{Removing node $i$, passing the weight and updating the graph edges}
@@ -169,7 +171,7 @@ available as OnlineOpen Article.
 
 Let's start with a well-known procedure and see how it fits into this
 graphical approach to weighted multiple test procedures: The
-Bonferroni-Holm-Procedure \cite{Holm79}.
+Bonferroni-Holm-Procedure from \cite{Holm79}.
 
 \begin{Theorem}[Bonferroni-Holm-Procedure]\index{Bonferroni-Holm-Procedure} 
 Let $T_1, \ldots, T_m$
@@ -278,7 +280,7 @@ cat(graph2latex(graph, scale=0.7, fontsize="tiny"))
 The most convenient way to create a graph in R is to use the functions
 \texttt{matrix2graph}\index{matrix2graph} and
 \texttt{setWeights}\index{setWeights}.  As an example we create the
-graph from Bretz et al. \cite{bretz2011test} that you can see in
+graph from \cite{bretz2011test} that you can see in
 figure \ref{exampleGraphBretz}.
 
 <<echo=TRUE, tidy=FALSE>>=
@@ -322,7 +324,7 @@ graph <- placeNodes(graph, nrow=2)
 Coordinates are interpretated as pixels in the GUI and big points in
 {\LaTeX} (72 bp = 1 inch).\index{coordinates}
 
-Let's take a look at the graph in {\LaTeX} rendered with TikZ
+Let's take a look at the graph in {\LaTeX} rendered with package TikZ from 
 \cite{TikZ}\index{TikZ} (figure
 \ref{exampleGraphBretz} shows the compiled result):
 
@@ -398,7 +400,7 @@ With drag and drop you can move nodes and also adjust edges.
 \section{The sequentially rejective MTP}
 
 For a full description of the sequentially rejective multiple testing
-procedure take a look at Bretz et al. \cite{bretzEtAl2009graphical}. 
+procedure take a look at \cite{bretzEtAl2009graphical}. 
 
 \subsection{Using R}
 
@@ -596,7 +598,7 @@ cat(graph2latex(improvedParallelGatekeeping(), scale=0.7, fontsize="tiny", nodeT
 \end{figure}
 
 
-%Algorithm of Bretz et al. \cite{bretz2011test} for rejecting a node:
+%Algorithm of Bretz et al. from \cite{bretz2011test} for rejecting a node:
 
 %\[\alpha_l \leftarrow \begin{cases}\alpha_l+a_jg_{jl}&l\in I\\0&\text{otherwise}\end{cases}\]
 
@@ -853,7 +855,7 @@ graph seen in the GUI.
 
 PGF/TikZ is very useful \LaTeX-package, we recommend it for many
 purposes and it's totally worth reading its 560 pages manual
-\cite{TikZ}, but if you don't have the time right now, we will give
+(\cite{TikZ}), but if you don't have the time right now, we will give
 you short overview of the most important commands for our kind of
 graphs so that you can easily adapt the output from
 \texttt{graph2latex}.
@@ -888,7 +890,7 @@ but has an optional parameter \texttt{scale}.
 
 For an explanation what \texttt{green!80} means and how you can
 specify other colors, please take a look at the xcolor manual
-\cite{xcolor}.
+from \cite{xcolor}.
 
 You can choose between the following label positions \texttt{above,
   below, right, left, above right, above left, below right}, and
@@ -909,14 +911,14 @@ Often it is useful to reduce the bending angle in \texttt{[bend
 
 A powerful feature is the use of styles, since this will effect all
 objects of a given class. But for this please take a look directly at
-the TikZ manual \cite{TikZ}.
+the TikZ manual (\cite{TikZ}).
 
 \section{Case Studies}\label{caseStudies}
 
 This section is work in progress.
 
 \subsection{Identifying effective and/or safe doses by stepwise confidence intervals for ratios}
-In this subsection we show how to use gMCP to reproduce the results of the paper \cite{bretz2003identifying} with the same title.
+In this subsection we show how to use gMCP to reproduce the results of the paper from \cite{bretz2003identifying} with the same title.
 
 \subsection{Testing strategies in multi-dose experiments including active control}
 
@@ -989,7 +991,7 @@ This section is work in progress.
 
 \begin{Def}[Coherence and Consonance]
   A multiple test procedure is called \emph{consonant}\index{consonance} if 
-  \[\forall J\subset I:\; \left(\phi_J=1\;\Rightarrow\;\exists j\in J:\;\phi_j=1\right)\]
+  \[\forall J\subset I:\; \left(\phi_J=1\;\Rightarrow\;\exists j\in J:\;\phi_j=1\right).\]
   %or in other words if $\Cap_{j\in J}H_j$ can be rejected than there exists a $H_j$, $j\in J$ that is rejected. 
 
   A multiple test procedure is called \emph{coherent}\index{coherence} if
@@ -1061,6 +1063,8 @@ directed, weighted graphs with no self-loops and no parallel edges:
 \end{Def}
 
 Isomorphisms.
+
+This section is work in progress.
 
 %\begin{Theorem}[Unimprovable graph] 
 % Let $G=(V,E,w)$ be a graph with $\sum_{v\in V}w(v)=1$.
