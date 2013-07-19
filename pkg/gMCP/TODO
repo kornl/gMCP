@@ -1,3 +1,4 @@
+- Explain that the order of the rejected hypotheses doesn't affect the end result.
 - Hommel simplified caused print to console: Error in if (abs((b[1] - a[1])/(b[2] - a[2]) - (c[1] - b[1])/(c[2] - b[2])) <  : 
   missing value where TRUE/FALSE needed
 - Report was send dialog is sometimes behind ErrorReport.
