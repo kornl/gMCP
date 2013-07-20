@@ -1,6 +1,10 @@
 - Explain that the order of the rejected hypotheses doesn't affect the end result.
-- Hommel simplified caused print to console: Error in if (abs((b[1] - a[1])/(b[2] - a[2]) - (c[1] - b[1])/(c[2] - b[2])) <  : 
+- If "Show LaTeX code for this graph" is selected in the GUI, Hommel simplified prints to console: 
+  Error in if (abs((b[1] - a[1])/(b[2] - a[2]) - (c[1] - b[1])/(c[2] - b[2])) <  : 
   missing value where TRUE/FALSE needed
+  NOTE:  x <- graph2latex(HommelEtAl2007Simple()) does not and the four lines QoL to D1..4 differ:
+  Without GUI: \draw [->,line width=1pt] (QoL) to[auto] node[near start,above,fill=blue!20] {$\frac{1}{4}$} (D1);
+  With GUI:    \draw [->,line width=1pt] (QoL) to (188bp, -225bp) node[fill=blue!20] {$\frac{1}{4}$} to (D1);
 - Report was send dialog is sometimes behind ErrorReport.
 - http://semver.org/ Should we switch from version numbers like 0.8-3 to 0.8.3?
 - NICER BUGREPORT!
