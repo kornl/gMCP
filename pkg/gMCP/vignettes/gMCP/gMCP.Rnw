@@ -860,6 +860,8 @@ you short overview of the most important commands for our kind of
 graphs so that you can easily adapt the output from
 \texttt{graph2latex}.
 
+And perhaps you want to use an TikZ editor with a preview pane like qtikz or ktikz.\footnote{\url{http://www.hackenberger.at/blog/ktikz-editor-for-the-tikz-language/}}
+
 Let's start with this graph in figure \ref{uglygraph}:
 
 \scriptsize
