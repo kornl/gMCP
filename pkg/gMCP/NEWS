@@ -67,8 +67,8 @@ Changes in version 0.8-2 (14-06-2013)
 - The output of graph2latex has greatly improved and you nearly get 
   in TikZ what you can see in the Java GUI. 
 
-- Fixed a bug existing in gMCP 0.7-11 to 0.8-1 which caused errors for 
-  multiple power settings in the GUI.
+- Fixed a bug existing in gMCP 0.7-11 to 0.8-1 which caused calculations with
+  multiple power settings in the GUI to stop with an error.
   
 - The official source repository switched from subversion/r-forge to git/github:
   https://github.com/kornl/gMCP
