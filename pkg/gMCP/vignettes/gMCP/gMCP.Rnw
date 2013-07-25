@@ -727,7 +727,7 @@ graph
 \begin{description}
   \item[Grid] For easier placement of nodes a grid can be used that aligns the
   nodes to its intersections. You can specify a positive integer that sets the
-  grid size, i.e. the width in pixels between two proximate parallel
+  grid size, i.e.\ the width in pixels between two proximate parallel
   lines. If you set the grid size to 1 this would allow unrestricted placement
   and therefore disables the grid.
   \item[Number of digits] Number of digits to be shown at various places. In
@@ -737,7 +737,7 @@ graph
     other documents, you may want to adjust the line width of edges and nodes,
     when borders look to thin or thick.
   \item[Font Size] Font size of the text in the GUI widgets.
-  \item[Look'n'Feel] The way the widgets of a GUI look and how the behave
+  \item[Look'n'Feel] The way the widgets of a GUI look and how they behave
     is called "look and feel" in Java. Depending on your operating
     system and classpath several Look'n'Feel implementations may be available 
     (e.g. Metal (Java default), Windows, Mac OS, Motif and/or System/GTK).
