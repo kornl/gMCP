@@ -101,7 +101,7 @@ public class GeneralPanel extends OptionsPanel implements ActionListener {
             logger.debug("Not " + getLooknFeel());
         }
         cbLookAndFeel.setToolTipText("<html>" +
-        		"The way the widgets of a GUI look and how the behave is<br>" +
+        		"The way the widgets of a GUI look and how they behave is<br>" +
         		"called \"look and feel\" in Java. Depending on your operating<br>" +
         		"system and classpath several Look'n'Feel implementations may<br>" +
         		"be available (e.g. Metal (Java default), Windows, Mac OS,<br>" +
