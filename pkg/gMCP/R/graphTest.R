@@ -2,18 +2,23 @@ graphTest <- function(pvalues, weights = NULL, alpha = 0.05, G = NULL, cr = NULL
 	
 	usegraph <- !is.null(graph)
 	if (!is.list(G) && length(alpha)!=1) {
-		stop("length of alpha should be one for only one graph.")
+		stop("Length of 'alpha' should be one for only one graph.")
 	} else if (is.list(G) && length(alpha)!=length(G)) {
-		stop("length of alpha and G should match")
+		stop("length of 'alpha' and 'G' should match")
 	}
-	if(usegraph & (class(graph) != "graphMCP"))
-		stop("graph needs to be an object of class graphMCP")
+	if(usegraph & !(class(graph) %in% c("graphMCP", "entangledMCP")))
+		stop("Parameter 'graph' needs to be an object of class 'graphMCP' or 'entangledMCP'.")
 	if(usegraph & ((!is.null(weights)||!is.null(G))))
-		stop("either graph or weights and G need to be specified")
-	if(usegraph) {
-		## get alpha vector and transition matrix
-		alphas <- graph@weights * alpha
-		G <- graph@m
+		stop("If 'graph' is specified, don't set 'weights' or 'G'.")
+	if(usegraph) {    
+		## get alpha vector and transition matrix/matrices
+    if ("graphMCP" %in% class(graph)) {
+		  alphas <- graph@weights * alpha
+		  G <- graph@m
+    } else {
+      G <- getMatrices(graph)
+      alphas <- getWeights(graph) * alpha
+    }
 	} else {
 		alphas <- weights * alpha
 	}

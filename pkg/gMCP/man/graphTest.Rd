@@ -15,12 +15,16 @@
     for the hypotheses in the rows. }
   \item{weights}{ Initial weight levels for the test procedure, in
     case of multiple graphs this needs to be a matrix. }
-  \item{alpha}{ Overall alpha level of the procedure. }
-  \item{G}{ Matrix determining the graph underlying the test
-    procedure. Note that the diagonal need to contain only 0s, while the
-    rows need to sum to 1. When multiple graphs should be used this
-    needs to be a list containing the different graphs as elements. }
-  \item{graph}{ As an alternative to the specification via \code{alphas}
+  \item{alpha}{ Overall alpha level of the procedure. For entangled graphs 
+  \code{alpha} should be a numeric vector of length equal to the number
+  of graphs, each element specifying the partial alpha for the respective graph.
+  The overall alpha level equals \code{sum(alpha)}.}
+  \item{G}{ For simple graphs \code{G} should be a numeric matrix determining 
+    the graph underlying the test procedure. Note that the diagonal need to 
+    contain only 0s, while the rows need to sum to 1.
+    For entangled graphs it needs to be a list containing the different graph 
+    matrices as elements. }
+  \item{graph}{ As an alternative to the specification via \code{weights}
     and \code{G} one can also hand over a \code{graphMCP} object to the
     code. \code{graphMCP} objects can be created for example with the
     \code{graphGUI} function.
