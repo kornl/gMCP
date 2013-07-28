@@ -1,3 +1,50 @@
+#' Graph2LaTeX
+#' 
+#' Creates LaTeX code that represents the given graph.
+#' 
+#' For details see the given references.
+#' 
+#' @param graph A graph of class \code{\link{graphMCP}}.
+#' @param package A character string specifying the LaTeX package that should
+#' be used.  Up to now only \code{TikZ} is available.
+#' @param scale A numeric scalar specifying a possible scaling of the graph.
+#' Note that this does not effect the fontsize of the graph.  (Coordinates are
+#' interpreted in big points - 72 bp = 1 inch).
+#' @param alpha An optional numeric argument to specify the type I error rate.
+#' @param pvalues If the optional numeric argument pvalues is given, nodes that
+#' can be rejected, will be marked.
+#' @param fontsize An optional character vector specifying the fontsize for the
+#' graph, must be one of \code{"tiny"}, \code{"scriptsize"},
+#' \code{"footnotesize"}, \code{"small"}, \code{"normalsize"}, \code{"large"},
+#' \code{"Large"}, \code{"LARGE"}, \code{"huge"} or \code{"Huge"}.
+#' @param nodeTikZ A character string with additional arguments for the TikZ
+#' \code{node} command like for example \code{nodeTikZ="minimum size=2cm"}.
+#' @param labelTikZ A character string with arguments for the TikZ \code{node}
+#' command within an edge.
+#' @param tikzEnv Logical whether the LaTeX code should be wrapped in a TikZ
+#' environment.
+#' @param offset A numeric of length 2 specifying the x and y offset in the
+#' TikZ environment.
+#' @param fill A list containing 2 elements \code{reject} and \code{retain}
+#' specifying node fill colour of rejected and retained (or not yet rejected)
+#' nodes.
+#' @param nodeR Radius of nodes (pixel in Java, bp in LaTeX).
+#' @return A character string that contains LaTeX code representing the given
+#' graph.
+#' @author Kornelius Rohmeyer \email{rohmeyer@@small-projects.de}
+#' @seealso \code{\link{graphMCP}}, \code{\link{gMCPReport}}
+#' @references The TikZ and PGF Packages Manual for version 2.00, Till Tantau,
+#' \url{http://www.ctan.org/tex-archive/graphics/pgf/base/doc/generic/pgf/pgfmanual.pdf}
+#' @keywords print graphs
+#' @examples
+#' 
+#' 
+#' g <- BonferroniHolm(5)
+#' 
+#' graph2latex(g)
+#' 
+#' 
+#' @export graph2latex
 graph2latex <- function(graph, package="TikZ", scale=1, alpha=0.05, pvalues,
 		fontsize=c("tiny","scriptsize", "footnotesize", "small",
 		"normalsize", "large", "Large", "LARGE", "huge", "Huge"),
@@ -40,6 +87,30 @@ graph2latex <- function(graph, package="TikZ", scale=1, alpha=0.05, pvalues,
 	# A second loop for the edges is necessary:
 	if ("entangledMCP" %in% class(graph)) {
 		for(k in 1:length(graph@subgraphs)) {
+
+
+#' Get a subgraph
+#' 
+#' Given a set of nodes and a graph this function creates the subgraph
+#' containing only the specified nodes.
+#' 
+#' 
+#' @param graph A graph of class \code{\link{graphMCP}}.
+#' @param subset A logical or character vector specifying the nodes in the
+#' subgraph.
+#' @return A subgraph containing only the specified nodes.
+#' @author Kornelius Rohmeyer \email{rohmeyer@@small-projects.de}
+#' @seealso \code{\link{graphMCP}}
+#' @keywords print graphs
+#' @examples
+#' 
+#' 
+#' graph <- improvedParallelGatekeeping()
+#' subgraph(graph, c(TRUE, FALSE, TRUE, FALSE))
+#' subgraph(graph, c("H1", "H3"))
+#' 
+#' 
+#' @export subgraph
 			subgraph <- graph@subgraphs[[k]]
 			for (i in getNodes(subgraph)) {
 				for (j in getNodes(subgraph)) {			
@@ -230,6 +301,41 @@ getLaTeXFraction <- function(x) {
 	return(result)
 }
 
+
+
+#' Automatic Generation of gMCP Reports
+#' 
+#' Creates a LaTeX file with a gMCP Report.
+#' 
+#' This function uses \code{cat} and \code{graph2latex}.
+#' 
+#' @param object A graph of class \code{\link{graphMCP}} or an object of class
+#' \code{\link{gMCPResult}}.
+#' @param file A connection, or a character string naming the file to print to.
+#' If \code{""} (the default), the report is printed to the standard output
+#' connection (the console unless redirected by \code{sink}).  If it is
+#' \code{"|cmd"}, the output is piped to the command given by \code{cmd}, by
+#' opening a pipe connection [taken from the manual page of \code{cat}, which
+#' is called in this function].
+#' @param ...  Arguments to be passed to method \code{\link{graph2latex}} like
+#' \code{package} and \code{scale}.
+#' @return None (invisible \code{NULL}).
+#' @author Kornelius Rohmeyer \email{rohmeyer@@small-projects.de}
+#' @seealso \code{\link{cat}} \code{\link{graph2latex}}
+#' @references The TikZ and PGF Packages Manual for version 2.00, Till Tantau,
+#' \url{http://www.ctan.org/tex-archive/graphics/pgf/base/doc/generic/pgf/pgfmanual.pdf}
+#' @keywords print IO file graphs
+#' @examples
+#' 
+#' 
+#' g <- BretzEtAl2011()
+#' 
+#' result <- gMCP(g, pvalues=c(0.1, 0.008, 0.005, 0.15, 0.04, 0.006))
+#' 
+#' gMCPReport(result)
+#' 
+#' 
+#' @export gMCPReport
 gMCPReport <- function(object, file="", ...) {
 	report <- LaTeXHeader()
 	if (class(object)=="gMCPResult") {

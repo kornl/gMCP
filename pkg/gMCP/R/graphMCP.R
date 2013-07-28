@@ -1,4 +1,67 @@
-## Graph representation in gMCP
+#' Class graphMCP
+#' 
+#' A graphMCP object describes a sequentially rejective multiple test
+#' procedure.
+#' 
+#' 
+#' @name graphMCP-class
+#' @aliases graphMCP-class graphMCP print,graphMCP-method plot,graphMCP-method
+#' getWeights getWeights,graphMCP-method getMatrix getMatrix,graphMCP-method
+#' setWeights setWeights,graphMCP-method setRejected<-
+#' setRejected<-,graphMCP-method getRejected getRejected,graphMCP-method
+#' getXCoordinates getXCoordinates,graphMCP-method getYCoordinates
+#' getYCoordinates,graphMCP-method setEdge
+#' setEdge,character,character,graphMCP,character-method
+#' setEdge,character,character,graphMCP,numeric-method getNodes
+#' getNodes,graphMCP-method edgeAttr edgeAttr<-
+#' edgeAttr,graphMCP,character,character,character-method
+#' edgeAttr<-,graphMCP,character,character,character-method nodeAttr nodeAttr<-
+#' nodeAttr,graphMCP,character,character-method
+#' nodeAttr<-,graphMCP,character,character-method
+#' @docType class
+#' @section Slots: \describe{ \item{list("m")}{An adjacency matrix. Can be
+#' either \code{numerical} or \code{character} depending whether the matrix
+#' contains variables or not. Row and column names will be the names of the
+#' nodes.}\item{:}{An adjacency matrix. Can be either \code{numerical} or
+#' \code{character} depending whether the matrix contains variables or not. Row
+#' and column names will be the names of the nodes.} \item{list("weights")}{A
+#' numeric.}\item{:}{A numeric.} \item{list("edgeAttr")}{A list for edge
+#' attributes.}\item{:}{A list for edge attributes.} \item{list("nodeAttr")}{A
+#' list for node attributes.}\item{:}{A list for node attributes.} }
+#' @author Kornelius Rohmeyer \email{rohmeyer@@small-projects.de}
+#' @keywords graphs
+#' @examples
+#' 
+#' 
+#' m <- rbind(H11=c(0,   0.5, 0,   0.5, 0,   0  ),
+#'   		H21=c(1/3, 0,   1/3, 0,   1/3, 0  ),
+#' 			H31=c(0,   0.5, 0,   0,   0,   0.5),
+#' 			H12=c(0,   1,   0,   0,   0,   0  ),
+#' 			H22=c(0.5, 0,   0.5, 0,   0,   0  ),
+#' 			H32=c(0,   1,   0,   0,   0,   0  ))	
+#' 
+#' weights <- c(1/3, 1/3, 1/3, 0, 0, 0)
+#' 
+#' # Graph creation
+#' graph <- new("graphMCP", m=m, weights=weights)
+#' 
+#' # Visualization settings
+#' nodeX <- rep(c(100, 300, 500), 2)
+#' nodeY <- rep(c(100, 300), each=3)
+#' graph@nodeAttr$X <- nodeX
+#' graph@nodeAttr$Y <- nodeY	
+#' 
+#' getWeights(graph)
+#' 
+#' getRejected(graph)
+#' 
+#' pvalues <- c(0.1, 0.008, 0.005, 0.15, 0.04, 0.006)
+#' result <- gMCP(graph, pvalues)
+#' 
+#' getWeights(result@graphs[[4]])
+#' getRejected(result@graphs[[4]])
+#' 
+#' 
 setClass("graphMCP",	
 		representation(m="matrix", 
 				weights="numeric", 
@@ -30,6 +93,30 @@ validWeightedGraph <- function(object) {
 	return(TRUE)
 }
 
+#' Class gMCPResult
+#' 
+#' A gMCPResult object describes an evaluated sequentially rejective multiple
+#' test procedure.
+#' 
+#' 
+#' @name gMCPResult-class
+#' @aliases gMCPResult-class gMCPResult print,gMCPResult-method
+#' plot,gMCPResult-method getWeights,gMCPResult-method
+#' getRejected,gMCPResult-method
+#' @docType class
+#' @section Slots: \describe{ \item{list("graphs")}{Object of class
+#' \code{list}. }\item{:}{Object of class \code{list}. } \item{list("alpha")}{A
+#' \code{numeric} specifying the maximal type I error rate.}\item{:}{A
+#' \code{numeric} specifying the maximal type I error rate.}
+#' \item{list("pvalues")}{The \code{numeric} vector of pvalues.}\item{:}{The
+#' \code{numeric} vector of pvalues.} \item{list("rejected")}{The
+#' \code{logical} vector of rejected null hypotheses.}\item{:}{The
+#' \code{logical} vector of rejected null hypotheses.}
+#' \item{list("adjPValues")}{The \code{numeric} vector of adjusted
+#' pvalues.}\item{:}{The \code{numeric} vector of adjusted pvalues.} }
+#' @author Kornelius Rohmeyer \email{rohmeyer@@small-projects.de}
+#' @seealso \code{\link{gMCP}}
+#' @keywords graphs
 setClass("gMCPResult",		
 		representation(graphs="list",
 				pvalues="numeric",
@@ -304,6 +391,63 @@ setMethod("plot", "graphMCP",
 
 setGeneric("simConfint", function(object, pvalues, confint, alternative=c("less", "greater"), estimates, df, alpha=0.05, mu=0) standardGeneric("simConfint"))
 
+
+#' Simultaneous confidence intervals for sequentially rejective multiple test
+#' procedures
+#' 
+#' Calculates simultaneous confidence intervals for sequentially rejective
+#' multiple test procedures.
+#' 
+#' For details see the given references.
+#' 
+#' @aliases simConfint simConfint,graphMCP-method
+#' @param object A graph of class \code{\link{graphMCP}}.
+#' @param pvalues A numeric vector specifying the p-values for the sequentially
+#' rejective MTP.
+#' @param confint One of the following: A character string "normal", "t" or a
+#' function that calculates the confidence intervals.  If confintF=="t" the
+#' parameter "df" must be specified. If confint is a function it must be of
+#' signature \code{("character", "numeric")}, where the first parameter is the
+#' hypothesis name and the second the marginal confidence level. (See examples)
+#' @param alternative A character string specifying the alternative hypothesis,
+#' must be "greater" or "less".
+#' @param estimates Point estimates for the parameters of interest.
+#' @param df Degree of freedom as numeric.
+#' @param alpha The overall alpha level as numeric scalar.
+#' @param mu The numerical parameter vector under null hypothesis.
+#' @return A matrix with columns giving lower confidence limits, point
+#' estimates and upper confidence limits for each parameter. These will be
+#' labeled as "lower bound", "estimate" and "upper bound". %(1-level)/2 and 1 -
+#' (1-level)/2 in \% (by default 2.5\% and 97.5\%).
+#' @author Kornelius Rohmeyer \email{rohmeyer@@small-projects.de}
+#' @seealso \code{\link{graphMCP}}
+#' @references Frank Bretz, Willi Maurer, Werner Brannath, Martin Posch: A
+#' graphical approach to sequentially rejective multiple test procedures.
+#' Statistics in Medicine 2009 vol. 28 issue 4 page 586-604.
+#' \url{http://www.meduniwien.ac.at/fwf_adaptive/papers/bretz_2009_22.pdf}
+#' @keywords htest graphs
+#' @examples
+#' 
+#' 
+#' est <- c("H1"=0.860382, "H2"=0.9161474, "H3"=0.9732953)
+#' # Sample standard deviations:
+#' ssd <- c("H1"=0.8759528, "H2"=1.291310, "H3"=0.8570892)
+#' 
+#' pval <- c(0.01260, 0.05154, 0.02124)/2
+#' 
+#' simConfint(BonferroniHolm(3), pvalues=pval, 
+#'   	confint=function(node, alpha) {
+#' 			c(est[node]-qt(1-alpha,df=9)*ssd[node]/sqrt(10), Inf)
+#' 		}, estimates=est, alpha=0.025, mu=0, alternative="greater")
+#' 
+#' # Note that the sample standard deviations in the following call
+#' # will be calculated from the pvalues and estimates.
+#' ci <- simConfint(BonferroniHolm(3), pvalues=pval, 
+#' 		confint="t", df=9, estimates=est, alpha=0.025, alternative="greater")
+#' ci
+#' 	
+#' plotSimCI(ci)
+#' 
 setMethod("simConfint", c("graphMCP"), function(object, pvalues, confint, alternative=c("less", "greater"), estimates, df, alpha=0.05, mu=0) {
 			result <- gMCP(object, pvalues, alpha=alpha)
 			if (all(getRejected(result))) {
@@ -387,7 +531,36 @@ setMethod("show","gPADInterim",
 
 ############################## Entangled graphs #################################
 
-## Entangled graph representation in gMCP
+#' Class entangledMCP
+#' 
+#' A entangledMCP object describes ... TODO
+#' 
+#' 
+#' @name entangledMCP-class
+#' @aliases entangledMCP-class entangledMCP print,entangledMCP-method
+#' getWeights,entangledMCP-method getMatrices getMatrices,entangledMCP-method
+#' getRejected,entangledMCP-method getXCoordinates,entangledMCP-method
+#' getYCoordinates,entangledMCP-method getNodes,entangledMCP-method
+#' @docType class
+#' @section Slots: \describe{ \item{list("subgraphs")}{A list of graphs of
+#' class graphMCP.}\item{:}{A list of graphs of class graphMCP.}
+#' \item{list("weights")}{A numeric.}\item{:}{A numeric.}
+#' \item{list("graphAttr")}{A list for graph attributes like color,
+#' etc.}\item{:}{A list for graph attributes like color, etc.} }
+#' @author Kornelius Rohmeyer \email{rohmeyer@@small-projects.de}
+#' @seealso \code{\link[gMCP:graphMCP-class]{graphMCP}}
+#' @keywords graphs
+#' @examples
+#' 
+#' 
+#' g1 <- BonferroniHolm(2)
+#' g2 <- BonferroniHolm(2)
+#' 
+#' graph <- new("entangledMCP", subgraphs=list(g1,g2), weights=c(0.5,0.5))
+#' 
+#' getMatrices(graph)
+#' getWeights(graph)
+#' 
 setClass("entangledMCP",	
 		representation(subgraphs="list", 
 				weights="numeric",

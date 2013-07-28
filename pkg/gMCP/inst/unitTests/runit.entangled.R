@@ -9,5 +9,7 @@ test.graphTest <- function() {
 	weights <- rbind(c(1, 0, 0, 0, 0), c(0, 1, 0, 0, 0))
 	pvals <- c(0.024, 0.05, 0.01, 0.003, 0.009)
 	out <- graphTest(pvals, weights, alpha=c(0.0125, 0.0125), G=list(G1, G2), verbose = TRUE)
-	
+	graph <- new("entangledMCP", subgraphs=list(G1,G2), weights=c(0.5,0.5))
+  
+  
 }
