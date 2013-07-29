@@ -18,13 +18,13 @@ graphGUI <- function(graph="createdGraph", pvalues=numeric(0), grid=0, debug=FAL
 		}
 	} else {
 		if (exists(graph, envir=envir)) {
-			if ("graphMCP" %in% class(get(graph, envir=envir))) {
+			if (any(c("graphMCP", "entangledMCP") %in% class(get(graph, envir=envir)))) {
 				assign(graph, updateGraphToNewClassDefinition(get(graph, envir=envir)), envir=envir)
 				if (is.null(getXCoordinates(get(graph, envir=envir)))||is.null(getYCoordinates(get(graph, envir=envir)))) {
 					assign(graph, placeNodes(get(graph, envir=envir)), envir=envir)
 				}
 			} else {
-				stop(paste("The variable",graph,"already exists and is no graphMCP object."))
+				stop(paste("The variable",graph,"already exists and is no 'graphMCP' or 'entangledMCP' object."))
 			}
 		}
 	}
