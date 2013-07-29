@@ -17,7 +17,8 @@ graphTest <- function(pvalues, weights = NULL, alpha = 0.05, G = NULL, cr = NULL
 		  G <- graph@m
     } else {
       G <- getMatrices(graph)
-      alphas <- getWeights(graph) * alpha
+      alpha <-alpha*graph@weights         # Spread alpha between graphs
+      alphas <- getWeights(graph) * alpha # Spread alphas between hypotheses
     }
 	} else {
 		alphas <- weights * alpha

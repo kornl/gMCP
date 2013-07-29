@@ -25,8 +25,8 @@
     For entangled graphs it needs to be a list containing the different graph 
     matrices as elements. }
   \item{graph}{ As an alternative to the specification via \code{weights}
-    and \code{G} one can also hand over a \code{graphMCP} object to the
-    code. \code{graphMCP} objects can be created for example with the
+    and \code{G} one can also hand over a \code{graphMCP} or \code{entangledMCP}
+    object to the code. These objects can be created for example with the
     \code{graphGUI} function.
     }
   \item{cr}{ Correlation matrix that should be used for the parametric test.
