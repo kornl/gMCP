@@ -2,7 +2,10 @@ Changes in version 0.8-6 (??-0?-2013)
 =====================================
 
 - Fixed: When the value of the alpha field was not a valid number in the GUI,
-  an infite loop of warninging dialogs popped up.
+  an infite loop of warning dialogs popped up.
+  
+- JGR is yet another necessary package, but Mac OS support and stability 
+  improves.
 
 - Improved documentation.
 
