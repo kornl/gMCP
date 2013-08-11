@@ -47,6 +47,10 @@ public class RControl {
 			ErrorHandler.init("rohmeyer@small-projects.de", "http://www.algorithm-forge.com/report/bugreport.php", true, true, ErrorDialogGMCP.class);
 
 		}
+		if (!Rengine.versionCheck()) {
+            System.err.println("Error: API version of the Rengine class and the native binary differ.");
+            System.exit(1);
+        }
 		Rengine rengine = Rengine.getMainEngine();
 		if (rengine == null) {
 			// Call java with VM arguments: -Declipse="true"
