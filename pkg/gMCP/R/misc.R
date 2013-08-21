@@ -90,12 +90,14 @@ requireLibrary <- function(package) {
 				biocLite <- get("biocLite", envir=globalenv())
 				biocLite(package)
 			} else {
-				install.packages(package)
-				require(package, character.only=TRUE)
+				install.packages(package)				
 			}
+			return(require(package, character.only=TRUE))
 		} else {
 			stop(paste("Required package ",package," should not be installed.", sep=""))
 		}
+	} else {
+		return(TRUE)
 	}
 }
 

@@ -4,6 +4,11 @@ Changes in version 0.8-6 (??-0?-2013)
 - Fixed: When the value of the alpha field was not a valid number in the GUI,
   an infite loop of warning dialogs popped up.
   
+- Fixed: Loading old graph objects from version 0.6.x, i.e. from before August 2011,
+  without package 'graph' asks to install this package. If this is refused or
+  the installation failed, bad things happened like a complete crash of the current
+  R session.
+  
 - JGR is yet another necessary package, but Mac OS support and stability 
   improves.
 
