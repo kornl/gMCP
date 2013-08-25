@@ -331,6 +331,11 @@ public class GraphView extends JPanel implements ActionListener {
 		}
 	}
 	
+	/**
+	 * rCode is just a helper variable that is used to give the r code
+	 * to run to anonymous subclasses of SwingWorker.
+	 * See method actionPerformed(ActionEvent e) where it is used.
+	 */
 	String rCode = "";
 	public boolean isGraphSaved = true;
 
