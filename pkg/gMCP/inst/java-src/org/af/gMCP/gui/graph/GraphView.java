@@ -177,6 +177,15 @@ public class GraphView extends JPanel implements ActionListener {
 	}
 	
 	public void actionPerformed(ActionEvent e) {
+		if (!e.getSource().equals(buttonNewNode)) {
+			nl.newVertex = false;
+			buttonNewNode.setSelected(false);
+		}
+		if (!e.getSource().equals(buttonNewEdge)) {
+			nl.newEdge = false;
+			nl.arrowHeadPoint = null;
+			nl.firstVertexSelected = false;
+		}
 		if (e.getSource().equals(buttonZoomIn)) {
 			nl.setZoom(nl.getZoom() * 1.25);
 			getNL().refresh();
@@ -189,20 +198,11 @@ public class GraphView extends JPanel implements ActionListener {
 			}
 		} else if (e.getSource().equals(buttonNewEdge)) {
 			ReproducableLog.logGUI("Button \"new edge\"");
-			nl.newVertex = false;
-			buttonNewNode.setSelected(false);
 			nl.newEdge = true;
 			getNL().statusBar.setText("Select a node from which this edge should start.");
 		} else if (e.getSource().equals(buttonNewNode)) {
 			ReproducableLog.logGUI("Button \"new node\"");
-			if (buttonNewNode.isSelected()) {
-				nl.newVertex = true;
-				nl.newEdge = false;
-				nl.arrowHeadPoint = null;
-				nl.firstVertexSelected = false;
-			} else {
-				nl.newVertex = false;
-			}
+			nl.newVertex = buttonNewNode.isSelected();
 			nl.repaint();
 			getNL().statusBar.setText("Click on the graph panel to place the node.");
 		} else if (e.getSource().equals(buttonConfInt)) {
