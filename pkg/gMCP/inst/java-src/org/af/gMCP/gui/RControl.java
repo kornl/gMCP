@@ -62,7 +62,7 @@ public class RControl {
 			}
 		}
 		try {
-			rcs = new RCallServicesREngine(new JRIEngine(rengine));
+			rcs = new RCallServicesREngineWrapper(new JRIEngine(rengine));
 			if (System.getProperty("eclipse") != null) {
 				if (System.getProperty("libPath") != null) {
 					rcs.eval(".libPaths(new=\""+System.getProperty("libPath")+"\")");
