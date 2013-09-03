@@ -14,5 +14,10 @@ public class RCallServicesREngineWrapper extends RCallServicesREngine {
 	public RObj eval(String expression) throws REngineException {
 		return super.eval("eval(expression("+expression+"), envir=gMCP:::gMCPenv)");
 	}
+	
+	public RObj evalInGlobalEnv(String expression) throws REngineException {
+		return super.eval(expression);
+	}
+	
 
 }
