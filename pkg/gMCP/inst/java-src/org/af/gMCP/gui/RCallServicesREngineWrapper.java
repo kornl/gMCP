@@ -19,5 +19,12 @@ public class RCallServicesREngineWrapper extends RCallServicesREngine {
 		return super.eval(expression);
 	}
 	
+	public void evalVoid(String expression) throws REngineException {    
+		super.evalVoid("eval(expression("+expression+"), envir=gMCP:::gMCPenv)");
+	}
 
+	public void evalVoidInGlobalEnv(String expression) throws REngineException {    
+		super.evalVoid(expression);
+	}
+	
 }
