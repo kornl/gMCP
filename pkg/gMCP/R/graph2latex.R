@@ -94,7 +94,7 @@ getArc <- function(a, b, c, edgeNode, col="black", nodeR=25) {
   #a <- invertY(a)
   #b <- invertY(b)
   #c <- invertY(c)
-  m <- try(getCenter(a,b,c,0.001))
+  m <- try(getCenter(a,b,c,0.001), silent=TRUE)
   if ("try-error" %in% class(m)) {
     return(getLine(a, b, c, edgeNode, col="black"))    
   }

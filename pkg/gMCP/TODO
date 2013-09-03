@@ -77,6 +77,8 @@
 - improve behavior of tables if "Automatically enter the editing mode, whenever a table cell gets the focus" is set to false.
 - round values in CI Dialog
 
+- JHLIR creates variable .jhlir.errors in global environment.
+
 - Characterize optimal graphs.
 
 - Join two graphs in GUI.

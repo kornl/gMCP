@@ -9,7 +9,6 @@ import org.af.commons.errorhandling.ErrorHandler;
 import org.af.commons.logging.ApplicationLog;
 import org.af.commons.logging.LoggingSystem;
 import org.af.gMCP.config.Configuration;
-import org.af.jhlir.backends.rengine.RCallServicesREngine;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.rosuda.JRI.Rengine;
@@ -29,12 +28,12 @@ public class RControl {
 		return rc;
 	}
 
-	public static RCallServicesREngine getR() {
+	public static RCallServicesREngineWrapper getR() {
 		getRControl(true);
 		return rcs;
 	}
 
-	protected static RCallServicesREngine rcs = null;
+	protected static RCallServicesREngineWrapper rcs = null;
 	public static DebugTextConsole console = null;
 
 	protected RControl(boolean debug) {
@@ -62,7 +61,7 @@ public class RControl {
 			}
 		}
 		try {
-			rcs = new RCallServicesREngine(new JRIEngine(rengine));
+			rcs = new RCallServicesREngineWrapper(new JRIEngine(rengine));
 			if (System.getProperty("eclipse") != null) {
 				if (System.getProperty("libPath") != null) {
 					rcs.eval(".libPaths(new=\""+System.getProperty("libPath")+"\")");
