@@ -1,3 +1,19 @@
+Some new CRAN checks:
+* checking dependencies in R code ... NOTE
+Namespaces in Imports field not imported from:
+  ‘JGR’ ‘Matrix’ ‘lattice’ ‘methods’
+  All declared Imports should be used.
+Package in Depends field not imported from: ‘JavaGD’
+  These packages needs to imported from for the case when
+  this namespace is loaded but not attached.
+There are ::: calls to the package's namespace in its code. A package
+  almost never needs to use ::: for its own objects:
+  ‘gMCPenv’ ‘parse2numeric’
+See the information on DESCRIPTION files in the chapter ‘Creating R
+packages’ of the ‘Writing R Extensions’ manual.
+
+---
+
 - Explain that the order of the rejected hypotheses doesn't affect the end result.
 - If "Show LaTeX code for this graph" is selected in the GUI, Hommel simplified prints to console: 
   Error in if (abs((b[1] - a[1])/(b[2] - a[2]) - (c[1] - b[1])/(c[2] - b[2])) <  : 
