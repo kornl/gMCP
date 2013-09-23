@@ -28,7 +28,7 @@ graphGUI <- function(graph="createdGraph", pvalues=numeric(0), grid=0, debug=FAL
 			}
 		}
 	}
-  assign("env", envir, envir=gMCP:::gMCPenv)
+  assign("env", envir, envir=gMCPenv)
 	invisible(.jnew("org/af/gMCP/gui/CreateGraphGUI", make.names(graph), pvalues, debug, grid, experimentalFeatures))	
 }
 

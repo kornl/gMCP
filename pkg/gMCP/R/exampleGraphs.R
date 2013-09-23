@@ -622,7 +622,7 @@ FerberTimeDose2011 <- function(times, doses, w="\\nu") {
 			"",
 			"Literature: G. Ferber, L. Staner and P. Boeijinga (2011): Structured multiplicity and confirmatory statistical analyses in pharmacodynamic studies using the quantitative electroencephalogram, Journal of neuroscience methods, Volume 201, Issue 1, Pages 204-212.", sep="\n")
 	# Placing nodes and converting to numeric
-	graph <- placeNodes(gMCP:::parse2numeric(graph), times, doses)
+	graph <- placeNodes(parse2numeric(graph), times, doses)
 	return(graph)
 }
 
