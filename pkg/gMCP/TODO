@@ -13,7 +13,7 @@ See the information on DESCRIPTION files in the chapter ‘Creating R
 packages’ of the ‘Writing R Extensions’ manual.
 
 ---
-
+- Use jgr.addMenu, jgr.addMenuItem.
 - Explain that the order of the rejected hypotheses doesn't affect the end result.
 - If "Show LaTeX code for this graph" is selected in the GUI, Hommel simplified prints to console: 
   Error in if (abs((b[1] - a[1])/(b[2] - a[2]) - (c[1] - b[1])/(c[2] - b[2])) <  : 
