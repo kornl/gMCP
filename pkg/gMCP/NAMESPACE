@@ -8,6 +8,9 @@ importFrom(PolynomF, polynom)
 importFrom(mvtnorm, pmvnorm)
 importFrom(MASS, fractions)
 importFrom(multcomp, contrMat)
+# These methods are directly called by the GUI - we note them here for the CRAN checks:
+importFrom(JavaGD, JavaGD)
+importFrom(Matrix, bdiag)
 
 exportClasses(graphMCP, gMCPResult, gPADInterim, entangledMCP)
 exportMethods(plot, print)
