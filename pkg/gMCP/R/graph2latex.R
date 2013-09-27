@@ -5,8 +5,8 @@ graph2latex <- function(graph, package="TikZ", scale=1, alpha=0.05, pvalues,
 		tikzEnv=TRUE, offset=c(0,0),fill=list(reject="red!80",retain="green!80"), nodeR=25) {
 	graph <- placeNodes(graph)
 	colors <- c("yellow","black","blue","red","green")
-	if (tikzEnv) {
-		tikz <- paste("\\begin{tikzpicture}[scale=",scale,"]\n", sep="")
+	if (tikzEnv) {    
+		tikz <- paste("\\begin{tikzpicture}\n", sep="")
 	} else {
 		tikz <- ""
 	}
@@ -86,6 +86,9 @@ graph2latex <- function(graph, package="TikZ", scale=1, alpha=0.05, pvalues,
 	if (!missing(fontsize)) {
 		tikz <- paste(paste("{\\", fontsize, sep=""), tikz, "}",sep="\n")
 	}
+  if ( isTRUE(all.equal(scale,1, check.attributes=FALSE, check.names=FALSE)) ) {
+    tikz <- paste(paste("\scalebox{",scale,"}{",sep=""),tikz,"}",sep="\n")
+  }
 	return(tikz)
 }
 
