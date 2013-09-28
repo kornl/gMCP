@@ -2,11 +2,16 @@ graph2latex <- function(graph, package="TikZ", scale=1, alpha=0.05, pvalues,
 		fontsize=c("tiny","scriptsize", "footnotesize", "small",
 		"normalsize", "large", "Large", "LARGE", "huge", "Huge"),
 		nodeTikZ, labelTikZ="near start,above,fill=blue!20",
-		tikzEnv=TRUE, offset=c(0,0),fill=list(reject="red!80",retain="green!80"), nodeR=25) {
+		tikzEnv=TRUE, offset=c(0,0),fill=list(reject="red!80",retain="green!80"), nodeR=25, scaleText=TRUE) {
 	graph <- placeNodes(graph)
 	colors <- c("yellow","black","blue","red","green")
-	if (tikzEnv) {    
-		tikz <- paste("\\begin{tikzpicture}\n", sep="")
+	if (tikzEnv) {        
+		tikz <- paste("\\begin{tikzpicture}",
+                  ifelse(scaleText, 
+                         "",
+                         paste("[scale=",scale,"]", sep=""))
+                  ,"\n", sep="")    
+    if (!scaleText) nodeR <- nodeR / scale
 	} else {
 		tikz <- ""
 	}
@@ -86,8 +91,8 @@ graph2latex <- function(graph, package="TikZ", scale=1, alpha=0.05, pvalues,
 	if (!missing(fontsize)) {
 		tikz <- paste(paste("{\\", fontsize, sep=""), tikz, "}",sep="\n")
 	}
-  if ( isTRUE(all.equal(scale,1, check.attributes=FALSE, check.names=FALSE)) ) {
-    tikz <- paste(paste("\scalebox{",scale,"}{",sep=""),tikz,"}",sep="\n")
+  if ( isTRUE(all.equal(scale,1, check.attributes=FALSE, check.names=FALSE)) && scaleText && tikzEnv) {
+    tikz <- paste(paste("\\scalebox{",scale,"}{",sep=""),tikz,"}",sep="\n")
   }
 	return(tikz)
 }
