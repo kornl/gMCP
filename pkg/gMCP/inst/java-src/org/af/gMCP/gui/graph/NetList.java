@@ -866,10 +866,10 @@ public class NetList extends JPanel implements MouseMotionListener, MouseListene
 					weights += ", ";
 				}
 			}
-			RControl.getR().evalVoid(graphName+" <- new(\"entangledMCP\", subgraphs=list("+graphs+"), weights=c("+weights+"))");
+			RControl.getR().evalVoidInGlobalEnv(graphName+" <- new(\"entangledMCP\", subgraphs=list("+graphs+"), weights=c("+weights+"))");
 		}
-		RControl.getR().evalVoid("attr("+graphName+", \"description\") <- \""+ control.getDView().getDescription()+"\"");
-		RControl.getR().evalVoid("attr("+graphName+", \"pvalues\") <- "+ control.getPView().getPValuesString());
+		RControl.getR().evalVoidInGlobalEnv("attr("+graphName+", \"description\") <- \""+ control.getDView().getDescription()+"\"");
+		RControl.getR().evalVoidInGlobalEnv("attr("+graphName+", \"pvalues\") <- "+ control.getPView().getPValuesString());
 		if (verbose && !graphName.equals(graphNameOld)) { JOptionPane.showMessageDialog(this, "The graph as been exported to R under ther variable name:\n\n"+graphName, "Saved as \""+graphName+"\"", JOptionPane.INFORMATION_MESSAGE); }
 		return graphName;
 	}
@@ -928,7 +928,8 @@ public class NetList extends JPanel implements MouseMotionListener, MouseListene
 					RControl.getR().evalVoid(graphName +"@m[\""+e.from.getRName() +"\", \""+e.to.getRName() +"\"] <- 0");
 				}			
 			}
-		}			
+		}		
+		RControl.getR().evalVoidInGlobalEnv(graphName+" <- get(\""+graphName+"\", env=gMCP:::gMCPenv)");
 	}
 
 	public void setEdges(Vector<Edge> edges) {

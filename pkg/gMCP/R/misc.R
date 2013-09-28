@@ -50,8 +50,6 @@ getDebugInfo <- function() {
 	return("Graph not available.")
 }
 
-
-
 #' Create a Block Diagonal Matrix with NA outside the diagonal
 #' 
 #' Build a block diagonal matrix with NA values outside the diagonal given
@@ -111,12 +109,14 @@ requireLibrary <- function(package) {
 				biocLite <- get("biocLite", envir=globalenv())
 				biocLite(package)
 			} else {
-				install.packages(package)
-				require(package, character.only=TRUE)
+				install.packages(package)				
 			}
+			return(require(package, character.only=TRUE))
 		} else {
 			stop(paste("Required package ",package," should not be installed.", sep=""))
 		}
+	} else {
+		return(TRUE)
 	}
 }
 

@@ -29,6 +29,15 @@
 #' specifying node fill colour of rejected and retained (or not yet rejected)
 #' nodes.
 #' @param nodeR Radius of nodes (pixel in Java, bp in LaTeX).
+#' @param scaleText Only relevant if scale is unequal 1. If \code{scaleText}
+#' is \code{TRUE} (the default) a scalebox environment is used.
+#' If it is \code{FALSE} the optional parameter \code{scale} from the
+#' tikzpicture environment is used and font size will not change. 
+#' Note that while you easily can change the scale in the scalebox environment,
+#' it is more problematic to adjust the scale in the tikzpicture environment
+#' afterwards in the LaTeX document, since for curved edges the parameters
+#' are calculated for a certain relative node size which changes if the graph
+#' is scaled but the text size stays the same.
 #' @return A character string that contains LaTeX code representing the given
 #' graph.
 #' @author Kornelius Rohmeyer \email{rohmeyer@@small-projects.de}
@@ -46,14 +55,17 @@
 #' 
 #' @export graph2latex
 graph2latex <- function(graph, package="TikZ", scale=1, alpha=0.05, pvalues,
-		fontsize=c("tiny","scriptsize", "footnotesize", "small",
-		"normalsize", "large", "Large", "LARGE", "huge", "Huge"),
-		nodeTikZ, labelTikZ="near start,above,fill=blue!20",
-		tikzEnv=TRUE, offset=c(0,0),fill=list(reject="red!80",retain="green!80"), nodeR=25) {
+		fontsize,	nodeTikZ, labelTikZ="near start,above,fill=blue!20",
+		tikzEnv=TRUE, offset=c(0,0),fill=list(reject="red!80",retain="green!80"), nodeR=25, scaleText=TRUE) {
 	graph <- placeNodes(graph)
 	colors <- c("yellow","black","blue","red","green")
-	if (tikzEnv) {
-		tikz <- paste("\\begin{tikzpicture}[scale=",scale,"]\n", sep="")
+	if (tikzEnv) {        
+		tikz <- paste("\\begin{tikzpicture}",
+                  ifelse(scaleText, 
+                         "",
+                         paste("[scale=",scale,"]", sep=""))
+                  ,"\n", sep="")    
+    if (!scaleText) nodeR <- nodeR / scale
 	} else {
 		tikz <- ""
 	}
@@ -157,6 +169,9 @@ graph2latex <- function(graph, package="TikZ", scale=1, alpha=0.05, pvalues,
 	if (!missing(fontsize)) {
 		tikz <- paste(paste("{\\", fontsize, sep=""), tikz, "}",sep="\n")
 	}
+  if ( isTRUE(all.equal(scale,1, check.attributes=FALSE, check.names=FALSE)) && scaleText && tikzEnv) {
+    tikz <- paste(paste("\\scalebox{",scale,"}{",sep=""),tikz,"}",sep="\n")
+  }
 	return(tikz)
 }
 
@@ -165,7 +180,7 @@ getArc <- function(a, b, c, edgeNode, col="black", nodeR=25) {
   #a <- invertY(a)
   #b <- invertY(b)
   #c <- invertY(c)
-  m <- try(getCenter(a,b,c,0.001))
+  m <- try(getCenter(a,b,c,0.001), silent=TRUE)
   if ("try-error" %in% class(m)) {
     return(getLine(a, b, c, edgeNode, col="black"))    
   }

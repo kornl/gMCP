@@ -64,21 +64,19 @@ graphGUI <- function(graph="createdGraph", pvalues=numeric(0), grid=0, debug=FAL
 		}
 	} else {
 		if (exists(graph, envir=envir)) {
-			if ("graphMCP" %in% class(get(graph, envir=envir))) {
+			if (any(c("graphMCP", "entangledMCP") %in% class(get(graph, envir=envir)))) {
 				assign(graph, updateGraphToNewClassDefinition(get(graph, envir=envir)), envir=envir)
 				if (is.null(getXCoordinates(get(graph, envir=envir)))||is.null(getYCoordinates(get(graph, envir=envir)))) {
 					assign(graph, placeNodes(get(graph, envir=envir)), envir=envir)
 				}
 			} else {
-				stop(paste("The variable",graph,"already exists and is no graphMCP object."))
+				stop(paste("The variable",graph,"already exists and is no 'graphMCP' or 'entangledMCP' object."))
 			}
 		}
 	}
-  assign("env", envir, envir=gMCP:::gMCPenv)
+  assign("env", envir, envir=gMCPenv)
 	invisible(.jnew("org/af/gMCP/gui/CreateGraphGUI", make.names(graph), pvalues, debug, grid, experimentalFeatures))	
 }
-
-
 
 #' Graphical User Interface for the creation of correlation matrices
 #' 
@@ -88,6 +86,8 @@ graphGUI <- function(graph="createdGraph", pvalues=numeric(0), grid=0, debug=FAL
 #' @param n Square root of the dimension of the \eqn{n\times n}{nxn}-Matrix.
 #' @param matrix Matrix of dimension \eqn{n\times n}{nxn} to start with.
 #' @param names Row and column names.
+#' @param envir Environment where the object \var{matrix} is located and/or it
+#' should be saved (default is the global environment).
 #' @return The function itself returns NULL.  But with the dialog a symmetric
 #' matrix of dimension \eqn{n\times n}{nxn} can be created or edited that will
 #' be available in R under the specified variable name after saving.
@@ -98,11 +98,13 @@ graphGUI <- function(graph="createdGraph", pvalues=numeric(0), grid=0, debug=FAL
 #' 
 #' \dontrun{
 #' corMatWizard(5)
-#' corMatWizard(5)}
+#' C <- cor(matrix(rnorm(100),10), matrix(rnorm(100),10))
+#' corMatWizard(matrix="C")
+#' }
 #' 
 #' 
 #' @export corMatWizard
-corMatWizard <- function(n=dim(matrix)[1], matrix=paste("diag(",n,")"), names=paste("H",1:n,sep="")) {
+corMatWizard <- function(n=dim(matrix)[1], matrix=paste("diag(",n,")"), names=paste("H",1:n,sep=""), envir=globalenv()) {
 	if (!is.character(matrix)) {
 		warning("Please specify the matrix name as character.")
 		stack <- sys.calls()

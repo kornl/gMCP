@@ -41,7 +41,6 @@ extractPower <- function(x, f=list()) {
 }
 
 
-
 #' Calculate power values
 #' 
 #' Given the distribution under the alternative (assumed to be multivariate

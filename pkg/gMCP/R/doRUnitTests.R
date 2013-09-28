@@ -1,6 +1,3 @@
-## Adapted and extended from the code from http://rwiki.sciviews.org/doku.php?id=developers:runit
-
-
 #' Run the R unit (and optional the JUnit) test suite for gMCP
 #' 
 #' Runs the R unit (and optional the JUnit) test suite for gMCP and prints the
@@ -40,6 +37,7 @@
 #' 
 #' @export unitTestsGMCP
 unitTestsGMCP <- function(extended=FALSE, java=FALSE, interactive=FALSE, junitLibrary, outputPath) {
+  # Adapted and extended from the code from http://rwiki.sciviews.org/doku.php?id=developers:runit
 	if(!require("RUnit", quietly=TRUE)) {
 		stop("Please install package RUnit to run the unit tests.")
 	}

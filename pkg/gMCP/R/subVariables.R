@@ -43,8 +43,6 @@ substituteEps <- function(graph, eps=10^(-3)) {
 	return(graph)
 }
 
-
-
 #' Replaces variables in a general graph with specified numeric values
 #' 
 #' Given a list of variables and real values a general graph is processed and

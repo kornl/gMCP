@@ -4,6 +4,7 @@
 	}
 	.jpackage(pkgname)	
 	.jpackage("JavaGD")
+	.jpackage("JGR")
 	
 	jars <- c("afcommons", "commons-collections", "commons-lang", 
 			"commons-logging", "commons-validator", "forms", 
@@ -35,18 +36,7 @@
 					.jaddClassPath(jars)
 				}		
 			}
-		}
-		# If we have a rJava version > 0.9-3 load JRIEngine.jar and REngine.jar
-	    if (rJavaVersion > "0.9-3") {
-			classes <- system.file("JRI", package = "CommonJavaJars", lib.loc = NULL)
-			if (nzchar(classes)) {
-				.jaddClassPath(classes)
-				jars <- grep(".*\\.jar", list.files(classes, full.names = TRUE), TRUE, value = TRUE)
-				if (length(jars)) { 
-					.jaddClassPath(jars)
-				}		
-			}
-		}
+		}		
 	}
 	
 	## We supply our own JavaGD class

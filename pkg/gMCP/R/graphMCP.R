@@ -568,8 +568,8 @@ setClass("entangledMCP",
 		validity=function(object) validEntangledGraph(object))
 
 
-validEntangledGraph <- function(object) {
-	# if (sum(object@weights)>1)
+validEntangledGraph <- function(graph) {
+	if (!all("graphMCP" == lapply(graph@subgraphs, class))) stop("Subgraphs need to be of class 'graphMCP'.")
 	return(TRUE)
 }
 
