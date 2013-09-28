@@ -1,3 +1,24 @@
+#' Calculate power values
+#' 
+#' Calculates local power values, expected number of rejections, the power to
+#' reject at least one hypothesis and the power to reject all hypotheses.
+#' 
+#' 
+#' @param x A matrix containing the rejected hypothesis, as produces by the
+#' graphTest function.
+#' @param f List of user defined power functions. If one is interested in the
+#' power to reject hypotheses 1 and 3 one could specify \code{function(x) {x[1]
+#' && x[3]}}
+#' @return A list containg at least the following three elements
+#' 
+#' Further it contains an element for each element in the parameter \code{f}.
+#' @returnItem LocPower A numeric giving the local powers for the hypotheses
+#' @returnItem ExpNrRej The expected number of rejections
+#' @returnItem PowAtlst1 The power to reject at least one hypothesis
+#' @returnItem RejectAll The power to reject all hypotheses
+#' @author Bjoern Bornkamp, Kornelius Rohmeyer
+#' @keywords htest
+#' @export extractPower
 extractPower <- function(x, f=list()) {
   pow <- colMeans(x)
   avgPow <- sum(x)/nrow(x)
@@ -19,6 +40,120 @@ extractPower <- function(x, f=list()) {
   result
 }
 
+#' Calculate power values
+#' 
+#' Given the distribution under the alternative (assumed to be multivariate
+#' normal), this function calculates the power to reject at least one
+#' hypothesis, the local power for the hypotheses as well as the expected
+#' number of rejections.
+#' 
+#' 
+#' @param weights Initial weight levels for the test procedure, see graphTest
+#' function.
+#' @param alpha Overall alpha level of the procedure, see graphTest function.
+#' @param G Matrix determining the graph underlying the test procedure. Note
+#' that the diagonal need to contain only 0s, while the rows need to sum to 1.
+#' When multiple graphs should be used this needs to be a list containing the
+#' different graphs as elements.
+#' @param mean Mean under the alternative
+#' @param sigma Covariance matrix under the alternative.
+#' @param cr Correlation matrix that should be used for the parametric test.
+#' If \code{cr==NULL} the Bonferroni based test procedure is used. Can contain
+#' NAs.
+#' @param type What type of random numbers to use. \code{quasirandom} uses a
+#' randomized Lattice rule, and should be more efficient than
+#' \code{pseudorandom} that uses ordinary (pseudo) random numbers.
+#' @param nSim Monte Carlo sample size. If type = "quasirandom" this number is
+#' rounded up to the next power of 2, e.g. 1000 is rounded up to
+#' \eqn{1024=2^10}{1024=2^10} and at least 1024.
+#' @param f List of user defined power functions (or just a single power
+#' function).  If one is interested in the power to reject hypotheses 1 and 3
+#' one could specify: \cr\code{f=function(x) {x[1] && x[3]}}.\cr If the power
+#' of rejecting hypotheses 1 and 2 is also of interest one would use a
+#' (optionally named) list: \cr \code{f=list(power1and3=function(x) {x[1] &&
+#' x[3]}, power1and2=function(x) {x[1] && x[2]})}.  If the list has no names,
+#' the functions will be referenced to as "func1", "func2", etc. in the output.
+#' @param test In the parametric case there is more than one way to handle
+#' subgraphs with less than the full alpha. If the parameter \code{test} is
+#' missing, the tests are performed as described by Bretz et al. (2011), i.e.
+#' tests of intersection null hypotheses always exhaust the full alpha level
+#' even if the sum of weights is strictly smaller than one. If
+#' \code{test="simple-parametric"} the tests are performed as defined in
+#' Equation (3) of Bretz et al. (2011).
+#' @return A list containg three elements
+#' @returnItem LocalPower A numeric giving the local powers for the hypotheses
+#' @returnItem ExpRejections The expected number of rejections
+#' @returnItem PowAtlst1 The power to reject at least one hypothesis
+#' @author Bjoern Bornkamp
+#' @references
+#' 
+#' Bretz, F., Maurer, W., Brannath, W. and Posch, M. (2009) A graphical
+#' approach to sequentially rejective multiple test procedures. Statistics in
+#' Medicine, 28, 586--604
+#' 
+#' Bretz, F., Maurer, W. and Hommel, G. (2010) Test and power considerations
+#' for multiple endpoint analyses using sequentially rejective graphical
+#' procedures, to appear in Statistics in Medicine
+#' @keywords htest
+#' @examples
+#' 
+#' ## reproduce example from Stat Med paper (Bretz et al. 2010, Table I)
+#' ## first only consider line 2 of Table I
+#' ## significance levels
+#' weights <- c(1/2, 1/2, 0, 0)
+#' ## graph
+#' G <- rbind(c(0, 0.5, 0.5, 0),
+#'            c(0.5, 0, 0, 0.5),
+#'            c(0, 1, 0, 0),
+#'            c(1, 0, 0, 0))
+#' ## or equivalent:
+#' G <- simpleSuccessiveII()@m
+#' ## alternative (mvn distribution)
+#' corMat <- rbind(c(1, 0.5, 0.5, 0.5/2),
+#'                 c(0.5,1,0.5/2,0.5),
+#'                 c(0.5,0.5/2,1,0.5),
+#'                 c(0.5/2,0.5,0.5,1))
+#' theta <- c(3, 0, 0, 0)
+#' calcPower(weights, alpha=0.025, G, theta, corMat, nSim = 100000)
+#' 
+#' 
+#' ## now reproduce all 14 simulation scenarios
+#' ## different graphs
+#' weights1 <- c(rep(1/2, 12), 1, 1)
+#' weights2 <- c(rep(1/2, 12), 0, 0)
+#' eps <- 0.01
+#' gam1 <- c(rep(0.5, 10), 1-eps, 0, 0, 0)
+#' gam2 <- gam1
+#' ## different multivariate normal alternatives
+#' rho <- c(rep(0.5, 8), 0, 0.99, rep(0.5,4))
+#' th1 <- c(0, 3, 3, 3, 2, 1, rep(3, 7), 0)
+#' th2 <- c(rep(0, 6), 3, 3, 3, 3, 0, 0, 0, 3)
+#' th3 <- c(0, 0, 3, 3, 3, 3, 0, 2, 2, 2, 3, 3, 3, 3)
+#' th4 <- c(0,0,0,3,3,3,0,2,2,2,0,0,0,0)
+#' 
+#' ## function that calculates power values for one scenario
+#' simfunc <- function(nSim, a1, a2, g1, g2, rh, t1, t2, t3, t4, Gr){
+#'   al <- c(a1, a2, 0, 0)
+#'   G <- rbind(c(0, g1, 1-g1, 0), c(g2, 0, 0, 1-g2), c(0, 1, 0, 0), c(1, 0, 0, 0))
+#'   corMat <- rbind(c(1, 0.5, rh, rh/2), c(0.5,1,rh/2,rh), c(rh,rh/2,1,0.5), c(rh/2,rh,0.5,1))
+#'   mean <- c(t1, t2, t3, t4)
+#'   calcPower(al, alpha=0.025, G, mean, corMat, nSim = nSim)
+#' }
+#' 
+#' ## calculate power for all 14 scenarios
+#' outList <- list()
+#' for(i in 1:14){
+#'   outList[[i]] <- simfunc(10000, weights1[i], weights2[i], 
+#'                     gam1[i], gam2[i], rho[i], th1[i], th2[i], th3[i], th4[i])
+#' }
+#' 
+#' ## summarize data as in Stat Med paper Table I 
+#' atlst1 <- as.numeric(lapply(outList, function(x) x$PowAtlst1))
+#' locpow <- do.call("rbind", lapply(outList, function(x) x$LocalPower))
+#' 
+#' round(cbind(atlst1, locpow), 5)
+#' 
+#' @export calcPower
 calcPower <- function(weights, alpha, G, mean = rep(0, nrow(sigma)),
                       sigma = diag(length(mean)), cr = NULL,
                       nSim = 10000, type = c("quasirandom", "pseudorandom"),
