@@ -1,3 +1,25 @@
+#' Substitute Epsilon
+#' 
+#' Substitute Epsilon with a given value.
+#' 
+#' For details see the given references.
+#' 
+#' @param graph A graph of class \code{\link{graphMCP}} or class
+#' \code{\link{entangledMCP}}.
+#' @param eps A numeric scalar specifying a value for epsilon edges.
+#' @return A graph where all epsilons have been replaced with the given value.
+#' @author Kornelius Rohmeyer \email{rohmeyer@@small-projects.de}
+#' @seealso \code{\link{graphMCP}}, \code{\link{entangledMCP}}
+#' @keywords print graphs
+#' @examples
+#' 
+#' 
+#' graph <- improvedParallelGatekeeping()
+#' graph
+#' substituteEps(graph, eps=0.01)
+#' 
+#' 
+#' @export substituteEps
 substituteEps <- function(graph, eps=10^(-3)) {
 	# Call this function recursivly for entangled graphs.
 	if ("entangledMCP" %in% class(graph)) {
@@ -21,6 +43,35 @@ substituteEps <- function(graph, eps=10^(-3)) {
 	return(graph)
 }
 
+#' Replaces variables in a general graph with specified numeric values
+#' 
+#' Given a list of variables and real values a general graph is processed and
+#' each variable replaced with the specified numeric value.
+#' 
+#' 
+#' @param graph A graph of class \code{\link{graphMCP}} or class
+#' \code{\link{entangledMCP}}.
+#' @param variables A named list with the specified real values, for example
+#' \code{list(a=0.5, b=0.8, "tau"=0.5)}.  If \code{ask=TRUE} and this list is
+#' missing at all or single variables are missing from the list, the user is
+#' asked for the values (if the session is not interactive an error is thrown).
+#' @param ask If \code{FALSE} all variables that are not specified are not
+#' replaced.
+#' @return A graph or a matrix with variables replaced by the specified numeric
+#' values.
+#' @author Kornelius Rohmeyer \email{rohmeyer@@small-projects.de}
+#' @seealso \code{\link{graphMCP}}, \code{\link{entangledMCP}}
+#' @keywords print graphs
+#' @examples
+#' 
+#' 
+#' graph <- HungEtWang2010()
+#' \dontrun{
+#' replaceVariables(graph)
+#' }
+#' replaceVariables(graph, list("tau"=0.5,"omega"=0.5, "nu"=0.5))
+#' 
+#' @export replaceVariables
 replaceVariables <-function(graph, variables=list(), ask=TRUE) {
 	# Call this function recursivly for entangled graphs.
 	if ("entangledMCP" %in% class(graph)) {

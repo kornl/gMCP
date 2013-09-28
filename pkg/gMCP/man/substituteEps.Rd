@@ -1,44 +1,37 @@
 \name{substituteEps}
 \alias{substituteEps}
-
-\title{
-	Substitute Epsilon
-}
-\description{
-	Substitute Epsilon with a given value.
-}
+\title{Substitute Epsilon}
 \usage{
-	substituteEps(graph, eps=10^(-3))
+  substituteEps(graph, eps = 10^(-3))
 }
-
 \arguments{
-  \item{graph}{
-	A graph of class \code{\link{graphMCP}} or class \code{\link{entangledMCP}}.
-  }
-  \item{eps}{
-  	A numeric scalar specifying a value for epsilon edges.
-  }
-}
-\details{
-	For details see the given references.
+  \item{graph}{A graph of class \code{\link{graphMCP}} or
+  class \code{\link{entangledMCP}}.}
+
+  \item{eps}{A numeric scalar specifying a value for
+  epsilon edges.}
 }
 \value{
-	A graph where all epsilons have been replaced with the given value.
+  A graph where all epsilons have been replaced with the
+  given value.
 }
-\author{
-	Kornelius Rohmeyer \email{rohmeyer@small-projects.de}
+\description{
+  Substitute Epsilon with a given value.
 }
-
-\seealso{
-\code{\link{graphMCP}}, \code{\link{entangledMCP}}
+\details{
+  For details see the given references.
 }
 \examples{
-
 graph <- improvedParallelGatekeeping()
 graph
 substituteEps(graph, eps=0.01)
-
 }
-\keyword{ print }
-\keyword{ graphs }
+\author{
+  Kornelius Rohmeyer \email{rohmeyer@small-projects.de}
+}
+\seealso{
+  \code{\link{graphMCP}}, \code{\link{entangledMCP}}
+}
+\keyword{graphs}
+\keyword{print}
 
