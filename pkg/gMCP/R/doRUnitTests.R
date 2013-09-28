@@ -1,5 +1,43 @@
-## Adapted and extended from the code from http://rwiki.sciviews.org/doku.php?id=developers:runit
+#' Run the R unit (and optional the JUnit) test suite for gMCP
+#' 
+#' Runs the R unit (and optional the JUnit) test suite for gMCP and prints the
+#' results.
+#' 
+#' 
+#' @param extended If \code{TRUE} (or if the environment variable
+#' GMCP_UNIT_TESTS equals "extended" or "all") an extended version of the R
+#' unit test suite for gMCP will be used.  The run will take significantly
+#' longer time. %and only cover further cases of the same %kind that also
+#' tested in the non-extended version.
+#' @param java If \code{TRUE} the GUI and its logic is tested with JUnit tests.
+#' You need JUnit 4 classes in the classpath or specify the path to a JUnit 4
+#' jar file via the parameter junitLibrary.
+#' @param interactive If \code{TRUE} the interactive part of the RUnit tests is
+#' run.  The user have to look at results and answer questions.
+#' @param junitLibrary A character String specifying the path to a JUnit 4 jar
+#' file to run the JUnit tests.  You can download it from
+#' \url{http://www.junit.org/}.  Alternatively you can use the environment
+#' variable GMCP_JUNIT_LIBRARY to specify the path.
+#' @param outputPath During the RUnit tests files maybe produced at this
+#' location.  If missing the current working directory is used if nothing else
+#' is specified in the environment variable GMCP_UNIT_TEST_OPATH.
+#' @return None of interest so far - the function prints the results to the
+#' standard output.  (Perhaps in future versions a value will be returned that
+#' can be processed by the GUI.)
+#' @author Kornelius Rohmeyer \email{rohmeyer@@small-projects.de}
+#' @examples
+#' 
+#' 
+#' \dontrun{
+#' unitTestsForGMCP()
+#' unitTestsGMCP(extended=TRUE, java=TRUE, interactive=TRUE, outputPath="~/RUnitTests")
+#' 
+#' }
+#' 
+#' 
+#' @export unitTestsGMCP
 unitTestsGMCP <- function(extended=FALSE, java=FALSE, interactive=FALSE, junitLibrary, outputPath) {
+  # Adapted and extended from the code from http://rwiki.sciviews.org/doku.php?id=developers:runit
 	if(!require("RUnit", quietly=TRUE)) {
 		stop("Please install package RUnit to run the unit tests.")
 	}
