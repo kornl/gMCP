@@ -1,5 +1,6 @@
 useDynLib(gMCP)
 
+import(methods)
 import(utils)
 import(rJava)
 importFrom(CommonJavaJars, loadJars)
