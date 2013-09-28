@@ -1,7 +1,61 @@
+#' Graph2LaTeX
+#' 
+#' Creates LaTeX code that represents the given graph.
+#' 
+#' For details see the given references.
+#' 
+#' @param graph A graph of class \code{\link{graphMCP}}.
+#' @param package A character string specifying the LaTeX package that should
+#' be used.  Up to now only \code{TikZ} is available.
+#' @param scale A numeric scalar specifying a possible scaling of the graph.
+#' Note that this does not effect the fontsize of the graph.  (Coordinates are
+#' interpreted in big points - 72 bp = 1 inch).
+#' @param alpha An optional numeric argument to specify the type I error rate.
+#' @param pvalues If the optional numeric argument pvalues is given, nodes that
+#' can be rejected, will be marked.
+#' @param fontsize An optional character vector specifying the fontsize for the
+#' graph, must be one of \code{"tiny"}, \code{"scriptsize"},
+#' \code{"footnotesize"}, \code{"small"}, \code{"normalsize"}, \code{"large"},
+#' \code{"Large"}, \code{"LARGE"}, \code{"huge"} or \code{"Huge"}.
+#' @param nodeTikZ A character string with additional arguments for the TikZ
+#' \code{node} command like for example \code{nodeTikZ="minimum size=2cm"}.
+#' @param labelTikZ A character string with arguments for the TikZ \code{node}
+#' command within an edge.
+#' @param tikzEnv Logical whether the LaTeX code should be wrapped in a TikZ
+#' environment.
+#' @param offset A numeric of length 2 specifying the x and y offset in the
+#' TikZ environment.
+#' @param fill A list containing 2 elements \code{reject} and \code{retain}
+#' specifying node fill colour of rejected and retained (or not yet rejected)
+#' nodes.
+#' @param nodeR Radius of nodes (pixel in Java, bp in LaTeX).
+#' @param scaleText Only relevant if scale is unequal 1. If \code{scaleText}
+#' is \code{TRUE} (the default) a scalebox environment is used.
+#' If it is \code{FALSE} the optional parameter \code{scale} from the
+#' tikzpicture environment is used and font size will not change. 
+#' Note that while you easily can change the scale in the scalebox environment,
+#' it is more problematic to adjust the scale in the tikzpicture environment
+#' afterwards in the LaTeX document, since for curved edges the parameters
+#' are calculated for a certain relative node size which changes if the graph
+#' is scaled but the text size stays the same.
+#' @return A character string that contains LaTeX code representing the given
+#' graph.
+#' @author Kornelius Rohmeyer \email{rohmeyer@@small-projects.de}
+#' @seealso \code{\link{graphMCP}}, \code{\link{gMCPReport}}
+#' @references The TikZ and PGF Packages Manual for version 2.00, Till Tantau,
+#' \url{http://www.ctan.org/tex-archive/graphics/pgf/base/doc/generic/pgf/pgfmanual.pdf}
+#' @keywords print graphs
+#' @examples
+#' 
+#' 
+#' g <- BonferroniHolm(5)
+#' 
+#' graph2latex(g)
+#' 
+#' 
+#' @export graph2latex
 graph2latex <- function(graph, package="TikZ", scale=1, alpha=0.05, pvalues,
-		fontsize=c("tiny","scriptsize", "footnotesize", "small",
-		"normalsize", "large", "Large", "LARGE", "huge", "Huge"),
-		nodeTikZ, labelTikZ="near start,above,fill=blue!20",
+		fontsize,	nodeTikZ, labelTikZ="near start,above,fill=blue!20",
 		tikzEnv=TRUE, offset=c(0,0),fill=list(reject="red!80",retain="green!80"), nodeR=25, scaleText=TRUE) {
 	graph <- placeNodes(graph)
 	colors <- c("yellow","black","blue","red","green")

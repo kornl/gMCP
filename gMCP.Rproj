@@ -17,3 +17,4 @@ BuildType: Package
 PackagePath: pkg/gMCP
 PackageInstallArgs: --no-multiarch
 PackageCheckArgs: --as-cran
+PackageRoxygenize: rd
