@@ -13,6 +13,13 @@ Some new CRAN checks:
    ‘methods’
   All declared Imports should be used.
   
+With methods in dependencies and something 
+like 'importFrom(methods, new)' in NAMESPACE 
+results in the following warning when loading the package:
+
+Warning message:
+replacing previous import ‘new’ when loading ‘methods’ 
+  
 Recheck with new R unstable versions whether the second NOTE persists.
 
 ---
