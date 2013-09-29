@@ -96,9 +96,6 @@ pvals <- matrix(rbeta(5e4, 1, 30), ncol = 5)
 out <- graphTest(pvals, weights, alpha=c(0.0125, 0.0125), G=list(G1, G2))
 head(out)
 }
-\author{
-  Bjoern Bornkamp
-}
 \references{
   Bretz, F., Maurer, W., Brannath, W. and Posch, M. (2009)
   A graphical approach to sequentially rejective multiple

@@ -82,9 +82,6 @@ G <- rbind(c(0, 0.5, 0.5, 0),
 ## or equivalent:
 G <- simpleSuccessiveII()
 }
-\author{
-  Bjoern Bornkamp
-}
 \references{
   Bretz, F., Maurer, W., Brannath, W. and Posch, M. (2009)
   A graphical approach to sequentially rejective multiple

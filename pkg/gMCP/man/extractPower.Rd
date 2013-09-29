@@ -23,8 +23,5 @@
   rejections, the power to reject at least one hypothesis
   and the power to reject all hypotheses.
 }
-\author{
-  Bjoern Bornkamp, Kornelius Rohmeyer
-}
 \keyword{htest}
 

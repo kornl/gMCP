@@ -34,7 +34,6 @@
 #' @return A vector or a matrix containing the test results for the hypotheses
 #' under consideration. Significant tests are denoted by a 1, non-significant
 #' results by a 0.
-#' @author Bjoern Bornkamp
 #' @references
 #' 
 #' Bretz, F., Maurer, W., Brannath, W. and Posch, M. (2009) A graphical

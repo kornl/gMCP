@@ -16,7 +16,6 @@
 #' @returnItem ExpNrRej The expected number of rejections
 #' @returnItem PowAtlst1 The power to reject at least one hypothesis
 #' @returnItem RejectAll The power to reject all hypotheses
-#' @author Bjoern Bornkamp, Kornelius Rohmeyer
 #' @keywords htest
 #' @export extractPower
 extractPower <- function(x, f=list()) {
@@ -84,7 +83,6 @@ extractPower <- function(x, f=list()) {
 #' @returnItem LocalPower A numeric giving the local powers for the hypotheses
 #' @returnItem ExpRejections The expected number of rejections
 #' @returnItem PowAtlst1 The power to reject at least one hypothesis
-#' @author Bjoern Bornkamp
 #' @references
 #' 
 #' Bretz, F., Maurer, W., Brannath, W. and Posch, M. (2009) A graphical

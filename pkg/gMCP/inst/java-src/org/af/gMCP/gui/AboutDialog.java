@@ -51,7 +51,7 @@ public class AboutDialog extends InfoDialog implements ActionListener {
 			doc.insertString(doc.getLength(),					
 					"gMCP "+Configuration.getInstance().getGeneralConfig().getVersionNumber()+"\n\n", getH1());			
 			doc.insertString(doc.getLength(),
-					"by Kornelius Rohmeyer, Florian Klinglmueller and Bjoern Bornkamp is distributed under GPL>=2.0."+"\n\n", getT());			
+					"by Kornelius Rohmeyer and Florian Klinglmueller is distributed under GPL>=2.0."+"\n\n", getT());			
 			doc.insertString(doc.getLength(), "This program uses the libraries log4j, JLaTeXMath, iText (2.1.4), jxlayer,\n swingworker, commons logging/lang, JRI and JGoodies Forms.\n", getT());
 			doc.setParagraphAttributes(0, doc.getLength(), getC(), true);
         } catch (BadLocationException ble) {

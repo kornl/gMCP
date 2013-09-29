@@ -14,7 +14,7 @@
 #' randomized Lattice rule, and should be more efficient than
 #' \code{pseudorandom} that uses ordinary (pseudo) random numbers.
 #' @return Matrix of simulated values
-#' @author Bjoern Bornkamp. We thank Dr. Frances Kuo for the permission to use
+#' @author We thank Dr. Frances Kuo for the permission to use
 #' the generating vectors (order 2 lattice rule) obtained from her website
 #' \url{http://web.maths.unsw.edu.au/~fkuo/lattice/}.
 #' @references Cools, R., Kuo, F. Y., and Nuyens, D. (2006) Constructing

@@ -33,9 +33,9 @@ sims <- rqmvnorm(100, mean = 1:2, sigma = diag(2))
 plot(sims)
 }
 \author{
-  Bjoern Bornkamp. We thank Dr. Frances Kuo for the
-  permission to use the generating vectors (order 2 lattice
-  rule) obtained from her website
+  We thank Dr. Frances Kuo for the permission to use the
+  generating vectors (order 2 lattice rule) obtained from
+  her website
   \url{http://web.maths.unsw.edu.au/~fkuo/lattice/}.
 }
 \references{

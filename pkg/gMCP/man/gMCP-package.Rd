@@ -30,8 +30,7 @@ This can be done directly via the \code{new} method or a graphical user interfac
 }
 \author{
 Kornelius Rohmeyer, 
-R code for correlated tests and adaptive designs from Florian Klinglmueller,
-C code for power simulations from Bjoern Bornkamp 
+R code for correlated tests and adaptive designs from Florian Klinglmueller.
 
 Maintainer: Kornelius Rohmeyer \email{rohmeyer@small-projects.de}
 }

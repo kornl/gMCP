@@ -13,8 +13,7 @@ Changes in version 0.8-6 (??-0?-2013)
   a scalebox is used in LaTeX instead of the optional parameter 'scale'
   from the tikzpicture environment.
   
-- JGR is yet another necessary package, but Mac OS support and stability 
-  improves.
+- JGR is yet another necessary package, but Mac OS support and stability improve.
 
 - Improved documentation. Some Rd files are built by a patched version of
   roxygen2 that escapes "\" in arguments: 
@@ -490,8 +489,7 @@ Changes in version 0.7-0 (26-Aug-2011, Rev. 964)
   addEdge -> setEdge, edgeData -> edgeAttr, 
   nodeData -> nodeAttr, nodes -> getNodes 
 
-- Power simulation code from our third author
-  Bjoern Bornkamp.
+- Power simulation code.
 
 - New example graphs:
 
