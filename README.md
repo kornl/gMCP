@@ -1,4 +1,4 @@
-			gMCP GITHUB README
+# gMCP GITHUB README
 
 ![GUI screenshot](https://raw.github.com/kornl/gMCP/master/www/GUI.png)
 
