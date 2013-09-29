@@ -391,3 +391,8 @@ Look at highr and
 \draw[->, dashed] (P1) to node {$k$} (P);
 \end{tikzpicture}
 @
+
+Bug in Roxygen. Roxygenize inserted documentation at a total wrong place (_in_ another function in another file): 
+
+#' @export subgraph
+	subgraph <- graph@subgraphs[[k]]
