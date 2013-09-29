@@ -1,3 +1,36 @@
+#' Matrix2Graph and Graph2Matrix
+#' 
+#' Creates a graph of class \code{\link{graphMCP}} from a given adjacency
+#' matrix or vice versa.
+#' 
+#' The hypotheses names are the row names or if these are \code{NULL}, the
+#' column names or if these are also \code{NULL} of type H1, H2, H3, ...
+#' 
+#' If the diagonal of the matrix is unequal zero, the values are ignored and a
+#' warning is given.
+#' 
+#' @aliases matrix2graph graph2matrix
+#' @param m An adjacency matrix.
+#' @param weights A numeric for the initial weights.
+#' @param graph A graph of class \code{\link{graphMCP}}.
+#' @return A graph of class \code{\link{graphMCP}} with the given adjacency
+#' matrix for matrix2graph.  The adjacency matrix of a \code{\link{graphMCP}}
+#' graph for graph2matrix.
+#' @author Kornelius Rohmeyer \email{rohmeyer@@small-projects.de}
+#' @keywords graphs
+#' @examples
+#' 
+#' 
+#' # Bonferroni-Holm:
+#' m <- matrix(rep(1/3, 16), nrow=4)
+#' diag(m) <- c(0, 0, 0, 0)
+#' graph <- matrix2graph(m)
+#' print(graph)
+#' graph2matrix(graph)
+#' 
+#' 
+#' @export matrix2graph
+
 matrix2graph <- function(m, weights=rep(1/dim(m)[1],dim(m)[1])) {
 	# Checking for 0 on diagonal:
 	if (!(all(TRUE == all.equal(unname(diag(m)), rep(0, length(diag(m)))))
