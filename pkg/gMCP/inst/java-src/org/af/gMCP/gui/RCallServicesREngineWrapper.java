@@ -26,5 +26,21 @@ public class RCallServicesREngineWrapper extends RCallServicesREngine {
 	public void evalVoidInGlobalEnv(String expression) throws REngineException {    
 		super.evalVoid(expression);
 	}
+
+	public void evalVoid(String expression, boolean global) {
+		if (global) {
+			evalVoidInGlobalEnv(expression);
+		} else {
+			evalVoid(expression);
+		}
+	}
+	
+	public RObj eval(String expression, boolean global) {
+		if (global) {
+			return evalInGlobalEnv(expression);
+		} else {
+			return eval(expression);
+		}
+	}
 	
 }

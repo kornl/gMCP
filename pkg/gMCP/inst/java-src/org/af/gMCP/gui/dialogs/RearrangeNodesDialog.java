@@ -95,7 +95,7 @@ public class RearrangeNodesDialog extends JDialog implements ActionListener {
 			String byrow = jByRow.isSelected()?"TRUE":"FALSE";
 			String layout = jrbCircle.isSelected()?"":", nrow="+rows+", ncol="+cols+", byrow = "+byrow;
 			String graphName = ".tmpGraph" + (new Date()).getTime();
-			control.getNL().saveGraph(graphName, false);
+			control.getNL().saveGraph(graphName, false, false);
 			RControl.getR().eval(graphName +" <- placeNodes("+graphName+layout+", force = TRUE)");
 			control.getNL().loadGraph(graphName);
 			dispose();

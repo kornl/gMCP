@@ -36,7 +36,7 @@ public class LoadSaveTest {
         	nl.updateGUI = false;
         	nl.reset();        	
         	nl.graph = new GraphMCP("graph", nl);
-        	nl.saveGraph(".testGraph", false);
+        	nl.saveGraph(".testGraph", false, false);
         	nl.refresh();
         	nl.updateGUI = true;
         	//ctrl.getR().eval("gMCP:::equals(graph, .testGraph)");

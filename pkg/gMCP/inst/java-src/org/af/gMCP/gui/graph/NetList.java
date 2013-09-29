@@ -83,7 +83,7 @@ public class NetList extends JPanel implements MouseMotionListener, MouseListene
 
 	public void acceptNode(Node node) {
 		control.getPView().savePValues();
-		saveGraph(".tmpGraph", false);
+		saveGraph(".tmpGraph", false, false);
 		RControl.getR().eval(".tmpGraph <- substituteEps(.tmpGraph, eps="+Configuration.getInstance().getGeneralConfig().getEpsilon()+")");
 		ReproducableLog.logR(RControl.getR().eval("gMCP:::dputGraph(.tmpGraph, \".tmpGraph\")").asRChar().getData()[0]);
 		RControl.evalAndLog(".tmpGraph <- rejectNode(.tmpGraph, \""+node.getName()+"\")");
@@ -187,7 +187,7 @@ public class NetList extends JPanel implements MouseMotionListener, MouseListene
 		if (variables.size()==0) {
 			try {
 				String graphName = ".tmpGraph" + (new Date()).getTime();
-				saveGraph(graphName, false);
+				saveGraph(graphName, false, false);
 				analysis = RControl.getR().eval("graphAnalysis("+graphName+", file=tempfile())").asRChar().getData()[0];
 			} catch (Exception e) {
 				// We simply set the analysis to null - that's fine.
@@ -321,7 +321,7 @@ public class NetList extends JPanel implements MouseMotionListener, MouseListene
 	}
 	
 	public String getLaTeX() {
-		saveGraph(tmpGraph, false);
+		saveGraph(tmpGraph, false, false);
 		return RControl.getR().eval("graph2latex("+tmpGraph+")").asRChar().getData()[0];
 		//TODO Compare this with R code.
 		/*DecimalFormat format = Configuration.getInstance().getGeneralConfig().getDecFormat();
@@ -790,8 +790,8 @@ public class NetList extends JPanel implements MouseMotionListener, MouseListene
 		control.isGraphSaved = true;
 	}
 
-	public void saveGraph() {
-		saveGraph(initialGraph, false);
+	public void saveGraph(boolean global) {
+		saveGraph(initialGraph, false, global);
 		control.getPView().savePValues();
 	}
 	
@@ -803,7 +803,7 @@ public class NetList extends JPanel implements MouseMotionListener, MouseListene
 		return variables;
 	}
 	
-	public String saveGraphWithoutVariables(String graphName, boolean verbose) {
+	public String saveGraphWithoutVariables(String graphName, boolean verbose, boolean global) {
 		Set<String> variables = getAllVariables();
 		if (!Configuration.getInstance().getGeneralConfig().useEpsApprox())	{
 			variables.remove("ε");
@@ -816,15 +816,16 @@ public class NetList extends JPanel implements MouseMotionListener, MouseListene
 			ht.put("ε", Configuration.getInstance().getGeneralConfig().getEpsilon());
 		}		
 		graphName = RControl.getR().eval("make.names(\""+graphName+"\")").asRChar().getData()[0];
-		saveGraph(graphName, verbose, null);
+		saveGraph(graphName, verbose, null, global);
 		RControl.getR().eval(graphName+"<- gMCP:::replaceVariables("+graphName+", variables="+getRVariableList(ht)+", ask=FALSE)");
+		//TODO This is really a strange place to load a graph... :
 		loadGraph(graphName);
-		return saveGraph(graphName, verbose, ht);
+		return saveGraph(graphName, verbose, ht, global);
 	}
 	
 	
-	public String saveGraph(String graphName, boolean verbose) {
-		return saveGraph(graphName, verbose, new Hashtable<String,Double>());
+	public String saveGraph(String graphName, boolean verbose, boolean global) {
+		return saveGraph(graphName, verbose, new Hashtable<String,Double>(), global);
 	}
 	
 	public String getRVariableList(Hashtable<String,Double> ht) {
@@ -845,20 +846,21 @@ public class NetList extends JPanel implements MouseMotionListener, MouseListene
 	 * @param verbose if true, a JOption MessageDialog will be shown stating the success
 	 * @param ht Hashtable that contains for latin and greek characters (as Strings)
 	 * the corresponding Double values. Should not be null, but can be empty.
+	 * @param global if true graph is saved to global/specified environment otherwise to gMCP:::env. 
 	 * @return
 	 */
-	public String saveGraph(String graphNameOld, boolean verbose, Hashtable<String,Double> ht) {
+	public String saveGraph(String graphNameOld, boolean verbose, Hashtable<String,Double> ht, boolean global) {
 		if (nodes.size()==0) {
 			throw new RuntimeException("Cannot save empty graph.");
 		}
 		String graphName = RControl.getR().eval("make.names(\""+graphNameOld+"\")").asRChar().getData()[0];
 		if (control.getNumberOfLayers()==1) {
-			saveSingleLayerGraph(graphName, verbose, ht, 0);
+			saveSingleLayerGraph(graphName, verbose, ht, 0, global);
 		} else {
 			String graphs = "";
 			String weights = "";
 			for (int i=0; i<control.getNumberOfLayers(); i++) {
-				saveSingleLayerGraph(tmpGraph+"_layer_"+i, verbose, ht, i);
+				saveSingleLayerGraph(tmpGraph+"_layer_"+i, verbose, ht, i, false);
 				graphs += tmpGraph+"_layer_"+i;
 				weights += control.getPView().entangledWeights.get(i).getText();
 				if (i!=control.getNumberOfLayers()-1) {
@@ -866,15 +868,16 @@ public class NetList extends JPanel implements MouseMotionListener, MouseListene
 					weights += ", ";
 				}
 			}
-			RControl.getR().evalVoidInGlobalEnv(graphName+" <- new(\"entangledMCP\", subgraphs=list("+graphs+"), weights=c("+weights+"))");
+			RControl.getR().evalVoid(graphName+" <- new(\"entangledMCP\", subgraphs=list("+graphs+"), weights=c("+weights+"))");
+			if (global) RControl.getR().evalVoidInGlobalEnv(graphName+" <- get("+graphName+", envir=gMCP:::gMCPenv)");
 		}
-		RControl.getR().evalVoidInGlobalEnv("attr("+graphName+", \"description\") <- \""+ control.getDView().getDescription()+"\"");
-		RControl.getR().evalVoidInGlobalEnv("attr("+graphName+", \"pvalues\") <- "+ control.getPView().getPValuesString());
+		RControl.getR().evalVoid("attr("+graphName+", \"description\") <- \""+ control.getDView().getDescription()+"\"", global);
+		RControl.getR().evalVoid("attr("+graphName+", \"pvalues\") <- "+ control.getPView().getPValuesString(), global);
 		if (verbose && !graphName.equals(graphNameOld)) { JOptionPane.showMessageDialog(this, "The graph as been exported to R under ther variable name:\n\n"+graphName, "Saved as \""+graphName+"\"", JOptionPane.INFORMATION_MESSAGE); }
 		return graphName;
 	}
 	
-	private void saveSingleLayerGraph(String graphName, boolean verbose, Hashtable<String, Double> ht, int layer) {
+	private void saveSingleLayerGraph(String graphName, boolean verbose, Hashtable<String, Double> ht, int layer, boolean global) {
 		String alpha = "";
 		String nodeStr = "";
 		String x = "";
@@ -929,7 +932,7 @@ public class NetList extends JPanel implements MouseMotionListener, MouseListene
 				}			
 			}
 		}		
-		RControl.getR().evalVoidInGlobalEnv(graphName+" <- get(\""+graphName+"\", env=gMCP:::gMCPenv)");
+		if (global) RControl.getR().evalVoidInGlobalEnv(graphName+" <- get(\""+graphName+"\", env=gMCP:::gMCPenv)");
 	}
 
 	public void setEdges(Vector<Edge> edges) {
@@ -973,8 +976,9 @@ public class NetList extends JPanel implements MouseMotionListener, MouseListene
 		return -1;
 	}
 
+	//TODO This method is a little bit stupid, isn't it?!?
 	public String getGraphName() {
-		saveGraph(".tmpGraph", false);
+		saveGraph(".tmpGraph", false, false);
 		return ".tmpGraph";
 	}
 

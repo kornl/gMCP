@@ -209,8 +209,8 @@ public class GraphView extends JPanel implements ActionListener {
 			ReproducableLog.logGUI("Button \"confint\"");
 			if (!getNL().isTesting()) {
 				getPView().savePValues();
-				getNL().saveGraph(getNL().resetGraph, false);
-				getNL().saveGraphWithoutVariables(getNL().initialGraph, false);
+				getNL().saveGraph(getNL().resetGraph, false, false);
+				getNL().saveGraphWithoutVariables(getNL().initialGraph, false, false);
 	        	getNL().loadGraph();
 	        	getPView().restorePValues();
 	        	showParamInfo();
@@ -250,8 +250,8 @@ public class GraphView extends JPanel implements ActionListener {
 			ReproducableLog.logGUI("Button \"start testing\"");
 			if (!getNL().isTesting()) {				
 				getPView().savePValues();
-				getNL().saveGraph(getNL().resetGraph, false);
-				getNL().saveGraphWithoutVariables(getNL().initialGraph, false);
+				getNL().saveGraph(getNL().resetGraph, false, false);
+				getNL().saveGraphWithoutVariables(getNL().initialGraph, false, false);
 	        	getNL().loadGraph();
 	        	getPView().restorePValues();
 	        	showParamInfo();
@@ -295,8 +295,8 @@ public class GraphView extends JPanel implements ActionListener {
 			} else {
 				if (!getNL().isTesting()) {
 					getPView().savePValues();
-					getNL().saveGraph(getNL().resetGraph, false);
-					getNL().saveGraphWithoutVariables(getNL().initialGraph, false);
+					getNL().saveGraph(getNL().resetGraph, false, false);
+					getNL().saveGraphWithoutVariables(getNL().initialGraph, false, false);
 		        	getNL().loadGraph();					
 					getPView().restorePValues();
 					showParamInfo();
@@ -380,7 +380,7 @@ public class GraphView extends JPanel implements ActionListener {
 		getPView().savePValues();
 		try {
 			getNL().startTesting();
-			getNL().saveGraph();
+			getNL().saveGraph(false);
 			getDataFramePanel().setTesting(true);
 			getPView().setTesting(true);			
 			buttonNewNode.setEnabled(false);
@@ -403,7 +403,7 @@ public class GraphView extends JPanel implements ActionListener {
 			return;
 		}
 		String filename = file.getAbsolutePath();
-		nl.saveGraph(".exportGraphToLaTeX", false);
+		nl.saveGraph(".exportGraphToLaTeX", false, false);
 		RControl.getR().eval("gMCPReport(.exportGraphToLaTeX, file=\""+filename+"\")");
 	}
 
@@ -474,7 +474,7 @@ public class GraphView extends JPanel implements ActionListener {
             try {
             	VariableNameDialog vnd = new VariableNameDialog(getGraphGUI(), getGraphName());            	
             	String name = vnd.getName();
-            	name = getNL().saveGraph(name, false); 
+            	name = getNL().saveGraph(name, false, true); 
             	String filename = f.getAbsolutePath().replaceAll("\\\\", "\\\\\\\\");            	
             	RControl.getR().eval("save("+name+", file=\""+filename+"\")");        		
             	JOptionPane.showMessageDialog(getMainFrame(), "Exported graph to R object '"+name+"' and saved this to \n'" + f.getAbsolutePath() + "'.", "Saved graph", JOptionPane.INFORMATION_MESSAGE);
