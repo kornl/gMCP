@@ -4,6 +4,8 @@
 \title{Matrix2Graph and Graph2Matrix}
 \usage{
   matrix2graph(m, weights = rep(1/dim(m)[1], dim(m)[1]))
+
+  graph2matrix(graph)
 }
 \arguments{
   \item{m}{An adjacency matrix.}

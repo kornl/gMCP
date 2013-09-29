@@ -48,6 +48,8 @@ matrix2graph <- function(m, weights=rep(1/dim(m)[1],dim(m)[1])) {
 	return(graph)
 }
 
+#' @rdname matrix2graph
+#' @export graph2matrix
 graph2matrix <- function(graph) {
 	if (class(graph) %in% "graphMCP") {
 		return(graph@m)

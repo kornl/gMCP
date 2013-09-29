@@ -5,28 +5,81 @@
 \alias{BretzEtAl2009b}
 \alias{BretzEtAl2009c}
 \alias{BretzEtAl2011}
+\alias{cycleGraph}
 \alias{Entangled1Maurer2012}
 \alias{Entangled2Maurer2012}
+\alias{exampleGraphs}
+\alias{fallback}
 \alias{Ferber2011}
 \alias{FerberTimeDose2011}
+\alias{fixedSequence}
+\alias{generalSuccessive}
 \alias{HommelEtAl2007}
 \alias{HommelEtAl2007Simple}
 \alias{HungEtWang2010}
 \alias{HuqueAloshEtBhore2011}
-\alias{MaurerEtAl1995}
-\alias{cycleGraph}
-\alias{exampleGraphs}
-\alias{fallback}
-\alias{fixedSequence}
-\alias{generalSuccessive}
 \alias{improvedFallbackI}
 \alias{improvedFallbackII}
 \alias{improvedParallelGatekeeping}
+\alias{MaurerEtAl1995}
 \alias{parallelGatekeeping}
 \alias{simpleSuccessiveI}
 \alias{simpleSuccessiveII}
 \alias{truncatedHolm}
 \title{Functions that create different example graphs}
+\usage{
+  BonferroniHolm(n)
+
+  BretzEtAl2011()
+
+  BauerEtAl2001()
+
+  BretzEtAl2009a()
+
+  BretzEtAl2009b()
+
+  BretzEtAl2009c()
+
+  HommelEtAl2007()
+
+  HommelEtAl2007Simple()
+
+  parallelGatekeeping()
+
+  improvedParallelGatekeeping()
+
+  fallback(weights)
+
+  fixedSequence(n)
+
+  simpleSuccessiveI()
+
+  simpleSuccessiveII()
+
+  truncatedHolm()
+
+  generalSuccessive(weights = c(1/2, 1/2))
+
+  HuqueAloshEtBhore2011()
+
+  HungEtWang2010()
+
+  MaurerEtAl1995()
+
+  cycleGraph(nodes, weights)
+
+  improvedFallbackI(weights = rep(1/3, 3))
+
+  improvedFallbackII(weights = rep(1/3, 3))
+
+  FerberTimeDose2011(times, doses, w = "\\\\nu")
+
+  Ferber2011()
+
+  Entangled1Maurer2012()
+
+  Entangled2Maurer2012()
+}
 \arguments{
   \item{n}{Number of hypotheses.}
 

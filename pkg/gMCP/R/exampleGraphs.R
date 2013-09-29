@@ -110,6 +110,7 @@
 #' 
 NULL
 
+#' @rdname exampleGraphs
 BonferroniHolm <- function(n) {
 	if (missing(n)) { stop("Please provide the number of hypotheses as parameter n.") }
 	weights <- rep(1/n, n)
@@ -143,6 +144,7 @@ BonferroniHolm <- function(n) {
 	return(BonferroniHolm)
 }
 
+#' @rdname exampleGraphs
 BretzEtAl2011 <- function() {
 	# M:
 	m <- rbind(H11=c(0,   0.5, 0,   0.5, 0,   0  ),
@@ -188,6 +190,7 @@ BretzEtAl2011 <- function() {
 	return(graph)	
 }
 
+#' @rdname exampleGraphs
 BauerEtAl2001 <- function() {
 	# M:
 	hnodes <- c("H_{E_1}","H_{E_2}","H_{E_3}","H_{S_1}","H_{S_2}","H_{S_3}")
@@ -219,6 +222,7 @@ BauerEtAl2001 <- function() {
 	return(graph)	
 }
 
+#' @rdname exampleGraphs
 BretzEtAl2009a <- function() {
 	# M:
 	hnodes <- c("H_{11}","H_{21}","H_{12}","H_{22}","H_{13}","H_{23}")
@@ -241,6 +245,7 @@ BretzEtAl2009a <- function() {
 	return(graph)	
 }
 
+#' @rdname exampleGraphs
 BretzEtAl2009b <- function() {
 	# M:
 	hnodes <- c("H_{11}","H_{21}","H_{12}","H_{22}","H_{13}","H_{23}")
@@ -267,6 +272,7 @@ BretzEtAl2009b <- function() {
 	return(graph)	
 }
 
+#' @rdname exampleGraphs
 BretzEtAl2009c <- function() {
 	# M:
 	hnodes <- c("H_{11}","H_{21}","H_{12}","H_{22}","H_{13}","H_{23}")
@@ -292,6 +298,7 @@ BretzEtAl2009c <- function() {
 	return(graph)	
 }
 
+#' @rdname exampleGraphs
 HommelEtAl2007 <- function() {
 	# Nodes:
 	weights <- c(rep(1/3, 3), rep(0,4))	
@@ -333,7 +340,7 @@ HommelEtAl2007 <- function() {
 	return(graph)	
 }
 
-
+#' @rdname exampleGraphs
 HommelEtAl2007Simple <- function() {
 	# Nodes:
 	weights <- c(rep(1/3, 3), rep(0,4))	
@@ -364,6 +371,7 @@ HommelEtAl2007Simple <- function() {
 	return(graph)	
 }
 
+#' @rdname exampleGraphs
 parallelGatekeeping <- function() {
 	# Nodes:
 	weights <- rep(c(1/2,0), each=2)	
@@ -393,6 +401,7 @@ parallelGatekeeping <- function() {
 	return(graph)	
 }
 
+#' @rdname exampleGraphs
 improvedParallelGatekeeping <- function() {
 	graph <- parallelGatekeeping()
 	graph <- setEdge("H3", "H1", graph, "\\epsilon")
@@ -413,6 +422,7 @@ improvedParallelGatekeeping <- function() {
 	return(graph)	
 }
 
+#' @rdname exampleGraphs
 fallback <- function(weights) {
 	if (missing(weights)) { stop("Please provide weights.") }
 	n <- length(weights)
@@ -436,6 +446,7 @@ fallback <- function(weights) {
 	return(graph)
 }
 
+#' @rdname exampleGraphs
 fixedSequence <- function(n) {
 	if (missing(n)) { stop("Please provide the number of hypotheses as parameter n.") }
 	weights <- c(1, rep(0, n-1))
@@ -448,6 +459,7 @@ fixedSequence <- function(n) {
 	return(graph)
 }
 
+#' @rdname exampleGraphs
 simpleSuccessiveI <- function() {
 	graph <- generalSuccessive()
 	graph <- replaceVariables(graph, variables=list("gamma"=0, "delta"=0))
@@ -459,6 +471,7 @@ simpleSuccessiveI <- function() {
 	return(graph)
 }
 
+#' @rdname exampleGraphs
 simpleSuccessiveII <- function() {
 	graph <- generalSuccessive()
 	graph <- replaceVariables(graph, variables=list("gamma"=1/2, "delta"=1/2))
@@ -468,6 +481,7 @@ simpleSuccessiveII <- function() {
 	return(graph)
 }
 
+#' @rdname exampleGraphs
 truncatedHolm <- function() {
 	# Nodes:
 	weights <- c(1/2, 1/2, 0, 0)
@@ -502,6 +516,7 @@ truncatedHolm <- function() {
 # - and there are no edges leading from a secondary hypothesis to
 #   another secondary hypothesis that has not the same parents.
 
+#' @rdname exampleGraphs
 generalSuccessive <- function(weights=c(1/2,1/2)) {
 	if (length(weights)!=2) stop("Please specify the weights for H1 and H2 and only these.")
 	# Nodes:
@@ -527,6 +542,7 @@ generalSuccessive <- function(weights=c(1/2,1/2)) {
 	return(graph)		
 }
 
+#' @rdname exampleGraphs
 HuqueAloshEtBhore2011 <- function() {
 	graph <- HungEtWang2010()
 	graph <- replaceVariables(graph, variables=list("nu"=1/2, "omega"=1/2, "tau"=0))
@@ -542,7 +558,7 @@ HuqueAloshEtBhore2011 <- function() {
 	return(graph)	
 }
 
-
+#' @rdname exampleGraphs
 HungEtWang2010 <- function() {
 	# Nodes:
 	weights <- c(1,0,0,0)	
@@ -571,6 +587,7 @@ HungEtWang2010 <- function() {
 	return(graph)
 }
 
+#' @rdname exampleGraphs
 MaurerEtAl1995 <- function() {
 	# Nodes:
 	weights <- c(1,0,0,0,0)	
@@ -612,6 +629,7 @@ MaurerEtAl1995 <- function() {
 	return(graph)	
 }
 
+#' @rdname exampleGraphs
 cycleGraph <- function(nodes, weights) {
 	# Edges:
 	n <- length(nodes)
@@ -623,6 +641,7 @@ cycleGraph <- function(nodes, weights) {
 	return(graph)
 }
 
+#TODO @rdname exampleGraphs
 gatekeeping <- function(n, type=c("serial", "parallel", "imporved parallel"), weights=rep(1/n, n)) {
 	# Nodes:
 	hnodes <- paste("H", 1:(2*n), sep="")
@@ -645,15 +664,7 @@ gatekeeping <- function(n, type=c("serial", "parallel", "imporved parallel"), we
 	return(graph)
 }
 
-exampleGraph <- function(graph, ...) {
-	switch(graph,
-			Hommel=HommelEtAl2007(),
-			Bretz=BretzEtAl2011(),
-			ParallelGatekeeping=parallelGatekeeping(),
-			ImprovedParallelGatekeeping=improvedParallelGatekeeping(),
-			BonferroniHolm=BonferroniHolm(...))
-}
-
+#' @rdname exampleGraphs
 improvedFallbackI <- function(weights=rep(1/3, 3)) {
 	# Nodes:
 	hnodes <- paste("H", 1:3, sep="")
@@ -680,6 +691,7 @@ improvedFallbackI <- function(weights=rep(1/3, 3)) {
 	return(graph)
 } 
 
+#' @rdname exampleGraphs
 improvedFallbackII <- function(weights=rep(1/3, 3)) {
 	# Nodes:
 	hnodes <- paste("H", 1:3, sep="")
@@ -706,7 +718,7 @@ improvedFallbackII <- function(weights=rep(1/3, 3)) {
 	return(graph)
 } 
 
-
+#' @rdname exampleGraphs
 FerberTimeDose2011 <- function(times, doses, w="\\nu") {
 	# Nodes:
 	hnodes <- paste(rep(paste("T", 1:times, sep=""), each=doses),"D",1:doses, sep="")
@@ -738,6 +750,7 @@ FerberTimeDose2011 <- function(times, doses, w="\\nu") {
 	return(graph)
 }
 
+#' @rdname exampleGraphs
 Ferber2011 <- function() {
 	# Nodes:
 	hnodes <- c("\\delta", "\\theta", "\\beta", "\\alpha", "\\alpha_1", 
@@ -786,6 +799,7 @@ Ferber2011 <- function() {
 	return(graph)
 }
 
+#' @rdname exampleGraphs
 Entangled1Maurer2012 <- function() {
 	m <- rbind(H1=c(0, 0, 1, 0, 0),
 			H2=c(0, 0, 1, 0, 0),
@@ -849,6 +863,7 @@ Entangled1Maurer2012 <- function() {
 	return(graph)
 }
 
+#' @rdname exampleGraphs
 Entangled2Maurer2012 <- function() {
 	m <- rbind(H1=c(0, 0, 1, 0, 0),
 			H2=c(0, 0, 0, 0, 1),
