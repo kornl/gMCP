@@ -1,69 +1,70 @@
 \name{graphTest}
 \alias{graphTest}
-\title{ Multiple testing using graphs }
-\description{
-  Implements the graphical test procedure described in Bretz et
-  al. (2009). Note that the gMCP function in the gMCP package performs
-  the same task.
-}
+\title{Multiple testing using graphs}
 \usage{
-  graphTest(pvalues, weights = NULL, alpha = 0.05, G = NULL, cr = NULL,
-            graph = NULL, verbose = FALSE, test)
+  graphTest(pvalues, weights = NULL, alpha = 0.05,
+    G = NULL, cr = NULL, graph = NULL, verbose = FALSE,
+    test)
 }
 \arguments{
-  \item{pvalues}{ Either a vector or a matrix containing the local p-values
-    for the hypotheses in the rows. }
-  \item{weights}{ Initial weight levels for the test procedure, in
-    case of multiple graphs this needs to be a matrix. }
-  \item{alpha}{ Overall alpha level of the procedure. For entangled graphs 
-  \code{alpha} should be a numeric vector of length equal to the number
-  of graphs, each element specifying the partial alpha for the respective graph.
+  \item{pvalues}{Either a vector or a matrix containing the
+  local p-values for the hypotheses in the rows.}
+
+  \item{weights}{Initial weight levels for the test
+  procedure, in case of multiple graphs this needs to be a
+  matrix.}
+
+  \item{alpha}{Overall alpha level of the procedure. For
+  entangled graphs \code{alpha} should be a numeric vector
+  of length equal to the number of graphs, each element
+  specifying the partial alpha for the respective graph.
   The overall alpha level equals \code{sum(alpha)}.}
-  \item{G}{ For simple graphs \code{G} should be a numeric matrix determining 
-    the graph underlying the test procedure. Note that the diagonal need to 
-    contain only 0s, while the rows need to sum to 1.
-    For entangled graphs it needs to be a list containing the different graph 
-    matrices as elements. }
-  \item{graph}{ As an alternative to the specification via \code{weights}
-    and \code{G} one can also hand over a \code{graphMCP} or \code{entangledMCP}
-    object to the code. These objects can be created for example with the
-    \code{graphGUI} function.
-    }
-  \item{cr}{ Correlation matrix that should be used for the parametric test.
-    If \code{cr==NULL} the Bonferroni based test procedure is used. }
-  \item{verbose}{ If verbose is TRUE, additional information about the graphical
-    rejection procedure is displayed.  }
-  \item{test}{ In the parametric case there is more than one way to handle 
-    subgraphs with less than the full alpha. If the parameter \code{test} is missing,
-    the tests are performed as described by Bretz et al. (2011), 
-    i.e. tests of intersection null hypotheses 
-    always exhaust the full alpha level even if the sum of weights is strictly
-    smaller than one. If \code{test="simple-parametric"} the tests are performed 
-    as defined in Equation (3) of Bretz et al. (2011).}
+
+  \item{G}{For simple graphs \code{G} should be a numeric
+  matrix determining the graph underlying the test
+  procedure. Note that the diagonal need to contain only
+  0s, while the rows need to sum to 1.  For entangled
+  graphs it needs to be a list containing the different
+  graph matrices as elements.}
+
+  \item{graph}{As an alternative to the specification via
+  \code{weights} and \code{G} one can also hand over a
+  \code{graphMCP} object to the code. \code{graphMCP}
+  objects can be created for example with the
+  \code{graphGUI} function.}
+
+  \item{cr}{Correlation matrix that should be used for the
+  parametric test. If \code{cr==NULL} the Bonferroni based
+  test procedure is used.}
+
+  \item{verbose}{If verbose is TRUE, additional information
+  about the graphical rejection procedure is displayed.}
+
+  \item{test}{In the parametric case there is more than one
+  way to handle subgraphs with less than the full alpha. If
+  the parameter \code{test} is missing, the tests are
+  performed as described by Bretz et al. (2011), i.e. tests
+  of intersection null hypotheses always exhaust the full
+  alpha level even if the sum of weights is strictly
+  smaller than one. If \code{test="simple-parametric"} the
+  tests are performed as defined in Equation (3) of Bretz
+  et al. (2011).}
 }
 \value{
-  A vector or a matrix containing the test results for the hypotheses under
-  consideration. Significant tests are denoted by a 1, non-significant
-  results by a 0.
+  A vector or a matrix containing the test results for the
+  hypotheses under consideration. Significant tests are
+  denoted by a 1, non-significant results by a 0.
 }
-\references{
-
-  Bretz, F., Maurer, W., Brannath, W. and Posch, M. (2009) A graphical
-  approach to sequentially rejective multiple test
-  procedures. Statistics in Medicine, 28, 586--604
-
-  Bretz, F., Maurer, W. and Hommel, G. (2010) Test and power
-  considerations for multiple endpoint analyses using sequentially
-  rejective graphical procedures, to appear in Statistics in Medicine
-
+\description{
+  Implements the graphical test procedure described in
+  Bretz et al. (2009). Note that the gMCP function in the
+  gMCP package performs the same task.
 }
-\author{ Bjoern Bornkamp }
 \examples{
-
 #### example from Bretz et al. (2010)
 weights <- c(1/3, 1/3, 1/3, 0, 0, 0)
 graph <- rbind(c(0,       0.5, 0,     0.5, 0,      0),
-               c(1/3,     0,   1/3,	  0,   1/3,    0),
+               c(1/3,     0,   1/3,    0,   1/3,    0),
                c(0,       0.5, 0,     0,   0,      0.5),
                c(0,       1,   0,     0,   0,      0),
                c(0.5,     0,   0.5,   0,   0,      0),
@@ -95,5 +96,18 @@ pvals <- matrix(rbeta(5e4, 1, 30), ncol = 5)
 out <- graphTest(pvals, weights, alpha=c(0.0125, 0.0125), G=list(G1, G2))
 head(out)
 }
-\keyword{ htest }
+\author{
+  Bjoern Bornkamp
+}
+\references{
+  Bretz, F., Maurer, W., Brannath, W. and Posch, M. (2009)
+  A graphical approach to sequentially rejective multiple
+  test procedures. Statistics in Medicine, 28, 586--604
+
+  Bretz, F., Maurer, W. and Hommel, G. (2010) Test and
+  power considerations for multiple endpoint analyses using
+  sequentially rejective graphical procedures, to appear in
+  Statistics in Medicine
+}
+\keyword{htest}
 
