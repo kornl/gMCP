@@ -292,6 +292,38 @@ getLaTeXFraction <- function(x) {
 	return(result)
 }
 
+#' Automatic Generation of gMCP Reports
+#' 
+#' Creates a LaTeX file with a gMCP Report.
+#' 
+#' This function uses \code{cat} and \code{graph2latex}.
+#' 
+#' @param object A graph of class \code{\link{graphMCP}} or an object of class
+#' \code{\link{gMCPResult}}.
+#' @param file A connection, or a character string naming the file to print to.
+#' If \code{""} (the default), the report is printed to the standard output
+#' connection (the console unless redirected by \code{sink}).  If it is
+#' \code{"|cmd"}, the output is piped to the command given by \code{cmd}, by
+#' opening a pipe connection [taken from the manual page of \code{cat}, which
+#' is called in this function].
+#' @param ...  Arguments to be passed to method \code{\link{graph2latex}} like
+#' \code{package} and \code{scale}.
+#' @return None (invisible \code{NULL}).
+#' @author Kornelius Rohmeyer \email{rohmeyer@@small-projects.de}
+#' @seealso \code{\link{cat}} \code{\link{graph2latex}}
+#' @references The TikZ and PGF Packages Manual for version 2.00, Till Tantau,
+#' \url{http://www.ctan.org/tex-archive/graphics/pgf/base/doc/generic/pgf/pgfmanual.pdf}
+#' @keywords print IO file graphs
+#' @examples
+#' 
+#' g <- BretzEtAl2011()
+#' 
+#' result <- gMCP(g, pvalues=c(0.1, 0.008, 0.005, 0.15, 0.04, 0.006))
+#' 
+#' gMCPReport(result)
+#' 
+#' @export gMCPReport
+#' 
 gMCPReport <- function(object, file="", ...) {
 	report <- LaTeXHeader()
 	if (class(object)=="gMCPResult") {
