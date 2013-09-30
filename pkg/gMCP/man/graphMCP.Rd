@@ -3,7 +3,7 @@
 \alias{graphMCP-class}
 \alias{graphMCP}
 \alias{print,graphMCP-method}
-\alias{plot,graphMCP-method}
+\alias{plot,graphMCP,ANY-method}
 \alias{getWeights}
 \alias{getWeights,graphMCP-method}
 \alias{getMatrix}

@@ -1,10 +1,11 @@
 useDynLib(gMCP)
 
 import(methods)
+# See https://stat.ethz.ch/pipermail/r-devel/2012-February/063396.html :
+importFrom(stats4, plot)
 import(utils)
 import(rJava)
 importFrom(CommonJavaJars, loadJars)
-importFrom(graphics, plot)
 importFrom(PolynomF, polynom)
 importFrom(mvtnorm, pmvnorm)
 importFrom(MASS, fractions)
