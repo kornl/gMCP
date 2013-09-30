@@ -13,10 +13,13 @@
   could specify \code{function(x) {x[1] && x[3]}}}
 }
 \value{
-  A list containg at least the following three elements
-
-  Further it contains an element for each element in the
-  parameter \code{f}.
+  A list containg at least the following four elements and
+  an element for each element in the parameter \code{f}.
+  \itemize{ \item LocPower A numeric giving the local
+  powers for the hypotheses \item ExpNrRej The expected
+  number of rejections \item PowAtlst1 The power to reject
+  at least one hypothesis \item RejectAll The power to
+  reject all hypotheses }
 }
 \description{
   Calculates local power values, expected number of

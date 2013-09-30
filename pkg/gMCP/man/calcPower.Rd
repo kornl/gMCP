@@ -44,10 +44,10 @@
   \cr\code{f=function(x) {x[1] && x[3]}}.\cr If the power
   of rejecting hypotheses 1 and 2 is also of interest one
   would use a (optionally named) list: \cr
-  \code{f=list(power1and3=function(x) {x[1] && x[3]},
-  power1and2=function(x) {x[1] && x[2]})}.  If the list has
-  no names, the functions will be referenced to as "func1",
-  "func2", etc. in the output.}
+  \code{f=list(power1and3=function(x) {x[1] && x[3]},}\cr
+  \code{power1and2=function(x) {x[1] && x[2]})}. If the
+  list has no names, the functions will be referenced to as
+  "func1", "func2", etc. in the output.}
 
   \item{test}{In the parametric case there is more than one
   way to handle subgraphs with less than the full alpha. If

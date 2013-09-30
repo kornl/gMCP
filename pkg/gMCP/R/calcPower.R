@@ -9,13 +9,14 @@
 #' @param f List of user defined power functions. If one is interested in the
 #' power to reject hypotheses 1 and 3 one could specify \code{function(x) {x[1]
 #' && x[3]}}
-#' @return A list containg at least the following three elements
-#' 
-#' Further it contains an element for each element in the parameter \code{f}.
-#' @returnItem LocPower A numeric giving the local powers for the hypotheses
-#' @returnItem ExpNrRej The expected number of rejections
-#' @returnItem PowAtlst1 The power to reject at least one hypothesis
-#' @returnItem RejectAll The power to reject all hypotheses
+#' @return A list containg at least the following four elements and
+#' an element for each element in the parameter \code{f}.
+#' \itemize{
+#' \item LocPower A numeric giving the local powers for the hypotheses
+#' \item ExpNrRej The expected number of rejections
+#' \item PowAtlst1 The power to reject at least one hypothesis
+#' \item RejectAll The power to reject all hypotheses
+#' }
 #' @keywords htest
 #' @export extractPower
 extractPower <- function(x, f=list()) {
@@ -69,9 +70,11 @@ extractPower <- function(x, f=list()) {
 #' function).  If one is interested in the power to reject hypotheses 1 and 3
 #' one could specify: \cr\code{f=function(x) {x[1] && x[3]}}.\cr If the power
 #' of rejecting hypotheses 1 and 2 is also of interest one would use a
-#' (optionally named) list: \cr \code{f=list(power1and3=function(x) {x[1] &&
-#' x[3]}, power1and2=function(x) {x[1] && x[2]})}.  If the list has no names,
-#' the functions will be referenced to as "func1", "func2", etc. in the output.
+#' (optionally named) list: \cr 
+#' \code{f=list(power1and3=function(x) {x[1] && x[3]},}\cr
+#' \code{power1and2=function(x) {x[1] && x[2]})}.
+#' If the list has no names, the functions will be referenced 
+#' to as "func1", "func2", etc. in the output.
 #' @param test In the parametric case there is more than one way to handle
 #' subgraphs with less than the full alpha. If the parameter \code{test} is
 #' missing, the tests are performed as described by Bretz et al. (2011), i.e.
