@@ -73,7 +73,7 @@ public class EdgeWeight {
 				String s = keys.nextElement();
 				replaceStr = replaceStr.replaceAll(s, ""+ht.get(s));				
 			}
-			weight = RControl.getR().eval(replaceStr).asRNumeric().getData();
+			weight = RControl.getR().eval("try("+replaceStr+", silent=TRUE)").asRNumeric().getData();
 			return weight[0];
 		} catch (Exception e) {
 			//logger.warn("Error parsing edge weight:\n"+e.getMessage());

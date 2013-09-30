@@ -22,7 +22,10 @@ Changes in version 0.8-6 (??-0?-2013)
    https://github.com/klutometis/roxygen/pulls )
 
 - Using RCallServicesREngineWrapper to eval each expression in the environment 
-  gMCP:::gMCPenv instead of the global environment. 
+  gMCP:::gMCPenv instead of the global environment.
+
+- Some errors where catched in Java or R, but still showed up in the console.
+  We now use 'try(..., silent=TRUE)' in these cases.
 
 
 Changes in version 0.8-5 (18-07-2013)
