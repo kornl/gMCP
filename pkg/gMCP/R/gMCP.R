@@ -403,6 +403,35 @@ adjPValues <- function(graph, pvalues, verbose=FALSE) {
 	return(new("gMCPResult", graphs=sequence, pvalues=pvalues, adjPValues=adjPValues))
 }
 
+#' Rejects a node/hypothesis and updates the graph accordingly.
+#' 
+#' Rejects a node/hypothesis and updates the graph accordingly.
+#' 
+#' For details see the given references.
+#' 
+#' @param graph A graph of class \code{\link{graphMCP}} or \code{\link{entangledMCP}}.
+#' @param node A character string specifying the node to reject.
+#' @param verbose Logical scalar.  If \code{TRUE} verbose output is generated
+#' during sequentially rejection steps.
+#' @param keepWeights Logical scalar. If \code{FALSE} the weight of a node
+#' without outgoing edges is set to 0 if it is removed.  Otherwise it keeps its
+#' weight.
+#' @return An updated graph of class \code{\link{graphMCP}} or \code{\link{entangledMCP}}.
+#' @author Kornelius Rohmeyer \email{rohmeyer@@small-projects.de}
+#' @seealso \code{\link{graphMCP}}
+#' @references Frank Bretz, Willi Maurer, Werner Brannath, Martin Posch: A
+#' graphical approach to sequentially rejective multiple test procedures.
+#' Statistics in Medicine 2009 vol. 28 issue 4 page 586-604.
+#' \url{http://www.meduniwien.ac.at/fwf_adaptive/papers/bretz_2009_22.pdf}
+#' @keywords htest graphs
+#' @examples
+#' 
+#' g <- BonferroniHolm(5)
+#' 
+#' rejectNode(g, "H1")
+#' 
+#' @export rejectNode
+#' 
 rejectNode <- function(graph, node, verbose=FALSE, keepWeights=TRUE) {
 	# Entangled graphs
 	if ("entangledMCP" %in% class(graph)) {
