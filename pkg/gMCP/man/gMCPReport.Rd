@@ -48,8 +48,8 @@ gMCPReport(result)
 \seealso{
   \code{\link{cat}} \code{\link{graph2latex}}
 }
+\keyword{IO}
 \keyword{file}
 \keyword{graphs}
-\keyword{IO}
 \keyword{print}
 
