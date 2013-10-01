@@ -851,7 +851,7 @@ automatically. If the result of \texttt{graph2latex} does not give you
 an acceptable layout, simply load the graph into the GUI and use the
 mouse to drag the edge labels around until you are satisfied with the
 placement. Save the graph and the TikZ output will be pretty close to
-graph seen in the GUI.
+the graph seen in the GUI.
 
 PGF/TikZ is very useful \LaTeX-package, we recommend it for many
 purposes and it's totally worth reading its 560 pages manual
@@ -860,7 +860,9 @@ you short overview of the most important commands for our kind of
 graphs so that you can easily adapt the output from
 \texttt{graph2latex}.
 
-And perhaps you want to use an TikZ editor with a preview pane like qtikz or ktikz.\footnote{\url{http://www.hackenberger.at/blog/ktikz-editor-for-the-tikz-language/}}
+You also perhaps want to use an TikZ editor with a preview pane like qtikz
+or
+ktikz\footnote{\url{http://www.hackenberger.at/blog/ktikz-editor-for-the-tikz-language/}}.
 
 Let's start with this graph in figure \ref{uglygraph}:
 
@@ -1029,6 +1031,14 @@ Benjamini and Hochberg (1997)
 
 Let $\sum_{k=1}^m w_k = m$ and reject $H_0$ if
 \[p^{(j)}\leq\frac{\sum_{k=1}^jw_[{(k)}}{m}\cdot\alpha\quad\text{for some $1\leq j\leq m$}.\]
+
+\end{Theorem}
+
+\begin{Theorem}[Hommel Procedure]\index{Hommel Procedure} 
+
+\end{Theorem}
+
+\begin{Theorem}[Hochberg Procedure]\index{Hochberg procedure}
 
 \end{Theorem}
 
