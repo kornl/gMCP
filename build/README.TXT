@@ -1,0 +1,2 @@
+The jar files javaGD.jar JGR.jar and JRI.jar are only provided to compile the java source.
+Please use the appropriate versions from the respective R packages for your version of R and the system you are using. 
