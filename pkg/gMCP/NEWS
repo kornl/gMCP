@@ -17,7 +17,7 @@ Changes in version 0.8-6 (??-0?-2013)
 
 - Improved documentation. Some Rd files are built by a patched version of
   roxygen2 that escapes "\" in arguments and understands "returnItem": 
-  install_github("roxygen2", username="kornel")
+  install_github("roxygen2", username="kornl")
   (This version includes especially Yihui's pull request: 
    https://github.com/klutometis/roxygen/pull/112 
    and A. Alfons's pull request:
