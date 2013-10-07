@@ -16,10 +16,12 @@ Changes in version 0.8-6 (??-0?-2013)
 - JGR is yet another necessary package, but Mac OS support and stability improve.
 
 - Improved documentation. Some Rd files are built by a patched version of
-  roxygen2 that escapes "\" in arguments: 
-  install_github("roxygen2", username="yihui")
-  (Yihui's pull request is now open for 9 months: 
-   https://github.com/klutometis/roxygen/pulls )
+  roxygen2 that escapes "\" in arguments and understands "returnItem": 
+  install_github("roxygen2", username="kornel")
+  (This version includes especially Yihui's pull request: 
+   https://github.com/klutometis/roxygen/pull/112 
+   and A. Alfons's pull request:
+   https://github.com/klutometis/roxygen/pull/30 )
 
 - Using RCallServicesREngineWrapper to eval each expression in the environment 
   gMCP:::gMCPenv instead of the global environment.
