@@ -934,7 +934,7 @@ In this subsection we show how to use gMCP to reproduce the results of the paper
 
 \cite{bauer1998testing}
 
-<<echo=TRUE>>=
+<<echo=TRUE, message=FALSE>>=
 data(hydroquinone)
 
 pvalues <- c() 
