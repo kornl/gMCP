@@ -1035,12 +1035,14 @@ Let $\sum_{k=1}^m w_k = m$ and reject $H_0$ if
 \end{Theorem}
 
 \begin{Theorem}[Hommel Procedure]\index{Hommel Procedure} 
-
+Hommel 1988
 \end{Theorem}
 
 \begin{Theorem}[Hochberg Procedure]\index{Hochberg procedure}
-
+Hochberg 1988
 \end{Theorem}
+
+Adjusted p-values form the Hochberg Procedure are greater as or equal to the Hommel-adjusted p-values.   
 
 \subsubsection*{Adjusted p-Values in the Simes Test}
 
