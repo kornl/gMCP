@@ -343,9 +343,13 @@ public class GraphView extends JPanel implements ActionListener {
 		if (parent.getPView().jrbRCorrelation.isSelected()) {
     		if (!Configuration.getInstance().getClassProperty(this.getClass(), "showParamInfo", "yes").equals("no")) {
     			JCheckBox tellMeAgain = new JCheckBox("Don't show me this info again.");
-    			String message = "This test is appropriate if the p-values\n" +
+    			String message = 
+    					"The parametric test that takes correlation into\n"+
+    					"account is appropriate if the p-values\n" +
     					"belong to one-sided test-statistics with a joint\n" +
-    					"multivariate normal distribution under the null.";
+    					"multivariate normal distribution under the null.\n" +
+    					"(The Bonferroni- and Simes-based tests do not\n" +
+    					"need this assumption).";
     			JOptionPane.showMessageDialog(parent, new Object[] {message, tellMeAgain}, "Info", JOptionPane.INFORMATION_MESSAGE);
     			if (tellMeAgain.isSelected()) {
     				Configuration.getInstance().setClassProperty(this.getClass(), "showParamInfo", "no");
