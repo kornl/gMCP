@@ -54,6 +54,7 @@
 - Check in CI zu max(0, ..) bzw. min(0, ..) / means
 - keine p-Werte übernehmen
 - Buttons to load R objects for power dialog.
+- check whether we want to use java.math.BigDecimal somewhere.
 === POWER ===
 - Erben der Korrelationsmatrix vom Hauptfenster (warn if this is not the case?)
 - Copy&Paste of Results (Table, Text, allow to save)
