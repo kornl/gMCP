@@ -108,7 +108,7 @@ extractPower <- function(x, f=list()) {
 #'            c(0, 1, 0, 0),
 #'            c(1, 0, 0, 0))
 #' ## or equivalent:
-#' G <- simpleSuccessiveII()@m
+#' G <- simpleSuccessiveII()@@m
 #' ## alternative (mvn distribution)
 #' corMat <- rbind(c(1, 0.5, 0.5, 0.5/2),
 #'                 c(0.5,1,0.5/2,0.5),
