@@ -21,6 +21,9 @@ import org.af.gMCP.gui.graph.NetList;
 import com.jgoodies.forms.layout.CellConstraints;
 import com.jgoodies.forms.layout.FormLayout;
 
+/**
+ * This dialog was used when we allowed for one-sided _and_ two-sided testing in the parametric case.
+ */
 public class AlternativesDialog extends JDialog implements ActionListener {
 
 	JButton ok = new JButton("Ok");
