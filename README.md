@@ -12,4 +12,4 @@ The development version of this package can be directly installed with the R pac
 
 But note that the gMCP jar file is only rarely updated and it may be appropriate to build it yourself from the Java source code.
 
-Otherwise just use the current version from [CRAN](http://cran.r-project.org/src/contrib/Archive/gMCP/).
+Otherwise just use the current version from [CRAN](http://cran.r-project.org/web/packages/gMCP/).
