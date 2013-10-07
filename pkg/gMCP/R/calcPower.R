@@ -51,6 +51,10 @@ extractPower <- function(x, f=list()) {
 #' @param weights Initial weight levels for the test procedure, see graphTest
 #' function.
 #' @param alpha Overall alpha level of the procedure, see graphTest function.
+#' (For entangled graphs \code{alpha} should be a numeric vector of length 
+#' equal to the number of graphs, each element specifying the partial alpha 
+#' for the respective graph.
+#' The overall alpha level equals \code{sum(alpha)}.)
 #' @param G Matrix determining the graph underlying the test procedure. Note
 #' that the diagonal need to contain only 0s, while the rows need to sum to 1.
 #' When multiple graphs should be used this needs to be a list containing the
