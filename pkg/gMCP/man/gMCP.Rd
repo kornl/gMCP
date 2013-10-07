@@ -10,8 +10,9 @@
   \item{graph}{A graph of class \code{\link{graphMCP}}.}
 
   \item{pvalues}{A numeric vector specifying the p-values
-  for the graph based MCP.  Note the details for the
-  parametric tests.}
+  for the graph based MCP. Note the assumptions in the
+  details section for the parametric tests, when a
+  correlation is specified.}
 
   \item{test}{By default the Bonferroni-based test
   procedures are used if no correlation is specified and

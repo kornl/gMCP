@@ -38,7 +38,8 @@
 #' 
 #' @param graph A graph of class \code{\link{graphMCP}}.
 #' @param pvalues A numeric vector specifying the p-values for the graph based
-#' MCP.  Note the details for the parametric tests.
+#' MCP. Note the assumptions in the details section for the parametric tests, 
+#' when a correlation is specified.
 #' @param test By default the Bonferroni-based test procedures are used if no
 #' correlation is specified and the algorithm from Bretz et al. 2011 if a
 #' correlation is specified.  If test is set to \code{"Simes"} the weighted
