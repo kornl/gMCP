@@ -15,6 +15,7 @@ import javax.swing.JLabel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
+import org.af.gMCP.config.Configuration;
 import org.af.gMCP.gui.graph.Node;
 
 public class RejectedDialog extends JDialog implements ActionListener {
@@ -50,7 +51,7 @@ public class RejectedDialog extends JDialog implements ActionListener {
 			c.gridy++;
 		}	
 
-		if (code != null) {
+		if (code != null && Configuration.getInstance().getGeneralConfig().showRCode()) {
 			jta2.setText(code);
 			jta2.setMargin(new Insets(4,4,4,4));
 			c.gridx=0; c.gridwidth = 2;

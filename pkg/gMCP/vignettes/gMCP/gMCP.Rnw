@@ -809,6 +809,10 @@ graph
     GUI often contains new features that are not that well tested. If you want
     to use or take a look at them, activate this option. But be prepared that
     things might go wrong.
+  \item[Show R code to reproduce results in R] After performing a test in the GUI 
+    the result dialog does not only show the pure results, but also R code to 
+    reproduce these results in R. If you are not interested in this feature
+    you can disable it here.
 \end{description}
 
 \subsubsection{Privacy}
