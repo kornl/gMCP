@@ -314,12 +314,12 @@ public class DialogConfIntEstVar extends JDialog implements ActionListener, Chan
 				int d = Configuration.getInstance().getGeneralConfig().getDigits();
 				if (jbLoadEst.equals(e.getSource())) {					
 					for (int i=0; i<data.length; i++) {			
-						est.get(i).setText(new BigDecimal(""+data[i], new MathContext((int) Math.max(d, Math.round(Math.log10(data[i]))), RoundingMode.HALF_EVEN)).stripTrailingZeros().toPlainString());
+						est.get(i).setText(new BigDecimal(""+data[i], new MathContext((int) Math.max(d, 1+Math.round(Math.log10(data[i]))), RoundingMode.HALF_EVEN)).stripTrailingZeros().toPlainString());
 						//est.get(i).setText(""+data[i]);
 					}
 				} else if (jbLoadSD.equals(e.getSource())) {
 					for (int i=0; i<data.length; i++) {
-						var.get(i).setText(new BigDecimal(""+data[i], new MathContext((int) Math.max(d, Math.round(Math.log10(data[i]))), RoundingMode.HALF_EVEN)).stripTrailingZeros().toPlainString());
+						var.get(i).setText(new BigDecimal(""+data[i], new MathContext((int) Math.max(d, 1+Math.round(Math.log10(data[i]))), RoundingMode.HALF_EVEN)).stripTrailingZeros().toPlainString());
 						//var.get(i).setText(""+data[i]);
 					}
 				}
