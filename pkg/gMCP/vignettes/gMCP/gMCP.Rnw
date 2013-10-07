@@ -555,6 +555,9 @@ The GUI features a dialog for easy creation of correlation matrices (see figure 
 If the entered matrix is not positive semidefinite, 
 i.e.\ negative eigen values exist, a warning is given.
 
+This dialog is perhaps useful on its own and can be opened by 
+calling the function \texttt{corMatWizard}.
+
 %\[A \kronecker B\]
 
 %\begin{figure}[ht]
