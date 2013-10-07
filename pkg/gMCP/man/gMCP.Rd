@@ -10,8 +10,8 @@
   \item{graph}{A graph of class \code{\link{graphMCP}}.}
 
   \item{pvalues}{A numeric vector specifying the p-values
-  for the graph based MCP.  Note that for the parametric
-  tests}
+  for the graph based MCP.  Note the details for the
+  parametric tests.}
 
   \item{test}{By default the Bonferroni-based test
   procedures are used if no correlation is specified and
@@ -72,6 +72,15 @@
 \value{
   An object of class \code{gMCPResult}, more specifically a
   list with elements
+
+  \item{graphs}{list of graphs}
+
+  \item{pvalues}{p-values}
+
+  \item{rejected}{logical whether hyptheses could be
+  rejected}
+
+  \item{adjPValues}{adjusted p-values}
 }
 \description{
   Performs a graph based multiple test procedure for a

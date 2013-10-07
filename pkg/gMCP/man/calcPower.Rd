@@ -12,7 +12,11 @@
   procedure, see graphTest function.}
 
   \item{alpha}{Overall alpha level of the procedure, see
-  graphTest function.}
+  graphTest function. (For entangled graphs \code{alpha}
+  should be a numeric vector of length equal to the number
+  of graphs, each element specifying the partial alpha for
+  the respective graph. The overall alpha level equals
+  \code{sum(alpha)}.)}
 
   \item{G}{Matrix determining the graph underlying the test
   procedure. Note that the diagonal need to contain only
@@ -61,6 +65,14 @@
 }
 \value{
   A list containg three elements
+
+  \item{LocalPower}{A numeric giving the local powers for
+  the hypotheses}
+
+  \item{ExpRejections}{The expected number of rejections}
+
+  \item{PowAtlst1}{The power to reject at least one
+  hypothesis}
 }
 \description{
   Given the distribution under the alternative (assumed to
