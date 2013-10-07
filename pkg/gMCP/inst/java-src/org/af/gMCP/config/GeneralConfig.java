@@ -360,4 +360,12 @@ public class GeneralConfig extends SpecificConfig {
 	public Double getExportZoom() {		
 		return getProperty("Exportzoom", "null")=="null"?null:Double.parseDouble(getProperty("Exportzoom", "null"));		
 	}
+	
+	public void setShowRCode(boolean b) {
+		setProperty("showRCode", ""+b);
+	}
+	
+	public boolean showRCode() {
+		return Boolean.parseBoolean(getProperty("showRCode", "true"));
+	}
 }

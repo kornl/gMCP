@@ -20,6 +20,7 @@ public class MiscPanel extends OptionsPanel {
     private JCheckBox unanchorEdges;
     private JCheckBox focusEqualsEdit;
     private JCheckBox enableNewFeatures;
+    private JCheckBox showRCode;
     
     private Configuration conf;
 
@@ -61,6 +62,11 @@ public class MiscPanel extends OptionsPanel {
         enableNewFeatures.setToolTipText("<html>The gMCP GUI often contains new features that are not that well tested.<br>" +
         		"If you want to use or take a look at them, activate this option.<br>" +
         		"But be prepared that things might go wrong.</html>");
+        showRCode = new JCheckBox("Show R code to reproduce results in R");
+        showRCode.setSelected(conf.getGeneralConfig().showRCode());
+        showRCode.setToolTipText("<html>After performing a test in the GUI the result dialog does not only show the pure<br>"
+        		+ "results, but also R code to reproduce these results in R. If you are not interested in this feature,<br>"
+        		+ "you can disable it here.</html>");
     }
 
     private void doTheLayout() {
@@ -95,6 +101,10 @@ public class MiscPanel extends OptionsPanel {
         
         row += 2;	
         
+        p1.add(showRCode, cc.xyw(1, row, 3));
+        
+        row += 2;	
+        
         add(p1);
     }
 
@@ -105,5 +115,6 @@ public class MiscPanel extends OptionsPanel {
        	conf.getGeneralConfig().setUnAnchor(unanchorEdges.isSelected());
        	conf.getGeneralConfig().setFocusEqualsEdit(focusEqualsEdit.isSelected());
        	conf.getGeneralConfig().setExperimental(enableNewFeatures.isSelected());
+       	conf.getGeneralConfig().setShowRCode(showRCode.isSelected());
     }
 }

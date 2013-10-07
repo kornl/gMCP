@@ -385,7 +385,7 @@ public class MatrixCreationDialog extends JDialog implements ActionListener, Cha
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource()==ok) {
 			String name = RControl.getR().eval("make.names(\""+tfname.getText()+"\")").asRChar().getData()[0];
-			RControl.getR().eval(name+" <- "+dfp.getTable().getModel().getDataFrame().getRMatrix());
+			RControl.getR().evalInGlobalEnv(name+" <- "+dfp.getTable().getModel().getDataFrame().getRMatrix());
 			dispose();
 		} else if (e.getSource()==jbAdd) {
 			int k = Integer.parseInt(spinnerN2.getModel().getValue().toString());
