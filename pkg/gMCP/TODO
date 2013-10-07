@@ -6,6 +6,7 @@
 - http://semver.org/ Should we switch from version numbers like 0.8-3 to 0.8.3?
 - NICER BUGREPORT!
 - Let user choose colors for entangled graphs.
+- Simes and power
 - Simes + parametric test for entangled graphs.
 - Optionally display alpha weighting directly in entangled graphs.
 - Save settings for power and remember them in the same session.
