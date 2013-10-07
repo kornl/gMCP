@@ -4,6 +4,9 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.math.BigDecimal;
+import java.math.MathContext;
+import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.util.List;
 import java.util.Vector;
@@ -308,13 +311,16 @@ public class DialogConfIntEstVar extends JDialog implements ActionListener, Chan
 							"Number of hypotheses and values do not match", JOptionPane.ERROR_MESSAGE);
 					return;
 				}
-				if (jbLoadEst.equals(e.getSource())) {
-					for (int i=0; i<data.length; i++) {
-						est.get(i).setText(""+data[i]);
+				int d = Configuration.getInstance().getGeneralConfig().getDigits();
+				if (jbLoadEst.equals(e.getSource())) {					
+					for (int i=0; i<data.length; i++) {			
+						est.get(i).setText(new BigDecimal(""+data[i], new MathContext((int) Math.max(d, Math.round(Math.log10(data[i]))), RoundingMode.HALF_EVEN)).stripTrailingZeros().toPlainString());
+						//est.get(i).setText(""+data[i]);
 					}
 				} else if (jbLoadSD.equals(e.getSource())) {
 					for (int i=0; i<data.length; i++) {
-						var.get(i).setText(""+data[i]);
+						var.get(i).setText(new BigDecimal(""+data[i], new MathContext((int) Math.max(d, Math.round(Math.log10(data[i]))), RoundingMode.HALF_EVEN)).stripTrailingZeros().toPlainString());
+						//var.get(i).setText(""+data[i]);
 					}
 				}
 			} catch (Exception ex) {
