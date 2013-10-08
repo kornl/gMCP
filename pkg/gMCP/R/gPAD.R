@@ -1,3 +1,71 @@
+#' EXPERIMENTAL: Evaluate conditional errors at interim for a pre-planned
+#' graphical procedure
+#' 
+#' Computes partial conditional errors (PCE) for a pre-planned graphical
+#' procedure given information fractions and first stage z-scores. -
+#' Implementation of adaptive procedures is still in an early stage and may
+#' change in the near future
+#' 
+#' For details see the given references.
+#' 
+#' @param graph A graph of class \code{\link{graphMCP}}.
+#' @param z1 A numeric vector giving first stage z-scores.
+#' @param v A numeric vector giving the proportions of pre-planned measurements
+#' collected up to the interim analysis. Will be recycled of length different
+#' than the number of elementary hypotheses.
+#' @param alpha A numeric specifying the maximal allowed type one error rate.
+#' @return An object of class \code{gPADInterim}, more specifically a list with
+#' elements
+#' @returnItem Aj a matrix of PCEs for all elementary hypotheses in each
+#' intersection hypothesis
+#' @returnItem BJ a numeric vector giving sum of PCEs per intersection
+#' hypothesis
+#' @returnItem preplanned Pre planned test represented by an object of class
+#' \code{\link{graphMCP}}
+#' @author Florian Klinglmueller \email{float@@lefant.net}
+#' @seealso \code{\link{graphMCP}}, \code{\link{secondStageTest}}
+#' @references Frank Bretz, Willi Maurer, Werner Brannath, Martin Posch: A
+#' graphical approach to sequentially rejective multiple test procedures.
+#' Statistics in Medicine 2009 vol. 28 issue 4 page 586-604.
+#' \url{http://www.meduniwien.ac.at/fwf_adaptive/papers/bretz_2009_22.pdf}
+#' 
+#' Frank Bretz, Martin Posch, Ekkehard Glimm, Florian Klinglmueller, Willi
+#' Maurer, Kornelius Rohmeyer (2011): Graphical approaches for multiple
+#' comparison procedures using weighted Bonferroni, Simes or parametric tests.
+#' Biometrical Journal 53 (6), pages 894-913, Wiley.
+#' \url{http://onlinelibrary.wiley.com/doi/10.1002/bimj.201000239/full}
+#' 
+#' Posch M, Futschik A (2008): A Uniform Improvement of Bonferroni-Type Tests
+#' by Sequential Tests JASA 103/481, 299-308
+#' 
+#' Posch M, Maurer W, Bretz F (2010): Type I error rate control in adaptive
+#' designs for confirmatory clinical trials with treatment selection at interim
+#' Pharm Stat 10/2, 96-104
+#' @keywords htest graphs
+#' @examples
+#' 
+#' 
+#' ## Simple successive graph (Maurer et al. 2011)
+#' ## two treatments two hierarchically ordered endpoints
+#' a <- .025
+#' G <- simpleSuccessiveI()
+#' ## some z-scores:
+#' 
+#' p1=c(.1,.12,.21,.16)
+#' z1 <- qnorm(1-p1)
+#' p2=c(.04,1,.14,1)
+#' z2 <- qnorm(1-p2)
+#' v <- c(1/2,1/3,1/2,1/3)
+#' 
+#' intA <- doInterim(G,z1,v)
+#' 
+#' ## select only the first treatment 
+#' fTest <- secondStageTest(intA,c(1,0,1,0))
+#' 
+#' 
+#' 
+#' @export doInterim
+#' 
 doInterim <- function(graph,z1,v,alpha=.025){
   g <- graph2matrix(graph)
   w <- getWeights(graph)
@@ -8,7 +76,75 @@ doInterim <- function(graph,z1,v,alpha=.025){
   res <- new('gPADInterim',Aj=As,BJ=Bs,z1=z1,v=v,preplanned=graph,alpha=alpha)
   return(res)
 }
-             
+
+#' EXPERIMENTAL: Construct a valid level alpha test for the second stage of an
+#' adaptive design that is based on a pre-planned graphical MCP
+#' 
+#' Based on a pre-planned graphical multiple comparison procedure, construct a
+#' valid multiple level alpha test that conserves the family wise error in the
+#' strong sense regardless of any trial adaptations during an unblinded interim
+#' analysis. - Implementation of adaptive procedures is still in an early stage
+#' and may change in the near future
+#' 
+#' For details see the given references.
+#' 
+#' @param interim An object of class \code{\link{gPADInterim}}.
+#' @param select A logical vector giving specifying which hypotheses are
+#' carried forward to the second stage
+#' @param matchCE Logical specifying whether second stage weights should be
+#' computed proportional to corresponding PCEs
+#' @param zWeights Either "reject","accept", or "strict" giving the rule what
+#' should be done in cases where none of the selected hypotheses has positive
+#' second stage weight.
+#' @param G2 An object of class \code{\link{graphMCP}} laying down the rule to
+#' compute second stage weights. Defaults to pre-planned graph.
+#' @return A function of signature \code{function(z2)} with arguments:
+#' 
+#' that returns objects of class \code{\link{gMCPResult}}.
+#' @returnItem z2 A numeric vector with second stage z-scores. Z-scores of
+#' dropped hypotheses should be set no \code{NA},
+#' @author Florian Klinglmueller \email{float@@lefant.net}
+#' @seealso \code{\link{graphMCP}}, \code{\link{doInterim}}
+#' @references Frank Bretz, Willi Maurer, Werner Brannath, Martin Posch: A
+#' graphical approach to sequentially rejective multiple test procedures.
+#' Statistics in Medicine 2009 vol. 28 issue 4 page 586-604.
+#' \url{http://www.meduniwien.ac.at/fwf_adaptive/papers/bretz_2009_22.pdf}
+#' 
+#' Bretz F., Posch M., Glimm E., Klinglmueller F., Maurer W., Rohmeyer K.
+#' (2011): Graphical approaches for multiple endpoint problems using weighted
+#' Bonferroni, Simes or parametric tests - to appear.
+#' 
+#' Posch M, Futschik A (2008): A Uniform Improvement of Bonferroni-Type Tests
+#' by Sequential Tests JASA 103/481, 299-308
+#' 
+#' Posch M, Maurer W, Bretz F (2010): Type I error rate control in adaptive
+#' designs for confirmatory clinical trials with treatment selection at interim
+#' Pharm Stat 10/2, 96-104
+#' @keywords htest graphs
+#' @examples
+#' 
+#' 
+#' ## Simple successive graph (Maurer et al. 2011)
+#' ## two treatments two hierarchically ordered endpoints
+#' a <- .025
+#' G <- simpleSuccessiveI()
+#' ## some z-scores:
+#' 
+#' p1=c(.1,.12,.21,.16)
+#' z1 <- qnorm(1-p1)
+#' p2=c(.04,1,.14,1)
+#' z2 <- qnorm(1-p2)
+#' v <- c(1/2,1/3,1/2,1/3)
+#' 
+#' intA <- doInterim(G,z1,v)
+#' 
+#' ## select only the first treatment 
+#' fTest <- secondStageTest(intA,c(1,0,1,0))
+#' 
+#' 
+#' 
+#' @export secondStageTest
+#' 
 secondStageTest <- function(interim,select,matchCE=TRUE,zWeights="reject",G2=interim@preplanned){
   n <- nhyp(interim@preplanned)
   w2s <- t(sapply(1:(2^n-1),function(J) adaptWeights(to.binom(J,n),select,G2,zWeights)))
