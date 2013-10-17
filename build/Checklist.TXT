@@ -13,3 +13,9 @@ git tag -a v0.x-y -m 'Version 0.x-y (??-??-????)'
 git push origin --tags
 
 Updated newest version on algorithm-forge.com?
+
+R/etc/Rprofile.site:
+
+library(gMCP)
+graphGUI()
+.isBundle <- TRUE
