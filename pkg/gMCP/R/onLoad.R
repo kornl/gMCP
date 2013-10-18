@@ -14,9 +14,18 @@
 	loadJars(jars)
 	
 	# The following few lines are based on the code of the rJava .jpackage function
+  # TODO This is work in progress. What about MacOS?
+	if (length(grep("64", sessionInfo()$platform))>0) {
+	  classes <- system.file("jri/x64", package = "rJava", lib.loc = NULL)
+	} else {
+	  classes <- system.file("jri/i386", package = "rJava", lib.loc = NULL)
+	}
+	if (nzchar(classes)) {
+	  .jaddClassPath(classes)
+	}
 	classes <- system.file("jri", package = "rJava", lib.loc = NULL)
 	if (nzchar(classes)) {
-		.jaddClassPath(classes)
+		#.jaddClassPath(classes)
 		jars <- grep(".*\\.jar", list.files(classes, full.names = TRUE), TRUE, value = TRUE)
 		if (length(jars)) { 
 			.jaddClassPath(jars)
