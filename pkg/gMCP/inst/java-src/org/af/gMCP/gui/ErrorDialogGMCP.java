@@ -356,9 +356,9 @@ public class ErrorDialogGMCP extends JDialog implements ActionListener {
             }
 
             @Override
-            protected void onSuccess(Void result) {
-                JOptionPane.showMessageDialog(ErrorDialogGMCP.this, "Report was sent.");
+            protected void onSuccess(Void result) {                
                 dispose();
+                JOptionPane.showMessageDialog(ErrorDialogGMCP.this, "Report was sent.");
             }
         };
         worker.execute();
