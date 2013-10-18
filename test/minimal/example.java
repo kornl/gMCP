@@ -18,5 +18,6 @@ class Example {
 	}
     rengine.eval("plot(rnorm(1000))");
     //TODO Find stuff that crashes on Windows 32 "reliably".
+    //For example: Loading graph from Hommel et al. (2007).
   }
 }
