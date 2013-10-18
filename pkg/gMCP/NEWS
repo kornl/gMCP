@@ -26,7 +26,7 @@ Changes in version 0.8-6 (??-0?-2013)
 - Using RCallServicesREngineWrapper to eval each expression in the environment 
   gMCP:::gMCPenv instead of the global environment.
 
-- Some errors where catched in Java or R, but still showed up in the console.
+- Some errors were catched in Java or R, but still showed up in the console.
   We now use 'try(..., silent=TRUE)' in these cases.
 
 
