@@ -80,6 +80,8 @@ if (exists("opts_chunk")) {
   opts_chunk$set(concordance=TRUE)
   opts_chunk$set(tidy.opts=list(keep.blank.line=FALSE, width.cutoff=95))
   opts_chunk$set(size="footnotesize")
+  opts_chunk$set(cache=TRUE)
+  opts_chunk$set(autodep=TRUE)
 }
 library(gMCP, quietly=TRUE)
 options(width=140)
