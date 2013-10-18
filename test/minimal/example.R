@@ -1,0 +1,3 @@
+
+.jpackage("JavaGD")
+.jpackage("JGR")
