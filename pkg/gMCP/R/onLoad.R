@@ -14,14 +14,14 @@
 	loadJars(jars)
 	
 	# The following few lines are based on the code of the rJava .jpackage function
-	#classes <- system.file("jri", package = "rJava", lib.loc = NULL)
-	#if (nzchar(classes)) {
-	#	.jaddClassPath(classes)
-	#	jars <- grep(".*\\.jar", list.files(classes, full.names = TRUE), TRUE, value = TRUE)
-	#	if (length(jars)) { 
-	#		.jaddClassPath(jars)
-	#	}		
-	#}
+	classes <- system.file("jri", package = "rJava", lib.loc = NULL)
+	if (nzchar(classes)) {
+		.jaddClassPath(classes)
+		jars <- grep(".*\\.jar", list.files(classes, full.names = TRUE), TRUE, value = TRUE)
+		if (length(jars)) { 
+			.jaddClassPath(jars)
+		}		
+	}
 	
 	rJavaVersion <- utils::sessionInfo()$otherPkgs$rJava$Version
 	
