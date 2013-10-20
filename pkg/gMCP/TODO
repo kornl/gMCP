@@ -70,6 +70,8 @@
 - integrate the two files "tests.R" and "unirootbug.Rd" in directory "unitTests" into unit tests. 
 - improve behavior of tables if "Automatically enter the editing mode, whenever a table cell gets the focus" is set to false.
 - round values in CI Dialog
+- "Packages should not write in the users’ home filespace, nor anywhere else on the file system apart from the R session’s temporary directory (or during installation in the location pointed to by TMPDIR: and such usage should be cleaned up). Installing into the system’s R installation (e.g., scripts to its bin directory) is not allowed. Limited exceptions may be allowed in interactive sessions if the package obtains confirmation from the user."
+Check config, logfile, ...
 
 - JHLIR creates variable .jhlir.errors in global environment.
 
