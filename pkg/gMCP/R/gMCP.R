@@ -237,7 +237,7 @@ gMCP <- function(graph, pvalues, test, correlation, alpha=0.05,
 			return(result)
 		} else {			
 			graph2 <- subgraph(graph, !getRejected(graph))
-			output <- paste(output, "Remaining hypotheses (new numeration):", paste(1:length(getNodes(graph2)),": ", getNodes(graph2), sep="",collapse="\n"), sep="\n")
+			output <- paste(output, "Remaining hypotheses (new numbering):", paste(1:length(getNodes(graph2)),": ", getNodes(graph2), sep="",collapse="\n"), sep="\n")
 			pvalues2 <- pvalues[!getRejected(graph)]
 			allSubsets <- permutations(length(getNodes(graph2)))[-1,]
 			result <- cbind(allSubsets, 0, Inf)
