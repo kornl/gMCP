@@ -55,6 +55,7 @@
 - keine p-Werte übernehmen
 - Buttons to load R objects for power dialog.
 - check whether we want to use java.math.BigDecimal somewhere.
+- Improve and use in manuals/examples/etc. getWeights, getMatrix (should e.g. convert "1/3" to numeric 0.3333), etc.
 === POWER ===
 - Erben der Korrelationsmatrix vom Hauptfenster (warn if this is not the case?)
 - Copy&Paste of Results (Table, Text, allow to save)
