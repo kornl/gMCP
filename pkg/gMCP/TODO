@@ -1,3 +1,32 @@
+Multiple Setting:
+Remove single setting.
+Default: NCP (throw out n, \sigma, \mu)
+Instead of c(0,0,...) use #hypotheses text fields.
+Remove setting + check for empty textfields
+Move power simulation options on the right side of the simulation window
+In Options: Weights of subgraphs are upscaled to 1 Yes (Bretz et al. 2011) / No 
+Change test to only "Bonferroni", "Simes", "parametric" and add parameter upscale to 'gMCP' (and change exhaust)
+Allow upscale for Simes test? (Theory!)
+Is the shortcut is really called for the Simes test.
+Remember multiple setting options and add "clear" button. Save settings under name.
+Covariance matrix of test statistics for power simulations
+Covariance matrix of test statistics used by test procedures
+"Select an R correlation matrix" -> "?"
+Add labels to "create matrix" and "refresh".
+_Always_ use correlation matrix - never covariance matrix. Check for this for imports (and ask for converting to corMat). In the GUI disable diagonal.
+User specified power functions should be namable in the GUI. Save output as data.frame and CSV.
+Simes -> simply -> "Use Simes test" -> Show "Warning dialog exlaining..." with check box "never show me again".
+Improve "Graph Analysis" -> Check whether weights sum up to 1 for all subgraphs.
+Sample Sizes: Drop "n" column,  
+Replace n, \sigma, \mu with \theta and Standard error of \theta.
+Specify marginal power (and one field for which alpha this power was calcullated).
+Adjacency matrix -> Transition matrix "(layer 1)"
+Entangled graph should shown be separately.
+Willis graphs are published.
+subgraph alpha splitting -> component graph weights
+Tabs for the entangled graphs are called "transition matrix 1", "transition matrix 2", "trasition matrix 3"
+Entangled graphs: Alpha level -> Weights 1, Weights 2, Weights 3
+
 - Unify graphMCP and entangled graphs?
 - Integrate parameter 'envir' into corMatWizard.
 - Use jgr.addMenu, jgr.addMenuItem.
