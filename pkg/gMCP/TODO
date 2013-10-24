@@ -27,6 +27,9 @@ subgraph alpha splitting -> component graph weights
 Tabs for the entangled graphs are called "transition matrix 1", "transition matrix 2", "trasition matrix 3"
 Entangled graphs: Alpha level -> Weights 1, Weights 2, Weights 3
 
+- use DoseFinding:::sampSize 
+- Streamline / throw out graphTest
+
 - Unify graphMCP and entangled graphs?
 - Integrate parameter 'envir' into corMatWizard.
 - Use jgr.addMenu, jgr.addMenuItem.
