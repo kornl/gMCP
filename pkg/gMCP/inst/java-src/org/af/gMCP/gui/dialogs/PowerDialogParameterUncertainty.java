@@ -68,8 +68,6 @@ public class PowerDialogParameterUncertainty extends JDialog implements ActionLi
     boolean ncp = true;
     Vector<Node> nodes;
 
-	private JComboBox numberOfSettings = new JComboBox(new String[] {"Single setting", "Multiple settings"});
-	
 	/*
 	  "Above you can specify the noncentrality parameter and covariance matrix of a multivariate\n" +
 				"normal distribution that is used for power calculations.\n" +
@@ -79,17 +77,8 @@ public class PowerDialogParameterUncertainty extends JDialog implements ActionLi
 	CreateGraphGUI parent;
 	PowerParameterPanel pPanelMeans, pPanelSigmas, pPanelN;
 	
-	JPanel panel2 = new JPanel();
-	// consists of
-	JPanel panelOne = new JPanel();
 	JPanel panelMany = new JPanel();
 	
-	JPanel panel = new JPanel();
-	// consists of
-	JPanel singleMuSigmaN = new JPanel();	
-	JPanel singleNCP = new JPanel();
-	
-	JButton switchNCP = new JButton("Enter µ, σ and n instead of ncp");
 	JTabbedPane tPanel = new JTabbedPane();
 
 	Object[] variables;
@@ -166,7 +155,7 @@ public class PowerDialogParameterUncertainty extends JDialog implements ActionLi
 		getContentPane().setLayout(new GridBagLayout());
 		//getContentPane().add(numberOfSettings, c);
 		
-		tPanel.addTab("NCP Settings", getSettingPanel());
+		tPanel.addTab("NCP Settings", getMultiSettingPanel());
 		//tPanel.addTab("Multiple NCP Settings", getMultiSettingPanel());
 		tPanel.addTab("Covariance Matrix", getCVPanel());
 		tPanel.addTab("User defined power function", getUserDefinedFunctions());
@@ -197,20 +186,7 @@ public class PowerDialogParameterUncertainty extends JDialog implements ActionLi
 		if (e.getSource() == clearList) {
 			listModel.removeAllElements();
 			return;
-		}
-		if (e.getSource() == numberOfSettings) {
-			panel2.removeAll();
-			GridBagConstraints c = getDefaultGridBagConstraints();
-			if (numberOfSettings.getSelectedIndex()==0) {
-				panel2.add(panelOne, c);
-			} else {
-				panel2.add(panelMany, c);
-			}			
-			Configuration.getInstance().setClassProperty(this.getClass(), "singleSetting", ""+(numberOfSettings.getSelectedIndex()==0));
-			panel2.revalidate();
-			panel2.repaint();
-			return;
-		}
+		}		
 		if (e.getSource() == secondCV) {
 			dfp2.setEnabled(secondCV.isSelected());
 			loadCV2.setEnabled(secondCV.isSelected());
@@ -233,23 +209,6 @@ public class PowerDialogParameterUncertainty extends JDialog implements ActionLi
 		}
 		if (e.getSource() == loadCV2) {
 			load(dfp2);
-			return;
-		}
-		if (switchNCP == e.getSource()) {
-			panel.removeAll();
-			GridBagConstraints c = getDefaultGridBagConstraints();
-			if (ncp) {
-				switchNCP.setText("Enter ncp instead of µ, σ and n");
-				ncp = false;				
-				panel.add(singleMuSigmaN, c);
-			} else {
-				switchNCP.setText("Enter µ, σ and n instead of ncp");
-				ncp = true;			
-				panel.add(singleNCP, c);
-			}			
-			Configuration.getInstance().setClassProperty(this.getClass(), "ncp", ""+ncp);
-			panel.revalidate();
-			panel.repaint();
 			return;
 		}
 		if (buttons.contains(e.getSource()) || buttons2.contains(e.getSource())) {
@@ -280,114 +239,46 @@ public class PowerDialogParameterUncertainty extends JDialog implements ActionLi
 		//RControl.getR().eval(parent.getGraphView().getNL().getGraphName()+"<-gMCP:::parse2numeric("+parent.getGraphView().getNL().getGraphName()+")");
 
 		if (e.getActionCommand().equals(HorizontalButtonPane.OK_CMD)) {
-			if (numberOfSettings.getSelectedIndex()==0) { /** Single Setting */
+			settings = ", muL = " + pPanelMeans.getRList()
+					+ ", sigmaL = " + pPanelSigmas.getRList()
+					+ ", nL = " + pPanelN.getRList();
 
-				for (int i=0; i<means.length; i++) {
-					if (ncp) {
-						means[i] = Double.parseDouble(jtl.get(i).getText());
-					} else {
-						means[i] = Double.parseDouble(jtlMu.get(i).getText())*Math.sqrt(Double.parseDouble(jtlN.get(i).getText()))/Double.parseDouble(jtlSigma.get(i).getText());
+			rCommand = "gMCP:::calcMultiPower(weights="+weights+", alpha="+alpha+", G="+G+settings
+					+","+"sigma = " + dfp.getTable().getModel().getDataFrame().getRMatrix() //diag(length(mean)),corr = NULL,"+
+					+getMatrixForParametricTest()
+					+userDefinedF
+					+", nSim = "+Configuration.getInstance().getGeneralConfig().getNumberOfSimulations()
+					+", type = \""+Configuration.getInstance().getGeneralConfig().getTypeOfRandom()+"\""
+					+getVariables()
+					+")";				
+
+			parent.glassPane.start();
+			SwingWorker<Void, Void> worker = new SwingWorker<Void, Void>() {
+
+				@Override
+				protected Void doInBackground() throws Exception {					
+					try {
+						String result = RControl.getR().eval(rCommand).asRChar().getData()[0];
+						new TextFileViewer(parent, "Power results", result, true);
+					} catch (Exception e) {
+						String message = e.getMessage();
+						JOptionPane.showMessageDialog(parent, "R call produced an error:\n\n"+message+"\nWe will open a window with R code to reproduce this error for investigation.", "Error in R Call", JOptionPane.ERROR_MESSAGE);
+						JDialog d = new JDialog(parent, "R Error", true);
+						d.add(
+								new TextFileViewer(parent, "R Objects", "The following R code produced the following error:\n\n" +message+
+										rCommand, true)
+								);
+						d.pack();
+						d.setSize(800, 600);
+						d.setVisible(true);
+						e.printStackTrace();						
+					} finally {
+						parent.glassPane.stop();
 					}
-				}
-				String mean = RControl.getRString(means);
-				settings = ", mean="+mean;
-
-				rCommand = "calcPower(weights="+weights+", alpha="+alpha+", G="+G+settings+"\n"
-						+","+"sigma = " + dfp.getTable().getModel().getDataFrame().getRMatrix() //diag(length(mean)),corr = NULL,"+
-						+getMatrixForParametricTest()+"\n"
-						+userDefinedF
-						+", nSim = "+Configuration.getInstance().getGeneralConfig().getNumberOfSimulations()
-						+", type = \""+Configuration.getInstance().getGeneralConfig().getTypeOfRandom()+"\""
-						+")";
-
-				if (parent.getPView().jrbRCorrelation.isSelected()) {
-					int answer = JOptionPane.showConfirmDialog(this, "The power calculations for parametric tests take a lot of time.\n"+
-							"If you select 'yes' the GUI will run the following command:\n"+
-							rCommand+"\n The GUI will be unresponsive during this time. Continue?", "Parametric tests take a lot of time", JOptionPane.YES_NO_OPTION);
-					if (answer==JOptionPane.NO_OPTION) return;
-				}
-				
-				parent.glassPane.start();
-				SwingWorker<Void, Void> worker = new SwingWorker<Void, Void>() {
-					
-					@Override
-					protected Void doInBackground() throws Exception {					
-						try {
-							RControl.getR().eval(".powerResult <- "+rCommand);
-							double[] localPower = RControl.getR().eval(".powerResult$LocalPower").asRNumeric().getData();
-							double expRejections = RControl.getR().eval(".powerResult$ExpRejections").asRNumeric().getData()[0];
-							double powAtlst1 = RControl.getR().eval(".powerResult$PowAtlst1").asRNumeric().getData()[0];
-							double rejectAll = RControl.getR().eval(".powerResult$RejectAll").asRNumeric().getData()[0];
-							Double[] userDefined = new Double[listModel.getSize()];
-							String[] functions = new String[listModel.getSize()];
-							for (int i=0; i<listModel.getSize(); i++) {
-								functions[i] = listModel.get(i).toString();
-								userDefined[i] = RControl.getR().eval(".powerResult$userDefined"+i).asRNumeric().getData()[0];
-							}
-							parent.getGraphView().getNL().setPower(localPower, expRejections, powAtlst1, rejectAll, userDefined, functions);
-						} catch (Exception e) {
-							String message = e.getMessage();
-							JOptionPane.showMessageDialog(parent, "R call produced an error:\n\n"+message+"\nWe will open a window with R code to reproduce this error for investigation.", "Error in R Call", JOptionPane.ERROR_MESSAGE);
-							JDialog d = new JDialog(parent, "R Error", true);
-							d.add(
-									new TextFileViewer(parent, "R Objects", "The following R code produced the following error:\n\n" +message+
-											rCommand, true)
-									);
-							d.pack();
-							d.setSize(800, 600);
-							d.setVisible(true);
-							e.printStackTrace();						
-						} finally {
-							parent.glassPane.stop();
-						}
-						return null;
-					}					 
-				};
-				worker.execute();
-
-				
-			} else { /** Multiple Settings */
-				settings = ", muL = " + pPanelMeans.getRList()
-						+ ", sigmaL = " + pPanelSigmas.getRList()
-						+ ", nL = " + pPanelN.getRList();
-				
-				rCommand = "gMCP:::calcMultiPower(weights="+weights+", alpha="+alpha+", G="+G+settings
-						+","+"sigma = " + dfp.getTable().getModel().getDataFrame().getRMatrix() //diag(length(mean)),corr = NULL,"+
-						+getMatrixForParametricTest()
-						+userDefinedF
-						+", nSim = "+Configuration.getInstance().getGeneralConfig().getNumberOfSimulations()
-						+", type = \""+Configuration.getInstance().getGeneralConfig().getTypeOfRandom()+"\""
-						+getVariables()
-						+")";				
-				
-				parent.glassPane.start();
-				SwingWorker<Void, Void> worker = new SwingWorker<Void, Void>() {
-					
-					@Override
-					protected Void doInBackground() throws Exception {					
-						try {
-							String result = RControl.getR().eval(rCommand).asRChar().getData()[0];
-							new TextFileViewer(parent, "Power results", result, true);
-						} catch (Exception e) {
-							String message = e.getMessage();
-							JOptionPane.showMessageDialog(parent, "R call produced an error:\n\n"+message+"\nWe will open a window with R code to reproduce this error for investigation.", "Error in R Call", JOptionPane.ERROR_MESSAGE);
-							JDialog d = new JDialog(parent, "R Error", true);
-							d.add(
-									new TextFileViewer(parent, "R Objects", "The following R code produced the following error:\n\n" +message+
-											rCommand, true)
-									);
-							d.pack();
-							d.setSize(800, 600);
-							d.setVisible(true);
-							e.printStackTrace();						
-						} finally {
-							parent.glassPane.stop();
-						}
-						return null;
-					}					 
-				};
-				worker.execute();				
-			}
+					return null;
+				}					 
+			};
+			worker.execute();				
 		}
 		dispose();
 	}
@@ -501,129 +392,6 @@ public class PowerDialogParameterUncertainty extends JDialog implements ActionLi
 		mPanel.add(parameters, cc.xy(2, row));
         
 		//mPanel.add(new JScrollPane(dfp), cc.xy(4, row));
-		
-		return mPanel;
-	}
-	
-	public JPanel getSettingPanel() {		
-		panelOne = getSingleSettingPanel();
-		panelMany = getMultiSettingPanel();
-		
-		JPanel mPanel = new JPanel();
-		String cols = "5dlu, pref, 5dlu, fill:pref:grow, 5dlu";        
-        String rows = "5dlu, pref, 5dlu, fill:pref:grow, 5dlu";
-        
-        mPanel.setLayout(new FormLayout(cols, rows));
-        CellConstraints cc = new CellConstraints();
-        
-        int row = 2;
-		
-		mPanel.add(new JLabel("Number of Settings: "), cc.xy(2, row));
-		mPanel.add(numberOfSettings, cc.xy(4, row));
-		numberOfSettings.addActionListener(this);
-		
-		row += 2;
-		
-		panel2.setLayout(new GridBagLayout());
-		if (Boolean.parseBoolean(Configuration.getInstance().getClassProperty(this.getClass(), "singleSetting", ""+true))) {
-			panel2.add(panelOne, getDefaultGridBagConstraints());
-			numberOfSettings.setSelectedIndex(0);
-		} else {
-			panel2.add(panelMany, getDefaultGridBagConstraints());
-			numberOfSettings.setSelectedIndex(1);
-		}		
-		
-		mPanel.add(panel2, cc.xyw(2, row, 3));
-		
-        return mPanel;
-	}
-	
-	
-	public JPanel getSingleSettingPanel() {
-		JPanel mPanel = new JPanel();
-		GridBagConstraints c = getDefaultGridBagConstraints();
-		
-        String cols = "5dlu, pref, 5dlu, fill:pref:grow, 5dlu";
-        String cols2 = "5dlu, pref, 5dlu, fill:pref:grow, 5dlu, fill:pref:grow, 5dlu, fill:pref:grow, 5dlu";
-        String rows = "5dlu, pref, 5dlu";
-        
-        for (Node n : nodes) {
-        	rows += ", pref, 5dlu";
-        }
-        
-        FormLayout layout = new FormLayout(cols, rows);
-        singleNCP.setLayout(layout);
-        
-        layout = new FormLayout(cols2, rows);
-        singleMuSigmaN.setLayout(layout);
-        
-        CellConstraints cc = new CellConstraints();
-
-        int row = 2;
-        
-        singleMuSigmaN.add(new JLabel("µ"), cc.xy(4, row));
-        
-        singleMuSigmaN.add(new JLabel("σ"), cc.xy(6, row));
-        
-        singleMuSigmaN.add(new JLabel("n"), cc.xy(8, row));
-        
-        jtl = new Vector<JTextField>();
-        jtlMu = new Vector<JTextField>();
-        jtlSigma = new Vector<JTextField>();
-        jtlN = new Vector<JTextField>();
-        
-        for (Node n : nodes) {        	
-        	JTextField jt = new JTextField("0");        	
-        	singleNCP.add(new JLabel("Noncentrality parameter for '"+n.getName()+"':"), cc.xy(2, row));
-        	singleNCP.add(jt, cc.xy(4, row));
-        	jtl.add(jt);
-
-        	row += 2;
-        	
-        	singleMuSigmaN.add(new JLabel("Parameters for '"+n.getName()+"':"), cc.xy(2, row));
-        	
-        	jt = new JTextField("0");        	
-        	singleMuSigmaN.add(jt, cc.xy(4, row));
-        	jtlMu.add(jt);
-            
-        	jt = new JTextField("1");
-            singleMuSigmaN.add(jt, cc.xy(6, row));
-            jtlSigma.add(jt);
-            
-            jt = new JTextField("10");
-            singleMuSigmaN.add(jt, cc.xy(8, row));
-            jtlN.add(jt);
-        }
-        
-        cols = "5dlu, fill:pref:grow, 5dlu, fill:pref:grow, 5dlu";
-        rows = "5dlu, pref, 5dlu, fill:pref:grow, 5dlu, pref, 5dlu";
-        
-        mPanel.setLayout(new FormLayout(cols, rows));
-        cc = new CellConstraints();
-		
-		row = 2;
-		
-		mPanel.add(new JLabel("Noncentrality parameter of multivariate normal distribution"), cc.xy(2, row));
-		
-		row +=2;
-		
-		panel.setLayout(new GridBagLayout());
-		if (Boolean.parseBoolean(Configuration.getInstance().getClassProperty(this.getClass(), "ncp", ""+true))) {
-			panel.add(singleNCP, c);
-			switchNCP.setText("Enter µ, σ and n instead of ncp");
-			ncp = true;
-		} else {
-			panel.add(singleMuSigmaN, c);
-			switchNCP.setText("Enter ncp instead of µ, σ and n");
-			ncp = false;
-		}
-		
-		mPanel.add(new JScrollPane(panel), cc.xy(2, row));
-        
-		row +=2;
-		
-		mPanel.add(switchNCP, cc.xy(2, row));
-		switchNCP.addActionListener(this);
 		
 		return mPanel;
 	}
