@@ -797,8 +797,9 @@ graph
     whether a new version of gMCP is available. Only your version of R (like
     2.13.1), the version of gMCP (like 0.7-5) and a random number (to
     distinguish different requests) are transmitted.
-  \item[Type of parametric test] You can select between "Bretz2011" and
-    "simple-parametric". %TODO Explain these options.
+  \item[Weights of subgraphs are upscaled to 1] If "yes" is selected the weights 
+    of all subgraphs are always upscaled to one as described in \cite{Bretz11}.
+    %TODO Explain these options.
   \item[Export images with transparent background] If checked the background of
     exported PNG graphics will be transparent. Otherwise the graphs are
     displayed on a white background.

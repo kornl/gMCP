@@ -30,6 +30,7 @@ public class NumericPanel extends OptionsPanel implements ActionListener {
     private JTextField numberOfSimulations;
     private JComboBox randomNumbers;
     private JComboBox parametricAlgo;
+    String[] tests = new String[] {"Bretz2011", "simple-parametric"};
 
     public NumericPanel(Configuration conf) {
         this.conf = conf;
@@ -92,7 +93,7 @@ public class NumericPanel extends OptionsPanel implements ActionListener {
         		"Lattice rule, and should be more efficient than the<br>" +
         		"pseudorandom option that uses ordinary (pseudo) random numbers.</html>");
         
-        parametricAlgo = new JComboBox(new String[] {"Bretz2011", "simple-parametric"});
+        parametricAlgo = new JComboBox(new String[] {"Yes", "No"});
         parametricAlgo.setSelectedIndex(conf.getGeneralConfig().getParametricTest().equals("Bretz2011")?0:1);
         parametricAlgo.setToolTipText("<html>" +
         		"Please see the manual for an explanation.</html>");
@@ -122,7 +123,7 @@ public class NumericPanel extends OptionsPanel implements ActionListener {
         
         p1.add(tryToSimplify, cc.xyw(1, row, 3));
         
-        row += 2;
+        row += 2; parametricAlgo = new JComboBox(new String[] {"Bretz2011", "simple-parametric"});
         
         p1.add(new JLabel("Number of digits to assure:"),     cc.xy(1, row));
         p1.add(jtfDigits, cc.xy(3, row));
@@ -144,7 +145,7 @@ public class NumericPanel extends OptionsPanel implements ActionListener {
         
         row += 2;
         
-        p1.add( new JLabel("Type of parametric test:"),     cc.xy(1, row));
+        p1.add( new JLabel("Weights of subgraphs are upscaled to 1:"),     cc.xy(1, row));
         p1.add(parametricAlgo, cc.xy(3, row));        
         
         add(p1);
@@ -172,7 +173,7 @@ public class NumericPanel extends OptionsPanel implements ActionListener {
         	JOptionPane.showMessageDialog(this, "\""+numberOfSimulations.getText()+"\" is not a valid integer.", "Invalid input", JOptionPane.ERROR_MESSAGE);
         }
        	conf.getGeneralConfig().setTypeOfRandom(randomNumbers.getSelectedItem().toString());
-       	conf.getGeneralConfig().setParametricTest(parametricAlgo.getSelectedItem().toString());
+       	conf.getGeneralConfig().setParametricTest(tests[parametricAlgo.getSelectedIndex()]);
     }
 
 	public void actionPerformed(ActionEvent e) {
