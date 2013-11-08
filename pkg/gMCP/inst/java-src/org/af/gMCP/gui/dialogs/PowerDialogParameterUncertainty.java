@@ -57,7 +57,7 @@ public class PowerDialogParameterUncertainty extends JDialog implements ActionLi
     JButton saveUDPF = new JButton("Save");
     
     JList listUserDefined;
-    JCheckBox secondCV = new JCheckBox("Use another matrix for the parametric test (misspecified or contains NA values)");
+    JCheckBox secondCV = new JCheckBox("Use another correlation matrix of test statistics used by the parametric test (misspecified or contains NA values)");
     
     JButton loadCV = new JButton("Load Matrix from R");
     JButton createCV = new JButton("Advanced Matrix Creation");
@@ -68,12 +68,6 @@ public class PowerDialogParameterUncertainty extends JDialog implements ActionLi
     boolean ncp = true;
     Vector<Node> nodes;
 
-	/*
-	  "Above you can specify the noncentrality parameter and covariance matrix of a multivariate\n" +
-				"normal distribution that is used for power calculations.\n" +
-				"\n" +
-	 */	
-	
 	CreateGraphGUI parent;
 	PowerParameterPanel pPanelMeans, pPanelSigmas, pPanelN;
 	
@@ -157,7 +151,7 @@ public class PowerDialogParameterUncertainty extends JDialog implements ActionLi
 		
 		tPanel.addTab("NCP Settings", getMultiSettingPanel());
 		//tPanel.addTab("Multiple NCP Settings", getMultiSettingPanel());
-		tPanel.addTab("Covariance Matrix", getCVPanel());
+		tPanel.addTab("Correlation Matrix", getCVPanel());
 		tPanel.addTab("User defined power function", getUserDefinedFunctions());
 		Set<String> variables = parent.getGraphView().getNL().getAllVariables();
 		if (!Configuration.getInstance().getGeneralConfig().useEpsApprox())	{
@@ -303,8 +297,8 @@ public class PowerDialogParameterUncertainty extends JDialog implements ActionLi
 	}
 
 	/**
-	 * Constructs and returns the panel for the covariance matrix.
-	 * @return the panel for the covariance matrix
+	 * Constructs and returns the panel for the correlation matrix.
+	 * @return the panel for the correlation matrix
 	 */
 	public JPanel getCVPanel() {
 		JPanel mPanel = new JPanel();
@@ -322,7 +316,7 @@ public class PowerDialogParameterUncertainty extends JDialog implements ActionLi
 		mPanel.setLayout(new FormLayout(cols, rows));
 		cc = new CellConstraints();
 		
-		mPanel.add(new JLabel("Covariance matrix of test statistics"), cc.xyw(2, row, 3));
+		mPanel.add(new JLabel("Correlation matrix of test statistics for power simulations"), cc.xyw(2, row, 3));
 		
 		row +=2;
 		
