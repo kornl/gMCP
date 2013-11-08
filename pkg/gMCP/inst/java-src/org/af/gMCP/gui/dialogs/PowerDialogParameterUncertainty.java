@@ -108,12 +108,12 @@ public class PowerDialogParameterUncertainty extends JDialog implements ActionLi
 		}		
 
 		dfp = new SingleDataFramePanel(df);
-		dfp.getTable().getModel().diagEditable = true;
+		dfp.getTable().getModel().checkCorMat();
 		dfp.getTable().setDefaultEditor(EdgeWeight.class, new CellEditorE(null, dfp.getTable()));
 		dfp.getTable().getModel().setCheckRowSum(false);
 		
 		dfp2 = new SingleDataFramePanel(df);
-		dfp2.getTable().getModel().diagEditable = true;
+		dfp2.getTable().getModel().checkCorMat();
 		dfp2.getTable().setDefaultEditor(EdgeWeight.class, new CellEditorE(null, dfp.getTable()));
 		dfp2.getTable().getModel().setCheckRowSum(false);
 		dfp2.setEnabled(false);		
