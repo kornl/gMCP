@@ -32,6 +32,8 @@ Changes in version 0.8-6 (??-0?-2013)
 - Adjacency Matrix is renamed to Transition Matrix (since some people 
   use the word Adjacency Matrix for the binary matrix).
 
+- We always use correlation matrices instead of covariance matrices in the GUI.
+
 
 Changes in version 0.8-5 (18-07-2013)
 =====================================
