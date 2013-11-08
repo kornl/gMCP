@@ -22,7 +22,7 @@
 \section{Methods}{
   \describe{
     \item{print}{\code{signature(object = "entangledMCP")}: A method for printing the data of the entangled graph to the R console.}
-    \item{getMatrices}{\code{signature(object = "entangledMCP")}: A method for getting the list of adjacency matrices of the entangled graph.}
+    \item{getMatrices}{\code{signature(object = "entangledMCP")}: A method for getting the list of transition matrices of the entangled graph.}
     \item{getWeights}{\code{signature(object = "entangledMCP")}: A method for getting the matrix of weights of the entangled graph.}
     \item{getRejected}{\code{signature(object = "entangledMCP")}: 
       A method for getting the information whether the hypotheses are marked in the graph as already rejected.

@@ -133,7 +133,7 @@ equals <- function(graph1, graph2, checkAttributes=FALSE, verbose=FALSE) {
 	}
 	# Real function:
 	if (any(graph1@m!=graph2@m)) {
-		if (verbose) cat("Adjacency matrices differ.\n")
+		if (verbose) cat("Transition matrices differ.\n")
 		return(FALSE);
 	}
 	if (any(graph1@weights!=graph2@weights)) {

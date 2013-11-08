@@ -29,6 +29,9 @@ Changes in version 0.8-6 (??-0?-2013)
 - Some errors were catched in Java or R, but still showed up in the console.
   We now use 'try(..., silent=TRUE)' in these cases.
 
+- Adjacency Matrix is renamed to Transition Matrix (since some people 
+  use the word Adjacency Matrix for the binary matrix).
+
 
 Changes in version 0.8-5 (18-07-2013)
 =====================================

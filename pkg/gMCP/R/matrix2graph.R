@@ -1,6 +1,6 @@
 #' Matrix2Graph and Graph2Matrix
 #' 
-#' Creates a graph of class \code{\link{graphMCP}} from a given adjacency
+#' Creates a graph of class \code{\link{graphMCP}} from a given transition
 #' matrix or vice versa.
 #' 
 #' The hypotheses names are the row names or if these are \code{NULL}, the
@@ -10,11 +10,11 @@
 #' warning is given.
 #' 
 #' @aliases matrix2graph graph2matrix
-#' @param m An adjacency matrix.
+#' @param m An transition matrix.
 #' @param weights A numeric for the initial weights.
 #' @param graph A graph of class \code{\link{graphMCP}}.
-#' @return A graph of class \code{\link{graphMCP}} with the given adjacency
-#' matrix for matrix2graph.  The adjacency matrix of a \code{\link{graphMCP}}
+#' @return A graph of class \code{\link{graphMCP}} with the given transition
+#' matrix for matrix2graph.  The transition matrix of a \code{\link{graphMCP}}
 #' graph for graph2matrix.
 #' @author Kornelius Rohmeyer \email{rohmeyer@@small-projects.de}
 #' @keywords graphs
@@ -55,7 +55,7 @@ graph2matrix <- function(graph) {
 		return(graph@m)
 	} else if (class(graph) %in% "entangledMCP"){
 		# TODO What do we want to return in this case?
-		warning("graph2matrix only returns the adjacency matrix of the first subgraph.")
+		warning("graph2matrix only returns the transition matrix of the first subgraph.")
 		return(graph@subgraphs[[1]]@m)
 	} else {
 		stop("This function should only be used for objects of class graphMCP or entangledMCP.")

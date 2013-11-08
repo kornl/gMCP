@@ -35,7 +35,7 @@
 \description{A graphMCP object describes a sequentially rejective multiple test procedure.}
 \section{Slots}{  
   \describe{    
-    \item{\code{m}:}{An adjacency matrix. Can be either \code{numerical} or \code{character}
+    \item{\code{m}:}{A transition matrix. Can be either \code{numerical} or \code{character}
     depending whether the matrix contains variables or not. Row and column names will
     be the names of the nodes.}
     \item{\code{weights}:}{A numeric.}        
@@ -45,7 +45,7 @@
 }
 \section{Methods}{
   \describe{
-    \item{getMatrix}{\code{signature(object = "graphMCP")}: A method for getting the adjacency matrix of the graph.}
+    \item{getMatrix}{\code{signature(object = "graphMCP")}: A method for getting the transition matrix of the graph.}
     \item{getWeights}{\code{signature(object = "graphMCP")}: A method for getting the weights.
       If a third optional argument \code{node} is specified, only for these nodes the weight will be returned.}
     \item{setWeights}{\code{signature(object = "graphMCP")}: A method for setting the weights.

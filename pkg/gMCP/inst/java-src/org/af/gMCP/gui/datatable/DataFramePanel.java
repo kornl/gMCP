@@ -20,7 +20,7 @@ public class DataFramePanel extends JTabbedPane {
 
     public DataFramePanel(RDataFrameRef dfRefW) {
     	tables.add(new DataTable(dfRefW));
-    	this.addTab("Adjacency Matrix", getPanel(tables.get(0)));
+    	this.addTab("Transition Matrix", getPanel(tables.get(0)));
     }
     
     private JPanel getPanel(DataTable table) {

@@ -8,7 +8,7 @@
   graph2matrix(graph)
 }
 \arguments{
-  \item{m}{An adjacency matrix.}
+  \item{m}{An transition matrix.}
 
   \item{weights}{A numeric for the initial weights.}
 
@@ -16,12 +16,13 @@
 }
 \value{
   A graph of class \code{\link{graphMCP}} with the given
-  adjacency matrix for matrix2graph.  The adjacency matrix
-  of a \code{\link{graphMCP}} graph for graph2matrix.
+  transition matrix for matrix2graph.  The transition
+  matrix of a \code{\link{graphMCP}} graph for
+  graph2matrix.
 }
 \description{
   Creates a graph of class \code{\link{graphMCP}} from a
-  given adjacency matrix or vice versa.
+  given transition matrix or vice versa.
 }
 \details{
   The hypotheses names are the row names or if these are
