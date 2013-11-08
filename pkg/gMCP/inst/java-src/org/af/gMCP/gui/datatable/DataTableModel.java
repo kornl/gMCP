@@ -11,7 +11,9 @@ public class DataTableModel extends AbstractTableModel {
 	private RowModel rowModel = null;
 	public boolean diagEditable = false;
 	boolean testing = false;
+	// Note that if both checkRowSum and checkCorr are true only checkRowSum will be checked by the EpsilonTableCellRenderer. 
 	boolean checkRowSum = true;
+	boolean checkCorr = false;
 
     public DataTableModel(RDataFrameRef df) {
         this.df = df;
@@ -78,7 +80,7 @@ public class DataTableModel extends AbstractTableModel {
 		df.removeAll();		
 	}
 
-	public boolean checkRowSum() {		
+	boolean checkRowSum() {		
 		return checkRowSum;
 	}
 	
@@ -97,6 +99,11 @@ public class DataTableModel extends AbstractTableModel {
 			}			
 		}
 		this.fireTableDataChanged();		
+	}
+
+	public void checkCorMat() {
+		diagEditable = false;
+		checkCorr = true;
 	}
 	
 }

@@ -26,6 +26,8 @@ public class EpsilonTableCellRenderer extends DefaultTableCellRenderer {
     public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int col)	{    	
     	DataTableModel model = (DataTableModel) table.getModel();
     	
+    	JLabel label = (JLabel) super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, col);
+    	
     	double sum = 0;
     	if (model.checkRowSum()) {    		
     		for (int i=0; i<model.getColumnCount(); i++) {
@@ -40,9 +42,23 @@ public class EpsilonTableCellRenderer extends DefaultTableCellRenderer {
     			sum += (d>=0&&d<=1)?d:0;
     		}
     	}
+    	if (model.checkCorr) {
+    		try {
+    			//System.out.println(""+model.getValueAt(row, col).getWeight(null));
+    			double v = model.getValueAt(row, col).getWeight(null);
+    			if (Math.abs(v)>1 || Double.isNaN(v)) {
+    				label.setForeground(Color.RED);
+            		label.setBackground(Color.ORANGE);
+    			} else {
+            		label.setForeground(null);
+            		label.setBackground(null);
+            	}
+    		} catch (Exception e) {
+				label.setForeground(Color.RED);
+        		label.setBackground(Color.ORANGE);
+    		}
+    	}
 
-        JLabel label = (JLabel) super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, col);       
-        
         String text = value.toString();
         
         for (int i=0; i<EdgeWeight.greek.length; i++) {
@@ -51,13 +67,15 @@ public class EpsilonTableCellRenderer extends DefaultTableCellRenderer {
         
         label.setText(text);
         
-    	if(sum>1.0001) {
-    		label.setForeground(Color.RED);
-    		label.setBackground(Color.ORANGE);
-    	} else {
-    		label.setForeground(null);
-    		label.setBackground(null);
-    	}
+        if (model.checkRowSum()) {
+        	if(sum>1.0001) {
+        		label.setForeground(Color.RED);
+        		label.setBackground(Color.ORANGE);
+        	} else {
+        		label.setForeground(null);
+        		label.setBackground(null);
+        	}
+        }
     	
     	if ((row==col && ! model.diagEditable) || model.testing) {
     		label.setForeground(Color.LIGHT_GRAY);
