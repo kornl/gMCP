@@ -10,7 +10,7 @@
 #' warning is given.
 #' 
 #' @aliases matrix2graph graph2matrix
-#' @param m An transition matrix.
+#' @param m A transition matrix.
 #' @param weights A numeric for the initial weights.
 #' @param graph A graph of class \code{\link{graphMCP}}.
 #' @return A graph of class \code{\link{graphMCP}} with the given transition

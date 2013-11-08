@@ -8,7 +8,7 @@
   graph2matrix(graph)
 }
 \arguments{
-  \item{m}{An transition matrix.}
+  \item{m}{A transition matrix.}
 
   \item{weights}{A numeric for the initial weights.}
 
