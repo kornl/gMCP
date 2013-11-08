@@ -61,17 +61,19 @@ public class EdgeWeight {
 		try {
 			String replaceStr = weightStr;
 			if (weight!=null) return weight[0];
-			for (Enumeration<String> keys = ht.keys() ; keys.hasMoreElements() ;) {
-				String s = keys.nextElement();
-				for (int i=0; i <greek.length; i++) {
-					if ((""+greek[i]).equals(s)) {
-						replaceStr = replaceStr.replaceAll(""+greekLaTeX[i], ""+ht.get(s));		
-					}
-				}								
-			}
-			for (Enumeration<String> keys = ht.keys() ; keys.hasMoreElements() ;) {
-				String s = keys.nextElement();
-				replaceStr = replaceStr.replaceAll(s, ""+ht.get(s));				
+			if (ht!=null) {
+				for (Enumeration<String> keys = ht.keys() ; keys.hasMoreElements() ;) {
+					String s = keys.nextElement();
+					for (int i=0; i <greek.length; i++) {
+						if ((""+greek[i]).equals(s)) {
+							replaceStr = replaceStr.replaceAll(""+greekLaTeX[i], ""+ht.get(s));		
+						}
+					}								
+				}			
+				for (Enumeration<String> keys = ht.keys() ; keys.hasMoreElements() ;) {
+					String s = keys.nextElement();
+					replaceStr = replaceStr.replaceAll(s, ""+ht.get(s));				
+				}
 			}
 			weight = RControl.getR().eval("try("+replaceStr+", silent=TRUE)").asRNumeric().getData();
 			return weight[0];
