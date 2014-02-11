@@ -1,6 +1,6 @@
 .onLoad <- function(libname, pkgname) {
 	if (!.jniInitialized) {
-		.jinit(parameters="-Xrs -Xss1m")
+		.jinit(parameters=c("-Xrs", "-Xss1m"))
 	}
 	.jpackage(pkgname)	
 	.jpackage("JavaGD")
