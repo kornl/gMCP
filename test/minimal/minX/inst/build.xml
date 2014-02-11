@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
-<project name="gMCP" default="build">
+<project name="minX" default="build">
 	
 	<dirname property="content.root" file="${ant.file}"/>
 	
@@ -27,10 +27,10 @@
 	</path>
 
 	<path id="libraries.classpath">
-	        <fileset dir="${content.root}/../../../build">
+	        <fileset dir="${content.root}/../../../../build">
 	        	<include name="*.jar"/>	        		        	
 	        </fileset>
-		<fileset dir="${content.root}/../../CommonJavaJars/inst/java">
+		<fileset dir="${content.root}/../../../../pkg/CommonJavaJars/inst/java">
 		      	<include name="*.jar"/>	        		        	
 	    </fileset>
 	</path> 
@@ -50,23 +50,12 @@
 	</target>
 	
 	<target name="build" depends="clean, compile">				
-		
-		<copy todir="${output.dir}">
-		    <fileset dir="${content.root}/java-src">
-		      	<include name="**/*.jpg"/>
-		    	<include name="**/*.png"/>
-		    	<include name="**/*.properties"/>
-		    </fileset>
-		</copy>
-		
-		<jar destfile="${jar.dir}/gsrmtp.jar">
+	
+		<jar destfile="${jar.dir}/minX.jar">
 			<fileset dir="${output.dir}"/>		
 		</jar>
 		
 	</target>
-		
-	<target name="javadoc">
-		<javadoc access="private" author="true" destdir="doc/javadoc" nodeprecated="false" nodeprecatedlist="false" noindex="false" nonavbar="false" notree="false" packagenames="org.mutoss,org.mutoss.gui,org.mutoss.gui.graph" source="1.5" sourcepath="src" splitindex="true" use="true" version="true"/>
-	</target>
+
 	
 </project>
