@@ -23,15 +23,6 @@ public class SystemInfo {
 			result += "HEAP: "+ heap+"\n\n";
 			result += "NONHEAP: "+ nonheap+"\n\n";
 		}
-		if (filesystem) {			
-			File[] roots = File.listRoots();
-			for (File root : roots) {
-				result += "File system root: " + root.getAbsolutePath()+"\n";
-				result += "Total space (bytes): " + root.getTotalSpace()+"\n";
-				result += "Free space (bytes): " + root.getFreeSpace()+"\n";
-				result += "Usable space (bytes): " + root.getUsableSpace()+"\n\n";
-			}						
-		}
 		if (runtime) {
 			RuntimeMXBean runtimeMxBean = ManagementFactory.getRuntimeMXBean();
 			
