@@ -1,3 +1,5 @@
+Documention for value in secondStageTest looks strange.
+
 Multiple Setting:
 Default: NCP (throw out n, \sigma, \mu)
 Instead of c(0,0,...) use #hypotheses text fields.
@@ -6,7 +8,7 @@ Move power simulation options on the right side of the simulation window
 In Options: Weights of subgraphs are upscaled to 1 Yes (Bretz et al. 2011) / No 
 Change test to only "Bonferroni", "Simes", "parametric" and add parameter upscale to 'gMCP' (and change exhaust)
 Allow upscale for Simes test? (Theory!)
-Is the shortcut is really called for the Simes test.
+Is the shortcut really used for the Simes test (it can not be used for adjusted p-values, but if these are not asked for the shortcut should be used).
 Remember multiple setting options and add "clear" button. Save settings under name.
 "Select an R correlation matrix" -> "?"
 Add labels to "create matrix" and "refresh".
@@ -15,16 +17,16 @@ User specified power functions should be namable in the GUI. Save output as data
 Simes -> simply -> "Use Simes test" -> Show "Warning dialog exlaining..." with check box "never show me again".
 Improve "Graph Analysis" -> Check whether weights sum up to 1 for all subgraphs.
 Sample Sizes: Drop "n" column,  
-Replace n, \sigma, \mu with \theta and Standard error of \theta.
+Replace n, \sigma, \mu with \theta θ and Standard error of \theta.
 Specify marginal power (and one field for which alpha this power was calculated).
 Entangled graph should shown be separately.
-Willis graphs are published.
 subgraph alpha splitting -> component graph weights
 Tabs for the entangled graphs are called "transition matrix 1", "transition matrix 2", "trasition matrix 3"
 Entangled graphs: Alpha level -> Weights 1, Weights 2, Weights 3
+- NEWS.Rd and news()
 
-- use DoseFinding:::sampSize 
 - Streamline / throw out graphTest
+- Highlight edges (and perhaps nodes) depending on the focus in the dataframe. 
 
 - Unify graphMCP and entangled graphs?
 - Integrate parameter 'envir' into corMatWizard.
@@ -47,7 +49,6 @@ Entangled graphs: Alpha level -> Weights 1, Weights 2, Weights 3
 - Removing layer from entangled graphs does not remove weights?
 - GUI speed optimization (try Ferber II with 15x5)
 - Also check layout of (result) dialogs for big graphs.
-- Highlight edges (and perhaps nodes) depending on the focus in the dataframe. 
 - Check copyright notes for code under BSD Licence
 - Give more information about "testing mode" - one time JOptionPane for example.
 - Find good color set for entangled graphs.
