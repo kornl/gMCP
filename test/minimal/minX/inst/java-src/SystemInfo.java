@@ -7,9 +7,9 @@ import java.util.List;
 
 public class SystemInfo {
 
-	public static String getSystemInfo(boolean filesystem, boolean memory, boolean runtime) {
+	public static String getSystemInfo() {
 		String result = "";
-		if (memory) {
+		
 			result += "Available processors (cores): " + Runtime.getRuntime().availableProcessors()+"\n";
 			result += "Free memory (bytes): " +	Runtime.getRuntime().freeMemory()+"\n";
 			long maxMemory = Runtime.getRuntime().maxMemory();
@@ -22,9 +22,8 @@ public class SystemInfo {
 			
 			result += "HEAP: "+ heap+"\n\n";
 			result += "NONHEAP: "+ nonheap+"\n\n";
-		}
-		if (runtime) {
-			RuntimeMXBean runtimeMxBean = ManagementFactory.getRuntimeMXBean();
+		
+      RuntimeMXBean runtimeMxBean = ManagementFactory.getRuntimeMXBean();
 			
 			result += "Class Path:\n "+runtimeMxBean.getClassPath().replaceAll(System.getProperty("path.separator"), "\n ")+"\n";
 			result += "Boot Class Path:\n "+runtimeMxBean.getBootClassPath().replaceAll(System.getProperty("path.separator"), "\n ")+"\n";
@@ -34,7 +33,7 @@ public class SystemInfo {
 			for (String a : args) {
 				result += " " + a + "\n";
 			}
-		}
+		
 		return result;
 	}
 	
