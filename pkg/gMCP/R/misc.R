@@ -238,3 +238,17 @@ layers <- function(graph) {
 		stop("This function should only be used for objects of class graphMCP or entangledMCP.")
 	}
 }
+
+#' Get Memory and Runtime Info
+#' 
+#' Get Memory and Runtime Info, for example
+#' 
+#' @return character vector of length 1 containing the memory and runtime info.
+#' @author Kornelius Rohmeyer \email{rohmeyer@@small-projects.de}
+#' @examples
+#' 
+#' cat(getInfo())
+#' 
+getInfo <- function() {
+  return(J("org.af.commons.logging.SystemInfo")$getSystemInfo(TRUE, TRUE, TRUE))  
+}

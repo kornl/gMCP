@@ -1,0 +1,13 @@
+
+import(methods)
+# See https://stat.ethz.ch/pipermail/r-devel/2012-February/063396.html :
+importFrom(stats4, plot)
+import(utils)
+import(rJava)
+importFrom(CommonJavaJars, loadJars)
+importFrom(MASS, fractions)
+importFrom(Matrix, bdiag)
+# This is work in progress:
+importFrom(JGR, jgr.addMenu, jgr.addMenuItem)
+
+exportPattern("^[[:alpha:]]+")

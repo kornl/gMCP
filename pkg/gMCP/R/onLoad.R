@@ -1,12 +1,14 @@
 .onLoad <- function(libname, pkgname) {
 	if (!.jniInitialized) {
-		.jinit(parameters="-Xrs")
+		.jinit(parameters=c("-Xrs", "-Xss1m"))
+	} else {
+    warning("JVM was already initialized with unknown memory settings.")
 	}
 	.jpackage(pkgname)	
 	.jpackage("JavaGD")
-	.jpackage("JGR")
 	
-	jars <- c("afcommons", "commons-collections", "commons-lang", 
+	jars <- c(#"afcommons", 
+      "commons-collections", "commons-lang", 
 			"commons-logging", "commons-validator", "forms", 
 			"iText", "jhlir.jar", "jlatexmath", "jxlayer", 
 			"log4j", "swing-worker")
@@ -65,6 +67,12 @@
 	#options(warn=-1)
 	#require("graph")
 	#options(warn=0)
+	
+	#TODO How to test for 64-bit R? In the moment I use: .Machine$sizeof.pointer != 8
+	#if (length(grep("64-bit", sessionInfo()$platform))==0 || .Machine$sizeof.pointer != 8) {
+	#	rversion <- c(sessionInfo()$R.version$major, unlist(strsplit(sessionInfo()$R.version$minor, "\\.")))
+	#	if ((rversion[1]==2&&rversion[2]==15&&rversion[3]>=2)|| rversion[1]>=3) warning("WARNING: You may experience crashes due to memory problems.\nPlease try to either i) use an old R<=2.15.2 or ii) R with 64-bit on Windows 64.\nWe are working on this problem.\nIf you experience no crashes everything is fine.")
+	#}
 	
 	# packageStartupMessage or cat for furter information (package incompatibilities / updates)
 }  

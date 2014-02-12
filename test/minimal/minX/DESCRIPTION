@@ -1,0 +1,12 @@
+Package: minX
+Type: Package
+Title: Minimal (or at least small) eXample for memory problems in Java
+Version: 0.1-0
+Author: Kornelius Rohmeyer
+Maintainer: Kornelius Rohmeyer <rohmeyer@small-projects.de>
+Description: Minimal (or at least small) eXample for memory problems in Java (especially under R 2.15.2)
+Depends: R (>= 2.8.0), rJava (>= 0.6-3), methods, JavaGD
+Imports: MASS, Matrix, CommonJavaJars (>= 1.0.3), stats4
+SystemRequirements: Java (>= 5.0) 
+License: GPL (>= 2)
+
