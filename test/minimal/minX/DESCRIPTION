@@ -5,7 +5,9 @@ Version: 0.1-0
 Author: Kornelius Rohmeyer
 Maintainer: Kornelius Rohmeyer <rohmeyer@small-projects.de>
 Description: Minimal (or at least small) eXample for memory problems in Java (especially under R 2.15.2)
-Depends: R (>= 2.15.0), rJava (>= 0.6-3)
+Depends: R (>= 2.8.0), rJava (>= 0.6-3), methods
+Imports: MASS, PolynomF, multcomp (>= 1.1), mvtnorm, Matrix, CommonJavaJars (>= 1.0.3), stats4
+Suggests: RUnit, Deducer, knitr, graph (>= 1.20), mutoss, boot
 SystemRequirements: Java (>= 5.0) 
 License: GPL (>= 2)
 
