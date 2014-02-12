@@ -251,5 +251,5 @@ layers <- function(graph) {
 #' 
 #' @export bdiagNA
 getInfo <- function() {
-  return(J("SystemInfo")$getSystemInfo())  
+  return(J("org.af.commons.logging.SystemInfo")$getSystemInfo(TRUE, TRUE, TRUE))  
 }
