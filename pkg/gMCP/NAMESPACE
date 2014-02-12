@@ -14,7 +14,7 @@ importFrom(multcomp, contrMat)
 importFrom(JavaGD, JavaGD)
 importFrom(Matrix, bdiag)
 # This is work in progress:
-importFrom(JGR, jgr.addMenu, jgr.addMenuItem)
+# importFrom(JGR, jgr.addMenu, jgr.addMenuItem)
 # I'm really not sure about this - I'll add it nevertheless for further testing since it doesn't harm:
 # importFrom(methods, new)
 

@@ -1,10 +1,11 @@
 .onLoad <- function(libname, pkgname) {
 	if (!.jniInitialized) {
 		.jinit(parameters=c("-Xrs", "-Xss1m"))
+	} else {
+    warning("JVM was already initialized with unknown memory settings.")
 	}
 	.jpackage(pkgname)	
 	.jpackage("JavaGD")
-	.jpackage("JGR")
 	
 	jars <- c(#"afcommons", 
       "commons-collections", "commons-lang", 
