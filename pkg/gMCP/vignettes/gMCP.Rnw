@@ -676,6 +676,20 @@ tested, you have to activate it in the options (see \ref{experimentalFeatures}).
 
 \section{Power Simulations}\index{power simulation}
 
+\subsection{Using the R command line}
+
+<<echo=TRUE, tidy=FALSE>>=
+
+# Bonferroni adjustment
+G <- diag(2)
+weights <- c(0.5,0.5)
+corMat <- diag(2)+matrix(1,2,2)
+theta <- c(1,2)
+calcPower(weights, alpha=0.025, G, theta, corMat)
+calcPower(weights, alpha=0.025, G, 2*theta, 2*corMat)
+
+@
+
 \begin{figure}[ht]
   \centering
 <<echo=FALSE,results='asis'>>=
