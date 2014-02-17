@@ -239,16 +239,16 @@ layers <- function(graph) {
 	}
 }
 
-#' Get Memory and Runtime Info
+#' Get Memory and Runtime Info from JVM
 #' 
-#' Get Memory and Runtime Info, for example
+#' Get Memory and Runtime Info from JVM
 #' 
 #' @return character vector of length 1 containing the memory and runtime info.
 #' @author Kornelius Rohmeyer \email{rohmeyer@@small-projects.de}
 #' @examples
 #' 
-#' cat(getInfo())
+#' cat(getJavaInfo())
 #' 
-getInfo <- function() {
+getJavaInfo <- function() {
   return(J("org.af.commons.logging.SystemInfo")$getSystemInfo(TRUE, TRUE, TRUE))  
 }

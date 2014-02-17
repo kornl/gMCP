@@ -12,7 +12,6 @@ import java.util.Vector;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
-import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JList;
@@ -33,7 +32,6 @@ import org.af.gMCP.gui.datatable.RDataFrameRef;
 import org.af.gMCP.gui.datatable.SingleDataFramePanel;
 import org.af.gMCP.gui.graph.EdgeWeight;
 import org.af.gMCP.gui.graph.Node;
-import org.af.jhlir.call.RList;
 import org.jdesktop.swingworker.SwingWorker;
 
 import com.jgoodies.forms.layout.CellConstraints;
