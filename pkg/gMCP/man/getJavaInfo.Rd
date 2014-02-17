@@ -12,7 +12,7 @@
   Get Memory and Runtime Info from JVM
 }
 \examples{
-cat(getInfo())
+cat(getJavaInfo())
 }
 \author{
   Kornelius Rohmeyer \email{rohmeyer@small-projects.de}
