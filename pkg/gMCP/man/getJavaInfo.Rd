@@ -1,15 +1,15 @@
-\name{getInfo}
-\alias{getInfo}
-\title{Get Memory and Runtime Info}
+\name{getJavaInfo}
+\alias{getJavaInfo}
+\title{Get Memory and Runtime Info from JVM}
 \usage{
-  getInfo()
+  getJavaInfo()
 }
 \value{
   character vector of length 1 containing the memory and
   runtime info.
 }
 \description{
-  Get Memory and Runtime Info, for example
+  Get Memory and Runtime Info from JVM
 }
 \examples{
 cat(getInfo())
