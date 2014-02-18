@@ -29,7 +29,7 @@ Entangled graphs: Alpha level -> Weights 1, Weights 2, Weights 3
 
 - Unify graphMCP and entangled graphs?
 - Integrate parameter 'envir' into corMatWizard.
-- Use jgr.addMenu, jgr.addMenuItem.
+
 - Explain that the order of the rejected hypotheses doesn't affect the end result.
 - Report was send dialog is sometimes behind ErrorReport.
 - http://semver.org/ Should we switch from version numbers like 0.8-3 to 0.8.3?
