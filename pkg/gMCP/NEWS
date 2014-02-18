@@ -1,5 +1,13 @@
-Changes in version 0.8-6 (??-0?-2013)
+Changes in version 0.8-7 (??-0?-2014)
 =====================================
+
+
+Changes in version 0.8-6 (17-02-2014)
+=====================================
+
+- Improved memory settings. Especially in R 2.15.1 and 2.15.2 on 32-bit systems 
+  errors like the following could occur when the GUI was used:
+  java.lang.OutOfMemoryError: unable to create new native thread
 
 - Fixed: When the value of the alpha field was not a valid number in the GUI,
   an infite loop of warning dialogs popped up.
@@ -12,8 +20,6 @@ Changes in version 0.8-6 (??-0?-2013)
 - Function 'graph2latex' gains an argument 'scaleText'. If TRUE (default)
   a scalebox is used in LaTeX instead of the optional parameter 'scale'
   from the tikzpicture environment.
-  
-- JGR is yet another necessary package, but Mac OS support and stability improve.
 
 - Improved documentation. Some Rd files are built by a patched version of
   roxygen2 that escapes "\" in arguments and understands "returnItem": 
@@ -33,6 +39,8 @@ Changes in version 0.8-6 (??-0?-2013)
   use the word Adjacency Matrix for the binary matrix).
 
 - We always use correlation matrices instead of covariance matrices in the GUI.
+
+139 files changed, 5526 insertions(+), 3428 deletions(-)
 
 
 Changes in version 0.8-5 (18-07-2013)
