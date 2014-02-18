@@ -38,7 +38,7 @@ public class CreateGraphGUI extends JFrame implements WindowListener, AbortListe
 		 Locale.setDefault(Locale.ENGLISH);
 		 JComponent.setDefaultLocale(Locale.ENGLISH);
 		 /* Comment: There are other ways, but if if this is ever changed, 
-		  * please check whether JFileChooser displays "All Files" or 
+		  * please check that JFileChooser displays "All Files" instead of
 		  * "Alle Dateien" on a German system. 
 		  */
 	 };
@@ -51,6 +51,16 @@ public class CreateGraphGUI extends JFrame implements WindowListener, AbortListe
 	protected static Log logger = LogFactory.getLog(CreateGraphGUI.class);
 	public static CreateGraphGUI lastCreatedGUI;
 	
+	/**
+	 * Constructor of the GUI main frame
+	 * @param graph Variable name for the graph, given as a character string. If the GUI is created by graphGUI the name is valid.
+	 * @param pvalues Double array that optionally (if pvalues.length>0) specifies the p-values.
+	 * @param debug If true logging will be written to standard out and application will be more verbose.
+	 * @param grid Positive integer that sets the grid size for easier placement of nodes.
+	 *  (Therefore grid size 1 allows unrestricted placement and disables the grid.)  
+	 *  If grid=0 the last used grid value is used or if the GUI is started the first time a value of 50.
+	 * @param experimentalFeatures Boolean. If true some unfinished / insufficiently tested experimental features are available in the GUI.
+	 */
 	public CreateGraphGUI(String graph, double[] pvalues, boolean debug, double grid, boolean experimentalFeatures) {
 		super("gMCP GUI");
 		RControl.getRControl(debug);
