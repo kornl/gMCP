@@ -177,7 +177,6 @@ public class NetList extends JPanel implements MouseMotionListener, MouseListene
 	 * Is called whenever the graph has changed.
 	 */
 	public void graphHasChanged() {
-		expRejections = null; powAtlst1 = null; rejectAll = null; userDefined = null;
 		control.setResultUpToDate(false);
 		control.isGraphSaved = false;
 		if (!updateGUI) return;
@@ -696,38 +695,6 @@ public class NetList extends JPanel implements MouseMotionListener, MouseListene
 			}
 		}
 		
-		if (expRejections != null && powAtlst1 != null && rejectAll != null) {
-			Graphics2D g2d = (Graphics2D) g;
-			g2d.setFont(new Font("Arial", Font.BOLD, (int) (12 * getZoom())));
-			
-			String s = "Expected number of rejections: " + format.format(expRejections);			
-			
-			g2d.drawString(s ,
-					(float) (( 10 ) * getZoom()),
-					(float) (( 20 ) * getZoom())); 
-			
-			s = "Prob. to reject at least one hyp.: " + format.format(powAtlst1);		
-			
-			g2d.drawString(s ,
-					(float) (( 10 ) * getZoom()),
-					(float) (( 20+30 ) * getZoom())); 
-			
-			s = "Prob. to reject all hypotheses: " + format.format(rejectAll);		
-			
-			g2d.drawString(s ,
-					(float) (( 10 ) * getZoom()),
-					(float) (( 20+30*2 ) * getZoom())); 
-			
-			if (userDefined!=null) {
-				for (int i = 0; i<userDefined.length; i++) {
-					s = "User defined Power ("+userFunctions[i]+"): " + format.format(userDefined[i]);		
-
-					g2d.drawString(s ,
-							(float) (( 10 ) * getZoom()),
-							(float) (( 20+30*(3+i) ) * getZoom()));
-				}
-			}
-		}
 	}
 	
 	/**
@@ -981,26 +948,6 @@ public class NetList extends JPanel implements MouseMotionListener, MouseListene
 	public String getGraphName() {
 		saveGraph(".tmpGraph", false, false);
 		return ".tmpGraph";
-	}
-
-	Double expRejections = null;
-	Double powAtlst1 = null;
-	Double rejectAll = null;
-	Double[] userDefined = null;
-	String[] userFunctions = null;
-	
-	public void setPower(double[] localPower, Double expRejections,
-			Double powAtlst1, Double rejectAll, Double[] userDefined,
-			String[] functions) {
-		for (int i=0; i<localPower.length; i++) {
-			this.nodes.get(i).setLocalPower(localPower[i]);			
-		}
-		this.expRejections = expRejections;
-		this.powAtlst1 = powAtlst1;
-		this.rejectAll = rejectAll;
-		this.userDefined = userDefined;
-		this.userFunctions = functions;
-		this.repaint();
 	}
 
 	private void placeUnfixedNodes(Node node) {
