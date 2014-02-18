@@ -5,7 +5,6 @@ Default: NCP (throw out n, \sigma, \mu)
 Instead of c(0,0,...) use #hypotheses text fields.
 Remove setting + check for empty textfields
 Move power simulation options on the right side of the simulation window
-In Options: Weights of subgraphs are upscaled to 1 Yes (Bretz et al. 2011) / No 
 Change test to only "Bonferroni", "Simes", "parametric" and add parameter upscale to 'gMCP' (and change exhaust)
 Allow upscale for Simes test? (Theory!)
 Is the shortcut really used for the Simes test (it can not be used for adjusted p-values, but if these are not asked for the shortcut should be used).
