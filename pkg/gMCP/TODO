@@ -10,7 +10,6 @@ Allow upscale for Simes test? (Theory!)
 Is the shortcut really used for the Simes test (it can not be used for adjusted p-values, but if these are not asked for the shortcut should be used).
 Remember multiple setting options and add "clear" button. Save settings under name.
 "Select an R correlation matrix" -> "?"
-Add labels to "create matrix" and "refresh".
 _Always_ use correlation matrix - never covariance matrix. Check for this for imports (and ask for converting to corMat). In the GUI disable diagonal.
 User specified power functions should be namable in the GUI. Save output as data.frame and CSV.
 Simes -> simply -> "Use Simes test" -> Show "Warning dialog exlaining..." with check box "never show me again".

@@ -127,9 +127,9 @@ public class PView extends JPanel implements KeyListener, ActionListener {
 		}
 		
 		try {
-			refresh = new JButton(new ImageIcon(ImageIO.read(DesktopPaneBG.class
+			refresh = new JButton("Refresh", new ImageIcon(ImageIO.read(DesktopPaneBG.class
 					.getResource("/org/af/gMCP/gui/graph/images/update24.png"))));
-			createMatrix = new JButton(new ImageIcon(ImageIO.read(DesktopPaneBG.class
+			createMatrix = new JButton("Create Matrix", new ImageIcon(ImageIO.read(DesktopPaneBG.class
 					.getResource("/org/af/gMCP/gui/graph/images/matrix.png"))));
 		} catch (IOException e) {
 			logger.error("IOError that should never happen.", e);
