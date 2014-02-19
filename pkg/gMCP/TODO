@@ -31,6 +31,7 @@ Entangled graphs: Alpha level -> Weights 1, Weights 2, Weights 3
 
 - Explain that the order of the rejected hypotheses doesn't affect the end result.
 - Report was send dialog is sometimes behind ErrorReport.
+- Use proxy for ErrorReport?
 - http://semver.org/ Should we switch from version numbers like 0.8-3 to 0.8.3?
 - NICER BUGREPORT!
 - Let user choose colors for entangled graphs.
