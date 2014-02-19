@@ -184,7 +184,7 @@ public class Node {
 		int layer = 0;
 		for (String w : getWS()) {			
 			TeXIcon icon = LaTeXTool.getTeXIcon(this.nl.control.getGraphGUI(), w, fontSize);
-			icon.setForeground(NetList.layerColors[layer%NetList.layerColors.length]);
+			icon.setForeground(NetListPanel.layerColors[layer%NetListPanel.layerColors.length]);
 			iconWeight.add(icon);	
 			layer++;
 		}

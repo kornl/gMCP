@@ -58,7 +58,7 @@ public class Edge {
 		this.ew = new EdgeWeight(w);
 		this.nl = nl;		
 		this.layer = layer;
-		this.color = NetList.layerColors[layer%NetList.layerColors.length];
+		this.color = NetListPanel.layerColors[layer%NetListPanel.layerColors.length];
 	}
 	
 	public static int[] getK(Node from, Node to, boolean curve) {
@@ -109,7 +109,7 @@ public class Edge {
 		this.k1 = k1;
 		this.k2 = k2;
 		this.layer = layer;
-		this.color = NetList.layerColors[layer%NetList.layerColors.length];
+		this.color = NetListPanel.layerColors[layer%NetListPanel.layerColors.length];
 	}
 	
 	public Edge(Node from, Node to, String wStr, NetList nl, boolean curve, int layer) {
