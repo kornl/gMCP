@@ -59,7 +59,7 @@ public class DataFramePanel extends JTabbedPane {
 			dt.getModel().addRowCol(s);
 		}
 		tables.add(dt);
-		setTitleAt(0, "Transition matrix 0");
+		setTitleAt(0, "Transition matrix 1");
 		addTab("Transition matrix "+tables.size(), getPanel(dt));
 		setTabComponentAt(getTabCount()-1, new CloseTabPanel(this));
 	}
