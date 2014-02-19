@@ -59,14 +59,16 @@ public class DataFramePanel extends JTabbedPane {
 			dt.getModel().addRowCol(s);
 		}
 		tables.add(dt);
-		addTab("Entangled graph layer "+tables.size(), getPanel(dt));
+		setTitleAt(0, "Transition matrix 0");
+		addTab("Transition matrix "+tables.size(), getPanel(dt));
 		setTabComponentAt(getTabCount()-1, new CloseTabPanel(this));
 	}
 
 	public void removeLayer(int i) {
 		remove(i);
-		tables.remove(i);
+		tables.remove(i);		
 		control.removeEntangledLayer(i);
+		if (getTabCount()==1) setTitleAt(0, "Transition matrix");
 	}
 	
 	public void renameNode(int i, String name) {
