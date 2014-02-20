@@ -495,7 +495,7 @@ public class NetList extends JTabbedPane {
 	}
 
 	public void setEdge(Node firstVertex, Node secondVertex, NetListPanel netListPanel) {
-		setEdge(firstVertex, secondVertex, nlp.indexOf(netListPanel)-1);		
+		setEdge(firstVertex, secondVertex, this.askForLayer());		
 	}
 	
 	public void setEdges(Vector<Edge> edges) {
