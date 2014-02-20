@@ -17,6 +17,7 @@ import java.util.Date;
 import java.util.Enumeration;
 import java.util.HashSet;
 import java.util.Hashtable;
+import java.util.List;
 import java.util.Set;
 import java.util.Vector;
 
@@ -40,20 +41,12 @@ public class NetList extends JTabbedPane {
 	
 	public GraphMCP graph;
 	
-	boolean unAnchor = false;
-	
 	protected Vector<Edge> edges = new Vector<Edge>();
 	protected Vector<Node> nodes = new Vector<Node>();
-
-	Node firstVertex;	
-	boolean firstVertexSelected = false;
 	
 	public String initialGraph = ".InitialGraph" + (new Date()).getTime();
 	public String resetGraph = ".ResetGraph" + (new Date()).getTime();
 	public String tmpGraph = ".tmpGraph" + (new Date()).getTime();
-
-	boolean newEdge = false;
-	boolean newVertex = false;	
 
 	JLabel statusBar;
 
@@ -69,11 +62,11 @@ public class NetList extends JTabbedPane {
 		zoom = p;
 	}
 	
+	List<NetListPanel> nlp = new Vector<NetListPanel>();
+	
 	public NetList(JLabel statusBar, GraphView graphview) {
 		this.statusBar = statusBar;
 		this.control = graphview;
-		addMouseMotionListener(this);
-		addMouseListener(this);
 		Font f = statusBar.getFont();
 		statusBar.setFont(f.deriveFont(f.getStyle() ^ Font.BOLD));
 	}
@@ -300,7 +293,7 @@ public class NetList extends JTabbedPane {
 			}
 		}
 		edges.remove(edge);
-		dragE = new int[0];
+		getActiveNLP().dragE = new int[0];
 		control.getDataFramePanel().setValueAt(new EdgeWeight(0), getNodes().indexOf(edge.from), getNodes().indexOf(edge.to), edge.layer);
 		graphHasChanged();
 	}
@@ -334,9 +327,7 @@ public class NetList extends JTabbedPane {
 			removeNode(getNodes().get(i));
 		}
 		statusBar.setText(GraphView.STATUSBAR_DEFAULT);
-		firstVertexSelected = false;
-		newVertex = false;
-		newEdge = false;
+		for (NetListPanel n : nlp) { n.reset(); }
 		zoom = 1.00;
 		control.getDataFramePanel().reset();
 		control.getDView().setDescription("Enter a description for the graph.");
@@ -509,14 +500,7 @@ public class NetList extends JTabbedPane {
 		statusBar.setText(GraphView.STATUSBAR_DEFAULT);
 	}
 
-	public Node vertexSelected(int x, int y) {
-		for (Node n : nodes) {
-			if (n.inYou(x, y)) {
-				return n;
-			}
-		}
-		return null;
-	}
+	
 	public int whichNode(String name) {
 		for (int i=0; i<nodes.size(); i++) {
 			if (nodes.get(i).getName().equals(name)) {
@@ -530,14 +514,6 @@ public class NetList extends JTabbedPane {
 	public String getGraphName() {
 		saveGraph(".tmpGraph", false, false);
 		return ".tmpGraph";
-	}
-
-	private void placeUnfixedNodes(Node node) {
-		for (Edge e : edges) {
-			if ((e.from == node || e.to == node) && !e.isFixed()) {
-				e.move();
-			}
-		}		
 	}
 
 	public void removeLayer(int layer) {
@@ -576,6 +552,20 @@ public class NetList extends JTabbedPane {
 	public BufferedImage getImage(double d) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	public void paintGraph(Graphics g) {
+		nlp.get(0).paintComponent(g);		
+	}
+
+	public NetListPanel getActiveNLP() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public void setEdge(Node firstVertex, Node secondVertex,
+			NetListPanel netListPanel) {
+		setEdge(firstVertex, secondVertex, nlp.indexOf(netListPanel)-1);		
 	}
 
 }

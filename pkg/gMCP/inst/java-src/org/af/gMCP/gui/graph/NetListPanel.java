@@ -8,6 +8,8 @@ import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.RenderingHints;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
 import java.awt.image.BufferedImage;
 import java.text.DecimalFormat;
 import java.util.List;
@@ -18,12 +20,20 @@ import javax.swing.JPanel;
 import org.af.commons.images.GraphDrawHelper;
 import org.af.gMCP.config.Configuration;
 
-public class NetListPanel extends JPanel {
+public class NetListPanel extends JPanel implements MouseMotionListener, MouseListener {
 
 	int[] dragN = new int[0];
 	int[] dragE = new int[0];
 	
 	static DecimalFormat format = new DecimalFormat("#.####");
+	
+	boolean unAnchor = false;
+	Node firstVertex;	
+	boolean firstVertexSelected = false;
+
+	boolean newEdge = false;
+	boolean newVertex = false;	
+
 	
 	public static Color[] layerColors = new Color[] {
 		Color.BLACK,
@@ -37,6 +47,8 @@ public class NetListPanel extends JPanel {
 	
 	public NetListPanel(NetList nl) {
 		this.nl = nl;
+		addMouseMotionListener(this);
+		addMouseListener(this);
 	}
 	
 	/**
@@ -253,7 +265,7 @@ public class NetListPanel extends JPanel {
 				if (secondVertex == null || secondVertex == firstVertex) {
 					return;
 				}	
-				setEdge(firstVertex, secondVertex, askForLayer());
+				nl.setEdge(firstVertex, secondVertex, this);
 				newEdge = false;
 				arrowHeadPoint = null;
 				firstVertexSelected = false;
@@ -262,6 +274,7 @@ public class NetListPanel extends JPanel {
 			repaint();
 			return;
 		}
+		
 		
 		// Drag'n'drop
 		if (dragN.length!=0 || dragE.length!=0) {
@@ -314,6 +327,23 @@ public class NetListPanel extends JPanel {
 		startingPoint = new int[] {e.getX(), e.getY()};
 		repaint();
 	}
+	
+	public Node vertexSelected(int x, int y) {
+		for (Node n : getNodes()) {
+			if (n.inYou(x, y)) {
+				return n;
+			}
+		}
+		return null;
+	}
+	
+	private void placeUnfixedNodes(Node node) {
+		for (Edge e : getEdges()) {
+			if ((e.from == node || e.to == node) && !e.isFixed()) {
+				e.move();
+			}
+		}		
+	}
 
 	/**
 	 * Unfortunately a double click resulting in opening a new dialog does not trigger a mouseReleased-event in the end.
@@ -357,7 +387,7 @@ public class NetListPanel extends JPanel {
 			if (secondVertex == null || secondVertex == firstVertex) {
 				return;
 			}
-			setEdge(firstVertex, secondVertex, askForLayer());
+			nl.setEdge(firstVertex, secondVertex, this);
 			newEdge = false;
 			arrowHeadPoint = null;
 			firstVertexSelected = false;
@@ -464,6 +494,12 @@ public class NetListPanel extends JPanel {
 		calculateSize();
 		revalidate();
 		repaint();
+	}
+
+	public void reset() {
+		firstVertexSelected = false;
+		newVertex = false;
+		newEdge = false;
 	}
 	
 }
