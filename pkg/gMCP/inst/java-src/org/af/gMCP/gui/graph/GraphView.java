@@ -178,13 +178,11 @@ public class GraphView extends JPanel implements ActionListener {
 	
 	public void actionPerformed(ActionEvent e) {
 		if (!e.getSource().equals(buttonNewNode)) {
-			nl.newVertex = false;
+			nl.setNewVertex(false);
 			buttonNewNode.setSelected(false);
 		}
 		if (!e.getSource().equals(buttonNewEdge)) {
-			nl.newEdge = false;
-			nl.arrowHeadPoint = null;
-			nl.firstVertexSelected = false;
+			nl.setNewEdge(false);			
 		}
 		if (e.getSource().equals(buttonZoomIn)) {
 			nl.setZoom(nl.getZoom() * 1.25);
@@ -197,12 +195,12 @@ public class GraphView extends JPanel implements ActionListener {
 				JOptionPane.showMessageDialog(parent, "Highest zoom level. This is no Mandelbrot set.", "Highest zoom level", JOptionPane.INFORMATION_MESSAGE);
 			}
 		} else if (e.getSource().equals(buttonNewEdge)) {
-			ReproducableLog.logGUI("Button \"new edge\"");
-			nl.newEdge = true;
+			ReproducableLog.logGUI("Button \"new edge\"");			
+			nl.setNewEdge(true);
 			getNL().statusBar.setText("Select a node from which this edge should start.");
 		} else if (e.getSource().equals(buttonNewNode)) {
 			ReproducableLog.logGUI("Button \"new node\"");
-			nl.newVertex = buttonNewNode.isSelected();
+			nl.setNewVertex(buttonNewNode.isSelected());
 			nl.repaint();
 			getNL().statusBar.setText("Click on the graph panel to place the node.");
 		} else if (e.getSource().equals(buttonConfInt)) {

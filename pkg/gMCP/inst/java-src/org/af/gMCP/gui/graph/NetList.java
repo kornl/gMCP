@@ -1,18 +1,8 @@
 package org.af.gMCP.gui.graph;
 
-import java.awt.BasicStroke;
-import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.Point;
-import java.awt.RenderingHints;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.awt.event.MouseMotionListener;
 import java.awt.image.BufferedImage;
-import java.text.DecimalFormat;
 import java.util.Date;
 import java.util.Enumeration;
 import java.util.HashSet;
@@ -23,10 +13,8 @@ import java.util.Vector;
 
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 
-import org.af.commons.images.GraphDrawHelper;
 import org.af.gMCP.config.Configuration;
 import org.af.gMCP.gui.RControl;
 import org.af.gMCP.gui.ReproducableLog;
@@ -39,38 +27,40 @@ public class NetList extends JTabbedPane {
 	private static final Log logger = LogFactory.getLog(NetList.class);
 	GraphView control;
 	
-	public GraphMCP graph;
-	
-	protected Vector<Edge> edges = new Vector<Edge>();
 	protected Vector<Node> nodes = new Vector<Node>();
+	protected Vector<Edge> edges = new Vector<Edge>();
 	
-	public String initialGraph = ".InitialGraph" + (new Date()).getTime();
-	public String resetGraph = ".ResetGraph" + (new Date()).getTime();
-	public String tmpGraph = ".tmpGraph" + (new Date()).getTime();
-
-	JLabel statusBar;
-
-	public boolean testingStarted = false;
-
-	double zoom = 1d;
-	
-	public double getZoom() {
-		return zoom;
-	}	
-	
-	public void setZoom(double p) {
-		zoom = p;
-	}
+	public GraphMCP graph;	
 	
 	List<NetListPanel> nlp = new Vector<NetListPanel>();
+	
+	public String resetGraph = ".ResetGraph" + (new Date()).getTime();
+	public String tmpGraph = ".tmpGraph" + (new Date()).getTime();
+	public String initialGraph = ".InitialGraph" + (new Date()).getTime();
+	
+	JLabel statusBar;
+
+	public boolean testingStarted = false;	
+	
+	/**
+	 * For faster loading and resets the variable updateGUI exists.
+	 * When a graph is changed rapidly at more than one place,
+	 * it is set to false, the graph is changed, it is set back
+	 * to true and after that graphHasChanged() is called once.
+	 */
+	public boolean updateGUI = true;	
+	
+	double zoom = 1d;
 	
 	public NetList(JLabel statusBar, GraphView graphview) {
 		this.statusBar = statusBar;
 		this.control = graphview;
 		Font f = statusBar.getFont();
 		statusBar.setFont(f.deriveFont(f.getStyle() ^ Font.BOLD));
+		nlp.add(new NetListPanel(this));
+		this.addTab("Graph", nlp.get(0));
 	}
-
+	
 	public void acceptNode(Node node) {
 		control.getPView().savePValues();
 		saveGraph(".tmpGraph", false, false);
@@ -92,58 +82,11 @@ public class NetList extends JTabbedPane {
 		addNode(new Node(name, x, y, new double[] {0d}, this));		
 	}
 
-	public void setEdge(Edge e) {
-		Edge old = null;
-		for (Edge e2 : edges) {
-			if (e2.from == e.from && e2.to == e.to && e2.layer == e.layer) {
-				old = e2;
-			}
-			if (e2.from == e.to && e2.to == e.from && e2.layer == e.layer) {
-				e.curve = true;
-				e2.curve = true;
-			}
+	public void addEntangledLayer() {
+		for (Node n : nodes) {
+			n.addLayer();
 		}
-		if (old != null) edges.remove(old);
-		edges.add(e);
-		control.getDataFramePanel().setValueAt(e.getEdgeWeight(), getNodes().indexOf(e.from), getNodes().indexOf(e.to), e.layer);
-		graphHasChanged();
-	}
-
-	public void setEdge(Node from, Node to, int layer) {
-		setEdge(from, to, 1d, layer);		
-	}
-	
-	public void setEdge(Node from, Node to, Double w, int layer) {	
-		setEdge(from, to, new EdgeWeight(w), layer);
-	}
-
-	public void setEdge(Node from, Node to, EdgeWeight w, int layer) {
-		Integer x = null;
-		Integer y = null;
-		boolean curve = false;
-		for (int i = edges.size()-1; i >= 0; i--) {
-			if (edges.get(i).from == from && edges.get(i).to == to && edges.get(i).layer == layer) {
-				x = edges.get(i).getK1();
-				y = edges.get(i).getK2();
-				removeEdge(edges.get(i));				
-			}
-		}
-		for (Edge e : edges) {
-			if (e.from == to && e.to == from && e.layer == layer) {
-				e.curve = true;
-				curve = true;
-			}
-		}		
-		if (!w.toString().equals("0")) {
-			if (x!=null) {
-				edges.add(new Edge(from, to, w, this, x, y, layer));
-			} else {
-				edges.add(new Edge(from, to, w, this, curve, layer));
-			}
-			edges.lastElement().curve = curve;
-		}
-		control.getDataFramePanel().setValueAt(w, getNodes().indexOf(from), getNodes().indexOf(to), layer);
-		graphHasChanged();
+		refresh();
 	}
 
 	public void addNode(Node node) {
@@ -154,14 +97,82 @@ public class NetList extends JTabbedPane {
 		calculateSize();
 		graphHasChanged();
 	}
+
+	private int askForLayer() {
+		int layer = 0;
+		if (control.getNumberOfLayers()>1) {
+			//We could ask with a JOptionPane window for the layer - but for now we just take the active tab from the DataFramePanel:
+			layer = control.getDataFramePanel().getSelectedIndex();
+		}
+		return layer;
+	}
 	
-	/**
-	 * For faster loading and resets the variable updateGUI exists.
-	 * When a graph is changed rapidly at more than one place,
-	 * it is set to false, the graph is changed, it is set back
-	 * to true and after that graphHasChanged() is called once.
-	 */
-	public boolean updateGUI = true;
+	private void calculateSize() {
+		for (NetListPanel n : nlp) {
+			n.calculateSize();
+		}
+	}
+
+	public Edge findEdge(Node von, Node nach, int layer) {
+		for (Edge e : edges) {
+			if (von == e.from && nach == e.to && e.layer == layer) {
+				return e;
+			}
+		}
+		return null;
+	}
+
+	public NetListPanel getActiveNLP() {
+		return(nlp.get(getSelectedIndex()));		
+	}
+	
+	public Set<String> getAllVariables() {
+		Set<String> variables = new HashSet<String>();		
+		for (Edge e : edges) {		
+			variables.addAll(e.getVariable());
+		}
+		return variables;
+	}
+
+	public Vector<Edge> getEdges() {
+		return edges;
+	}
+
+	//TODO This method is a little bit stupid, isn't it?!?
+	//Remark: Not really, because we wanted to extend it - should be revisited...
+	public String getGraphName() {
+		saveGraph(".tmpGraph", false, false);
+		return ".tmpGraph";
+	}
+	
+	public BufferedImage getImage(double d) {
+		return nlp.get(getSelectedIndex()).getImage(d);
+	}
+
+	public String getLaTeX() {
+		saveGraph(tmpGraph, false, false);
+		return RControl.getR().eval("graph2latex("+tmpGraph+")").asRChar().getData()[0];
+	}
+	
+	public Vector<Node> getNodes() {
+		return nodes;
+	}
+
+	public String getRVariableList(Hashtable<String,Double> ht) {
+		// For use in replaceVariables <-function(graph, variables=list())
+		String list = "list(";
+		Enumeration<String> keys = ht.keys();
+		for (; keys.hasMoreElements();) {
+			String key = keys.nextElement();
+			list += "\""+EdgeWeight.UTF2LaTeX(key.charAt(0))+"\"="+ht.get(key)+",";
+		}
+		list += "\""+"epsilon"+"\"="+Configuration.getInstance().getGeneralConfig().getEpsilon()+",";
+		return list.substring(0, list.length()>5?list.length()-1:list.length())+")";			
+	}
+
+	public double getZoom() {
+		return zoom;
+	}
 
 	/**
 	 * Is called whenever the graph has changed.
@@ -186,54 +197,8 @@ public class NetList extends JTabbedPane {
 		}
 		control.getDView().setAnalysis(analysis);
 	}
-
-
 	
-	public Edge findEdge(Node von, Node nach, int layer) {
-		for (Edge e : edges) {
-			if (von == e.from && nach == e.to && e.layer == layer) {
-				return e;
-			}
-		}
-		return null;
-	}
 	
-	public Vector<Edge> getEdges() {
-		return edges;
-	}
-
-	public Vector<Node> getNodes() {
-		return nodes;
-	}
-	
-	public String getLaTeX() {
-		saveGraph(tmpGraph, false, false);
-		return RControl.getR().eval("graph2latex("+tmpGraph+")").asRChar().getData()[0];
-		//TODO Compare this with R code.
-		/*DecimalFormat format = Configuration.getInstance().getGeneralConfig().getDecFormat();
-		String latex = "";
-		double scale=0.5;
-		latex += "\\begin{tikzpicture}[scale="+scale+"]";
-		for (int i = 0; i < getNodes().size(); i++) {
-			Node node = getNodes().get(i);
-			latex += "\\node ("+node.getName().replace("_", "-")+") at ("+node.getX()+"bp,"+(-node.getY())+"bp)\n";
-			String nodeColor = "green!80";
-			if (node.isRejected()) {nodeColor = "red!80";}
-			latex += "[draw,circle split,fill="+nodeColor+"] {$"+node.getName()+"$ \\nodepart{lower} $"+format.format(node.getWeight().get(0))+"$};\n";			
-		}
-		for (int i = 0; i < getEdges().size(); i++) {
-			Node node1 = getEdges().get(i).from;
-			Node node2 = getEdges().get(i).to;			
-			String to = "bend left="+getEdges().get(i).getBendLeft();
-			String weight = getEdges().get(i).getWLaTeX();			
-			String pos = format.format(getEdges().get(i).getPos()).replace(",", ".");
-			latex += "\\draw [->,line width=1pt] ("+node1.getName().replace("_", "-")+") to["+to+"] node[pos="+pos+",above,fill=blue!20] {$"+weight+"$} ("+node2.getName().replace("_", "-")+");\n";
-
-		}
-		latex += "\\end{tikzpicture}\n\n";
-		return latex;*/
-	}
-
 	public boolean isTesting() {		
 		return testingStarted;
 	}
@@ -274,17 +239,20 @@ public class NetList extends JTabbedPane {
 			control.getPView().setPValues(graph.pvalues);
 		}
 	}
-	
-	
-	private int askForLayer() {
-		int layer = 0;
-		if (control.getNumberOfLayers()>1) {
-			//We could ask with a JOptionPane window for the layer - but for now we just take the active tab from the DataFramePanel:
-			layer = control.getDataFramePanel().getSelectedIndex();
-		}
-		return layer;
+
+	public void paintGraph(Graphics g) {
+		nlp.get(0).paintComponent(g);		
 	}
 
+	/**
+	 * Repaints the NetzListe and sets the preferredSize etc.
+	 */
+	public void refresh() {
+		calculateSize();
+		revalidate();
+		repaint();
+	}
+	
 	public void removeEdge(Edge edge) {
 		logger.info("Removing "+edge);
 		for (Edge e : edges) {
@@ -297,7 +265,19 @@ public class NetList extends JTabbedPane {
 		control.getDataFramePanel().setValueAt(new EdgeWeight(0), getNodes().indexOf(edge.from), getNodes().indexOf(edge.to), edge.layer);
 		graphHasChanged();
 	}
-
+	
+	public void removeLayer(int layer) {
+		for (int i = edges.size(); i>0; i--) {
+			if (edges.get(i-1).layer == layer) {
+				edges.remove(i-1);
+			}
+		}
+		for (Node n : nodes) {
+			n.removeLayer(layer);
+		}
+		refresh();
+	}	
+	
 	public void removeNode(Node node) {
 		logger.info("Removing "+node);		
 		for (int i=edges.size()-1; i>=0; i--) {
@@ -315,7 +295,7 @@ public class NetList extends JTabbedPane {
 		repaint();
 		graphHasChanged();
 	}
-
+	
 	/**
 	 * Removes all nodes and edges, cleans the description 
 	 * and sets back button states, zoom etc. to start-up settings.
@@ -334,57 +314,16 @@ public class NetList extends JTabbedPane {
 		graphHasChanged();
 		control.isGraphSaved = true;
 	}
-
+	
 	public void saveGraph(boolean global) {
 		saveGraph(initialGraph, false, global);
 		control.getPView().savePValues();
 	}
 	
-	public Set<String> getAllVariables() {
-		Set<String> variables = new HashSet<String>();		
-		for (Edge e : edges) {		
-			variables.addAll(e.getVariable());
-		}
-		return variables;
-	}
-	
-	public String saveGraphWithoutVariables(String graphName, boolean verbose, boolean global) {
-		Set<String> variables = getAllVariables();
-		if (!Configuration.getInstance().getGeneralConfig().useEpsApprox())	{
-			variables.remove("ε");
-		}
-		Hashtable<String,Double> ht = new Hashtable<String,Double>();
-		if (!variables.isEmpty() && !(variables.size()==1 && variables.contains("ε"))) {
-			VariableDialog vd = new VariableDialog(this.control.parent, variables);
-			ht = vd.getHT();
-		} else if (variables.size()==1 && variables.contains("ε")){
-			ht.put("ε", Configuration.getInstance().getGeneralConfig().getEpsilon());
-		}		
-		graphName = RControl.getR().eval("make.names(\""+graphName+"\")").asRChar().getData()[0];
-		saveGraph(graphName, verbose, null, global);
-		RControl.getR().eval(graphName+"<- gMCP:::replaceVariables("+graphName+", variables="+getRVariableList(ht)+", ask=FALSE)");
-		//TODO This is really a strange place to load a graph... :
-		loadGraph(graphName);
-		return saveGraph(graphName, verbose, ht, global);
-	}
-	
-	
 	public String saveGraph(String graphName, boolean verbose, boolean global) {
 		return saveGraph(graphName, verbose, new Hashtable<String,Double>(), global);
 	}
-	
-	public String getRVariableList(Hashtable<String,Double> ht) {
-		// For use in replaceVariables <-function(graph, variables=list())
-		String list = "list(";
-		Enumeration<String> keys = ht.keys();
-		for (; keys.hasMoreElements();) {
-			String key = keys.nextElement();
-			list += "\""+EdgeWeight.UTF2LaTeX(key.charAt(0))+"\"="+ht.get(key)+",";
-		}
-		list += "\""+"epsilon"+"\"="+Configuration.getInstance().getGeneralConfig().getEpsilon()+",";
-		return list.substring(0, list.length()>5?list.length()-1:list.length())+")";			
-	}
-	
+
 	/**
 	 * Exports the current graph to R  
 	 * @param graphName variable name in R (will be processed with make.names)
@@ -421,7 +360,27 @@ public class NetList extends JTabbedPane {
 		if (verbose && !graphName.equals(graphNameOld)) { JOptionPane.showMessageDialog(this, "The graph as been exported to R under ther variable name:\n\n"+graphName, "Saved as \""+graphName+"\"", JOptionPane.INFORMATION_MESSAGE); }
 		return graphName;
 	}
-	
+
+	public String saveGraphWithoutVariables(String graphName, boolean verbose, boolean global) {
+		Set<String> variables = getAllVariables();
+		if (!Configuration.getInstance().getGeneralConfig().useEpsApprox())	{
+			variables.remove("ε");
+		}
+		Hashtable<String,Double> ht = new Hashtable<String,Double>();
+		if (!variables.isEmpty() && !(variables.size()==1 && variables.contains("ε"))) {
+			VariableDialog vd = new VariableDialog(this.control.parent, variables);
+			ht = vd.getHT();
+		} else if (variables.size()==1 && variables.contains("ε")){
+			ht.put("ε", Configuration.getInstance().getGeneralConfig().getEpsilon());
+		}		
+		graphName = RControl.getR().eval("make.names(\""+graphName+"\")").asRChar().getData()[0];
+		saveGraph(graphName, verbose, null, global);
+		RControl.getR().eval(graphName+"<- gMCP:::replaceVariables("+graphName+", variables="+getRVariableList(ht)+", ask=FALSE)");
+		//TODO This is really a strange place to load a graph... :
+		loadGraph(graphName);
+		return saveGraph(graphName, verbose, ht, global);
+	}
+
 	private void saveSingleLayerGraph(String graphName, boolean verbose, Hashtable<String, Double> ht, int layer, boolean global) {
 		String alpha = "";
 		String nodeStr = "";
@@ -480,14 +439,93 @@ public class NetList extends JTabbedPane {
 		if (global) RControl.getR().evalVoidInGlobalEnv(graphName+" <- get(\""+graphName+"\", env=gMCP:::gMCPenv)");
 	}
 
+	public void setEdge(Edge e) {
+		Edge old = null;
+		for (Edge e2 : edges) {
+			if (e2.from == e.from && e2.to == e.to && e2.layer == e.layer) {
+				old = e2;
+			}
+			if (e2.from == e.to && e2.to == e.from && e2.layer == e.layer) {
+				e.curve = true;
+				e2.curve = true;
+			}
+		}
+		if (old != null) edges.remove(old);
+		edges.add(e);
+		control.getDataFramePanel().setValueAt(e.getEdgeWeight(), getNodes().indexOf(e.from), getNodes().indexOf(e.to), e.layer);
+		graphHasChanged();
+	}
+
+	
+	public void setEdge(Node from, Node to, Double w, int layer) {	
+		setEdge(from, to, new EdgeWeight(w), layer);
+	}
+
+	public void setEdge(Node from, Node to, EdgeWeight w, int layer) {
+		Integer x = null;
+		Integer y = null;
+		boolean curve = false;
+		for (int i = edges.size()-1; i >= 0; i--) {
+			if (edges.get(i).from == from && edges.get(i).to == to && edges.get(i).layer == layer) {
+				x = edges.get(i).getK1();
+				y = edges.get(i).getK2();
+				removeEdge(edges.get(i));				
+			}
+		}
+		for (Edge e : edges) {
+			if (e.from == to && e.to == from && e.layer == layer) {
+				e.curve = true;
+				curve = true;
+			}
+		}		
+		if (!w.toString().equals("0")) {
+			if (x!=null) {
+				edges.add(new Edge(from, to, w, this, x, y, layer));
+			} else {
+				edges.add(new Edge(from, to, w, this, curve, layer));
+			}
+			edges.lastElement().curve = curve;
+		}
+		control.getDataFramePanel().setValueAt(w, getNodes().indexOf(from), getNodes().indexOf(to), layer);
+		graphHasChanged();
+	}
+
+	public void setEdge(Node from, Node to, int layer) {
+		setEdge(from, to, 1d, layer);		
+	}
+
+	public void setEdge(Node firstVertex, Node secondVertex, NetListPanel netListPanel) {
+		setEdge(firstVertex, secondVertex, nlp.indexOf(netListPanel)-1);		
+	}
+	
 	public void setEdges(Vector<Edge> edges) {
 		this.edges = edges;
 		graphHasChanged();
 	}
 
-	public void setKnoten(Vector<Node> knoten) {
-		this.nodes = knoten;
+	public void setNodes(Vector<Node> nodes) {
+		this.nodes = nodes;
 		graphHasChanged();
+	}
+
+	public void setNewEdge(boolean b) {
+		for (NetListPanel n : nlp) {
+			n.newEdge = b;
+			if (!b) {
+				n.arrowHeadPoint = null;
+				n.firstVertexSelected = false;
+			}
+		}
+	}
+
+	public void setNewVertex(boolean b) {
+		for (NetListPanel n : nlp) {
+			n.newVertex = b;
+		}
+	}
+
+	public void setZoom(double p) {
+		zoom = p;
 	}
 
 	public void startTesting() {		
@@ -500,7 +538,6 @@ public class NetList extends JTabbedPane {
 		statusBar.setText(GraphView.STATUSBAR_DEFAULT);
 	}
 
-	
 	public int whichNode(String name) {
 		for (int i=0; i<nodes.size(); i++) {
 			if (nodes.get(i).getName().equals(name)) {
@@ -508,64 +545,6 @@ public class NetList extends JTabbedPane {
 			}
 		}
 		return -1;
-	}
-
-	//TODO This method is a little bit stupid, isn't it?!?
-	public String getGraphName() {
-		saveGraph(".tmpGraph", false, false);
-		return ".tmpGraph";
-	}
-
-	public void removeLayer(int layer) {
-		for (int i = edges.size(); i>0; i--) {
-			if (edges.get(i-1).layer == layer) {
-				edges.remove(i-1);
-			}
-		}
-		for (Node n : nodes) {
-			n.removeLayer(layer);
-		}
-		refresh();
-	}
-
-	public void addEntangledLayer() {
-		for (Node n : nodes) {
-			n.addLayer();
-		}
-		refresh();
-	}
-	
-	/**
-	 * Repaints the NetzListe and sets the preferredSize etc.
-	 */
-	public void refresh() {
-		calculateSize();
-		revalidate();
-		repaint();
-	}
-
-	private void calculateSize() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	public BufferedImage getImage(double d) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	public void paintGraph(Graphics g) {
-		nlp.get(0).paintComponent(g);		
-	}
-
-	public NetListPanel getActiveNLP() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	public void setEdge(Node firstVertex, Node secondVertex,
-			NetListPanel netListPanel) {
-		setEdge(firstVertex, secondVertex, nlp.indexOf(netListPanel)-1);		
 	}
 
 }
