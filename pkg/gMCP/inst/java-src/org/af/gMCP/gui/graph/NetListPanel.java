@@ -92,13 +92,13 @@ public class NetListPanel extends JPanel implements MouseMotionListener, MouseLi
 		g.setRenderingHint(RenderingHints.KEY_ANTIALIASING,	RenderingHints.VALUE_ANTIALIAS_ON);
 		
 		for (Node node : getNodes()) {
-			node.paintYou(g);
+			node.paintYou(g, layer);
 		}
 		for (Edge edge : getEdges()) {
-			edge.paintEdge(g);			
+			if (shouldDraw(edge)) edge.paintEdge(g);			
 		}
 		for (Edge edge : getEdges()) {
-			edge.paintEdgeLabel(g);			
+			if (shouldDraw(edge)) edge.paintEdgeLabel(g);			
 		}
 		
 		img = cutImage(img, 5);
@@ -419,7 +419,7 @@ public class NetListPanel extends JPanel implements MouseMotionListener, MouseLi
 	 * is not called by a revalidate of the scrollbars.
 	 */
 	public void paintComponent(Graphics g) {
-		// Apart from speed issues we shouldn't draw the graph while it is modified.
+		// Due to speed issues we shouldn't draw the graph while it is modified.
 		if (!nl.updateGUI) return;
 		/* TODO Actually we also have to check whether paintComponent is in progress,
 		 * otherwise for example "for (Node node : nodes) { node.paintYou(g) }"
@@ -448,7 +448,7 @@ public class NetListPanel extends JPanel implements MouseMotionListener, MouseLi
 				RenderingHints.VALUE_ANTIALIAS_ON);
 
 		for (Node node : getNodes()) {
-			node.paintYou(g);
+			node.paintYou(g, layer);
 		}
 		for (Edge edge : getEdges()) {
 			if (shouldDraw(edge)) edge.paintEdge(g);			

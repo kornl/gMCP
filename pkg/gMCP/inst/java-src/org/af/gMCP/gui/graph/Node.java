@@ -113,7 +113,12 @@ public class Node {
 		return new int[] {(int) (x* nl.getZoom())-x2, (int) (y* nl.getZoom())-y2};
 	}
 
-	public void paintYou(Graphics g) {
+	/**
+	 * Draws the node.
+	 * @param g Graphs object for drawing
+	 * @param layer Layer to draw. Will be 'null' if all layers should be drawn. Always greater 0, starts with 1.
+	 */
+	public void paintYou(Graphics g, Integer layer) {
 		if (rejected && !Configuration.getInstance().getGeneralConfig().showRejected()) return;
 		Graphics2D g2d = (Graphics2D) g;
 		g2d.setFont(new Font("Arial", Font.PLAIN, (int) (12 * nl.getZoom())));		
