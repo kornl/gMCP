@@ -87,7 +87,7 @@ public class NetList extends JTabbedPane {
 	
 	public void addEntangledLayer() {		
 		if (layer==1) {
-			this.setTitleAt(0, "Combined");
+			setTitleAt(0, "Combined");
 			nlp.add(new NetListPanel(this, 0));
 			addTab("Graph 1", nlp.get(nlp.size()-1));			
 		}
@@ -278,6 +278,12 @@ public class NetList extends JTabbedPane {
 	}
 	
 	public void removeLayer(int layer) {
+		remove(layer);
+		this.layer--;
+		if (layer==1) {			
+			setTitleAt(0, "Graph");
+				remove(1);
+		}
 		for (int i = edges.size(); i>0; i--) {
 			if (edges.get(i-1).layer == layer) {
 				edges.remove(i-1);
