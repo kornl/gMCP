@@ -42,6 +42,9 @@ public class NetList extends JTabbedPane {
 
 	public boolean testingStarted = false;	
 	
+	/** Counts the number of layers. Always greater 0, starts with 1. */
+	int layer = 1;
+	
 	/**
 	 * For faster loading and resets the variable updateGUI exists.
 	 * When a graph is changed rapidly at more than one place,
@@ -58,7 +61,7 @@ public class NetList extends JTabbedPane {
 		Font f = statusBar.getFont();
 		statusBar.setFont(f.deriveFont(f.getStyle() ^ Font.BOLD));
 		nlp.add(new NetListPanel(this, null));
-		this.addTab("Graph", nlp.get(0));
+		addTab("Graph", nlp.get(0));
 	}
 	
 	public void acceptNode(Node node) {
@@ -81,8 +84,16 @@ public class NetList extends JTabbedPane {
 		}
 		addNode(new Node(name, x, y, new double[] {0d}, this));		
 	}
-
-	public void addEntangledLayer() {
+	
+	public void addEntangledLayer() {		
+		if (layer==1) {
+			this.setTitleAt(0, "Combined");
+			nlp.add(new NetListPanel(this, 0));
+			addTab("Graph 1", nlp.get(nlp.size()-1));			
+		}
+		nlp.add(new NetListPanel(this, layer));		
+		layer++;				
+		addTab("Graph "+layer, nlp.get(nlp.size()-1));
 		for (Node n : nodes) {
 			n.addLayer();
 		}
