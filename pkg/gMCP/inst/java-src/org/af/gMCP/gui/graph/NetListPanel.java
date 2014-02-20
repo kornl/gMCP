@@ -32,8 +32,7 @@ public class NetListPanel extends JPanel implements MouseMotionListener, MouseLi
 	boolean firstVertexSelected = false;
 
 	boolean newEdge = false;
-	boolean newVertex = false;	
-
+	boolean newVertex = false;
 	
 	public static Color[] layerColors = new Color[] {
 		Color.BLACK,
@@ -44,9 +43,12 @@ public class NetListPanel extends JPanel implements MouseMotionListener, MouseLi
 	};
 	
 	NetList nl;
+	/** Layer which should be draw. Set to 'null' if all layers should be shown. */
+	Integer layer;
 	
-	public NetListPanel(NetList nl) {
+	public NetListPanel(NetList nl, Integer layer) {
 		this.nl = nl;
+		this.layer = layer;
 		addMouseMotionListener(this);
 		addMouseListener(this);
 	}
@@ -449,10 +451,10 @@ public class NetListPanel extends JPanel implements MouseMotionListener, MouseLi
 			node.paintYou(g);
 		}
 		for (Edge edge : getEdges()) {
-			edge.paintEdge(g);			
+			if (shouldDraw(edge)) edge.paintEdge(g);			
 		}
 		for (Edge edge : getEdges()) {
-			edge.paintEdgeLabel(g);			
+			if (shouldDraw(edge)) edge.paintEdgeLabel(g);			
 		}
 		
 		/* Draw selection box if something is selected */
@@ -487,6 +489,11 @@ public class NetListPanel extends JPanel implements MouseMotionListener, MouseLi
 		
 	}
 	
+	private boolean shouldDraw(Edge edge) {
+		if (layer==null) return true;
+		return layer==edge.layer;
+	}
+
 	/**
 	 * Repaints the NetzListe and sets the preferredSize etc.
 	 */

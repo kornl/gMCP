@@ -57,7 +57,7 @@ public class NetList extends JTabbedPane {
 		this.control = graphview;
 		Font f = statusBar.getFont();
 		statusBar.setFont(f.deriveFont(f.getStyle() ^ Font.BOLD));
-		nlp.add(new NetListPanel(this));
+		nlp.add(new NetListPanel(this, null));
 		this.addTab("Graph", nlp.get(0));
 	}
 	
