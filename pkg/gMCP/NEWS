@@ -1,6 +1,10 @@
 Changes in version 0.8-7 (??-0?-2014)
 =====================================
 
+- For entangled graphs there is now more than one tab showing the graph:
+  The first tab still shows the combined graphs and then a separate tab
+  for each graph follows.
+  
 
 Changes in version 0.8-6 (17-02-2014)
 =====================================

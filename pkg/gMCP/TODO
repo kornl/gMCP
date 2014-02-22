@@ -1,4 +1,5 @@
 Documention for value in secondStageTest looks strange.
+Does rJava again contain all necessary jar files?
 
 Multiple Setting:
 Default: NCP (throw out n, \sigma, \mu)
@@ -19,7 +20,7 @@ Replace n, \sigma, \mu with \theta θ and Standard error of \theta.
 Specify marginal power (and one field for which alpha this power was calculated).
 Entangled graph should shown be separately.
 subgraph alpha splitting -> component graph weights
-Entangled graphs: Alpha level -> Weights 1, Weights 2, Weights 3
+Entangled graphs: Alpha level -> Weights 1, Weights 2, Weights 3 (and check whether sum weights > 1).
 - NEWS.Rd and news()
 
 - Streamline / throw out graphTest

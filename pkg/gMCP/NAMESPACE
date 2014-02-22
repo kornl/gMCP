@@ -13,10 +13,6 @@ importFrom(multcomp, contrMat)
 # These methods are directly called by the GUI - we note them here for the CRAN checks:
 importFrom(JavaGD, JavaGD)
 importFrom(Matrix, bdiag)
-# This is work in progress:
-# importFrom(JGR, jgr.addMenu, jgr.addMenuItem)
-# I'm really not sure about this - I'll add it nevertheless for further testing since it doesn't harm:
-# importFrom(methods, new)
 
 exportClasses(graphMCP, gMCPResult, gPADInterim, entangledMCP)
 exportMethods(plot, print)
