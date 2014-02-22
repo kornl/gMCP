@@ -373,7 +373,7 @@ public class NetListPanel extends JPanel implements MouseMotionListener, MouseLi
 						nodes.add(node);
 					}
 				}
-				NetListSelectionPopUpMenu menu = new NetListSelectionPopUpMenu(nl, getNodes(), getEdges());
+				NetListSelectionPopUpMenu menu = new NetListSelectionPopUpMenu(nl, nodes, edges);
 				repaint();
 				menu.show(e.getComponent(), e.getX()-20, e.getY()-20);
 			} else if (e.isPopupTrigger()) {
