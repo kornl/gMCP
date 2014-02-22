@@ -36,7 +36,7 @@ public class PrintableObject implements Printable {
 			double scale = Math.min(width / dim.getWidth(), height / dim.getHeight());
 			g2.scale(scale, scale);
 			nl.setBackground(Color.white);
-			nl.paintComponent(g);
+			nl.paintGraph(g);
 		} catch (Exception ex) {
 			throw new PrinterException(ex.getMessage());
 		}

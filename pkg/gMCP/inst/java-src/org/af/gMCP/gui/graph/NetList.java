@@ -1,30 +1,22 @@
 package org.af.gMCP.gui.graph;
 
-import java.awt.BasicStroke;
-import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.Point;
-import java.awt.RenderingHints;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.awt.event.MouseMotionListener;
 import java.awt.image.BufferedImage;
-import java.text.DecimalFormat;
 import java.util.Date;
 import java.util.Enumeration;
 import java.util.HashSet;
 import java.util.Hashtable;
+import java.util.List;
 import java.util.Set;
 import java.util.Vector;
 
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
+import javax.swing.JTabbedPane;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
-import org.af.commons.images.GraphDrawHelper;
 import org.af.gMCP.config.Configuration;
 import org.af.gMCP.gui.RControl;
 import org.af.gMCP.gui.ReproducableLog;
@@ -32,55 +24,49 @@ import org.af.gMCP.gui.dialogs.VariableDialog;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-public class NetList extends JPanel implements MouseMotionListener, MouseListener {
+public class NetList extends JTabbedPane implements ChangeListener {
 
 	private static final Log logger = LogFactory.getLog(NetList.class);
 	GraphView control;
 	
-	public GraphMCP graph;
-	
-	int[] dragN = new int[0];
-	int[] dragE = new int[0];
-	boolean unAnchor = false;
-	
-	protected Vector<Edge> edges = new Vector<Edge>();
 	protected Vector<Node> nodes = new Vector<Node>();
-
-	Node firstVertex;	
-	boolean firstVertexSelected = false;
+	protected Vector<Edge> edges = new Vector<Edge>();
 	
-	public String initialGraph = ".InitialGraph" + (new Date()).getTime();
+	public GraphMCP graph;	
+	
+	List<NetListPanel> nlp = new Vector<NetListPanel>();
+	
 	public String resetGraph = ".ResetGraph" + (new Date()).getTime();
 	public String tmpGraph = ".tmpGraph" + (new Date()).getTime();
-
-	boolean newEdge = false;
-	boolean newVertex = false;	
-
+	public String initialGraph = ".InitialGraph" + (new Date()).getTime();
+	
 	JLabel statusBar;
 
-	public boolean testingStarted = false;
-
+	public boolean testingStarted = false;	
+	
+	/** Counts the number of layers. Always greater 0, starts with 1. */
+	int layer = 1;
+	
+	/**
+	 * For faster loading and resets the variable updateGUI exists.
+	 * When a graph is changed rapidly at more than one place,
+	 * it is set to false, the graph is changed, it is set back
+	 * to true and after that graphHasChanged() is called once.
+	 */
+	public boolean updateGUI = true;	
+	
 	double zoom = 1d;
 	
-	static DecimalFormat format = new DecimalFormat("#.####");
-	
-	public static Color[] layerColors = new Color[] {
-		Color.BLACK,
-		Color.BLUE,
-		Color.RED, //TODO: Find better Colors then the following:
-		Color.YELLOW,
-		Color.GREEN
-	};
-
 	public NetList(JLabel statusBar, GraphView graphview) {
+		addChangeListener(this);
 		this.statusBar = statusBar;
 		this.control = graphview;
-		addMouseMotionListener(this);
-		addMouseListener(this);
 		Font f = statusBar.getFont();
 		statusBar.setFont(f.deriveFont(f.getStyle() ^ Font.BOLD));
+		nlp.add(new NetListPanel(this, null));
+		addTab("Graph", nlp.get(0));
 	}
-
+	
 	public void acceptNode(Node node) {
 		control.getPView().savePValues();
 		saveGraph(".tmpGraph", false, false);
@@ -101,59 +87,20 @@ public class NetList extends JPanel implements MouseMotionListener, MouseListene
 		}
 		addNode(new Node(name, x, y, new double[] {0d}, this));		
 	}
-
-	public void setEdge(Edge e) {
-		Edge old = null;
-		for (Edge e2 : edges) {
-			if (e2.from == e.from && e2.to == e.to && e2.layer == e.layer) {
-				old = e2;
-			}
-			if (e2.from == e.to && e2.to == e.from && e2.layer == e.layer) {
-				e.curve = true;
-				e2.curve = true;
-			}
-		}
-		if (old != null) edges.remove(old);
-		edges.add(e);
-		control.getDataFramePanel().setValueAt(e.getEdgeWeight(), getNodes().indexOf(e.from), getNodes().indexOf(e.to), e.layer);
-		graphHasChanged();
-	}
-
-	public void setEdge(Node from, Node to, int layer) {
-		setEdge(from, to, 1d, layer);		
-	}
 	
-	public void setEdge(Node from, Node to, Double w, int layer) {	
-		setEdge(from, to, new EdgeWeight(w), layer);
-	}
-
-	public void setEdge(Node from, Node to, EdgeWeight w, int layer) {
-		Integer x = null;
-		Integer y = null;
-		boolean curve = false;
-		for (int i = edges.size()-1; i >= 0; i--) {
-			if (edges.get(i).from == from && edges.get(i).to == to && edges.get(i).layer == layer) {
-				x = edges.get(i).getK1();
-				y = edges.get(i).getK2();
-				removeEdge(edges.get(i));				
-			}
+	public void addEntangledLayer() {		
+		if (layer==1) {
+			setTitleAt(0, "Combined");
+			nlp.add(new NetListPanel(this, 0));
+			addTab("Graph 1", nlp.get(nlp.size()-1));			
 		}
-		for (Edge e : edges) {
-			if (e.from == to && e.to == from && e.layer == layer) {
-				e.curve = true;
-				curve = true;
-			}
-		}		
-		if (!w.toString().equals("0")) {
-			if (x!=null) {
-				edges.add(new Edge(from, to, w, this, x, y, layer));
-			} else {
-				edges.add(new Edge(from, to, w, this, curve, layer));
-			}
-			edges.lastElement().curve = curve;
+		nlp.add(new NetListPanel(this, layer));		
+		layer++;				
+		addTab("Graph "+layer, nlp.get(nlp.size()-1));
+		for (Node n : nodes) {
+			n.addLayer();
 		}
-		control.getDataFramePanel().setValueAt(w, getNodes().indexOf(from), getNodes().indexOf(to), layer);
-		graphHasChanged();
+		refresh();
 	}
 
 	public void addNode(Node node) {
@@ -164,14 +111,82 @@ public class NetList extends JPanel implements MouseMotionListener, MouseListene
 		calculateSize();
 		graphHasChanged();
 	}
+
+	private int askForLayer() {
+		int layer = 0;
+		if (control.getNumberOfLayers()>1) {
+			//We could ask with a JOptionPane window for the layer - but for now we just take the active tab from the DataFramePanel:
+			layer = control.getDataFramePanel().getSelectedIndex();
+		}
+		return layer;
+	}
 	
-	/**
-	 * For faster loading and resets the variable updateGUI exists.
-	 * When a graph is changed rapidly at more than one place,
-	 * it is set to false, the graph is changed, it is set back
-	 * to true and after that graphHasChanged() is called once.
-	 */
-	public boolean updateGUI = true;
+	private void calculateSize() {
+		for (NetListPanel n : nlp) {
+			n.calculateSize();
+		}
+	}
+
+	public Edge findEdge(Node von, Node nach, int layer) {
+		for (Edge e : edges) {
+			if (von == e.from && nach == e.to && e.layer == layer) {
+				return e;
+			}
+		}
+		return null;
+	}
+
+	public NetListPanel getActiveNLP() {
+		return(nlp.get(getSelectedIndex()));		
+	}
+	
+	public Set<String> getAllVariables() {
+		Set<String> variables = new HashSet<String>();		
+		for (Edge e : edges) {		
+			variables.addAll(e.getVariable());
+		}
+		return variables;
+	}
+
+	public Vector<Edge> getEdges() {
+		return edges;
+	}
+
+	//TODO This method is a little bit stupid, isn't it?!?
+	//Remark: Not really, because we wanted to extend it - should be revisited...
+	public String getGraphName() {
+		saveGraph(".tmpGraph", false, false);
+		return ".tmpGraph";
+	}
+	
+	public BufferedImage getImage(double d) {
+		return nlp.get(getSelectedIndex()).getImage(d);
+	}
+
+	public String getLaTeX() {
+		saveGraph(tmpGraph, false, false);
+		return RControl.getR().eval("graph2latex("+tmpGraph+")").asRChar().getData()[0];
+	}
+	
+	public Vector<Node> getNodes() {
+		return nodes;
+	}
+
+	public String getRVariableList(Hashtable<String,Double> ht) {
+		// For use in replaceVariables <-function(graph, variables=list())
+		String list = "list(";
+		Enumeration<String> keys = ht.keys();
+		for (; keys.hasMoreElements();) {
+			String key = keys.nextElement();
+			list += "\""+EdgeWeight.UTF2LaTeX(key.charAt(0))+"\"="+ht.get(key)+",";
+		}
+		list += "\""+"epsilon"+"\"="+Configuration.getInstance().getGeneralConfig().getEpsilon()+",";
+		return list.substring(0, list.length()>5?list.length()-1:list.length())+")";			
+	}
+
+	public double getZoom() {
+		return zoom;
+	}
 
 	/**
 	 * Is called whenever the graph has changed.
@@ -196,161 +211,8 @@ public class NetList extends JPanel implements MouseMotionListener, MouseListene
 		}
 		control.getDView().setAnalysis(analysis);
 	}
-
-	/**
-	 * Calculates the size of the panel to view all nodes and resizes the panel.
-	 */
-	public int[] calculateSize() {
-		int maxX = 0;
-		int maxY = 0;
-		for (int i = 0; i < nodes.size(); i++) {
-			if (nodes.get(i).getX() > maxX)
-				maxX = nodes.get(i).getX();
-			if (nodes.get(i).getY() > maxY)
-				maxY = nodes.get(i).getY();
-		}
-		for (int i = 0; i < edges.size(); i++) {
-			if (edges.get(i).getK1() > maxX)
-				maxX = edges.get(i).getK1();
-			if (edges.get(i).getK2() > maxY)
-				maxY = edges.get(i).getK2();
-		}		
-		setPreferredSize(new Dimension(
-				(int) ((maxX + 2 * Node.getRadius() + 30) * getZoom()),
-				(int) ((maxY + 2 * Node.getRadius() + 30) * getZoom())));
-		if (updateGUI) {
-			revalidate();
-			repaint();
-		}		
-		return new int[] {maxX, maxY};
-	}
 	
-	public Edge findEdge(Node von, Node nach, int layer) {
-		for (Edge e : edges) {
-			if (von == e.from && nach == e.to && e.layer == layer) {
-				return e;
-			}
-		}
-		return null;
-	}
 	
-	public Vector<Edge> getEdges() {
-		return edges;
-	}
-
-	/**
-	 * Returns an image of the graph.
-	 * @param zoom Zoom used for the image. Bigger values result in higher resolutions.
-	 * If "null" the current zoom is used.
-	 * @return Returns an image of the graph with a border of 5 pixel in most cases.
-	 */
-	public BufferedImage getImage(Double zoom) {
-		if (zoom == null) zoom = getZoom();
-		double oldZoom = getZoom();
-		setZoom(zoom);
-		
-		long maxX = 0;
-		long maxY = 0;
-		for (Node node : nodes) {
-			if (node.getX() > maxX)
-				maxX = node.getX();
-			if (node.getY() > maxY)
-				maxY = node.getY();
-		}
-		for (Edge edge : edges) {
-			if (edge.getK1() > maxX)
-				maxX = edge.getK1();
-			if (edge.getK2() > maxY)
-				maxY = edge.getK2();
-		}		
-		
-		BufferedImage img = new BufferedImage((int) ((maxX + 2 * Node.getRadius() + 400) * getZoom()),
-				(int) ((maxY + 2 * Node.getRadius() + 400) * getZoom()), BufferedImage.TYPE_INT_ARGB);
-		Graphics2D g = img.createGraphics();
-		
-		if (!Configuration.getInstance().getGeneralConfig().exportTransparent()) {
-			g.setColor(Color.WHITE);
-			g.fillRect(0, 0, img.getWidth(), img.getHeight());			
-		}
-		
-		g.setStroke(new BasicStroke(Configuration.getInstance().getGeneralConfig().getLineWidth()));
-		g.setRenderingHint(RenderingHints.KEY_ANTIALIASING,	RenderingHints.VALUE_ANTIALIAS_ON);
-		
-		for (Node node : nodes) {
-			node.paintYou(g);
-		}
-		for (Edge edge : edges) {
-			edge.paintEdge(g);			
-		}
-		for (Edge edge : edges) {
-			edge.paintEdgeLabel(g);			
-		}
-		
-		img = cutImage(img, 5);
-		setZoom(oldZoom);
-		
-		return img;
-	}
-	
-	private BufferedImage cutImage(BufferedImage img, int offset) {
-		int minX = img.getWidth();
-		int minY = img.getHeight();
-		int maxX = 0;
-		int maxY = 0;		
-		//System.out.println(img.getRGB(1, 1));
-		for (int x=0; x<img.getWidth(); x++) {
-			for(int y=0; y<img.getHeight(); y++) {				
-				if (img.getRGB(x, y)!=0 && img.getRGB(x, y)!=-1) {
-					if (x<minX) minX = x;
-					if (y<minY) minY = y;
-					if (x>maxX) maxX = x;
-					if (y>maxY) maxY = y;
-				}
-			}
-		}
-		//System.out.println(Math.max(0, minX-offset)+","	+Math.max(0, minY-offset)+","+Math.min(maxX-minX+2*offset, img.getWidth())+"," +Math.min(maxY-minY+2*offset, img.getHeight()));
-		return img.getSubimage(Math.max(0, minX-offset), 
-				Math.max(0, minY-offset), 
-				Math.min(maxX-minX+2*offset, img.getWidth()), 
-				Math.min(maxY-minY+2*offset, img.getHeight()));
-	}
-
-	public Vector<Node> getNodes() {
-		return nodes;
-	}
-	
-	public String getLaTeX() {
-		saveGraph(tmpGraph, false, false);
-		return RControl.getR().eval("graph2latex("+tmpGraph+")").asRChar().getData()[0];
-		//TODO Compare this with R code.
-		/*DecimalFormat format = Configuration.getInstance().getGeneralConfig().getDecFormat();
-		String latex = "";
-		double scale=0.5;
-		latex += "\\begin{tikzpicture}[scale="+scale+"]";
-		for (int i = 0; i < getNodes().size(); i++) {
-			Node node = getNodes().get(i);
-			latex += "\\node ("+node.getName().replace("_", "-")+") at ("+node.getX()+"bp,"+(-node.getY())+"bp)\n";
-			String nodeColor = "green!80";
-			if (node.isRejected()) {nodeColor = "red!80";}
-			latex += "[draw,circle split,fill="+nodeColor+"] {$"+node.getName()+"$ \\nodepart{lower} $"+format.format(node.getWeight().get(0))+"$};\n";			
-		}
-		for (int i = 0; i < getEdges().size(); i++) {
-			Node node1 = getEdges().get(i).from;
-			Node node2 = getEdges().get(i).to;			
-			String to = "bend left="+getEdges().get(i).getBendLeft();
-			String weight = getEdges().get(i).getWLaTeX();			
-			String pos = format.format(getEdges().get(i).getPos()).replace(",", ".");
-			latex += "\\draw [->,line width=1pt] ("+node1.getName().replace("_", "-")+") to["+to+"] node[pos="+pos+",above,fill=blue!20] {$"+weight+"$} ("+node2.getName().replace("_", "-")+");\n";
-
-		}
-		latex += "\\end{tikzpicture}\n\n";
-		return latex;*/
-	}
-	
-	public double getZoom() {
-		return zoom;
-	}
-
 	public boolean isTesting() {		
 		return testingStarted;
 	}
@@ -391,312 +253,11 @@ public class NetList extends JPanel implements MouseMotionListener, MouseListene
 			control.getPView().setPValues(graph.pvalues);
 		}
 	}
-	
-	private void showPopUp(MouseEvent e, Node node, Edge edge){
-        NetListPopUpMenu menu = new NetListPopUpMenu(this, node, edge);
-        menu.show(e.getComponent(), e.getX(), e.getY());
-    }
-	
-	public void mouseClicked(MouseEvent e) {}
 
-	public void mouseDragged(MouseEvent e) {
-		if (firstVertexSelected) {
-			arrowHeadPoint = e.getPoint();
-			repaint();
-			return;
-		}
-		if (dragN.length==0 && dragE.length==0) { /* Dragging without objects creates a rectangular. */
-			endPoint = new int[] {e.getX(), e.getY()};
-			repaint();
-			return;
-		}
-
-		for (int i : dragN) {
-			if (!unAnchor && Configuration.getInstance().getGeneralConfig().getUnAnchor()) { 
-				for (Edge edge : getEdges()) {
-					if (edge.from == nodes.get(i) || edge.to == nodes.get(i)) {
-						edge.fixed = false;
-					}
-				}
-				unAnchor = true;
-			}
-			nodes.get(i).setX( (int) ((e.getX()+offsetN[i][0]) / (double) getZoom()));
-			nodes.get(i).setY( (int) ((e.getY()+offsetN[i][1]) / (double) getZoom()));
-			placeUnfixedNodes(nodes.get(i));
-		}
-
-		for (int i : dragE) {		
-			edges.get(i).setK1( (int) ((e.getX()+offsetE[i][0]) / (double) getZoom()));
-			edges.get(i).setK2( (int) ((e.getY()+offsetE[i][1]) / (double) getZoom()));
-		}
-
-		calculateSize();
-		repaint();
+	public void paintGraph(Graphics g) {
+		nlp.get(0).paintComponent(g);		
 	}
 
-	public void mouseEntered(MouseEvent e) {}
-
-	public void mouseExited(MouseEvent e) {}
-
-	Point arrowHeadPoint = null;
-	
-	public void mouseMoved(MouseEvent e) {
-		if (firstVertexSelected) {
-			arrowHeadPoint = e.getPoint();
-			repaint();
-		}
-	}
-
-	protected int[][] offsetE;
-	protected int[][] offsetN;
-	protected int[] startingPoint = null;
-	protected int[] endPoint = null;
-	
-	public void mousePressed(MouseEvent e) {		
-		// Trigger PopUp
-		if (e.isPopupTrigger()) {
-			popUp(e);	
-		}
-		// Right-click stops placement of new nodes
-		if (e.getButton()==MouseEvent.BUTTON2) {
-			newVertex = false;
-			control.buttonNewNode.setSelected(false);
-			return;
-		}
-		// Check whether to add new node
-		if (newVertex && vertexSelected(e.getX(), e.getY())==null) {
-			addDefaultNode((int)(e.getX() / getZoom()) - Node.r, 
-						(int) (e.getY() / getZoom()) - Node.r);
-			statusBar.setText(GraphView.STATUSBAR_DEFAULT);
-			repaint();
-			return;
-		}
-		// Check whether to add new edge
-		if (newEdge) {
-			if (!firstVertexSelected) {
-				firstVertex = vertexSelected(e.getX(), e.getY());
-				if (firstVertex == null)
-					return;
-				firstVertexSelected = true;
-				statusBar.setText("Select a second node to which the edge should lead.");
-			} else {
-				Node secondVertex = vertexSelected(e.getX(), e.getY());
-				if (secondVertex == null || secondVertex == firstVertex) {
-					return;
-				}	
-				setEdge(firstVertex, secondVertex, askForLayer());
-				newEdge = false;
-				arrowHeadPoint = null;
-				firstVertexSelected = false;
-				statusBar.setText(GraphView.STATUSBAR_DEFAULT);
-			}
-			repaint();
-			return;
-		}
-		
-		// Drag'n'drop
-		if (dragN.length!=0 || dragE.length!=0) {
-			offsetN = new int[nodes.size()][2];
-			offsetE = new int[edges.size()][2];
-			for (int i : dragN) {
-				offsetN[i] = nodes.get(i).offset(e.getX(), e.getY());
-			}
-			for (int i : dragE) {
-				offsetE[i] = edges.get(i).offset(e.getX(), e.getY());
-			}
-		} else {
-			for (int i = 0; i < nodes.size(); i++) {
-				if (nodes.get(i).inYou(e.getX(), e.getY())) {
-					dragN = new int[] {i};
-					offsetN = new int[nodes.size()][2];
-					offsetN[i] = nodes.get(i).offset(e.getX(), e.getY());
-				}
-			}
-			for (int i = edges.size()-1; i >=0 ; i--) {
-				if (edges.get(i).inYou(e.getX(), e.getY())) {
-					dragN = new int[0];
-					dragE = new int[] {i};
-					offsetE = new int[edges.size()][2];
-					offsetE[i] = edges.get(i).offset(e.getX(), e.getY());
-				}
-			}
-		}
-		
-		// Double click opens dialog for changing nodes or edges. 
-		if (e.getClickCount() == 2 && !testingStarted) {			
-			for (int i = edges.size()-1; i >=0 ; i--) {
-				if (edges.get(i).inYou(e.getX(), e.getY())) {
-					new UpdateEdge(edges.get(i), this, control);
-					mouseReleased(null);
-					repaint();
-					return;
-				}
-			}
-			for (int i = nodes.size()-1; i >=0 ; i--) {
-				if (nodes.get(i).inYou(e.getX(), e.getY())) {
-					new UpdateNode(nodes.get(i), control);
-					mouseReleased(null);
-					repaint();
-					return;
-				}
-			}
-		}
-		
-		startingPoint = new int[] {e.getX(), e.getY()};
-		repaint();
-	}
-	
-	private int askForLayer() {
-		int layer = 0;
-		if (control.getNumberOfLayers()>1) {
-			//We could ask with a JOptionPane window for the layer - but for now we just take the active tab from the DataFramePanel:
-			layer = control.getDataFramePanel().getSelectedIndex();
-		}
-		return layer;
-	}
-
-	/**
-	 * Unfortunately a double click resulting in opening a new dialog does not trigger a mouseReleased-event in the end.
-	 * Therefore the method can be called with e=null whenever a dialog is opened that way.
-	 * @see java.awt.event.MouseListener#mouseReleased(java.awt.event.MouseEvent)
-	 */
-	public void mouseReleased(MouseEvent e) {
-		dragN = new int[0];
-		dragE = new int[0];
-		
-		if (e != null)	{
-			if (endPoint!=null && startingPoint!=null && Configuration.getInstance().getGeneralConfig().experimentalFeatures()) {
-				Vector<Node> nodes = new Vector<Node>();
-				Vector<Edge> edges = new Vector<Edge>(); 
-				for (Edge edge : this.edges) {
-					if (edge.containsYou(startingPoint, endPoint)) {
-						edges.add(edge);
-					}
-				}
-				for (Node node : this.nodes) {
-					if (node.containsYou(startingPoint, endPoint)) {
-						nodes.add(node);
-					}
-				}
-				NetListSelectionPopUpMenu menu = new NetListSelectionPopUpMenu(this, nodes, edges);
-				repaint();
-				menu.show(e.getComponent(), e.getX()-20, e.getY()-20);
-			} else if (e.isPopupTrigger()) {
-				popUp(e);	
-			}
-		}
-		
-		for(int i : dragE) {			
-			edges.get(i).setFixed(true);
-		}
-		
-		unAnchor = false;
-		endPoint = null;
-		if (e !=null && newEdge && firstVertexSelected) {				
-			Node secondVertex = vertexSelected(e.getX(), e.getY());
-			if (secondVertex == null || secondVertex == firstVertex) {
-				return;
-			}
-			setEdge(firstVertex, secondVertex, askForLayer());
-			newEdge = false;
-			arrowHeadPoint = null;
-			firstVertexSelected = false;
-			statusBar.setText(GraphView.STATUSBAR_DEFAULT);
-
-			repaint();
-			return;
-		}
-	}
-	
-	public void popUp(MouseEvent e) {
-		for (int i = 0; i < nodes.size(); i++) {
-			if (nodes.get(i).inYou(e.getX(), e.getY())) {
-				//TODO
-				showPopUp(e, nodes.get(i), null);
-			}
-		}
-		for (int i = edges.size()-1; i >=0 ; i--) {
-			if (edges.get(i).inYou(e.getX(), e.getY())) {
-				showPopUp(e, null, edges.get(i));
-			}
-		}
-	}
-	
-	/**
-	 * We use paintComponent() instead of paint(), since the later one
-	 * is not called by a revalidate of the scrollbars.
-	 */
-	public void paintComponent(Graphics g) {
-		// Apart from speed issues we shouldn't draw the graph while it is modified.
-		if (!updateGUI) return;
-		/* TODO Actually we also have to check whether paintComponent is in progress,
-		 * otherwise for example "for (Node node : nodes) { node.paintYou(g) }"
-		 * will throw a ConcurrentModificationException.
-		 */
-		super.paintComponent(g);		
-		int grid = Configuration.getInstance().getGeneralConfig().getGridSize();
-		g.setColor(Color.LIGHT_GRAY);
-		if (grid>1) {
-			for(int x=(int)(Node.r*getZoom()); x < getWidth(); x += grid*getZoom()) {				
-				g.drawLine(x, 0, x, getHeight());	
-			}
-			for(int x=(int)(Node.r*getZoom()); x > 0; x -= grid*getZoom()) {				
-				g.drawLine(x, 0, x, getHeight());	
-			}
-			for(int y=(int)(Node.r*getZoom()); y < getHeight(); y += grid*getZoom()) {
-				g.drawLine(0, y, getWidth(), y);
-			}
-			for(int y=(int)(Node.r*getZoom()); y > 0; y -= grid*getZoom()) {
-				g.drawLine(0, y, getWidth(), y);
-			}
-		}
-		BasicStroke stroke = new BasicStroke(Configuration.getInstance().getGeneralConfig().getLineWidth());
-		((Graphics2D)g).setStroke(stroke);
-		((Graphics2D)g).setRenderingHint(RenderingHints.KEY_ANTIALIASING,
-				RenderingHints.VALUE_ANTIALIAS_ON);
-
-		for (Node node : nodes) {
-			node.paintYou(g);
-		}
-		for (Edge edge : edges) {
-			edge.paintEdge(g);			
-		}
-		for (Edge edge : edges) {
-			edge.paintEdgeLabel(g);			
-		}
-		
-		/* Draw selection box if something is selected */
-		if (endPoint!=null && startingPoint!=null && Configuration.getInstance().getGeneralConfig().experimentalFeatures()) {
-			int x = Math.min(startingPoint[0], endPoint[0]);
-			int y = Math.min(startingPoint[1], endPoint[1]);
-			int width = Math.abs(startingPoint[0] - endPoint[0]);
-			int height = Math.abs(startingPoint[1] - endPoint[1]);
-			((Graphics2D)g).setStroke(new BasicStroke(1));
-			((Graphics2D)g).setPaint(new Color(0, 0, 255, 30));			
-			((Graphics2D)g).fillRect(x, y, width, height);
-			((Graphics2D)g).setPaint(new Color(0, 0, 255));
-			((Graphics2D)g).drawRect(x, y, width, height);			
-		}
-		
-		if (firstVertexSelected && firstVertex != null && arrowHeadPoint != null) { //TODO Insert *getZoom()
-			double a1 = firstVertex.getX()+ Node.getRadius();
-			double a2 = firstVertex.getY()+ Node.getRadius();
-			double c1 = arrowHeadPoint.getX()/getZoom();
-			double c2 = arrowHeadPoint.getY()/getZoom();
-			if (!(firstVertex.inYou((int)c1, (int)c2))) {
-				double dx = a1 - c1;
-				double dy = a2 - c2;
-				double d = Math.sqrt(dx * dx + dy * dy);
-				a1 = a1 - ((Node.getRadius()) * dx / d);
-				a2 = a2 - ((Node.getRadius()) * dy / d);					
-				g.setColor(Color.DARK_GRAY);
-				GraphDrawHelper.malVollenPfeil(g, (int)(a1*getZoom()), (int)(a2*getZoom()), (int)(c1*getZoom()), (int)(c2*getZoom()), (int) (8 * getZoom()), 35);
-				g.setColor(Color.BLACK);
-			}
-		}
-		
-	}
-	
 	/**
 	 * Repaints the NetzListe and sets the preferredSize etc.
 	 */
@@ -714,11 +275,33 @@ public class NetList extends JPanel implements MouseMotionListener, MouseListene
 			}
 		}
 		edges.remove(edge);
-		dragE = new int[0];
+		getActiveNLP().dragE = new int[0];
 		control.getDataFramePanel().setValueAt(new EdgeWeight(0), getNodes().indexOf(edge.from), getNodes().indexOf(edge.to), edge.layer);
 		graphHasChanged();
 	}
-
+	
+	/**
+	 * Removes layer from entangled graph. Counting layers starts from 0 (not 1).
+	 * @param layer Layer to remove. Counting layers starts from 0 (not 1).
+	 */
+	public void removeEntangledLayer(int layer) {
+		remove(layer+1); // +1 since the combined graph is shown at tab 0.
+		this.layer--;
+		if (this.layer==1) {			
+			setTitleAt(0, "Graph");
+			remove(1);
+		}
+		for (int i = edges.size(); i>0; i--) {
+			if (edges.get(i-1).layer == layer) {
+				edges.remove(i-1);
+			}
+		}
+		for (Node n : nodes) {
+			n.removeLayer(layer);
+		}
+		refresh();
+	}	
+	
 	public void removeNode(Node node) {
 		logger.info("Removing "+node);		
 		for (int i=edges.size()-1; i>=0; i--) {
@@ -736,7 +319,7 @@ public class NetList extends JPanel implements MouseMotionListener, MouseListene
 		repaint();
 		graphHasChanged();
 	}
-
+	
 	/**
 	 * Removes all nodes and edges, cleans the description 
 	 * and sets back button states, zoom etc. to start-up settings.
@@ -747,67 +330,25 @@ public class NetList extends JPanel implements MouseMotionListener, MouseListene
 		for (int i=getNodes().size()-1; i>=0; i--) {
 			removeNode(getNodes().get(i));
 		}
+		while (layer>1) { removeEntangledLayer(layer-1); }
 		statusBar.setText(GraphView.STATUSBAR_DEFAULT);
-		firstVertexSelected = false;
-		newVertex = false;
-		newEdge = false;
+		for (NetListPanel n : nlp) { n.reset(); }
 		zoom = 1.00;
 		control.getDataFramePanel().reset();
 		control.getDView().setDescription("Enter a description for the graph.");
 		graphHasChanged();
 		control.isGraphSaved = true;
 	}
-
+	
 	public void saveGraph(boolean global) {
 		saveGraph(initialGraph, false, global);
 		control.getPView().savePValues();
 	}
 	
-	public Set<String> getAllVariables() {
-		Set<String> variables = new HashSet<String>();		
-		for (Edge e : edges) {		
-			variables.addAll(e.getVariable());
-		}
-		return variables;
-	}
-	
-	public String saveGraphWithoutVariables(String graphName, boolean verbose, boolean global) {
-		Set<String> variables = getAllVariables();
-		if (!Configuration.getInstance().getGeneralConfig().useEpsApprox())	{
-			variables.remove("ε");
-		}
-		Hashtable<String,Double> ht = new Hashtable<String,Double>();
-		if (!variables.isEmpty() && !(variables.size()==1 && variables.contains("ε"))) {
-			VariableDialog vd = new VariableDialog(this.control.parent, variables);
-			ht = vd.getHT();
-		} else if (variables.size()==1 && variables.contains("ε")){
-			ht.put("ε", Configuration.getInstance().getGeneralConfig().getEpsilon());
-		}		
-		graphName = RControl.getR().eval("make.names(\""+graphName+"\")").asRChar().getData()[0];
-		saveGraph(graphName, verbose, null, global);
-		RControl.getR().eval(graphName+"<- gMCP:::replaceVariables("+graphName+", variables="+getRVariableList(ht)+", ask=FALSE)");
-		//TODO This is really a strange place to load a graph... :
-		loadGraph(graphName);
-		return saveGraph(graphName, verbose, ht, global);
-	}
-	
-	
 	public String saveGraph(String graphName, boolean verbose, boolean global) {
 		return saveGraph(graphName, verbose, new Hashtable<String,Double>(), global);
 	}
-	
-	public String getRVariableList(Hashtable<String,Double> ht) {
-		// For use in replaceVariables <-function(graph, variables=list())
-		String list = "list(";
-		Enumeration<String> keys = ht.keys();
-		for (; keys.hasMoreElements();) {
-			String key = keys.nextElement();
-			list += "\""+EdgeWeight.UTF2LaTeX(key.charAt(0))+"\"="+ht.get(key)+",";
-		}
-		list += "\""+"epsilon"+"\"="+Configuration.getInstance().getGeneralConfig().getEpsilon()+",";
-		return list.substring(0, list.length()>5?list.length()-1:list.length())+")";			
-	}
-	
+
 	/**
 	 * Exports the current graph to R  
 	 * @param graphName variable name in R (will be processed with make.names)
@@ -844,7 +385,27 @@ public class NetList extends JPanel implements MouseMotionListener, MouseListene
 		if (verbose && !graphName.equals(graphNameOld)) { JOptionPane.showMessageDialog(this, "The graph as been exported to R under ther variable name:\n\n"+graphName, "Saved as \""+graphName+"\"", JOptionPane.INFORMATION_MESSAGE); }
 		return graphName;
 	}
-	
+
+	public String saveGraphWithoutVariables(String graphName, boolean verbose, boolean global) {
+		Set<String> variables = getAllVariables();
+		if (!Configuration.getInstance().getGeneralConfig().useEpsApprox())	{
+			variables.remove("ε");
+		}
+		Hashtable<String,Double> ht = new Hashtable<String,Double>();
+		if (!variables.isEmpty() && !(variables.size()==1 && variables.contains("ε"))) {
+			VariableDialog vd = new VariableDialog(this.control.parent, variables);
+			ht = vd.getHT();
+		} else if (variables.size()==1 && variables.contains("ε")){
+			ht.put("ε", Configuration.getInstance().getGeneralConfig().getEpsilon());
+		}		
+		graphName = RControl.getR().eval("make.names(\""+graphName+"\")").asRChar().getData()[0];
+		saveGraph(graphName, verbose, null, global);
+		RControl.getR().eval(graphName+"<- gMCP:::replaceVariables("+graphName+", variables="+getRVariableList(ht)+", ask=FALSE)");
+		//TODO This is really a strange place to load a graph... :
+		loadGraph(graphName);
+		return saveGraph(graphName, verbose, ht, global);
+	}
+
 	private void saveSingleLayerGraph(String graphName, boolean verbose, Hashtable<String, Double> ht, int layer, boolean global) {
 		String alpha = "";
 		String nodeStr = "";
@@ -903,16 +464,99 @@ public class NetList extends JPanel implements MouseMotionListener, MouseListene
 		if (global) RControl.getR().evalVoidInGlobalEnv(graphName+" <- get(\""+graphName+"\", env=gMCP:::gMCPenv)");
 	}
 
+	public void setEdge(Edge e) {
+		Edge old = null;
+		for (Edge e2 : edges) {
+			if (e2.from == e.from && e2.to == e.to && e2.layer == e.layer) {
+				old = e2;
+			}
+			if (e2.from == e.to && e2.to == e.from && e2.layer == e.layer) {
+				e.curve = true;
+				e2.curve = true;
+			}
+		}
+		if (old != null) edges.remove(old);
+		edges.add(e);
+		control.getDataFramePanel().setValueAt(e.getEdgeWeight(), getNodes().indexOf(e.from), getNodes().indexOf(e.to), e.layer);
+		graphHasChanged();
+	}
+
+	
+	public void setEdge(Node from, Node to, Double w, int layer) {	
+		setEdge(from, to, new EdgeWeight(w), layer);
+	}
+
+	public void setEdge(Node from, Node to, EdgeWeight w, int layer) {
+		Integer x = null;
+		Integer y = null;
+		boolean curve = false;
+		for (int i = edges.size()-1; i >= 0; i--) {
+			if (edges.get(i).from == from && edges.get(i).to == to && edges.get(i).layer == layer) {
+				x = edges.get(i).getK1();
+				y = edges.get(i).getK2();
+				removeEdge(edges.get(i));				
+			}
+		}
+		for (Edge e : edges) {
+			if (e.from == to && e.to == from && e.layer == layer) {
+				e.curve = true;
+				curve = true;
+			}
+		}		
+		if (!w.toString().equals("0")) {
+			if (x!=null) {
+				edges.add(new Edge(from, to, w, this, x, y, layer));
+			} else {
+				edges.add(new Edge(from, to, w, this, curve, layer));
+			}
+			edges.lastElement().curve = curve;
+		}
+		control.getDataFramePanel().setValueAt(w, getNodes().indexOf(from), getNodes().indexOf(to), layer);
+		graphHasChanged();
+	}
+
+	public void setEdge(Node from, Node to, int layer) {
+		setEdge(from, to, 1d, layer);		
+	}
+
+	public void setEdge(Node firstVertex, Node secondVertex, NetListPanel netListPanel) {
+		setEdge(firstVertex, secondVertex, this.askForLayer());		
+	}
+	
 	public void setEdges(Vector<Edge> edges) {
 		this.edges = edges;
 		graphHasChanged();
 	}
 
-	public void setKnoten(Vector<Node> knoten) {
-		this.nodes = knoten;
+	public void setNodes(Vector<Node> nodes) {
+		this.nodes = nodes;
 		graphHasChanged();
 	}
+
+	public void setNewEdge(boolean b) {
+		for (NetListPanel n : nlp) {
+			n.newEdge = b;
+			if (!b) {
+				n.arrowHeadPoint = null;
+				n.firstVertexSelected = false;
+			}
+		}
+	}
 	
+	public void edgeWasSet() {
+		for (NetListPanel n : nlp) {
+			n.newEdge = false;
+			n.arrowHeadPoint = null;
+			n.firstVertexSelected = false;
+		}
+	}
+
+	public void setNewVertex(boolean b) {
+		for (NetListPanel n : nlp) {
+			n.newVertex = b;
+		}
+	}
+
 	public void setZoom(double p) {
 		zoom = p;
 	}
@@ -927,14 +571,6 @@ public class NetList extends JPanel implements MouseMotionListener, MouseListene
 		statusBar.setText(GraphView.STATUSBAR_DEFAULT);
 	}
 
-	public Node vertexSelected(int x, int y) {
-		for (Node n : nodes) {
-			if (n.inYou(x, y)) {
-				return n;
-			}
-		}
-		return null;
-	}
 	public int whichNode(String name) {
 		for (int i=0; i<nodes.size(); i++) {
 			if (nodes.get(i).getName().equals(name)) {
@@ -944,37 +580,11 @@ public class NetList extends JPanel implements MouseMotionListener, MouseListene
 		return -1;
 	}
 
-	//TODO This method is a little bit stupid, isn't it?!?
-	public String getGraphName() {
-		saveGraph(".tmpGraph", false, false);
-		return ".tmpGraph";
-	}
-
-	private void placeUnfixedNodes(Node node) {
-		for (Edge e : edges) {
-			if ((e.from == node || e.to == node) && !e.isFixed()) {
-				e.move();
-			}
+	public void stateChanged(ChangeEvent e) {
+		int i = getSelectedIndex();
+		if (i!=0) {
+			control.getDataFramePanel().setSelectedIndex(i-1);
 		}		
-	}
-
-	public void removeLayer(int layer) {
-		for (int i = edges.size(); i>0; i--) {
-			if (edges.get(i-1).layer == layer) {
-				edges.remove(i-1);
-			}
-		}
-		for (Node n : nodes) {
-			n.removeLayer(layer);
-		}
-		refresh();
-	}
-
-	public void addEntangledLayer() {
-		for (Node n : nodes) {
-			n.addLayer();
-		}
-		refresh();
 	}
 
 }
