@@ -30,6 +30,7 @@ public class Node {
 	public static int r = 25;	
 	private Color color = Color.WHITE;
 	TeXIcon iconName;
+	List<TeXIcon> iconWeightScaledDown;
 	List<TeXIcon> iconWeight;
 	/** lastFontSize is used to check whether TeXItems have to be reconstructed */
 	int lastFontSize = 14;
@@ -116,7 +117,7 @@ public class Node {
 	/**
 	 * Draws the node.
 	 * @param g Graphs object for drawing
-	 * @param layer Layer to draw. Will be 'null' if all layers should be drawn. Always greater 0, starts with 1.
+	 * @param layer Layer to draw. Will be 'null' if all layers should be drawn. Starts with 0 (not 1).
 	 */
 	public void paintYou(Graphics g, Integer layer) {
 		if (rejected && !Configuration.getInstance().getGeneralConfig().showRejected()) return;
@@ -155,8 +156,14 @@ public class Node {
 					(float) ((y + r - 0.25*r) * nl.getZoom())); // +rc.getHeight()/2));
 
 			//TODO Color for different weights:
-			rc = g2d.getFont().getStringBounds(StringTools.collapseStringList(getWS(), " "), frc);
-			g2d.drawString(StringTools.collapseStringList(getWS(), " "),
+			String wStr;
+			if (layer==null) {
+				wStr = StringTools.collapseStringList(getWS(), " ");
+			} else {
+				wStr = stringW.get(layer);
+			}
+			rc = g2d.getFont().getStringBounds(wStr, frc);
+			g2d.drawString(wStr,
 					(float) ((x + r) * nl.getZoom() - rc.getWidth() / 2),
 					(float) ((y + 1.5 * r) * nl.getZoom())); 
 		} else {		
@@ -170,8 +177,15 @@ public class Node {
 					(int) ((x + r) * nl.getZoom() - iconName.getIconWidth() / 2), 
 					(int) ((y + r - 0.6*r) * nl.getZoom()));	
 
-			int offset = (int)(-((iconWeight.size()-1)/2.0)*10);
-			for (TeXIcon icon : iconWeight) {				
+			List<TeXIcon> tmpIconWeight;
+			if (layer==null) {
+				tmpIconWeight = iconWeightScaledDown;
+			} else {
+				tmpIconWeight = new Vector<TeXIcon>();	
+				tmpIconWeight.add(iconWeight.get(layer));
+			}			
+			int offset = (int)(-((tmpIconWeight.size()-1)/2.0)*10);
+			for (TeXIcon icon : tmpIconWeight) {				
 				//TODO Color and correct x coordinates:
 				icon.paintIcon(LaTeXTool.panel, g2d,
 						(int) ((x + r + offset) * nl.getZoom() - icon.getIconWidth() / 2), 
@@ -184,13 +198,22 @@ public class Node {
 
 	public void createWeightIcons() {
 		lastFontSize = (int) (14 * nl.getZoom());
-		int fontSize = (int) (14 * nl.getZoom() * (getWS().size()==1?1:0.8));
+		int fontSize = (int) (14 * nl.getZoom());
+		int fontSizeScaledDown = (int) (14 * nl.getZoom() * (getWS().size()==1?1:0.8));
 		iconWeight = new Vector<TeXIcon>();
+		iconWeightScaledDown = new Vector<TeXIcon>();
 		int layer = 0;
 		for (String w : getWS()) {			
 			TeXIcon icon = LaTeXTool.getTeXIcon(this.nl.control.getGraphGUI(), w, fontSize);
 			icon.setForeground(NetListPanel.layerColors[layer%NetListPanel.layerColors.length]);
-			iconWeight.add(icon);	
+			iconWeight.add(icon);
+			if (fontSize == fontSizeScaledDown) {
+				iconWeightScaledDown = iconWeight;
+			} else {
+				icon = LaTeXTool.getTeXIcon(this.nl.control.getGraphGUI(), w, fontSizeScaledDown);
+				icon.setForeground(NetListPanel.layerColors[layer%NetListPanel.layerColors.length]);
+				iconWeightScaledDown.add(icon);	
+			}
 			layer++;
 		}
 	}

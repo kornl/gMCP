@@ -46,6 +46,11 @@ public class NetListPanel extends JPanel implements MouseMotionListener, MouseLi
 	/** Layer which should be draw. Set to 'null' if all layers should be shown. */
 	Integer layer;
 	
+	/**
+	 * 
+	 * @param nl
+	 * @param layer
+	 */
 	public NetListPanel(NetList nl, Integer layer) {
 		this.nl = nl;
 		this.layer = layer;
