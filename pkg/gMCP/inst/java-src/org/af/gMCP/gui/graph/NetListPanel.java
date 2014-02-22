@@ -273,9 +273,7 @@ public class NetListPanel extends JPanel implements MouseMotionListener, MouseLi
 					return;
 				}	
 				nl.setEdge(firstVertex, secondVertex, this);
-				newEdge = false;
-				arrowHeadPoint = null;
-				firstVertexSelected = false;
+				nl.edgeWasSet();
 				nl.statusBar.setText(GraphView.STATUSBAR_DEFAULT);
 			}
 			repaint();
@@ -395,9 +393,7 @@ public class NetListPanel extends JPanel implements MouseMotionListener, MouseLi
 				return;
 			}
 			nl.setEdge(firstVertex, secondVertex, this);
-			newEdge = false;
-			arrowHeadPoint = null;
-			firstVertexSelected = false;
+			nl.edgeWasSet();
 			nl.statusBar.setText(GraphView.STATUSBAR_DEFAULT);
 
 			repaint();

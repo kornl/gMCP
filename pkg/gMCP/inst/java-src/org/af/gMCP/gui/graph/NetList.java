@@ -542,6 +542,14 @@ public class NetList extends JTabbedPane implements ChangeListener {
 			}
 		}
 	}
+	
+	public void edgeWasSet() {
+		for (NetListPanel n : nlp) {
+			n.newEdge = false;
+			n.arrowHeadPoint = null;
+			n.firstVertexSelected = false;
+		}
+	}
 
 	public void setNewVertex(boolean b) {
 		for (NetListPanel n : nlp) {
