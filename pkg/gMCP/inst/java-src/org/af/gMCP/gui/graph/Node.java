@@ -35,8 +35,6 @@ public class Node {
 	int lastFontSize = 14;
 	/** Normally each node has exactly one PPanel as NodeListener waiting for changes */
 	public Vector<NodeListener> listener = new Vector<NodeListener>();
-
-	Double localPower = null;
 	
 	private String name;
 	NetList nl;
@@ -133,14 +131,6 @@ public class Node {
 				r * 2 * nl.getZoom(), 
 				r * 2 * nl.getZoom());
 		g2d.draw(e);
-
-		if (localPower != null) {			
-			String s = format.format(localPower);
-			rc = g2d.getFont().getStringBounds(s, frc);
-			g2d.drawString(s ,
-					(float) ((x + r) * nl.getZoom() - rc.getWidth() / 2),
-					(float) ((y + 2.5 * r) * nl.getZoom())); 
-		}
 		
 		if (!Configuration.getInstance().getGeneralConfig().useJLaTeXMath()) {			
 
@@ -205,10 +195,6 @@ public class Node {
 	public void setColor(Color color) {
 		this.color = color;
 		nl.repaint();
-	}
-
-	public void setLocalPower(double d) {
-		localPower = d;	
 	}
 	
 	public void setName(String name) {
