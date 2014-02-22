@@ -291,6 +291,10 @@ public class Node {
 		return name+" (w: "+getWS()+")";
 	}
 
+	/**
+	 * Removes layer. Counting layers starts from 0 (not 1).
+	 * @param layer
+	 */
 	public void removeLayer(int layer) {				
 		weight.remove(layer);
 		stringW.remove(layer);	

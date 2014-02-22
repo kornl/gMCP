@@ -277,12 +277,16 @@ public class NetList extends JTabbedPane {
 		graphHasChanged();
 	}
 	
-	public void removeLayer(int layer) {
-		remove(layer);
+	/**
+	 * Removes layer from entangled graph. Counting layers starts from 0 (not 1).
+	 * @param layer Layer to remove. Counting layers starts from 0 (not 1).
+	 */
+	public void removeEntangledLayer(int layer) {
+		remove(layer+1); // +1 since the combined graph is shown at tab 0.
 		this.layer--;
-		if (layer==1) {			
+		if (this.layer==1) {			
 			setTitleAt(0, "Graph");
-				remove(1);
+			remove(1);
 		}
 		for (int i = edges.size(); i>0; i--) {
 			if (edges.get(i-1).layer == layer) {
