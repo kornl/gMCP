@@ -66,7 +66,7 @@ public class PView extends JPanel implements KeyListener, ActionListener {
 	
 	private RealTextField totalAlpha = new RealTextField("totalAlpha", 0, 1);
 	
-	JLabel weightLabel = new JLabel("Weight");
+	JLabel weightLabel = new JLabel("Weights");
 	
 	public PView(CreateGraphGUI parent) {
 		this.parent = parent;
@@ -127,9 +127,9 @@ public class PView extends JPanel implements KeyListener, ActionListener {
 		}
 		
 		try {
-			refresh = new JButton(new ImageIcon(ImageIO.read(DesktopPaneBG.class
+			refresh = new JButton("Refresh", new ImageIcon(ImageIO.read(DesktopPaneBG.class
 					.getResource("/org/af/gMCP/gui/graph/images/update24.png"))));
-			createMatrix = new JButton(new ImageIcon(ImageIO.read(DesktopPaneBG.class
+			createMatrix = new JButton("Create Matrix", new ImageIcon(ImageIO.read(DesktopPaneBG.class
 					.getResource("/org/af/gMCP/gui/graph/images/matrix.png"))));
 		} catch (IOException e) {
 			logger.error("IOError that should never happen.", e);
@@ -346,7 +346,7 @@ public class PView extends JPanel implements KeyListener, ActionListener {
 		if (b) {
 			weightLabel.setText("α Level");
 		} else {
-			weightLabel.setText("Weight");
+			weightLabel.setText("Weights");
 		}
 		refresh.setEnabled(!b);
 		createMatrix.setEnabled(!b);
@@ -386,7 +386,7 @@ public class PView extends JPanel implements KeyListener, ActionListener {
     	int col = 6;
     	
     	for (int i=1; i<parent.getGraphView().getNumberOfLayers(); i++) {
-    		panel.add(new JLabel("Layer "+(i+1)), cc.xy(col, 2));
+    		panel.add(new JLabel("Weights "+(i+1)), cc.xy(col, 2));
     		col += 2;
     	}
     	
@@ -468,12 +468,16 @@ public class PView extends JPanel implements KeyListener, ActionListener {
 		for (PPanel p : panels) {
 			p.addEntangledLayer();
 		}
+		weightLabel.setText("Weights 1");
 		setUp();		
 	}
 
 	public void removeEntangledLayer(int layer) {
 		for (PPanel p : panels) {
 			p.removeEntangledLayer(layer);
+		}
+		if (panels.size()==0) {
+			weightLabel.setText("Weights");
 		}
 		setUp();		
 	}
