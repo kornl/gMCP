@@ -14,6 +14,8 @@ import java.util.Vector;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTabbedPane;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 import org.af.gMCP.config.Configuration;
 import org.af.gMCP.gui.RControl;
@@ -22,7 +24,7 @@ import org.af.gMCP.gui.dialogs.VariableDialog;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-public class NetList extends JTabbedPane {
+public class NetList extends JTabbedPane implements ChangeListener {
 
 	private static final Log logger = LogFactory.getLog(NetList.class);
 	GraphView control;
@@ -56,6 +58,7 @@ public class NetList extends JTabbedPane {
 	double zoom = 1d;
 	
 	public NetList(JLabel statusBar, GraphView graphview) {
+		addChangeListener(this);
 		this.statusBar = statusBar;
 		this.control = graphview;
 		Font f = statusBar.getFont();
@@ -566,6 +569,13 @@ public class NetList extends JTabbedPane {
 			}
 		}
 		return -1;
+	}
+
+	public void stateChanged(ChangeEvent e) {
+		int i = getSelectedIndex();
+		if (i!=0) {
+			control.getDataFramePanel().setSelectedIndex(i-1);
+		}		
 	}
 
 }
