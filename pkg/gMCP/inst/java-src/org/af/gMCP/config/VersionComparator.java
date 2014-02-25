@@ -16,6 +16,7 @@ import java.util.StringTokenizer;
 import java.util.concurrent.TimeUnit;
 
 import javax.swing.JDialog;
+import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
@@ -167,9 +168,11 @@ public class VersionComparator extends JDialog implements ActionListener {
 				//TODO (But to do nothing is also okay - but perhaps there is something more clever).
 			} else {
 				Date now = new Date();
-				long days = TimeUnit.DAYS.convert(rd.getTime()-now.getTime(), TimeUnit.MILLISECONDS);
-				logger.info("This release is "+days+" old.");
-				//TODO Warn if release is older than...
+				long days = TimeUnit.DAYS.convert(now.getTime()-rd.getTime(), TimeUnit.MILLISECONDS);
+				logger.info("This release is "+days+" days old.");
+				if (days>200) {
+					//TODO Warn if release is older than...					
+				}
 			}
 		}
 	}
