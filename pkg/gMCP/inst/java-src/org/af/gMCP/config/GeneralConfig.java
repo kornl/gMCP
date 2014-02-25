@@ -1,7 +1,10 @@
 package org.af.gMCP.config;
 
 import java.io.File;
+import java.text.DateFormat;
 import java.text.DecimalFormat;
+import java.text.ParseException;
+import java.util.Date;
 import java.util.List;
 import java.util.Random;
 import java.util.Vector;
@@ -368,4 +371,26 @@ public class GeneralConfig extends SpecificConfig {
 	public boolean showRCode() {
 		return Boolean.parseBoolean(getProperty("showRCode", "true"));
 	}
+
+	public void setReleaseDate(String rd) {
+		setProperty("releaseDate", rd);
+	}
+	
+	public Date getReleaseDate() {
+		String ds = getProperty("releaseDate", "UNKOWN");
+		try {
+			return(DateFormat.getDateInstance().parse(ds));
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return null;
+		}
+	}
+	
+	public static void main(String args[]) {
+		GeneralConfig conf = Configuration.getInstance().getGeneralConfig();
+		conf.setReleaseDate("2013-06-14 12:15:35");
+		Date d = conf.getReleaseDate();
+	}
+		
 }

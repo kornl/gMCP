@@ -11,7 +11,9 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
+import java.util.Date;
 import java.util.StringTokenizer;
+import java.util.concurrent.TimeUnit;
 
 import javax.swing.JDialog;
 import javax.swing.JScrollPane;
@@ -109,8 +111,8 @@ public class VersionComparator extends JDialog implements ActionListener {
     }
     
 	public static void getOnlineVersion() {
-		try {
-			if (Configuration.getInstance().getGeneralConfig().checkOnline()) {
+		if (Configuration.getInstance().getGeneralConfig().checkOnline()) {
+			try {			
 				String version = Configuration.getInstance().getGeneralConfig().getVersionNumber();
 				String rversion = Configuration.getInstance().getGeneralConfig().getRVersionNumber();								
 				URL url = new URL("http://www.algorithm-forge.com/gMCP/version"+
@@ -153,10 +155,22 @@ public class VersionComparator extends JDialog implements ActionListener {
 									 "NEWS:";
 					//JOptionPane.showMessageDialog(null, message, "New version available!", JOptionPane.INFORMATION_MESSAGE);
 					new VersionComparator(message, txt, news, version, onlineversion);
-				}
+				}		
+			} catch (Exception e) {
+				logger.error(e.getMessage(), e);
 			}
-		} catch (Exception e) {
-			logger.error(e.getMessage(), e);
+		} //else 
+		{
+			Date rd = Configuration.getInstance().getGeneralConfig().getReleaseDate();
+			if (rd==null) {
+				logger.warn("Release Date not available!");
+				//TODO (But to do nothing is also okay - but perhaps there is something more clever).
+			} else {
+				Date now = new Date();
+				long days = TimeUnit.DAYS.convert(rd.getTime()-now.getTime(), TimeUnit.MILLISECONDS);
+				logger.info("This release is "+days+" old.");
+				//TODO Warn if release is older than...
+			}
 		}
 	}
 	
