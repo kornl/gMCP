@@ -1,7 +1,11 @@
 package org.af.gMCP.config;
 
 import java.io.File;
+import java.text.DateFormat;
 import java.text.DecimalFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Random;
 import java.util.Vector;
@@ -368,4 +372,28 @@ public class GeneralConfig extends SpecificConfig {
 	public boolean showRCode() {
 		return Boolean.parseBoolean(getProperty("showRCode", "true"));
 	}
+
+	public void setReleaseDate(String rd) {
+		setProperty("releaseDate", rd);
+	}
+	
+	public Date getReleaseDate() {
+		String ds = getProperty("releaseDate", "UNKOWN");
+		try {
+			SimpleDateFormat parseDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+			return(parseDate.parse(ds));
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			logger.warn("Release date string '"+ds+"' could not be parsed.");
+			return null;
+		}
+	}
+	
+	public static void main(String args[]) throws ParseException {
+		GeneralConfig conf = Configuration.getInstance().getGeneralConfig();		
+		Date d = conf.getReleaseDate();
+		System.out.println(conf.getProperty("releaseDate", "UNKOWN"));
+		System.out.println(d.toString());
+	}
+		
 }
