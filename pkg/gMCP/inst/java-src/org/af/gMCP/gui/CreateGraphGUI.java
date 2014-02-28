@@ -63,6 +63,7 @@ public class CreateGraphGUI extends JFrame implements WindowListener, AbortListe
 	 */
 	public CreateGraphGUI(String graph, double[] pvalues, boolean debug, double grid, boolean experimentalFeatures) {
 		super("gMCP GUI");
+		System.setProperty("java.net.useSystemProxies","true");
 		RControl.getRControl(debug);
 		if (grid>0) {
 			Configuration.getInstance().getGeneralConfig().setGridSize((int)grid);
