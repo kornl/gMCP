@@ -37,8 +37,10 @@ public class GraphDocXWriter {
 		InputStream picIS = new ByteArrayInputStream(os.toByteArray());
 		
 		XWPFRun run = p.createRun();
-		run.addPicture(picIS, XWPFDocument.PICTURE_TYPE_PNG, "graph.png", Units.toEMU(image.getWidth()), Units.toEMU(image.getHeight()));
+		run.addPicture(picIS, XWPFDocument.PICTURE_TYPE_PNG, "graph.png", Units.toEMU(image.getWidth()/zoom), Units.toEMU(image.getHeight()/zoom));
 	}
+	
+	final static int zoom = 8; 
 	
 	/* Stuff one could use:
 	 * run.setSubscript(VerticalAlign.SUBSCRIPT);
@@ -62,7 +64,7 @@ public class GraphDocXWriter {
 		run.setText("gMCP Report");
 		
 		p = doc.createParagraph();
-		addImage(p, gui.getGraphView().getNL().getImage(1));
+		addImage(p, gui.getGraphView().getNL().getImage(zoom));
 		
 		FileOutputStream fos = new FileOutputStream(file);
 		doc.write(fos);
