@@ -13,6 +13,7 @@ import javax.imageio.ImageIO;
 
 import org.af.gMCP.gui.CreateGraphGUI;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
+import org.apache.poi.util.Units;
 import org.apache.poi.xwpf.usermodel.Borders;
 import org.apache.poi.xwpf.usermodel.ParagraphAlignment;
 import org.apache.poi.xwpf.usermodel.VerticalAlign;
@@ -32,11 +33,11 @@ public class GraphDocXWriter {
 	
 	public static void addImage(XWPFParagraph p, BufferedImage image) throws IOException, InvalidFormatException {
 		ByteArrayOutputStream os = new ByteArrayOutputStream();
-		ImageIO.write(image, "gif", os);
+		ImageIO.write(image, "png", os);
 		InputStream picIS = new ByteArrayInputStream(os.toByteArray());
 		
 		XWPFRun run = p.createRun();
-		run.addPicture(picIS, XWPFDocument.PICTURE_TYPE_JPEG, "logo.JPG",300,300);
+		run.addPicture(picIS, XWPFDocument.PICTURE_TYPE_PNG, "graph.png", Units.toEMU(image.getWidth()), Units.toEMU(image.getHeight()));
 	}
 	
 	/* Stuff one could use:
