@@ -617,7 +617,7 @@ public class MenuBarMGraph extends JMenuBar implements ActionListener {
 			return;
 		}
 		try {
-			(new GraphDocXWriter(control.getGraphGUI())).createDocXReport(f);			
+			(new GraphDocXWriter(control)).createDocXReport(f);			
 			try {	
 				Method main = Class.forName("java.awt.Desktop").getDeclaredMethod("getDesktop");
 				Object obj = main.invoke(new Object[0]);

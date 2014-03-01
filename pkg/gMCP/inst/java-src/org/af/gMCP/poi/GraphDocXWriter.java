@@ -8,11 +8,12 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Date;
+import java.util.List;
 
 import javax.imageio.ImageIO;
 
 import org.af.gMCP.config.Configuration;
-import org.af.gMCP.gui.CreateGraphGUI;
+import org.af.gMCP.gui.graph.GraphView;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.util.Units;
 import org.apache.poi.xwpf.usermodel.Borders;
@@ -25,10 +26,10 @@ import org.apache.poi.xwpf.usermodel.XWPFTableRow;
 
 public class GraphDocXWriter {
 
-	CreateGraphGUI gui;
+	GraphView control;
 	
-	public GraphDocXWriter(CreateGraphGUI gui) {
-		this.gui = gui;
+	public GraphDocXWriter(GraphView control) {
+		this.control = control;
 	}	
 	
 	public static void addImage(XWPFParagraph p, BufferedImage image) throws IOException, InvalidFormatException {
@@ -44,11 +45,9 @@ public class GraphDocXWriter {
 	
 	/* Stuff one could use:
 	 * run.setSubscript(VerticalAlign.SUBSCRIPT);
-	 * run.addBreak();
 	 * run.setTextPosition(120);
 	 * p.setAlignment(ParagraphAlignment.DISTRIBUTE);
 	 * p.setIndentationRight(150);
-	 * doc.createParagraph().createRun().addBreak();
 	 */
 	
 	public void createDocXReport(File file) throws IOException, InvalidFormatException {
@@ -66,10 +65,10 @@ public class GraphDocXWriter {
 		doc.createParagraph().createRun().setText("Date: "+new Date()+ ", User: "+Configuration.getInstance().getGeneralConfig().getUser());
 				
 		p = doc.createParagraph();
-		addImage(p, gui.getGraphView().getNL().getImage(zoom));
+		addImage(p, control.getNL().getImage(zoom));
 		
 		p = doc.createParagraph();		
-		String descr = gui.getGraphView().getDView().getDescription();
+		String descr = control.getDView().getDescription();
 		System.out.println(descr);
 		for (String s : descr.split("\\\\n")) {
 			run = p.createRun();
@@ -77,27 +76,46 @@ public class GraphDocXWriter {
 			run.addBreak();
 		}		
 		
+		List<Double> pv = control.getPView().getPValues();
+		List<String> pvn = control.getNL().nlp.get(0).getHNames();
+		createPValueTable(doc, pv, pvn);
+		
+		
 		FileOutputStream fos = new FileOutputStream(file);
 		doc.write(fos);
 		fos.close();
 	}
 	
+	private void createPValueTable(XWPFDocument doc, List<Double> pv, List<String> pvn) {
+		XWPFTable table = doc.createTable();
+		XWPFTableRow row = table.getRow(0);
+		row.addNewTableCell();
+		XWPFParagraph p = row.getCell(0).getParagraphs().get(0);
+		XWPFRun run = p.createRun();
+		run.setText("Hypothesis");
+		run.setBold(true);
+		
+		p = row.getCell(1).getParagraphs().get(0);
+		run = p.createRun();
+		run.setText("P-Value");
+		run.setBold(true);
+		row = table.createRow();
+		
+		for (int i=0; i < pv.size(); i++) {
+			row.getCell(0).setText(pvn.get(i));
+			row.getCell(1).setText(""+pv.get(i));
+			if (i !=pv.size()-1) {
+				row = table.createRow();
+			}
+		}
+		
+	}
+
 	private static void setAllBorders(XWPFParagraph p, Borders type) {
 		p.setBorderBottom(type);
 		p.setBorderTop(type);
 		p.setBorderRight(type);
 		p.setBorderLeft(type);
 		p.setBorderBetween(type);		
-	}
-
-	public static void createTable(XWPFDocument doc) {
-		XWPFTable table = doc.createTable();
-		XWPFTableRow row = table.getRow(0);
-		row.getCell(0).setText("1 - 1");
-		row.addNewTableCell().setText("1 - 2");
-
-		row = table.createRow();
-		row.getCell(0).setText("2 - 1");
-		row.getCell(1).setText("2 - 2");
 	}
 }
