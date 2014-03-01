@@ -71,9 +71,9 @@ public class MenuBarMGraph extends JMenuBar implements ActionListener {
 		fmenu.addSeparator();
 		fmenu.add(makeMenuItem("Save LaTeX Report", "save latex report", KeyEvent.VK_R));
 		fmenu.add(makeMenuItem("Save Word Docx Report", "save docx report", KeyEvent.VK_R));
-		JMenuItem item = makeMenuItem("Save PDF Report", "save pdf");
+		/*JMenuItem item = makeMenuItem("Save PDF Report", "save pdf");
 		item.setEnabled(false);
-		fmenu.add(item);
+		fmenu.add(item);*/
 		//fmenu.add(makeMenuItem("Save PDF Report", "save pdf"));
 		fmenu.addSeparator();
 		createLastUsed();
