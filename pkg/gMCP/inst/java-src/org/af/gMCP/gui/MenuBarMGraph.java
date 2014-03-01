@@ -619,7 +619,15 @@ public class MenuBarMGraph extends JMenuBar implements ActionListener {
 			return;
 		}
 		try {
-			(new GraphDocXWriter(control.getGraphGUI())).createDocXReport(f);
+			(new GraphDocXWriter(control.getGraphGUI())).createDocXReport(f);			
+			try {	
+				Method main = Class.forName("java.awt.Desktop").getDeclaredMethod("getDesktop");
+				Object obj = main.invoke(new Object[0]);
+				Method second = obj.getClass().getDeclaredMethod("open", new Class[] { File.class }); 
+				second.invoke(obj, f);
+			} catch (Exception exc) {			
+				logger.warn("No Desktop class in Java 5 or URI error: "+exc.getMessage(), exc);
+			}
 		} catch (InvalidFormatException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
