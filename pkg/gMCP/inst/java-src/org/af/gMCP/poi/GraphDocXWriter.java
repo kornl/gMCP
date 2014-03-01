@@ -86,6 +86,12 @@ public class GraphDocXWriter {
 		fos.close();
 	}
 	
+	/**
+	 * Creates a p-value table
+	 * @param doc XWPFDocument document for table
+	 * @param pv List of p-values
+	 * @param pvn List of hypotheses names corresponding to p-values
+	 */
 	private void createPValueTable(XWPFDocument doc, List<Double> pv, List<String> pvn) {
 		XWPFTable table = doc.createTable();
 		XWPFTableRow row = table.getRow(0);
@@ -102,6 +108,7 @@ public class GraphDocXWriter {
 		row = table.createRow();
 		
 		for (int i=0; i < pv.size(); i++) {
+			//TODO Hypotheses names could be parsed and e.g. "_" replaced by run.setSubscript(VerticalAlign.SUBSCRIPT);
 			row.getCell(0).setText(pvn.get(i));
 			row.getCell(1).setText(""+pv.get(i));
 			if (i !=pv.size()-1) {
