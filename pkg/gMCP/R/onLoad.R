@@ -31,6 +31,14 @@
 			.jaddClassPath(jars)
 		}		
 	}
+  # Adding poi jar files to Classpath:
+	classes <- system.file("java", package = "xlsxjars", lib.loc = NULL)
+	if (nzchar(classes)) {	  
+	  jars <- grep(".*\\.jar", list.files(classes, full.names = TRUE), TRUE, value = TRUE)
+	  if (length(jars)) { 
+	    .jaddClassPath(jars)
+	  }		
+	}
 	
 	rJavaVersion <- utils::sessionInfo()$otherPkgs$rJava$Version
 	
