@@ -37,8 +37,10 @@ import org.af.gMCP.gui.dialogs.VariableNameDialog;
 import org.af.gMCP.gui.graph.GraphView;
 import org.af.gMCP.gui.graph.WrongInputException;
 import org.af.gMCP.gui.options.OptionsDialog;
+import org.af.gMCP.poi.GraphDocXWriter;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.jdesktop.swingworker.SwingWorker;
 
 public class MenuBarMGraph extends JMenuBar implements ActionListener {
@@ -68,9 +70,10 @@ public class MenuBarMGraph extends JMenuBar implements ActionListener {
 		fmenu.add(makeMenuItem("Show LaTeX Code for Graph", "show graph latex", KeyEvent.VK_C));
 		fmenu.addSeparator();
 		fmenu.add(makeMenuItem("Save LaTeX Report", "save latex report", KeyEvent.VK_R));
-		JMenuItem item = makeMenuItem("Save PDF Report", "save pdf");
+		fmenu.add(makeMenuItem("Save Word Docx Report", "save docx report", KeyEvent.VK_R));
+		/*JMenuItem item = makeMenuItem("Save PDF Report", "save pdf");
 		item.setEnabled(false);
-		fmenu.add(item);
+		fmenu.add(item);*/
 		//fmenu.add(makeMenuItem("Save PDF Report", "save pdf"));
 		fmenu.addSeparator();
 		createLastUsed();
@@ -317,6 +320,8 @@ public class MenuBarMGraph extends JMenuBar implements ActionListener {
         	//savePDF();
         } else if (e.getActionCommand().equals("save latex report")) {
         	exportLaTeXReport();
+        } else if (e.getActionCommand().equals("save docx report")) {
+        	exportDocX();
         } else if (e.getActionCommand().equals("load graph")) {       	
         	loadGraph();
         } else if (e.getActionCommand().equals("load graph from R")) {
@@ -590,6 +595,44 @@ public class MenuBarMGraph extends JMenuBar implements ActionListener {
 			}  
 		};
 		worker.execute();
+	}
+	
+	public void exportDocX() {
+		if (control.getNL().getNodes().size()==0) {
+    		JOptionPane.showMessageDialog(control.getMainFrame(), "Graph is empty.", "Empty graph", JOptionPane.ERROR_MESSAGE);
+    		return;
+    	} 
+		JFileChooser fc = new JFileChooser(Configuration.getInstance().getClassProperty(this.getClass(), "DocXDirectory"));
+		fc.setDialogType(JFileChooser.SAVE_DIALOG);
+		File f;
+		int returnVal = fc.showSaveDialog(this);
+		if (returnVal == JFileChooser.APPROVE_OPTION) {			
+			f = fc.getSelectedFile();
+			Configuration.getInstance().setClassProperty(this.getClass(), "DocXDirectory", f.getParent());
+			if (!f.getName().toLowerCase().endsWith(".docx")) {
+            	f = new File(f.getAbsolutePath()+".docx");
+            }
+			logger.info("Export to: " + f.getAbsolutePath() + ".");
+		} else {
+			return;
+		}
+		try {
+			(new GraphDocXWriter(control.getGraphGUI())).createDocXReport(f);			
+			try {	
+				Method main = Class.forName("java.awt.Desktop").getDeclaredMethod("getDesktop");
+				Object obj = main.invoke(new Object[0]);
+				Method second = obj.getClass().getDeclaredMethod("open", new Class[] { File.class }); 
+				second.invoke(obj, f);
+			} catch (Exception exc) {			
+				logger.warn("No Desktop class in Java 5 or URI error: "+exc.getMessage(), exc);
+			}
+		} catch (InvalidFormatException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	public void writeLaTeX(String s) {

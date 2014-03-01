@@ -8,6 +8,11 @@ Changes in version 0.8-7 (??-0?-2014)
   The first tab still shows the combined graphs and then a separate tab
   for each graph follows.
   
+- The (disabled) menu entry for PDF reports was replaced by functionality
+  for Office Open XML (MS Word docx) support. Package xlsxjars is therefore
+  now a dependency (IMPORTS), since it already provides the necessary
+  Apache POI jar files.
+
 
 Changes in version 0.8-6 (17-02-2014)
 =====================================

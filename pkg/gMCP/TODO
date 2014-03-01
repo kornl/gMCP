@@ -26,6 +26,7 @@ Entangled graphs: Alpha level -> Weights 1, Weights 2, Weights 3 (and check whet
 - Streamline / throw out graphTest
 - Highlight edges (and perhaps nodes) depending on the focus in the dataframe. 
 
+- http://docs.oracle.com/javase/1.5.0/docs/guide/net/proxies.html - http://stackoverflow.com/questions/376101/setting-jvm-jre-to-use-windows-proxy-automatically
 - Unify graphMCP and entangled graphs?
 - Integrate parameter 'envir' into corMatWizard.
 
