@@ -6,7 +6,7 @@ Author: Kornelius Rohmeyer, Florian Klinglmueller (parametric tests, adaptive de
 Maintainer: Kornelius Rohmeyer <rohmeyer@small-projects.de>
 Description: This package provides functions and a graphical user interface for graphical described multiple test procedures.
 Depends: R (>= 2.8.0), rJava (>= 0.6-3), JavaGD, methods
-Imports: MASS, PolynomF, multcomp (>= 1.1), mvtnorm, Matrix, CommonJavaJars (>= 1.0.4), stats4
+Imports: MASS, PolynomF, multcomp (>= 1.1), mvtnorm, Matrix, CommonJavaJars (>= 1.0.4), stats4, xlsxjars
 Suggests: RUnit, Deducer, knitr, graph (>= 1.20), mutoss, boot
 SystemRequirements: Java (>= 5.0) 
 License: GPL (>= 2)
