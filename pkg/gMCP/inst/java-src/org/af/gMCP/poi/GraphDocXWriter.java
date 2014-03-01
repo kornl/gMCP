@@ -48,7 +48,7 @@ public class GraphDocXWriter {
 	 * doc.createParagraph().createRun().addBreak();
 	 */
 	
-	public void createDocXReport(File file) throws IOException {
+	public void createDocXReport(File file) throws IOException, InvalidFormatException {
 		XWPFDocument doc = new XWPFDocument();
 		
 		XWPFParagraph p = doc.createParagraph();
@@ -59,6 +59,9 @@ public class GraphDocXWriter {
 		run.setFontSize(24);
 		run.setBold(true);
 		run.setText("gMCP Report");
+		
+		p = doc.createParagraph();
+		addImage(p, gui.getGraphView().getNL().getImage(1));
 		
 		FileOutputStream fos = new FileOutputStream(file);
 		doc.write(fos);
