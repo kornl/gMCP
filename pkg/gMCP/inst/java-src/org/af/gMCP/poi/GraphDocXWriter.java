@@ -4,19 +4,19 @@ import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Date;
 
 import javax.imageio.ImageIO;
 
+import org.af.gMCP.config.Configuration;
 import org.af.gMCP.gui.CreateGraphGUI;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.util.Units;
 import org.apache.poi.xwpf.usermodel.Borders;
 import org.apache.poi.xwpf.usermodel.ParagraphAlignment;
-import org.apache.poi.xwpf.usermodel.VerticalAlign;
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
 import org.apache.poi.xwpf.usermodel.XWPFParagraph;
 import org.apache.poi.xwpf.usermodel.XWPFRun;
@@ -63,8 +63,19 @@ public class GraphDocXWriter {
 		run.setBold(true);
 		run.setText("gMCP Report");
 		
+		doc.createParagraph().createRun().setText("Date: "+new Date()+ ", User: "+Configuration.getInstance().getGeneralConfig().getUser());
+				
 		p = doc.createParagraph();
 		addImage(p, gui.getGraphView().getNL().getImage(zoom));
+		
+		p = doc.createParagraph();		
+		String descr = gui.getGraphView().getDView().getDescription();
+		System.out.println(descr);
+		for (String s : descr.split("\\\\n")) {
+			run = p.createRun();
+			run.setText(s);
+			run.addBreak();
+		}		
 		
 		FileOutputStream fos = new FileOutputStream(file);
 		doc.write(fos);

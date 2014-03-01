@@ -395,5 +395,9 @@ public class GeneralConfig extends SpecificConfig {
 		System.out.println(conf.getProperty("releaseDate", "UNKOWN"));
 		System.out.println(d.toString());
 	}
+
+	public String getUser() {		
+		return getProperty("gMCPUser", System.getProperty("user.name"));
+	}
 		
 }
