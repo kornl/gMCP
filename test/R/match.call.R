@@ -10,4 +10,9 @@ gMCP2 <- function(graph, pvalues, test, correlation, alpha=0.05,
 }
 
 g <- BonferroniHolm(3)
-gMCP2(g, pvalues=c(0.01, 0.02, 0.04, 0.04, 0.7))
+x <- gMCP2(g, pvalues=c(0.01, 0.02, 0.04, 0.04, 0.7))
+
+call2char <- function(call, g) {
+  
+  paste(capture.output(print(call)), collapse="\n")
+}
