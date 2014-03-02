@@ -70,7 +70,7 @@ public class GraphDocXWriter {
 		
 		p = doc.createParagraph();		
 		String descr = gui.getGraphView().getDView().getDescription();
-		System.out.println(descr);
+		//System.out.println(descr);
 		for (String s : descr.split("\\\\n")) {
 			run = p.createRun();
 			run.setText(s);
