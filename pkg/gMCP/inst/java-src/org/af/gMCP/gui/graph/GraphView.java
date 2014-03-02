@@ -334,7 +334,7 @@ public class GraphView extends JPanel implements ActionListener {
 	 * to run to anonymous subclasses of SwingWorker.
 	 * See method actionPerformed(ActionEvent e) where it is used.
 	 */
-	String rCode = "";
+	public String rCode = "";
 	public boolean isGraphSaved = true;
 
 	private void showParamInfo() {
