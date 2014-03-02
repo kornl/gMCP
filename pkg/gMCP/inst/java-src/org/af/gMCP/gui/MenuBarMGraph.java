@@ -630,11 +630,9 @@ public class MenuBarMGraph extends JMenuBar implements ActionListener {
 				logger.warn("No Desktop class in Java 5 or URI error: "+exc.getMessage(), exc);
 			}
 		} catch (InvalidFormatException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			new ErrorDialogGMCP("An error occured submitting the graph.", e, false).showDialog();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			JOptionPane.showMessageDialog(control.getGraphGUI(), "Error writing docx report:\n"+e.getMessage(), "Error writing docx report", JOptionPane.ERROR_MESSAGE);
 		}
 	}
 	
