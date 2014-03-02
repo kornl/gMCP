@@ -136,12 +136,36 @@ public class GraphDocXWriter {
 		run = p.createRun();
 		run.setText("P-Value");
 		run.setBold(true);
-		row = table.createRow();
+		
+		if (rejected!=null) {
+			row.addNewTableCell();
+			p = row.getCell(2).getParagraphs().get(0);
+			run = p.createRun();
+			run.setText("Rejected");
+			run.setBold(true);
+			
+			if (adjPValues!=null) {
+				row.addNewTableCell();
+				p = row.getCell(3).getParagraphs().get(0);
+				run = p.createRun();
+				run.setText("Adj. P-Value");
+				run.setBold(true);
+				
+			}
+		}		
+		
+		row = table.createRow();		
 		
 		for (int i=0; i < pv.size(); i++) {
 			//TODO Hypotheses names could be parsed and e.g. "_" replaced by run.setSubscript(VerticalAlign.SUBSCRIPT);
 			row.getCell(0).setText(pvn.get(i));
 			row.getCell(1).setText(""+pv.get(i));
+			if (rejected!=null) {
+				row.getCell(2).setText(""+rejected[i]);
+				if (adjPValues!=null) {
+					row.getCell(3).setText(""+adjPValues[i]);
+				}
+			}
 			if (i !=pv.size()-1) {
 				row = table.createRow();
 			}
