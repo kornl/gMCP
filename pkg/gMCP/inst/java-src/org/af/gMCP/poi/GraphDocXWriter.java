@@ -63,9 +63,13 @@ public class GraphDocXWriter {
 		run.setText("gMCP Report");
 		
 		doc.createParagraph().createRun().setText("Date: "+new Date()+ ", User: "+Configuration.getInstance().getGeneralConfig().getUser());
-				
+
+		doc.createParagraph().createRun().addBreak();
+		
 		p = doc.createParagraph();
 		addImage(p, control.getNL().getImage(zoom));
+		
+		doc.createParagraph().createRun().addBreak();
 		
 		p = doc.createParagraph();		
 		String descr = control.getDView().getDescription();
@@ -74,7 +78,20 @@ public class GraphDocXWriter {
 			run = p.createRun();
 			run.setText(s);
 			run.addBreak();
-		}		
+		}
+		
+		doc.createParagraph().createRun().addBreak();
+		
+		p = doc.createParagraph();
+		run = p.createRun();
+		run.setBold(true);
+		run.setText("R Code:");
+		run.addBreak();
+		run = p.createRun();
+		run.setFontFamily("Courier");
+		run.setText(control.rCode);
+		
+		doc.createParagraph().createRun().addBreak();
 		
 		List<Double> pv = control.getPView().getPValues();
 		List<String> pvn = control.getNL().nlp.get(0).getHNames();
