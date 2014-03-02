@@ -602,6 +602,9 @@ public class MenuBarMGraph extends JMenuBar implements ActionListener {
     		JOptionPane.showMessageDialog(control.getMainFrame(), "Graph is empty.", "Empty graph", JOptionPane.ERROR_MESSAGE);
     		return;
     	} 
+		if (!control.isResultUpToDate()) {
+			JOptionPane.showMessageDialog(control.getMainFrame(), "Result is not up to date.", "Result not up to date", JOptionPane.WARNING_MESSAGE);
+		}
 		JFileChooser fc = new JFileChooser(Configuration.getInstance().getClassProperty(this.getClass(), "DocXDirectory"));
 		fc.setDialogType(JFileChooser.SAVE_DIALOG);
 		File f;
