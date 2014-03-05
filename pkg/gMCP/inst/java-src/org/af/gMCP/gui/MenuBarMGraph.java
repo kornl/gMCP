@@ -91,6 +91,7 @@ public class MenuBarMGraph extends JMenuBar implements ActionListener {
 		//if (Configuration.getInstance().getGeneralConfig().experimentalFeatures()) {
 		menu.addSeparator();
 		menu.add(makeMenuItem("Power analysis (still experimental)", "powerAnalysis"));		
+		menu.add(makeMenuItem("Sample size calculation (still experimental)", "samplesize"));
 		//}
 
 		add(menu);
@@ -375,6 +376,16 @@ public class MenuBarMGraph extends JMenuBar implements ActionListener {
         	String text = RControl.getR().eval("graphAnalysis(.tmpGraph, file=tempfile())").asRChar().getData()[0];
         	new TextFileViewer(control.getMainFrame(), "Graph analysis", text);
         } else if (e.getActionCommand().equals("powerAnalysis")) {
+        	if (control.getNL().getNodes().size()==0) {
+        		JOptionPane.showMessageDialog(control.getMainFrame(), "Graph is empty!", "Graph is empty!", JOptionPane.ERROR_MESSAGE);
+        		return;
+        	}
+        	if (control.getMainFrame().getPView().jrbSimes.isSelected()) {
+        		JOptionPane.showMessageDialog(control.getMainFrame(), "Simes test not yet supported in power calculations.", "Simes test not yet supported", JOptionPane.ERROR_MESSAGE);
+        		return;
+        	}
+        	new PowerDialogParameterUncertainty(control.getMainFrame());
+        } else if (e.getActionCommand().equals("samplesize")) {
         	if (control.getNL().getNodes().size()==0) {
         		JOptionPane.showMessageDialog(control.getMainFrame(), "Graph is empty!", "Graph is empty!", JOptionPane.ERROR_MESSAGE);
         		return;
