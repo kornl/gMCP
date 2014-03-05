@@ -171,6 +171,13 @@ public class NetListPanel extends JPanel implements MouseMotionListener, MouseLi
 		return new int[] {maxX, maxY};
 	}
 	
+	public List<String> getHNames() {
+		Vector<String> v = new Vector<String>(); 
+		for (Node n : getNodes()) {
+			v.add(n.getName());
+		}
+		return v;
+	}
 	
 	public double getZoom() {
 		return nl.getZoom();

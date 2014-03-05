@@ -219,6 +219,14 @@ public class PView extends JPanel implements KeyListener, ActionListener {
 		return s.substring(0, s.length()-2)+")";
 	}
 	
+	public List<Double> getPValues() {
+		Vector<Double> v = new Vector<Double>();		
+		for (PPanel panel : panels) {		
+			v.add(panel.getP());
+		}
+		return v;
+	}
+	
 	public double getTotalAlpha() throws Exception {
 		return getTotalAlpha(true);
 	}
