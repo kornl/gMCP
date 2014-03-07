@@ -360,11 +360,13 @@ public class PView extends JPanel implements KeyListener, ActionListener {
 	    if (!b) refresh(false);
 	}
 
+	JLabel subGraphLabel = new JLabel();
+	
 	public void setUp() {
 		JPanel panel = new JPanel();
 		
 		String cols = "5dlu, fill:pref:grow, 5dlu, fill:pref:grow, 5dlu, fill:pref:grow, 5dlu, fill:pref:grow, 5dlu";
-        String rows = "5dlu, pref, 5dlu, pref, 5dlu, pref, 5dlu";
+        String rows = "5dlu, pref, 5dlu, pref, 5dlu, pref, 5dlu, pref, 5dlu";
         for (PPanel p : panels) {
         	rows += ", pref, 5dlu";
         }
@@ -425,6 +427,8 @@ public class PView extends JPanel implements KeyListener, ActionListener {
         		panel.add(entangledWeights.get(i), cc.xy(col, row));
         		col += 2;
         	}
+        	row += 2;
+        	panel.add(subGraphLabel, cc.xyw(2, row, 5));
     	}
     	
     	updateLabels();
