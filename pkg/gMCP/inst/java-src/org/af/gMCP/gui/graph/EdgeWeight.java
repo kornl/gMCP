@@ -99,11 +99,29 @@ public class EdgeWeight {
 	
 	public final static String NO_GREEK_CHARACTER = "No greek character";
 	
+	public static String LaTeX2UTF(String s) {
+		for (int i=0; i<greek.length; i++) {
+			s = s.replaceAll("\\\\"+greekLaTeX[i], ""+greek[i]);
+		}
+		return s;
+	}
+	
+	public static void main(String[] args) {
+		System.out.println(LaTeX2UTF("2*\\nu=\\epsilon"));
+	}
+	
 	public static String UTF2LaTeX(char greekC) {
 		for (int i=0; i<greek.length; i++) {
 			if (greekC == greek[i]) return greekLaTeX[i];
 		}
 		return ""+greekC;// NO_GREEK_CHARACTER;
+	}
+	
+	public static String UTF2LaTeX(String s) {		
+		for (int i=0; i<greek.length; i++) {
+			s = s.replaceAll(""+greek[i], greekLaTeX[i]);
+		}
+		return s;
 	}
 	
 	public List<String> getVariables() {

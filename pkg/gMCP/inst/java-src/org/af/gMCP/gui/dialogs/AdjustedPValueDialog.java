@@ -14,6 +14,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 
 import org.af.gMCP.config.Configuration;
+import org.af.gMCP.gui.graph.EdgeWeight;
 import org.af.gMCP.gui.graph.Node;
 
 import com.jgoodies.forms.layout.CellConstraints;
@@ -36,8 +37,7 @@ public class AdjustedPValueDialog extends JDialog implements ActionListener {
 		getContentPane().setLayout(layout);
 		CellConstraints cc = new CellConstraints();
 
-		int row = 2;
-		
+		int row = 2;		
 		 
 		getContentPane().add(new JLabel("Hypotheses"), cc.xy(2, row));		
 		getContentPane().add(new JLabel("raw p-values"), cc.xy(4, row));		
@@ -46,7 +46,7 @@ public class AdjustedPValueDialog extends JDialog implements ActionListener {
 		DecimalFormat format = Configuration.getInstance().getGeneralConfig().getDecFormat();
 		for (int i=0; i<adjPValues.length; i++) {			
 			row += 2;			
-			getContentPane().add(new JLabel(""+vector.get(i).getName()+":"), cc.xy(2, row));
+			getContentPane().add(new JLabel(""+EdgeWeight.LaTeX2UTF(vector.get(i).getName())+":"), cc.xy(2, row));
 			getContentPane().add(new JLabel(""+format.format(pValues.get(i))), cc.xy(4, row));
 			getContentPane().add(new JLabel(""+format.format(adjPValues[i])), cc.xy(6, row));
 		}
