@@ -31,7 +31,6 @@ import org.af.commons.widgets.validate.RealTextField;
 import org.af.commons.widgets.validate.ValidationException;
 import org.af.gMCP.config.Configuration;
 import org.af.gMCP.gui.RControl;
-import org.af.gMCP.gui.graph.EdgeWeight;
 import org.af.gMCP.gui.graph.LaTeXTool;
 import org.af.gMCP.gui.graph.NetList;
 import org.af.gMCP.gui.graph.Node;

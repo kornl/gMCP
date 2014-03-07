@@ -21,7 +21,6 @@ import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
-import org.af.commons.tools.OSTools;
 import org.af.commons.widgets.buttons.OKButtonPane;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;

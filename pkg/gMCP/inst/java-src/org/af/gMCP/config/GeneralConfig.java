@@ -1,7 +1,6 @@
 package org.af.gMCP.config;
 
 import java.io.File;
-import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;

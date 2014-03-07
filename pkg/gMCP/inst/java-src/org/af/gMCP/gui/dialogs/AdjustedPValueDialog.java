@@ -1,7 +1,5 @@
 package org.af.gMCP.gui.dialogs;
 
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.DecimalFormat;
@@ -14,7 +12,6 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 
 import org.af.gMCP.config.Configuration;
-import org.af.gMCP.gui.graph.EdgeWeight;
 import org.af.gMCP.gui.graph.LaTeXTool;
 import org.af.gMCP.gui.graph.Node;
 
