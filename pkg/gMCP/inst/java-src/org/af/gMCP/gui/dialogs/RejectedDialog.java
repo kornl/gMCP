@@ -19,6 +19,9 @@ import org.af.gMCP.config.Configuration;
 import org.af.gMCP.gui.graph.EdgeWeight;
 import org.af.gMCP.gui.graph.Node;
 
+import com.jgoodies.forms.layout.CellConstraints;
+import com.jgoodies.forms.layout.FormLayout;
+
 public class RejectedDialog extends JDialog implements ActionListener {
 
 	JButton jb = new JButton("Ok");
@@ -29,56 +32,64 @@ public class RejectedDialog extends JDialog implements ActionListener {
 	public RejectedDialog(JFrame mainFrame, boolean[] rejected, Vector<Node> vector, String output, String code) {
 		super(mainFrame, "Rejected Null Hypotheses");
 
-		getContentPane().setLayout(new GridBagLayout());
+		String cols = "5dlu, pref, 5dlu, fill:pref:grow, 5dlu";
+		String rows = "5dlu, pref, 5dlu";
+		for (int i=0; i<vector.size(); i++) {
+			rows += ", pref, 5dlu";
+		}
+		if (output==null) {
+			//Label R-Code, R-Code JTA, JButton
+			rows +=", pref, 5dlu, fill:pref:grow, 5dlu, pref, 5dlu";
+		} else {
+			rows +=", pref, 5dlu, fill:pref:grow, 5dlu, fill:pref:grow, 5dlu, pref, 5dlu";
+		}
+
+		FormLayout layout = new FormLayout(cols, rows);
+		getContentPane().setLayout(layout);
+		CellConstraints cc = new CellConstraints();
+
+		int row = 2;		
 		
-		GridBagConstraints c = new GridBagConstraints();
+		getContentPane().add(new JLabel("Hypotheses"), cc.xy(2, row));
+		getContentPane().add(new JLabel(""), cc.xy(4, row));
 		
-		c.fill = GridBagConstraints.BOTH;		
-		c.gridx=0; c.gridy=0;
-		c.gridwidth = 1; c.gridheight = 1;
-		c.ipadx=10; c.ipady=10;
-		c.weightx=1; c.weighty=0;
-		
-		c.gridx=0; 
-		(getContentPane()).add(new JLabel("Hypotheses"), c);
-		c.gridx=1;
-		(getContentPane()).add(new JLabel(""), c);
-		c.gridy++;		
 		for (int i=0; i<rejected.length; i++) {
-			c.gridx=0; 
-			(getContentPane()).add(new JLabel(""+EdgeWeight.LaTeX2UTF(vector.get(i).getName())+":"), c);
-			c.gridx=1;
-			(getContentPane()).add(new JLabel(""+(rejected[i]?"rejected":"not rejected")), c);
-			c.gridy++;
+			row += 2;
+			getContentPane().add(new JLabel(""+EdgeWeight.LaTeX2UTF(vector.get(i).getName())+":"), cc.xy(2, row));
+			getContentPane().add(new JLabel(""+(rejected[i]?"rejected":"not rejected")), cc.xy(4, row));
 		}	
 
 		if (code != null && Configuration.getInstance().getGeneralConfig().showRCode()) {
 			jta2.setText(code);
 			jta2.setMargin(new Insets(4,4,4,4));
-			c.gridx=0; c.gridwidth = 2;
-			getContentPane().add(new JLabel("R code for reproducing these results:"), c);
-			c.gridy++; c.weighty=1;
+			
+			row += 2;
+			
+			getContentPane().add(new JLabel("R code for reproducing these results:"), cc.xyw(2, row, 3));
+			
+			row += 2;
+			
 			jta2.setFont(new Font("Monospaced", Font.PLAIN, 12));
 			jta2.setLineWrap(false);
 			//jta.setWrapStyleWord(true);
-			(getContentPane()).add(new JScrollPane(jta2), c);
-			c.gridy++;
+			getContentPane().add(new JScrollPane(jta2), cc.xyw(2, row, 3));
+			
 		}	
 		
 		if (output != null) {
 			jta.setText(output);
 			jta.setMargin(new Insets(4,4,4,4));
-			c.gridx=0; c.weighty=1; c.gridwidth = 2;
 			jta.setFont(new Font("Monospaced", Font.PLAIN, 12));
 			jta.setLineWrap(false);
 			//jta.setWrapStyleWord(true);
-			(getContentPane()).add(new JScrollPane(jta), c);
-			c.gridy++;
+			row += 2;
+			
+			getContentPane().add(new JScrollPane(jta), cc.xyw(2, row, 3));
 		}		
 
-		c.gridx = 1; c.weighty=0; c.gridwidth = 1;
+		row += 2;
 		jb.addActionListener(this);
-		(getContentPane()).add(jb, c);
+		getContentPane().add(jb, cc.xy(4, row));
 		
 		if (jta.getRows()> 2 || jta2.getRows()> 2) {
 			//System.out.println("setSize!!!");
