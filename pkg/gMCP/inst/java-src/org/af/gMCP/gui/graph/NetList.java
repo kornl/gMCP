@@ -222,13 +222,14 @@ public class NetList extends JTabbedPane implements ChangeListener {
 	public GraphMCP loadGraph() {
 		control.stopTesting();
 		reset();
+		boolean updateGUIOld = updateGUI; 
 		updateGUI = false;
 		graph = new GraphMCP(initialGraph, this);
 		control.getPView().restorePValues();
 		if (graph.entangledWeights!= null) {
 			control.getPView().setEntangledWeights(graph.entangledWeights);
 		}
-		updateGUI = true;
+		updateGUI = updateGUIOld;
 		graphHasChanged();
 		revalidate();
 		repaint();
