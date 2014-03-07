@@ -17,6 +17,7 @@ import javax.swing.JTextArea;
 
 import org.af.gMCP.config.Configuration;
 import org.af.gMCP.gui.graph.EdgeWeight;
+import org.af.gMCP.gui.graph.LaTeXTool;
 import org.af.gMCP.gui.graph.Node;
 
 import com.jgoodies.forms.layout.CellConstraints;
@@ -55,7 +56,7 @@ public class RejectedDialog extends JDialog implements ActionListener {
 		
 		for (int i=0; i<rejected.length; i++) {
 			row += 2;
-			getContentPane().add(new JLabel(""+EdgeWeight.LaTeX2UTF(vector.get(i).getName())+":"), cc.xy(2, row));
+			getContentPane().add(new JLabel(""+LaTeXTool.LaTeX2UTF(vector.get(i).getName())+":"), cc.xy(2, row));
 			getContentPane().add(new JLabel(""+(rejected[i]?"rejected":"not rejected")), cc.xy(4, row));
 		}	
 

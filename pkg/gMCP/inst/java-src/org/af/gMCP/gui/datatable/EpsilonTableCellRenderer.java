@@ -8,6 +8,7 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
 
 import org.af.gMCP.gui.graph.EdgeWeight;
+import org.af.gMCP.gui.graph.LaTeXTool;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -61,8 +62,8 @@ public class EpsilonTableCellRenderer extends DefaultTableCellRenderer {
 
         String text = value.toString();
         
-        for (int i=0; i<EdgeWeight.greek.length; i++) {
-			text = text.replaceAll("\\\\"+EdgeWeight.greekLaTeX[i], ""+EdgeWeight.greek[i]);			
+        for (int i=0; i<LaTeXTool.greek.length; i++) {
+			text = text.replaceAll("\\\\"+LaTeXTool.greekLaTeX[i], ""+LaTeXTool.greek[i]);			
 		}
         
         label.setText(text);

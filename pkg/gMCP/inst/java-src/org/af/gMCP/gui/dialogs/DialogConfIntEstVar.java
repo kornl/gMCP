@@ -32,6 +32,7 @@ import org.af.commons.widgets.validate.ValidationException;
 import org.af.gMCP.config.Configuration;
 import org.af.gMCP.gui.RControl;
 import org.af.gMCP.gui.graph.EdgeWeight;
+import org.af.gMCP.gui.graph.LaTeXTool;
 import org.af.gMCP.gui.graph.NetList;
 import org.af.gMCP.gui.graph.Node;
 import org.mutoss.gui.JavaGDPanel;
@@ -118,7 +119,7 @@ public class DialogConfIntEstVar extends JDialog implements ActionListener, Chan
 			Node node = nl.getNodes().get(i);
 			c.gridx=0;
 			
-			JLabel hypothesis = new JLabel(EdgeWeight.LaTeX2UTF(node.getName())+":");			
+			JLabel hypothesis = new JLabel(LaTeXTool.LaTeX2UTF(node.getName())+":");			
 			panel.add(hypothesis, c);
 			c.gridx++;
 			
@@ -231,7 +232,7 @@ public class DialogConfIntEstVar extends JDialog implements ActionListener, Chan
 			Node node = nl.getNodes().get(i);
 			c.gridx=0;
 			
-			JLabel hypothesis = new JLabel(EdgeWeight.LaTeX2UTF(node.getName())+":");			
+			JLabel hypothesis = new JLabel(LaTeXTool.LaTeX2UTF(node.getName())+":");			
 			names.add(hypothesis);
 			panel.add(hypothesis, c);
 			c.gridx++;

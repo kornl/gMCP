@@ -103,6 +103,44 @@ public class LaTeXTool {
 	public static void main(String[] args) {
 		System.out.println(StringToLaTeX("3E-6"));
 		System.out.println(StringToLaTeX("(1+2ε)/3"));
+		System.out.println(LaTeX2UTF("2*\\nu=\\epsilon"));
+	}
+	
+	public static final String[] greekLaTeX = {
+		"alpha", "beta", "gamma", "delta", "epsilon", "zeta", "eta", 
+		"theta", "iota", "kappa", "lambda", "mu", "nu", "xi", 
+		/*"omicron",*/ "pi", "rho", "sigma", "tau", "upsilon", "phi",
+		"chi", "psi", "omega"
+	};
+	
+	public static final char[] greek = {
+			'α', 'β', 'γ', 'δ', 'ε', 'ζ', 'η', 
+			'θ', 'ι', 'κ', 'λ', 'μ', 'ν', 'ξ', 
+			/*'ο',*/ 'π', 'ρ', 'σ', 'τ', 'υ', 'φ',
+			'χ', 'ψ', 'ω'
+	};
+	
+	public final static String NO_GREEK_CHARACTER = "No greek character";
+	
+	public static String LaTeX2UTF(String s) {
+		for (int i=0; i<greek.length; i++) {
+			s = s.replaceAll("\\\\"+greekLaTeX[i], ""+greek[i]);
+		}
+		return s;
+	}
+	
+	public static String UTF2LaTeX(char greekC) {
+		for (int i=0; i<greek.length; i++) {
+			if (greekC == greek[i]) return greekLaTeX[i];
+		}
+		return ""+greekC;// NO_GREEK_CHARACTER;
+	}
+	
+	public static String UTF2LaTeX(String s) {		
+		for (int i=0; i<greek.length; i++) {
+			s = s.replaceAll(""+greek[i], greekLaTeX[i]);
+		}
+		return s;
 	}
 
 }

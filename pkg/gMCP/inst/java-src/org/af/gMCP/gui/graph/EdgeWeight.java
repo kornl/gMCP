@@ -64,9 +64,9 @@ public class EdgeWeight {
 			if (ht!=null) {
 				for (Enumeration<String> keys = ht.keys() ; keys.hasMoreElements() ;) {
 					String s = keys.nextElement();
-					for (int i=0; i <greek.length; i++) {
-						if ((""+greek[i]).equals(s)) {
-							replaceStr = replaceStr.replaceAll(""+greekLaTeX[i], ""+ht.get(s));		
+					for (int i=0; i <LaTeXTool.greek.length; i++) {
+						if ((""+LaTeXTool.greek[i]).equals(s)) {
+							replaceStr = replaceStr.replaceAll(""+LaTeXTool.greekLaTeX[i], ""+ht.get(s));		
 						}
 					}								
 				}			
@@ -83,54 +83,13 @@ public class EdgeWeight {
 		}
 	}
 	
-	public static final String[] greekLaTeX = {
-		"alpha", "beta", "gamma", "delta", "epsilon", "zeta", "eta", 
-		"theta", "iota", "kappa", "lambda", "mu", "nu", "xi", 
-		/*"omicron",*/ "pi", "rho", "sigma", "tau", "upsilon", "phi",
-		"chi", "psi", "omega"
-	};
-	
-	public static final char[] greek = {
-			'α', 'β', 'γ', 'δ', 'ε', 'ζ', 'η', 
-			'θ', 'ι', 'κ', 'λ', 'μ', 'ν', 'ξ', 
-			/*'ο',*/ 'π', 'ρ', 'σ', 'τ', 'υ', 'φ',
-			'χ', 'ψ', 'ω'
-	};
-	
-	public final static String NO_GREEK_CHARACTER = "No greek character";
-	
-	public static String LaTeX2UTF(String s) {
-		for (int i=0; i<greek.length; i++) {
-			s = s.replaceAll("\\\\"+greekLaTeX[i], ""+greek[i]);
-		}
-		return s;
-	}
-	
-	public static void main(String[] args) {
-		System.out.println(LaTeX2UTF("2*\\nu=\\epsilon"));
-	}
-	
-	public static String UTF2LaTeX(char greekC) {
-		for (int i=0; i<greek.length; i++) {
-			if (greekC == greek[i]) return greekLaTeX[i];
-		}
-		return ""+greekC;// NO_GREEK_CHARACTER;
-	}
-	
-	public static String UTF2LaTeX(String s) {		
-		for (int i=0; i<greek.length; i++) {
-			s = s.replaceAll(""+greek[i], greekLaTeX[i]);
-		}
-		return s;
-	}
-	
 	public List<String> getVariables() {
 		String replaceStr = weightStr;
 		Vector<String> variables = new Vector<String>();
-		for (int i=0; i<greek.length; i++) {
-			replaceStr = replaceStr.replaceAll(greekLaTeX[i], ""+greek[i]);
-			if (replaceStr.lastIndexOf(greek[i])!=-1) {
-				variables.add(""+greek[i]);
+		for (int i=0; i<LaTeXTool.greek.length; i++) {
+			replaceStr = replaceStr.replaceAll(LaTeXTool.greekLaTeX[i], ""+LaTeXTool.greek[i]);
+			if (replaceStr.lastIndexOf(LaTeXTool.greek[i])!=-1) {
+				variables.add(""+LaTeXTool.greek[i]);
 			}
 		}
 		for (int i=0; i<26; i++) {
@@ -156,8 +115,8 @@ public class EdgeWeight {
 			return RControl.getR().eval("gMCP:::getLaTeXFraction("+weight[0]+")").asRChar().getData()[0];
 		}
 		String replaceStr = weightStr;
-		for (int i=0; i<greek.length; i++) {
-			replaceStr = replaceStr.replaceAll(""+greek[i], greekLaTeX[i]);
+		for (int i=0; i<LaTeXTool.greek.length; i++) {
+			replaceStr = replaceStr.replaceAll(""+LaTeXTool.greek[i], LaTeXTool.greekLaTeX[i]);
 		}
 		return replaceStr;
 	}

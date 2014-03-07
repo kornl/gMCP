@@ -178,7 +178,7 @@ public class NetList extends JTabbedPane implements ChangeListener {
 		Enumeration<String> keys = ht.keys();
 		for (; keys.hasMoreElements();) {
 			String key = keys.nextElement();
-			list += "\""+EdgeWeight.UTF2LaTeX(key.charAt(0))+"\"="+ht.get(key)+",";
+			list += "\""+LaTeXTool.UTF2LaTeX(key.charAt(0))+"\"="+ht.get(key)+",";
 		}
 		list += "\""+"epsilon"+"\"="+Configuration.getInstance().getGeneralConfig().getEpsilon()+",";
 		return list.substring(0, list.length()>5?list.length()-1:list.length())+")";			
