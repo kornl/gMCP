@@ -201,8 +201,11 @@ public class NetList extends JTabbedPane implements ChangeListener {
 		if (variables.size()==0) {
 			try {
 				String graphName = ".tmpGraph" + (new Date()).getTime();
-				saveGraph(graphName, false, false);
-				analysis = RControl.getR().eval("graphAnalysis("+graphName+", file=tempfile())").asRChar().getData()[0];
+				saveGraph(graphName, false, false);				
+				if (control.getDView().getSelectedIndex()==1) {
+					System.out.println("Performing graph Analysis");
+					analysis = RControl.getR().eval("graphAnalysis("+graphName+", file=tempfile())").asRChar().getData()[0];
+				}
 			} catch (Exception e) {
 				// We simply set the analysis to null - that's fine.
 			}
