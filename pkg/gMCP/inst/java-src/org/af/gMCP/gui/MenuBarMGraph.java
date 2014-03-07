@@ -91,6 +91,7 @@ public class MenuBarMGraph extends JMenuBar implements ActionListener {
 		//if (Configuration.getInstance().getGeneralConfig().experimentalFeatures()) {
 		menu.addSeparator();
 		menu.add(makeMenuItem("Power analysis (still experimental)", "powerAnalysis"));		
+		menu.add(makeMenuItem("Sample size calculation (still experimental)", "samplesize"));
 		//}
 
 		add(menu);
@@ -384,6 +385,16 @@ public class MenuBarMGraph extends JMenuBar implements ActionListener {
         		return;
         	}
         	new PowerDialogParameterUncertainty(control.getMainFrame());
+        } else if (e.getActionCommand().equals("samplesize")) {
+        	if (control.getNL().getNodes().size()==0) {
+        		JOptionPane.showMessageDialog(control.getMainFrame(), "Graph is empty!", "Graph is empty!", JOptionPane.ERROR_MESSAGE);
+        		return;
+        	}
+        	if (control.getMainFrame().getPView().jrbSimes.isSelected()) {
+        		JOptionPane.showMessageDialog(control.getMainFrame(), "Simes test not yet supported in power calculations.", "Simes test not yet supported", JOptionPane.ERROR_MESSAGE);
+        		return;
+        	}
+        	new PowerDialogParameterUncertainty(control.getMainFrame());
         } else if (e.getActionCommand().equals("load p-values from R")) {
         	control.loadPValuesFromR(); 
         } else if (e.getActionCommand().equals("changeGraphLayout")) {
@@ -602,6 +613,9 @@ public class MenuBarMGraph extends JMenuBar implements ActionListener {
     		JOptionPane.showMessageDialog(control.getMainFrame(), "Graph is empty.", "Empty graph", JOptionPane.ERROR_MESSAGE);
     		return;
     	} 
+		if (!control.isResultUpToDate()) {
+			JOptionPane.showMessageDialog(control.getMainFrame(), "Result is not up to date.", "Result not up to date", JOptionPane.WARNING_MESSAGE);
+		}
 		JFileChooser fc = new JFileChooser(Configuration.getInstance().getClassProperty(this.getClass(), "DocXDirectory"));
 		fc.setDialogType(JFileChooser.SAVE_DIALOG);
 		File f;
@@ -617,7 +631,7 @@ public class MenuBarMGraph extends JMenuBar implements ActionListener {
 			return;
 		}
 		try {
-			(new GraphDocXWriter(control.getGraphGUI())).createDocXReport(f);			
+			(new GraphDocXWriter(control)).createDocXReport(f);			
 			try {	
 				Method main = Class.forName("java.awt.Desktop").getDeclaredMethod("getDesktop");
 				Object obj = main.invoke(new Object[0]);
@@ -627,11 +641,9 @@ public class MenuBarMGraph extends JMenuBar implements ActionListener {
 				logger.warn("No Desktop class in Java 5 or URI error: "+exc.getMessage(), exc);
 			}
 		} catch (InvalidFormatException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			new ErrorDialogGMCP("An error occured submitting the graph.", e, false).showDialog();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			JOptionPane.showMessageDialog(control.getGraphGUI(), "Error writing docx report:\n"+e.getMessage(), "Error writing docx report", JOptionPane.ERROR_MESSAGE);
 		}
 	}
 	

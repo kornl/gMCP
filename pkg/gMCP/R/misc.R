@@ -192,3 +192,15 @@ layers <- function(graph) {
 getJavaInfo <- function() {
   return(J("org.af.commons.logging.SystemInfo")$getSystemInfo(TRUE, TRUE, TRUE))  
 }
+
+getNewestRVersion <- function() {
+  # What about something like setInternet2(true)?
+  warn <- getOption("warn")
+  options(warn=-1)
+  line <- try(grep("R-[0-9.]+-win", readLines("http://cran.r-project.org/bin/windows/base/", warn=FALSE), value=TRUE), silent=TRUE)
+  if("try-error"==class(line) || length(line)==0) {
+    return("Unknown")
+  }
+  options(warn=warn)
+  return(strsplit(regmatches(line[1], regexpr("R-[0-9.]+-win", line[1])), split="-")[[1]][2])
+}

@@ -219,6 +219,14 @@ public class PView extends JPanel implements KeyListener, ActionListener {
 		return s.substring(0, s.length()-2)+")";
 	}
 	
+	public List<Double> getPValues() {
+		Vector<Double> v = new Vector<Double>();		
+		for (PPanel panel : panels) {		
+			v.add(panel.getP());
+		}
+		return v;
+	}
+	
 	public double getTotalAlpha() throws Exception {
 		return getTotalAlpha(true);
 	}
@@ -343,11 +351,11 @@ public class PView extends JPanel implements KeyListener, ActionListener {
 			p.updateMe(true);
 		}
 		totalAlpha.setEditable(!b);
-		if (b) {
-			weightLabel.setText("α Level");
-		} else {
-			weightLabel.setText("Weights");
-		}
+		//if (b) {
+		//	weightLabel.setText("α Level");
+		//} else {
+		//	weightLabel.setText("Weights");
+		//}
 		refresh.setEnabled(!b);
 		createMatrix.setEnabled(!b);
 		
@@ -360,11 +368,13 @@ public class PView extends JPanel implements KeyListener, ActionListener {
 	    if (!b) refresh(false);
 	}
 
+	JLabel subGraphLabel = new JLabel();
+	
 	public void setUp() {
 		JPanel panel = new JPanel();
 		
 		String cols = "5dlu, fill:pref:grow, 5dlu, fill:pref:grow, 5dlu, fill:pref:grow, 5dlu, fill:pref:grow, 5dlu";
-        String rows = "5dlu, pref, 5dlu, pref, 5dlu, pref, 5dlu";
+        String rows = "5dlu, pref, 5dlu, pref, 5dlu, pref, 5dlu, pref, 5dlu";
         for (PPanel p : panels) {
         	rows += ", pref, 5dlu";
         }
@@ -411,7 +421,7 @@ public class PView extends JPanel implements KeyListener, ActionListener {
     	
     	if (parent.getGraphView().getNumberOfLayers()>1) {
     		row += 2;
-    		panel.add(new JLabel("Subgraph alpha splitting: "), cc.xy(2, row));
+    		panel.add(new JLabel("Component graph weights: "), cc.xy(2, row));
         	    
     		for (int i=entangledWeights.size(); i<parent.getGraphView().getNumberOfLayers(); i++) {
     			RealTextField tf = new RealTextField("totalAlpha", 0, 1);
@@ -425,6 +435,8 @@ public class PView extends JPanel implements KeyListener, ActionListener {
         		panel.add(entangledWeights.get(i), cc.xy(col, row));
         		col += 2;
         	}
+        	row += 2;
+        	panel.add(subGraphLabel, cc.xyw(2, row, 5));
     	}
     	
     	updateLabels();
@@ -453,6 +465,18 @@ public class PView extends JPanel implements KeyListener, ActionListener {
 			text += Configuration.getInstance().getGeneralConfig().getDecFormat().format(weight)+"; ";
 		}
 		statusLabel.setText(text);
+		subGraphLabel.setForeground(Color.BLACK);
+		subGraphLabel.setText("");
+		double weight = 0;
+		if (entangledWeights.size()>0) {
+			for (int i=0; i<entangledWeights.size(); i++) {
+				weight += Double.parseDouble(entangledWeights.get(i).getText());
+			}
+			if (Math.abs(1-weight)>0.0001) {
+				subGraphLabel.setForeground(Color.RED);
+				subGraphLabel.setText("Component graph weights do not sum up to 1 but instead to "+weight+".");
+			}
+		}
 	}
 
 	public void setEntangledWeights(double[] ew) {
@@ -461,7 +485,8 @@ public class PView extends JPanel implements KeyListener, ActionListener {
 		}*/
 		for (int i=0; i<ew.length; i++) {
 			entangledWeights.get(i).setText(""+ew[i]);
-		}		
+		}	
+		updateLabels();
 	}
 
 	public void addEntangledLayer() {
@@ -472,11 +497,15 @@ public class PView extends JPanel implements KeyListener, ActionListener {
 		setUp();		
 	}
 
+	/**
+	 * Removes entangled layer
+	 * @param layer Counting starts from 0 (not from 1).
+	 */
 	public void removeEntangledLayer(int layer) {
 		for (PPanel p : panels) {
 			p.removeEntangledLayer(layer);
 		}
-		if (panels.size()==0) {
+		if (parent.getGraphView().getNumberOfLayers()==1) {
 			weightLabel.setText("Weights");
 		}
 		setUp();		
