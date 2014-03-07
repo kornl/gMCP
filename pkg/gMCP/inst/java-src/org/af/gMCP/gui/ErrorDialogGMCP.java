@@ -91,7 +91,7 @@ public class ErrorDialogGMCP extends JDialog implements ActionListener {
         this.fatal = fatal;
         this.e = e;
         if (e!=null && e instanceof Throwable) ((Throwable)e).printStackTrace();
-        this.msg = msg;      
+        this.msg = msg;
 	}
 
 
@@ -389,8 +389,7 @@ public class ErrorDialogGMCP extends JDialog implements ActionListener {
     	setResizable(true);
     	setAlwaysOnTop(true);
     	setVisible(true);
-    }
-  
+    }  
     
 }
 

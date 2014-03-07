@@ -124,7 +124,9 @@ gMCP <- function(graph, pvalues, test, correlation, alpha=0.05,
 			stop("Only Bonferroni based testing procedures are supported for entangled graphs in this version.")
 		}
 		out <- graphTest(pvalues=pvalues, weights=getWeights(graph), alpha=alpha*graph@weights, G=getMatrices(graph))
-		return(new("gMCPResult", graphs=list(graph), alpha=alpha, pvalues=pvalues, rejected=(out==1), adjPValues=numeric(0)))
+		result <- new("gMCPResult", graphs=list(graph), alpha=alpha, pvalues=pvalues, rejected=(out==1), adjPValues=numeric(0))
+    attr(result, "call") <- call2char(match.call())
+		return(result)
 	}
 	output <- ""
 	callFromGUI <- !is.null(list(...)[["callFromGUI"]])
@@ -156,7 +158,9 @@ gMCP <- function(graph, pvalues, test, correlation, alpha=0.05,
 			lGraph <- setWeights(lGraph, result$w)			
 			lGraph <- setRejected(lGraph, getNodes(lGraph), result$rejected)
 			sequence <- c(sequence, lGraph)
-			return(new("gMCPResult", graphs=sequence, alpha=alpha, pvalues=pvalues, rejected=getRejected(lGraph), adjPValues=numeric(0)))
+			result <- new("gMCPResult", graphs=sequence, alpha=alpha, pvalues=pvalues, rejected=getRejected(lGraph), adjPValues=numeric(0))
+			attr(result, "call") <- call2char(match.call())
+			return(result)
 		} else {
 			while(!is.null(node <- getRejectableNode(graph, alpha, pvalues))) {
 				# if (verbose) cat(paste("Node \"",node,"\" can be rejected.\n",sep=""))
@@ -164,7 +168,9 @@ gMCP <- function(graph, pvalues, test, correlation, alpha=0.05,
 				sequence <- c(sequence, graph)
 			}	
 			adjPValues <- adjPValues(sequence[[1]], pvalues, verbose)@adjPValues
-			return(new("gMCPResult", graphs=sequence, alpha=alpha, pvalues=pvalues, rejected=getRejected(graph), adjPValues=adjPValues))
+			result <- new("gMCPResult", graphs=sequence, alpha=alpha, pvalues=pvalues, rejected=getRejected(graph), adjPValues=adjPValues)
+			attr(result, "call") <- call2char(match.call())
+			return(result)
 		}
 	} else if ((missing(test) && !missing(correlation)) || !missing(test) && test == "Bretz2011" || !missing(test) && test == "simple-parametric") {				
 		if (missing(correlation) || !is.matrix(correlation)) {
@@ -193,7 +199,9 @@ gMCP <- function(graph, pvalues, test, correlation, alpha=0.05,
                 names(adjP) <- getNodes(graph)
 				names(rejected) <- getNodes(graph)
 			}
-			return(new("gMCPResult", graphs=sequence, alpha=alpha, pvalues=pvalues, rejected=rejected, adjPValues=adjP))
+			result <- new("gMCPResult", graphs=sequence, alpha=alpha, pvalues=pvalues, rejected=rejected, adjPValues=adjP)
+			attr(result, "call") <- call2char(match.call())
+			return(result)
 		}
 	} else if (!missing(test) && test=="Simes") {		
 		m <- graph2matrix(graph)
@@ -205,6 +213,7 @@ gMCP <- function(graph, pvalues, test, correlation, alpha=0.05,
 					if (!callFromGUI) cat(output,"\n")
 					attr(result, "output") <- output
 				}
+				attr(result, "call") <- call2char(match.call())
 				return(result)
 			}
 			if (all(pvalues<=alpha)) {			
@@ -216,6 +225,7 @@ gMCP <- function(graph, pvalues, test, correlation, alpha=0.05,
 					if (!callFromGUI) cat(output,"\n")
 					attr(result, "output") <- output
 				}
+				attr(result, "call") <- call2char(match.call())
 				return(result)
 			}
 			while(!is.null(node <- getRejectableNode(graph, alpha, pvalues))) {
@@ -234,6 +244,7 @@ gMCP <- function(graph, pvalues, test, correlation, alpha=0.05,
 				if (!callFromGUI) cat(output,"\n")
 				attr(result, "output") <- output
 			}
+			attr(result, "call") <- call2char(match.call())
 			return(result)
 		} else {			
 			graph2 <- subgraph(graph, !getRejected(graph))
@@ -286,11 +297,16 @@ gMCP <- function(graph, pvalues, test, correlation, alpha=0.05,
 				if (!callFromGUI) cat(output,"\n")
 				attr(result, "output") <- output
 			}
+			attr(result, "call") <- call2char(match.call())
 			return(result)
 		}
 	} else {
 		stop(paste("Specified test \"",test,"\" is not known.",sep=""))
 	}
+}
+
+call2char <- function(call) {
+  paste(capture.output(print(call)), collapse="\n")
 }
 
 createGMCPCall <- function(graph, pvalues, test, correlation, alpha=0.05, 

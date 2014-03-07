@@ -148,7 +148,7 @@ public class GraphSendToArchiveDialog extends JDialog implements ActionListener 
 			files.put("Graph", ErrorDialogGMCP.makeLogFile("graph.txt", StringTools.collapseStringArray(RControl.getR().eval("gMCP:::getDebugInfo()").asRChar().getData())));
 			(new HTTPPoster()).post(urlString, table, files);
 		} catch (IOException e1) {
-			new ErrorDialogGMCP("An error occured submitting the graph.", e1, false);
+			new ErrorDialogGMCP("An error occured submitting the graph.", e1, false).showDialog();
 		}
 		dispose();
 	}

@@ -110,6 +110,23 @@ replaceVariables <-function(graph, variables=list(), ask=TRUE) {
 	return(parse2numeric(graph))
 }
 
+# Parses matrices of graphs (simple and entangled)
+# 
+# Parses matrices of graphs (simple and entangled) when values are of type character, e.g. "1/3".
+# 
+# @param g Graph of class \code{\link{graphMCP}} or \code{\link{entangledMCP}}.
+# @param force Logical whether conversion to numeric should be forced or not. 
+# If forced all values that could not be parsed will be \code{NA}. 
+# Otherwise the original unchanged graph will be returned.
+# @author Kornelius Rohmeyer \email{rohmeyer@@small-projects.de}
+# @keywords Converted graph (if all values could be parsed or \code{force=TRUE}) or original graph.
+# @examples
+#
+# # Nothing changes:
+# gMCP:::parse2numeric(HungEtWang2010())
+# # Note that other methods like printing don't handle NAs well:
+# gMCP:::parse2numeric(HungEtWang2010(), force=TRUE)
+# 
 parse2numeric <- function(graph, force=FALSE) {
 	# Call this function recursivly for entangled graphs.
 	if ("entangledMCP" %in% class(graph)) {

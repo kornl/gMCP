@@ -34,7 +34,7 @@ public class NetList extends JTabbedPane implements ChangeListener {
 	
 	public GraphMCP graph;	
 	
-	List<NetListPanel> nlp = new Vector<NetListPanel>();
+	public List<NetListPanel> nlp = new Vector<NetListPanel>();
 	
 	public String resetGraph = ".ResetGraph" + (new Date()).getTime();
 	public String tmpGraph = ".tmpGraph" + (new Date()).getTime();

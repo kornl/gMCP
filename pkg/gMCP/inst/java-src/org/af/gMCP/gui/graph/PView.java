@@ -219,6 +219,14 @@ public class PView extends JPanel implements KeyListener, ActionListener {
 		return s.substring(0, s.length()-2)+")";
 	}
 	
+	public List<Double> getPValues() {
+		Vector<Double> v = new Vector<Double>();		
+		for (PPanel panel : panels) {		
+			v.add(panel.getP());
+		}
+		return v;
+	}
+	
 	public double getTotalAlpha() throws Exception {
 		return getTotalAlpha(true);
 	}
@@ -413,7 +421,7 @@ public class PView extends JPanel implements KeyListener, ActionListener {
     	
     	if (parent.getGraphView().getNumberOfLayers()>1) {
     		row += 2;
-    		panel.add(new JLabel("Subgraph alpha splitting: "), cc.xy(2, row));
+    		panel.add(new JLabel("Component graph weights: "), cc.xy(2, row));
         	    
     		for (int i=entangledWeights.size(); i<parent.getGraphView().getNumberOfLayers(); i++) {
     			RealTextField tf = new RealTextField("totalAlpha", 0, 1);
