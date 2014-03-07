@@ -103,8 +103,24 @@ b.dunnett <- function(h,cr,a,exhaust, alternatives="less") {
 }
 
 
-# w = vector of weights
-# h = binary vector (0,1)
+# Recursively calculates weights for a given graph and intersection hypothesis
+# 
+# Recursively calculates weights for a given graph and intersection hypothesis
+# 
+# @param h A numeric vector with only binary entries (0,1).
+# @param g Graph represented as transition matrix.
+# @param w A numeric vector of weights.
+# @return A weight vector.
+# @author Florian Klinglmueller \email{float@@lefant.net}
+# @keywords graphs
+# @examples
+#
+# g <- BonferroniHolm(4)@m
+# w <- rep(1/4, 4)
+# h <- c(0,1,0,1)
+# gMCP:::mtp.weights(h,g,w)
+# gMCP:::mtp.edges(h,g,w)
+# 
 mtp.weights <- function(h,g,w){
   ## recursively compute weights for a given graph and intersection hypothesis
   if(sum(h)==length(h)){
@@ -121,6 +137,7 @@ mtp.weights <- function(h,g,w){
   }
 }
 
+# See mtp.weights documentation.
 mtp.edges <- function(h,g,w){
   ## recursively compute the edges for the graph of a given intersection hypothesis
   if(sum(h)==length(h)){
@@ -139,9 +156,7 @@ mtp.edges <- function(h,g,w){
   }
 }
 
-## as.graph <- function(m,...){
-##   as(m,'graphNEL',...)
-## }
+
 
 myRowSums <- function(x,...){
   if(is.null(dim(x))){

@@ -13,6 +13,8 @@ Changes in version 0.8-7 (??-0?-2014)
   now a dependency (IMPORTS), since it already provides the necessary
   Apache POI jar files.
 
+- Improved Graph Analysis checks whether weights sum up to 1 for all subgraphs.
+
 
 Changes in version 0.8-6 (17-02-2014)
 =====================================

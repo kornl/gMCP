@@ -13,6 +13,7 @@ import java.util.List;
 import javax.imageio.ImageIO;
 
 import org.af.gMCP.config.Configuration;
+import org.af.gMCP.gui.RControl;
 import org.af.gMCP.gui.graph.GraphView;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.util.Units;
@@ -72,8 +73,10 @@ public class GraphDocXWriter {
 		doc.createParagraph().createRun().addBreak();
 		
 		p = doc.createParagraph();		
+
 		String descr = control.getDView().getDescription();
-		System.out.println(descr);
+		//System.out.println(descr);
+
 		for (String s : descr.split("\\\\n")) {
 			run = p.createRun();
 			run.setText(s);
@@ -88,6 +91,7 @@ public class GraphDocXWriter {
 		run.setText("R Code:");
 		run.addBreak();
 		run = p.createRun();
+		run.setFontSize(10);
 		run.setFontFamily("Courier");
 		run.setText(control.rCode);
 		
@@ -95,7 +99,16 @@ public class GraphDocXWriter {
 		
 		List<Double> pv = control.getPView().getPValues();
 		List<String> pvn = control.getNL().nlp.get(0).getHNames();
-		createPValueTable(doc, pv, pvn);
+		boolean[] rejected = null;
+		double[] adjPValues = null;
+		try {
+			rejected = RControl.getR().eval(control.result+"@rejected").asRLogical().getData();
+			adjPValues = RControl.getR().eval(control.result+"@adjPValues").asRNumeric().getData();
+		} catch (Exception e) {
+			//TODO - error handling + throwing in all strange cases.
+			e.printStackTrace();
+		}		
+		createPValueTable(doc, pv, pvn, adjPValues, rejected);
 		
 		
 		FileOutputStream fos = new FileOutputStream(file);
@@ -108,8 +121,11 @@ public class GraphDocXWriter {
 	 * @param doc XWPFDocument document for table
 	 * @param pv List of p-values
 	 * @param pvn List of hypotheses names corresponding to p-values
+	 * @param rejected 
+	 * @param adjPValues 
 	 */
-	private void createPValueTable(XWPFDocument doc, List<Double> pv, List<String> pvn) {
+	private void createPValueTable(XWPFDocument doc, List<Double> pv, List<String> pvn, double[] adjPValues, boolean[] rejected) {
+		
 		XWPFTable table = doc.createTable();
 		XWPFTableRow row = table.getRow(0);
 		row.addNewTableCell();
@@ -122,12 +138,36 @@ public class GraphDocXWriter {
 		run = p.createRun();
 		run.setText("P-Value");
 		run.setBold(true);
-		row = table.createRow();
+		
+		if (rejected!=null) {
+			row.addNewTableCell();
+			p = row.getCell(2).getParagraphs().get(0);
+			run = p.createRun();
+			run.setText("Rejected");
+			run.setBold(true);
+			
+			if (adjPValues!=null) {
+				row.addNewTableCell();
+				p = row.getCell(3).getParagraphs().get(0);
+				run = p.createRun();
+				run.setText("Adj. P-Value");
+				run.setBold(true);
+				
+			}
+		}		
+		
+		row = table.createRow();		
 		
 		for (int i=0; i < pv.size(); i++) {
 			//TODO Hypotheses names could be parsed and e.g. "_" replaced by run.setSubscript(VerticalAlign.SUBSCRIPT);
 			row.getCell(0).setText(pvn.get(i));
 			row.getCell(1).setText(""+pv.get(i));
+			if (rejected!=null) {
+				row.getCell(2).setText(""+rejected[i]);
+				if (adjPValues!=null) {
+					row.getCell(3).setText(""+adjPValues[i]);
+				}
+			}
 			if (i !=pv.size()-1) {
 				row = table.createRow();
 			}

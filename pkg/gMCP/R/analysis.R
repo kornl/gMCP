@@ -52,20 +52,50 @@ accessible <- function(graph, node) {
 	return(ac)
 }
 
-checkOptimal <- function (graph, verbose=TRUE) {
+# Checks whether the weight of all subgraphs sums up to 1.
+# 
+# Checks whether the weight of all subgraphs sums up to 1.
+# 
+# @param g Graph of class \code{\link{graphMCP}} (TODO: or \code{\link{entangledMCP}}).
+# @param verbose Logical whether to print the return value.
+# @author Kornelius Rohmeyer \email{rohmeyer@@small-projects.de}
+# @keywords Character string containing the analysis.
+# @examples
+#
+# graph <- HungEtWang2010()
+# # Does not work with variables:
+# gMCP:::checkOptimal(graph)
+# graph <- replaceVariables(graph, list("tau"=0.5,"omega"=0.5, "nu"=0.5))
+# gMCP:::checkOptimal(graph)
+#
+checkOptimal <- function (graph, verbose=TRUE) {  
+  if (any(is.na(parse2numeric(graph, force=TRUE)@m))) return("Graph contains variables (or unparsable terms). No analysis possible.")
 	nodes <- getNodes(graph)[getWeights(graph)!=0]
 	s <- ""
-	for (n in nodes) {
-		notAccessible <- setdiff(getNodes(graph)[!accessible(graph, n)], n)
-		if (length(notAccessible)>0) {
-			if (s=="") {
-				s <- "The graph is not optimal.\nBy adding edges the test can be improved uniformly."
-				#s <- paste(s, "Or set exhaustAlpha=TRUE to do an alpha exhaustive test as described in Bretz et al. (2011).\n", sep="\n")
-			}
-			s <- paste(s, "There is no path from node ",n, " to ", paste(notAccessible, collapse=", "), "\n", sep="")
-		}
+	n <- dim(graph@m)[1]
+	all.weights <- generateWeights(graph@m,getWeights(graph))[,c((n+1):(2*n))]
+	if (!isTRUE(all.equal(rowSums(all.weights), rep(1, dim(all.weights)[1])))) {
+	    s <- "The graph is not optimal."
+    if (isTRUE(all.equal(sum(getWeights(graph)),1))) {
+      wrong <- unlist(lapply(rowSums(all.weights), function(x) { !isTRUE(all.equal(x, 1)) }))
+      s <- paste(s, "\nThe weights in ",sum(wrong)," subgraphs do not sum up to 1.", sep="")
+    } else {
+      s <- paste(s, "The weights of the original graph do not sum up to 1.", sep="\n")
+    }
+	} else {
+	  s <- "For all subgraphs the weights sum up to 1."
 	}
-	if (s=="") s <- "From each node with positive weight paths exist to all other nodes.\n"
+	#for (n in nodes) {
+	#	notAccessible <- setdiff(getNodes(graph)[!accessible(graph, n)], n)
+	#	if (length(notAccessible)>0) {
+	#		if (s=="") {
+	#			s <- "The graph is not optimal.\nBy adding edges the test can be improved uniformly."
+	#			#s <- paste(s, "Or set exhaustAlpha=TRUE to do an alpha exhaustive test as described in Bretz et al. (2011).\n", sep="\n")
+	#		}
+	#		s <- paste(s, "There is no path from node ",n, " to ", paste(notAccessible, collapse=", "), "\n", sep="")
+	#	}
+	#}
+	#if (s=="") s <- "From each node with positive weight paths exist to all other nodes.\n"
 	if (verbose) cat(s)
 	return(s)
 }

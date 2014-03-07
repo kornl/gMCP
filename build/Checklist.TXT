@@ -1,5 +1,8 @@
 - Has ant been called and is the jar file up to date?
 - Add summary from 'git diff --stat v0.x-x..HEAD' to NEWS
+Remark: Don't tag the version on the master branch - otherwise we have to compare directly with the parent on the pre-R3 branch:
+git diff --stat 392aa6bc..HEAD instead of v0.8-6..HEAD
+
 - R CMD check --as-cran under development version of R
 - tested with Windows?
 - Extensive RUnit Checks? unitTestsGMCP(extended=TRUE, interactive=TRUE, outputPath="/home/kornel/test/")

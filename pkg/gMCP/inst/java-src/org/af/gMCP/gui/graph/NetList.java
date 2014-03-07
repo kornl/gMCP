@@ -330,11 +330,14 @@ public class NetList extends JTabbedPane implements ChangeListener {
 		for (int i=getNodes().size()-1; i>=0; i--) {
 			removeNode(getNodes().get(i));
 		}
-		while (layer>1) { removeEntangledLayer(layer-1); }
+		control.getDataFramePanel().reset();
+		while (layer>1) { 
+			removeEntangledLayer(layer-1);
+			control.getPView().removeEntangledLayer(layer-1);
+		}
 		statusBar.setText(GraphView.STATUSBAR_DEFAULT);
 		for (NetListPanel n : nlp) { n.reset(); }
-		zoom = 1.00;
-		control.getDataFramePanel().reset();
+		zoom = 1.00;		
 		control.getDView().setDescription("Enter a description for the graph.");
 		graphHasChanged();
 		control.isGraphSaved = true;
