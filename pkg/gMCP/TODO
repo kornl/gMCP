@@ -17,7 +17,6 @@ Simes -> simply -> "Use Simes test" -> Show "Warning dialog exlaining..." with c
 Sample Sizes: Drop "n" column,  
 Replace n, \sigma, \mu with \theta θ and Standard error of \theta.
 Specify marginal power (and one field for which alpha this power was calculated).
-Entangled graphs: Alpha level -> Weights 1, Weights 2, Weights 3 (and check whether sum weights > 1).
 
 - NEWS.Rd and news()
 
