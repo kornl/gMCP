@@ -343,11 +343,11 @@ public class PView extends JPanel implements KeyListener, ActionListener {
 			p.updateMe(true);
 		}
 		totalAlpha.setEditable(!b);
-		if (b) {
-			weightLabel.setText("α Level");
-		} else {
-			weightLabel.setText("Weights");
-		}
+		//if (b) {
+		//	weightLabel.setText("α Level");
+		//} else {
+		//	weightLabel.setText("Weights");
+		//}
 		refresh.setEnabled(!b);
 		createMatrix.setEnabled(!b);
 		
@@ -472,11 +472,15 @@ public class PView extends JPanel implements KeyListener, ActionListener {
 		setUp();		
 	}
 
+	/**
+	 * Removes entangled layer
+	 * @param layer Counting starts from 0 (not from 1).
+	 */
 	public void removeEntangledLayer(int layer) {
 		for (PPanel p : panels) {
 			p.removeEntangledLayer(layer);
 		}
-		if (panels.size()==0) {
+		if (parent.getGraphView().getNumberOfLayers()==1) {
 			weightLabel.setText("Weights");
 		}
 		setUp();		

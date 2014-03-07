@@ -278,5 +278,9 @@ public class CreateGraphGUI extends JFrame implements WindowListener, AbortListe
 		WidgetFactory.setFontSizeGlobal(Configuration.getInstance().getGeneralConfig().getFontSize());
 		SwingUtilities.updateComponentTreeUI(this);
 	}
+
+	public int getLayerNr() {		
+		return getGraphView().getNumberOfLayers();
+	}
 	
 }
