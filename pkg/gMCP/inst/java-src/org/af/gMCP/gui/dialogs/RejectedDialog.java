@@ -16,6 +16,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
 import org.af.gMCP.config.Configuration;
+import org.af.gMCP.gui.graph.EdgeWeight;
 import org.af.gMCP.gui.graph.Node;
 
 public class RejectedDialog extends JDialog implements ActionListener {
@@ -45,7 +46,7 @@ public class RejectedDialog extends JDialog implements ActionListener {
 		c.gridy++;		
 		for (int i=0; i<rejected.length; i++) {
 			c.gridx=0; 
-			(getContentPane()).add(new JLabel(""+vector.get(i).getName()+":"), c);
+			(getContentPane()).add(new JLabel(""+EdgeWeight.LaTeX2UTF(vector.get(i).getName())+":"), c);
 			c.gridx=1;
 			(getContentPane()).add(new JLabel(""+(rejected[i]?"rejected":"not rejected")), c);
 			c.gridy++;
