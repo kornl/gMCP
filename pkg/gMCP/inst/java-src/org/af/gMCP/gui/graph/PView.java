@@ -465,6 +465,18 @@ public class PView extends JPanel implements KeyListener, ActionListener {
 			text += Configuration.getInstance().getGeneralConfig().getDecFormat().format(weight)+"; ";
 		}
 		statusLabel.setText(text);
+		subGraphLabel.setForeground(Color.BLACK);
+		subGraphLabel.setText("");
+		double weight = 0;
+		if (entangledWeights.size()>0) {
+			for (int i=0; i<entangledWeights.size(); i++) {
+				weight += Double.parseDouble(entangledWeights.get(i).getText());
+			}
+			if (Math.abs(1-weight)>0.0001) {
+				subGraphLabel.setForeground(Color.RED);
+				subGraphLabel.setText("Component graph weights do not sum up to 1 but instead to "+weight+".");
+			}
+		}
 	}
 
 	public void setEntangledWeights(double[] ew) {
@@ -473,7 +485,8 @@ public class PView extends JPanel implements KeyListener, ActionListener {
 		}*/
 		for (int i=0; i<ew.length; i++) {
 			entangledWeights.get(i).setText(""+ew[i]);
-		}		
+		}	
+		updateLabels();
 	}
 
 	public void addEntangledLayer() {
