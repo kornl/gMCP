@@ -17,6 +17,12 @@ Specify marginal power (and one field for which alpha this power was calculated)
 
 Change test to only "Bonferroni", "Simes", "parametric" and add parameter upscale to 'gMCP' (and change exhaust)
 
+If test equals \code{"Bretz2011"} the weighted parametric test described in Bretz et al.
+2011 is performed.  If test equals \code{"simple-parametric"} for each
+subset a weighted parametric test is performed at the reduced level alpha of
+sum(w)*alpha, where sum(w) is the sum of all node weights in this subset.
+Otherwise the procedure is the same as described in Bretz et al. 2011.
+
 Allow upscale for Simes test? (Theory!)
 Is the shortcut really used for the Simes test (it can not be used for adjusted p-values, but if these are not asked for the shortcut should be used).
 
@@ -35,6 +41,12 @@ Error: unexpected input in "eval(expression(try(1-\"
 - http://docs.oracle.com/javase/1.5.0/docs/guide/net/proxies.html - http://stackoverflow.com/questions/376101/setting-jvm-jre-to-use-windows-proxy-automatically
 - Unify graphMCP and entangled graphs?
 - Integrate parameter 'envir' into corMatWizard.
+
+From xlsxjars:
+ jversion <- .jcall("java.lang.System", "S", "getProperty", "java.version")
+ if (jversion < "1.5.0") stop(paste("Your java version is ", jversion, ".  Need 1.5.0 or higher.", sep = ""))
+
+Check whether .jpackage(pkgname) in xlsxjars:::.onLoad messes up gMCP's .jinit(parameters=c("-Xrs", "-Xss1m")).
 
 - Explain that the order of the rejected hypotheses doesn't affect the end result.
 - Report was send dialog is sometimes behind ErrorReport.
