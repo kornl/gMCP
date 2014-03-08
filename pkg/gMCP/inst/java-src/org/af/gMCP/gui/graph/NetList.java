@@ -159,7 +159,7 @@ public class NetList extends JTabbedPane implements ChangeListener {
 		return ".tmpGraph";
 	}
 	
-	public BufferedImage getImage(double d) {
+	public BufferedImage getImage(Double d) {
 		return nlp.get(getSelectedIndex()).getImage(d);
 	}
 
@@ -592,6 +592,41 @@ public class NetList extends JTabbedPane implements ChangeListener {
 		if (i!=0) {
 			control.getDataFramePanel().setSelectedIndex(i-1);
 		}		
+	}
+	
+	public Edge getEdge (int i, int j) {
+		if ( i < 0 || j < 0 || i >= nodes.size() || j >= nodes.size() ) return null;
+		for (Edge e : getEdges()) {
+			if (e.from == nodes.get(i) && e.to == nodes.get(j)) return e;
+		}
+		return null;
+	}
+
+	int oldi = -1, oldj = -1;
+	Integer oldLinewidth = null;
+	
+	/**
+	 * Only one edge can be highlighted at a time.
+	 * Highlighting a new edge drops the highlight for the old egde.
+	 * A call like highlightEdge(-1, -1) can be used to disable all highlighting.
+	 * @param i Index of node the edge is starting.
+	 * @param j Index of node the edge is ending.
+	 */
+	public void highlightEdge(int i, int j) {
+		Edge e = getEdge(oldi, oldj);
+		if (e!=null) {
+			e.linewidth = oldLinewidth;
+		}
+		e = getEdge(i, j);		
+		if (e==null) {
+			oldi = -1;
+			oldj = -1;
+			return;
+		}
+		oldi = i; oldj = j;
+		oldLinewidth = e.linewidth;
+		e.linewidth = 5;		
+		repaint();
 	}
 
 }

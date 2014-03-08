@@ -68,6 +68,8 @@ public class NetListPanel extends JPanel implements MouseMotionListener, MouseLi
 		if (zoom == null) zoom = getZoom();
 		double oldZoom = getZoom();
 		setZoom(zoom);
+		// Remove all highlighting:
+		nl.highlightEdge(-1, -1);
 		
 		long maxX = 0;
 		long maxY = 0;
@@ -120,6 +122,15 @@ public class NetListPanel extends JPanel implements MouseMotionListener, MouseLi
 		return nl.edges;
 	}
 	
+	/**
+	 * Takes a BufferedImage, searches the smallest non-empty (e.g. RGB != 0 and -1) area and returns it with a specified offset.
+	 * Note that the size of the image will not be increased if the specified offset is bigger than the distance from the non-empty
+	 * area to the border. 
+	 * @param img Image to cut.
+	 * @param offset Empty border width (may be smaller than specified, if bigger than the distance from the non-empty
+	 * area to the border.
+	 * @return Subimage from image.
+	 */
 	private BufferedImage cutImage(BufferedImage img, int offset) {
 		int minX = img.getWidth();
 		int minY = img.getHeight();

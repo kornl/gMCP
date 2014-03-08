@@ -1,6 +1,8 @@
 Changes in version 0.8-7 (??-0?-2014)
 =====================================
 
+- Fixed: Fixed: Graph image exports were not possible.
+
 - Support for entangled graphs is no longer highly experimental, 
   but enabled as default.
 
@@ -14,6 +16,8 @@ Changes in version 0.8-7 (??-0?-2014)
   Apache POI jar files.
 
 - Improved Graph Analysis checks whether weights sum up to 1 for all subgraphs.
+
+- Edges are highlighted if transition matrix cells are edited.
 
 
 Changes in version 0.8-6 (17-02-2014)
