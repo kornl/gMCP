@@ -137,8 +137,7 @@ public class DataFramePanel extends JTabbedPane implements ChangeListener, ListS
 		int i = table.getSelectedRow();
 		int j = table.getSelectedColumn();
 		if (i!=oldi || j!=oldj) {
-			control.getNL().highlightEdge(i, j, true);
-			control.getNL().highlightEdge(oldi, oldj, false);
+			control.getNL().highlightEdge(i, j);			
 		}
 		oldi = i; 
 		oldj = j;
