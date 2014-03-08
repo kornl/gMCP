@@ -23,7 +23,7 @@ the more dynamic accompanying guide can be found at \url{http://algorithm-forge.
 
 }
 \author{
-Kornelius Rohmeyer (author only of two libraries and of the R code for loading them), see the following for the authors of the other java libraries
+Kornelius Rohmeyer (author only of two libraries and of the R code for loading them), see the copyright note for the authors of the other java libraries.
 
 Maintainer: Kornelius Rohmeyer \email{rohmeyer@small-projects.de}
 }
