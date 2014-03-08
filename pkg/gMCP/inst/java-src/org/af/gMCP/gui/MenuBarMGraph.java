@@ -1,5 +1,6 @@
 package org.af.gMCP.gui;
 
+import java.awt.Desktop;
 import java.awt.Toolkit;
 import java.awt.datatransfer.StringSelection;
 import java.awt.event.ActionEvent;
@@ -484,16 +485,7 @@ public class MenuBarMGraph extends JMenuBar implements ActionListener {
 	}
 
 	private void showURL(String url) {
-		try {	
-			Method main = Class.forName("java.awt.Desktop").getDeclaredMethod("getDesktop");
-			Object obj = main.invoke(new Object[0]);
-			Method second = obj.getClass().getDeclaredMethod("browse", new Class[] { URI.class }); 
-			second.invoke(obj, new URI(url));
-		} catch (Exception exc) {			
-			logger.warn("No Desktop class in Java 5 or URI error.");
-			RControl.getR().eval("browseURL(\""+url+"\")");
-			if (System.getProperty("eclipse") != null) exc.printStackTrace();
-		}	
+		Desktop.getDesktop().browse(new URI(url));
 	}
 
 	private void notYetSupported() {
