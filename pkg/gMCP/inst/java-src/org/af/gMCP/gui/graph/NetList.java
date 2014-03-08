@@ -34,7 +34,7 @@ public class NetList extends JTabbedPane implements ChangeListener {
 	
 	public GraphMCP graph;	
 	
-	List<NetListPanel> nlp = new Vector<NetListPanel>();
+	public List<NetListPanel> nlp = new Vector<NetListPanel>();
 	
 	public String resetGraph = ".ResetGraph" + (new Date()).getTime();
 	public String tmpGraph = ".tmpGraph" + (new Date()).getTime();
@@ -159,7 +159,7 @@ public class NetList extends JTabbedPane implements ChangeListener {
 		return ".tmpGraph";
 	}
 	
-	public BufferedImage getImage(double d) {
+	public BufferedImage getImage(Double d) {
 		return nlp.get(getSelectedIndex()).getImage(d);
 	}
 
@@ -178,7 +178,7 @@ public class NetList extends JTabbedPane implements ChangeListener {
 		Enumeration<String> keys = ht.keys();
 		for (; keys.hasMoreElements();) {
 			String key = keys.nextElement();
-			list += "\""+EdgeWeight.UTF2LaTeX(key.charAt(0))+"\"="+ht.get(key)+",";
+			list += "\""+LaTeXTool.UTF2LaTeX(key.charAt(0))+"\"="+ht.get(key)+",";
 		}
 		list += "\""+"epsilon"+"\"="+Configuration.getInstance().getGeneralConfig().getEpsilon()+",";
 		return list.substring(0, list.length()>5?list.length()-1:list.length())+")";			
@@ -201,8 +201,11 @@ public class NetList extends JTabbedPane implements ChangeListener {
 		if (variables.size()==0) {
 			try {
 				String graphName = ".tmpGraph" + (new Date()).getTime();
-				saveGraph(graphName, false, false);
-				analysis = RControl.getR().eval("graphAnalysis("+graphName+", file=tempfile())").asRChar().getData()[0];
+				saveGraph(graphName, false, false);				
+				if (control.getDView().getSelectedIndex()==1) {
+					System.out.println("Performing graph Analysis");
+					analysis = RControl.getR().eval("graphAnalysis("+graphName+", file=tempfile())").asRChar().getData()[0];
+				}
 			} catch (Exception e) {
 				// We simply set the analysis to null - that's fine.
 			}
@@ -222,13 +225,14 @@ public class NetList extends JTabbedPane implements ChangeListener {
 	public GraphMCP loadGraph() {
 		control.stopTesting();
 		reset();
+		boolean updateGUIOld = updateGUI; 
 		updateGUI = false;
 		graph = new GraphMCP(initialGraph, this);
 		control.getPView().restorePValues();
 		if (graph.entangledWeights!= null) {
 			control.getPView().setEntangledWeights(graph.entangledWeights);
 		}
-		updateGUI = true;
+		updateGUI = updateGUIOld;
 		graphHasChanged();
 		revalidate();
 		repaint();
@@ -330,11 +334,14 @@ public class NetList extends JTabbedPane implements ChangeListener {
 		for (int i=getNodes().size()-1; i>=0; i--) {
 			removeNode(getNodes().get(i));
 		}
-		while (layer>1) { removeEntangledLayer(layer-1); }
+		control.getDataFramePanel().reset();
+		while (layer>1) { 
+			removeEntangledLayer(layer-1);
+			control.getPView().removeEntangledLayer(layer-1);
+		}
 		statusBar.setText(GraphView.STATUSBAR_DEFAULT);
 		for (NetListPanel n : nlp) { n.reset(); }
-		zoom = 1.00;
-		control.getDataFramePanel().reset();
+		zoom = 1.00;		
 		control.getDView().setDescription("Enter a description for the graph.");
 		graphHasChanged();
 		control.isGraphSaved = true;
@@ -585,6 +592,41 @@ public class NetList extends JTabbedPane implements ChangeListener {
 		if (i!=0) {
 			control.getDataFramePanel().setSelectedIndex(i-1);
 		}		
+	}
+	
+	public Edge getEdge (int i, int j) {
+		if ( i < 0 || j < 0 || i >= nodes.size() || j >= nodes.size() ) return null;
+		for (Edge e : getEdges()) {
+			if (e.from == nodes.get(i) && e.to == nodes.get(j)) return e;
+		}
+		return null;
+	}
+
+	int oldi = -1, oldj = -1;
+	Integer oldLinewidth = null;
+	
+	/**
+	 * Only one edge can be highlighted at a time.
+	 * Highlighting a new edge drops the highlight for the old egde.
+	 * A call like highlightEdge(-1, -1) can be used to disable all highlighting.
+	 * @param i Index of node the edge is starting.
+	 * @param j Index of node the edge is ending.
+	 */
+	public void highlightEdge(int i, int j) {
+		Edge e = getEdge(oldi, oldj);
+		if (e!=null) {
+			e.linewidth = oldLinewidth;
+		}
+		e = getEdge(i, j);		
+		if (e==null) {
+			oldi = -1;
+			oldj = -1;
+			return;
+		}
+		oldi = i; oldj = j;
+		oldLinewidth = e.linewidth;
+		e.linewidth = 5;		
+		repaint();
 	}
 
 }

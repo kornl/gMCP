@@ -235,6 +235,7 @@ public class GraphView extends JPanel implements ActionListener {
 						} catch (Exception ex) {
 							if (ex instanceof WrongInputException) {
 								parent.glassPane.stop();
+								JOptionPane.showMessageDialog(parent, "Invalid values in input fields!", "Invalid values in input fields!", JOptionPane.ERROR_MESSAGE);
 								return null;
 							}
 							ErrorHandler.getInstance().makeErrDialog(ex.getMessage(), ex);
@@ -275,6 +276,7 @@ public class GraphView extends JPanel implements ActionListener {
 						} catch (Exception ex) {
 							if (ex instanceof WrongInputException) {
 								parent.glassPane.stop();
+								JOptionPane.showMessageDialog(parent, "Invalid values in input fields!", "Invalid values in input fields!", JOptionPane.ERROR_MESSAGE);
 								return null;
 							}
 							ErrorHandler.getInstance().makeErrDialog(ex.getMessage(), ex);
@@ -317,10 +319,11 @@ public class GraphView extends JPanel implements ActionListener {
 						} catch (Exception ex) {
 							if (ex instanceof WrongInputException) {
 								parent.glassPane.stop();
+								JOptionPane.showMessageDialog(parent, "Invalid values in input fields!", "Invalid values in input fields!", JOptionPane.ERROR_MESSAGE);
 								return null;
 							}
 							ErrorHandler.getInstance().makeErrDialog(ex.getMessage(), ex);
-						} 
+						}
 						return null;
 					}  
 				};
@@ -334,7 +337,7 @@ public class GraphView extends JPanel implements ActionListener {
 	 * to run to anonymous subclasses of SwingWorker.
 	 * See method actionPerformed(ActionEvent e) where it is used.
 	 */
-	String rCode = "";
+	public String rCode = "";
 	public boolean isGraphSaved = true;
 
 	private void showParamInfo() {

@@ -31,6 +31,7 @@ import org.af.gMCP.gui.datatable.CellEditorE;
 import org.af.gMCP.gui.datatable.RDataFrameRef;
 import org.af.gMCP.gui.datatable.SingleDataFramePanel;
 import org.af.gMCP.gui.graph.EdgeWeight;
+import org.af.gMCP.gui.graph.LaTeXTool;
 import org.af.gMCP.gui.graph.Node;
 import org.jdesktop.swingworker.SwingWorker;
 
@@ -88,7 +89,6 @@ public class PowerDialogParameterUncertainty extends JDialog implements ActionLi
 	/**
 	 * Constructor
 	 * @param parent Parent JFrame
-	 * @param n number of groups sample sizes are asked for
 	 */
 	public PowerDialogParameterUncertainty(CreateGraphGUI parent) {
 		super(parent, "Power Simulation - specify probability distribution of test statistics", true);
@@ -551,7 +551,7 @@ public class PowerDialogParameterUncertainty extends JDialog implements ActionLi
 		if (jtlVar.size()>0) {
 			String s = ", variables=list("; 
 			for (int i=0; i<variables.length; i++) {
-				s = s + EdgeWeight.UTF2LaTeX(variables[i].toString().charAt(0))+" = "+ jtlVar.get(i).getText();
+				s = s + LaTeXTool.UTF2LaTeX(variables[i].toString().charAt(0))+" = "+ jtlVar.get(i).getText();
 				if (i!=variables.length-1) s = s + ", ";
 			}		
 			return s+")";

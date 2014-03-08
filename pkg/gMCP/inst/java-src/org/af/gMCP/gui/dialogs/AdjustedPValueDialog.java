@@ -1,7 +1,5 @@
 package org.af.gMCP.gui.dialogs;
 
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.DecimalFormat;
@@ -14,7 +12,11 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 
 import org.af.gMCP.config.Configuration;
+import org.af.gMCP.gui.graph.LaTeXTool;
 import org.af.gMCP.gui.graph.Node;
+
+import com.jgoodies.forms.layout.CellConstraints;
+import com.jgoodies.forms.layout.FormLayout;
 
 public class AdjustedPValueDialog extends JDialog implements ActionListener {
 
@@ -23,37 +25,33 @@ public class AdjustedPValueDialog extends JDialog implements ActionListener {
 	public AdjustedPValueDialog(JFrame mainFrame, List<Double> pValues, double[] adjPValues, Vector<Node> vector) {
 		super(mainFrame, "Adjusted p-Values");
 
-		getContentPane().setLayout(new GridBagLayout());
-		
-		GridBagConstraints c = new GridBagConstraints();
-		
-		c.fill = GridBagConstraints.HORIZONTAL;		
-		c.gridx=0; c.gridy=0;
-		c.gridwidth = 1; c.gridheight = 1;
-		c.ipadx=10; c.ipady=10;
-		c.weightx=1; c.weighty=1;
-		
-		c.gridx=0; 
-		(getContentPane()).add(new JLabel("Hypotheses"), c);
-		c.gridx=1;
-		(getContentPane()).add(new JLabel("raw p-values"), c);
-		c.gridx=2;
-		(getContentPane()).add(new JLabel("adjusted p-values"), c);
-		c.gridy++;		
-		
-		DecimalFormat format = Configuration.getInstance().getGeneralConfig().getDecFormat();
+		String cols = "5dlu, pref, 5dlu, pref, 5dlu, pref, 5dlu";
+		String rows = "5dlu, pref, 5dlu, pref, 5dlu";
 		for (int i=0; i<adjPValues.length; i++) {
-			c.gridx=0; 
-			(getContentPane()).add(new JLabel(""+vector.get(i).getName()+":"), c);
-			c.gridx=1;
-			(getContentPane()).add(new JLabel(""+format.format(pValues.get(i))), c);
-			c.gridx=2;
-			(getContentPane()).add(new JLabel(""+format.format(adjPValues[i])), c);
-			c.gridy++;
+			rows += ", pref, 5dlu";
 		}
-		c.gridx = 1;
-		jb.addActionListener(this);
-		(getContentPane()).add(jb, c);
+
+		FormLayout layout = new FormLayout(cols, rows);
+		getContentPane().setLayout(layout);
+		CellConstraints cc = new CellConstraints();
+
+		int row = 2;		
+		 
+		getContentPane().add(new JLabel("Hypotheses"), cc.xy(2, row));		
+		getContentPane().add(new JLabel("raw p-values"), cc.xy(4, row));		
+		getContentPane().add(new JLabel("adjusted p-values"), cc.xy(6, row));
+				
+		DecimalFormat format = Configuration.getInstance().getGeneralConfig().getDecFormat();
+		for (int i=0; i<adjPValues.length; i++) {			
+			row += 2;			
+			getContentPane().add(new JLabel(""+LaTeXTool.LaTeX2UTF(vector.get(i).getName())+":"), cc.xy(2, row));
+			getContentPane().add(new JLabel(""+format.format(pValues.get(i))), cc.xy(4, row));
+			getContentPane().add(new JLabel(""+format.format(adjPValues[i])), cc.xy(6, row));
+		}
+		
+		row += 2;
+		jb.addActionListener(this);		
+		getContentPane().add(jb, cc.xy(6, row));
 		pack();	
 		
 	    setLocationRelativeTo(mainFrame);

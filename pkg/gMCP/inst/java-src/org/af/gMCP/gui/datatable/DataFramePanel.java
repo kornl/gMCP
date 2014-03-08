@@ -8,6 +8,8 @@ import javax.swing.JTabbedPane;
 import javax.swing.JTable;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 
 import org.af.gMCP.gui.graph.EdgeWeight;
 import org.af.gMCP.gui.graph.GraphView;
@@ -15,7 +17,7 @@ import org.af.gMCP.gui.graph.GraphView;
 import com.jgoodies.forms.layout.CellConstraints;
 import com.jgoodies.forms.layout.FormLayout;
 
-public class DataFramePanel extends JTabbedPane implements ChangeListener {
+public class DataFramePanel extends JTabbedPane implements ChangeListener, ListSelectionListener {
     private Vector<DataTable> tables = new Vector<DataTable>();
     private JScrollPane scrollPane;
     GraphView control;
@@ -28,6 +30,8 @@ public class DataFramePanel extends JTabbedPane implements ChangeListener {
     
     private JPanel getPanel(DataTable table) {
     	JPanel panel = new JPanel();
+    	table.getSelectionModel().addListSelectionListener(this);
+    	table.getColumnModel().getSelectionModel().addListSelectionListener(this);
     	/*
     	 * if AutoReziseMode is set to something different to JTable.AUTO_RESIZE_OFF
     	 * the table will resize itself to fit into the width of the JScrollPane
@@ -35,7 +39,7 @@ public class DataFramePanel extends JTabbedPane implements ChangeListener {
         //table.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
     	JTable rowHeader = new JTable(new RowModel(table.getModel()));
 		rowHeader.setRowHeight(table.getRowHeight());
-        scrollPane = new JScrollPane(table);
+        scrollPane = new JScrollPane(table);        
         scrollPane.setRowHeaderView(rowHeader);
         rowHeader.setPreferredScrollableViewportSize(rowHeader.getPreferredSize());
         
@@ -122,5 +126,20 @@ public class DataFramePanel extends JTabbedPane implements ChangeListener {
 		if (control != null && control.getNL().getSelectedIndex()!=0) {
 			control.getNL().setSelectedIndex(i+1);
 		}		
+	}
+
+	int oldi = -1;
+	int oldj = -1;
+	
+	public void valueChanged(ListSelectionEvent e) {
+		//int i = e.getFirstIndex();
+		DataTable table = tables.get(getSelectedIndex());
+		int i = table.getSelectedRow();
+		int j = table.getSelectedColumn();
+		if (i!=oldi || j!=oldj) {
+			control.getNL().highlightEdge(i, j);			
+		}
+		oldi = i; 
+		oldj = j;
 	}
 }

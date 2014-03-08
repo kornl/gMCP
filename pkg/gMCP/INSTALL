@@ -64,7 +64,7 @@ root permissions to let R find your java compiler and headers.
      Error : .onLoad failed in loadNamespace() for 'rJava', details:
        call: fun(libname, pkgname)
        error: JAVA_HOME cannot be determined from the Registry
-     Error: package ‘rJava’ could not be loaded
+     Error: package 'rJava' could not be loaded
    Java is not installed or at least not in the correct variant.
    For example if you have only Java 32-bit on a 64-bit system
    and you start the 64-bit R you will run into this error.

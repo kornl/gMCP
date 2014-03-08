@@ -6,28 +6,47 @@ Default: NCP (throw out n, \sigma, \mu)
 Instead of c(0,0,...) use #hypotheses text fields.
 Remove setting + check for empty textfields
 Move power simulation options on the right side of the simulation window
-Change test to only "Bonferroni", "Simes", "parametric" and add parameter upscale to 'gMCP' (and change exhaust)
-Allow upscale for Simes test? (Theory!)
-Is the shortcut really used for the Simes test (it can not be used for adjusted p-values, but if these are not asked for the shortcut should be used).
 Remember multiple setting options and add "clear" button. Save settings under name.
 "Select an R correlation matrix" -> "?"
 _Always_ use correlation matrix - never covariance matrix. Check for this for imports (and ask for converting to corMat). In the GUI disable diagonal.
 User specified power functions should be namable in the GUI. Save output as data.frame and CSV.
 Simes -> simply -> "Use Simes test" -> Show "Warning dialog exlaining..." with check box "never show me again".
-Improve "Graph Analysis" -> Check whether weights sum up to 1 for all subgraphs.
 Sample Sizes: Drop "n" column,  
 Replace n, \sigma, \mu with \theta θ and Standard error of \theta.
 Specify marginal power (and one field for which alpha this power was calculated).
-Entangled graph should shown be separately.
-subgraph alpha splitting -> component graph weights
-Entangled graphs: Alpha level -> Weights 1, Weights 2, Weights 3 (and check whether sum weights > 1).
+
+Change test to only "Bonferroni", "Simes", "parametric" and add parameter upscale to 'gMCP' (and change exhaust)
+
+If test equals \code{"Bretz2011"} the weighted parametric test described in Bretz et al.
+2011 is performed.  If test equals \code{"simple-parametric"} for each
+subset a weighted parametric test is performed at the reduced level alpha of
+sum(w)*alpha, where sum(w) is the sum of all node weights in this subset.
+Otherwise the procedure is the same as described in Bretz et al. 2011.
+
+Allow upscale for Simes test? (Theory!)
+Is the shortcut really used for the Simes test (it can not be used for adjusted p-values, but if these are not asked for the shortcut should be used).
+
+- graphAnalysis now can take a really long time (warn or put into another [cancelable] thread?)
 - NEWS.Rd and news()
+- Check whether graphAnalysis slows down GUI.
+
+- Check whether everything is okay here (with e.g. Ferber) - most likely yes:
+> eval(expression(edgeAttr(.InitialGraph1394185710245, "T3D1", "T2D1", "variableWeight") <- "1-\\nu"), envir=gMCP:::gMCPenv)
+> eval(expression(try(1-\nu, silent=TRUE)), envir=gMCP:::gMCPenv)
+Error: unexpected input in "eval(expression(try(1-\"
 
 - Streamline / throw out graphTest
 - Highlight edges (and perhaps nodes) depending on the focus in the dataframe. 
 
+- http://docs.oracle.com/javase/1.5.0/docs/guide/net/proxies.html - http://stackoverflow.com/questions/376101/setting-jvm-jre-to-use-windows-proxy-automatically
 - Unify graphMCP and entangled graphs?
 - Integrate parameter 'envir' into corMatWizard.
+
+From xlsxjars:
+ jversion <- .jcall("java.lang.System", "S", "getProperty", "java.version")
+ if (jversion < "1.5.0") stop(paste("Your java version is ", jversion, ".  Need 1.5.0 or higher.", sep = ""))
+
+Check whether .jpackage(pkgname) in xlsxjars:::.onLoad messes up gMCP's .jinit(parameters=c("-Xrs", "-Xss1m")).
 
 - Explain that the order of the rejected hypotheses doesn't affect the end result.
 - Report was send dialog is sometimes behind ErrorReport.
