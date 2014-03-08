@@ -593,5 +593,24 @@ public class NetList extends JTabbedPane implements ChangeListener {
 			control.getDataFramePanel().setSelectedIndex(i-1);
 		}		
 	}
+	
+	public Edge getEdge (int i, int j) {
+		if ( i < 0 || j < 0 || i >= nodes.size() || j >= nodes.size() ) return null;
+		for (Edge e : getEdges()) {
+			if (e.from == nodes.get(i) && e.to == nodes.get(j)) return e;
+		}
+		return null;
+	}
+
+	public void highlightEdge(int i, int j, boolean highlight) {
+		Edge e = getEdge(i,j);
+		if (e==null) return;
+		if (highlight) {
+			e.linewidth = 5;
+		} else {
+			e.linewidth = null; // Back to default?
+		}
+		repaint();
+	}
 
 }

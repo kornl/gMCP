@@ -6,6 +6,7 @@ import java.util.List;
 
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.ListSelectionModel;
 import javax.swing.table.TableCellRenderer;
 
 import org.af.gMCP.config.Configuration;
@@ -23,6 +24,7 @@ public class DataTable extends JTable {
         getColumnModel().setColumnSelectionAllowed(false);
         setRowSelectionAllowed(false);
         setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+        //setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         setDefaultEditor(EdgeWeight.class, new CellEditorE(null, this));
     	setDefaultRenderer(EdgeWeight.class, new EpsilonTableCellRenderer());
     	putClientProperty("terminateEditOnFocusLost", Boolean.TRUE);
