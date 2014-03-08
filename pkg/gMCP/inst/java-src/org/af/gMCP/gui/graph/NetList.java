@@ -159,7 +159,7 @@ public class NetList extends JTabbedPane implements ChangeListener {
 		return ".tmpGraph";
 	}
 	
-	public BufferedImage getImage(double d) {
+	public BufferedImage getImage(Double d) {
 		return nlp.get(getSelectedIndex()).getImage(d);
 	}
 

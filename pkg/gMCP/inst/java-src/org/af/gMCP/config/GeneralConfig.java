@@ -361,7 +361,7 @@ public class GeneralConfig extends SpecificConfig {
 	}
 
 	public Double getExportZoom() {		
-		return getProperty("Exportzoom", "null")=="null"?null:Double.parseDouble(getProperty("Exportzoom", "null"));		
+		return getProperty("Exportzoom", "2")=="null"?2:Double.parseDouble(getProperty("Exportzoom", "2"));		
 	}
 	
 	public void setShowRCode(boolean b) {
