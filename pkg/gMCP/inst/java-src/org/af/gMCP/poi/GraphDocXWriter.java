@@ -42,7 +42,7 @@ public class GraphDocXWriter {
 		run.addPicture(picIS, XWPFDocument.PICTURE_TYPE_PNG, "graph.png", Units.toEMU(image.getWidth()/zoom), Units.toEMU(image.getHeight()/zoom));
 	}
 	
-	final static int zoom = 8; 
+	final static double zoom = 4; 
 	
 	/* Stuff one could use:
 	 * run.setSubscript(VerticalAlign.SUBSCRIPT);
