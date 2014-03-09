@@ -62,6 +62,7 @@
 
 \begin{document}
 
+% \VignetteEngine{knitr::knitr}
 % \VignetteIndexEntry{A Graphical Approach to Weighted Multiple Test Procedures}
 % \VignetteDepends{coin}
 
@@ -69,7 +70,12 @@
 
 \author{Kornelius Rohmeyer}
 
-\maketitle
+\maketitle\thispagestyle{empty}\vspace*{4cm}
+
+{
+  \centering    
+  \includegraphics[width=0.95\textwidth]{pictures/FullFeaturedGUI.png}      
+}
 
 \newpage
 
@@ -396,7 +402,20 @@ adjusted p-values.
 \includegraphics[width=0.5cm]{pictures/confint2.png} Calculates
 simultaneous confidence intervals.
 
-With drag and drop you can move nodes and also adjust edges.
+With drag and drop you can move nodes and also adjust edges. Double
+clicking the nodes or edges will open a property dialog that can also
+be accessed via the right-click context menu. These dialogs and
+context menus also give you the option to delete the selected
+node/edge.
+
+As seen in figure \ref{fig:guircode} the GUI will show you R code to
+reproduce results.
+
+\begin{figure}[ht]
+  \centering   
+  \includegraphics[width=0.7\textwidth]{pictures/GeneratedRCode.png}      
+  \caption{\label{fig:guircode} R Code generated and shown by the GUI to reproduce the results.}
+\end{figure}
 
 \section{The sequentially rejective MTP}
 
@@ -675,6 +694,20 @@ tested, you have to activate it in the options (see \ref{experimentalFeatures}).
 
 \section{Power Simulations}\index{power simulation}
 
+\subsection{Using the R command line}
+
+<<echo=TRUE, tidy=FALSE>>=
+
+# Bonferroni adjustment
+G <- diag(2)
+weights <- c(0.5,0.5)
+corMat <- diag(2)+matrix(1,2,2)
+theta <- c(1,2)
+calcPower(weights, alpha=0.025, G, theta, corMat)
+calcPower(weights, alpha=0.025, G, 2*theta, 2*corMat)
+
+@
+
 \begin{figure}[ht]
   \centering
 <<echo=FALSE,results='asis'>>=
@@ -839,17 +872,29 @@ reports, disable the option in the options menu.
 \subsection{Import/Exports}\index{import}\index{export}
 
 This subsection is work in progress, but fortunately the menu entries
-in figure \ref{fileMenu} should be fairly self-explanatory.
-
-You can export graphs to png files.  The background of these png files
-will be made transperant, so that they will fit into whichever
-document you insert them.  Note that some image viewers visualize
-transparency with a checkerboard pattern.
+in figure \ref{fig:fileMenu} should be fairly self-explanatory.
 
 \begin{figure}[ht]
   \centering    
   \includegraphics[width=4cm]{pictures/filemenu.png}      
-  \caption{\label{fileMenu} Import and export of graphs.}
+  \caption{\label{fig:fileMenu} Import and export of graphs.}
+\end{figure}
+
+You can export graphs to png files. The background of these png files
+will be made transparent, so that they will fit into whichever
+document you insert them.  Note that some image viewers visualize
+transparency with a checkerboard pattern. In some Windows application
+the transparent background may be wrongly shown as black - if this
+happens or you generally prefer a non-transparent white background,
+you can toggle the option "\emph{Export images with transparent 
+background}" in the options dialog.
+
+Since version 0.8-7 gMCP also can create word documents (Office Open XML / docx).
+
+\begin{figure}[ht]
+  \centering    
+  \includegraphics[width=7cm]{pictures/docxExport.png}      
+  \caption{\label{fig:wordexample} Example Word Export.}
 \end{figure}
 
 \subsection{Important TikZ commands for optimizing the reports}\index{graph2latex}\index{TikZ}
@@ -1051,7 +1096,8 @@ Hommel 1988
 Hochberg 1988
 \end{Theorem}
 
-Adjusted p-values form the Hochberg Procedure are greater as or equal to the Hommel-adjusted p-values.   
+Adjusted p-values form the Hochberg Procedure are greater as or equal
+to the Hommel-adjusted p-values.
 
 \subsubsection*{Adjusted p-Values in the Simes Test}
 
