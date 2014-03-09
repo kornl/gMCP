@@ -70,7 +70,12 @@
 
 \author{Kornelius Rohmeyer}
 
-\maketitle
+\maketitle\thispagestyle{empty}\vspace*{4cm}
+
+{
+  \centering    
+  \includegraphics[width=0.95\textwidth]{pictures/FullFeaturedGUI.png}      
+}
 
 \newpage
 
