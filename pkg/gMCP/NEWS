@@ -1,6 +1,10 @@
 Changes in version 0.8-7 (??-0?-2014)
 =====================================
 
+- API FUNCTION PARAMETER CHANGE: The argument 'exhaust' in the functions
+  'generateBounds', 'generatePvals' and 'generateTest' was renamed to
+  'upscale' to reduce misinterpretation.
+
 - Fixed: Graph image exports were not possible.
 
 - Support for entangled graphs is no longer highly experimental, 

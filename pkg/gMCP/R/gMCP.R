@@ -40,15 +40,11 @@
 #' @param pvalues A numeric vector specifying the p-values for the graph based
 #' MCP. Note the assumptions in the details section for the parametric tests, 
 #' when a correlation is specified.
-#' @param test By default the Bonferroni-based test procedures are used if no
+#' @param test Should be either \code{"Bonferroni"}, \code{"Simes"} or \code{"parametric"}.
+#' If it is not specified by default the Bonferroni-based test procedure is used if no
 #' correlation is specified and the algorithm from Bretz et al. 2011 if a
 #' correlation is specified.  If test is set to \code{"Simes"} the weighted
-#' Simes test will be performed for each subset of hypotheses.  If test equals
-#' \code{"Bretz2011"} the weighted parametric test described in Bretz et al.
-#' 2011 is performed.  If test equals \code{"simple-parametric"} for each
-#' subset a weighted parametric test is performed at the reduced level alpha of
-#' sum(w)*alpha, where sum(w) is the sum of all node weights in this subset.
-#' Otherwise the procedure is the same as described in Bretz et al. 2011.
+#' Simes test will be performed for each subset of hypotheses.
 #' @param correlation Optional correlation matrix.  If the weighted Simes test
 #' is performed, it is checked whether type I error rate can be ensured and a
 #' warning is given if this is not the case.  For parametric tests the p-values
@@ -116,7 +112,7 @@
 #' @export gMCP
 
 gMCP <- function(graph, pvalues, test, correlation, alpha=0.05, 
-		approxEps=TRUE, eps=10^(-3), ..., useC=FALSE, 
+		approxEps=TRUE, eps=10^(-3), ..., upscale=FALSE, useC=FALSE, 
 		verbose=FALSE, keepWeights=TRUE, adjPValues=TRUE) {
 #		, alternatives="less") {	
 	if ("entangledMCP" %in% class(graph)) {
@@ -195,7 +191,7 @@ gMCP <- function(graph, pvalues, test, correlation, alpha=0.05,
 				#myTest <- generateTest(Gm, w, correlation, alpha)
 				#zScores <- -qnorm(pvalues)
 				#rejected <- myTest(zScores)
-                adjP <- generatePvals(Gm, w, correlation, pvalues, exhaust=(missing(test) || test == "Bretz2011")) #, alternatives=alternatives)
+                adjP <- generatePvals(Gm, w, correlation, pvalues, upscale=(missing(test) || test == "Bretz2011")) #, alternatives=alternatives)
                 rejected <- adjP <= alpha
                 names(adjP) <- getNodes(graph)
 				names(rejected) <- getNodes(graph)

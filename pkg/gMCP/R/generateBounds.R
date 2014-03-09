@@ -35,7 +35,7 @@
 #' even if the sum of weights is strictly smaller than one. This has the
 #' consequence that certain test procedures that do not test each intersection
 #' null hypothesis at the full level alpha may not be implemented (e.g., a
-#' single step Dunnett test). If \code{exhaust} is set to \code{FALSE}
+#' single step Dunnett test). If \code{upscale} is set to \code{FALSE}
 #' (default) the parametric tests are performed at a reduced level alpha of
 #' sum(w) * alpha and p-values adjusted accordingly such that test procedures
 #' with non-exhaustive weighting strategies may be implemented. If set to
@@ -55,7 +55,7 @@
 #' @param hint if intersection hypotheses weights have already been computed
 #' (output of \code{\link{generateWeights}}) can be passed here otherwise will
 #' be computed during execution
-#' @param exhaust if \code{FALSE} (default) the parametric test is performed at
+#' @param upscale if \code{FALSE} (default) the parametric test is performed at
 #' the reduced level alpha of sum(w)*alpha. (See details)
 #' @return Returns a matrix of rejection bounds. Each row corresponds to an
 #' intersection hypothesis. The intersection corresponding to each line is
@@ -96,8 +96,8 @@
 #' @export generateBounds
 #' 
 generateBounds <-
-function(g,w,cr,al=.05,hint=generateWeights(g,w),exhaust=F){ #, alternatives="less"){
-  res <- t(apply(hint,1,b.dunnett,a=al,cr=cr,exhaust=exhaust)) #, alternatives=alternatives))
+function(g,w,cr,al=.05,hint=generateWeights(g,w),upscale=FALSE){ #, alternatives="less"){
+  res <- t(apply(hint,1,b.dunnett,a=al,cr=cr,upscale=upscale)) #, alternatives=alternatives))
   res
 }
 

@@ -26,6 +26,8 @@ Otherwise the procedure is the same as described in Bretz et al. 2011.
 Allow upscale for Simes test? (Theory!)
 Is the shortcut really used for the Simes test (it can not be used for adjusted p-values, but if these are not asked for the shortcut should be used).
 
+- generateTest is missing argument 'upscale' (but which is referenced - by copy'n'paste - in its manual page).
+
 - graphAnalysis now can take a really long time (warn or put into another [cancelable] thread?)
 - NEWS.Rd and news()
 - Check whether graphAnalysis slows down GUI.
