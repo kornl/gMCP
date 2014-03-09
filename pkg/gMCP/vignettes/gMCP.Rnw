@@ -413,7 +413,7 @@ reproduce results.
 
 \begin{figure}[ht]
   \centering   
-  \includegraphics[width=0.7\textwidth]{pictures/CIDialog.png}      
+  \includegraphics[width=0.7\textwidth]{pictures/GeneratedRCode.png}      
   \caption{\label{fig:guircode} R Code generated and shown by the GUI to reproduce the results.}
 \end{figure}
 
@@ -893,7 +893,7 @@ Since version 0.8-7 gMCP also can create word documents (Office Open XML / docx)
 
 \begin{figure}[ht]
   \centering    
-  \includegraphics[width=4cm]{pictures/filemenu.png}      
+  \includegraphics[width=7cm]{pictures/docxExport.png}      
   \caption{\label{fig:wordexample} Example Word Export.}
 \end{figure}
 
