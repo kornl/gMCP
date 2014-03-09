@@ -51,6 +51,8 @@ From xlsxjars:
  jversion <- .jcall("java.lang.System", "S", "getProperty", "java.version")
  if (jversion < "1.5.0") stop(paste("Your java version is ", jversion, ".  Need 1.5.0 or higher.", sep = ""))
 
+- Horizontal JScrollBar is inside vertical JScrollPane (so you have to scroll down to scroll to the right/left).
+
 - .jpackage(pkgname) in xlsxjars:::.onLoad messes up gMCP's .jinit(parameters=c("-Xrs", "-Xss1m")).
 
 - Explain that the order of the rejected hypotheses doesn't affect the end result.
