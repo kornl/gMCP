@@ -52,7 +52,7 @@ public class AboutDialog extends InfoDialog implements ActionListener {
 					"gMCP "+Configuration.getInstance().getGeneralConfig().getVersionNumber()+"\n\n", getH1());			
 			doc.insertString(doc.getLength(),
 					"by Kornelius Rohmeyer and Florian Klinglmueller is distributed under GPL>=2.0."+"\n\n", getT());			
-			doc.insertString(doc.getLength(), "This program uses the libraries log4j, JLaTeXMath, iText (2.1.4), jxlayer,\n swingworker, commons logging/lang, JRI and JGoodies Forms.\n", getT());
+			doc.insertString(doc.getLength(), "This program uses the libraries log4j, JLaTeXMath, POI, iText (2.1.4), jxlayer,\n swingworker, commons logging/lang, JRI and JGoodies Forms.\n", getT());
 			doc.setParagraphAttributes(0, doc.getLength(), getC(), true);
         } catch (BadLocationException ble) {
         	logger.error("BadLocationException was thrown. Should never happen.", ble);
