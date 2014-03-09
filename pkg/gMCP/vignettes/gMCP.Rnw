@@ -872,17 +872,29 @@ reports, disable the option in the options menu.
 \subsection{Import/Exports}\index{import}\index{export}
 
 This subsection is work in progress, but fortunately the menu entries
-in figure \ref{fileMenu} should be fairly self-explanatory.
-
-You can export graphs to png files.  The background of these png files
-will be made transperant, so that they will fit into whichever
-document you insert them.  Note that some image viewers visualize
-transparency with a checkerboard pattern.
+in figure \ref{fig:fileMenu} should be fairly self-explanatory.
 
 \begin{figure}[ht]
   \centering    
   \includegraphics[width=4cm]{pictures/filemenu.png}      
-  \caption{\label{fileMenu} Import and export of graphs.}
+  \caption{\label{fig:fileMenu} Import and export of graphs.}
+\end{figure}
+
+You can export graphs to png files. The background of these png files
+will be made transparent, so that they will fit into whichever
+document you insert them.  Note that some image viewers visualize
+transparency with a checkerboard pattern. In some Windows application
+the transparent background may be wrongly shown as black - if this
+happens or you generally prefer a non-transparent white background,
+you can toggle the option "\emph{Export images with transparent 
+background}" in the options dialog.
+
+Since version 0.8-7 gMCP also can create word documents (Office Open XML / docx).
+
+\begin{figure}[ht]
+  \centering    
+  \includegraphics[width=4cm]{pictures/filemenu.png}      
+  \caption{\label{fig:wordexample} Example Word Export.}
 \end{figure}
 
 \subsection{Important TikZ commands for optimizing the reports}\index{graph2latex}\index{TikZ}
@@ -1084,7 +1096,8 @@ Hommel 1988
 Hochberg 1988
 \end{Theorem}
 
-Adjusted p-values form the Hochberg Procedure are greater as or equal to the Hommel-adjusted p-values.   
+Adjusted p-values form the Hochberg Procedure are greater as or equal
+to the Hommel-adjusted p-values.
 
 \subsubsection*{Adjusted p-Values in the Simes Test}
 
