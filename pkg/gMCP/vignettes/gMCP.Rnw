@@ -402,7 +402,20 @@ adjusted p-values.
 \includegraphics[width=0.5cm]{pictures/confint2.png} Calculates
 simultaneous confidence intervals.
 
-With drag and drop you can move nodes and also adjust edges.
+With drag and drop you can move nodes and also adjust edges. Double
+clicking the nodes or edges will open a property dialog that can also
+be accessed via the right-click context menu. These dialogs and
+context menus also give you the option to delete the selected
+node/edge.
+
+As seen in figure \ref{fig:guircode} the GUI will show you R code to
+reproduce results.
+
+\begin{figure}[ht]
+  \centering   
+  \includegraphics[width=0.7\textwidth]{pictures/CIDialog.png}      
+  \caption{\label{fig:guircode} R Code generated and shown by the GUI to reproduce the results.}
+\end{figure}
 
 \section{The sequentially rejective MTP}
 
