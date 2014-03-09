@@ -1,7 +1,11 @@
 Changes in version 0.8-7 (??-0?-2014)
 =====================================
 
-- Fixed: Fixed: Graph image exports were not possible.
+- API FUNCTION PARAMETER CHANGE: The argument 'exhaust' in the functions
+  'generateBounds', 'generatePvals' and 'generateTest' was renamed to
+  'upscale' to reduce misinterpretation.
+
+- Fixed: Graph image exports were not possible.
 
 - Support for entangled graphs is no longer highly experimental, 
   but enabled as default.
@@ -58,7 +62,7 @@ Changes in version 0.8-6 (17-02-2014)
 
 - We always use correlation matrices instead of covariance matrices in the GUI.
 
-139 files changed, 5526 insertions(+), 3428 deletions(-)
+ 139 files changed, 5526 insertions(+), 3428 deletions(-)
 
 
 Changes in version 0.8-5 (18-07-2013)

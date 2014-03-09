@@ -3,7 +3,7 @@
 \title{generatePvals}
 \usage{
   generatePvals(g, w, cr, p, adjusted = TRUE,
-    hint = generateWeights(g, w), exhaust = FALSE)
+    hint = generateWeights(g, w), upscale = FALSE)
 }
 \arguments{
   \item{g}{graph defined as a matrix, each element defines
@@ -36,7 +36,7 @@
   \code{\link{generateWeights}}) can be passed here
   otherwise will be computed during execution}
 
-  \item{exhaust}{if \code{FALSE} (default) the p-values are
+  \item{upscale}{if \code{FALSE} (default) the p-values are
   additionally adjusted for the case that non-exhaustive
   weights are specified. (See details)}
 }
@@ -98,7 +98,7 @@
   consequence that certain test procedures that do not test
   each intersection null hypothesis at the full level alpha
   may not be implemented (e.g., a single step Dunnett
-  test). If \code{exhaust} is set to \code{FALSE} (default)
+  test). If \code{upscale} is set to \code{FALSE} (default)
   the parametric tests are performed at a reduced level
   alpha of sum(w) * alpha and p-values adjusted accordingly
   such that test procedures with non-exhaustive weighting
