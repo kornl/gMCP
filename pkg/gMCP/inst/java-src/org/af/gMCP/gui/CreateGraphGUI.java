@@ -156,12 +156,8 @@ public class CreateGraphGUI extends JFrame implements WindowListener, AbortListe
 				if (!Configuration.getInstance().getGeneralConfig().tellAboutCheckOnline()) {
 					new TellAboutOnlineUpate(null);
 					Configuration.getInstance().getGeneralConfig().setTellAboutCheckOnline(true);
-				}
-				new Thread(new Runnable() {
-					public void run() {
-						VersionComparator.getOnlineVersion();
-					}
-				}).start();				
+				}				
+				VersionComparator.getOnlineVersion();								
 			}
 		});
 		
