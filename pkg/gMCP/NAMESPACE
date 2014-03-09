@@ -5,6 +5,8 @@ import(methods)
 importFrom(stats4, plot)
 import(utils)
 import(rJava)
+# Superfluous since xlsxjars only has a '.onload' method (but still here for CRAN checks):
+import(xlsxjars)
 importFrom(CommonJavaJars, loadJars)
 importFrom(PolynomF, polynom)
 importFrom(mvtnorm, pmvnorm)
