@@ -48,6 +48,8 @@ Error: unexpected input in "eval(expression(try(1-\"
 - Unify graphMCP and entangled graphs?
 - Integrate parameter 'envir' into corMatWizard.
 
+- Java 7 ignores property "sun.awt.exception.handler"? http://stackoverflow.com/questions/5794472/why-bother-with-setting-the-sun-awt-exception-handler-property
+
 From xlsxjars:
  jversion <- .jcall("java.lang.System", "S", "getProperty", "java.version")
  if (jversion < "1.5.0") stop(paste("Your java version is ", jversion, ".  Need 1.5.0 or higher.", sep = ""))
