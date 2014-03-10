@@ -106,9 +106,11 @@ public class PView extends JPanel implements KeyListener, ActionListener {
 			} else {				
 				String obj = jcbCorObject.getSelectedItem().toString();
 				String matrix = obj.endsWith("matrices found.")?null:obj;
-				new MatrixCreationDialog(parent, matrix, MatrixCreationDialog.getNames(parent.getGraphView().getNL().getNodes()));
+				MatrixCreationDialog mcd = new MatrixCreationDialog(parent, matrix, MatrixCreationDialog.getNames(parent.getGraphView().getNL().getNodes()));
 				refresh(false);
-				jrbRCorrelation.setSelected(true);
+				if (mcd.created==true) {
+					jrbRCorrelation.setSelected(true);
+				}
 			}
 		}
 	}
