@@ -96,7 +96,7 @@ public class MatrixCreationDialog extends JDialog implements ActionListener, Cha
 			df.setValue(df.getColumnCount()-1, df.getColumnCount()-1, new EdgeWeight(1));
 		}		
 		dfp = new SingleDataFramePanel(df);
-		dfp.getTable().getModel().diagEditable = true;
+		dfp.getTable().getModel().diagEditable = false;
 		dfp.getTable().getModel().setCheckRowSum(false);
 		
 		setUpTabbedPane();
