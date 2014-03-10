@@ -830,9 +830,11 @@ graph
     whether a new version of gMCP is available. Only your version of R (like
     2.13.1), the version of gMCP (like 0.7-5) and a random number (to
     distinguish different requests) are transmitted.
-  \item[Weights of subgraphs are upscaled to 1] If "yes" is selected the weights 
-    of all subgraphs are always upscaled to one as described in \cite{Bretz11}.
-    %TODO Explain these options.
+  \item[Weights of subgraphs are upscaled to 1] If '\emph{No}' is selected then 
+    for each intersection of hypotheses (i.e. each subgraph)
+    a weighted test is performed at the possibly reduced level alpha of $\text{sum}(w)*alpha$,
+    where $\text{sum}(w)$ is the sum of all node weights in this subset
+    If '\emph{Yes}' is selected all weights are upscaled, so that $\text{sum}(w)=1$.
   \item[Export images with transparent background] If checked the background of
     exported PNG graphics will be transparent. Otherwise the graphs are
     displayed on a white background.
