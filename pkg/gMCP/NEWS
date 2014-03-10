@@ -15,6 +15,9 @@ Changes in version 0.8-7 (??-0?-2014)
 
 - Fixed: Graph image exports were not possible.
 
+- Fixed: Some matrices were completely grayed out although only the diagonal 
+  was not editable.
+
 - Support for entangled graphs is no longer highly experimental, 
   but enabled as default.
 
