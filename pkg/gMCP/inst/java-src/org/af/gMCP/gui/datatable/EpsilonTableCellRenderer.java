@@ -80,6 +80,8 @@ public class EpsilonTableCellRenderer extends DefaultTableCellRenderer {
     	
     	if ((row==col && ! model.diagEditable) || model.testing) {
     		label.setForeground(Color.LIGHT_GRAY);
+    	} else {
+    		label.setForeground(null);
     	}
     	
     	return label;

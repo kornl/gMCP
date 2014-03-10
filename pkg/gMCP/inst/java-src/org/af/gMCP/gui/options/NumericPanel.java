@@ -95,7 +95,11 @@ public class NumericPanel extends OptionsPanel implements ActionListener {
         parametricAlgo = new JComboBox(new String[] {"Yes", "No"});
         parametricAlgo.setSelectedIndex(conf.getGeneralConfig().getUpscale()?0:1);
         parametricAlgo.setToolTipText("<html>" +
-        		"Please see the manual for an explanation.</html>");
+        		"If 'No' is selected then for each intersection of hypotheses (i.e. each subgraph)<br>" +
+        		"a weighted test is performed at the possibly reduced level alpha of sum(w)*alpha,<br>" + 
+        		"where sum(w) is the sum of all node weights in this subset.<br>" +
+        		"If 'Yes' is selected all weights are upscaled, so that sum(w)=1.<br>" +
+        		"Please see the manual for a longer explanation and examples.</html>");
     }
 
     private void doTheLayout() {
