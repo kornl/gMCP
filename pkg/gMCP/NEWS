@@ -32,6 +32,9 @@ Changes in version 0.8-7 (??-0?-2014)
 
 - Improved Graph Analysis checks whether weights sum up to 1 for all subgraphs.
 
+- In case of unexpected errors on Java's Event-Dispatch-Thread no error dialog
+  was shown if Java >=7 was used. This is now fixed.
+
 - Edges are highlighted if transition matrix cells are edited.
 
 
