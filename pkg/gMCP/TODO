@@ -18,13 +18,15 @@ Does rJava again contain all necessary jar files?
 - "Select an R correlation matrix" -> "?"
 - _Always_ use correlation matrix - never covariance matrix. Check for this for imports (and ask for converting to corMat). In the GUI disable diagonal.
 
+- Check all output whether numbers should be rounded (e.g. 0.12000000000000000032) or converted to fractions?
+
 - Check verbose output of algorithm (i) when, why? ii) new FormLayout)
 
 - Why is there still a thread running if the GUI is closed?
 
 - Add variables as parameters to example graphs
 
-- Upscale does not work well with adjusted p-values!
+- Upscale does not work yet with adjusted p-values!
 - Allow upscale for Simes test? (Theory!)
 - Is the shortcut really used for the Simes test (it can not be used for adjusted p-values, but if these are not asked for the shortcut should be used).
 
