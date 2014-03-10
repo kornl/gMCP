@@ -9,8 +9,6 @@ Does rJava again contain all necessary jar files?
    Remember multiple setting options and add "clear" button. Save settings under name.
    User specified power functions should be namable in the GUI. Save output as data.frame and CSV.
 
-- Simes -> simply -> "Use Simes test" -> Show "Warning dialog exlaining..." with check box "never show me again".
-
 - Sample Sizes: Drop "n" column,  
   Replace n, \sigma, \mu with \theta θ and Standard error of \theta.
   Specify marginal power (and one field for which alpha this power was calculated).
