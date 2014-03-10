@@ -16,6 +16,7 @@ import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
+import org.af.commons.errorhandling.DefaultExceptionHandler;
 import org.af.commons.errorhandling.ErrorHandler;
 import org.af.commons.widgets.InfiniteProgressPanel;
 import org.af.commons.widgets.InfiniteProgressPanel.AbortListener;
@@ -139,6 +140,7 @@ public class CreateGraphGUI extends JFrame implements WindowListener, AbortListe
 		//TODO Is there really no better way than this kind of strange workaround?!?
 		new Thread(new Runnable() {
 			public void run() {
+				Thread.currentThread().setUncaughtExceptionHandler(new DefaultExceptionHandler());
 				for (int i=0; i<6; i++) {
 					try {
 						Thread.sleep(1000);
@@ -159,6 +161,7 @@ public class CreateGraphGUI extends JFrame implements WindowListener, AbortListe
 				}
 				new Thread(new Runnable() {
 					public void run() {
+						Thread.currentThread().setUncaughtExceptionHandler(new DefaultExceptionHandler());
 						VersionComparator.getOnlineVersion();
 					}
 				}).start();				
