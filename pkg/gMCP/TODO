@@ -19,6 +19,7 @@ Does rJava again contain all necessary jar files?
 - Check all output whether numbers should be rounded (e.g. 0.12000000000000000032) or converted to fractions?
 
 - Check verbose output of algorithm (i) when, why? ii) new FormLayout)
+- Check whether option "Colored image files and reports" is respected.
 
 - Why is there still a thread running if the GUI is closed?
 
