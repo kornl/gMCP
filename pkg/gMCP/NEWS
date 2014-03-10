@@ -5,6 +5,14 @@ Changes in version 0.8-7 (??-0?-2014)
   'generateBounds', 'generatePvals' and 'generateTest' was renamed to
   'upscale' to reduce misinterpretation.
 
+- Up to now the parameter 'test' of function gMCP could be one of the following:
+  "Bonferroni", "Simes", "Bretz2011" or "simple-parametric".
+  We now introduced a new parameter 'upscale' (default FALSE) and restricted 'test' to:
+  "Bonferroni", "Simes" and "parametric", 
+  where the old "Bretz2011" corresponds to 'test="parametric", upscale=TRUE' and
+  the old "simple-parametric" to 'test="parametric", upscale=FALSE'.
+  (For compatibility the old function calls actually still work, but are discouraged.)
+
 - Fixed: Graph image exports were not possible.
 
 - Support for entangled graphs is no longer highly experimental, 

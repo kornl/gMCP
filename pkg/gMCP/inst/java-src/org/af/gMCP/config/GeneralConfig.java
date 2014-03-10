@@ -352,12 +352,12 @@ public class GeneralConfig extends SpecificConfig {
 		setProperty("envir", envir);
 	}
 	
-	public String getParametricTest() {
-		return getProperty("parametricTest", "Bretz2011");
+	public boolean getUpscale() {
+		return Boolean.parseBoolean(getProperty("upscale", ""+false));
 	}
 	
-	public void setParametricTest(String test) {
-		setProperty("parametricTest", test);
+	public void setUpscale(boolean upscale) {
+		setProperty("upscale", ""+upscale);
 	}
 
 	public Double getExportZoom() {		

@@ -16,12 +16,12 @@
   correlation is specified.}
 
   \item{test}{Should be either \code{"Bonferroni"},
-  \code{"Simes"} or \code{"parametric"}. If it is not
-  specified by default the Bonferroni-based test procedure
-  is used if no correlation is specified and the algorithm
-  from Bretz et al. 2011 if a correlation is specified.  If
-  test is set to \code{"Simes"} the weighted Simes test
-  will be performed for each subset of hypotheses.}
+  \code{"Simes"} or \code{"parametric"}. If not specified
+  by default the Bonferroni-based test procedure is used if
+  no correlation is specified or the algorithm from Bretz
+  et al. 2011 if a correlation is specified. If \code{test}
+  is set to \code{"Simes"} the weighted Simes test will be
+  performed for each subset of hypotheses.}
 
   \item{correlation}{Optional correlation matrix.  If the
   weighted Simes test is performed, it is checked whether
@@ -45,6 +45,13 @@
   epsilon edges.}
 
   \item{...}{Test specific arguments can be given here.}
+
+  \item{upscale}{Logical. If \code{FALSE} for each
+  intersection of hypotheses a weighted test is performed
+  at the reduced level alpha of sum(w)*alpha, where sum(w)
+  is the sum of all node weights in this subset. If
+  \code{upscale=TRUE} all weights are upscaled, so that
+  sum(w)=1.}
 
   \item{useC}{Logical scalar. If \code{TRUE} neither
   adjusted p-values nor intermediate graphs are returned,
@@ -125,8 +132,12 @@
 }
 \examples{
 g <- BonferroniHolm(5)
-
 gMCP(g, pvalues=c(0.01, 0.02, 0.04, 0.04, 0.7))
+# Simple Bonferroni with empty graph:
+g2 <- matrix2graph(matrix(0, nrow=5, ncol=5))
+gMCP(g2, pvalues=c(0.01, 0.02, 0.04, 0.04, 0.7))
+# With 'upscale=TRUE' equal to BonferroniHolm:
+gMCP(g2, pvalues=c(0.01, 0.02, 0.04, 0.04, 0.7), upscale=TRUE)
 }
 \author{
   Kornelius Rohmeyer \email{rohmeyer@small-projects.de}

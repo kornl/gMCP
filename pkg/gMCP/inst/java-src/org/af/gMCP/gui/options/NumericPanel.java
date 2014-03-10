@@ -30,7 +30,6 @@ public class NumericPanel extends OptionsPanel implements ActionListener {
     private JTextField numberOfSimulations;
     private JComboBox randomNumbers;
     private JComboBox parametricAlgo;
-    String[] tests = new String[] {"Bretz2011", "simple-parametric"};
 
     public NumericPanel(Configuration conf) {
         this.conf = conf;
@@ -94,7 +93,7 @@ public class NumericPanel extends OptionsPanel implements ActionListener {
         		"pseudorandom option that uses ordinary (pseudo) random numbers.</html>");
         
         parametricAlgo = new JComboBox(new String[] {"Yes", "No"});
-        parametricAlgo.setSelectedIndex(conf.getGeneralConfig().getParametricTest().equals("Bretz2011")?0:1);
+        parametricAlgo.setSelectedIndex(conf.getGeneralConfig().getUpscale()?0:1);
         parametricAlgo.setToolTipText("<html>" +
         		"Please see the manual for an explanation.</html>");
     }
@@ -173,7 +172,7 @@ public class NumericPanel extends OptionsPanel implements ActionListener {
         	JOptionPane.showMessageDialog(this, "\""+numberOfSimulations.getText()+"\" is not a valid integer.", "Invalid input", JOptionPane.ERROR_MESSAGE);
         }
        	conf.getGeneralConfig().setTypeOfRandom(randomNumbers.getSelectedItem().toString());
-       	conf.getGeneralConfig().setParametricTest(tests[parametricAlgo.getSelectedIndex()]);
+       	conf.getGeneralConfig().setUpscale(parametricAlgo.getSelectedIndex()==0);
     }
 
 	public void actionPerformed(ActionEvent e) {
