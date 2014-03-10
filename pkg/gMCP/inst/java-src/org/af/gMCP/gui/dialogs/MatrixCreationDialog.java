@@ -61,6 +61,8 @@ public class MatrixCreationDialog extends JDialog implements ActionListener, Cha
     JList hypotheses;
     JLabel warning = new JLabel();
     protected static Log logger = LogFactory.getLog(MatrixCreationDialog.class);
+    // Was some matrix created?
+    public boolean created = false;
     
     JTabbedPane tabbedPane = new JTabbedPane(); 
     
@@ -386,6 +388,7 @@ public class MatrixCreationDialog extends JDialog implements ActionListener, Cha
 		if (e.getSource()==ok) {
 			String name = RControl.getR().eval("make.names(\""+tfname.getText()+"\")").asRChar().getData()[0];
 			RControl.getR().evalInGlobalEnv(name+" <- "+dfp.getTable().getModel().getDataFrame().getRMatrix());
+			created = true;
 			dispose();
 		} else if (e.getSource()==jbAdd) {
 			int k = Integer.parseInt(spinnerN2.getModel().getValue().toString());

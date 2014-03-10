@@ -51,7 +51,7 @@ public class PView extends JPanel implements KeyListener, ActionListener {
 	
 	protected JRadioButton jrbNoCorrelation = new JRadioButton("No Information about correlations");
 	public JRadioButton jrbRCorrelation = new JRadioButton("Select an R correlation matrix"); 
-	public JRadioButton jrbSimes = new JRadioButton("Correlation applicable for Simes test (new feature that still needs testing)");
+	public JRadioButton jrbSimes = new JRadioButton("Use Simes test");
 	
 	private Vector<PPanel> panels = new Vector<PPanel>();
 	
@@ -96,6 +96,18 @@ public class PView extends JPanel implements KeyListener, ActionListener {
 			parent.getGraphView().buttonConfInt.setEnabled(false);
 			parent.getGraphView().buttonadjPval.setEnabled(true);
 		} else if (e.getSource()==jrbSimes) {
+			if (!Configuration.getInstance().getClassProperty(this.getClass(), "showSimesInfo", "yes").equals("no")) {
+    			JCheckBox tellMeAgain = new JCheckBox("Don't show me this info again.");
+    			String message = 
+    					"The Simes test requires certain assumptions\n"+
+    					"(sufficient is for example independence or positive\n" +
+    					"regression dependence) and it's the responsibility\n" +
+    					"of the user to check whether they are fullfilled.";
+    			JOptionPane.showMessageDialog(parent, new Object[] {message, tellMeAgain}, "Info", JOptionPane.INFORMATION_MESSAGE);
+    			if (tellMeAgain.isSelected()) {
+    				Configuration.getInstance().setClassProperty(this.getClass(), "showSimesInfo", "no");
+    			}
+    		}
 			parent.getGraphView().buttonConfInt.setEnabled(false);
 			parent.getGraphView().buttonadjPval.setEnabled(true);
 		} else if (e.getSource()==jbLoadPValues) {
@@ -106,9 +118,11 @@ public class PView extends JPanel implements KeyListener, ActionListener {
 			} else {				
 				String obj = jcbCorObject.getSelectedItem().toString();
 				String matrix = obj.endsWith("matrices found.")?null:obj;
-				new MatrixCreationDialog(parent, matrix, MatrixCreationDialog.getNames(parent.getGraphView().getNL().getNodes()));
+				MatrixCreationDialog mcd = new MatrixCreationDialog(parent, matrix, MatrixCreationDialog.getNames(parent.getGraphView().getNL().getNodes()));
 				refresh(false);
-				jrbRCorrelation.setSelected(true);
+				if (mcd.created==true) {
+					jrbRCorrelation.setSelected(true);
+				}
 			}
 		}
 	}
