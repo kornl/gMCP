@@ -41,9 +41,9 @@
 #' MCP. Note the assumptions in the details section for the parametric tests, 
 #' when a correlation is specified.
 #' @param test Should be either \code{"Bonferroni"}, \code{"Simes"} or \code{"parametric"}.
-#' If it is not specified by default the Bonferroni-based test procedure is used if no
-#' correlation is specified and the algorithm from Bretz et al. 2011 if a
-#' correlation is specified.  If test is set to \code{"Simes"} the weighted
+#' If not specified by default the Bonferroni-based test procedure is used if no
+#' correlation is specified or the algorithm from Bretz et al. 2011 if a
+#' correlation is specified. If \code{test} is set to \code{"Simes"} the weighted
 #' Simes test will be performed for each subset of hypotheses.
 #' @param correlation Optional correlation matrix.  If the weighted Simes test
 #' is performed, it is checked whether type I error rate can be ensured and a
@@ -58,6 +58,10 @@
 #' substituted with the value given in the parameter \code{eps}.
 #' @param eps A numeric scalar specifying a value for epsilon edges.
 #' @param ...  Test specific arguments can be given here.
+#' @param upscale Logical. If \code{FALSE} for each intersection of hypotheses
+#' a weighted test is performed at the reduced level alpha of sum(w)*alpha, 
+#' where sum(w) is the sum of all node weights in this subset.
+#' If \code{upscale=TRUE} all weights are upscaled, so that sum(w)=1.
 #' @param useC Logical scalar. If \code{TRUE} neither adjusted p-values nor
 #' intermediate graphs are returned, but the calculation is sped up by using
 #' code written in C. THIS CODE IS NOT FOR PRODUCTIVE USE YET!  If approxEps is
@@ -104,10 +108,12 @@
 #' 
 #' 
 #' g <- BonferroniHolm(5)
-#' 
 #' gMCP(g, pvalues=c(0.01, 0.02, 0.04, 0.04, 0.7))
-#' 
-#' 
+#' # Simple Bonferroni with empty graph:
+#' g2 <- matrix2graph(matrix(0, nrow=5, ncol=5))
+#' gMCP(g2, pvalues=c(0.01, 0.02, 0.04, 0.04, 0.7))
+#' # With 'upscale=TRUE' equal to BonferroniHolm:
+#' gMCP(g2, pvalues=c(0.01, 0.02, 0.04, 0.04, 0.7), upscale=TRUE)
 #' 
 #' @export gMCP
 
@@ -115,8 +121,22 @@ gMCP <- function(graph, pvalues, test, correlation, alpha=0.05,
 		approxEps=TRUE, eps=10^(-3), ..., upscale=FALSE, useC=FALSE, 
 		verbose=FALSE, keepWeights=TRUE, adjPValues=TRUE) {
 #		, alternatives="less") {	
+  # Temporary translation of old syntax:
+  if (!missing(test)) {
+    if (test=="Bretz2011") {
+      test <- "parametric"
+      if (!upscale) warning("For 'Bretz2011' upscale is 'TRUE'.")
+      upscale <- TRUE
+    } else if (test=="simple-parametric") {
+      test <- "parametric"
+      if (upscale) warning("For 'simple-parametric' upscale is 'FALSE'.")
+      upscale <- FALSE
+    }
+  }
+  # Check for entangled graphs and yet unsupported tests:
 	if ("entangledMCP" %in% class(graph)) {
 		if (!missing(correlation) || !missing(test) && test != "Bonferroni") {
+      #TODO
 			stop("Only Bonferroni based testing procedures are supported for entangled graphs in this version.")
 		}
 		out <- graphTest(pvalues=pvalues, weights=getWeights(graph), alpha=alpha*graph@weights, G=getMatrices(graph))
@@ -169,7 +189,7 @@ gMCP <- function(graph, pvalues, test, correlation, alpha=0.05,
 			attr(result, "call") <- call2char(match.call())
 			return(result)
 		}
-	} else if ((missing(test) && !missing(correlation)) || !missing(test) && test == "Bretz2011" || !missing(test) && test == "simple-parametric") {				
+	} else if ((missing(test) && !missing(correlation)) || !missing(test) && test == "parametric") {				
 		if (missing(correlation) || !is.matrix(correlation)) {
 			stop("Procedure for correlated tests, expects a correlation matrix as parameter \"correlation\".")
 		} else {
@@ -191,7 +211,7 @@ gMCP <- function(graph, pvalues, test, correlation, alpha=0.05,
 				#myTest <- generateTest(Gm, w, correlation, alpha)
 				#zScores <- -qnorm(pvalues)
 				#rejected <- myTest(zScores)
-                adjP <- generatePvals(Gm, w, correlation, pvalues, upscale=(missing(test) || test == "Bretz2011")) #, alternatives=alternatives)
+                adjP <- generatePvals(Gm, w, correlation, pvalues, upscale=upscale) #, alternatives=alternatives)
                 rejected <- adjP <= alpha
                 names(adjP) <- getNodes(graph)
 				names(rejected) <- getNodes(graph)
@@ -307,7 +327,7 @@ call2char <- function(call) {
 }
 
 createGMCPCall <- function(graph, pvalues, test, correlation, alpha=0.05, 
-		approxEps=TRUE, eps=10^(-3), ..., useC=FALSE, 
+		approxEps=TRUE, eps=10^(-3), ..., upscale=FALSE, useC=FALSE, 
 		verbose=FALSE, keepWeights=TRUE, adjPValues=TRUE) {	
 	command <- dputGraph(graph, "graph")
 	command <- paste(command, "pvalues <- ",dput2(unname(pvalues)),"\n", sep="")
@@ -318,6 +338,9 @@ createGMCPCall <- function(graph, pvalues, test, correlation, alpha=0.05,
 	if (!missing(test)) {
 		command <- paste(command, ", test=\"",test,"\"", sep="")
 	}
+	if (upscale) {
+	  command <- paste(command, ", upscale=TRUE", sep="")
+	}	
 	if (!missing(correlation)) {
 		command <- paste(command, ", correlation=cr", sep="")
 	}

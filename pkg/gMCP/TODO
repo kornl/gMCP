@@ -17,8 +17,8 @@ Does rJava again contain all necessary jar files?
 - "Select an R correlation matrix" -> "?"
 - _Always_ use correlation matrix - never covariance matrix. Check for this for imports (and ask for converting to corMat). In the GUI disable diagonal.
 
-- Change test to only "Bonferroni", "Simes", "parametric"
 - Check verbose output of algorithm (i) when, why? ii) new FormLayout)
+- What are the default values for upscale?
 
 If test equals \code{"Bretz2011"} the weighted parametric test described in Bretz et al.
 2011 is performed.  If test equals \code{"simple-parametric"} for each

@@ -356,7 +356,7 @@ public class PowerDialogParameterUncertainty extends JDialog implements ActionLi
 	private String getMatrixForParametricTest() {
 		if (parent.getPView().jrbRCorrelation.isSelected()) {			
 			SingleDataFramePanel df = secondCV.isSelected()?dfp2:dfp;			
-			return ", cr="+df.getTable().getModel().getDataFrame().getRMatrix()+", test=\""+Configuration.getInstance().getGeneralConfig().getParametricTest()+"\"";
+			return ", cr="+df.getTable().getModel().getDataFrame().getRMatrix()+", test=\""+Configuration.getInstance().getGeneralConfig().getUpscale()+"\"";
 		}
 		return "";
 	}
