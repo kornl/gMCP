@@ -29,7 +29,7 @@ import org.af.commons.tools.OSTools;
 import org.af.gMCP.config.Configuration;
 import org.af.gMCP.gui.dialogs.GraphSendToArchiveDialog;
 import org.af.gMCP.gui.dialogs.ParameterDialog;
-import org.af.gMCP.gui.dialogs.PowerDialogParameterUncertainty;
+import org.af.gMCP.gui.dialogs.PowerDialog;
 import org.af.gMCP.gui.dialogs.RObjectLoadingDialog;
 import org.af.gMCP.gui.dialogs.RearrangeNodesDialog;
 import org.af.gMCP.gui.dialogs.TextFileViewer;
@@ -384,7 +384,7 @@ public class MenuBarMGraph extends JMenuBar implements ActionListener {
         		JOptionPane.showMessageDialog(control.getMainFrame(), "Simes test not yet supported in power calculations.", "Simes test not yet supported", JOptionPane.ERROR_MESSAGE);
         		return;
         	}
-        	new PowerDialogParameterUncertainty(control.getMainFrame());
+        	new PowerDialog(control.getMainFrame());
         } else if (e.getActionCommand().equals("samplesize")) {
         	if (control.getNL().getNodes().size()==0) {
         		JOptionPane.showMessageDialog(control.getMainFrame(), "Graph is empty!", "Graph is empty!", JOptionPane.ERROR_MESSAGE);
@@ -394,7 +394,7 @@ public class MenuBarMGraph extends JMenuBar implements ActionListener {
         		JOptionPane.showMessageDialog(control.getMainFrame(), "Simes test not yet supported in power calculations.", "Simes test not yet supported", JOptionPane.ERROR_MESSAGE);
         		return;
         	}
-        	new PowerDialogParameterUncertainty(control.getMainFrame());
+        	new PowerDialog(control.getMainFrame());
         } else if (e.getActionCommand().equals("load p-values from R")) {
         	control.loadPValuesFromR(); 
         } else if (e.getActionCommand().equals("changeGraphLayout")) {

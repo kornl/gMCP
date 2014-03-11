@@ -38,7 +38,7 @@ import org.jdesktop.swingworker.SwingWorker;
 import com.jgoodies.forms.layout.CellConstraints;
 import com.jgoodies.forms.layout.FormLayout;
 
-public class PowerDialogParameterUncertainty extends JDialog implements ActionListener {
+public class PowerDialog extends JDialog implements ActionListener {
 
 	JButton addAnother = new JButton("Add another power function");
     List<JButton> buttons = new Vector<JButton>();
@@ -91,7 +91,7 @@ public class PowerDialogParameterUncertainty extends JDialog implements ActionLi
 	 * Constructor
 	 * @param parent Parent JFrame
 	 */
-	public PowerDialogParameterUncertainty(CreateGraphGUI parent) {
+	public PowerDialog(CreateGraphGUI parent) {
 		super(parent, "Power Simulation - specify probability distribution of test statistics", true);
 		setLocationRelativeTo(parent);
 		this.parent = parent;
