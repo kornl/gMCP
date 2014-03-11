@@ -25,6 +25,16 @@ Does rJava again contain all necessary jar files?
 
 - Add variables as parameters to example graphs
 
+java.lang.NoSuchMethodError: gdFlush
+  at org.rosuda.JRI.Rengine.rniEval(Native Method)
+	at org.rosuda.REngine.JRI.JRIEngine.eval(JRIEngine.java:281)
+	at org.rosuda.REngine.REngine.parseAndEval(REngine.java:102)
+	at org.af.jhlir.backends.rengine.RCallServicesREngine.engineEval(RCallServicesREngine.java:92)
+	at org.af.jhlir.backends.rengine.RCallServicesREngine.eval(RCallServicesREngine.java:70)
+	at org.af.gMCP.gui.RCallServicesREngineWrapper.eval(RCallServicesREngineWrapper.java:15)
+	at org.af.gMCP.gui.dialogs.DialogConfIntEstVar.calculateCI(DialogConfIntEstVar.java:196)
+	at org.af.gMCP.gui.dialogs.DialogConfIntEstVar.insertUpdate(DialogConfIntEstVar.java:329)
+
 - Upscale does not work yet with adjusted p-values!
 - Allow upscale for Simes test? (Theory!)
 - Is the shortcut really used for the Simes test (it can not be used for adjusted p-values, but if these are not asked for the shortcut should be used).
