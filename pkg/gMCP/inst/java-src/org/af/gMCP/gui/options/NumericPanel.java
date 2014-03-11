@@ -29,7 +29,7 @@ public class NumericPanel extends OptionsPanel implements ActionListener {
     private Configuration conf;
     private JTextField numberOfSimulations;
     private JComboBox randomNumbers;
-    private JComboBox parametricAlgo;
+    private JComboBox upscale;
 
     public NumericPanel(Configuration conf) {
         this.conf = conf;
@@ -92,9 +92,9 @@ public class NumericPanel extends OptionsPanel implements ActionListener {
         		"Lattice rule, and should be more efficient than the<br>" +
         		"pseudorandom option that uses ordinary (pseudo) random numbers.</html>");
         
-        parametricAlgo = new JComboBox(new String[] {"Yes", "No"});
-        parametricAlgo.setSelectedIndex(conf.getGeneralConfig().getUpscale()?0:1);
-        parametricAlgo.setToolTipText("<html>" +
+        upscale = new JComboBox(new String[] {"Yes", "No"});
+        upscale.setSelectedIndex(conf.getGeneralConfig().getUpscale()?0:1);
+        upscale.setToolTipText("<html>" +
         		"If 'No' is selected then for each intersection of hypotheses (i.e. each subgraph)<br>" +
         		"a weighted test is performed at the possibly reduced level alpha of sum(w)*alpha,<br>" + 
         		"where sum(w) is the sum of all node weights in this subset.<br>" +
@@ -149,7 +149,7 @@ public class NumericPanel extends OptionsPanel implements ActionListener {
         row += 2;
         
         p1.add( new JLabel("Weights of subgraphs are upscaled to 1:"),     cc.xy(1, row));
-        p1.add(parametricAlgo, cc.xy(3, row));        
+        p1.add(upscale, cc.xy(3, row));        
         
         add(p1);
     }
@@ -176,7 +176,7 @@ public class NumericPanel extends OptionsPanel implements ActionListener {
         	JOptionPane.showMessageDialog(this, "\""+numberOfSimulations.getText()+"\" is not a valid integer.", "Invalid input", JOptionPane.ERROR_MESSAGE);
         }
        	conf.getGeneralConfig().setTypeOfRandom(randomNumbers.getSelectedItem().toString());
-       	conf.getGeneralConfig().setUpscale(parametricAlgo.getSelectedIndex()==0);
+       	conf.getGeneralConfig().setUpscale(upscale.getSelectedIndex()==0);
     }
 
 	public void actionPerformed(ActionEvent e) {
