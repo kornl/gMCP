@@ -1,4 +1,4 @@
-.onLoad <- function(libname, pkgname) {
+.onLoad2 <- function(libname, pkgname) {
   if (!.jniInitialized) {
     .jinit(parameters=c("-Xrs", "-Xss1m"))
   }
@@ -63,6 +63,21 @@
     }
   }
 }  
+
+test <- function() {
+  file <- system.file("tests", "test_import.xlsx", package = "xlsx")
+  
+  wb     <- loadWorkbook(file)
+  sheets <- getSheets(wb)
+  
+  sheet <- sheets[["all"]]
+  res <- readColumns(sheet, startColumn=3, endColumn=10, startRow=3,
+                     endRow=7)
+  
+  sheet <- sheets[["NAs"]]
+  res <- readColumns(sheet, 1, 6, 1,  colClasses=c("Date", "character",
+                                                   "integer", rep("numeric", 2),  "POSIXct"))
+}
 
 .onUnload <- function(libpath) {
 	# TODO Unload jars?

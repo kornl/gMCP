@@ -7,6 +7,7 @@ import(rJava)
 importFrom(CommonJavaJars, loadJars)
 importFrom(MASS, fractions)
 importFrom(Matrix, bdiag)
+import(xlsx)
 # This is work in progress:
 importFrom(JGR, jgr.addMenu, jgr.addMenuItem)
 
