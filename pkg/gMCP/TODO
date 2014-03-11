@@ -18,6 +18,8 @@ Does rJava again contain all necessary jar files?
 
 - Check all output whether numbers should be rounded (e.g. 0.12000000000000000032) or converted to fractions?
 
+- Reodering hypotheses doesn't work.
+
 - Check verbose output of algorithm (i) when, why? ii) new FormLayout)
 
 - Why is there still a thread running if the GUI is closed?
