@@ -70,12 +70,13 @@
 
 \author{Kornelius Rohmeyer}
 
-\maketitle\thispagestyle{empty}\vspace*{4cm}
+\maketitle\thispagestyle{empty}\vspace*{1cm}
 
-{
-  \centering    
-  \includegraphics[width=0.95\textwidth]{pictures/entangled.png}      
-}
+\begin{center}
+  \includegraphics[width=0.95\textwidth]{pictures/entangled.png}\\[0.4cm]
+  %\vspace*{2cm}
+  %\includegraphics[width=0.95\textwidth]{pictures/GeneratedRCode.png}
+\end{center}
 
 \newpage
 
@@ -659,7 +660,17 @@ gMCP(graph, pvalues=c(0.02, 0.04, 0.01, 0.02), eps=0.001)
 
 \section{Entangled graphs}\index{entangled graphs}\index{graphs!entangled}
 
-We support entangled graphs as a new feature.
+We support entangled graphs as a new feature. 
+You can add a second entangled graph by selecting "\emph{Extras $\rightarrow$ Add entangled graph}" from the menu.
+For each graph a new tab in the graph panel and transition matrices panel is created (see figure \ref{fig:entangledGUI} for example).
+
+\begin{figure}[ht]
+  \centering    
+  \includegraphics[width=0.95\textwidth]{pictures/entangled.png}
+  \caption{\label{fig:entangledGUI} Different tabs show the different entangled graphs / transition matrices.}
+\end{figure}
+
+ 
 
 \begin{figure}[ht]
   \centering
@@ -859,14 +870,14 @@ graph
 The GUI always asks before sending data to our server. It will do so to
 \begin{enumerate}
   \item check whether a new version of gMCP exists,  
-  \item send a wishlist if the user chooses to,
+%  \item send a wishlist if the user chooses to,
   \item submit/load a graph to the online archive 
   \item send bug reports if an error occurs.
 \end{enumerate}
 
 Only in the last case of a bug report some information about your
 computer is collected that can be reviewed by the user before sending
-the bug report.  If you do not agree with sending this data, simply
+the bug report. If you do not agree with sending this data, simply
 don't send a problematic bug report or if you never want to send bug
 reports, disable the option in the options menu.
 
@@ -895,7 +906,7 @@ Since version 0.8-7 gMCP also can create word documents (Office Open XML / docx)
 \begin{figure}[ht]
   \centering    
   \includegraphics[width=7cm]{pictures/docxExport.png}      
-  \caption{\label{fig:wordexample} Example Word Export.}
+  \caption{\label{fig:wordexample} Example Word export - first page.}
 \end{figure}
 
 \subsection{Important TikZ commands for optimizing the reports}\index{graph2latex}\index{TikZ}
