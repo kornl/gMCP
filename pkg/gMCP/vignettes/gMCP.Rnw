@@ -74,7 +74,7 @@
 
 {
   \centering    
-  \includegraphics[width=0.95\textwidth]{pictures/FullFeaturedGUI.png}      
+  \includegraphics[width=0.95\textwidth]{pictures/entangled.png}      
 }
 
 \newpage
@@ -569,7 +569,7 @@ The GUI features a dialog for easy creation of correlation matrices (see figure 
 
 \begin{figure}[ht]
   \centering    
-  \includegraphics[width=0.7\textwidth]{pictures/createCM1.png}      
+  \includegraphics[width=\textwidth]{pictures/createCM3.png}      
   \caption{\label{createCM1} Dialog for specifying a correlation matrix.}
 \end{figure}
 
@@ -659,28 +659,27 @@ gMCP(graph, pvalues=c(0.02, 0.04, 0.01, 0.02), eps=0.001)
 
 \section{Entangled graphs}\index{entangled graphs}\index{graphs!entangled}
 
-We support entangled graphs as a new feature. But since it is not yet well
-tested, you have to activate it in the options (see \ref{experimentalFeatures}).
+We support entangled graphs as a new feature.
 
 \begin{figure}[ht]
   \centering
   
 % This is also a good example how we could improve the graph2latex function:
 \begin{tikzpicture}[scale=1]
-\node (H1) at (70bp,-70bp)[draw,circle split,fill=green!80] {$H1$ \nodepart{lower} $\frac\alpha2\;0$};
-\node (H2) at (210bp,-70bp)[draw,circle split,fill=green!80] {$H2$ \nodepart{lower} $\frac\alpha2\;0$};
-\node (H3) at (140bp,-140bp)[draw,circle split,fill=green!80] {$H3$ \nodepart{lower} $0\;0$};
-\node (H4) at (70bp,-210bp)[draw,circle split,fill=green!80] {$H4$ \nodepart{lower} $0\;0$};
-\node (H5) at (210bp,-210bp)[draw,circle split,fill=green!80] {$H5$ \nodepart{lower} $0\;0$};
-\draw [draw=black,->,line width=1pt] (H1) to[bend left=15] node[midway,above,fill=blue!20] {$1$} (H3);
-\draw [draw=black,->,line width=1pt] (H2) to[bend left=15] node[midway,above,fill=blue!20] {$1$} (H3);
-\draw [draw=black,->,line width=1pt] (H3) to[bend left=15] node[midway,above,fill=blue!20] {$1-\epsilon$} (H4);
-\draw [draw=black,->,line width=1pt] (H3) to[bend left=15] node[midway,above,fill=blue!20] {$\epsilon$} (H5);
+\node (H1) at (70bp,-70bp)[draw,circle split,fill=green!80] {$H_1$ \nodepart{lower} $\frac\alpha2\;0$};
+\node (H2) at (210bp,-70bp)[draw,circle split,fill=green!80] {$H_2$ \nodepart{lower} $\frac\alpha2\;0$};
+\node (H3) at (140bp,-140bp)[draw,circle split,fill=green!80] {$H_3$ \nodepart{lower} $0\;0$};
+\node (H4) at (70bp,-210bp)[draw,circle split,fill=green!80] {$H_4$ \nodepart{lower} $0\;0$};
+\node (H5) at (210bp,-210bp)[draw,circle split,fill=green!80] {$H_5$ \nodepart{lower} $0\;0$};
+\draw [draw=black,->,line width=1pt] (H1) to[bend left=15] node[midway,fill=blue!20] {$1$} (H3);
+\draw [draw=black,->,line width=1pt] (H2) to[bend left=15] node[midway,fill=blue!20] {$1$} (H3);
+\draw [draw=black,->,line width=1pt] (H3) to[bend left=15] node[midway,below,fill=blue!20] {$1-\epsilon$} (H4);
+\draw [draw=black,->,line width=1pt] (H3) to[bend left=15] node[midway,fill=blue!20] {$\epsilon$} (H5);
 \draw [draw=black,->,line width=1pt] (H4.135) arc(-120:-310:100bp) node[fill=blue!20] {$1$} to (H2);
-\draw [draw=blue,->,line width=1pt] (H1) to[bend right=15] node[midway,above,fill=blue!20] {$1$} (H3);
-\draw [draw=blue,->,line width=1pt] (H2) to[bend right=15] node[midway,above,fill=blue!20] {$1$} (H3);
-\draw [draw=blue,->,line width=1pt] (H3) to[bend right=15] node[midway,above,fill=blue!20] {$\epsilon$} (H4);
-\draw [draw=blue,->,line width=1pt] (H3) to[bend right=15] node[midway,above,fill=blue!20] {$1-\epsilon$} (H5);
+\draw [draw=blue,->,line width=1pt] (H1) to[bend right=15] node[midway,fill=blue!20] {$1$} (H3);
+\draw [draw=blue,->,line width=1pt] (H2) to[bend right=15] node[midway,fill=blue!20] {$1$} (H3);
+\draw [draw=blue,->,line width=1pt] (H3) to[bend right=15] node[midway,fill=blue!20] {$\epsilon$} (H4);
+\draw [draw=blue,->,line width=1pt] (H3) to[bend right=15] node[midway,below,fill=blue!20] {$1-\epsilon$} (H5);
 \draw [draw=blue,->,line width=1pt] (H5.45) arc(-60:130:100bp) node[fill=blue!20] {$1$} to (H1);
 \end{tikzpicture}
 
