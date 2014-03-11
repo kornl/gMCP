@@ -111,13 +111,13 @@ public class GeneralPanel extends OptionsPanel implements ActionListener {
         		"please try to use the default Metal theme to check whether it<br>" +
         		"could be a problem with the selected Look'n'Feel.</html>");
         
-        colorImages = new JCheckBox("Colored image files and pdf reports");
+        colorImages = new JCheckBox("Colored image files and LaTeX/docx reports");
         colorImages.setSelected(conf.getGeneralConfig().getColoredImages());
         colorImages.setToolTipText("<html>" +
         		"Colors are used to highlight different conditions in the graph<br>" +
         		"like hypotheses that could be rejected. While these colors are<br>" +
         		"helpful in the GUI, you perhaps prefer black and white PNG image<br>" +
-        		"files and PDF reports.</html>");
+        		"files and LaTeX/docx reports.</html>");
         
         showFractions = new JCheckBox("Show fractions instead of decimal numbers");
         showFractions.setSelected(conf.getGeneralConfig().showFractions());

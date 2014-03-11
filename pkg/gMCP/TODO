@@ -19,10 +19,21 @@ Does rJava again contain all necessary jar files?
 - Check all output whether numbers should be rounded (e.g. 0.12000000000000000032) or converted to fractions?
 
 - Check verbose output of algorithm (i) when, why? ii) new FormLayout)
+- Check whether option "Colored image files and reports" is respected.
 
 - Why is there still a thread running if the GUI is closed?
 
 - Add variables as parameters to example graphs
+
+java.lang.NoSuchMethodError: gdFlush
+  at org.rosuda.JRI.Rengine.rniEval(Native Method)
+	at org.rosuda.REngine.JRI.JRIEngine.eval(JRIEngine.java:281)
+	at org.rosuda.REngine.REngine.parseAndEval(REngine.java:102)
+	at org.af.jhlir.backends.rengine.RCallServicesREngine.engineEval(RCallServicesREngine.java:92)
+	at org.af.jhlir.backends.rengine.RCallServicesREngine.eval(RCallServicesREngine.java:70)
+	at org.af.gMCP.gui.RCallServicesREngineWrapper.eval(RCallServicesREngineWrapper.java:15)
+	at org.af.gMCP.gui.dialogs.DialogConfIntEstVar.calculateCI(DialogConfIntEstVar.java:196)
+	at org.af.gMCP.gui.dialogs.DialogConfIntEstVar.insertUpdate(DialogConfIntEstVar.java:329)
 
 - Upscale does not work yet with adjusted p-values!
 - Allow upscale for Simes test? (Theory!)
@@ -47,6 +58,8 @@ Error: unexpected input in "eval(expression(try(1-\"
 - http://docs.oracle.com/javase/1.5.0/docs/guide/net/proxies.html - http://stackoverflow.com/questions/376101/setting-jvm-jre-to-use-windows-proxy-automatically
 - Unify graphMCP and entangled graphs?
 - Integrate parameter 'envir' into corMatWizard.
+
+- Java 7 ignores property "sun.awt.exception.handler"? http://stackoverflow.com/questions/5794472/why-bother-with-setting-the-sun-awt-exception-handler-property
 
 From xlsxjars:
  jversion <- .jcall("java.lang.System", "S", "getProperty", "java.version")
