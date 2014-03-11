@@ -6,7 +6,6 @@ import java.util.List;
 
 import javax.swing.JTable;
 import javax.swing.JTextField;
-import javax.swing.ListSelectionModel;
 import javax.swing.table.TableCellRenderer;
 
 import org.af.gMCP.config.Configuration;
