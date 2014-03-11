@@ -69,6 +69,7 @@ public class PowerDialogParameterUncertainty extends JDialog implements ActionLi
 
 	CreateGraphGUI parent;
 	PowerParameterPanel pPanelMeans, pPanelSigmas, pPanelN;
+	PowerParameterPanel pNCP;
 	
 	JPanel panelMany = new JPanel();
 	
@@ -151,6 +152,7 @@ public class PowerDialogParameterUncertainty extends JDialog implements ActionLi
 		//tPanel.addTab("Multiple NCP Settings", getMultiSettingPanel());
 		tPanel.addTab("Correlation Matrix", getCVPanel());
 		tPanel.addTab("User defined power function", getUserDefinedFunctions());
+		tPanel.addTab("Options", new PowerOptionsPanel(parent));
 		Set<String> variables = parent.getGraphView().getNL().getAllVariables();
 		if (!Configuration.getInstance().getGeneralConfig().useEpsApprox())	{
 			variables.remove("ε");
@@ -366,6 +368,7 @@ public class PowerDialogParameterUncertainty extends JDialog implements ActionLi
 		
 		JTabbedPane parameters = new JTabbedPane();
 		
+		pNCP = new PowerParameterPanel("NCP", 0d, nodes, parent);
 		pPanelMeans = new PowerParameterPanel("mean", 0d, nodes, parent);
 		pPanelSigmas = new PowerParameterPanel("sd", 1d, nodes, parent);
 		pPanelN = new PowerParameterPanel("sample size", 10d, nodes, parent);
@@ -381,7 +384,7 @@ public class PowerDialogParameterUncertainty extends JDialog implements ActionLi
 		
 		int row = 2;
 		
-		mPanel.add(parameters, cc.xy(2, row));
+		mPanel.add(pNCP, cc.xy(2, row));
         
 		//mPanel.add(new JScrollPane(dfp), cc.xy(4, row));
 		
