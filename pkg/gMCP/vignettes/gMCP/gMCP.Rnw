@@ -70,12 +70,13 @@
 
 \author{Kornelius Rohmeyer}
 
-\maketitle\thispagestyle{empty}\vspace*{4cm}
+\maketitle\thispagestyle{empty}\vspace*{1cm}
 
-{
-  \centering    
-  \includegraphics[width=0.95\textwidth]{pictures/FullFeaturedGUI.png}      
-}
+\begin{center}
+  \includegraphics[width=0.95\textwidth]{pictures/entangled.png}\\[0.4cm]
+  %\vspace*{2cm}
+  %\includegraphics[width=0.95\textwidth]{pictures/GeneratedRCode.png}
+\end{center}
 
 \newpage
 
@@ -569,7 +570,7 @@ The GUI features a dialog for easy creation of correlation matrices (see figure 
 
 \begin{figure}[ht]
   \centering    
-  \includegraphics[width=0.7\textwidth]{pictures/createCM1.png}      
+  \includegraphics[width=\textwidth]{pictures/createCM3.png}      
   \caption{\label{createCM1} Dialog for specifying a correlation matrix.}
 \end{figure}
 
@@ -659,28 +660,37 @@ gMCP(graph, pvalues=c(0.02, 0.04, 0.01, 0.02), eps=0.001)
 
 \section{Entangled graphs}\index{entangled graphs}\index{graphs!entangled}
 
-We support entangled graphs as a new feature. But since it is not yet well
-tested, you have to activate it in the options (see \ref{experimentalFeatures}).
+We support entangled graphs as a new feature. 
+You can add a second entangled graph by selecting "\emph{Extras $\rightarrow$ Add entangled graph}" from the menu.
+For each graph a new tab in the graph panel and transition matrices panel is created (see figure \ref{fig:entangledGUI} for example).
+
+\begin{figure}[ht]
+  \centering    
+  \includegraphics[width=0.95\textwidth]{pictures/entangled.png}
+  \caption{\label{fig:entangledGUI} Different tabs show the different entangled graphs / transition matrices.}
+\end{figure}
+
+ 
 
 \begin{figure}[ht]
   \centering
   
 % This is also a good example how we could improve the graph2latex function:
 \begin{tikzpicture}[scale=1]
-\node (H1) at (70bp,-70bp)[draw,circle split,fill=green!80] {$H1$ \nodepart{lower} $\frac\alpha2\;0$};
-\node (H2) at (210bp,-70bp)[draw,circle split,fill=green!80] {$H2$ \nodepart{lower} $\frac\alpha2\;0$};
-\node (H3) at (140bp,-140bp)[draw,circle split,fill=green!80] {$H3$ \nodepart{lower} $0\;0$};
-\node (H4) at (70bp,-210bp)[draw,circle split,fill=green!80] {$H4$ \nodepart{lower} $0\;0$};
-\node (H5) at (210bp,-210bp)[draw,circle split,fill=green!80] {$H5$ \nodepart{lower} $0\;0$};
-\draw [draw=black,->,line width=1pt] (H1) to[bend left=15] node[midway,above,fill=blue!20] {$1$} (H3);
-\draw [draw=black,->,line width=1pt] (H2) to[bend left=15] node[midway,above,fill=blue!20] {$1$} (H3);
-\draw [draw=black,->,line width=1pt] (H3) to[bend left=15] node[midway,above,fill=blue!20] {$1-\epsilon$} (H4);
-\draw [draw=black,->,line width=1pt] (H3) to[bend left=15] node[midway,above,fill=blue!20] {$\epsilon$} (H5);
+\node (H1) at (70bp,-70bp)[draw,circle split,fill=green!80] {$H_1$ \nodepart{lower} $\frac\alpha2\;0$};
+\node (H2) at (210bp,-70bp)[draw,circle split,fill=green!80] {$H_2$ \nodepart{lower} $\frac\alpha2\;0$};
+\node (H3) at (140bp,-140bp)[draw,circle split,fill=green!80] {$H_3$ \nodepart{lower} $0\;0$};
+\node (H4) at (70bp,-210bp)[draw,circle split,fill=green!80] {$H_4$ \nodepart{lower} $0\;0$};
+\node (H5) at (210bp,-210bp)[draw,circle split,fill=green!80] {$H_5$ \nodepart{lower} $0\;0$};
+\draw [draw=black,->,line width=1pt] (H1) to[bend left=15] node[midway,fill=blue!20] {$1$} (H3);
+\draw [draw=black,->,line width=1pt] (H2) to[bend left=15] node[midway,fill=blue!20] {$1$} (H3);
+\draw [draw=black,->,line width=1pt] (H3) to[bend left=15] node[midway,below,fill=blue!20] {$1-\epsilon$} (H4);
+\draw [draw=black,->,line width=1pt] (H3) to[bend left=15] node[midway,fill=blue!20] {$\epsilon$} (H5);
 \draw [draw=black,->,line width=1pt] (H4.135) arc(-120:-310:100bp) node[fill=blue!20] {$1$} to (H2);
-\draw [draw=blue,->,line width=1pt] (H1) to[bend right=15] node[midway,above,fill=blue!20] {$1$} (H3);
-\draw [draw=blue,->,line width=1pt] (H2) to[bend right=15] node[midway,above,fill=blue!20] {$1$} (H3);
-\draw [draw=blue,->,line width=1pt] (H3) to[bend right=15] node[midway,above,fill=blue!20] {$\epsilon$} (H4);
-\draw [draw=blue,->,line width=1pt] (H3) to[bend right=15] node[midway,above,fill=blue!20] {$1-\epsilon$} (H5);
+\draw [draw=blue,->,line width=1pt] (H1) to[bend right=15] node[midway,fill=blue!20] {$1$} (H3);
+\draw [draw=blue,->,line width=1pt] (H2) to[bend right=15] node[midway,fill=blue!20] {$1$} (H3);
+\draw [draw=blue,->,line width=1pt] (H3) to[bend right=15] node[midway,fill=blue!20] {$\epsilon$} (H4);
+\draw [draw=blue,->,line width=1pt] (H3) to[bend right=15] node[midway,below,fill=blue!20] {$1-\epsilon$} (H5);
 \draw [draw=blue,->,line width=1pt] (H5.45) arc(-60:130:100bp) node[fill=blue!20] {$1$} to (H1);
 \end{tikzpicture}
 
@@ -830,9 +840,11 @@ graph
     whether a new version of gMCP is available. Only your version of R (like
     2.13.1), the version of gMCP (like 0.7-5) and a random number (to
     distinguish different requests) are transmitted.
-  \item[Weights of subgraphs are upscaled to 1] If "yes" is selected the weights 
-    of all subgraphs are always upscaled to one as described in \cite{Bretz11}.
-    %TODO Explain these options.
+  \item[Weights of subgraphs are upscaled to 1] If '\emph{No}' is selected then 
+    for each intersection of hypotheses (i.e. each subgraph)
+    a weighted test is performed at the possibly reduced level alpha of $\text{sum}(w)*alpha$,
+    where $\text{sum}(w)$ is the sum of all node weights in this subset
+    If '\emph{Yes}' is selected all weights are upscaled, so that $\text{sum}(w)=1$.
   \item[Export images with transparent background] If checked the background of
     exported PNG graphics will be transparent. Otherwise the graphs are
     displayed on a white background.
@@ -858,14 +870,14 @@ graph
 The GUI always asks before sending data to our server. It will do so to
 \begin{enumerate}
   \item check whether a new version of gMCP exists,  
-  \item send a wishlist if the user chooses to,
+%  \item send a wishlist if the user chooses to,
   \item submit/load a graph to the online archive 
   \item send bug reports if an error occurs.
 \end{enumerate}
 
 Only in the last case of a bug report some information about your
 computer is collected that can be reviewed by the user before sending
-the bug report.  If you do not agree with sending this data, simply
+the bug report. If you do not agree with sending this data, simply
 don't send a problematic bug report or if you never want to send bug
 reports, disable the option in the options menu.
 
@@ -894,7 +906,7 @@ Since version 0.8-7 gMCP also can create word documents (Office Open XML / docx)
 \begin{figure}[ht]
   \centering    
   \includegraphics[width=7cm]{pictures/docxExport.png}      
-  \caption{\label{fig:wordexample} Example Word Export.}
+  \caption{\label{fig:wordexample} Example Word export - first page.}
 \end{figure}
 
 \subsection{Important TikZ commands for optimizing the reports}\index{graph2latex}\index{TikZ}
