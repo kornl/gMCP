@@ -47,7 +47,7 @@ public class EpsilonTableCellRenderer extends DefaultTableCellRenderer {
     		try {
     			//System.out.println(""+model.getValueAt(row, col).getWeight(null));
     			double v = model.getValueAt(row, col).getWeight(null);
-    			if (Math.abs(v)>1 || Double.isNaN(v)) {
+    			if (Math.abs(v)>1.00000001 || Double.isNaN(v)) {
     				label.setForeground(Color.RED);
             		label.setBackground(Color.ORANGE);
     			} else {
