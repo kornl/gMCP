@@ -5,8 +5,7 @@ Version: 1.0-5
 Author: Kornelius Rohmeyer (author only of two libraries and of the R code for loading them), see the documentation for the authors of the other java libraries 
 Maintainer: Kornelius Rohmeyer <rohmeyer@small-projects.de>
 Description: Useful libraries for building a Java based GUI under R
-Depends: R (>= 2.8.0)
-Suggests: rJava
+Depends: R (>= 2.8.0), rJava
 SystemRequirements: Java (>= 5.0) 
 License: GPL-2
 URL: http://gsrmtp.r-forge.r-project.org/

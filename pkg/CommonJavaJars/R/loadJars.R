@@ -1,3 +1,9 @@
+.onLoad <- function(libname, pkgname) {
+  if (!.jniInitialized) {
+    .jinit(parameters=c("-Xrs", "-Xss1m"))
+  }
+}
+
 loadJars <- function(jars, java="J5") {
 	jarsFullname <- c()	
 	classes <- system.file("java", package = "CommonJavaJars", lib.loc = NULL)
