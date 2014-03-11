@@ -18,6 +18,8 @@ Does rJava again contain all necessary jar files?
 
 - Check all output whether numbers should be rounded (e.g. 0.12000000000000000032) or converted to fractions?
 
+- Reodering hypotheses doesn't work.
+
 - Check verbose output of algorithm (i) when, why? ii) new FormLayout)
 - Check whether option "Colored image files and reports" is respected.
 
@@ -34,6 +36,9 @@ java.lang.NoSuchMethodError: gdFlush
 	at org.af.gMCP.gui.RCallServicesREngineWrapper.eval(RCallServicesREngineWrapper.java:15)
 	at org.af.gMCP.gui.dialogs.DialogConfIntEstVar.calculateCI(DialogConfIntEstVar.java:196)
 	at org.af.gMCP.gui.dialogs.DialogConfIntEstVar.insertUpdate(DialogConfIntEstVar.java:329)
+
+Nodes are two big in this graph (and arrow heads therefore reverted - What about dropping $\alpha$?):
+graph2latex(improvedParallelGatekeeping(), scale=0.7, nodeTikZ="minimum size=1.2cm", tikzEnv=FALSE, offset=c(300, 0))
 
 - Upscale does not work yet with adjusted p-values!
 - Allow upscale for Simes test? (Theory!)
