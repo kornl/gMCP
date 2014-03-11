@@ -1,8 +1,6 @@
 .onLoad <- function(libname, pkgname) {
 	if (!.jniInitialized) {
 		.jinit(parameters=c("-Xrs", "-Xss1m"))
-	} else {
-    warning("JVM was already initialized with unknown memory settings.")
 	}
 	.jpackage(pkgname)	
 	.jpackage("JavaGD")
@@ -66,6 +64,10 @@
 		    }		
 		  }
 		}
+	}
+  
+	if (length(grep("-Xss1m", gMCP:::getJavaInfo())==0)) {
+	  warning("JVM was already initialized with unknown memory settings.")
 	}
 	
 	## We supply our own JavaGD class
