@@ -2,7 +2,7 @@ Documention for value in secondStageTest looks strange.
 Does rJava again contain all necessary jar files?
 
 - Multiple Setting:
-   Instead of c(0,0,...) use #hypotheses text fields. Check whether tab works as expected.
+   Instead of c(0,0,...) use #hypotheses text fields. Check whether tab works as expected. Tab works, but most likely we want "select all" on "focus".
    Remove setting + check for empty textfields
    Remember multiple setting options and add "clear" button. Save settings under name.
    User specified power functions should be namable in the GUI. Save output as data.frame and CSV.
