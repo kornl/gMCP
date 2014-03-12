@@ -10,7 +10,6 @@ import org.af.commons.widgets.validate.RealTextField;
 import org.af.gMCP.gui.RControl;
 import org.af.gMCP.gui.graph.Node;
 
-
 import com.jgoodies.forms.layout.CellConstraints;
 
 public class Scenario {
@@ -22,7 +21,7 @@ public class Scenario {
 	public Scenario(PowerDialog pd, String name) {
 		this.pd = pd;
 		scname = new JTextField(name);
-		for (Node n : pd.parent.getGraphView().getNL().getNodes()) {
+		for (Node n : pd.nodes) {
 			RealTextField rt = new RealTextField("0.0");
 			rt.setText("0.0");
 			ncp.add(rt);

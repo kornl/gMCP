@@ -21,14 +21,21 @@ import com.jgoodies.forms.layout.FormLayout;
 
 public class UserDefinedPanel extends JPanel implements ActionListener {
 	
-	JButton addAnother = new JButton("Add another power function");    
 	List<JButton> buttons = new Vector<JButton>();
 	List<JButton> buttons2 = new Vector<JButton>();  
+	
 	JTextField jtUserDefined = new JTextField();
-    DefaultListModel listModel;
-    JList listUserDefined;
-    JTextArea jta = new JTextArea();
+	JButton addAnother = new JButton("Add another power function");    
     JButton clearList = new JButton("Clear");
+    
+	DefaultListModel listModel;
+    JList listUserDefined;
+
+    JTextArea jta = new JTextArea();
+    
+    JButton loadUDPF = new JButton("Load");
+    JButton saveUDPF = new JButton("Save");
+
 	
 	public UserDefinedPanel(List<Node> nodes) {		
 		
