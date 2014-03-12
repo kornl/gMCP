@@ -24,6 +24,8 @@ Does rJava again contain all necessary jar files?
 
 - Why is there still a thread running if the GUI is closed?
 
+- Test error handler with Java 5.
+
 - Add variables as parameters to example graphs
 
 java.lang.NoSuchMethodError: gdFlush
