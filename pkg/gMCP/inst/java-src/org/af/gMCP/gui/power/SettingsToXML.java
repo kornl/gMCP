@@ -1,4 +1,4 @@
-package org.af.gMCP.gui.dialogs;
+package org.af.gMCP.gui.power;
 
 import java.io.File;
 import java.util.Date;

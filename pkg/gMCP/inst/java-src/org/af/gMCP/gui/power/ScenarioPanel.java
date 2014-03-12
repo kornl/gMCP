@@ -1,4 +1,4 @@
-package org.af.gMCP.gui.dialogs;
+package org.af.gMCP.gui.power;
 
 import java.util.List;
 
@@ -15,7 +15,7 @@ public class ScenarioPanel extends JPanel {
 	
 	PowerDialog pd;
 	
-	public ScenarioPanel(PowerDialog pd, String name) {
+	public ScenarioPanel(PowerDialog pd) {
 		this.pd = pd;		
 		
 		setUpLayout();

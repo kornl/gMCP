@@ -1,9 +1,10 @@
-package org.af.gMCP.gui.dialogs;
+package org.af.gMCP.gui.power;
 
 import java.util.List;
 
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+
 
 import com.jgoodies.forms.layout.CellConstraints;
 

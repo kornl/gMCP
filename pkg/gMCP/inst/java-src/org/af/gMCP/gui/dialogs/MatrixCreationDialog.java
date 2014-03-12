@@ -53,7 +53,7 @@ public class MatrixCreationDialog extends JDialog implements ActionListener, Cha
 	JFrame parent;
     List<String> names;
     JTextArea jta = new JTextArea();
-    SingleDataFramePanel dfp;
+    public SingleDataFramePanel dfp;
     SingleDataFramePanel dfpDiag;
     SingleDataFramePanel dfpInterCor;
     SingleDataFramePanel dfpIntraCor;

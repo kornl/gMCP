@@ -1,4 +1,4 @@
-package org.af.gMCP.gui.dialogs;
+package org.af.gMCP.gui.power;
 
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -30,6 +30,10 @@ import org.af.gMCP.gui.RControl;
 import org.af.gMCP.gui.datatable.CellEditorE;
 import org.af.gMCP.gui.datatable.RDataFrameRef;
 import org.af.gMCP.gui.datatable.SingleDataFramePanel;
+import org.af.gMCP.gui.dialogs.MatrixCreationDialog;
+import org.af.gMCP.gui.dialogs.PowerOptionsPanel;
+import org.af.gMCP.gui.dialogs.TextFileViewer;
+import org.af.gMCP.gui.dialogs.VariableNameDialog;
 import org.af.gMCP.gui.graph.EdgeWeight;
 import org.af.gMCP.gui.graph.LaTeXTool;
 import org.af.gMCP.gui.graph.Node;
@@ -47,10 +51,12 @@ public class PowerDialog extends JDialog implements ActionListener {
     SingleDataFramePanel dfp;
     SingleDataFramePanel dfp2;
     JTextArea jta = new JTextArea();
+    List<ScenarioPanel> scenarios;
     List<JTextField> jtl, jtlMu, jtlN, jtlSigma;
     List<JTextField> jtlVar = new Vector<JTextField>();
     JTextField jtUserDefined = new JTextField();
     DefaultListModel listModel;
+    ScenarioPanel pNCP;
     
     JButton loadUDPF = new JButton("Load"); //"Load Power Functions");
     JButton saveUDPF = new JButton("Save");
@@ -68,8 +74,6 @@ public class PowerDialog extends JDialog implements ActionListener {
     Vector<Node> nodes;
 
 	CreateGraphGUI parent;
-	PowerParameterPanel pPanelMeans, pPanelSigmas, pPanelN;
-	PowerParameterPanel pNCP;
 	
 	JPanel panelMany = new JPanel();
 	
@@ -148,7 +152,7 @@ public class PowerDialog extends JDialog implements ActionListener {
 		getContentPane().setLayout(new GridBagLayout());
 		//getContentPane().add(numberOfSettings, c);
 		
-		tPanel.addTab("NCP Settings", getMultiSettingPanel());
+		tPanel.addTab("NCP Settings", getScenarioNCPPanel());
 		//tPanel.addTab("Multiple NCP Settings", getMultiSettingPanel());
 		tPanel.addTab("Correlation Matrix", getCVPanel());
 		tPanel.addTab("User defined power function", getUserDefinedFunctions());
@@ -233,9 +237,7 @@ public class PowerDialog extends JDialog implements ActionListener {
 		//RControl.getR().eval(parent.getGraphView().getNL().getGraphName()+"<-gMCP:::parse2numeric("+parent.getGraphView().getNL().getGraphName()+")");
 
 		if (e.getActionCommand().equals(HorizontalButtonPane.OK_CMD)) {
-			settings = ", muL = " + pPanelMeans.getRList()
-					+ ", sigmaL = " + pPanelSigmas.getRList()
-					+ ", nL = " + pPanelN.getRList();
+			settings = getNCPString();
 
 			rCommand = "gMCP:::calcMultiPower(weights="+weights+", alpha="+alpha+", G="+G+settings
 					+","+"sigma = " + dfp.getTable().getModel().getDataFrame().getRMatrix() //diag(length(mean)),corr = NULL,"+
@@ -277,6 +279,11 @@ public class PowerDialog extends JDialog implements ActionListener {
 		dispose();
 	}
 
+	private String getNCPString() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 	private void load(SingleDataFramePanel dfp) {
 		VariableNameDialog vnd = new VariableNameDialog(parent);
 		load(dfp, vnd.getName());		
@@ -302,7 +309,7 @@ public class PowerDialog extends JDialog implements ActionListener {
 	 */
 	public JPanel getCVPanel() {
 		JPanel mPanel = new JPanel();
-		GridBagConstraints c = getDefaultGridBagConstraints();
+
 		CellConstraints cc = new CellConstraints();
 
 		int row = 2;
@@ -314,7 +321,6 @@ public class PowerDialog extends JDialog implements ActionListener {
 		}
 
 		mPanel.setLayout(new FormLayout(cols, rows));
-		cc = new CellConstraints();
 		
 		mPanel.add(new JLabel("Correlation matrix of test statistics for power simulations"), cc.xyw(2, row, 3));
 		
@@ -363,18 +369,10 @@ public class PowerDialog extends JDialog implements ActionListener {
 		return "";
 	}
 	
-	public JPanel getMultiSettingPanel() {
+	public JPanel getScenarioNCPPanel() {
 		JPanel mPanel = new JPanel();
 		
-		JTabbedPane parameters = new JTabbedPane();
-		
-		pNCP = new PowerParameterPanel("NCP", 0d, nodes, parent);
-		pPanelMeans = new PowerParameterPanel("mean", 0d, nodes, parent);
-		pPanelSigmas = new PowerParameterPanel("sd", 1d, nodes, parent);
-		pPanelN = new PowerParameterPanel("sample size", 10d, nodes, parent);
-		parameters.addTab("Mean µ", pPanelMeans);
-		parameters.addTab("Standard deviation σ", pPanelSigmas);
-		parameters.addTab("Sample size n", pPanelN);
+		pNCP = new ScenarioPanel(this);
 		
 		String cols = "5dlu, fill:pref:grow, 5dlu, fill:pref:grow, 5dlu";
 		String rows = "5dlu, fill:pref:grow, 5dlu, pref, 5dlu";
