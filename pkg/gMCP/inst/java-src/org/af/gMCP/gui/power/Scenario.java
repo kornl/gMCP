@@ -1,6 +1,7 @@
 package org.af.gMCP.gui.power;
 
 import java.util.List;
+import java.util.Vector;
 
 import javax.swing.JPanel;
 import javax.swing.JTextField;
@@ -9,7 +10,7 @@ import javax.swing.JTextField;
 import com.jgoodies.forms.layout.CellConstraints;
 
 public class Scenario {
-	List<JTextField> ncp;
+	List<JTextField> ncp = new Vector<JTextField>();
 	JTextField scname;
 	
 	PowerDialog pd;

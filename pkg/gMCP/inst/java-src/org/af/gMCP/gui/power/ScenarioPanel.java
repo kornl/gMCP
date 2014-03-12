@@ -1,6 +1,7 @@
 package org.af.gMCP.gui.power;
 
 import java.util.List;
+import java.util.Vector;
 
 import javax.swing.JPanel;
 
@@ -10,7 +11,7 @@ import com.jgoodies.forms.layout.CellConstraints;
 import com.jgoodies.forms.layout.FormLayout;
 
 public class ScenarioPanel extends JPanel {
-	List<Scenario> sc;
+	List<Scenario> sc = new Vector<Scenario>();
 	
 	
 	PowerDialog pd;
@@ -18,6 +19,8 @@ public class ScenarioPanel extends JPanel {
 	public ScenarioPanel(PowerDialog pd) {
 		this.pd = pd;		
 		
+		sc.add(new Scenario(pd, "Scenario "+(sc.size()+1)));
+				
 		setUpLayout();
 	}
 	
