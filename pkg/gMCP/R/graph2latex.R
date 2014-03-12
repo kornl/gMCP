@@ -10,6 +10,7 @@
 #' @param scale A numeric scalar specifying a possible scaling of the graph.
 #' Note that this does not effect the fontsize of the graph.  (Coordinates are
 #' interpreted in big points - 72 bp = 1 inch).
+#' @param showAlpha Logical whether local alpha levels or weights should be shown.
 #' @param alpha An optional numeric argument to specify the type I error rate.
 #' @param pvalues If the optional numeric argument pvalues is given, nodes that
 #' can be rejected, will be marked.
@@ -54,7 +55,7 @@
 #' 
 #' 
 #' @export graph2latex
-graph2latex <- function(graph, package="TikZ", scale=1, alpha=0.05, pvalues,
+graph2latex <- function(graph, package="TikZ", scale=1, showAlpha=FALSE, alpha=0.05, pvalues,
 		fontsize,	nodeTikZ, labelTikZ="near start,above,fill=blue!20",
 		tikzEnv=TRUE, offset=c(0,0),fill=list(reject="red!80",retain="green!80"), nodeR=25, scaleText=TRUE) {
 	graph <- placeNodes(graph)
@@ -78,10 +79,12 @@ graph2latex <- function(graph, package="TikZ", scale=1, alpha=0.05, pvalues,
 		y <- getYCoordinates(graph, node) + nodeR # It is more important to use nodeR to reduce the arc that should be drawn.
 		#alpha <- format(getWeights(graph,node), digits=3, drop0trailing=TRUE)
 		weight <- paste(getLaTeXFraction(getWeights(graph,node)), collapse=" ")
-		if (weight == 1) {
-			weight <- "\\alpha"
-		} else if (weight != "0") {
-			weight <- paste(weight, "\\alpha", sep="")
+		if (showAlpha) {
+		  if (weight == 1) {
+		    weight <- "\\alpha"
+		  } else if (weight != "0") {
+		    weight <- paste(weight, "\\alpha", sep="")
+		  }
 		}
 		double <- ""
 		if (!missing(pvalues)) {
