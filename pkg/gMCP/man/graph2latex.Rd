@@ -3,8 +3,8 @@
 \title{Graph2LaTeX}
 \usage{
   graph2latex(graph, package = "TikZ", scale = 1,
-    alpha = 0.05, pvalues, fontsize, nodeTikZ,
-    labelTikZ = "near start,above,fill=blue!20",
+    showAlpha = FALSE, alpha = 0.05, pvalues, fontsize,
+    nodeTikZ, labelTikZ = "near start,above,fill=blue!20",
     tikzEnv = TRUE, offset = c(0, 0),
     fill = list(reject = "red!80", retain = "green!80"),
     nodeR = 25, scaleText = TRUE)
@@ -20,6 +20,9 @@
   scaling of the graph. Note that this does not effect the
   fontsize of the graph.  (Coordinates are interpreted in
   big points - 72 bp = 1 inch).}
+
+  \item{showAlpha}{Logical whether local alpha levels or
+  weights should be shown.}
 
   \item{alpha}{An optional numeric argument to specify the
   type I error rate.}

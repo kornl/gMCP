@@ -50,12 +50,12 @@
   tests are performed as defined in Equation (3) of Bretz
   et al. (2011).}
 
-  \item{upscale}{Logical. If \code{FALSE} for each
-  intersection of hypotheses a weighted test is performed
-  at the reduced level alpha of sum(w)*alpha, where sum(w)
-  is the sum of all node weights in this subset. If
-  \code{upscale=TRUE} all weights are upscaled, so that
-  sum(w)=1.}
+  \item{upscale}{Logical. If \code{upscale=FALSE} then for
+  each intersection of hypotheses (i.e. each subgraph) a
+  weighted test is performed at the possibly reduced level
+  alpha of sum(w)*alpha, where sum(w) is the sum of all
+  node weights in this subset. If \code{upscale=TRUE} all
+  weights are upscaled, so that sum(w)=1.}
 }
 \value{
   A vector or a matrix containing the test results for the

@@ -2,7 +2,18 @@
 \alias{getJavaInfo}
 \title{Get Memory and Runtime Info from JVM}
 \usage{
-  getJavaInfo()
+  getJavaInfo(memory = TRUE, filesystem = TRUE,
+    runtime = TRUE)
+}
+\arguments{
+  \item{memory}{Logical whether to include memory
+  information + number of available cores}
+
+  \item{filesystem}{Logical whether to include filesystem
+  information (Total, free and usable space)}
+
+  \item{runtime}{Logical whether to include runtime
+  information (Class Path, Library Path, Input Arguments)}
 }
 \value{
   character vector of length 1 containing the memory and
