@@ -2,24 +2,20 @@ package org.af.gMCP.gui.power;
 
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
 import java.util.Set;
 import java.util.Vector;
 
-import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
-import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
-import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 import org.af.commons.widgets.buttons.HorizontalButtonPane;
@@ -47,14 +43,9 @@ public class PowerDialog extends JDialog implements ActionListener {
     SingleDataFramePanel dfp;
     SingleDataFramePanel dfp2;
     
-    List<ScenarioPanel> scenarios;
-    List<JTextField> jtl, jtlMu, jtlN, jtlSigma;
     List<JTextField> jtlVar = new Vector<JTextField>();
     
     ScenarioPanel pNCP;
-    
-    JButton loadUDPF = new JButton("Load"); //"Load Power Functions");
-    JButton saveUDPF = new JButton("Save");
     
     JCheckBox secondCV = new JCheckBox("Use another correlation matrix of test statistics used by the parametric test (misspecified or contains NA values)");
     
@@ -65,12 +56,8 @@ public class PowerDialog extends JDialog implements ActionListener {
 
     UserDefinedPanel userDefinedFunctions;
     
-    boolean ncp = true;
+    CreateGraphGUI parent;
     Vector<Node> nodes;
-
-	CreateGraphGUI parent;
-	
-	JPanel panelMany = new JPanel();
 	
 	JTabbedPane tPanel = new JTabbedPane();
 
