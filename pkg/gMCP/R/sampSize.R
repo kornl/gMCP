@@ -1,9 +1,29 @@
 ## This function is taken from package DoseFinding under GPL 
 ## from Bjoern Bornkamp, Jose Pinheiro and Frank Bretz
 
-## function for sample size calculation and functions to evaluate
+## Function for sample size calculation and functions to evaluate
 ## performance metrics for different sample sizes
 
+#' Function for sample size calculation
+#' 
+#' Function for sample size calculation
+#' 
+#' For details see the manual and examples.
+#' 
+#' @param upperN \code{targFunc(upperN)} should be bigger than target (otherwise upperN is doubled until this is the case).
+#' @param lowerN \code{targFunc(lowerN)} should be smaller than target (otherwise lowerN is halfed until this is the case).
+#' @param targFunc The target (power) function that should be monotonic in \code{n}.
+#' @param target The target value. The function searches the \code{n} with \code{abs(targFunc(n)-target)<tol}.
+#' @param tol Tolerance: The function searches the \code{n} with \code{abs(targFunc(n)-target)<tol}.
+#' @param alRatio Allocation ratio.
+#' @param Ntype Either \code{"arm"} or \code{"total"}.
+#' @param verbose Logical, whether verbose output should be printed.
+#' @examples 
+#' 
+#' f <- function(x){1/100*log(x)}
+#' gMCP:::sampSize(upperN=1000, targFunc=f, target=0.8, verbose=TRUE, alRatio=1) 
+#' gMCP:::sampSize(lowerN=1, upperN=1000, targFunc=f, target=0.8, verbose=TRUE, alRatio=1)  
+#' 
 sampSize <- function (upperN, lowerN = floor(upperN/2),
                       targFunc, target, tol = 0.001, alRatio,
                       Ntype = c("arm", "total"), verbose = FALSE){
