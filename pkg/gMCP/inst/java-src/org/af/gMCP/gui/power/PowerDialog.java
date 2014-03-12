@@ -150,7 +150,7 @@ public class PowerDialog extends JDialog implements ActionListener {
 		tPanel.addTab("NCP Settings", getScenarioNCPPanel());
 		//tPanel.addTab("Multiple NCP Settings", getMultiSettingPanel());
 		tPanel.addTab("Correlation Matrix", getCVPanel());
-		UserDefinedPanel userDefinedFunctions = new UserDefinedPanel(nodes);
+		userDefinedFunctions = new UserDefinedPanel(nodes);
 		tPanel.addTab("User defined power function", userDefinedFunctions);
 		tPanel.addTab("Options", new PowerOptionsPanel(parent));
 		Set<String> variables = parent.getGraphView().getNL().getAllVariables();
@@ -212,15 +212,13 @@ public class PowerDialog extends JDialog implements ActionListener {
 			return;
 		}
 		String G = parent.getGraphView().getNL().getGraphName() + "@m";
-		double[] means = new double[nodes.size()];
-		String settings = null;
+
 		// TODO: Do we still need sometimes something as parse2numeric? I guess yes.
 		//RControl.getR().eval(parent.getGraphView().getNL().getGraphName()+"<-gMCP:::parse2numeric("+parent.getGraphView().getNL().getGraphName()+")");
 
 		if (e.getActionCommand().equals(HorizontalButtonPane.OK_CMD)) {
-			settings = getNCPString();
 
-			rCommand = "gMCP:::calcMultiPower(weights="+weights+", alpha="+alpha+", G="+G+settings
+			rCommand = "gMCP:::calcMultiPower(weights="+weights+", alpha="+alpha+", G="+G+pNCP.getNCPString()
 					+ ","+"sigma = " + dfp.getTable().getModel().getDataFrame().getRMatrix() //diag(length(mean)),corr = NULL,"+
 					+ getMatrixForParametricTest()
 					+ userDefinedFunctions.getUserDefined()
@@ -258,11 +256,6 @@ public class PowerDialog extends JDialog implements ActionListener {
 			worker.execute();				
 		}
 		dispose();
-	}
-
-	private String getNCPString() {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 	private void load(SingleDataFramePanel dfp) {

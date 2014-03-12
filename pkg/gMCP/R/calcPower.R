@@ -191,26 +191,35 @@ calcPower <- function(weights, alpha, G, mean = rep(0, nrow(sigma)),
   }
 }
 
-calcMultiPower <- function(weights, alpha, G, muL, sigmaL, nL,
+calcMultiPower <- function(weights, alpha, G, ncpL, muL, sigmaL, nL,
 		sigma = diag(length(muL[[1]])), cr = NULL,
 		nSim = 10000, type = c("quasirandom", "pseudorandom"),
 		f=list(), digits=4, variables=NULL, test) {
-	meanL <- list()
-	for (mu in muL) {
-		for (s in sigmaL) {
-			for (n in nL) {
-				newSetting <- mu*sqrt(n)/s
-				attr(newSetting, "label") <- paste("mu: ",paste(mu,collapse=","),", sigma: ",paste(s,collapse=","),", n: ",paste(n,collapse=","),sep="")
-				meanL[[length(meanL)+1]] <- newSetting 
-			}
-		}
-	}
+  if (!missing(ncpL) && (!missing(muL)||!missing(sigmaL)||!missing(nL))) {
+    warning("Only parameter 'ncpL' will be used, not 'muL', 'sigmaL' or 'nL'.")
+  }
+  if (missing(ncpL)) {
+    ncpL <- list()
+    for (mu in muL) {
+      for (s in sigmaL) {
+        for (n in nL) {
+          newSetting <- mu*sqrt(n)/s
+          attr(newSetting, "label") <- paste("mu: ",paste(mu,collapse=","),", sigma: ",paste(s,collapse=","),", n: ",paste(n,collapse=","),sep="")
+          ncpL[[length(ncpL)+1]] <- newSetting 
+        }
+      }
+    }
+  } else {
+    for (i in 1:length(ncpL)) {
+      attr(ncpL[[i]], "label") <- names(ncpL)[i]
+    }
+  }
 	sResult <- ""
 	g <- matrix2graph(G)
 	g <- setWeights(g, weights)
 	if (is.null(variables)) {
 		sResult <- paste(sResult, "Graph:",paste(capture.output(print(g)), collapse="\n"), sep="\n")
-		resultL <- calcPower(weights, alpha, G, mean = meanL, sigma, cr, nSim, type, f, test=test)
+		resultL <- calcPower(weights, alpha, G, mean = ncpL, sigma, cr, nSim, type, f, test=test)
 		sResult <- paste(sResult, resultL2Text(resultL, digits), sep="\n")
 	} else {
 		# For testing purposes: variables <- list(a=c(1,2), b=(3), x=c(2,3,4), d=c(1,2))

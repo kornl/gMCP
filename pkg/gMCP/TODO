@@ -3,9 +3,8 @@ Does rJava again contain all necessary jar files?
 
 - Multiple Setting:
    Default: NCP (throw out n, \sigma, \mu)
-   Instead of c(0,0,...) use #hypotheses text fields.
+   Instead of c(0,0,...) use #hypotheses text fields. Check whether tab works as expected.
    Remove setting + check for empty textfields
-   Move power simulation options on the right side of the simulation window
    Remember multiple setting options and add "clear" button. Save settings under name.
    User specified power functions should be namable in the GUI. Save output as data.frame and CSV.
 
