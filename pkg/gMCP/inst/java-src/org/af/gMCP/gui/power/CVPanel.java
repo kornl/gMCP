@@ -6,6 +6,7 @@ import java.util.Vector;
 
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
+import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -27,7 +28,7 @@ import com.jgoodies.forms.layout.FormLayout;
 
 public class CVPanel extends JPanel implements ActionListener {
 	
-	PowerDialog pd;
+	PDialog pd;
 	CreateGraphGUI parent;
 	Vector<Node> nodes;
     
@@ -41,9 +42,9 @@ public class CVPanel extends JPanel implements ActionListener {
     JButton loadCV2 = new JButton("Load Matrix from R");
     JButton createCV2 = new JButton("Advanced Matrix Creation");
 	
-	public CVPanel(PowerDialog pd) {
+	public CVPanel(PDialog pd) {
 		this.pd = pd;
-		parent = pd.parent;
+		parent = pd.getParent();
 		
 		nodes = parent.getGraphView().getNL().getNodes();
 		
@@ -89,7 +90,8 @@ public class CVPanel extends JPanel implements ActionListener {
 					}
 				}
 			} catch (Exception exc) {
-				JOptionPane.showMessageDialog(pd, "Could not load matrix \""+name+"\":\n"+exc.getMessage(), "Could not load matrix", JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showMessageDialog((JDialog)pd, 
+						"Could not load matrix \""+name+"\":\n"+exc.getMessage(), "Could not load matrix", JOptionPane.ERROR_MESSAGE);
 			}
 		}
 		
@@ -161,7 +163,8 @@ public class CVPanel extends JPanel implements ActionListener {
 				}
 			}
 		} catch (Exception exc) {
-			JOptionPane.showMessageDialog(pd, "Could not load matrix \""+name+"\":\n"+exc.getMessage(), "Could not load matrix", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog((JDialog)pd, 
+					"Could not load matrix \""+name+"\":\n"+exc.getMessage(), "Could not load matrix", JOptionPane.ERROR_MESSAGE);
 		}
 	}
 	

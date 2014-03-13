@@ -38,7 +38,7 @@ import org.jdesktop.swingworker.SwingWorker;
 import com.jgoodies.forms.layout.CellConstraints;
 import com.jgoodies.forms.layout.FormLayout;
 
-public class PowerDialog extends JDialog implements ActionListener {
+public class PowerDialog extends JDialog implements ActionListener, PDialog {
 
     List<JTextField> jtlVar = new Vector<JTextField>();
     
@@ -79,7 +79,8 @@ public class PowerDialog extends JDialog implements ActionListener {
 		
 		getContentPane().setLayout(new GridBagLayout());
 		
-		tPanel.addTab("NCP Settings", getScenarioNCPPanel());
+		pNCP = new ScenarioPanel(this);
+		tPanel.addTab("NCP Settings", pNCP);
 		cvPanel = new CVPanel(this);
 		tPanel.addTab("Correlation Matrix", cvPanel);
 		userDefinedFunctions = new UserDefinedPanel(nodes);
@@ -163,26 +164,6 @@ public class PowerDialog extends JDialog implements ActionListener {
 		}
 		dispose();
 	}
-	
-	public JPanel getScenarioNCPPanel() {
-		JPanel mPanel = new JPanel();
-		
-		pNCP = new ScenarioPanel(this);
-		
-		String cols = "5dlu, fill:pref:grow, 5dlu, fill:pref:grow, 5dlu";
-		String rows = "5dlu, fill:pref:grow, 5dlu, pref, 5dlu";
-        
-        mPanel.setLayout(new FormLayout(cols, rows));
-        CellConstraints cc = new CellConstraints();
-		
-		int row = 2;
-		
-		mPanel.add(pNCP, cc.xy(2, row));
-        
-		//mPanel.add(new JScrollPane(dfp), cc.xy(4, row));
-		
-		return mPanel;
-	}
 
 	public JPanel getVariablePanel(Set<String> v) {
 		JPanel vPanel = new JPanel();		
@@ -231,5 +212,13 @@ public class PowerDialog extends JDialog implements ActionListener {
 		} else {
 			return "";
 		}
-	}	
+	}
+
+	public Vector<Node> getNodes() {		
+		return nodes;
+	}
+	
+	 public CreateGraphGUI getParent() {
+		 return parent;
+	 }
 }

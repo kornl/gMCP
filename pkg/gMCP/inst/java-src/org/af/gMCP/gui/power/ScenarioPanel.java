@@ -21,11 +21,11 @@ public class ScenarioPanel extends JPanel implements ActionListener {
 	JButton addScenario = new JButton("Add scenario");
 	JButton rmScenario = new JButton("Remove last scenario");
 	
-	PowerDialog pd;
+	PDialog pd;
 	
 	JPanel panel = new JPanel();
 	
-	public ScenarioPanel(PowerDialog pd) {
+	public ScenarioPanel(PDialog pd) {
 		this.pd = pd;		
 		
 		sc.add(new Scenario(pd, "Scenario "+(sc.size()+1)));
@@ -65,7 +65,7 @@ public class ScenarioPanel extends JPanel implements ActionListener {
 
 		String cols = "5dlu, pref, 5dlu";
 		String rows = "5dlu, pref, 5dlu";
-		for (Node n : pd.nodes) {
+		for (Node n : pd.getNodes()) {
 			cols += ", pref, 5dlu";
 		}
 		for (Scenario s : sc) {
@@ -77,7 +77,7 @@ public class ScenarioPanel extends JPanel implements ActionListener {
 		int col = 2;
 		panel.add(new JLabel("Scenario name"), cc.xy(col, row));
 
-		for (Node n : pd.parent.getGraphView().getNL().getNodes()) {
+		for (Node n : pd.getParent().getGraphView().getNL().getNodes()) {
 			col += 2;
 			panel.add(new JLabel("NCP "+ LaTeXTool.LaTeX2UTF(n.getName())+"    "), cc.xy(col, row));
 		}

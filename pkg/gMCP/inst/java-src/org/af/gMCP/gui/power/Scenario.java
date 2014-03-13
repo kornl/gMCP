@@ -16,12 +16,12 @@ public class Scenario {
 	List<JTextField> ncp = new Vector<JTextField>();
 	JTextField scname;
 	
-	PowerDialog pd;
+	PDialog pd;
 	
-	public Scenario(PowerDialog pd, String name) {
+	public Scenario(PDialog pd, String name) {
 		this.pd = pd;
 		scname = new JTextField(name);
-		for (Node n : pd.nodes) {
+		for (Node n : pd.getNodes()) {
 			RealTextField rt = new RealTextField("0.0");
 			rt.setText("0.0");
 			ncp.add(rt);
