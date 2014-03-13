@@ -22,6 +22,9 @@ import org.af.gMCP.gui.dialogs.MatrixCreationDialog;
 import org.af.gMCP.gui.dialogs.VariableNameDialog;
 import org.af.gMCP.gui.graph.EdgeWeight;
 import org.af.gMCP.gui.graph.Node;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
 
 import com.jgoodies.forms.layout.CellConstraints;
 import com.jgoodies.forms.layout.FormLayout;
@@ -209,6 +212,43 @@ public class CVPanel extends JPanel implements ActionListener {
 		return dfp.getTable().getModel().getDataFrame().getRMatrix();
 	}
 	
+	public Element getConfigNode(Document document) {
+		Element e = document.createElement("scenarios");
+		e.setAttribute("secondCV", ""+secondCV.isSelected());
+		Element e1 = document.createElement("cv1");
+		Element e2 = document.createElement("cv2");
+		int n = nodes.size();
+		for (int i=0; i<n; i++) {
+			Element eRow1 = document.createElement("Row"+(i+1));
+			Element eRow2 = document.createElement("Row"+(i+1));				
+			for (int j=0; j<n; j++) {
+				Element eCol1 = document.createElement("Col"+(j+1));
+				Element eCol2 = document.createElement("Col"+(j+1));
+				eCol1.setAttribute("value", dfp.getTable().getModel().getValueAt(i,j).toString());
+				eCol2.setAttribute("value", dfp2.getTable().getModel().getValueAt(i,j).toString());
+				eRow1.appendChild(eCol1);
+				eRow2.appendChild(eCol2);				
+			}
+			e1.appendChild(eRow1);
+			e2.appendChild(eRow2);
+		}
+		e.appendChild(e1);
+		e.appendChild(e2);
+      	return e;
+	}
 	
+	public void loadConfig(Element e) {
+		secondCV.setSelected(Boolean.parseBoolean(e.getAttribute("secondCV")));
+		Element cv1 = (Element)e.getChildNodes().item(0);
+		Element cv2 = (Element)e.getChildNodes().item(1);		
+		int n = nodes.size();
+		for (int i=0; i<n; i++) {
+			for (int j=0; j<n; j++) {
+				dfp.getTable().getModel().setValueAt(new EdgeWeight(Double.parseDouble(((Element)(cv1.getChildNodes().item(i).getChildNodes().item(j))).getAttribute("value"))), i, j);
+				dfp2.getTable().getModel().setValueAt(new EdgeWeight(Double.parseDouble(((Element)(cv2.getChildNodes().item(i).getChildNodes().item(j))).getAttribute("value"))), i, j);
+			}
+		}		
+		repaint();
+	}	
 	
 }
