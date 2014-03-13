@@ -31,7 +31,7 @@ import org.w3c.dom.Element;
 import com.jgoodies.forms.layout.CellConstraints;
 import com.jgoodies.forms.layout.FormLayout;
 
-public class SampleSizeDialog extends JDialog implements ActionListener, PDialog {
+public class SampleSizeDialog extends PDialog implements ActionListener {
 
     List<JTextField> jtlVar = new Vector<JTextField>();
     
@@ -41,11 +41,7 @@ public class SampleSizeDialog extends JDialog implements ActionListener, PDialog
     CVPanel cvPanel;
     GroupPanel gPanel;
     
-    CreateGraphGUI parent;
-    Vector<Node> nodes;
-	
-	JTabbedPane tPanel = new JTabbedPane();
-
+    
 	Object[] variables;
 	
 	public static GridBagConstraints getDefaultGridBagConstraints() {
@@ -208,23 +204,6 @@ public class SampleSizeDialog extends JDialog implements ActionListener, PDialog
 		} else {
 			return "";
 		}
-	}	
-	
-	public Vector<Node> getNodes() {		
-		return nodes;
-	}
-	
-	 public CreateGraphGUI getParent() {
-		 return parent;
-	 }
-
-	public List<Element> getConfigurationNodes(Document document) {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
-	public void loadConfig(Element root) {
-		// TODO Auto-generated method stub
-		
-	}
 }

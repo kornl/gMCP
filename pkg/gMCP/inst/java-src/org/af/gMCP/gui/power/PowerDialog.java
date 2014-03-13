@@ -32,18 +32,9 @@ import org.w3c.dom.Element;
 import com.jgoodies.forms.layout.CellConstraints;
 import com.jgoodies.forms.layout.FormLayout;
 
-public class PowerDialog extends JDialog implements ActionListener, PDialog {
+public class PowerDialog extends PDialog implements ActionListener {
 
     List<JTextField> jtlVar = new Vector<JTextField>();
-    
-    ScenarioPanel pNCP;    
-    UserDefinedPanel userDefinedFunctions;
-    CVPanel cvPanel;
-    
-    CreateGraphGUI parent;
-    Vector<Node> nodes;
-	
-	JTabbedPane tPanel = new JTabbedPane();
 
 	Object[] variables;
 	
@@ -210,29 +201,8 @@ public class PowerDialog extends JDialog implements ActionListener, PDialog {
 			return "";
 		}
 	}
-
-	public Vector<Node> getNodes() {		
-		return nodes;
-	}
-	
-	 public CreateGraphGUI getParent() {
-		 return parent;
-	 }
 	 
-	 public void loadConfig(Element root) {
-		 pNCP.loadConfig((Element) root.getElementsByTagName("scenarios").item(0));
-		 cvPanel.loadConfig((Element) root.getChildNodes().item(1));
-		 userDefinedFunctions.loadConfig((Element) root.getChildNodes().item(2));
-		 		 
-	 }
 
-	public List<Element> getConfigurationNodes(Document document) {
-		Vector<Element> v = new Vector<Element>();
-		v.add(pNCP.getConfigNode(document));
-		v.add(cvPanel.getConfigNode(document));
-		v.add(userDefinedFunctions.getConfigNode(document));
-		return v;
-	}
 
 
 }
