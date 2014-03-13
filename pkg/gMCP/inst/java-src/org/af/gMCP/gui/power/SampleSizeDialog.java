@@ -8,13 +8,10 @@ import java.util.List;
 import java.util.Set;
 import java.util.Vector;
 
-import javax.swing.JButton;
-import javax.swing.JCheckBox;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
 
@@ -23,14 +20,8 @@ import org.af.commons.widgets.buttons.OkCancelButtonPane;
 import org.af.gMCP.config.Configuration;
 import org.af.gMCP.gui.CreateGraphGUI;
 import org.af.gMCP.gui.RControl;
-import org.af.gMCP.gui.datatable.CellEditorE;
-import org.af.gMCP.gui.datatable.RDataFrameRef;
-import org.af.gMCP.gui.datatable.SingleDataFramePanel;
-import org.af.gMCP.gui.dialogs.MatrixCreationDialog;
 import org.af.gMCP.gui.dialogs.PowerOptionsPanel;
 import org.af.gMCP.gui.dialogs.TextFileViewer;
-import org.af.gMCP.gui.dialogs.VariableNameDialog;
-import org.af.gMCP.gui.graph.EdgeWeight;
 import org.af.gMCP.gui.graph.LaTeXTool;
 import org.af.gMCP.gui.graph.Node;
 import org.jdesktop.swingworker.SwingWorker;
@@ -46,6 +37,7 @@ public class SampleSizeDialog extends JDialog implements ActionListener, PDialog
     
     UserDefinedPanel userDefinedFunctions;
     CVPanel cvPanel;
+    GroupPanel gPanel;
     
     CreateGraphGUI parent;
     Vector<Node> nodes;
@@ -79,6 +71,8 @@ public class SampleSizeDialog extends JDialog implements ActionListener, PDialog
 		
 		getContentPane().setLayout(new GridBagLayout());
 		
+		gPanel = new GroupPanel(this);
+		tPanel.addTab("Groups", gPanel);
 		pNCP = new ScenarioPanel(this);
 		tPanel.addTab("NCP Settings", pNCP);
 		cvPanel = new CVPanel(this);
