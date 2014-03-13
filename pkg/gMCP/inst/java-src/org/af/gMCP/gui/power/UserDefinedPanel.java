@@ -17,6 +17,7 @@ import javax.swing.JTextField;
 import org.af.gMCP.gui.graph.Node;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
 
 import com.jgoodies.forms.layout.CellConstraints;
 import com.jgoodies.forms.layout.FormLayout;
@@ -174,11 +175,23 @@ public class UserDefinedPanel extends JPanel implements ActionListener {
 
 	public Element getConfigNode(Document document) {
 		Element e = document.createElement("powerfunctions");
+		for (int i=0; i<listModel.getSize(); i++) {
+			Element ef = document.createElement("userdefined");
+			ef.setAttribute("expression", ""+listModel.get(i));
+			e.appendChild(ef);
+		}
 		return e;
 	}
 
 	public void loadConfig(Element e) {
-		
+		NodeList nlist = e.getChildNodes();
+		int i = nlist.getLength()-1;
+		while(listModel.getSize()<nlist.getLength()) {
+			listModel.insertElementAt(((Element)nlist.item(i)).getAttribute("expression"), 0);
+			i--;
+		}			
 	}
+
+	
 	    
 }
