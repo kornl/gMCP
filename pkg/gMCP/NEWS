@@ -34,6 +34,9 @@ Changes in version 0.8-7 (??-0?-2014)
   now a dependency (IMPORTS), since it already provides the necessary
   Apache POI jar files.
 
+- Settings in the dialogs for power analysis and sample size calculations
+  are remembered and can be saved and loaded as XML files.
+
 - Improved Graph Analysis checks whether weights sum up to 1 for all subgraphs.
 
 - In case of unexpected errors on Java's Event-Dispatch-Thread no error dialog
