@@ -10,14 +10,15 @@
 #' 
 #' For details see the manual and examples.
 #' 
-#' @param upperN \code{targFunc(upperN)} should be bigger than target (otherwise upperN is doubled until this is the case).
-#' @param lowerN \code{targFunc(lowerN)} should be smaller than target (otherwise lowerN is halfed until this is the case).
-#' @param targFunc The target (power) function that should be monotonic in \code{n}.
-#' @param target The target value. The function searches the \code{n} with \code{abs(targFunc(n)-target)<tol}.
-#' @param tol Tolerance: The function searches the \code{n} with \code{abs(targFunc(n)-target)<tol}.
+#' @param upperN \code{targFunc(upperN)} should be bigger than target (otherwise \code{upperN} is doubled until this is the case).
+#' @param lowerN \code{targFunc(lowerN)} should be smaller than target (otherwise \code{lowerN} is halfed until this is the case).
+#' @param targFunc The target (power) function that should be monotonically increasing in \code{n}.
+#' @param target The target value. The function searches the \code{n} with \code{targFunc(n)-target<tol} and \code{targFunc(n)>target}.
+#' @param tol Tolerance: The function searches the \code{n} with \code{targFunc(n)-target<tol} and \code{targFunc(n)>target}.
 #' @param alRatio Allocation ratio.
 #' @param Ntype Either \code{"arm"} or \code{"total"}.
 #' @param verbose Logical, whether verbose output should be printed.
+#' @return Integer value \code{n} (of type numeric) with \code{targFunc(n)-target<tol} and \code{targFunc(n)>target}.
 #' @examples 
 #' 
 #' f <- function(x){1/100*log(x)}
@@ -33,29 +34,21 @@ sampSize <- function (upperN, lowerN = floor(upperN/2),
   }
 
   Ntype <- match.arg(Ntype)
-  if (!missing(alRatio)) {
-    if (any(alRatio <= 0)) {
-      stop("all entries of alRatio need to be positive")
-    } else {
-      alRatio <- alRatio/sum(alRatio)
-    }
-    if(Ntype == "arm") {
-      alRatio <- alRatio/min(alRatio)
-    } 
-  } else { ## by default assume
-    stop("allocation ratios need to be specified")
-  }
+  if (missing(alRatio)) stop("allocation ratios need to be specified")
+  if (any(alRatio <= 0)) stop("all entries of alRatio need to be positive")
+  
+  alRatio <- alRatio/sum(alRatio)
+  if(Ntype == "arm") {
+    alRatio <- alRatio/min(alRatio)
+  } 
   
   ## first call
   upper <- func(round(upperN*alRatio))
-  if(length(upper) > 1)
-    stop("targFunc(n) to evaluate to a vector of length 1.")
-  if(!is.numeric(upper))
-    stop("targFunc(n) needs to evaluate to a numeric.")
+  if(length(upper) > 1) stop("targFunc(n) to evaluate to a vector of length 1.")
+  if(!is.numeric(upper)) stop("targFunc(n) needs to evaluate to a numeric.")
 
   ## bracket solution
-  if (upper < 0)
-    message("upper limit for sample size is raised")
+  if (upper < 0) message("upper limit for sample size is raised")
 
   while (upper < 0) {
     upperN <- 2 * upperN
@@ -64,13 +57,11 @@ sampSize <- function (upperN, lowerN = floor(upperN/2),
   
   lower <- func(round(lowerN*alRatio))
   
-  if (lower > 0) 
-    message("lower limit for sample size is decreased")
+  if (lower > 0) message("lower limit for sample size is decreased")
 
   while (lower > 0) {
     lowerN <- round(lowerN/2)
-    if (lowerN == 0) 
-      stop("cannot find lower limit on n")
+    if (lowerN == 0) stop("cannot find lower limit on n")
     lower <- func(round(lowerN*alRatio))
   }
 

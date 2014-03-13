@@ -8,21 +8,23 @@
 }
 \arguments{
   \item{upperN}{\code{targFunc(upperN)} should be bigger
-  than target (otherwise upperN is doubled until this is
-  the case).}
+  than target (otherwise \code{upperN} is doubled until
+  this is the case).}
 
   \item{lowerN}{\code{targFunc(lowerN)} should be smaller
-  than target (otherwise lowerN is halfed until this is the
-  case).}
+  than target (otherwise \code{lowerN} is halfed until this
+  is the case).}
 
   \item{targFunc}{The target (power) function that should
-  be monotonic in \code{n}.}
+  be monotonically increasing in \code{n}.}
 
   \item{target}{The target value. The function searches the
-  \code{n} with \code{abs(targFunc(n)-target)<tol}.}
+  \code{n} with \code{targFunc(n)-target<tol} and
+  \code{targFunc(n)>target}.}
 
   \item{tol}{Tolerance: The function searches the \code{n}
-  with \code{abs(targFunc(n)-target)<tol}.}
+  with \code{targFunc(n)-target<tol} and
+  \code{targFunc(n)>target}.}
 
   \item{alRatio}{Allocation ratio.}
 
@@ -30,6 +32,11 @@
 
   \item{verbose}{Logical, whether verbose output should be
   printed.}
+}
+\value{
+  Integer value \code{n} (of type numeric) with
+  \code{targFunc(n)-target<tol} and
+  \code{targFunc(n)>target}.
 }
 \description{
   Function for sample size calculation
