@@ -1,4 +1,4 @@
-package org.af.gMCP.gui.dialogs;
+package org.af.gMCP.gui.power;
 
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -30,6 +30,10 @@ import org.af.gMCP.gui.RControl;
 import org.af.gMCP.gui.datatable.CellEditorE;
 import org.af.gMCP.gui.datatable.RDataFrameRef;
 import org.af.gMCP.gui.datatable.SingleDataFramePanel;
+import org.af.gMCP.gui.dialogs.MatrixCreationDialog;
+import org.af.gMCP.gui.dialogs.PowerParameterPanel;
+import org.af.gMCP.gui.dialogs.TextFileViewer;
+import org.af.gMCP.gui.dialogs.VariableNameDialog;
 import org.af.gMCP.gui.graph.EdgeWeight;
 import org.af.gMCP.gui.graph.LaTeXTool;
 import org.af.gMCP.gui.graph.Node;
