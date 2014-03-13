@@ -4,6 +4,7 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 import java.util.List;
 import java.util.Set;
 import java.util.Vector;
@@ -25,6 +26,8 @@ import org.af.gMCP.gui.dialogs.TextFileViewer;
 import org.af.gMCP.gui.graph.LaTeXTool;
 import org.af.gMCP.gui.graph.Node;
 import org.jdesktop.swingworker.SwingWorker;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 
 import com.jgoodies.forms.layout.CellConstraints;
 import com.jgoodies.forms.layout.FormLayout;
@@ -33,8 +36,7 @@ public class PowerDialog extends JDialog implements ActionListener, PDialog {
 
     List<JTextField> jtlVar = new Vector<JTextField>();
     
-    ScenarioPanel pNCP;
-    
+    ScenarioPanel pNCP;    
     UserDefinedPanel userDefinedFunctions;
     CVPanel cvPanel;
     
@@ -93,6 +95,8 @@ public class PowerDialog extends JDialog implements ActionListener, PDialog {
 		getContentPane().add(bp, c);
 		bp.addActionListener(this);		
 		
+		SettingsToXML.loadConfigFromXML(new File("/home/kornel/test.xml"), this);
+		
         pack();
         setLocationRelativeTo(parent);
         setVisible(true);
@@ -115,6 +119,8 @@ public class PowerDialog extends JDialog implements ActionListener, PDialog {
 		//RControl.getR().eval(parent.getGraphView().getNL().getGraphName()+"<-gMCP:::parse2numeric("+parent.getGraphView().getNL().getGraphName()+")");
 
 		if (e.getActionCommand().equals(HorizontalButtonPane.OK_CMD)) {
+			
+			SettingsToXML.saveSettingsToXML(new File("/home/kornel/test.xml"), this);
 
 			rCommand = "gMCP:::calcMultiPower(weights="+weights+", alpha="+alpha+", G="+G+pNCP.getNCPString()
 					+ ","+"sigma = " + cvPanel.getSigma() //diag(length(mean)),corr = NULL,"+
@@ -212,4 +218,18 @@ public class PowerDialog extends JDialog implements ActionListener, PDialog {
 	 public CreateGraphGUI getParent() {
 		 return parent;
 	 }
+	 
+	 public void loadConfig(Element root) {
+		 pNCP.loadConfig((Element) root.getElementsByTagName("scenarios").item(0));    
+		 //userDefinedFunctions.loadConfig((Element) root.getChildNodes().item(1));
+		 //cvPanel.loadConfig((Element) root.getChildNodes().item(2));		 
+	 }
+
+	public List<Element> getConfigurationNodes(Document document) {
+		Vector<Element> v = new Vector<Element>();
+		v.add(pNCP.getConfigNode(document));
+		return v;
+	}
+
+
 }

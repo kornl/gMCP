@@ -12,6 +12,9 @@ import javax.swing.JScrollPane;
 
 import org.af.gMCP.gui.graph.LaTeXTool;
 import org.af.gMCP.gui.graph.Node;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
 
 import com.jgoodies.forms.layout.CellConstraints;
 import com.jgoodies.forms.layout.FormLayout;
@@ -115,6 +118,32 @@ public class ScenarioPanel extends JPanel implements ActionListener {
 				rmScenario.setEnabled(false);
 			}
 		}		
+	}
+
+	public Element getConfigNode(Document document) {
+		Element e = document.createElement("scenarios");
+		e.setAttribute("numberSC", ""+sc.size());
+		e.setAttribute("numberHS", ""+sc.get(0).ncp.size());
+		for (Scenario s : sc) {
+			e.appendChild(s.getConfigNode(document));
+		}
+      	return e;
+	}
+	
+	public void loadConfig(Element e) {
+		int nSC = Integer.parseInt(e.getAttribute("numberSC"));
+		int nHS = Integer.parseInt(e.getAttribute("numberHS"));
+		while(sc.size()<nSC) {
+			sc.add(new Scenario(pd, "Scenario "+(sc.size()+1)));
+			rmScenario.setEnabled(true);
+		}
+		NodeList nlist = e.getChildNodes();
+		for (int i=0; i<sc.size(); i++) {			
+			sc.get(i).loadConfig((Element)nlist.item(i));
+		}
+		getMainPanel();
+		revalidate();
+		repaint();
 	}	
 	
 }

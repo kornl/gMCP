@@ -32,6 +32,9 @@ public class GroupPanel extends JPanel implements ActionListener {
 	}
 	
 	
+	// Add θ and standard error of θ.
+	// Allocation ratio?
+	
 	public void setUpLayout() {
 
 		CellConstraints cc = new CellConstraints();

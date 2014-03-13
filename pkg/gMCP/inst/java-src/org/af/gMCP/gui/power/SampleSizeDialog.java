@@ -25,6 +25,8 @@ import org.af.gMCP.gui.dialogs.TextFileViewer;
 import org.af.gMCP.gui.graph.LaTeXTool;
 import org.af.gMCP.gui.graph.Node;
 import org.jdesktop.swingworker.SwingWorker;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 
 import com.jgoodies.forms.layout.CellConstraints;
 import com.jgoodies.forms.layout.FormLayout;
@@ -215,4 +217,14 @@ public class SampleSizeDialog extends JDialog implements ActionListener, PDialog
 	 public CreateGraphGUI getParent() {
 		 return parent;
 	 }
+
+	public List<Element> getConfigurationNodes(Document document) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public void loadConfig(Element root) {
+		// TODO Auto-generated method stub
+		
+	}
 }
