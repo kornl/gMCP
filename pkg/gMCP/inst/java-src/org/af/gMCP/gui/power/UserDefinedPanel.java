@@ -15,6 +15,8 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 import org.af.gMCP.gui.graph.Node;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 
 import com.jgoodies.forms.layout.CellConstraints;
 import com.jgoodies.forms.layout.FormLayout;
@@ -170,5 +172,13 @@ public class UserDefinedPanel extends JPanel implements ActionListener {
 		}
 	}
 
+	public Element getConfigNode(Document document) {
+		Element e = document.createElement("powerfunctions");
+		return e;
+	}
+
+	public void loadConfig(Element e) {
+		
+	}
 	    
 }

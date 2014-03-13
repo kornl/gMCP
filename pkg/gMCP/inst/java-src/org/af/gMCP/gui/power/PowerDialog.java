@@ -222,7 +222,7 @@ public class PowerDialog extends JDialog implements ActionListener, PDialog {
 	 public void loadConfig(Element root) {
 		 pNCP.loadConfig((Element) root.getElementsByTagName("scenarios").item(0));
 		 cvPanel.loadConfig((Element) root.getChildNodes().item(1));
-		 //userDefinedFunctions.loadConfig((Element) root.getChildNodes().item(1));
+		 userDefinedFunctions.loadConfig((Element) root.getChildNodes().item(2));
 		 		 
 	 }
 
@@ -230,6 +230,7 @@ public class PowerDialog extends JDialog implements ActionListener, PDialog {
 		Vector<Element> v = new Vector<Element>();
 		v.add(pNCP.getConfigNode(document));
 		v.add(cvPanel.getConfigNode(document));
+		v.add(userDefinedFunctions.getConfigNode(document));
 		return v;
 	}
 
