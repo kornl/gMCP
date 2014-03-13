@@ -40,21 +40,12 @@ import com.jgoodies.forms.layout.FormLayout;
 
 public class PowerDialog extends JDialog implements ActionListener {
 
-    SingleDataFramePanel dfp;
-    SingleDataFramePanel dfp2;
-    
     List<JTextField> jtlVar = new Vector<JTextField>();
     
     ScenarioPanel pNCP;
     
-    JCheckBox secondCV = new JCheckBox("Use another correlation matrix of test statistics used by the parametric test (misspecified or contains NA values)");
-    
-    JButton loadCV = new JButton("Load Matrix from R");
-    JButton createCV = new JButton("Advanced Matrix Creation");
-    JButton loadCV2 = new JButton("Load Matrix from R");
-    JButton createCV2 = new JButton("Advanced Matrix Creation");
-
     UserDefinedPanel userDefinedFunctions;
+    CVPanel cvPanel;
     
     CreateGraphGUI parent;
     Vector<Node> nodes;
@@ -83,60 +74,14 @@ public class PowerDialog extends JDialog implements ActionListener {
 		this.parent = parent;
 		nodes = parent.getGraphView().getNL().getNodes();
 		
-		RDataFrameRef df = new RDataFrameRef();
-		RDataFrameRef df2 = new RDataFrameRef();
-		for (Node n: nodes) {
-			df.addRowCol(n.getName());
-			df2.addRowCol(n.getName());
-			df.setValue(df.getColumnCount()-1, df.getColumnCount()-1, new EdgeWeight(1));
-			df2.setValue(df2.getColumnCount()-1, df2.getColumnCount()-1, new EdgeWeight(1));
-		}		
-
-		dfp = new SingleDataFramePanel(df);
-		dfp.getTable().getModel().checkCorMat();
-		dfp.getTable().setDefaultEditor(EdgeWeight.class, new CellEditorE(null, dfp.getTable()));
-		dfp.getTable().getModel().setCheckRowSum(false);
-		
-		dfp2 = new SingleDataFramePanel(df);
-		dfp2.getTable().getModel().checkCorMat();
-		dfp2.getTable().setDefaultEditor(EdgeWeight.class, new CellEditorE(null, dfp.getTable()));
-		dfp2.getTable().getModel().setCheckRowSum(false);
-		dfp2.setEnabled(false);		
-		
-		if (parent.getPView().jrbRCorrelation.isSelected()) {
-			try {
-			String mat = parent.getPView().jcbCorObject.getSelectedItem().toString();
-			load(dfp, mat);
-			load(dfp2, mat);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		}
-		
-		if (parent.getPView().jrbRCorrelation.isSelected()) {			
-			String name = parent.getPView().jcbCorObject.getSelectedItem().toString();
-			try {
-				double[] result = RControl.getR().eval("as.numeric("+name+")").asRNumeric().getData();
-				int n = nodes.size();
-				for (int i=0; i<n; i++) {
-					for (int j=0; j<n; j++) {
-						dfp.getTable().getModel().setValueAt(new EdgeWeight(result[i*n+j]), i, j);
-						dfp2.getTable().getModel().setValueAt(new EdgeWeight(result[i*n+j]), i, j);
-					}
-				}
-			} catch (Exception exc) {
-				JOptionPane.showMessageDialog(this, "Could not load matrix \""+name+"\":\n"+exc.getMessage(), "Could not load matrix", JOptionPane.ERROR_MESSAGE);
-			}
-		}
 		parent.getPView().getParameters();
 		GridBagConstraints c = getDefaultGridBagConstraints();
 		
 		getContentPane().setLayout(new GridBagLayout());
-		//getContentPane().add(numberOfSettings, c);
 		
 		tPanel.addTab("NCP Settings", getScenarioNCPPanel());
-		//tPanel.addTab("Multiple NCP Settings", getMultiSettingPanel());
-		tPanel.addTab("Correlation Matrix", getCVPanel());
+		cvPanel = new CVPanel(this);
+		tPanel.addTab("Correlation Matrix", cvPanel);
 		userDefinedFunctions = new UserDefinedPanel(nodes);
 		tPanel.addTab("User defined power function", userDefinedFunctions);
 		tPanel.addTab("Options", new PowerOptionsPanel(parent));
@@ -164,33 +109,7 @@ public class PowerDialog extends JDialog implements ActionListener {
 	String rCommand = "";
 	
 	public void actionPerformed(ActionEvent e) {
-			
-		if (e.getSource() == secondCV) {
-			dfp2.setEnabled(secondCV.isSelected());
-			loadCV2.setEnabled(secondCV.isSelected());
-			createCV2.setEnabled(secondCV.isSelected());
-			return;
-		}
-		if (e.getSource() == createCV) {			
-			MatrixCreationDialog mcd = new MatrixCreationDialog(parent, dfp.getTable().getRMatrix(), MatrixCreationDialog.getNames(parent.getGraphView().getNL().getNodes()));
-			dfp.getTable().getModel().copy(mcd.dfp.getTable().getModel()); 
-			return;
-		}
-		if (e.getSource() == createCV2) {			
-			MatrixCreationDialog mcd = new MatrixCreationDialog(parent, dfp2.getTable().getRMatrix(), MatrixCreationDialog.getNames(parent.getGraphView().getNL().getNodes()));
-			dfp2.getTable().getModel().copy(mcd.dfp.getTable().getModel()); 
-			return;
-		}		
-		if (e.getSource() == loadCV) {
-			load(dfp);
-			return;
-		}
-		if (e.getSource() == loadCV2) {
-			load(dfp2);
-			return;
-		}		
-				
-		//Hashtable<String,Double> ht = getVariables();
+
 		String weights = parent.getGraphView().getNL().getGraphName() + "@weights";
 		double alpha;
 		try {
@@ -206,8 +125,8 @@ public class PowerDialog extends JDialog implements ActionListener {
 		if (e.getActionCommand().equals(HorizontalButtonPane.OK_CMD)) {
 
 			rCommand = "gMCP:::calcMultiPower(weights="+weights+", alpha="+alpha+", G="+G+pNCP.getNCPString()
-					+ ","+"sigma = " + dfp.getTable().getModel().getDataFrame().getRMatrix() //diag(length(mean)),corr = NULL,"+
-					+ getMatrixForParametricTest()
+					+ ","+"sigma = " + cvPanel.getSigma() //diag(length(mean)),corr = NULL,"+
+					+ cvPanel.getMatrixForParametricTest()
 					+ userDefinedFunctions.getUserDefined()
 					+ ", nSim = "+Configuration.getInstance().getGeneralConfig().getNumberOfSimulations()
 					+ ", type = \""+Configuration.getInstance().getGeneralConfig().getTypeOfRandom()+"\""
@@ -243,91 +162,6 @@ public class PowerDialog extends JDialog implements ActionListener {
 			worker.execute();				
 		}
 		dispose();
-	}
-
-	private void load(SingleDataFramePanel dfp) {
-		VariableNameDialog vnd = new VariableNameDialog(parent);
-		load(dfp, vnd.getName());		
-	}
-
-	private void load(SingleDataFramePanel dfp3, String name) {
-		try {
-			double[] result = RControl.getR().eval("as.numeric("+name+")").asRNumeric().getData();
-			int n = nodes.size();
-			for (int i=0; i<n; i++) {
-				for (int j=0; j<n; j++) {
-					dfp.getTable().getModel().setValueAt(new EdgeWeight(result[i*n+j]), i, j);
-				}
-			}
-		} catch (Exception exc) {
-			JOptionPane.showMessageDialog(this, "Could not load matrix \""+name+"\":\n"+exc.getMessage(), "Could not load matrix", JOptionPane.ERROR_MESSAGE);
-		}
-	}
-
-	/**
-	 * Constructs and returns the panel for the correlation matrix.
-	 * @return the panel for the correlation matrix
-	 */
-	public JPanel getCVPanel() {
-		JPanel mPanel = new JPanel();
-
-		CellConstraints cc = new CellConstraints();
-
-		int row = 2;
-
-		String cols = "5dlu, fill:pref:grow, 5dlu, fill:pref:grow, 5dlu";
-		String rows = "5dlu, pref, 5dlu, fill:pref:grow, 5dlu, pref, 5dlu";
-		if (parent.getPView().jrbRCorrelation.isSelected()) {
-			rows += ", pref, 5dlu, fill:pref:grow, 5dlu, pref, 5dlu";
-		}
-
-		mPanel.setLayout(new FormLayout(cols, rows));
-		
-		mPanel.add(new JLabel("Correlation matrix of test statistics for power simulations"), cc.xyw(2, row, 3));
-		
-		row +=2;
-		
-		mPanel.add(new JScrollPane(dfp), cc.xyw(2, row, 3));
-		
-		row +=2;
-		
-		mPanel.add(loadCV, cc.xy(2, row));
-		loadCV.addActionListener(this);
-		
-		mPanel.add(createCV, cc.xy(4, row));
-		createCV.addActionListener(this);
-		
-		row +=2;
-		
-		if (parent.getPView().jrbRCorrelation.isSelected()) {
-
-			mPanel.add(secondCV, cc.xyw(2, row, 3));
-			secondCV.addActionListener(this);
-
-			row +=2;
-
-			mPanel.add(new JScrollPane(dfp2), cc.xyw(2, row, 3));
-
-			row +=2;
-
-			mPanel.add(loadCV2, cc.xy(2, row));
-			loadCV2.addActionListener(this);
-			loadCV2.setEnabled(false);
-
-			mPanel.add(createCV2, cc.xy(4, row));
-			createCV2.addActionListener(this);
-			createCV2.setEnabled(false);
-
-		}
-		return mPanel;
-	}
-	
-	private String getMatrixForParametricTest() {
-		if (parent.getPView().jrbRCorrelation.isSelected()) {			
-			SingleDataFramePanel df = secondCV.isSelected()?dfp2:dfp;			
-			return ", cr="+df.getTable().getModel().getDataFrame().getRMatrix()+", test=\""+Configuration.getInstance().getGeneralConfig().getUpscale()+"\"";
-		}
-		return "";
 	}
 	
 	public JPanel getScenarioNCPPanel() {
