@@ -5,10 +5,12 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.rmi.RemoteException;
+import java.text.DateFormat;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Formatter;
 import java.util.List;
+import java.util.Locale;
 import java.util.Vector;
 
 import org.af.commons.io.pdf.PDFHelper;
@@ -52,10 +54,13 @@ public class PDFGenerator {
 		this.control = control;
         this.selectedSteps = selectedSteps;
     }
+	
+	//TODO Most likely we want the locale Locale - Locale.ENGLISH - what should one do?
+	DateFormat df = DateFormat.getDateInstance(DateFormat.LONG, Locale.ENGLISH);;
 
 	public void makePDF() throws FileNotFoundException, DocumentException {
 		Calendar calendar = Calendar.getInstance();
-		String filename = "Report - "+(calendar.getTime().toLocaleString())+".pdf";
+		String filename = "Report - "+(df.format(calendar.getTime()))+".pdf";
 		filename = filename.replace(':', '-');
 		File outputFile = new File(Configuration.getInstance().getClassProperty(this.getClass(), "pdfDirectory", System.getProperty("user.home")), filename);
 		makePDF(outputFile);

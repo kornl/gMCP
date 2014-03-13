@@ -18,7 +18,7 @@ public class SettingsToXML {
 	
 	private static final Log logger = LogFactory.getLog(SettingsToXML.class);
 	
-	public static void loadConfigFromXML (File file, PowerDialog gui, boolean changeDir) {
+	public static void loadConfigFromXML (File file, PDialog gui) {
 		Document document;
 		try {
 			document = XMLIO.readXML(file);
@@ -26,7 +26,7 @@ public class SettingsToXML {
 			String title = root.getAttribute("title");
 			
 			//gui.generalPanel.projectName.setText(title);			
-			//gui.loadConfig(root);
+			gui.loadConfig(root);
 			
 	    } catch (Exception e) {
 	    	JOptionPane.showMessageDialog(null, "Error Loading XML:\n"+e.getMessage(), "Error loading XML", JOptionPane.ERROR_MESSAGE);
@@ -34,16 +34,16 @@ public class SettingsToXML {
 	    }	
 	}
 	
-	public static void saveSettingsToXML (File filename, PowerDialog gui, String type) {
+	public static void saveSettingsToXML (File filename, PDialog gui) {
 		try {
-			XMLIO.saveXML(getDocument(gui, type), filename);
+			XMLIO.saveXML(getDocument(gui), filename);
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(null, "Error Saving XML:\n"+e.getMessage(), "Error saving XML", JOptionPane.ERROR_MESSAGE);
 			e.printStackTrace();
 		}
 	}
 	
-	public static Document getDocument(PowerDialog gui, String type) {
+	public static Document getDocument(PDialog gui) {
 		Document document = null;
 		Element root;
 		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
@@ -51,14 +51,12 @@ public class SettingsToXML {
           DocumentBuilder builder = factory.newDocumentBuilder(); 
           document = builder.newDocument();
           root = document.createElement("Settings");
-          root.setAttribute("title", gui.getName());
-          root.setAttribute("type", type);
           root.setAttribute("date", (new Date()).toString());
           
           document.appendChild(root);
-          /*for (Element node : gui.getConfigurationNodes(document, type)) {
+          for (Element node : gui.getConfigurationNodes(document)) {
         	  root.appendChild(node);
-          }*/
+          }
         } catch (ParserConfigurationException e) {
         	JOptionPane.showMessageDialog(null, "Error creating XML:\n"+e.getMessage(), "Error creating XML", JOptionPane.ERROR_MESSAGE);
         }

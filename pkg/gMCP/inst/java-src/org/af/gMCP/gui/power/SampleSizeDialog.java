@@ -4,7 +4,6 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.File;
 import java.util.List;
 import java.util.Set;
 import java.util.Vector;
@@ -32,13 +31,15 @@ import org.w3c.dom.Element;
 import com.jgoodies.forms.layout.CellConstraints;
 import com.jgoodies.forms.layout.FormLayout;
 
-public class PowerDialog extends JDialog implements ActionListener, PDialog {
+public class SampleSizeDialog extends JDialog implements ActionListener, PDialog {
 
     List<JTextField> jtlVar = new Vector<JTextField>();
     
-    ScenarioPanel pNCP;    
+    ScenarioPanel pNCP;
+    
     UserDefinedPanel userDefinedFunctions;
     CVPanel cvPanel;
+    GroupPanel gPanel;
     
     CreateGraphGUI parent;
     Vector<Node> nodes;
@@ -61,7 +62,7 @@ public class PowerDialog extends JDialog implements ActionListener, PDialog {
 	 * Constructor
 	 * @param parent Parent JFrame
 	 */
-	public PowerDialog(CreateGraphGUI parent) {
+	public SampleSizeDialog(CreateGraphGUI parent) {
 		super(parent, "Power Simulation - specify probability distribution of test statistics", true);
 		setLocationRelativeTo(parent);
 		this.parent = parent;
@@ -72,6 +73,8 @@ public class PowerDialog extends JDialog implements ActionListener, PDialog {
 		
 		getContentPane().setLayout(new GridBagLayout());
 		
+		gPanel = new GroupPanel(this);
+		tPanel.addTab("Groups", gPanel);
 		pNCP = new ScenarioPanel(this);
 		tPanel.addTab("NCP Settings", pNCP);
 		cvPanel = new CVPanel(this);
@@ -95,8 +98,6 @@ public class PowerDialog extends JDialog implements ActionListener, PDialog {
 		getContentPane().add(bp, c);
 		bp.addActionListener(this);		
 		
-		SettingsToXML.loadConfigFromXML(new File("/home/kornel/test.xml"), this);
-		
         pack();
         setLocationRelativeTo(parent);
         setVisible(true);
@@ -119,8 +120,6 @@ public class PowerDialog extends JDialog implements ActionListener, PDialog {
 		//RControl.getR().eval(parent.getGraphView().getNL().getGraphName()+"<-gMCP:::parse2numeric("+parent.getGraphView().getNL().getGraphName()+")");
 
 		if (e.getActionCommand().equals(HorizontalButtonPane.OK_CMD)) {
-			
-			SettingsToXML.saveSettingsToXML(new File("/home/kornel/test.xml"), this);
 
 			rCommand = "gMCP:::calcMultiPower(weights="+weights+", alpha="+alpha+", G="+G+pNCP.getNCPString()
 					+ ","+"sigma = " + cvPanel.getSigma() //diag(length(mean)),corr = NULL,"+
@@ -209,8 +208,8 @@ public class PowerDialog extends JDialog implements ActionListener, PDialog {
 		} else {
 			return "";
 		}
-	}
-
+	}	
+	
 	public Vector<Node> getNodes() {		
 		return nodes;
 	}
@@ -218,21 +217,14 @@ public class PowerDialog extends JDialog implements ActionListener, PDialog {
 	 public CreateGraphGUI getParent() {
 		 return parent;
 	 }
-	 
-	 public void loadConfig(Element root) {
-		 pNCP.loadConfig((Element) root.getElementsByTagName("scenarios").item(0));
-		 cvPanel.loadConfig((Element) root.getChildNodes().item(1));
-		 userDefinedFunctions.loadConfig((Element) root.getChildNodes().item(2));
-		 		 
-	 }
 
 	public List<Element> getConfigurationNodes(Document document) {
-		Vector<Element> v = new Vector<Element>();
-		v.add(pNCP.getConfigNode(document));
-		v.add(cvPanel.getConfigNode(document));
-		v.add(userDefinedFunctions.getConfigNode(document));
-		return v;
+		// TODO Auto-generated method stub
+		return null;
 	}
 
-
+	public void loadConfig(Element root) {
+		// TODO Auto-generated method stub
+		
+	}
 }

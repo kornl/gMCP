@@ -15,20 +15,29 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 import org.af.gMCP.gui.graph.Node;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 
 import com.jgoodies.forms.layout.CellConstraints;
 import com.jgoodies.forms.layout.FormLayout;
 
 public class UserDefinedPanel extends JPanel implements ActionListener {
 	
-	JButton addAnother = new JButton("Add another power function");    
 	List<JButton> buttons = new Vector<JButton>();
 	List<JButton> buttons2 = new Vector<JButton>();  
+	
 	JTextField jtUserDefined = new JTextField();
-    DefaultListModel listModel;
-    JList listUserDefined;
-    JTextArea jta = new JTextArea();
+	JButton addAnother = new JButton("Add another power function");    
     JButton clearList = new JButton("Clear");
+    
+	DefaultListModel listModel;
+    JList listUserDefined;
+
+    JTextArea jta = new JTextArea();
+    
+    JButton loadUDPF = new JButton("Load");
+    JButton saveUDPF = new JButton("Save");
+
 	
 	public UserDefinedPanel(List<Node> nodes) {		
 		
@@ -163,5 +172,13 @@ public class UserDefinedPanel extends JPanel implements ActionListener {
 		}
 	}
 
+	public Element getConfigNode(Document document) {
+		Element e = document.createElement("powerfunctions");
+		return e;
+	}
+
+	public void loadConfig(Element e) {
+		
+	}
 	    
 }

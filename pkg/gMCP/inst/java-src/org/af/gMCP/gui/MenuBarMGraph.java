@@ -37,6 +37,7 @@ import org.af.gMCP.gui.graph.GraphView;
 import org.af.gMCP.gui.graph.WrongInputException;
 import org.af.gMCP.gui.options.OptionsDialog;
 import org.af.gMCP.gui.power.PowerDialog;
+import org.af.gMCP.gui.power.SampleSizeDialog;
 import org.af.gMCP.poi.GraphDocXWriter;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -394,7 +395,7 @@ public class MenuBarMGraph extends JMenuBar implements ActionListener {
         		JOptionPane.showMessageDialog(control.getMainFrame(), "Simes test not yet supported in power calculations.", "Simes test not yet supported", JOptionPane.ERROR_MESSAGE);
         		return;
         	}
-        	new PowerDialog(control.getMainFrame());
+        	new SampleSizeDialog(control.getMainFrame());
         } else if (e.getActionCommand().equals("load p-values from R")) {
         	control.loadPValuesFromR(); 
         } else if (e.getActionCommand().equals("changeGraphLayout")) {

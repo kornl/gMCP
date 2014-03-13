@@ -13,6 +13,10 @@ Changes in version 0.8-7 (??-0?-2014)
   the old "simple-parametric" to 'test="parametric", upscale=FALSE'.
   (For compatibility the old function calls actually still work, but are discouraged.)
 
+- The function graph2latex got a new parameter 'showAlpha'. Now per default the graph
+  weights are shown and not the local alpha levels in the nodes. The old output
+  can be reproduced by setting 'showAlpha' to TRUE.
+
 - Fixed: Graph image exports were not possible due to some recently introduced bug.
 
 - Fixed: Some matrices were completely grayed out although only the diagonal 
@@ -29,6 +33,9 @@ Changes in version 0.8-7 (??-0?-2014)
   for Office Open XML (MS Word docx) support. Package xlsxjars is therefore
   now a dependency (IMPORTS), since it already provides the necessary
   Apache POI jar files.
+
+- Settings in the dialogs for power analysis and sample size calculations
+  are remembered and can be saved and loaded as XML files.
 
 - Improved Graph Analysis checks whether weights sum up to 1 for all subgraphs.
 

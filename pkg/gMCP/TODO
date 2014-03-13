@@ -2,8 +2,8 @@ Documention for value in secondStageTest looks strange.
 Does rJava again contain all necessary jar files?
 
 - Multiple Setting:
-   Instead of c(0,0,...) use #hypotheses text fields. Check whether tab works as expected.
-   Remove setting + check for empty textfields
+   Instead of c(0,0,...) use #hypotheses text fields. Check whether tab works as expected. Tab works, but most likely we want "select all" on "focus".
+   Check for empty textfields
    Remember multiple setting options and add "clear" button. Save settings under name.
    User specified power functions should be namable in the GUI. Save output as data.frame and CSV.
 
@@ -23,6 +23,8 @@ Does rJava again contain all necessary jar files?
 - Check whether option "Colored image files and reports" is respected.
 
 - Why is there still a thread running if the GUI is closed?
+
+- Test error handler with Java 5.
 
 - Add variables as parameters to example graphs
 
@@ -50,6 +52,12 @@ graph2latex(improvedParallelGatekeeping(), scale=0.7, nodeTikZ="minimum size=1.2
 - Check whether graphAnalysis slows down GUI.
 
 - Add close button for tabs to NetListPanels.
+
+* checking whether the namespace can be loaded with stated dependencies ... WARNING
+Error: .onLoad failed in loadNamespace() for ‘gMCP’, details:
+  call: J("org.af.commons.logging.SystemInfo")$getSystemInfo
+  error: could not find function "loadMethod"
+Execution halted
 
 - Check whether everything is okay here (with e.g. Ferber) - most likely yes:
 > eval(expression(edgeAttr(.InitialGraph1394185710245, "T3D1", "T2D1", "variableWeight") <- "1-\\nu"), envir=gMCP:::gMCPenv)
