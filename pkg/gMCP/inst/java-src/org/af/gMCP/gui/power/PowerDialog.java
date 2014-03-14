@@ -13,7 +13,6 @@ import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
 
 import org.af.commons.widgets.buttons.HorizontalButtonPane;
@@ -24,29 +23,17 @@ import org.af.gMCP.gui.RControl;
 import org.af.gMCP.gui.dialogs.PowerOptionsPanel;
 import org.af.gMCP.gui.dialogs.TextFileViewer;
 import org.af.gMCP.gui.graph.LaTeXTool;
-import org.af.gMCP.gui.graph.Node;
 import org.jdesktop.swingworker.SwingWorker;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
 
 import com.jgoodies.forms.layout.CellConstraints;
 import com.jgoodies.forms.layout.FormLayout;
 
 public class PowerDialog extends PDialog implements ActionListener {
 
-    List<JTextField> jtlVar = new Vector<JTextField>();
-
+	/** Actually will only contain Strings and is created by Set<String>.toArray(). */
 	Object[] variables;
-	
-	public static GridBagConstraints getDefaultGridBagConstraints() {
-		GridBagConstraints c = new GridBagConstraints();
-		c.fill = GridBagConstraints.BOTH;		
-		c.gridx=0; c.gridy=0;
-		c.gridwidth = 1; c.gridheight = 1;
-		c.ipadx=10; c.ipady=10;
-		c.weightx=1; c.weighty=1;
-		return c;
-	}
+	/** List of JTextFields to enter values for variables. */
+	List<JTextField> jtlVar = new Vector<JTextField>();
 	
 	/**
 	 * Constructor
@@ -201,8 +188,5 @@ public class PowerDialog extends PDialog implements ActionListener {
 			return "";
 		}
 	}
-	 
-
-
 
 }

@@ -4,16 +4,10 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.List;
 import java.util.Set;
-import java.util.Vector;
 
 import javax.swing.JDialog;
-import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JTabbedPane;
-import javax.swing.JTextField;
 
 import org.af.commons.widgets.buttons.HorizontalButtonPane;
 import org.af.commons.widgets.buttons.OkCancelButtonPane;
@@ -22,38 +16,14 @@ import org.af.gMCP.gui.CreateGraphGUI;
 import org.af.gMCP.gui.RControl;
 import org.af.gMCP.gui.dialogs.PowerOptionsPanel;
 import org.af.gMCP.gui.dialogs.TextFileViewer;
-import org.af.gMCP.gui.graph.LaTeXTool;
-import org.af.gMCP.gui.graph.Node;
 import org.jdesktop.swingworker.SwingWorker;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-
-import com.jgoodies.forms.layout.CellConstraints;
-import com.jgoodies.forms.layout.FormLayout;
 
 public class SampleSizeDialog extends PDialog implements ActionListener {
 
-    List<JTextField> jtlVar = new Vector<JTextField>();
-    
-    ScenarioPanel pNCP;
-    
-    UserDefinedPanel userDefinedFunctions;
-    CVPanel cvPanel;
     GroupPanel gPanel;
-    
-    
-	Object[] variables;
-	
-	public static GridBagConstraints getDefaultGridBagConstraints() {
-		GridBagConstraints c = new GridBagConstraints();
-		c.fill = GridBagConstraints.BOTH;		
-		c.gridx=0; c.gridy=0;
-		c.gridwidth = 1; c.gridheight = 1;
-		c.ipadx=10; c.ipady=10;
-		c.weightx=1; c.weighty=1;
-		return c;
-	}
-	
+
+    //  Theta hat: θ\u0302
+
 	/**
 	 * Constructor
 	 * @param parent Parent JFrame
@@ -78,12 +48,10 @@ public class SampleSizeDialog extends PDialog implements ActionListener {
 		userDefinedFunctions = new UserDefinedPanel(nodes);
 		tPanel.addTab("User defined power function", userDefinedFunctions);
 		tPanel.addTab("Options", new PowerOptionsPanel(parent));
+		
 		Set<String> variables = parent.getGraphView().getNL().getAllVariables();
 		if (!Configuration.getInstance().getGeneralConfig().useEpsApprox())	{
 			variables.remove("ε");
-		}
-		if (variables.size()>0) {
-			tPanel.addTab("Variables", getVariablePanel(variables));
 		}
 		
 		getContentPane().add(tPanel, c);
@@ -123,7 +91,6 @@ public class SampleSizeDialog extends PDialog implements ActionListener {
 					+ userDefinedFunctions.getUserDefined()
 					+ ", nSim = "+Configuration.getInstance().getGeneralConfig().getNumberOfSimulations()
 					+ ", type = \""+Configuration.getInstance().getGeneralConfig().getTypeOfRandom()+"\""
-					+ getVariables()
 					+ ")";				
 
 			parent.glassPane.start();
@@ -155,55 +122,6 @@ public class SampleSizeDialog extends PDialog implements ActionListener {
 			worker.execute();				
 		}
 		dispose();
-	}
-
-	public JPanel getVariablePanel(Set<String> v) {
-		JPanel vPanel = new JPanel();		
-		variables = v.toArray();
-		
-        String cols = "5dlu, pref, 5dlu, fill:pref:grow, 5dlu";
-        String rows = "5dlu, pref, 5dlu";
-        
-        for (Object s : variables) {
-        	rows += ", pref, 5dlu";
-        }
-        
-        FormLayout layout = new FormLayout(cols, rows);
-        vPanel.setLayout(layout);
-        CellConstraints cc = new CellConstraints();
-
-        int row = 2;
-        
-        jtlVar = new Vector<JTextField>();
-        
-        for (Object s : variables) {        	
-        	JTextField jt = new JTextField("0");
-        	if (s.equals("ε")) {
-        		jt.setText(""+Configuration.getInstance().getGeneralConfig().getEpsilon());
-        	} else {
-        		jt.setText(""+Configuration.getInstance().getGeneralConfig().getVariable(s.toString()));
-        	}
-        	vPanel.add(new JLabel("Value for '"+s+"':"), cc.xy(2, row));
-        	vPanel.add(jt, cc.xy(4, row));
-        	jtlVar.add(jt);        	
-        	
-        	row += 2;
-        }
-        
-        return vPanel;
-	}
-
-	public String getVariables() {
-		if (jtlVar.size()>0) {
-			String s = ", variables=list("; 
-			for (int i=0; i<variables.length; i++) {
-				s = s + LaTeXTool.UTF2LaTeX(variables[i].toString().charAt(0))+" = "+ jtlVar.get(i).getText();
-				if (i!=variables.length-1) s = s + ", ";
-			}		
-			return s+")";
-		} else {
-			return "";
-		}
 	}
 
 }
