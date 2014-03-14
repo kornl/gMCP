@@ -218,8 +218,8 @@ public class DialogConfIntEstVar extends JDialog implements ActionListener, Chan
 		
 		panel.add(new JLabel("Hypotheses"), cc.xy(2, row));
 		panel.add(new JLabel("Initial weights"), cc.xy(4, row));
-		panel.add(new JLabel("Estimate"), cc.xy(6, row));
-		panel.add(new JLabel("Standard error/deviation"), cc.xy(8, row));
+		panel.add(new JLabel("Estimate θ\u0302"), cc.xy(6, row));
+		panel.add(new JLabel("Standard deviation θ\u0302 "), cc.xy(8, row));
 		panel.add(new JLabel("Distribution"), cc.xy(10, row));
 		panel.add(new JLabel("df"), cc.xy(12, row));
 		panel.add(new JLabel("Alternative"), cc.xy(14, row));
