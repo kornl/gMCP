@@ -204,7 +204,7 @@ and edges have weights.
   \centering
 <<echo=FALSE,results='asis'>>=
 graph <- BonferroniHolm(3)
-cat(graph2latex(graph, scale=0.7, labelTikZ="near start,fill=blue!20"))
+cat(graph2latex(graph, scale=0.7, labelTikZ="near start,fill=blue!20", scaleText=FALSE))
 @
   \caption{\label{exampleHolm} Graph representing the
     Bonferroni-Holm-Procedure for three hypotheses.}
@@ -235,13 +235,13 @@ edge weights.
   \centering
 <<echo=FALSE,results='asis'>>=
 graph <- BonferroniHolm(3)
-cat(graph2latex(graph, scale=0.7, nodeTikZ="minimum size=1.2cm"))
+cat(graph2latex(graph, scale=0.7, nodeTikZ="minimum size=1.2cm", scaleText=FALSE))
 cat("\\\\$\\downarrow$ reject $H_1$\\\\")
 graph <- rejectNode(graph, "H1")
-cat(graph2latex(graph, scale=0.7, nodeTikZ="minimum size=1.2cm"))
+cat(graph2latex(graph, scale=0.7, nodeTikZ="minimum size=1.2cm", scaleText=FALSE))
 cat("\\\\$\\downarrow$ reject $H_3$\\\\\\ \\\\")
 graph <- rejectNode(graph, "H3")
-cat(graph2latex(graph, scale=0.7, nodeTikZ="minimum size=1.2cm"))
+cat(graph2latex(graph, scale=0.7, nodeTikZ="minimum size=1.2cm", scaleText=FALSE))
 @
   \caption{\label{exampleHolmP} Example showing how two
     null hypotheses can be rejected with p-values $p_1=0.01$,
@@ -278,7 +278,7 @@ must be created.
   \centering   
 <<echo=FALSE,results='asis'>>=
 graph <- BretzEtAl2011()
-cat(graph2latex(graph, scale=0.7))
+cat(graph2latex(graph, scale=0.7, scaleText=FALSE))
 @
   \caption{\label{exampleGraphBretz} Example graph from \cite{bretz2011test} that we will create in this vignette.}
 \end{figure}
@@ -446,7 +446,7 @@ We can create a TikZ graphic from the last graph with
 \begin{figure}[ht]
   \centering   
 <<echo=FALSE,results='asis'>>=
-cat(graph2latex(result@graphs[[4]], scale=0.7))
+cat(graph2latex(result@graphs[[4]], scale=0.7, scaleText=FALSE))
 @
   \caption{\label{finalstate}Final graph from the test procedure after rejection of $H_{21}$, $H_{31}$ and $H_{32}$.}
 \end{figure}
@@ -613,8 +613,8 @@ e.g.\ \texttt{1-2*\textbackslash epsilon+1/3*\textbackslash epsilon\^{}2} for $1
 % Chunk 19
 <<echo=FALSE,results='asis'>>=
 
-cat(graph2latex(parallelGatekeeping(), scale=0.7, nodeTikZ="minimum size=1.2cm", tikzEnv=FALSE))
-cat(graph2latex(improvedParallelGatekeeping(), scale=0.7, nodeTikZ="minimum size=1.2cm", tikzEnv=FALSE, offset=c(300, 0)))
+cat(graph2latex(parallelGatekeeping(), nodeTikZ="minimum size=1.2cm", tikzEnv=FALSE))
+cat(graph2latex(improvedParallelGatekeeping(), nodeTikZ="minimum size=1.2cm", tikzEnv=FALSE, offset=c(300, 0)))
 
 @
 \end{tikzpicture}
@@ -696,7 +696,7 @@ For each graph a new tab in the graph panel and transition matrices panel is cre
 
 %<<echo=FALSE,results=tex>>=
 %
-%cat(graph2latex(Entangled1Maurer2012(), scale=0.7))
+%cat(graph2latex(Entangled1Maurer2012(), scale=0.7, scaleText=FALSE))
 %
 %@
   \caption{\label{entagledgraph} Entangled graph from Maurer et Bretz}
@@ -722,7 +722,7 @@ calcPower(weights, alpha=0.025, G, 2*theta, 2*corMat)
   \centering
 <<echo=FALSE,results='asis'>>=
 
-cat(graph2latex(generalSuccessive(), scale=0.7))
+cat(graph2latex(generalSuccessive(), scale=0.7, scaleText=FALSE))
 
 @
   \caption{\label{powergraph} Graph from Bretz et al. (2009)}
@@ -948,7 +948,7 @@ Let's start with this graph in figure \ref{uglygraph}:
   \centering
 <<echo=FALSE,results='asis'>>=
 
-cat(graph2latex(result@graphs[[3]], pvalues=pvalues, scale=0.7))
+cat(graph2latex(result@graphs[[3]], pvalues=pvalues, scale=0.7, scaleText=FALSE))
 
 @
   \caption{\label{uglygraph}Graph from \texttt{graph2latex} that does not look optimal.}
