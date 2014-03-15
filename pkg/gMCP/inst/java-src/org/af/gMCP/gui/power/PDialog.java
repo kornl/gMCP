@@ -1,5 +1,6 @@
 package org.af.gMCP.gui.power;
 
+import java.awt.GridBagConstraints;
 import java.util.List;
 import java.util.Vector;
 
@@ -48,5 +49,16 @@ public class PDialog extends JDialog {
 		v.add(userDefinedFunctions.getConfigNode(document));
 		return v;
 	}
+	
+	public static GridBagConstraints getDefaultGridBagConstraints() {
+		GridBagConstraints c = new GridBagConstraints();
+		c.fill = GridBagConstraints.BOTH;		
+		c.gridx=0; c.gridy=0;
+		c.gridwidth = 1; c.gridheight = 1;
+		c.ipadx=10; c.ipady=10;
+		c.weightx=1; c.weighty=1;
+		return c;
+	}
+	
 	 
 }
