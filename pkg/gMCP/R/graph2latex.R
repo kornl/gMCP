@@ -30,8 +30,8 @@
 #' specifying node fill colour of rejected and retained (or not yet rejected)
 #' nodes.
 #' @param nodeR Radius of nodes (pixel in Java, bp in LaTeX).
-#' @param scaleText Only relevant if scale is unequal 1. If \code{scaleText}
-#' is \code{TRUE} (the default) a scalebox environment is used.
+#' @param scaleText Only used if scale is unequal 1 and \code{tikzEnv==TRUE}. 
+#' If \code{scaleText} is \code{TRUE} (the default) a scalebox environment is used.
 #' If it is \code{FALSE} the optional parameter \code{scale} from the
 #' tikzpicture environment is used and font size will not change. 
 #' Note that while you easily can change the scale in the scalebox environment,
