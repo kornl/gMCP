@@ -14,7 +14,7 @@
 #' elements indicate whether an elementary hypotheses is in the intersection
 #' (1) or not (0). The second half of each row gives the weights allocated to
 #' each elementary hypotheses in the intersection.
-#' @author Florian Klinglmueller
+#' @author Florian Klinglmueller <float@lefant.net>
 #' @references Bretz F, Maurer W, Brannath W, Posch M; (2008) - A graphical
 #' approach to sequentially rejective multiple testing procedures. - Stat Med -
 #' 28/4, 586-604 Bretz F, Posch M, Glimm E, Klinglmueller F, Maurer W, Rohmeyer
@@ -36,7 +36,7 @@
 #' 
 generateWeights <-
 function(g,w){
-  ## comute all intersection hypotheses and corresponding weights for a given graph
+  ## compute all intersection hypotheses and corresponding weights for a given graph
   n <- length(w)
   intersect <- (permutations(n))[-1,]
   g <- apply(intersect,1,function(i) list(int=i,
