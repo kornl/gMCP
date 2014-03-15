@@ -738,7 +738,7 @@ cat(graph2latex(generalSuccessive(), scale=0.7, scaleText=FALSE))
 
 Apart from latin letters the following greek letters can be used to
 name a variable\footnote{Note that omicron is not allowed since it can
-  not destinguished from the latin character "o".}. Please enter them
+not be destinguished from the latin character "o".}. Please enter them
 with a leading backslash so that they are recognized:
 
 \begin{quote}
