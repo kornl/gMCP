@@ -26,7 +26,7 @@ public class SampleSizeDialog extends PDialog implements ActionListener {
 
 	/**
 	 * Constructor
-	 * @param parent Parent JFrame
+	 * @param parent Parent CreateGraphGUI
 	 */
 	public SampleSizeDialog(CreateGraphGUI parent) {
 		super(parent, "Power Simulation - specify probability distribution of test statistics", true);
