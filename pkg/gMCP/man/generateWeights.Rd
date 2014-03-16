@@ -38,7 +38,7 @@ g <- matrix(c(0,0,1,0,
  generateWeights(g,w)
 }
 \author{
-  Florian Klinglmueller
+  Florian Klinglmueller <float@lefant.net>
 }
 \references{
   Bretz F, Maurer W, Brannath W, Posch M; (2008) - A
