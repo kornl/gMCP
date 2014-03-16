@@ -1028,6 +1028,44 @@ boxplot(micronuclei~group, data=hydroquinone)
 
 \begin{appendix} 
 
+\section{Appendix - Example graphs}
+
+<<echo=FALSE, results='asis'>>=
+
+graphs <- list(BonferroniHolm(5),
+               parallelGatekeeping(),
+               improvedParallelGatekeeping(),
+               BretzEtAl2011(),
+               #HungEtWang2010(),
+               #HuqueAloshEtBhore2011(),
+               HommelEtAl2007(),
+               HommelEtAl2007Simple(),
+               MaurerEtAl1995(),
+               improvedFallbackI(weights=rep(1/3, 3)),
+               improvedFallbackII(weights=rep(1/3, 3)),
+               cycleGraph(nodes=paste("H",1:4,sep=""), weights=rep(1/4, 4)),
+               fixedSequence(5),
+               fallback(weights=rep(1/4, 4)),
+               #generalSuccessive(weights = c(1/2, 1/2)),
+               simpleSuccessiveI(),
+               simpleSuccessiveII(),
+               #truncatedHolm(),
+               BauerEtAl2001(),
+               BretzEtAl2009a(),
+               BretzEtAl2009b(),
+               BretzEtAl2009c(),
+               FerberTimeDose2011(times=5, doses=3, w=1/2)
+               #Ferber2011(),
+               #Entangled1Maurer2012(),
+               #Entangled2Maurer2012(),
+)
+
+for (g in graphs) {
+  cat(graph2latex(g))
+}
+
+@
+
 \section{Appendix - Multiple Testing Basics}
 
 Let $\Theta$ be a parameter space indexing a family of probabilities
