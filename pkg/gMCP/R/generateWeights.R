@@ -14,7 +14,7 @@
 #' elements indicate whether an elementary hypotheses is in the intersection
 #' (1) or not (0). The second half of each row gives the weights allocated to
 #' each elementary hypotheses in the intersection.
-#' @author Florian Klinglmueller <float@lefant.net>
+#' @author Florian Klinglmueller <float@@lefant.net>
 #' @references Bretz F, Maurer W, Brannath W, Posch M; (2008) - A graphical
 #' approach to sequentially rejective multiple testing procedures. - Stat Med -
 #' 28/4, 586-604 Bretz F, Posch M, Glimm E, Klinglmueller F, Maurer W, Rohmeyer
