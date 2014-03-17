@@ -233,12 +233,12 @@ calcMultiPower <- function(weights, alpha, G, ncpL, muL, sigmaL, nL,
 			}
 			names(variablesII) <- names(variables)
 			GII <- replaceVariables(G, as.list(variablesII))
-			print(GII)
-			print(weights)
-			print(alpha)
-			print(meanL)
+			#print(GII)
+			#print(weights)
+			#print(alpha)
+			#print(ncpL)
 			additionalLabel <- paste(",", paste(paste(names(variables),"=",variablesII,sep=""), collapse=", "))
-			resultL <- calcPower(weights=weights, alpha=alpha, G=GII, mean = meanL, sigma, cr, nSim, type, f, test=test)
+			resultL <- calcPower(weights=weights, alpha=alpha, G=GII, mean = ncpL, sigma, cr, nSim, type, f, test=test)
 			sResult <- paste(sResult, resultL2Text(resultL, digits, additionalLabel=additionalLabel), sep="\n")
 			# Going through all of the variable settings:
 			i[j] <- i[j] + 1
