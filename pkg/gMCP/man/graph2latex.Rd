@@ -57,17 +57,18 @@
   \item{nodeR}{Radius of nodes (pixel in Java, bp in
   LaTeX).}
 
-  \item{scaleText}{Only relevant if scale is unequal 1. If
-  \code{scaleText} is \code{TRUE} (the default) a scalebox
-  environment is used. If it is \code{FALSE} the optional
-  parameter \code{scale} from the tikzpicture environment
-  is used and font size will not change. Note that while
-  you easily can change the scale in the scalebox
-  environment, it is more problematic to adjust the scale
-  in the tikzpicture environment afterwards in the LaTeX
-  document, since for curved edges the parameters are
-  calculated for a certain relative node size which changes
-  if the graph is scaled but the text size stays the same.}
+  \item{scaleText}{Only used if scale is unequal 1 and
+  \code{tikzEnv==TRUE}. If \code{scaleText} is \code{TRUE}
+  (the default) a scalebox environment is used. If it is
+  \code{FALSE} the optional parameter \code{scale} from the
+  tikzpicture environment is used and font size will not
+  change. Note that while you easily can change the scale
+  in the scalebox environment, it is more problematic to
+  adjust the scale in the tikzpicture environment
+  afterwards in the LaTeX document, since for curved edges
+  the parameters are calculated for a certain relative node
+  size which changes if the graph is scaled but the text
+  size stays the same.}
 }
 \value{
   A character string that contains LaTeX code representing
