@@ -57,7 +57,7 @@ generateWeights <- function(g,w){
     result[,1:n][result[,1:n]>0] <- 1
     return(result)
   } else if ("graphMCP" %in% class(g)) {    
-    if (is.missing(w)) {
+    if (missing(w)) {
       w <- getWeights(g)
     }
     g <- getMatrix(g)
