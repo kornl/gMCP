@@ -25,6 +25,9 @@ Changes in version 0.8-7 (??-0?-2014)
 - Support for entangled graphs is no longer highly experimental, 
   but enabled as default.
 
+- Support for parametric tests for entangled graphs, i.e. 'generatePvals'
+  and 'generateWeights' accept entangled graphs now.
+
 - For entangled graphs there is now more than one tab showing the graph:
   The first tab still shows the combined graphs and then a separate tab
   for each graph follows.
