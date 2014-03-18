@@ -5,14 +5,19 @@
   generateWeights(g, w)
 }
 \arguments{
-  \item{g}{graph defined as a matrix, each element defines
-  how much of the local alpha reserved for the hypothesis
-  corresponding to its row index is passed on to the
-  hypothesis corresponding to its column index}
+  \item{g}{Graph either defined as a matrix (each element
+  defines how much of the local alpha reserved for the
+  hypothesis corresponding to its row index is passed on to
+  the hypothesis corresponding to its column index), as
+  \code{graphMCP} object or as \code{entangledMCP} object.}
 
-  \item{w}{vector of weights, defines how much of the
+  \item{w}{Vector of weights, defines how much of the
   overall alpha is initially reserved for each elementary
-  hypthosis}
+  hypthosis. Can be missing if \code{g} is a
+  \code{graphMCP} object (in which case the weights from
+  the graph object are used). Will be ignored if \code{g}
+  is an \code{entangledMCP} object (since then the matrix
+  of weights from this object is used).}
 }
 \value{
   Returns matrix with each row corresponding to one
@@ -36,9 +41,13 @@ g <- matrix(c(0,0,1,0,
  w <- c(.5,.5,0,0)
  ## Weights of conventional gMCP test:
  generateWeights(g,w)
+
+g <- Entangled2Maurer2012()
+generateWeights(g)
 }
 \author{
-  Florian Klinglmueller <float@lefant.net>
+  Florian Klinglmueller <float@lefant.net>, Kornelius
+  Rohmeyer \email{rohmeyer@small-projects.de}
 }
 \references{
   Bretz F, Maurer W, Brannath W, Posch M; (2008) - A
