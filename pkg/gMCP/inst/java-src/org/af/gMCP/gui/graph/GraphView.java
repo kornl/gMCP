@@ -233,8 +233,8 @@ public class GraphView extends JPanel implements ActionListener {
 							parent.glassPane.stop();
 							new DialogConfIntEstVar(parent, nl, rejected, alpha);
 						} catch (Exception ex) {
-							if (ex instanceof WrongInputException) {
-								parent.glassPane.stop();
+							parent.glassPane.stop();
+							if (ex instanceof WrongInputException) {								
 								JOptionPane.showMessageDialog(parent, "Invalid values in input fields!", "Invalid values in input fields!", JOptionPane.ERROR_MESSAGE);
 								return null;
 							}
@@ -274,8 +274,8 @@ public class GraphView extends JPanel implements ActionListener {
 							parent.glassPane.stop();
 							new RejectedDialog(parent, rejected, parent.getGraphView().getNL().getNodes(), output, rCode);
 						} catch (Exception ex) {
-							if (ex instanceof WrongInputException) {
-								parent.glassPane.stop();
+							parent.glassPane.stop();
+							if (ex instanceof WrongInputException) {								
 								JOptionPane.showMessageDialog(parent, "Invalid values in input fields!", "Invalid values in input fields!", JOptionPane.ERROR_MESSAGE);
 								return null;
 							}
@@ -317,8 +317,8 @@ public class GraphView extends JPanel implements ActionListener {
 							parent.glassPane.stop();
 							new AdjustedPValueDialog(parent, getPView().pValues, adjPValues, getNL().getNodes());
 						} catch (Exception ex) {
-							if (ex instanceof WrongInputException) {
-								parent.glassPane.stop();
+							parent.glassPane.stop();
+							if (ex instanceof WrongInputException) {								
 								JOptionPane.showMessageDialog(parent, "Invalid values in input fields!", "Invalid values in input fields!", JOptionPane.ERROR_MESSAGE);
 								return null;
 							}
