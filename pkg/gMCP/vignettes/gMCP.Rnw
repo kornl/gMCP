@@ -670,15 +670,34 @@ For each graph a new tab in the graph panel and transition matrices panel is cre
   \caption{\label{fig:entangledGUI} Different tabs show the different entangled graphs / transition matrices.}
 \end{figure}
 
- 
+<<tidy=FALSE>>=
+m <- rbind(H1=c(0, 0, 1, 0, 0),
+           H2=c(0, 0, 1, 0, 0),
+           H3=c(0, 0, 0, 0.9999, 1e-04),
+           H4=c(0, 1, 0, 0, 0),
+           H5=c(0, 0, 0, 0, 0))
+weights <- c(1, 0, 0, 0, 0)
+subgraph1 <- new("graphMCP", m=m, weights=weights)
+
+m <- rbind(H1=c(0, 0, 1, 0, 0),
+           H2=c(0, 0, 1, 0, 0),
+           H3=c(0, 0, 0, 1e-04, 0.9999),
+           H4=c(0, 0, 0, 0, 0),
+           H5=c(1, 0, 0, 0, 0))
+weights <- c(0, 1, 0, 0, 0)
+subgraph2 <- new("graphMCP", m=m, weights=weights)
+
+weights <- c(0.5, 0.5)
+graph <- new("entangledMCP", subgraphs=list(subgraph1, subgraph2), weights=weights)
+@
 
 \begin{figure}[ht]
   \centering
   
 % This is also a good example how we could improve the graph2latex function:
 \begin{tikzpicture}[scale=1]
-\node (H1) at (70bp,-70bp)[draw,circle split,fill=green!80] {$H_1$ \nodepart{lower} $\frac\alpha2\;0$};
-\node (H2) at (210bp,-70bp)[draw,circle split,fill=green!80] {$H_2$ \nodepart{lower} $\frac\alpha2\;0$};
+\node (H1) at (70bp,-70bp)[draw,circle split,fill=green!80] {$H_1$ \nodepart{lower} $\frac12\;0$};
+\node (H2) at (210bp,-70bp)[draw,circle split,fill=green!80] {$H_2$ \nodepart{lower} $\frac12\;0$};
 \node (H3) at (140bp,-140bp)[draw,circle split,fill=green!80] {$H_3$ \nodepart{lower} $0\;0$};
 \node (H4) at (70bp,-210bp)[draw,circle split,fill=green!80] {$H_4$ \nodepart{lower} $0\;0$};
 \node (H5) at (210bp,-210bp)[draw,circle split,fill=green!80] {$H_5$ \nodepart{lower} $0\;0$};
