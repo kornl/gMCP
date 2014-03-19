@@ -100,6 +100,9 @@
 #' 
 #' gMCP(g, pvalues=c(0.1, 0.2, 0.4, 0.4, 0.7))
 #' 
+#' HungEtWang2010()
+#' HungEtWang2010(nu=1)
+#' 
 NULL
 
 #' @rdname exampleGraphs
@@ -551,7 +554,7 @@ HuqueAloshEtBhore2011 <- function() {
 }
 
 #' @rdname exampleGraphs
-HungEtWang2010 <- function() {
+HungEtWang2010 <- function(nu, tau, omega) {
 	# Nodes:
 	weights <- c(1,0,0,0)	
 	hnodes <- c("H_{1,NI}","H_{1,S}","H_{2,NI}","H_{2,S}")
@@ -576,6 +579,13 @@ HungEtWang2010 <- function() {
 			"H_{2,S}  : Superiority of the secondary endpoint",
 			"",
 			"Literature: Hung H.M.J., Wang S.-J. (2010). Challenges to multiple testing in clinical trials. Biometrical Journal 52, 747-756.", sep="\n")
+  variables <- list()
+  if (!missing(nu)) variables[["nu"]] <- nu
+	if (!missing(omega)) variables[["omega"]] <- omega
+	if (!missing(tau)) variables[["tau"]] <- tau
+  if (length(variables)>0) {
+	  graph <- replaceVariables(graph, variables=list("nu"=1/2, "omega"=1/2, "tau"=0))
+  }
 	return(graph)
 }
 
