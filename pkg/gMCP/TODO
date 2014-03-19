@@ -59,6 +59,13 @@ Error: .onLoad failed in loadNamespace() for ‘gMCP’, details:
   error: could not find function "loadMethod"
 Execution halted
 
+Does not work any more:
+#' \dontrun{
+#' # If Rgraphviz is installed, we can take a look at the graph:
+#' library(Rgraphviz)
+#' renderGraph(layoutGraph(g))
+#' }
+
 - Check whether everything is okay here (with e.g. Ferber) - most likely yes:
 > eval(expression(edgeAttr(.InitialGraph1394185710245, "T3D1", "T2D1", "variableWeight") <- "1-\\nu"), envir=gMCP:::gMCPenv)
 > eval(expression(try(1-\nu, silent=TRUE)), envir=gMCP:::gMCPenv)

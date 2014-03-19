@@ -96,17 +96,9 @@
 #' @keywords misc graphs
 #' @examples
 #' 
-#' 
 #' g <- BonferroniHolm(5)
 #' 
-#' \dontrun{
-#' # If Rgraphviz is installed, we can take a look at the graph:
-#' library(Rgraphviz)
-#' renderGraph(layoutGraph(g))
-#' }
-#' 
 #' gMCP(g, pvalues=c(0.1, 0.2, 0.4, 0.4, 0.7))
-#' 
 #' 
 NULL
 
