@@ -204,7 +204,7 @@ and edges have weights.
   \centering
 <<echo=FALSE,results='asis'>>=
 graph <- BonferroniHolm(3)
-cat(graph2latex(graph, scale=0.7, labelTikZ="near start,fill=blue!20"))
+cat(graph2latex(graph, scale=0.7, labelTikZ="near start,fill=blue!20", scaleText=FALSE))
 @
   \caption{\label{exampleHolm} Graph representing the
     Bonferroni-Holm-Procedure for three hypotheses.}
@@ -235,13 +235,13 @@ edge weights.
   \centering
 <<echo=FALSE,results='asis'>>=
 graph <- BonferroniHolm(3)
-cat(graph2latex(graph, scale=0.7, nodeTikZ="minimum size=1.2cm"))
+cat(graph2latex(graph, scale=0.7, nodeTikZ="minimum size=1.2cm", scaleText=FALSE))
 cat("\\\\$\\downarrow$ reject $H_1$\\\\")
 graph <- rejectNode(graph, "H1")
-cat(graph2latex(graph, scale=0.7, nodeTikZ="minimum size=1.2cm"))
+cat(graph2latex(graph, scale=0.7, nodeTikZ="minimum size=1.2cm", scaleText=FALSE))
 cat("\\\\$\\downarrow$ reject $H_3$\\\\\\ \\\\")
 graph <- rejectNode(graph, "H3")
-cat(graph2latex(graph, scale=0.7, nodeTikZ="minimum size=1.2cm"))
+cat(graph2latex(graph, scale=0.7, nodeTikZ="minimum size=1.2cm", scaleText=FALSE))
 @
   \caption{\label{exampleHolmP} Example showing how two
     null hypotheses can be rejected with p-values $p_1=0.01$,
@@ -278,7 +278,7 @@ must be created.
   \centering   
 <<echo=FALSE,results='asis'>>=
 graph <- BretzEtAl2011()
-cat(graph2latex(graph, scale=0.7))
+cat(graph2latex(graph, scale=0.7, scaleText=FALSE))
 @
   \caption{\label{exampleGraphBretz} Example graph from \cite{bretz2011test} that we will create in this vignette.}
 \end{figure}
@@ -446,7 +446,7 @@ We can create a TikZ graphic from the last graph with
 \begin{figure}[ht]
   \centering   
 <<echo=FALSE,results='asis'>>=
-cat(graph2latex(result@graphs[[4]], scale=0.7))
+cat(graph2latex(result@graphs[[4]], scale=0.7, scaleText=FALSE))
 @
   \caption{\label{finalstate}Final graph from the test procedure after rejection of $H_{21}$, $H_{31}$ and $H_{32}$.}
 \end{figure}
@@ -613,8 +613,8 @@ e.g.\ \texttt{1-2*\textbackslash epsilon+1/3*\textbackslash epsilon\^{}2} for $1
 % Chunk 19
 <<echo=FALSE,results='asis'>>=
 
-cat(graph2latex(parallelGatekeeping(), scale=0.7, nodeTikZ="minimum size=1.2cm", tikzEnv=FALSE))
-cat(graph2latex(improvedParallelGatekeeping(), scale=0.7, nodeTikZ="minimum size=1.2cm", tikzEnv=FALSE, offset=c(300, 0)))
+cat(graph2latex(parallelGatekeeping(), nodeTikZ="minimum size=1.2cm", tikzEnv=FALSE))
+cat(graph2latex(improvedParallelGatekeeping(), nodeTikZ="minimum size=1.2cm", tikzEnv=FALSE, offset=c(300, 0)))
 
 @
 \end{tikzpicture}
@@ -670,15 +670,34 @@ For each graph a new tab in the graph panel and transition matrices panel is cre
   \caption{\label{fig:entangledGUI} Different tabs show the different entangled graphs / transition matrices.}
 \end{figure}
 
- 
+<<tidy=FALSE>>=
+m <- rbind(H1=c(0, 0, 1, 0, 0),
+           H2=c(0, 0, 1, 0, 0),
+           H3=c(0, 0, 0, 0.9999, 1e-04),
+           H4=c(0, 1, 0, 0, 0),
+           H5=c(0, 0, 0, 0, 0))
+weights <- c(1, 0, 0, 0, 0)
+subgraph1 <- new("graphMCP", m=m, weights=weights)
+
+m <- rbind(H1=c(0, 0, 1, 0, 0),
+           H2=c(0, 0, 1, 0, 0),
+           H3=c(0, 0, 0, 1e-04, 0.9999),
+           H4=c(0, 0, 0, 0, 0),
+           H5=c(1, 0, 0, 0, 0))
+weights <- c(0, 1, 0, 0, 0)
+subgraph2 <- new("graphMCP", m=m, weights=weights)
+
+weights <- c(0.5, 0.5)
+graph <- new("entangledMCP", subgraphs=list(subgraph1, subgraph2), weights=weights)
+@
 
 \begin{figure}[ht]
   \centering
   
 % This is also a good example how we could improve the graph2latex function:
 \begin{tikzpicture}[scale=1]
-\node (H1) at (70bp,-70bp)[draw,circle split,fill=green!80] {$H_1$ \nodepart{lower} $\frac\alpha2\;0$};
-\node (H2) at (210bp,-70bp)[draw,circle split,fill=green!80] {$H_2$ \nodepart{lower} $\frac\alpha2\;0$};
+\node (H1) at (70bp,-70bp)[draw,circle split,fill=green!80] {$H_1$ \nodepart{lower} $\frac12\;0$};
+\node (H2) at (210bp,-70bp)[draw,circle split,fill=green!80] {$H_2$ \nodepart{lower} $\frac12\;0$};
 \node (H3) at (140bp,-140bp)[draw,circle split,fill=green!80] {$H_3$ \nodepart{lower} $0\;0$};
 \node (H4) at (70bp,-210bp)[draw,circle split,fill=green!80] {$H_4$ \nodepart{lower} $0\;0$};
 \node (H5) at (210bp,-210bp)[draw,circle split,fill=green!80] {$H_5$ \nodepart{lower} $0\;0$};
@@ -696,7 +715,7 @@ For each graph a new tab in the graph panel and transition matrices panel is cre
 
 %<<echo=FALSE,results=tex>>=
 %
-%cat(graph2latex(Entangled1Maurer2012(), scale=0.7))
+%cat(graph2latex(Entangled1Maurer2012(), scale=0.7, scaleText=FALSE))
 %
 %@
   \caption{\label{entagledgraph} Entangled graph from Maurer et Bretz}
@@ -722,7 +741,7 @@ calcPower(weights, alpha=0.025, G, 2*theta, 2*corMat)
   \centering
 <<echo=FALSE,results='asis'>>=
 
-cat(graph2latex(generalSuccessive(), scale=0.7))
+cat(graph2latex(generalSuccessive(), scale=0.7, scaleText=FALSE))
 
 @
   \caption{\label{powergraph} Graph from Bretz et al. (2009)}
@@ -738,7 +757,7 @@ cat(graph2latex(generalSuccessive(), scale=0.7))
 
 Apart from latin letters the following greek letters can be used to
 name a variable\footnote{Note that omicron is not allowed since it can
-  not destinguished from the latin character "o".}. Please enter them
+not be destinguished from the latin character "o".}. Please enter them
 with a leading backslash so that they are recognized:
 
 \begin{quote}
@@ -948,7 +967,7 @@ Let's start with this graph in figure \ref{uglygraph}:
   \centering
 <<echo=FALSE,results='asis'>>=
 
-cat(graph2latex(result@graphs[[3]], pvalues=pvalues, scale=0.7))
+cat(graph2latex(result@graphs[[3]], pvalues=pvalues, scale=0.7, scaleText=FALSE))
 
 @
   \caption{\label{uglygraph}Graph from \texttt{graph2latex} that does not look optimal.}
@@ -1027,6 +1046,44 @@ boxplot(micronuclei~group, data=hydroquinone)
 \end{figure}
 
 \begin{appendix} 
+
+\section{Appendix - Example graphs}
+
+<<echo=FALSE, results='asis'>>=
+
+graphs <- list(BonferroniHolm(5),
+               parallelGatekeeping(),
+               improvedParallelGatekeeping(),
+               BretzEtAl2011(),
+               #HungEtWang2010(),
+               #HuqueAloshEtBhore2011(),
+               HommelEtAl2007(),
+               HommelEtAl2007Simple(),
+               MaurerEtAl1995(),
+               improvedFallbackI(weights=rep(1/3, 3)),
+               improvedFallbackII(weights=rep(1/3, 3)),
+               cycleGraph(nodes=paste("H",1:4,sep=""), weights=rep(1/4, 4)),
+               fixedSequence(5),
+               fallback(weights=rep(1/4, 4)),
+               #generalSuccessive(weights = c(1/2, 1/2)),
+               simpleSuccessiveI(),
+               simpleSuccessiveII(),
+               #truncatedHolm(),
+               BauerEtAl2001(),
+               BretzEtAl2009a(),
+               BretzEtAl2009b(),
+               BretzEtAl2009c(),
+               FerberTimeDose2011(times=5, doses=3, w=1/2)
+               #Ferber2011(),
+               #Entangled1Maurer2012(),
+               #Entangled2Maurer2012(),
+)
+
+for (g in graphs) {
+  cat(graph2latex(g))
+}
+
+@
 
 \section{Appendix - Multiple Testing Basics}
 
