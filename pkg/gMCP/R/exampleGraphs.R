@@ -584,7 +584,7 @@ HungEtWang2010 <- function(nu, tau, omega) {
 	if (!missing(omega)) variables[["omega"]] <- omega
 	if (!missing(tau)) variables[["tau"]] <- tau
   if (length(variables)>0) {
-	  graph <- replaceVariables(graph, variables=list("nu"=1/2, "omega"=1/2, "tau"=0))
+	  graph <- replaceVariables(graph, variables=variables)
   }
 	return(graph)
 }
@@ -753,7 +753,7 @@ FerberTimeDose2011 <- function(times, doses, w="\\nu") {
 }
 
 #' @rdname exampleGraphs
-Ferber2011 <- function() {
+Ferber2011 <- function(w) {
 	# Nodes:
 	hnodes <- c("\\delta", "\\theta", "\\beta", "\\alpha", "\\alpha_1", 
 			"\\alpha_2", "\\beta_1", "\\beta_2", "\\beta_3")
@@ -798,6 +798,10 @@ Ferber2011 <- function() {
 							"\\theta", "\\beta", "\\alpha", "\\alpha_1", "\\alpha_2", 
 							"\\beta_1", "\\beta_2", "\\beta_3")))
 	
+	if (!missing(w)) {
+	  graph <- replaceVariables(graph, variables=list("w"=w))
+	}
+  
 	return(graph)
 }
 
