@@ -38,6 +38,8 @@ java.lang.NoSuchMethodError: gdFlush
 	at org.af.gMCP.gui.dialogs.DialogConfIntEstVar.calculateCI(DialogConfIntEstVar.java:196)
 	at org.af.gMCP.gui.dialogs.DialogConfIntEstVar.insertUpdate(DialogConfIntEstVar.java:329)
 
+Use tools::write_PACKAGES(".", type="source") to create PACKAGES and PACKAGES.gz.
+
 Nodes are two big in this graph (and arrow heads therefore reverted - What about dropping $\alpha$?):
 graph2latex(improvedParallelGatekeeping(), scale=0.7, nodeTikZ="minimum size=1.2cm", tikzEnv=FALSE, offset=c(300, 0))
 
