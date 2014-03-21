@@ -48,6 +48,11 @@
 #' @param times Number of time points.
 #' @param doses Number of dose levels.
 #' @param w Further variable weight(s) in graph.
+#' @param gamma An optional number in [0,1] specifying the value for variable gamma.
+#' @param delta An optional number in [0,1] specifying the value for variable delta.
+#' @param nu An optional number in [0,1] specifying the value for variable nu.
+#' @param tau An optional number in [0,1] specifying the value for variable tau.
+#' @param omega An optional number in [0,1] specifying the value for variable omega.
 #' @return A graph of class \code{\link{graphMCP}} that represents a
 #' sequentially rejective multiple test procedure.
 #' @author Kornelius Rohmeyer \email{rohmeyer@@small-projects.de}
@@ -477,7 +482,7 @@ simpleSuccessiveII <- function() {
 }
 
 #' @rdname exampleGraphs
-truncatedHolm <- function() {
+truncatedHolm <- function(gamma) {
 	# Nodes:
 	weights <- c(1/2, 1/2, 0, 0)
 	hnodes <- paste("H", 1:4, sep="")
@@ -500,6 +505,9 @@ truncatedHolm <- function() {
 			"Literature: Dmitrienko A, Tamhane A, Wiens B. General multi-stage gatekeeping procedures. Biometrical Journal 2008; 50:667-677.",
 			"",
 			"F. Bretz, M. Posch, E. Glimm, F. Klinglmueller, W. Maurer, K. Rohmeyer (2011), Graphical approaches for multiple comparison procedures using weighted Bonferroni, Simes or parametric tests. To be published. Figure 5.", sep="\n")
+	if (!missing(gamma)) {
+	  graph <- replaceVariables(graph, variables=list("gamma"=gamma))
+	}
 	return(graph)
 }
 
@@ -512,7 +520,7 @@ truncatedHolm <- function() {
 #   another secondary hypothesis that has not the same parents.
 
 #' @rdname exampleGraphs
-generalSuccessive <- function(weights=c(1/2,1/2)) {
+generalSuccessive <- function(weights=c(1/2,1/2), gamma, delta) {
 	if (length(weights)!=2) stop("Please specify the weights for H1 and H2 and only these.")
 	# Nodes:
 	weights <- c(weights, 0, 0)
@@ -534,6 +542,12 @@ generalSuccessive <- function(weights=c(1/2,1/2)) {
 	attr(graph, "description") <- paste("General successive graph from Bretz et al. (2011), Figure 6", 
 			"",
 			"Literature: Bretz, F., Maurer, W. and Hommel, G. (2011), Test and power considerations for multiple endpoint analyses using sequentially rejective graphical procedures. Statistics in Medicine, 30: n/a.", sep="\n")
+	variables <- list()
+	if (!missing(gamma)) variables[["gamma"]] <- gamma
+	if (!missing(delta)) variables[["delta"]] <- delta	
+	if (length(variables)>0) {
+	  graph <- replaceVariables(graph, variables=variables, partial=TRUE)
+	}
 	return(graph)		
 }
 
@@ -584,7 +598,7 @@ HungEtWang2010 <- function(nu, tau, omega) {
 	if (!missing(omega)) variables[["omega"]] <- omega
 	if (!missing(tau)) variables[["tau"]] <- tau
   if (length(variables)>0) {
-	  graph <- replaceVariables(graph, variables=variables)
+	  graph <- replaceVariables(graph, variables=variables, partial=TRUE)
   }
 	return(graph)
 }
