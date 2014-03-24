@@ -2,7 +2,8 @@
 \alias{replaceVariables}
 \title{Replaces variables in a general graph with specified numeric values}
 \usage{
-  replaceVariables(graph, variables = list(), ask = TRUE)
+  replaceVariables(graph, variables = list(), ask = TRUE,
+    partial = FALSE)
 }
 \arguments{
   \item{graph}{A graph of class \code{\link{graphMCP}} or
@@ -17,6 +18,9 @@
 
   \item{ask}{If \code{FALSE} all variables that are not
   specified are not replaced.}
+
+  \item{partial}{IF \code{TRUE} only specified variables
+  are replaced and parameter \code{ask} is ignored.}
 }
 \value{
   A graph or a matrix with variables replaced by the

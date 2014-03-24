@@ -56,13 +56,13 @@
 
   simpleSuccessiveII()
 
-  truncatedHolm()
+  truncatedHolm(gamma)
 
-  generalSuccessive(weights = c(1/2, 1/2))
+  generalSuccessive(weights = c(1/2, 1/2), gamma, delta)
 
   HuqueAloshEtBhore2011()
 
-  HungEtWang2010()
+  HungEtWang2010(nu, tau, omega)
 
   MaurerEtAl1995()
 
@@ -74,7 +74,7 @@
 
   FerberTimeDose2011(times, doses, w = "\\\\nu")
 
-  Ferber2011()
+  Ferber2011(w)
 
   Entangled1Maurer2012()
 
@@ -92,6 +92,21 @@
   \item{doses}{Number of dose levels.}
 
   \item{w}{Further variable weight(s) in graph.}
+
+  \item{gamma}{An optional number in [0,1] specifying the
+  value for variable gamma.}
+
+  \item{delta}{An optional number in [0,1] specifying the
+  value for variable delta.}
+
+  \item{nu}{An optional number in [0,1] specifying the
+  value for variable nu.}
+
+  \item{tau}{An optional number in [0,1] specifying the
+  value for variable tau.}
+
+  \item{omega}{An optional number in [0,1] specifying the
+  value for variable omega.}
 }
 \value{
   A graph of class \code{\link{graphMCP}} that represents a
@@ -146,13 +161,10 @@
 \examples{
 g <- BonferroniHolm(5)
 
-\dontrun{
-# If Rgraphviz is installed, we can take a look at the graph:
-library(Rgraphviz)
-renderGraph(layoutGraph(g))
-}
-
 gMCP(g, pvalues=c(0.1, 0.2, 0.4, 0.4, 0.7))
+
+HungEtWang2010()
+HungEtWang2010(nu=1)
 }
 \author{
   Kornelius Rohmeyer \email{rohmeyer@small-projects.de}
