@@ -1,6 +1,8 @@
 Documention for value in secondStageTest looks strange.
 Does rJava again contain all necessary jar files?
 
+Add graphs from http://www.ncbi.nlm.nih.gov/pmc/articles/PMC3882873/
+
 - Multiple Setting:
    Instead of c(0,0,...) use #hypotheses text fields. Check whether tab works as expected. Tab works, but most likely we want "select all" on "focus".
    Check for empty textfields
