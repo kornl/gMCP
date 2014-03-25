@@ -18,6 +18,7 @@ Does rJava again contain all necessary jar files?
 (Pay attention to epsilons and numerical instabilities.)
 
 - Reodering hypotheses doesn't work.
+- See ?Deprecated and ?Defunct for outdated code
 
 - Check verbose output of algorithm (i) when, why? ii) new FormLayout)
 - Check whether option "Colored image files and reports" is respected.
