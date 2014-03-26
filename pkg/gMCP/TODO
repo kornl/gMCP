@@ -1,8 +1,6 @@
 Documention for value in secondStageTest looks strange.
 Does rJava again contain all necessary jar files?
 
-Add graphs from http://www.ncbi.nlm.nih.gov/pmc/articles/PMC3882873/
-
 - Multiple Setting:
    Instead of c(0,0,...) use #hypotheses text fields. Check whether tab works as expected. Tab works, but most likely we want "select all" on "focus".
    Check for empty textfields
@@ -28,8 +26,6 @@ Add graphs from http://www.ncbi.nlm.nih.gov/pmc/articles/PMC3882873/
 - Why is there still a thread running if the GUI is closed?
 
 - Test error handler with Java 5.
-
-- Add variables as parameters to example graphs
 
 java.lang.NoSuchMethodError: gdFlush
   at org.rosuda.JRI.Rengine.rniEval(Native Method)
@@ -77,13 +73,10 @@ Does not work any more:
 Error: unexpected input in "eval(expression(try(1-\"
 
 - Streamline / throw out graphTest
-- Highlight edges (and perhaps nodes) depending on the focus in the dataframe. 
 
 - http://docs.oracle.com/javase/1.5.0/docs/guide/net/proxies.html - http://stackoverflow.com/questions/376101/setting-jvm-jre-to-use-windows-proxy-automatically
 - Unify graphMCP and entangled graphs?
 - Integrate parameter 'envir' into corMatWizard.
-
-- Java 7 ignores property "sun.awt.exception.handler"? http://stackoverflow.com/questions/5794472/why-bother-with-setting-the-sun-awt-exception-handler-property
 
 From xlsxjars:
  jversion <- .jcall("java.lang.System", "S", "getProperty", "java.version")
