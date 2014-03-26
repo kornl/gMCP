@@ -66,8 +66,9 @@
 		}
 	}
   
-	if (length(grep("-Xss1m", gMCP:::getJavaInfo())==0)) {
-	  warning("JVM was already initialized with unknown memory settings.")
+  java.info <- gMCP:::getJavaInfo(FALSE, FALSE, TRUE)
+	if (length(grep("-Xss1m", java.info))==0) {
+	  warning(paste("JVM was already initialized with unknown memory settings:",strsplit(java.info, split="Input Arguments:")[1][[1]][2]))
 	}
 	
 	## We supply our own JavaGD class
