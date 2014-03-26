@@ -962,9 +962,9 @@ WangTing2014 <- function(nu, tau) {
   edgeAttr(graph, "H2", "H5", "labelY") <- 275
   
   attr(graph, "description") <- paste("Graph from Wang and Ting 2014",
-                                      "With 𝜈=1, 𝜏=0.5 graph from figure 3,",
-                                      "with 𝜈=1, 𝜏=\\epsilon graph from figure 4 and",
-                                      "with 𝜈=\\epsilon, 𝜏=\\epsilon graph from figure 5.",
+                                      "With \u03BD=1, \u2CA7=0.5 graph from figure 3,",
+                                      "with \u03BD=1, \u2CA7=\\epsilon graph from figure 4 and",
+                                      "with \u03BD=\\epsilon, \u2CA7=\\epsilon graph from figure 5.",
 									  "",
                                       "Literature: Wang, B., Ting, N. (2014). An Application of Graphical Approach to Construct Multiple Testing Procedures in a Hypothetical Phase III Design. Frontiers in public health, 1 (75).", sep="\n")
   
