@@ -14,7 +14,7 @@
 \alias{HungEtWang2010}
 \alias{HuqueAloshEtBhore2011}
 \alias{MaurerEtAl1995}
-\alias{TingWang2014}
+\alias{WangTing2014}
 \alias{cycleGraph}
 \alias{exampleGraphs}
 \alias{fallback}
@@ -81,7 +81,7 @@
 
   Entangled2Maurer2012()
 
-  TingWang2014()
+  WangTing2014(nu, tau)
 }
 \arguments{
   \item{n}{Number of hypotheses.}

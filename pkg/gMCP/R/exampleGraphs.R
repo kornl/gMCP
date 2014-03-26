@@ -928,7 +928,7 @@ Entangled2Maurer2012 <- function() {
 }
 
 #' @rdname exampleGraphs
-TingWang2014 <- function() {
+WangTing2014 <- function(nu, tau) {
   m <- rbind(H1=c("0", "1-\\nu", "\\nu/2", "\\nu/2", "0", "0"),
              H2=c("1-\\nu", "0", "0", "0", "\\nu/2", "\\nu/2"),
              H3=c("0", "\\tau", "0", "1-\\tau", "0", "0"),
@@ -962,8 +962,18 @@ TingWang2014 <- function() {
   edgeAttr(graph, "H2", "H5", "labelY") <- 275
   
   attr(graph, "description") <- paste("Graph from Wang and Ting 2014",
-                                      "",
+                                      "With 𝜈=1, 𝜏=0.5 graph from figure 3,",
+                                      "with 𝜈=1, 𝜏=\\epsilon graph from figure 4 and",
+                                      "with 𝜈=\\epsilon, 𝜏=\\epsilon graph from figure 5.",
+									  "",
                                       "Literature: Wang, B., Ting, N. (2014). An Application of Graphical Approach to Construct Multiple Testing Procedures in a Hypothetical Phase III Design. Frontiers in public health, 1 (75).", sep="\n")
+  
+  variables <- list()
+  if (!missing(nu)) variables[["nu"]] <- nu
+  if (!missing(tau)) variables[["tau"]] <- tau
+  if (length(variables)>0) {
+    graph <- replaceVariables(graph, variables=variables, partial=TRUE)
+  }
   
   return(graph)
 }
