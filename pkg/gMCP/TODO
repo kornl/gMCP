@@ -54,12 +54,6 @@ graph2latex(improvedParallelGatekeeping(), scale=0.7, nodeTikZ="minimum size=1.2
 
 - Add close button for tabs to NetListPanels.
 
-* checking whether the namespace can be loaded with stated dependencies ... WARNING
-Error: .onLoad failed in loadNamespace() for ‘gMCP’, details:
-  call: J("org.af.commons.logging.SystemInfo")$getSystemInfo
-  error: could not find function "loadMethod"
-Execution halted
-
 Does not work any more:
 #' \dontrun{
 #' # If Rgraphviz is installed, we can take a look at the graph:
