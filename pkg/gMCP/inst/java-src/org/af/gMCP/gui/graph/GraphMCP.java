@@ -79,11 +79,18 @@ public class GraphMCP {
 		try {
 			description = RControl.getR().eval("attr("+name+", \"description\")").asRChar().getData()[0];
 		} catch (Exception e) {
+			if (!(e instanceof NullPointerException)) {
+				System.out.println("No description for graph \""+name+"\".");
+				e.printStackTrace();
+			}
 			description = "Enter a description for the graph.";
 		}
 		try {
 			pvalues = RControl.getR().eval("attr("+name+", \"pvalues\")").asRNumeric().getData();
 		} catch (Exception e) {
+			if (!(e instanceof NullPointerException)) {
+				e.printStackTrace();
+			}
 			// Nothing to do here.
 		}
 		for (Node k : nodes) {
