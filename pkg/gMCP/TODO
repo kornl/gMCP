@@ -27,6 +27,10 @@ Does rJava again contain all necessary jar files?
 
 - Test error handler with Java 5.
 
+- In the log there are two lines:
+Package version could not be set:
+org.rosuda.REngine.REXPLogical cannot be cast to org.rosuda.REngine.REXPString
+
 java.lang.NoSuchMethodError: gdFlush
   at org.rosuda.JRI.Rengine.rniEval(Native Method)
 	at org.rosuda.REngine.JRI.JRIEngine.eval(JRIEngine.java:281)
