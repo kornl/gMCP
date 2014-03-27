@@ -220,7 +220,7 @@ public class MenuBarMGraph extends JMenuBar implements ActionListener {
 				} else {					
 					if (s.startsWith("R Object: ")) {
 						s = s.substring(10);
-						if (RControl.getR().eval("exists(\""+s+"\")").asRLogical().getData()[0]) {
+						if (RControl.getR().eval("exists(\""+s+"\")", true).asRLogical().getData()[0]) {
 							fmenu.add(makeMenuItem(i+" "+s, "LOAD_GRAPH"+graph, (i+"").charAt(0)));
 						}
 					}
@@ -243,9 +243,9 @@ public class MenuBarMGraph extends JMenuBar implements ActionListener {
 		return item;
 	}
 
-	public void loadGraph(String string) {
+	public void loadGraph(String string, boolean global) {
 		control.stopTesting();
-		control.getNL().loadGraph(string);
+		control.getNL().loadGraph(string, global);
 		control.setGraphName(RControl.getR().eval("gMCP:::nextAvailableName(gMCP:::removeSymbols(\""+string+"\", numbers=FALSE))").asRChar().getData()[0]);
 		control.getMainFrame().validate();
 	}
@@ -277,7 +277,7 @@ public class MenuBarMGraph extends JMenuBar implements ActionListener {
         	logger.info("Trying to load \""+s+"\"");
         	if (s.startsWith("R Object")) {
         		s = s.substring(10);
-        		loadGraph(s);
+        		loadGraph(s, true);
         		Configuration.getInstance().getGeneralConfig().addGraph("R Object: "+s);
             	createLastUsed();
         	} else {
@@ -431,47 +431,47 @@ public class MenuBarMGraph extends JMenuBar implements ActionListener {
         	ht.put("weights", new double[] {0.25, 0.25, 0.25, 0.25});
         	new ParameterDialog(control.getGraphGUI(), ht, this, "fallback");        	
         } else if (e.getActionCommand().equals("pg")) {       	
-        	loadGraph("parallelGatekeeping()");
+        	loadGraph("parallelGatekeeping()", false);
         } else if (e.getActionCommand().equals("pgi")) {       	
-        	loadGraph("improvedParallelGatekeeping()");
+        	loadGraph("improvedParallelGatekeeping()", false);
         } else if (e.getActionCommand().equals("bauer")) {       	
-        	loadGraph("BauerEtAl2001()");
+        	loadGraph("BauerEtAl2001()", false);
         } else if (e.getActionCommand().equals("bretzEtAl")) {       	
-        	loadGraph("BretzEtAl2011()");
+        	loadGraph("BretzEtAl2011()", false);
         } else if (e.getActionCommand().equals("bretzEtAl2009a")) {       	
-        	loadGraph("BretzEtAl2009a()");
+        	loadGraph("BretzEtAl2009a()", false);
         } else if (e.getActionCommand().equals("bretzEtAl2009b")) {       	
-        	loadGraph("BretzEtAl2009b()");
+        	loadGraph("BretzEtAl2009b()", false);
         } else if (e.getActionCommand().equals("bretzEtAl2009c")) {       	
-        	loadGraph("BretzEtAl2009c()");
+        	loadGraph("BretzEtAl2009c()", false);
         } else if (e.getActionCommand().equals("hommelEtAl")) {      	
-        	loadGraph("HommelEtAl2007()");
+        	loadGraph("HommelEtAl2007()", false);
         } else if (e.getActionCommand().equals("hommelEtAlSimple")) {       	
-        	loadGraph("HommelEtAl2007Simple()");
+        	loadGraph("HommelEtAl2007Simple()", false);
         } else if (e.getActionCommand().equals("hung")) { 	
-        	loadGraph("HungEtWang2010()");
+        	loadGraph("HungEtWang2010()", false);
         } else if (e.getActionCommand().equals("huque")) { 	
-        	loadGraph("HuqueAloshEtBhore2011()");
+        	loadGraph("HuqueAloshEtBhore2011()", false);
         } else if (e.getActionCommand().equals("maurer1995")) {     	
-        	loadGraph("MaurerEtAl1995()");
+        	loadGraph("MaurerEtAl1995()", false);
         } else if (e.getActionCommand().equals("truncHolm")) {     	
-        	loadGraph("truncatedHolm()");
+        	loadGraph("truncatedHolm()", false);
         } else if (e.getActionCommand().equals("gSuccessive")) {     	
-        	loadGraph("generalSuccessive()");
+        	loadGraph("generalSuccessive()", false);
         } else if (e.getActionCommand().equals("successiveI")) {     	
-        	loadGraph("simpleSuccessiveI()");
+        	loadGraph("simpleSuccessiveI()", false);
         } else if (e.getActionCommand().equals("successiveII")) {     	
-        	loadGraph("simpleSuccessiveII()");
+        	loadGraph("simpleSuccessiveII()", false);
         } else if (e.getActionCommand().equals("fallbackI")) {     	
-        	loadGraph("improvedFallbackI()");
+        	loadGraph("improvedFallbackI()", false);
         } else if (e.getActionCommand().equals("fallbackII")) {     	
-        	loadGraph("improvedFallbackII()");
+        	loadGraph("improvedFallbackII()", false);
         } else if (e.getActionCommand().equals("ferber2011")) {     	
-        	loadGraph("Ferber2011()");
+        	loadGraph("Ferber2011()", false);
         } else if (e.getActionCommand().equals("entangled1")) {     	
-        	loadGraph("Entangled1Maurer2012()");
+        	loadGraph("Entangled1Maurer2012()", false);
         } else if (e.getActionCommand().equals("entangled2")) {     	
-        	loadGraph("Entangled2Maurer2012()");
+        	loadGraph("Entangled2Maurer2012()", false);
         } else if (e.getActionCommand().equals("ferber2011b")) {     	
         	Hashtable<String,Object> ht = new Hashtable<String,Object>();
         	ht.put("times", new int[] {1,5,20});
@@ -479,7 +479,7 @@ public class MenuBarMGraph extends JMenuBar implements ActionListener {
         	//ht.put("w", new Double(0.5));
         	new ParameterDialog(control.getGraphGUI(), ht, this, "FerberTimeDose2011");
         } else if (e.getActionCommand().equals("wangting2014")) {     	
-        	loadGraph("WangTing2014()");
+        	loadGraph("WangTing2014()", false);
         } 
 	}
 	
@@ -780,7 +780,9 @@ public class MenuBarMGraph extends JMenuBar implements ActionListener {
 	}
 	
 	/**
-	 * Loads a graph from a selected RData file.
+	 * Loads a graph from a selected RData file into the gMCP environment
+	 * and the GUI. An objects already in the gMCP environment with the same name
+	 * will be overwritten.
 	 * @param f file that contains the graph to load.
 	 */
 	private void loadGraph(File f) {
@@ -789,9 +791,11 @@ public class MenuBarMGraph extends JMenuBar implements ActionListener {
         try {            	
         	//((ControlMGraph) control).getNL().loadFromXML(f);
         	String filename = f.getAbsolutePath().replaceAll("\\\\", "\\\\\\\\"); 
+        	// TODO: Check whether more than one object was in the file
     		String loadedGraph = RControl.getR().eval("load(file=\""+filename+"\")").asRChar().getData()[0];
     		RControl.getR().eval(loadedGraph+ "<- gMCP:::updateGraphToNewClassDefinition("+loadedGraph+")");
-    		loadGraph(loadedGraph);
+    		// RControl.getR().eval("assign(\""+loadedGraph+ "\", gMCP:::updateGraphToNewClassDefinition("+loadedGraph+"), envir=globalenv()");
+    		loadGraph(loadedGraph, false);
     		Configuration.getInstance().getGeneralConfig().addGraph(f.getAbsolutePath());
         	createLastUsed();
 		} catch( Exception ex ) {

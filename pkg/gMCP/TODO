@@ -27,6 +27,10 @@ Does rJava again contain all necessary jar files?
 
 - Test error handler with Java 5.
 
+- In the log there are two lines:
+Package version could not be set:
+org.rosuda.REngine.REXPLogical cannot be cast to org.rosuda.REngine.REXPString
+
 java.lang.NoSuchMethodError: gdFlush
   at org.rosuda.JRI.Rengine.rniEval(Native Method)
 	at org.rosuda.REngine.JRI.JRIEngine.eval(JRIEngine.java:281)
@@ -53,12 +57,6 @@ graph2latex(improvedParallelGatekeeping(), scale=0.7, nodeTikZ="minimum size=1.2
 - Check whether graphAnalysis slows down GUI.
 
 - Add close button for tabs to NetListPanels.
-
-* checking whether the namespace can be loaded with stated dependencies ... WARNING
-Error: .onLoad failed in loadNamespace() for ‘gMCP’, details:
-  call: J("org.af.commons.logging.SystemInfo")$getSystemInfo
-  error: could not find function "loadMethod"
-Execution halted
 
 Does not work any more:
 #' \dontrun{

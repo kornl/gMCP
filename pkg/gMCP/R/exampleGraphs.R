@@ -190,7 +190,7 @@ BretzEtAl2011 <- function() {
 			"",
 			"Since in this example it is preferred to reject two adjacent hypotheses (like H11 and H21 instead of H11 and H31) there are only edges between adjacent nodes.",
 			"",
-			"Literature: Bretz, F., Maurer, W. and Hommel, G. (2011), Test and power considerations for multiple endpoint analyses using sequentially rejective graphical procedures. Statistics in Medicine, 30: n/a.", sep="\n")
+			"Literature: Bretz, F., Maurer, W. and Hommel, G. (2011), Test and power considerations for multiple endpoint analyses using sequentially rejective graphical procedures. Statistics in Medicine, 30: 1489-1501.", sep="\n")
 	return(graph)	
 }
 
@@ -545,7 +545,7 @@ generalSuccessive <- function(weights=c(1/2,1/2), gamma, delta) {
 	graph@nodeAttr$Y <- nodeY	
 	attr(graph, "description") <- paste("General successive graph from Bretz et al. (2011), Figure 6", 
 			"",
-			"Literature: Bretz, F., Maurer, W. and Hommel, G. (2011), Test and power considerations for multiple endpoint analyses using sequentially rejective graphical procedures. Statistics in Medicine, 30: n/a.", sep="\n")
+			"Literature: Bretz, F., Maurer, W. and Hommel, G. (2011), Test and power considerations for multiple endpoint analyses using sequentially rejective graphical procedures. Statistics in Medicine, 30: 1489-1501.", sep="\n")
 	variables <- list()
 	if (!missing(gamma)) variables[["gamma"]] <- gamma
 	if (!missing(delta)) variables[["delta"]] <- delta	
@@ -701,7 +701,7 @@ improvedFallbackI <- function(weights=rep(1/3, 3)) {
 			"",
 			"Literature: B.L. Wiens, A. Dmitrienko (2005): The fallback procedure for evaluating a single family of hypotheses. Journal of Biopharmaceutical Statistics 15:929-942.",
 			"",
-			"Bretz, F., Maurer, W. and Hommel, G. (2011), Test and power considerations for multiple endpoint analyses using sequentially rejective graphical procedures. Statistics in Medicine, 30: n/a.", sep="\n")
+			"Bretz, F., Maurer, W. and Hommel, G. (2011), Test and power considerations for multiple endpoint analyses using sequentially rejective graphical procedures. Statistics in Medicine, 30: 1489-1501.", sep="\n")
 	edgeAttr(graph, "H3", "H1", "labelX") <- 300
 	edgeAttr(graph, "H3", "H1", "labelY") <- 200
 	edgeAttr(graph, "H2", "H3", "labelX") <- 400
@@ -728,7 +728,7 @@ improvedFallbackII <- function(weights=rep(1/3, 3)) {
 			"",
 			"Literature: G. Hommel, F. Bretz (2008): Aesthetics and power considerations in multiple testing - a contradiction? Biometrical Journal 50:657-666.",
 			"",
-			"Bretz, F., Maurer, W. and Hommel, G. (2011), Test and power considerations for multiple endpoint analyses using sequentially rejective graphical procedures. Statistics in Medicine, 30: n/a.", sep="\n")
+			"Bretz, F., Maurer, W. and Hommel, G. (2011), Test and power considerations for multiple endpoint analyses using sequentially rejective graphical procedures. Statistics in Medicine, 30: 1489-1501.", sep="\n")
 	edgeAttr(graph, "H3", "H1", "labelX") <- 300
 	edgeAttr(graph, "H3", "H1", "labelY") <- 200
 	edgeAttr(graph, "H1", "H2", "labelX") <- 200
