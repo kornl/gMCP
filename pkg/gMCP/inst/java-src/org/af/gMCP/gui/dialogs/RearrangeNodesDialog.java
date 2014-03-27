@@ -97,7 +97,7 @@ public class RearrangeNodesDialog extends JDialog implements ActionListener {
 			String graphName = ".tmpGraph" + (new Date()).getTime();
 			control.getNL().saveGraph(graphName, false, false);
 			RControl.getR().eval(graphName +" <- placeNodes("+graphName+layout+", force = TRUE)");
-			control.getNL().loadGraph(graphName);
+			control.getNL().loadGraph(graphName, false);
 			dispose();
 		}
 		if (e.getActionCommand().equals(OkCancelButtonPane.CANCEL_CMD)) {

@@ -111,7 +111,7 @@ public class RObjectLoadingDialog extends JDialog implements ActionListener, Lis
 			} else {
 				object = jlGraphs.getSelectedValue().toString();
 			}   
-			((MenuBarMGraph)parent.getJMenuBar()).loadGraph(object);
+			((MenuBarMGraph)parent.getJMenuBar()).loadGraph(object, true);
 			Configuration.getInstance().getGeneralConfig().addGraph("R Object: "+object);
 		}
 		dispose();

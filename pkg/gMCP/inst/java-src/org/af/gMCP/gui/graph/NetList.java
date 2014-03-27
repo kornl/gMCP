@@ -244,15 +244,13 @@ public class NetList extends JTabbedPane implements ChangeListener {
 		return graph;
 	}
 
-	public void loadGraph(String string) {
+	public void loadGraph(String string, boolean global) {
+		if (global) {
+			string = "get(\""+string+"\", envir=globalenv())";
+		}
 		boolean matrix = RControl.getR().eval("is.matrix("+string+")").asRLogical().getData()[0];
-		RControl.getR().eval(initialGraph + " <- placeNodes("+ (matrix?"matrix2graph(":"(")+ string + "))");
-		graph = loadGraph();	
-		if (graph.getDescription()!=null) {
-			control.getDView().setDescription(graph.getDescription());
-		} else {
-			control.getDView().setDescription("");
-		}		
+		RControl.getR().eval(initialGraph + " <- placeNodes("+ (matrix?"matrix2graph(":"(")+ string + "))");				
+		graph = loadGraph();				
 		if (graph.pvalues!=null && graph.pvalues.length>1) {
 			control.getPView().setPValues(graph.pvalues);
 		}
@@ -416,7 +414,7 @@ public class NetList extends JTabbedPane implements ChangeListener {
 		saveGraph(graphName, verbose, null, global);
 		RControl.getR().eval(graphName+"<- gMCP:::replaceVariables("+graphName+", variables="+getRVariableList(ht)+", ask=FALSE)");
 		//TODO This is really a strange place to load a graph... :
-		loadGraph(graphName);
+		loadGraph(graphName, false);
 		return saveGraph(graphName, verbose, ht, global);
 	}
 

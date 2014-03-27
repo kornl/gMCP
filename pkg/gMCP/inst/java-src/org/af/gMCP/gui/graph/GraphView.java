@@ -363,7 +363,7 @@ public class GraphView extends JPanel implements ActionListener {
 		if (!getNL().testingStarted) return;
 		getNL().stopTesting();
 		getNL().reset();
-		getNL().loadGraph(getNL().resetGraph);
+		getNL().loadGraph(getNL().resetGraph, false);
 		getDataFramePanel().setTesting(false);
 		getPView().restorePValues();
 		getPView().setTesting(false);

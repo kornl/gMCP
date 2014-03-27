@@ -109,8 +109,8 @@ public class CreateGraphGUI extends JFrame implements WindowListener, AbortListe
 		setJMenuBar(new MenuBarMGraph(control));		
 		makeContent();
 		
-		if (RControl.getR().eval("exists(\""+graph+"\""+Configuration.getInstance().getGeneralConfig().getEnvir()+")").asRLogical().getData()[0]) {
-			control.getNL().loadGraph(graph);
+		if (RControl.getR().eval("exists(\""+graph+"\""+Configuration.getInstance().getGeneralConfig().getEnvir()+")", true).asRLogical().getData()[0]) {
+			control.getNL().loadGraph(graph, true);
 		}
 		
 		if (pvalues.length>0) getPView().setPValues(ArrayUtils.toObject(pvalues));
