@@ -123,20 +123,22 @@ public class PPanel implements ActionListener, KeyListener, NodeListener, FocusL
 		for (JTextField wTF : wTFList) {
 			try {
 				if (wTF.getText().length()!=0) { /* This if-clause is due to a bug/version conflict in JHLIR/REngine/rJava/R for R 2.8 */
-					double tempw = RControl.getR().eval(wTF.getText().replace(",", ".")).asRNumeric().getData()[0];		
+					double tempw = RControl.getR().eval(wTF.getText().replace(",", ".")).asRNumeric().getData()[0];
+					w.add(tempw);
 					if (!Double.isInfinite(tempw) && !Double.isNaN(tempw)) {
-						wTF.setBackground(Color.WHITE);
-						w.add(tempw);
+						wTF.setBackground(Color.WHITE);						
 					} else {
 						wTF.setBackground(Color.RED);
 						return;
 					}				
 				} else {
 					wTF.setBackground(Color.RED);
+					w.add(Double.NaN);
 					return;
 				}
 			} catch (Exception nfe) {		
 				wTF.setBackground(Color.RED);
+				w.add(Double.NaN);
 				return;
 			}	
 		}
@@ -221,7 +223,12 @@ public class PPanel implements ActionListener, KeyListener, NodeListener, FocusL
 			if (testing) {
 				result.add(format.format(wd/**pview.getTotalAlpha()*/).replace(",", "."));
 			} else {
-				result.add(RControl.getFraction(wd));
+				if ( !Double.isInfinite(wd) && !Double.isNaN(wd) ) {
+					result.add(""+wd);
+				} else {
+					result.add(RControl.getFraction(wd));
+				}
+
 			}		
 		}
 		return result;
@@ -250,7 +257,11 @@ public class PPanel implements ActionListener, KeyListener, NodeListener, FocusL
 			for (int i=0; i<wTFList.size(); i++) {
 				JTextField wTF = wTFList.get(i); 
 				if (e.getSource()==wTF && !testing) {
-					wTF.setText(RControl.getFraction(w.get(i)));
+					if ( !Double.isInfinite(w.get(i)) && !Double.isNaN(w.get(i)) ) {
+						wTF.setText(RControl.getFraction(w.get(i)));
+					} else {
+						wTF.setText(""+w.get(i));
+					}
 				}
 			}
 			updateMe(true);
