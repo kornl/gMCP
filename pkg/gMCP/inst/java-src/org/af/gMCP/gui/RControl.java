@@ -96,6 +96,12 @@ public class RControl {
 	 * @return
 	 */
 	public static String getFraction(Double d, int cycles) {
+		if (Double.isNaN(d)) {
+			return("NaN");
+		}
+		if (Double.isInfinite(d)) {
+			return("Infinity");
+		}
 		String result = fractions.get(""+d+":"+cycles);
 		if (result != null) return result;
 		result = RControl.getR().eval("as.character(MASS::fractions("+d+(cycles==-1?"":", cycles="+cycles)+"))").asRChar().getData()[0];

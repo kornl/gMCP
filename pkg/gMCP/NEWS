@@ -56,6 +56,8 @@ Changes in version 0.8-7 (??-0?-2014)
 
 - Fixed: A backslash '\' in the graph description could crash the GUI including R.
 
+- Better handling of unintentionally entered NaN or infinity values.
+
 
 Changes in version 0.8-6 (17-02-2014)
 =====================================
