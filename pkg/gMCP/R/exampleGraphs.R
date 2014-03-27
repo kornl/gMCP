@@ -41,7 +41,7 @@
 #' cycleGraph fixedSequence generalSuccessive simpleSuccessiveI
 #' simpleSuccessiveII truncatedHolm fallback HuqueAloshEtBhore2011
 #' BauerEtAl2001 BretzEtAl2009a BretzEtAl2009b BretzEtAl2009c Ferber2011
-#' Entangled1Maurer2012 Entangled2Maurer2012 FerberTimeDose2011
+#' Entangled1Maurer2012 Entangled2Maurer2012 FerberTimeDose2011 WangTing2014
 #' @param n Number of hypotheses.
 #' @param nodes Character vector of node names.
 #' @param weights Numeric vector of node weights.
