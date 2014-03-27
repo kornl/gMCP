@@ -14,6 +14,7 @@
 \alias{HungEtWang2010}
 \alias{HuqueAloshEtBhore2011}
 \alias{MaurerEtAl1995}
+\alias{WangTing2014}
 \alias{cycleGraph}
 \alias{exampleGraphs}
 \alias{fallback}
@@ -79,6 +80,8 @@
   Entangled1Maurer2012()
 
   Entangled2Maurer2012()
+
+  WangTing2014(nu, tau)
 }
 \arguments{
   \item{n}{Number of hypotheses.}
@@ -216,6 +219,11 @@ HungEtWang2010(nu=1)
   Wiens, B.L., Dmitrienko, A. (2005): The fallback
   procedure for evaluating a single family of hypotheses.
   Journal of Biopharmaceutical Statistics 15:929-942.
+
+  Wang, B., Ting, N. (2014). An Application of Graphical
+  Approach to Construct Multiple Testing Procedures in a
+  Hypothetical Phase III Design. Frontiers in public
+  health, 1 (75).
 
   Ferber, G. Staner, L. and Boeijinga, P. (2011):
   Structured multiplicity and confirmatory statistical

@@ -18,6 +18,7 @@ Does rJava again contain all necessary jar files?
 (Pay attention to epsilons and numerical instabilities.)
 
 - Reodering hypotheses doesn't work.
+- See ?Deprecated and ?Defunct for outdated code
 
 - Check verbose output of algorithm (i) when, why? ii) new FormLayout)
 - Check whether option "Colored image files and reports" is respected.
@@ -25,8 +26,6 @@ Does rJava again contain all necessary jar files?
 - Why is there still a thread running if the GUI is closed?
 
 - Test error handler with Java 5.
-
-- Add variables as parameters to example graphs
 
 java.lang.NoSuchMethodError: gdFlush
   at org.rosuda.JRI.Rengine.rniEval(Native Method)
@@ -74,13 +73,10 @@ Does not work any more:
 Error: unexpected input in "eval(expression(try(1-\"
 
 - Streamline / throw out graphTest
-- Highlight edges (and perhaps nodes) depending on the focus in the dataframe. 
 
 - http://docs.oracle.com/javase/1.5.0/docs/guide/net/proxies.html - http://stackoverflow.com/questions/376101/setting-jvm-jre-to-use-windows-proxy-automatically
 - Unify graphMCP and entangled graphs?
 - Integrate parameter 'envir' into corMatWizard.
-
-- Java 7 ignores property "sun.awt.exception.handler"? http://stackoverflow.com/questions/5794472/why-bother-with-setting-the-sun-awt-exception-handler-property
 
 From xlsxjars:
  jversion <- .jcall("java.lang.System", "S", "getProperty", "java.version")

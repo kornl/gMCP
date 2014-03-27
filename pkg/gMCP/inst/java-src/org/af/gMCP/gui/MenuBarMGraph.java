@@ -163,6 +163,7 @@ public class MenuBarMGraph extends JMenuBar implements ActionListener {
 		subMenu.add(makeMenuItem("Drug clinical trial example (serial gatekeeping) from Maurer et al. (1995)", "maurer1995"));
 		subMenu.add(makeMenuItem("Graph I from Ferber et al. (2011)", "ferber2011"));
 		subMenu.add(makeMenuItem("Graph II from Ferber et al. (2011)", "ferber2011b"));
+		subMenu.add(makeMenuItem("Graph from Wang and Ting (2014)", "wangting2014"));
 		exampleMenu.add(subMenu);
 		
 		subMenu = new JMenu("Entangled graphs");		
@@ -170,7 +171,7 @@ public class MenuBarMGraph extends JMenuBar implements ActionListener {
 		subMenu.add(makeMenuItem("Entangled Graph II from Maurer et al. (2012)", "entangled2"));
 		exampleMenu.add(subMenu);
 		
-		exampleMenu.add(makeMenuItem("Browse archive of user submitted graphs", "userSubmitted"));
+		//exampleMenu.add(makeMenuItem("Browse archive of user submitted graphs", "userSubmitted"));
 	}
 	
 	public void createExtraMenu() {
@@ -183,7 +184,7 @@ public class MenuBarMGraph extends JMenuBar implements ActionListener {
 		extraMenu.addSeparator();
 		extraMenu.add(makeMenuItem("Log", "showLog", KeyEvent.VK_L));
 		extraMenu.add(makeMenuItem("Report error", "reportError", KeyEvent.VK_R));
-		extraMenu.add(makeMenuItem("Submit your own graph to gMCP archive", "submitGraph"));
+		//extraMenu.add(makeMenuItem("Submit your own graph to gMCP archive", "submitGraph"));
 		extraMenu.addSeparator();
 		extraMenu.add(makeMenuItem("Add entangled graph", "entangledGraphs"));	
 		if (System.getProperty("eclipse") != null) {		
@@ -477,6 +478,8 @@ public class MenuBarMGraph extends JMenuBar implements ActionListener {
         	ht.put("doses", new int[] {1,3,20});
         	//ht.put("w", new Double(0.5));
         	new ParameterDialog(control.getGraphGUI(), ht, this, "FerberTimeDose2011");
+        } else if (e.getActionCommand().equals("wangting2014")) {     	
+        	loadGraph("WangTing2014()");
         } 
 	}
 	

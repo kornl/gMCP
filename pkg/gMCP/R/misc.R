@@ -193,7 +193,7 @@ layers <- function(graph) {
 #' cat(getJavaInfo())
 #' 
 getJavaInfo <- function(memory=TRUE, filesystem=TRUE, runtime=TRUE) {
-  return(.jcall("org.af.commons.logging.SystemInfo", "S", "getSystemInfo", TRUE, TRUE, TRUE))  
+  return(.jcall("org.af.commons.logging.SystemInfo", "S", "getSystemInfo", memory, filesystem, runtime))  
 }
 
 getNewestRVersion <- function() {
