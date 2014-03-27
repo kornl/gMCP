@@ -188,7 +188,12 @@ getAllGraphs <- function(envir=globalenv()) {
 }
 
 getObjectInfo <- function(object) {
-	return(paste(capture.output(print(object)), collapse="\n"))
+  s <- paste(capture.output(print(object)), collapse="\n")
+  descr <- attr(object, "description")
+  if (!is.null(descr)) {
+    s <- paste(s, "\nDescription:", descr, sep="\n")
+  }
+	return(s)
 }
 
 gMCPVersion <- function() {
