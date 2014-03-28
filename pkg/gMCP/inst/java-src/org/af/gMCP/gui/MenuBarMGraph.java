@@ -186,7 +186,7 @@ public class MenuBarMGraph extends JMenuBar implements ActionListener {
 		extraMenu.add(makeMenuItem("Report error", "reportError", KeyEvent.VK_R));
 		//extraMenu.add(makeMenuItem("Submit your own graph to gMCP archive", "submitGraph"));
 		extraMenu.addSeparator();
-		extraMenu.add(makeMenuItem("Add entangled graph", "entangledGraphs"));	
+		extraMenu.add(makeMenuItem("Entangled graphs: Add component graph", "entangledGraphs"));	
 		if (System.getProperty("eclipse") != null) {		
 			extraMenu.add(makeMenuItem("Debug console", "debugConsole", KeyEvent.VK_D));
 		}
