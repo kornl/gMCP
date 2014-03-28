@@ -156,7 +156,7 @@ $\bigcap_{j\in J}H_j$ are the weights of the nodes of $G_J$. To derive
 graph $G_J$ remove all nodes that are not in $J$ and update the edges
 of the graph according to Algorithm \ref{rmNodeAlg} (the order does not matter).
 For a more detailed version please take a look at the article from \cite{Bretz11} 
-that is freely available as OnlineOpen Article.
+that is freely available as an OnlineOpen Article.
 
 \begin{algorithm}
 \caption{Removing node $i$, passing the weight and updating the graph edges}
@@ -660,9 +660,25 @@ gMCP(graph, pvalues=c(0.02, 0.04, 0.01, 0.02), eps=0.001)
 
 \section{Entangled graphs}\index{entangled graphs}\index{graphs!entangled}
 
-We support entangled graphs as a new feature. 
-You can add a second entangled graph by selecting "\emph{Extras $\rightarrow$ Add entangled graph}" from the menu.
+As a new feature we support entangled graphs (see \cite{maurer2013memory}), 
+which allow us to describe an even bigger class of multiple test procedures in 
+the familiar graphical way. Most notably these test procedures can have some
+kind of memory when passing the local significance levels to unrejected null
+hypotheses, i.e.\ for the step-wise rejective Bonferroni based test procedure 
+the passing of alpha levels when a null hypothesis is rejected can be different
+depending from which previous rejected nodes this alpha level originates.
+
+\begin{Def}[Entangled Graph]
+  An \emph{entangled graph} is a pair $(\mathcal{G}, w)$ with $\mathcal{G}=(\mathcal{G}_1,\ldots, \mathcal{G}_n)$ a $n$-tuple of graphs and $w$ $\ldots$. 
+  We call $\mathcal{G}_1,\ldots, \mathcal{G}_n$ the \emph{component graphs}\index{graphs!component} of the entangled graph $\mathcal{G}$.
+\end{Def}
+
+
+You can add a second component graph by selecting "\emph{Extras $\rightarrow$ Add entangled graph}" from the menu. Should be "\emph{Extras $\rightarrow$ Add another component graph}"?
+
+
 For each graph a new tab in the graph panel and transition matrices panel is created (see figure \ref{fig:entangledGUI} for example).
+
 
 \begin{figure}[ht]
   \centering    
