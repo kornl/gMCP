@@ -112,7 +112,7 @@ controlling the family wise error rate in the strong sense. In some
 cases shortcuts are available, one example is the weighted Bonferroni
 procedure that leads to a sequentially rejective multiple test procedure.
 
-At all steps either graphical user interfaces or the R Console with S4
+For all steps either graphical user interfaces or the R Console with S4
 objects and methods can be used.
 
 %Please note that this is still an early release and the API will most
@@ -120,7 +120,7 @@ objects and methods can be used.
 
 \subsection{Installation}
 
-If you don't already have R on your system, you can download a bundled
+If you don't already have R (\cite{R}) on your system, you can download a bundled
 version of R and gMCP from \url{http://www.algorithm-forge.com/gMCP/bundle/}.
 
 Otherwise open R and type \texttt{install.packages("gMCP")}, 
