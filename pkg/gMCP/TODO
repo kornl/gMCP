@@ -20,6 +20,9 @@ Does rJava again contain all necessary jar files?
 - Reodering hypotheses doesn't work.
 - See ?Deprecated and ?Defunct for outdated code
 
+- cat((graph2latex(improvedParallelGatekeeping(), nodeTikZ="minimum size=1.2cm", tikzEnv=FALSE, offset=c(300, 0)))
+  has inverted arrows (arcs are too long) without manual 'nodeR=27'.
+
 - Check verbose output of algorithm (i) when, why? ii) new FormLayout)
 - Check whether option "Colored image files and reports" is respected.
 
