@@ -154,13 +154,13 @@ For each intersection $\bigcap_{j\in J}H_j$, $J\subset I$ a graph $G_J$ can be
 derived from $G_I$ and the weights for the weighted local test for
 $\bigcap_{j\in J}H_j$ are the weights of the nodes of $G_J$. To derive
 graph $G_J$ remove all nodes that are not in $J$ and update the edges
-of the graph according to Algorithm \ref{rmNodeAlg} (the order does not matter).
+of the graph according to Algorithm \ref{alg:rmNodeAlg} (the order does not matter).
 For a more detailed version please take a look at the article from \cite{Bretz11} 
 that is freely available as an OnlineOpen Article.
 
 \begin{algorithm}
 \caption{Removing node $i$, passing the weight and updating the graph edges}
-\label{rmNodeAlg}
+\label{alg:rmNodeAlg}
 \begin{algorithmic}
 \FOR{$l \in I$} 
   \STATE $w_l \gets w_l+w_i\cdot g_{il}$
@@ -196,7 +196,7 @@ Reject $H^{(1)},H^{(2)},\ldots, H^{(j)}$ such that
 \end{Theorem}
 
 The corresponding graph for the Bonferroni-Holm-Procedure for three
-hypotheses is given in Figure \ref{exampleHolm}.  We see a fully
+hypotheses is given in Figure \ref{fig:exampleHolm}.  We see a fully
 connected graph, where each node represents a hypothesis and the nodes
 and edges have weights.
 
@@ -206,7 +206,7 @@ and edges have weights.
 graph <- BonferroniHolm(3)
 cat(graph2latex(graph, scale=0.7, labelTikZ="near start,fill=blue!20", scaleText=FALSE))
 @
-  \caption{\label{exampleHolm} Graph representing the
+  \caption{\label{fig:exampleHolm} Graph representing the
     Bonferroni-Holm-Procedure for three hypotheses.}
 \end{figure}
 
@@ -216,17 +216,18 @@ updated and the alpha level of this node is passed according to the
 edge weights.
 
 \begin{Example}
-  We give an example for the Bonferroni-Holm-Procedure that will
-  be used repeatedly throughout this manual. Of course this 
+  We give an example for the Bonferroni-Holm-Procedure.
+  %that willbe used repeatedly throughout this manual. 
+  Of course this 
   package is made for more advanced tests (you find a selection in 
-  section \ref{caseStudies}),
+  appendix \ref{sec:exampleGraphs} with applied examples in section \ref{sec:caseStudies}),
   but since most readers are already familiar with this procedure,
   for a first introduction of gMCP, we stick to this simple example.  
   
   Let $p_1=0.01$, $p_2=0.07$ and $p_3=0.02$ be three p-values and
   $\alpha=0.05$.  In the first step $H_1$ can be rejected since
   $p_1<\alpha/3$.  The updated graph can be seen in figure
-  \ref{exampleHolmP} and now also $H_3$ can be rejected since
+  \ref{fig:exampleHolmP} and now also $H_3$ can be rejected since
   $p_1<\alpha/2$.  Again the graph is updated, but $H_2$
   can not be rejected.
 \end{Example}
@@ -243,7 +244,7 @@ cat("\\\\$\\downarrow$ reject $H_3$\\\\\\ \\\\")
 graph <- rejectNode(graph, "H3")
 cat(graph2latex(graph, scale=0.7, nodeTikZ="minimum size=1.2cm", scaleText=FALSE))
 @
-  \caption{\label{exampleHolmP} Example showing how two
+  \caption{\label{fig:exampleHolmP} Example showing how two
     null hypotheses can be rejected with p-values $p_1=0.01$,
     $p_2=0.07$ and $p_3=0.02$.}
 \end{figure}
@@ -255,7 +256,7 @@ library(gMCP)
 graphGUI()
 @
 
-The GUI seen in Figure \ref{fullGUI} is shown and we select from the
+The GUI seen in Figure \ref{fig:fullGUI} is shown and we select from the
 menu "\emph{Example graphs}" the entry "\emph{Bonferroni-Holm Test}".
 We enter the three p-values in the respective fields on the right
 side.  By clicking on the button with the green arrow we start the
@@ -280,7 +281,7 @@ must be created.
 graph <- BretzEtAl2011()
 cat(graph2latex(graph, scale=0.7, scaleText=FALSE))
 @
-  \caption{\label{exampleGraphBretz} Example graph from \cite{bretz2011test} that we will create in this vignette.}
+  \caption{\label{fig:exampleGraphBretz} Example graph from \cite{bretz2011test} that we will create in this vignette.}
 \end{figure}
 
 \subsection{Using R}
@@ -289,7 +290,7 @@ The most convenient way to create a graph in R is to use the functions
 \texttt{matrix2graph}\index{matrix2graph} and
 \texttt{setWeights}\index{setWeights}.  As an example we create the
 graph from \cite{bretz2011test} that you can see in
-figure \ref{exampleGraphBretz}.
+figure \ref{fig:exampleGraphBretz}.
 
 <<echo=TRUE, tidy=FALSE>>=
 m <- rbind(H11=c(0,   0.5, 0,   0.5, 0,   0  ),
@@ -334,7 +335,7 @@ Coordinates are interpretated as pixels in the GUI and big points in
 
 Let's take a look at the graph in {\LaTeX} rendered with package TikZ from 
 \cite{TikZ}\index{TikZ} (figure
-\ref{exampleGraphBretz} shows the compiled result):
+\ref{fig:exampleGraphBretz} shows the compiled result):
 
 %\lstset{language=[LaTeX]TeX}
 %\begin{lstlisting}
@@ -375,7 +376,7 @@ graphGUI("graph")
 \begin{figure}[ht]
   \centering    
   \includegraphics[width=0.95\textwidth]{pictures/FullFeaturedGUI.png}      
-  \caption{\label{fullGUI} The graphical user interface allows testing, calculation of confidence intervals and adjusted p-values.}
+  \caption{\label{fig:fullGUI} The graphical user interface allows testing, calculation of confidence intervals and adjusted p-values.}
 \end{figure}
 
 Let's take a look at the icon panel:
@@ -441,14 +442,14 @@ print(result)
 @
 
 We can create a TikZ graphic from the last graph with 
-\texttt{graph2latex(result@graphs[[4]])} that is shown in figure \ref{finalstate}.
+\texttt{graph2latex(result@graphs[[4]])} that is shown in figure \ref{fig:finalstate}.
 
 \begin{figure}[ht]
   \centering   
 <<echo=FALSE,results='asis'>>=
 cat(graph2latex(result@graphs[[4]], scale=0.7, scaleText=FALSE))
 @
-  \caption{\label{finalstate}Final graph from the test procedure after rejection of $H_{21}$, $H_{31}$ and $H_{32}$.}
+  \caption{\label{fig:finalstate}Final graph from the test procedure after rejection of $H_{21}$, $H_{31}$ and $H_{32}$.}
 \end{figure}
 
 The command \texttt{gMCPReport}\index{report generation} generates a
@@ -525,7 +526,7 @@ simConfint(BonferroniHolm(3), pvalues=pval,
 \begin{figure}[ht]
   \centering    
   \includegraphics[width=0.7\textwidth]{pictures/CIDialog.png}      
-  \caption{\label{CIDialog} For normal and t-distributions simultaneous CI can be calculated by the GUI.}
+  \caption{\label{fig:CIDialog} For normal and t-distributions simultaneous CI can be calculated by the GUI.}
 \end{figure}
 
 
@@ -541,12 +542,12 @@ tests}\index{Simes-Procedure}\index{parametric test}
 \begin{figure}[ht]
   \centering    
   \includegraphics[width=0.7\textwidth]{pictures/correlated.png}      
-  \caption{\label{correlated} You can also specify a correlation between the tests.}
+  \caption{\label{fig:correlated} You can also specify a correlation between the tests.}
 \end{figure}
 
 In the lower right panel with p-values, it is also possible to specify a known
 correlation between the original test statistics (see figure
-\ref{correlated}). Either you can perform a Simes test or a weighted parametric
+\ref{fig:correlated}). Either you can perform a Simes test or a weighted parametric
 tests as described in \cite{Bretz11}. For the later it is assumed that
 under the global null hypothesis $(\Phi^{-1}(1-p_1),\ldots,\Phi^{-1}(1-p_m))$ 
 follow a multivariate normal distribution with correlation matrix $\Sigma$ where
@@ -566,12 +567,12 @@ parametric tests defined by graphs}".
 
 \subsection{Correlation matrix creation}\index{correlation matrix}
 
-The GUI features a dialog for easy creation of correlation matrices (see figure \ref{createCM1}).
+The GUI features a dialog for easy creation of correlation matrices (see figure \ref{fig:createCM1}).
 
 \begin{figure}[ht]
   \centering    
   \includegraphics[width=\textwidth]{pictures/createCM3.png}      
-  \caption{\label{createCM1} Dialog for specifying a correlation matrix.}
+  \caption{\label{fig:createCM1} Dialog for specifying a correlation matrix.}
 \end{figure}
 
 If the entered matrix is not positive semidefinite, 
@@ -585,13 +586,13 @@ calling the function \texttt{corMatWizard}.
 %\begin{figure}[ht]
 %  \centering    
 %  \includegraphics[width=0.7\textwidth]{pictures/createCM1.png}      
-%  \caption{\label{createCM2} You can configure many things in the option dialog.}
+%  \caption{\label{fig:createCM2} You can configure many things in the option dialog.}
 %\end{figure}
 
 %\begin{figure}[ht]
 %  \centering    
 %  \includegraphics[width=0.7\textwidth]{pictures/createCM1.png}      
-%  \caption{\label{createCM3} You can configure many things in the option dialog.}
+%  \caption{\label{fig:createCM3} You can configure many things in the option dialog.}
 %\end{figure}
 
 \section{Epsilon edges}\index{epsilon edges}
@@ -618,7 +619,7 @@ cat(graph2latex(improvedParallelGatekeeping(), nodeTikZ="minimum size=1.2cm", ti
 
 @
 \end{tikzpicture}
-  \caption{\label{gatekeeping}\index{parallel gatekeeping}\index{gatekeeping!parallel}\index{gatekeeping!improved parallel} The Parallel Gatekeeping and the Improved Parallel Gatekeeping Procedure.}
+  \caption{\label{fig:gatekeeping}\index{parallel gatekeeping}\index{gatekeeping!parallel}\index{gatekeeping!improved parallel} The Parallel Gatekeeping and the Improved Parallel Gatekeeping Procedure.}
 \end{figure}
 
 
@@ -660,24 +661,32 @@ gMCP(graph, pvalues=c(0.02, 0.04, 0.01, 0.02), eps=0.001)
 
 \section{Entangled graphs}\index{entangled graphs}\index{graphs!entangled}
 
-As a new feature we support entangled graphs (see \cite{maurer2013memory}), 
-which allow us to describe an even bigger class of multiple test procedures in 
-the familiar graphical way. Most notably these test procedures can have some
-kind of memory when passing the local significance levels to unrejected null
-hypotheses, i.e.\ for the step-wise rejective Bonferroni based test procedure 
-the passing of alpha levels when a null hypothesis is rejected can be different
-depending from which previous rejected nodes this alpha level originates.
+As a new feature we support entangled graphs (see
+\cite{maurer2013memory}), which allow us to describe an even bigger
+class of multiple test procedures in the familiar graphical way. Most
+notably these test procedures can have some kind of memory when
+passing the local significance levels to unrejected null hypotheses,
+i.e.\ for the step-wise rejective Bonferroni based test procedure the
+passing of alpha levels when a null hypothesis is rejected can be
+different depending from which previous rejected nodes this alpha
+level originates.
 
 \begin{Def}[Entangled Graph]
-  An \emph{entangled graph} is a pair $(\mathcal{G}, w)$ with $\mathcal{G}=(\mathcal{G}_1,\ldots, \mathcal{G}_n)$ a $n$-tuple of graphs and $w$ $\ldots$. 
-  We call $\mathcal{G}_1,\ldots, \mathcal{G}_n$ the \emph{component graphs}\index{graphs!component} of the entangled graph $\mathcal{G}$.
+  An \emph{entangled graph} is a pair $(\mathcal{G}, w)$ with
+  $\mathcal{G}=(\mathcal{G}_1,\ldots, \mathcal{G}_n)$ a $n$-tuple of
+  graphs and $w$ $\ldots$.  We call $\mathcal{G}_1,\ldots,
+  \mathcal{G}_n$ the \emph{component graphs}\index{graphs!component}
+  of the entangled graph $\mathcal{G}$.
 \end{Def}
 
 
-You can add a second component graph by selecting "\emph{Extras $\rightarrow$ Add entangled graph}" from the menu. Should be "\emph{Extras $\rightarrow$ Add another component graph}"?
+You can add a second component graph by selecting "\emph{Extras
+  $\rightarrow$ Add entangled graph}" from the menu. Should be
+"\emph{Extras $\rightarrow$ Add another component graph}"?
 
 
-For each graph a new tab in the graph panel and transition matrices panel is created (see figure \ref{fig:entangledGUI} for example).
+For each graph a new tab in the graph panel and transition matrices
+panel is created (see figure \ref{fig:entangledGUI} for example).
 
 
 \begin{figure}[ht]
@@ -1018,7 +1027,7 @@ A powerful feature is the use of styles, since this will effect all
 objects of a given class. But for this please take a look directly at
 the TikZ manual (\cite{TikZ}).
 
-\section{Case Studies}\label{caseStudies}
+\section{Case Studies}\label{sec:caseStudies}
 
 This section is work in progress.
 
@@ -1063,7 +1072,7 @@ boxplot(micronuclei~group, data=hydroquinone)
 
 \begin{appendix} 
 
-\section{Appendix - Example graphs}
+\section{Appendix - Example graphs}\label{sec:exampleGraphs}
 
 <<echo=FALSE, results='asis'>>=
 
