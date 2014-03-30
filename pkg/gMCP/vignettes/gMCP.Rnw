@@ -615,7 +615,7 @@ e.g.\ \texttt{1-2*\textbackslash epsilon+1/3*\textbackslash epsilon\^{}2} for $1
 <<echo=FALSE,results='asis'>>=
 
 cat(graph2latex(parallelGatekeeping(), nodeTikZ="minimum size=1.2cm", tikzEnv=FALSE))
-cat(graph2latex(improvedParallelGatekeeping(), nodeTikZ="minimum size=1.2cm", tikzEnv=FALSE, offset=c(300, 0)))
+cat(graph2latex(improvedParallelGatekeeping(), nodeTikZ="minimum size=1.2cm", tikzEnv=FALSE, offset=c(300, 0), nodeR=27))
 
 @
 \end{tikzpicture}
