@@ -29,6 +29,9 @@
 #' @param fill A list containing 2 elements \code{reject} and \code{retain}
 #' specifying node fill colour of rejected and retained (or not yet rejected)
 #' nodes.
+#' @param fig Logical whether a figure environment should be created.
+#' @param fig.label Label for figure environment (if \code{fig==TRUE}).
+#' @param fig.caption Caption for figure environment (if \code{fig==TRUE}).
 #' @param nodeR Radius of nodes (pixel in Java, bp in LaTeX).
 #' @param scaleText Only used if scale is unequal 1 and \code{tikzEnv==TRUE}. 
 #' If \code{scaleText} is \code{TRUE} (the default) a scalebox environment is used.
@@ -57,7 +60,8 @@
 #' @export graph2latex
 graph2latex <- function(graph, package="TikZ", scale=1, showAlpha=FALSE, alpha=0.05, pvalues,
 		fontsize,	nodeTikZ, labelTikZ="near start,above,fill=blue!20",
-		tikzEnv=TRUE, offset=c(0,0),fill=list(reject="red!80",retain="green!80"), nodeR=25, scaleText=TRUE) {
+		tikzEnv=TRUE, offset=c(0,0),fill=list(reject="red!80",retain="green!80"),
+		fig=FALSE, fig.label=NULL, fig.caption=NULL, nodeR=25, scaleText=TRUE) {
 	graph <- placeNodes(graph)
 	colors <- c("yellow","black","blue","red","green")
 	if (tikzEnv) {        
@@ -150,6 +154,19 @@ graph2latex <- function(graph, package="TikZ", scale=1, showAlpha=FALSE, alpha=0
 	}
   if ( !isTRUE(all.equal(scale,1, check.attributes=FALSE, check.names=FALSE)) && scaleText && tikzEnv) {
     tikz <- paste(paste("\\scalebox{",scale,"}{",sep=""),tikz,"}",sep="\n")
+  }
+  if (fig) {
+    label <- " "
+    if (!is.null(fig.label)) {
+      label <- paste("\\label{", fig.label, "} ", sep="")
+    }
+    caption <- ""
+    if (!is.null(fig.caption)) {
+      caption <- paste("\\caption{",label,fig.caption,"}", sep="")
+    }
+    tikz <- paste("\\begin{figure}[ht]\n\\begin{center}", tikz,
+                  "\\end{center}", caption, "\\end{figure}", sep="\n")
+    
   }
 	return(tikz)
 }
