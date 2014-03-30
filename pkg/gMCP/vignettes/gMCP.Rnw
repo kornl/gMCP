@@ -1105,10 +1105,12 @@ graphs <- list(BonferroniHolm(5),
 )
 
 for (g in graphs) {
-  cat(graph2latex(g))
+  cat(graph2latex(g, fig=TRUE))
 }
 
 @
+
+\cleardoublepage
 
 \section{Appendix - Multiple Testing Basics}
 
