@@ -1038,7 +1038,7 @@ In this subsection we show how to use gMCP to reproduce the results of the paper
 
 \cite{bauer1998testing}
 
-<<echo=TRUE, message=FALSE>>=
+<<echo=TRUE, message=FALSE, warning=FALSE>>=
 data(hydroquinone)
 
 pvalues <- c() 
@@ -1070,13 +1070,15 @@ boxplot(micronuclei~group, data=hydroquinone)
 \caption{\label{bpHydroquinone} Boxplot of the hydroquinone data set}
 \end{figure}
 
+\clearpage
+
 \begin{appendix} 
 
 \section{Appendix - Example graphs}\label{sec:exampleGraphs}
 
 <<echo=FALSE, results='asis'>>=
 
-graphs <- list(BonferroniHolm(5),
+graphs <- list(BonferroniHolm(4),
                parallelGatekeeping(),
                improvedParallelGatekeeping(),
                BretzEtAl2011(),
@@ -1104,8 +1106,11 @@ graphs <- list(BonferroniHolm(5),
                #Entangled2Maurer2012(),
 )
 
+count <-0
 for (g in graphs) {
-  cat(graph2latex(g, fig=TRUE))
+  cat(graph2latex(g, fig=TRUE, scaleText=TRUE, scale=0.7))
+  count <- count + 1
+  if(count%%6==0) cat("\\cleardoublepage\n")
 }
 
 @
