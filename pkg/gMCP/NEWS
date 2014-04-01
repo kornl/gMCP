@@ -48,6 +48,16 @@ Changes in version 0.8-7 (??-0?-2014)
 
 - Edges are highlighted if transition matrix cells are edited.
 
+- New example graph from Wang, B. and Ting, N. (2014): "An Application of Graphical 
+  Approach to Construct Multiple Testing Procedures in a Hypothetical Phase III Design." 
+  Frontiers in public health, 1 (75).
+
+- Fixed: In some cases the description of the graph objects was not loaded.
+
+- Fixed: A backslash '\' in the graph description could crash the GUI including R.
+
+- Better handling of unintentionally entered NaN or infinity values.
+
 
 Changes in version 0.8-6 (17-02-2014)
 =====================================

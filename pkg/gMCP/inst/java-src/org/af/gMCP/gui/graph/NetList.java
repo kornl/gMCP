@@ -244,15 +244,13 @@ public class NetList extends JTabbedPane implements ChangeListener {
 		return graph;
 	}
 
-	public void loadGraph(String string) {
+	public void loadGraph(String string, boolean global) {
+		if (global) {
+			string = "get(\""+string+"\", envir=globalenv())";
+		}
 		boolean matrix = RControl.getR().eval("is.matrix("+string+")").asRLogical().getData()[0];
-		RControl.getR().eval(initialGraph + " <- placeNodes("+ (matrix?"matrix2graph(":"(")+ string + "))");
-		graph = loadGraph();	
-		if (graph.getDescription()!=null) {
-			control.getDView().setDescription(graph.getDescription());
-		} else {
-			control.getDView().setDescription("");
-		}		
+		RControl.getR().eval(initialGraph + " <- placeNodes("+ (matrix?"matrix2graph(":"(")+ string + "))");				
+		graph = loadGraph();				
 		if (graph.pvalues!=null && graph.pvalues.length>1) {
 			control.getPView().setPValues(graph.pvalues);
 		}
@@ -363,7 +361,7 @@ public class NetList extends JTabbedPane implements ChangeListener {
 	 * @param ht Hashtable that contains for latin and greek characters (as Strings)
 	 * the corresponding Double values. Should not be null, but can be empty.
 	 * @param global if true graph is saved to global/specified environment otherwise to gMCP:::env. 
-	 * @return
+	 * @return name under which graph was saved, i.e. make.names(graphName)
 	 */
 	public String saveGraph(String graphNameOld, boolean verbose, Hashtable<String,Double> ht, boolean global) {
 		if (nodes.size()==0) {
@@ -393,6 +391,13 @@ public class NetList extends JTabbedPane implements ChangeListener {
 		return graphName;
 	}
 
+	/**
+	 * Will open dialog to enter values for all variables and then save the graph with these values.
+	 * @param graphName Name of the graph
+	 * @param verbose if true, a JOption MessageDialog will be shown stating the success
+	 * @param global if true graph is saved to global/specified environment otherwise to gMCP:::env. 
+	 * @return name under which graph was saved, i.e. make.names(graphName)
+	 */
 	public String saveGraphWithoutVariables(String graphName, boolean verbose, boolean global) {
 		Set<String> variables = getAllVariables();
 		if (!Configuration.getInstance().getGeneralConfig().useEpsApprox())	{
@@ -409,7 +414,7 @@ public class NetList extends JTabbedPane implements ChangeListener {
 		saveGraph(graphName, verbose, null, global);
 		RControl.getR().eval(graphName+"<- gMCP:::replaceVariables("+graphName+", variables="+getRVariableList(ht)+", ask=FALSE)");
 		//TODO This is really a strange place to load a graph... :
-		loadGraph(graphName);
+		loadGraph(graphName, false);
 		return saveGraph(graphName, verbose, ht, global);
 	}
 

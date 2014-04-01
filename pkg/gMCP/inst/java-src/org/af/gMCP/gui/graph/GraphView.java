@@ -363,7 +363,7 @@ public class GraphView extends JPanel implements ActionListener {
 		if (!getNL().testingStarted) return;
 		getNL().stopTesting();
 		getNL().reset();
-		getNL().loadGraph(getNL().resetGraph);
+		getNL().loadGraph(getNL().resetGraph, false);
 		getDataFramePanel().setTesting(false);
 		getPView().restorePValues();
 		getPView().setTesting(false);
@@ -508,14 +508,17 @@ public class GraphView extends JPanel implements ActionListener {
 
 	public void copyGraphToClipboard() {
 		if (OSTools.isLinux() && !Configuration.getInstance().getClassProperty(this.getClass(), "showClipboardInfo", "yes").equals("no")) {
-			String message = "An old bug from 2007 that is widely known but never\n" +
-					"fixed from Sun/Oracle in Java will most likely prevent this\n" +
-					"feature to work on a Linux machine.\n" +
-					"We are sorry…";
-			JCheckBox tellMeAgain = new JCheckBox("Don't show me this info again.");			
-			JOptionPane.showMessageDialog(parent, new Object[] {message, tellMeAgain}, "Will most likely not work under Linux", JOptionPane.WARNING_MESSAGE);
-			if (tellMeAgain.isSelected()) {
-				Configuration.getInstance().setClassProperty(this.getClass(), "showClipboardInfo", "no");
+			String jsv = System.getProperty("java.specification.version");
+			if (jsv.equals("1.5") || jsv.equals("1.6")) {
+				String message = "An old bug from 2007 that is widely known but never\n" +
+						"fixed by Sun/Oracle in Java will most likely prevent this\n" +
+						"feature to work on a Linux machine.\n" +
+						"We are sorry…";
+				JCheckBox tellMeAgain = new JCheckBox("Don't show me this info again.");			
+				JOptionPane.showMessageDialog(parent, new Object[] {message, tellMeAgain}, "Will most likely not work under Linux", JOptionPane.WARNING_MESSAGE);
+				if (tellMeAgain.isSelected()) {
+					Configuration.getInstance().setClassProperty(this.getClass(), "showClipboardInfo", "no");
+				}
 			}
 		}
 		if (getNL().getNodes().size()==0) {
@@ -552,8 +555,8 @@ public class GraphView extends JPanel implements ActionListener {
 
 	public void addEntangledLayer() {
 		getDataFramePanel().addLayer();
-		getPView().addEntangledLayer();
 		nl.addEntangledLayer();
+		getPView().addEntangledLayer();		
 	}
 	
 	/* This method should be called only from DataFramePanel.removeLayer()

@@ -489,7 +489,7 @@ public class PView extends JPanel implements KeyListener, ActionListener {
 			}
 			if (Math.abs(1-weight)>0.0001) {
 				subGraphLabel.setForeground(Color.RED);
-				subGraphLabel.setText("Component graph weights do not sum up to 1 but instead to "+weight+".");
+				subGraphLabel.setText("Component graph weights do not sum up to 1."); // We don't have to much space here, so we drop: " but instead to "+weight+".");
 			}
 		}
 	}

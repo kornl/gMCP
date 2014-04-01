@@ -89,7 +89,10 @@ public class MatrixCreationDialog extends JDialog implements ActionListener, Cha
 	public MatrixCreationDialog(JFrame parent, String matrix, List<String> names) {
 		super(parent, "Specify correlation matrix", true);
 		setLocationRelativeTo(parent);
-		this.names = names;
+		this.names = new Vector<String>();
+		for (String name : names) {
+			this.names.add(name);
+		}
 		this.parent = parent;
 		
 		RDataFrameRef df = new RDataFrameRef();
@@ -417,11 +420,11 @@ public class MatrixCreationDialog extends JDialog implements ActionListener, Cha
 				names.add((String) hypotheses.getModel().getElementAt(i));
 			}			
 			createMDiag();
-			List<String> names = new Vector<String>();
+			List<String> names2 = new Vector<String>();
 			for (String n : names) {
-				names.add(n);
+				names2.add(n);
 			}
-			dfp.getTable().getModel().getDataFrame().setNames(names);
+			dfp.getTable().getModel().getDataFrame().setNames(names2);
 			dfp.getTable().update();
 		} else if (e.getSource()==resetDiag) {
 			DataTableModel m2 = dfp.getTable().getModel();

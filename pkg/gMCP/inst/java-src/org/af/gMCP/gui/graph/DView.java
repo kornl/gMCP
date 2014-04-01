@@ -20,7 +20,7 @@ public class DView extends JTabbedPane {
 	private static final Log logger = LogFactory.getLog(DView.class);
 	CreateGraphGUI control;
 	JPanel description = null;
-	JTextArea jtaDescription = null;
+	private JTextArea jtaDescription = null;
 	JPanel analysis = null;
 	JTextArea jtaAnalysis = null;
 	public static final String defaultDescription = "Enter a description for the graph.";
@@ -97,6 +97,7 @@ public class DView extends JTabbedPane {
 
 	public String getDescription() {
 		String descr = jtaDescription.getText();
+		descr = descr.replaceAll("\\\\", "\\\\\\\\");
 		descr = descr.replaceAll("\n", "\\\\n");
 		descr = descr.replaceAll("\"", "\\\\\"");
 		return descr;

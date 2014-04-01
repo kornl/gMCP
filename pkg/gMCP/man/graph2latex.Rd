@@ -7,6 +7,7 @@
     nodeTikZ, labelTikZ = "near start,above,fill=blue!20",
     tikzEnv = TRUE, offset = c(0, 0),
     fill = list(reject = "red!80", retain = "green!80"),
+    fig = FALSE, fig.label = NULL, fig.caption = NULL,
     nodeR = 25, scaleText = TRUE)
 }
 \arguments{
@@ -18,8 +19,9 @@
 
   \item{scale}{A numeric scalar specifying a possible
   scaling of the graph. Note that this does not effect the
-  fontsize of the graph.  (Coordinates are interpreted in
-  big points - 72 bp = 1 inch).}
+  fontsize of the graph. Is only used if
+  \code{tikzEnv==TRUE}. (Coordinates are interpreted in big
+  points: 72 bp = 1 inch).}
 
   \item{showAlpha}{Logical whether local alpha levels or
   weights should be shown.}
@@ -53,6 +55,15 @@
   \item{fill}{A list containing 2 elements \code{reject}
   and \code{retain} specifying node fill colour of rejected
   and retained (or not yet rejected) nodes.}
+
+  \item{fig}{Logical whether a figure environment should be
+  created.}
+
+  \item{fig.label}{Label for figure environment (if
+  \code{fig==TRUE}).}
+
+  \item{fig.caption}{Caption for figure environment (if
+  \code{fig==TRUE}).}
 
   \item{nodeR}{Radius of nodes (pixel in Java, bp in
   LaTeX).}

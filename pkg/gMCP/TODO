@@ -18,6 +18,10 @@ Does rJava again contain all necessary jar files?
 (Pay attention to epsilons and numerical instabilities.)
 
 - Reodering hypotheses doesn't work.
+- See ?Deprecated and ?Defunct for outdated code
+
+- cat((graph2latex(improvedParallelGatekeeping(), nodeTikZ="minimum size=1.2cm", tikzEnv=FALSE, offset=c(300, 0)))
+  has inverted arrows (arcs are too long) without manual 'nodeR=27'.
 
 - Check verbose output of algorithm (i) when, why? ii) new FormLayout)
 - Check whether option "Colored image files and reports" is respected.
@@ -26,7 +30,9 @@ Does rJava again contain all necessary jar files?
 
 - Test error handler with Java 5.
 
-- Add variables as parameters to example graphs
+- In the log there are two lines:
+Package version could not be set:
+org.rosuda.REngine.REXPLogical cannot be cast to org.rosuda.REngine.REXPString
 
 java.lang.NoSuchMethodError: gdFlush
   at org.rosuda.JRI.Rengine.rniEval(Native Method)
@@ -55,12 +61,6 @@ graph2latex(improvedParallelGatekeeping(), scale=0.7, nodeTikZ="minimum size=1.2
 
 - Add close button for tabs to NetListPanels.
 
-* checking whether the namespace can be loaded with stated dependencies ... WARNING
-Error: .onLoad failed in loadNamespace() for ‘gMCP’, details:
-  call: J("org.af.commons.logging.SystemInfo")$getSystemInfo
-  error: could not find function "loadMethod"
-Execution halted
-
 Does not work any more:
 #' \dontrun{
 #' # If Rgraphviz is installed, we can take a look at the graph:
@@ -74,13 +74,10 @@ Does not work any more:
 Error: unexpected input in "eval(expression(try(1-\"
 
 - Streamline / throw out graphTest
-- Highlight edges (and perhaps nodes) depending on the focus in the dataframe. 
 
 - http://docs.oracle.com/javase/1.5.0/docs/guide/net/proxies.html - http://stackoverflow.com/questions/376101/setting-jvm-jre-to-use-windows-proxy-automatically
 - Unify graphMCP and entangled graphs?
 - Integrate parameter 'envir' into corMatWizard.
-
-- Java 7 ignores property "sun.awt.exception.handler"? http://stackoverflow.com/questions/5794472/why-bother-with-setting-the-sun-awt-exception-handler-property
 
 From xlsxjars:
  jversion <- .jcall("java.lang.System", "S", "getProperty", "java.version")

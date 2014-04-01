@@ -111,7 +111,7 @@ public class RObjectLoadingDialog extends JDialog implements ActionListener, Lis
 			} else {
 				object = jlGraphs.getSelectedValue().toString();
 			}   
-			((MenuBarMGraph)parent.getJMenuBar()).loadGraph(object);
+			((MenuBarMGraph)parent.getJMenuBar()).loadGraph(object, true);
 			Configuration.getInstance().getGeneralConfig().addGraph("R Object: "+object);
 		}
 		dispose();
@@ -120,11 +120,11 @@ public class RObjectLoadingDialog extends JDialog implements ActionListener, Lis
 	public void valueChanged(ListSelectionEvent e) {
 		if (e.getSource()==jlMatrices && jlMatrices.getSelectedIndex() != -1) {
 			jlGraphs.removeSelectionInterval(0, graphs.length-1);
-			String info = RControl.getR().eval("gMCP:::getObjectInfo("+jlMatrices.getSelectedValue()+")").asRChar().getData()[0];
+			String info = RControl.getR().eval("gMCP:::getObjectInfo("+jlMatrices.getSelectedValue()+")", true).asRChar().getData()[0];
 			jtInfo.setText(info);
 		} else if (e.getSource()==jlGraphs && jlGraphs.getSelectedIndex() != -1) {
 			jlMatrices.removeSelectionInterval(0, matrices.length-1);
-			String info = RControl.getR().eval("gMCP:::getObjectInfo("+jlGraphs.getSelectedValue()+")").asRChar().getData()[0];
+			String info = RControl.getR().eval("gMCP:::getObjectInfo("+jlGraphs.getSelectedValue()+")", true).asRChar().getData()[0];
 			jtInfo.setText(info);
 		}
 		jtInfo.setCaretPosition(0);		
