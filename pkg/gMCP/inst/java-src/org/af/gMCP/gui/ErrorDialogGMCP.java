@@ -16,6 +16,8 @@ import java.util.List;
 import java.util.Vector;
 
 import javax.imageio.ImageIO;
+import javax.swing.JCheckBox;
+import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -53,6 +55,19 @@ public class ErrorDialogGMCP extends JDialog implements ActionListener {
 
     static int count = 0;
 
+	String[] reportLevels = new String[] {
+			"Send no error report.",
+			"Minimal: Just send the error + version + OS type",
+			"Default: Send the most important information",
+			"Maximal: Includes more information about the system"
+	};
+	
+	protected JComboBox jcbReportLevel;
+	protected JCheckBox jcbScreenshot = new JCheckBox("Send screenshot of gMCP GUI window");	
+	protected JLabel reviewInfo = new JLabel("You will be able to review and change the collected data.");
+	
+	
+    
     protected static Log logger = LogFactory.getLog(ErrorDialogGMCP.class);
 
     public static File makeLogFile(String fileName, String content) throws IOException{
@@ -134,10 +149,63 @@ public class ErrorDialogGMCP extends JDialog implements ActionListener {
 			JOptionPane.showMessageDialog(this, "IO-Error while accessing log file!");
 		}
         
-        HorizontalButtonPane bp = new OkCancelButtonPane("Ok", "Cancel");
-        setContentPane(WidgetFactory.makeDialogPanelWithButtons(dd, bp, this));
-        pack();
-        setLocationRelativeTo(getParent());
+		String cols = "5dlu, fill:pref:grow, 5dlu, pref, 5dlu";
+		String rows = "5dlu, pref, 5dlu, pref, 5dlu, pref, 5dlu, pref, 5dlu, pref, 5dlu, pref, 5dlu";
+
+		FormLayout layout = new FormLayout(cols, rows);
+		getContentPane().setLayout(layout);
+		CellConstraints cc = new CellConstraints();
+		
+		jcbReportLevel = new JComboBox(reportLevels);
+
+	    int rLevel;
+	    try {
+	    	rLevel = Integer.parseInt(Configuration.getInstance().getClassProperty(this.getClass(), "reportLevel", "2"));
+	    } catch (Exception e) {
+	    	rLevel = 2;
+	    }
+	    jcbReportLevel.setSelectedIndex(rLevel);
+	    
+		int row = 2;
+		
+		JTextArea jlabel = new JTextArea("We are sorry that an error occurred.\n" +
+				"Please give us details about this error so that we can fix it.");
+		jlabel.setOpaque(false);
+		jlabel.setEditable(false);
+		
+		getContentPane().add(jlabel, cc.xyw(2, row, 3));
+		
+		row += 2;		
+		
+		getContentPane().add(jcbReportLevel, cc.xyw(2, row, 3));
+
+		row += 2;
+		
+		jlabel = new JTextArea("The following information will be send to us:");
+		jlabel.setOpaque(false);
+		jlabel.setEditable(false);
+		
+		getContentPane().add(jlabel, cc.xyw(2, row, 3));
+		
+		row += 2;		
+
+		getContentPane().add(reviewInfo, cc.xyw(2, row, 3));
+		
+		row += 2; 
+		
+		getContentPane().add(jcbScreenshot, cc.xyw(2, row, 3));
+
+		row += 2;
+		
+		OkCancelButtonPane ocPane = new OkCancelButtonPane("Ok", "Cancel");
+		getContentPane().add(ocPane, cc.xy(4, row));
+		ocPane.addActionListener(this);
+		
+	    setLocationRelativeTo(getParent());
+		
+		pack();
+		
+		setVisible(true);
     }
     
 
@@ -390,9 +458,10 @@ public class ErrorDialogGMCP extends JDialog implements ActionListener {
     		setResizable(true);
     		setAlwaysOnTop(true);
     		setVisible(true);
-    	} catch (Exception e) {	
-    		 JOptionPane.showMessageDialog(this, "Error during creating error dialog:\n"+e.getMessage(), "Error creating error dialog", JOptionPane.ERROR_MESSAGE);
-    		e.printStackTrace();
+    	} catch (Exception ex) {	
+    		 JOptionPane.showMessageDialog(this, "Error during creating error dialog:\n"+ex.getMessage()+
+    				 ((e!=null && e instanceof Throwable)?"\n\n Original error was:\n"+((Throwable)e).getMessage():""), "Error creating error dialog", JOptionPane.ERROR_MESSAGE);
+    		ex.printStackTrace();
     	}
     }  
     
