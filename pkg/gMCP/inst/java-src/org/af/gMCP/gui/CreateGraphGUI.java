@@ -51,6 +51,8 @@ public class CreateGraphGUI extends JFrame implements WindowListener, AbortListe
 	public InfiniteProgressPanel glassPane;
 	protected static Log logger = LogFactory.getLog(CreateGraphGUI.class);
 	public static CreateGraphGUI lastCreatedGUI;
+	/** If we drop back to zero GUIs we may want to terminate the currently running Java Virtual Machine. */
+	public static int countGUIs = 0; 
 	
 	/**
 	 * Constructor of the GUI main frame
@@ -64,6 +66,7 @@ public class CreateGraphGUI extends JFrame implements WindowListener, AbortListe
 	 */
 	public CreateGraphGUI(String graph, double[] pvalues, boolean debug, double grid, boolean experimentalFeatures) {
 		super("gMCP GUI");
+		countGUIs++;
 		System.setProperty("java.net.useSystemProxies","true");
 		RControl.getRControl(debug);
 		if (grid>0) {
@@ -224,6 +227,11 @@ public class CreateGraphGUI extends JFrame implements WindowListener, AbortListe
 			if (answer==JOptionPane.YES_OPTION) {
 				control.saveGraph();
 			}
+		}
+		countGUIs--;
+		if (countGUIs==0) { 
+			//System.exit(0);
+			//RControl.console.f.dispose();
 		}
 		if (RControl.getR().eval("exists(\".isBundle\")").asRLogical().getData()[0]) {
 			RControl.getR().eval("q(save=\"no\")");
