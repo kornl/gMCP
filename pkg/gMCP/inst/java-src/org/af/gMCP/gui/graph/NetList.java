@@ -85,7 +85,8 @@ public class NetList extends JTabbedPane implements ChangeListener {
 			i = i + 1;
 			name = "H" + i;
 		}
-		addNode(new Node(name, x, y, new double[] {0d}, this));		
+		double[] weights = new double[layer];
+		addNode(new Node(name, x, y, weights, this));		
 	}
 	
 	public void addEntangledLayer() {		
