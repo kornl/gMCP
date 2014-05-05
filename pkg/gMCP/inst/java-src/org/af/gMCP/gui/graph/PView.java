@@ -484,12 +484,17 @@ public class PView extends JPanel implements KeyListener, ActionListener {
 		subGraphLabel.setText("");
 		double weight = 0;
 		if (entangledWeights.size()>0) {
-			for (int i=0; i<entangledWeights.size(); i++) {
-				weight += Double.parseDouble(entangledWeights.get(i).getText());
-			}
-			if (Math.abs(1-weight)>0.0001) {
+			try {
+				for (int i=0; i<entangledWeights.size(); i++) {
+					weight += Double.parseDouble(entangledWeights.get(i).getText());
+				}
+				if (Math.abs(1-weight)>0.0001) {
+					subGraphLabel.setForeground(Color.RED);
+					subGraphLabel.setText("Component graph weights do not sum up to 1."); // We don't have to much space here, so we drop: " but instead to "+weight+".");
+				}
+			} catch (NumberFormatException nfe) {
 				subGraphLabel.setForeground(Color.RED);
-				subGraphLabel.setText("Component graph weights do not sum up to 1."); // We don't have to much space here, so we drop: " but instead to "+weight+".");
+				subGraphLabel.setText("Component graph weights could not be parsed.");
 			}
 		}
 	}
