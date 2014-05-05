@@ -143,7 +143,16 @@ gMCP <- function(graph, pvalues, test, correlation, alpha=0.05,
     #TODO
     stop("Simes test is not yet supported for entangled graphs in this version.")
   }
-	if ((missing(test) || test=="Bonferroni") && "entangledMCP" %in% class(graph)) {		
+  
+  if (approxEps) {
+    graph <- substituteEps(graph, eps=eps)
+  }
+  if ("graphMCP" %in% class(graph) && !is.numeric(graph@m)) {
+    stop("Graph seems to contain variables - please use function replaceVariables.")
+    #graph <- parse2numeric(graph) # TODO ask for variables
+  }
+  
+  if ((missing(test) || test=="Bonferroni") && "entangledMCP" %in% class(graph)) {		
 		out <- graphTest(pvalues=pvalues, weights=getWeights(graph), alpha=alpha*graph@weights, G=getMatrices(graph))
 		result <- new("gMCPResult", graphs=list(graph), alpha=alpha, pvalues=pvalues, rejected=(out==1), adjPValues=numeric(0))
     attr(result, "call") <- call2char(match.call())
@@ -155,13 +164,6 @@ gMCP <- function(graph, pvalues, test, correlation, alpha=0.05,
 	#if (verbose) {
 	#	output <- paste(output, checkOptimal(graph, verbose=FALSE), sep="\n")
 	#}
-	if (approxEps && !is.numeric(graph@m)) {
-		graph <- substituteEps(graph, eps=eps)
-	}
-	if (!is.numeric(graph@m)) {
-		stop("Graph seems to contain variables - please use function replaceVariables.")
-		#graph <- parse2numeric(graph) # TODO ask for variables
-	}
 	sequence <- list(graph)
 	if (length(pvalues)!=length(getNodes(graph))) {
 		stop("Length of pvalues must equal number of nodes.")
