@@ -49,7 +49,7 @@ public class PView extends JPanel implements KeyListener, ActionListener {
 	JButton jbLoadPValues = new JButton("Load p-values from R");
 	public JComboBox jcbCorObject;
 	
-	protected JRadioButton jrbNoCorrelation = new JRadioButton("No Information about correlations");
+	protected JRadioButton jrbNoCorrelation = new JRadioButton("No information about correlations (Bonferroni based weighted tests)");
 	public JRadioButton jrbRCorrelation = new JRadioButton("Select an R correlation matrix"); 
 	public JRadioButton jrbSimes = new JRadioButton("Use Simes test");
 	
