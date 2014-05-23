@@ -69,7 +69,7 @@ public class NetListPanel extends JPanel implements MouseMotionListener, MouseLi
 		double oldZoom = getZoom();
 		setZoom(zoom);
 		// Remove all highlighting:
-		nl.highlightEdge(-1, -1);
+		nl.highlightEdge(-1, -1, -1);
 		
 		long maxX = 0;
 		long maxY = 0;
