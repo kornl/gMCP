@@ -2,7 +2,7 @@ package org.af.gMCP.gui.graph.annotations;
 
 import java.awt.Color;
 
-public class Note {
+public class Note extends Annotation {
 
 	String text;
 	int fontsize;

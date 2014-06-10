@@ -2,7 +2,7 @@ package org.af.gMCP.gui.graph.annotations;
 
 import java.awt.Color;
 
-public class Line {
+public class Line extends Annotation {
 
 	final static int NONE = 0;
 	final static int ARROW = 1;
