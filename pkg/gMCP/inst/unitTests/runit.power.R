@@ -7,6 +7,22 @@ test.calcpower <- function() {
 	gMCP:::calcMultiPower(weights=.tmpGraph@weights, alpha=0.05, G=.tmpGraph@m, muL = list(c(0, 0, 0)), sigmaL = list(c(1, 1, 1)), nL = list(c(10, 10, 10)),sigma = matrix(c(1,0,0,0,1,0,0,0,1), nrow=3), nSim = 10000, type = "quasirandom")
 }
 
+test.api.compatibility <- function() {
+  # Old API:
+  function(weights, alpha, G, mean = rep(0, nrow(sigma)),
+                        sigma = diag(length(mean)), cr = NULL,
+                        nSim = 10000, type = c("quasirandom", "pseudorandom"),
+                        f=list(), test) {}
+  # New API:
+  function(graph, alpha, mean = rep(0, nrow(sigma)),
+           corr.sim = diag(length(mean)), corr.test = NULL,
+           n.sim = 10000, type = c("quasirandom", "pseudorandom"),
+           f=list(), upscale, ...) {}
+  
+  # corr_sim and corr_model 
+  
+}
+
 test.rqmvnorm <- function() {
 	if (tests("extended")) {		
 		# Check whether the correlation is correctly processed

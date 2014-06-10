@@ -159,10 +159,16 @@ extractPower <- function(x, f=list()) {
 #' round(cbind(atlst1, locpow), 5)
 #' 
 #' @export calcPower
-calcPower <- function(weights, alpha, G, mean = rep(0, nrow(sigma)),
-                      sigma = diag(length(mean)), cr = NULL,
-                      nSim = 10000, type = c("quasirandom", "pseudorandom"),
-					  f=list(), test) {
+calcPower <- function(graph, alpha, mean = rep(0, nrow(sigma)),
+              corr.sim = diag(length(mean)), corr.test = NULL,
+              n.sim = 10000, type = c("quasirandom", "pseudorandom"),
+              f=list(), upscale, ...) {
+  ### OLD-API -> NEW-API
+  if (missing(n.sim) && !is.null(list(...)[["nSim"]])) n.sim <- list(...)[["nSim"]]
+  if (missing(corr.sim) && !is.null(list(...)[["sigma"]])) corr.sim <- list(...)[["sigma"]]
+  if (missing(corr.test) && !is.null(list(...)[["cr"]])) corr.test <- list(...)[["cr"]]
+  
+  ### END OF API COMPATIBILITY CODE
 	type <- match.arg(type)
 	if (any(is.na(sigma))) stop("While parameter 'cr' can contain NAs, this does not make sense for 'sigma'.")
 	#print(G)
