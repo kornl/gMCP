@@ -9,18 +9,18 @@
   \item{extended}{If \code{TRUE} (or if the environment
   variable GMCP_UNIT_TESTS equals "extended" or "all") an
   extended version of the R unit test suite for gMCP will
-  be used.  The run will take significantly longer time.
-  %and only cover further cases of the same %kind that also
-  tested in the non-extended version.}
+  be used.  The run will take significantly longer time.}
 
-  \item{java}{If \code{TRUE} the GUI and its logic is
-  tested with JUnit tests. You need JUnit 4 classes in the
-  classpath or specify the path to a JUnit 4 jar file via
-  the parameter junitLibrary.}
+  \item{java}{If \code{TRUE} (or if the environment
+  variable GMCP_UNIT_TESTS equals "java" or "all") the GUI
+  and its logic is tested with JUnit tests. You need JUnit
+  4 classes in the classpath or specify the path to a JUnit
+  4 jar file via the parameter junitLibrary.}
 
-  \item{interactive}{If \code{TRUE} the interactive part of
-  the RUnit tests is run.  The user have to look at results
-  and answer questions.}
+  \item{interactive}{If \code{TRUE} (or if the environment
+  variable GMCP_UNIT_TESTS equals "interactive" or "all")
+  the interactive part of the RUnit tests is run.  The user
+  have to look at results and answer questions.}
 
   \item{junitLibrary}{A character String specifying the
   path to a JUnit 4 jar file to run the JUnit tests.  You
@@ -41,6 +41,13 @@
 \description{
   Runs the R unit (and optional the JUnit) test suite for
   gMCP and prints the results.
+}
+\details{
+  The environment variable GMCP_UNIT_TESTS may be used to
+  specify which unit tests should run: "extended",
+  "interactive", "java" or a combination of these separated
+  by comma (without blanks). A short cut for all three is
+  "all".
 }
 \examples{
 \dontrun{
