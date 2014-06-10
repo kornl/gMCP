@@ -2,6 +2,8 @@ package org.af.gMCP.gui.graph.annotations;
 
 import java.awt.Color;
 
+import javax.json.stream.JsonGenerator;
+
 public class Line extends Annotation {
 
 	final static int NONE = 0;
@@ -18,6 +20,12 @@ public class Line extends Annotation {
 		this.y2 = y2;
 		this.type = type;
 		this.color = color;
+	}
+
+	@Override
+	public void writeObject(JsonGenerator gen) {
+		// TODO Auto-generated method stub
+		
 	}
 	
 }

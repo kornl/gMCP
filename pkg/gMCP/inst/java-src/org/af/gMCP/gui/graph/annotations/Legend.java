@@ -9,6 +9,7 @@ import java.awt.font.GlyphVector;
 import java.awt.font.TextLayout;
 import java.awt.geom.AffineTransform;
 
+import javax.json.stream.JsonGenerator;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
@@ -46,7 +47,26 @@ public class Legend extends Annotation {
 		f.setSize(800, 600);
 		f.setContentPane(new TestPanel());
 		Legend l = new Legend();
-		System.out.println(l.saveToR());
+		System.out.println(l.saveToJSON());
+	}
+
+	@Override
+	public void writeObject(JsonGenerator gen) {
+		gen.write("lastName", "Java");
+		/*
+		.write("postalCode", "12345")
+		.writeStartArray("phoneNumbers")
+		.writeStartObject()
+		.write("type", "mobile")
+		.write("number", "111-111-1111")
+		.writeEnd()
+		.writeStartObject()
+		.write("type", "home")
+		.write("number", "222-222-2222")
+		.writeEnd()
+		.writeEnd()
+		.writeEnd();*/		
+		
 	}
 	
 }
