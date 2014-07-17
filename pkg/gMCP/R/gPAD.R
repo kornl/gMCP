@@ -2,9 +2,30 @@
 #' graphical procedure
 #' 
 #' Computes partial conditional errors (PCE) for a pre-planned graphical
-#' procedure given information fractions and first stage z-scores. -
-#' Implementation of adaptive procedures is still in an early stage and may
-#' change in the near future
+#' procedure given information fractions and first stage z-scores. If a
+#' function giving group sequential boundaries is specified for each
+#' elementary hypotheses PCEs are computed for the corresponding group
+#' sequential trial - Implementation of adaptive procedures is still in
+#' an early stage and may change in the near future
+#' 
+#' At the moment partial conditional error rates are only 
+#' computed assuming that the trial is already at
+#' at the last preplanned interim analysis before the final
+#' analysis. E.g. if a three stage group sequential trial is
+#' planned we assume that the adaptive interim analysis is
+#' performed after the second stage. Early stopping because 
+#' an interim test statistic crosses an early rejection
+#' boundary at some previous stage can be implemented by
+#' setting the corresponding z statistics to Inf.
+#'
+#' Group sequential boundaries have to be specified using a function
+#' of the form \code{function(w,v,alpha)} - where w is a vector of
+#' weights with length equal to the number of elementary hypotheses,
+#' \code{v} the timing of the interim analysis, and \code{alpha} the
+#' overall alpha level - which returns a matrix where each column
+#' corresponds to an elementary hypotheses and the first row gives the
+#' interim rejection boundary; the second row the final rejection
+#' boundary. See \code{link{agMCPldbounds}}.
 #' 
 #' For details see the given references.
 #' 
@@ -14,6 +35,7 @@
 #' collected up to the interim analysis. Will be recycled of length different
 #' than the number of elementary hypotheses.
 #' @param alpha A numeric specifying the maximal allowed type one error rate.
+#' @param gSB group sequential boundaries function 
 #' @return An object of class \code{gPADInterim}, more specifically a list with
 #' elements
 #' @returnItem Aj a matrix of PCEs for all elementary hypotheses in each
@@ -66,14 +88,50 @@
 #' 
 #' @export doInterim
 #' 
-doInterim <- function(graph,z1,v,alpha=.025){
+doInterim <- function(graph,z1,v,alpha=.025,gSB=NULL){
   g <- graph2matrix(graph)
   w <- getWeights(graph)
   ws <- generateWeights(g,w)
-  n <- length(w)
-  As <- t(apply(ws[,(1+n):(2*n)],1,partialCE,z1=z1,v=v,alpha=alpha))
+  m <- length(w)
+  #########################################################
+  ## non run-time optimized version of group sequentialism
+  ##
+  ## At the moment partial conditional error rates are only 
+  ## computed assuming that the trial is already at
+  ## at the last preplanned interim analysis before the final
+  ## analysis. E.g. if a three stage group sequential trial is
+  ## planned we assume that the adaptive interim analysis is
+  ## performed after the second stage. Early stopping because 
+  ## an interim ttest statistic crossed a early rejection
+  ## boundary at some previous stage can be implemented by
+  ## setting the corresponding z statistics to Inf.
+  #########################################################
+  ## second stage weights
+  ssw <- ws[,(m+1):(2*m)]
+
+  ## rejection boundaries
+  if(!is.null(gSB)){
+      boundaries <- simplify2array(lapply(1:nrow(ssw),function(i) gSB(ssw[i,],alpha=alpha,v=v)))
+      ## early rejection boundaries
+      sb <- t(boundaries[1,,])
+      ## nominal second stage local levels divided by alpha
+      ssw <- pnorm(t(boundaries[2,,]),lower.tail=FALSE)/alpha
+      As <- t(apply(ssw,1,gMCP:::partialCE,z1=z1,v=v,alpha=alpha))
+      ## any z1 that crosses an early rejection boundary?
+      cerb <- sweep(sb,2,z1,"<=")
+      ## set As to 1 where z1 crosses an early rejection boundary
+      As[cerb] <- cerb
+  } else {
+      As <- t(apply(ssw,1,gMCP:::partialCE,z1=z1,v=v,alpha=alpha))
+      sb <- matrix(NA,0,0) 
+  }
   Bs <- rowSums(As)
-  res <- new('gPADInterim',Aj=As,BJ=Bs,z1=z1,v=v,preplanned=graph,alpha=alpha)
+  rejected <- rep(FALSE,m)
+  for(i in 1:m){
+      index <- contains(i,m)
+      rejected[i] <- all(Bs[index]>=1)
+  }
+  res <- new('gPADInterim',Aj=As,BJ=Bs,z1=z1,v=v,preplanned=graph,alpha=alpha,rejected=rejected,erb=sb)
   return(res)
 }
 
@@ -158,7 +216,58 @@ secondStageTest <- function(interim,select,matchCE=TRUE,zWeights="reject",G2=int
     decideTest(z,Cs)
   })
 }
-                      
+
+
+#' Generate a group sequential boundaries function using ldbounds.
+#'
+#' Provides a simple way to generate group sequential boundary
+#' functions based on the Lan De'Mets spending function approach
+#' implemented in ldbounds. See \code{bounds} in package
+#' \code{ldbounds} for details.
+#'
+#' @param iuse vector specifying which spending function to use for each elementary hypotheses. 
+#' @param opts list of length iuse where each element provides a list of additional options for \code{bounds} from package \code{ldbounds}
+#'
+#' @examples
+#' ## O'Brien Fleming Boundaries for hypotheses one and two, Pocock for the rest
+#' obfpoc <- agMCPldbounds(c(1,1,2,2))
+#' obfpoc(c(1/3,1/3,1/6,1/6),1/2,.025)
+#'
+#' @export agMCPldbounds
+agMCPldbounds <- function(iuse,opts = NULL){
+    if(!require(ldbounds))
+        stop("In order to use agMCPldbounds to construct group sequential boundary functions you need to install package: ldbounds")
+    if(!is.null(opts)){
+        ## error handling
+        if(length(opts) != length(iuse)){
+            stop("List of options needs to be the same length as number of spending functions")
+        }
+        function(w,v,alpha){
+            sapply(1:length(iuse),function(i) {
+                if(w[i]>0) {
+                    do.call(bounds,c(list(iuse=iuse[i],alpha=w[i]*alpha,t=c(v,1)),opts[[i]]))$upper.bounds
+                    } else {
+                        c(Inf,Inf)
+                    }
+        })
+        }
+    } else {
+        function(w,v,alpha){
+           sapply(1:length(iuse),function(i) {
+               if(w[i]>0) {
+                   do.call(bounds,list(iuse=iuse[i],alpha=w[i]*alpha,t=c(v,1)))$upper.bounds
+                   } else {
+                       c(Inf,Inf)
+                   }
+       })
+       }
+    }
+}
+
+nhyp <- function(graph){
+  return(nrow(graph2matrix(graph)))
+}
+
 nhyp <- function(graph){
   return(nrow(graph2matrix(graph)))
 }
@@ -266,7 +375,19 @@ to.intersection <- function(int){
     parse.intersection(to.binom(int,n=maxn))
   }
 }
-         
+
+contains <- function(i,m){
+    ## computes binary numbers with a 1 at the i'th place
+    n <- 2^m-1
+    if(i == 1){
+        return((1:ceiling(n/2)*2)-1)
+    }
+    first <- 2^(i-1)
+    breakpoints <- (1:ceiling(n/first))*first
+    breaks <- ceiling(length(breakpoints)/2)
+    unlist(lapply(1:breaks,function(i) breakpoints[i*2-1]:(breakpoints[i*2]-1)))
+}
+
 ## test.to.binom <- function(v){
 ##   sum(2^(which(v)-1))
 ## }

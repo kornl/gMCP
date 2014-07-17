@@ -1,0 +1,26 @@
+\name{agMCPldbounds}
+\alias{agMCPldbounds}
+\title{Generate a group sequential boundaries function using ldbounds.}
+\usage{
+  agMCPldbounds(iuse, opts = NULL)
+}
+\arguments{
+  \item{iuse}{vector specifying which spending function to
+  use for each elementary hypotheses.}
+
+  \item{opts}{list of length iuse where each element
+  provides a list of additional options for \code{bounds}
+  from package \code{ldbounds}}
+}
+\description{
+  Provides a simple way to generate group sequential
+  boundary functions based on the Lan De'Mets spending
+  function approach implemented in ldbounds. See
+  \code{bounds} in package \code{ldbounds} for details.
+}
+\examples{
+## O'Brien Fleming Boundaries for hypotheses one and two, Pocock for the rest
+obfpoc <- agMCPldbounds(c(1,1,2,2))
+obfpoc(c(1/3,1/3,1/6,1/6),1/2,.025)
+}
+

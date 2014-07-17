@@ -25,6 +25,10 @@
       specifying the preplanned graphical procedure.}
     \item{\code{alpha}:}{A \code{numeric} giving the alpha level of the
       pre-planned test}
+    \item{\code{rejected}}{A \code{logical} vector specifying whether
+      any elementary hypotheses has been rejected at interim}
+    \item{\code{erb}}{A \code{matrix} giving early rejection boundaries
+      for group sequential trials}
   }
 }
 \author{Florian Klinglmueller \email{float@lefant.net}}

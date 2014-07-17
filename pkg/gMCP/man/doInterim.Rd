@@ -3,7 +3,7 @@
 \title{EXPERIMENTAL: Evaluate conditional errors at interim for a pre-planned
 graphical procedure}
 \usage{
-  doInterim(graph, z1, v, alpha = 0.025)
+  doInterim(graph, z1, v, alpha = 0.025, gSB = NULL)
 }
 \arguments{
   \item{graph}{A graph of class \code{\link{graphMCP}}.}
@@ -17,6 +17,8 @@ graphical procedure}
 
   \item{alpha}{A numeric specifying the maximal allowed
   type one error rate.}
+
+  \item{gSB}{group sequential boundaries function}
 }
 \value{
   An object of class \code{gPADInterim}, more specifically
@@ -34,11 +36,34 @@ graphical procedure}
 \description{
   Computes partial conditional errors (PCE) for a
   pre-planned graphical procedure given information
-  fractions and first stage z-scores. - Implementation of
+  fractions and first stage z-scores. If a function giving
+  group sequential boundaries is specified for each
+  elementary hypotheses PCEs are computed for the
+  corresponding group sequential trial - Implementation of
   adaptive procedures is still in an early stage and may
   change in the near future
 }
 \details{
+  At the moment partial conditional error rates are only
+  computed assuming that the trial is already at at the
+  last preplanned interim analysis before the final
+  analysis. E.g. if a three stage group sequential trial is
+  planned we assume that the adaptive interim analysis is
+  performed after the second stage. Early stopping because
+  an interim test statistic crosses an early rejection
+  boundary at some previous stage can be implemented by
+  setting the corresponding z statistics to Inf.
+
+  Group sequential boundaries have to be specified using a
+  function of the form \code{function(w,v,alpha)} - where w
+  is a vector of weights with length equal to the number of
+  elementary hypotheses, \code{v} the timing of the interim
+  analysis, and \code{alpha} the overall alpha level -
+  which returns a matrix where each column corresponds to
+  an elementary hypotheses and the first row gives the
+  interim rejection boundary; the second row the final
+  rejection boundary. See \code{link{agMCPldbounds}}.
+
   For details see the given references.
 }
 \examples{

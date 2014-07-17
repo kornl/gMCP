@@ -358,7 +358,9 @@ setClass("gPADInterim",
 				z1="numeric",
 				v="numeric",
 				preplanned="graphMCP",
-				alpha="numeric"),
+                               alpha="numeric",
+                               rejected="logical",
+                               erb="matrix"),
 		validity=function(object) validPartialCEs(object))
 
 setMethod("print", "gPADInterim",
@@ -371,7 +373,7 @@ setMethod("print", "gPADInterim",
 setMethod("show","gPADInterim",
 		function(object) {
 			cat("Pre-planned graphical MCP at level:",object@alpha,"\n")
-			show(object@preplanned)
+                        show(object@preplanned)
 			n <- length(object@z1)
 			cat("Proportion of pre-planned measurements\n collected up to interim:\n")
 			v <- object@v
@@ -387,6 +389,18 @@ setMethod("show","gPADInterim",
 			rownames(tab) <- to.intersection(1:nrow(tab))
 			colnames(tab) <- c(paste('A(',1:n,')',sep=''),'BJ')
 			print(tab)
+                        if(length(object@erb)>0){
+                            cat("\n Early rejection boundaries of group sequential design\n")
+                            tab <- round(object@erb,3)
+                            rownames(tab) <- to.intersection(1:nrow(tab))
+                            colnames(tab) <- c(paste('c^(1)(',1:n,')',sep=''))
+                            print(tab)
+                            cat("\n Hypotheses rejected at interim analysis\n")
+                            R1 <- object@rejected
+                            names(R1) <- paste('H',1:n,sep='')
+                            print(R1)
+                        }
+
 		}
 )
 
