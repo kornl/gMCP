@@ -120,7 +120,7 @@ doInterim <- function(graph,z1,v,alpha=.025,gSB=NULL){
       ## any z1 that crosses an early rejection boundary?
       cerb <- sweep(sb,2,z1,"<=")
       ## set As to 1 where z1 crosses an early rejection boundary
-      As[cerb] <- cerb
+      As[cerb] <- 1
   } else {
       As <- t(apply(ssw,1,gMCP:::partialCE,z1=z1,v=v,alpha=alpha))
       sb <- matrix(NA,0,0) 
@@ -377,6 +377,7 @@ to.intersection <- function(int){
 }
 
 contains <- function(i,m){
+    i <- m-i+1
     ## computes binary numbers with a 1 at the i'th place
     n <- 2^m-1
     if(i == 1){
