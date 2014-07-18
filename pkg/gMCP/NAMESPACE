@@ -53,4 +53,4 @@ export(plotSimCI)
 
 export(generateWeights, generateBounds, generateTest, generatePvals)
 
-export(doInterim,secondStageTest,agMCPldbounds)
+export(doInterim,secondStageTest,doFinal,agMCPldbounds)

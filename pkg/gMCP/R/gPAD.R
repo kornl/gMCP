@@ -32,8 +32,8 @@
 #' @param graph A graph of class \code{\link{graphMCP}}.
 #' @param z1 A numeric vector giving first stage z-scores.
 #' @param v A numeric vector giving the proportions of pre-planned measurements
-#' collected up to the interim analysis. Will be recycled of length different
-#' than the number of elementary hypotheses.
+#' collected up to the interim analysis. Will be recycled if length differs from
+#' the number of elementary hypotheses.
 #' @param alpha A numeric specifying the maximal allowed type one error rate.
 #' @param gSB group sequential boundaries function 
 #' @return An object of class \code{gPADInterim}, more specifically a list with
@@ -121,7 +121,7 @@ doInterim <- function(graph,z1,v,alpha=.025,gSB=NULL){
       cerb <- sweep(sb,2,z1,"<=")
       ## set As to 1 where z1 crosses an early rejection boundary
       As[cerb] <- 1
-  } else {
+  } else {n
       As <- t(apply(ssw,1,gMCP:::partialCE,z1=z1,v=v,alpha=alpha))
       sb <- matrix(NA,0,0) 
   }
@@ -134,6 +134,7 @@ doInterim <- function(graph,z1,v,alpha=.025,gSB=NULL){
   res <- new('gPADInterim',Aj=As,BJ=Bs,z1=z1,v=v,preplanned=graph,alpha=alpha,rejected=rejected,erb=sb)
   return(res)
 }
+
 
 #' EXPERIMENTAL: Construct a valid level alpha test for the second stage of an
 #' adaptive design that is based on a pre-planned graphical MCP
@@ -157,10 +158,10 @@ doInterim <- function(graph,z1,v,alpha=.025,gSB=NULL){
 #' @param G2 An object of class \code{\link{graphMCP}} laying down the rule to
 #' compute second stage weights. Defaults to pre-planned graph.
 #' @return A function of signature \code{function(z2)} with arguments:
-#' 
-#' that returns objects of class \code{\link{gMCPResult}}.
-#' @returnItem z2 A numeric vector with second stage z-scores. Z-scores of
-#' dropped hypotheses should be set no \code{NA},
+#' @returnItem z2 A numeric vector with second stage
+#' z-scores. Z-scores of dropped hypotheses should be set no
+#' \code{NA}, that returns a logical vector specifying for each
+#' elementary null hypothesis whether it is rejected or not
 #' @author Florian Klinglmueller \email{float@@lefant.net}
 #' @seealso \code{\link{graphMCP}}, \code{\link{doInterim}}
 #' @references Frank Bretz, Willi Maurer, Werner Brannath, Martin Posch: A
@@ -217,6 +218,92 @@ secondStageTest <- function(interim,select,matchCE=TRUE,zWeights="reject",G2=int
   })
 }
 
+#' Perform the final analysis in an adaptive graph based trial
+#'
+#' Based on a pre-planned graphical multiple comparison procedure, construct a
+#' valid multiple level alpha test that conserves the family wise error in the
+#' strong sense regardless of any trial adaptations during an unblinded interim
+#' analysis. - Implementation of adaptive procedures is still in an early stage
+#' and may change in the near future
+#' 
+#' For details see the given references.
+#' 
+#' @param interim An object of class \code{\link{gPADInterim}}.
+#' @param z2 Final-stage z-scores
+#' @param select A logical vector giving specifying which hypotheses are
+#' carried forward to the second stage
+#' @param matchCE Logical specifying whether second stage weights should be
+#' computed proportional to corresponding PCEs
+#' @param zWeights Either "reject","accept", or "strict" giving the rule what
+#' should be done in cases where none of the selected hypotheses has positive
+#' second stage weight.
+#' @param G2 An object of class \code{\link{graphMCP}} laying down the rule to
+#' compute second stage weights. Defaults to pre-planned graph.
+#' @return A \code{\link{gPADInterim}} object containing the results
+#' of the final analysis. Most importantly:
+#' @returnItem z1, z-scores observed at the final analysis 
+#' @returnItem preplanned, final stage graphical procedure  
+#' @returnItem rejected logical vector specifying which hypothesis can be rejcted
+#' @returnItem erb final rejection boundaries
+#' @author Florian Klinglmueller \email{float@@lefant.net}
+#' @seealso \code{\link{graphMCP}}, \code{\link{doInterim}}
+#' @references Frank Bretz, Willi Maurer, Werner Brannath, Martin Posch: A
+#' graphical approach to sequentially rejective multiple test procedures.
+#' Statistics in Medicine 2009 vol. 28 issue 4 page 586-604.
+#' \url{http://www.meduniwien.ac.at/fwf_adaptive/papers/bretz_2009_22.pdf}
+#' 
+#' Bretz F., Posch M., Glimm E., Klinglmueller F., Maurer W., Rohmeyer K.
+#' (2011): Graphical approaches for multiple endpoint problems using weighted
+#' Bonferroni, Simes or parametric tests - to appear.
+#' 
+#' Posch M, Futschik A (2008): A Uniform Improvement of Bonferroni-Type Tests
+#' by Sequential Tests JASA 103/481, 299-308
+#' 
+#' Posch M, Maurer W, Bretz F (2010): Type I error rate control in adaptive
+#' designs for confirmatory clinical trials with treatment selection at interim
+#' Pharm Stat 10/2, 96-104
+#' @keywords htest graphs
+#' @examples
+#' 
+#' 
+#' ## Simple successive graph (Maurer et al. 2011)
+#' ## two treatments two hierarchically ordered endpoints
+#' G <- simpleSuccessiveI()
+#' 
+#' ## some z-scores:
+#' z1 <- c(3.4,3,2.5,2)
+#' ## O'Brien Fleming boundaries for the primary,
+#' ## Pocock boundaries for the secondary  hypotheses.
+#' obfpoc <- agMCPldbounds(c(1,1,2,2))
+#'
+#' ## Interim analysis
+#' v <- c(1/2,1/3,1/2,1/3)
+#' intA <- doInterim(G,z1,v,gSB=obfpoc)
+#' p2=c(.04,1,.14,1)
+#' z2 <- qnorm(1-p2)
+#' 
+#' ## select only the first treatment 
+#' fTest <- secondStageTest(intA,c(1,0,1,0))
+#' 
+#' 
+#' 
+#' @export doFinal
+#' 
+doFinal <- function(interim,z2,select,matchCE=TRUE,zWeights="reject",G2=interim@preplanned){
+  n <- nhyp(interim@preplanned)
+  w2s <- t(sapply(1:(2^n-1),function(J) adaptWeights(to.binom(J,n),select,G2,zWeights)))
+  Cs <- w2s*interim@BJ
+  if(matchCE){
+    Cs <- t(apply(cbind(interim@BJ,w2s),1,function(Bw){
+      matchCE(Bw[-1],Bw[1],interim@z1,interim@v,interim@alpha)
+    }))
+  }
+  rejected <- interim@rejected | decideTest(z2,Cs)
+  fweights <- sweep(Cs,1,interim@BJ,'/')
+  res <- new('gPADFinal',fweights=fweights,BJ=interim@BJ,z2=z2,final=G2,alpha=interim@alpha,rejected=rejected,frb=qnorm(Cs,lower.tail=F))
+  return(res)
+}
+
 
 #' Generate a group sequential boundaries function using ldbounds.
 #'
@@ -245,7 +332,7 @@ agMCPldbounds <- function(iuse,opts = NULL){
         function(w,v,alpha){
             sapply(1:length(iuse),function(i) {
                 if(w[i]>0) {
-                    do.call(bounds,c(list(iuse=iuse[i],alpha=w[i]*alpha,t=c(v,1)),opts[[i]]))$upper.bounds
+                    do.call(bounds,c(list(iuse=iuse[i],alpha=w[i]*alpha,t=c(v[i],1)),opts[[i]]))$upper.bounds
                     } else {
                         c(Inf,Inf)
                     }
@@ -255,7 +342,7 @@ agMCPldbounds <- function(iuse,opts = NULL){
         function(w,v,alpha){
            sapply(1:length(iuse),function(i) {
                if(w[i]>0) {
-                   do.call(bounds,list(iuse=iuse[i],alpha=w[i]*alpha,t=c(v,1)))$upper.bounds
+                   do.call(bounds,list(iuse=iuse[i],alpha=w[i]*alpha,t=c(v[i],1)))$upper.bounds
                    } else {
                        c(Inf,Inf)
                    }

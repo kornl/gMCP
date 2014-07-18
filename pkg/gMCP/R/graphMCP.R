@@ -363,6 +363,17 @@ setClass("gPADInterim",
                                erb="matrix"),
 		validity=function(object) validPartialCEs(object))
 
+setClass("gPADFinal",
+		representation(fweights="matrix",
+                               BJ="numeric",
+                               z2="numeric",
+                               final="graphMCP",
+                               alpha="numeric",
+                               rejected="logical",
+                               frb="matrix"),
+		validity=function(object) validPartialCEs(object))
+
+
 setMethod("print", "gPADInterim",
 		function(x, ...) {
 			callNextMethod(x, ...)
@@ -403,6 +414,28 @@ setMethod("show","gPADInterim",
 
 		}
 )
+
+setMethod("show","gPADFinal",
+		function(object) {
+                        cat("Overall alpha level:",object@alpha,"\n")
+			cat("Final graphical MCP\n")
+                        show(object@final)
+			n <- length(object@z2)
+			cat("Z-scores observed at final analysis\n")
+			z1 <- object@z2
+			names(z1) <- paste('H',1:n,sep='')
+			print(z1)
+                        cat("\n Final rejection boundaries\n")
+                        tab <- round(object@frb,3)
+                        rownames(tab) <- to.intersection(1:nrow(tab))
+                        colnames(tab) <- c(paste('c^(f)(',1:n,')',sep=''))
+                        print(tab)
+                        cat("\n Hypotheses rejected at final analysis\n")
+                        R1 <- object@rejected
+                        names(R1) <- paste('H',1:n,sep='')
+                        print(R1)
+                    }
+          )
 
 ############################## Entangled graphs #################################
 

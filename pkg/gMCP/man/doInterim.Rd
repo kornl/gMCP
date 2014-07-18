@@ -12,7 +12,7 @@ graphical procedure}
 
   \item{v}{A numeric vector giving the proportions of
   pre-planned measurements collected up to the interim
-  analysis. Will be recycled of length different than the
+  analysis. Will be recycled if length differs from the
   number of elementary hypotheses.}
 
   \item{alpha}{A numeric specifying the maximal allowed

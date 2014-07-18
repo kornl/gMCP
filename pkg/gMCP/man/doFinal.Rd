@@ -1,14 +1,15 @@
-\name{secondStageTest}
-\alias{secondStageTest}
-\title{EXPERIMENTAL: Construct a valid level alpha test for the second stage of an
-adaptive design that is based on a pre-planned graphical MCP}
+\name{doFinal}
+\alias{doFinal}
+\title{Perform the final analysis in an adaptive graph based trial}
 \usage{
-  secondStageTest(interim, select, matchCE = TRUE,
+  doFinal(interim, z2, select, matchCE = TRUE,
     zWeights = "reject", G2 = interim@preplanned)
 }
 \arguments{
   \item{interim}{An object of class
   \code{\link{gPADInterim}}.}
+
+  \item{z2}{Final-stage z-scores}
 
   \item{select}{A logical vector giving specifying which
   hypotheses are carried forward to the second stage}
@@ -27,14 +28,17 @@ adaptive design that is based on a pre-planned graphical MCP}
   Defaults to pre-planned graph.}
 }
 \value{
-  A function of signature \code{function(z2)} with
-  arguments:
+  A \code{\link{gPADInterim}} object containing the results
+  of the final analysis. Most importantly:
 
-  \item{z2}{A numeric vector with second stage z-scores.
-  Z-scores of dropped hypotheses should be set no
-  \code{NA}, that returns a logical vector specifying for
-  each elementary null hypothesis whether it is rejected or
-  not}
+  \item{z1,}{z-scores observed at the final analysis}
+
+  \item{preplanned,}{final stage graphical procedure}
+
+  \item{rejected}{logical vector specifying which
+  hypothesis can be rejcted}
+
+  \item{erb}{final rejection boundaries}
 }
 \description{
   Based on a pre-planned graphical multiple comparison
@@ -51,17 +55,19 @@ adaptive design that is based on a pre-planned graphical MCP}
 \examples{
 ## Simple successive graph (Maurer et al. 2011)
 ## two treatments two hierarchically ordered endpoints
-a <- .025
 G <- simpleSuccessiveI()
-## some z-scores:
 
-p1=c(.1,.12,.21,.16)
-z1 <- qnorm(1-p1)
+## some z-scores:
+z1 <- c(3.4,3,2.5,2)
+## O'Brien Fleming boundaries for the primary,
+## Pocock boundaries for the secondary  hypotheses.
+obfpoc <- agMCPldbounds(c(1,1,2,2))
+
+## Interim analysis
+v <- c(1/2,1/3,1/2,1/3)
+intA <- doInterim(G,z1,v,gSB=obfpoc)
 p2=c(.04,1,.14,1)
 z2 <- qnorm(1-p2)
-v <- c(1/2,1/3,1/2,1/3)
-
-intA <- doInterim(G,z1,v)
 
 ## select only the first treatment
 fTest <- secondStageTest(intA,c(1,0,1,0))
