@@ -16,7 +16,7 @@ importFrom(multcomp, contrMat)
 importFrom(JavaGD, JavaGD)
 importFrom(Matrix, bdiag)
 
-exportClasses(graphMCP, gMCPResult, gPADInterim, entangledMCP)
+exportClasses(graphMCP, gMCPResult, agMCPInterim, agMCPFinal, entangledMCP)
 exportMethods(plot, print)
 exportMethods(getWeights, getMatrix, getMatrices, setWeights, getRejected, "setRejected<-", getXCoordinates, getYCoordinates)
 exportMethods(simConfint, setEdge, edgeAttr, "edgeAttr<-", nodeAttr, "nodeAttr<-", getNodes)

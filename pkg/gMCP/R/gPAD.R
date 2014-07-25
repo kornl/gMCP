@@ -1,98 +1,5 @@
-#' EXPERIMENTAL: Evaluate conditional errors at interim for a pre-planned
-#' graphical procedure
-#' 
-#' Computes partial conditional errors (PCE) for a pre-planned graphical
-#' procedure given information fractions and first stage z-scores. If a
-#' function giving group sequential boundaries is specified for each
-#' elementary hypotheses PCEs are computed for the corresponding group
-#' sequential trial - Implementation of adaptive procedures is still in
-#' an early stage and may change in the near future
-#' 
-#' At the moment partial conditional error rates are only 
-#' computed assuming that the trial is already at
-#' at the last preplanned interim analysis before the final
-#' analysis. E.g. if a three stage group sequential trial is
-#' planned we assume that the adaptive interim analysis is
-#' performed after the second stage. Early stopping because 
-#' an interim test statistic crosses an early rejection
-#' boundary at some previous stage can be implemented by
-#' setting the corresponding z statistics to Inf.
-#'
-#' Group sequential boundaries have to be specified using a function
-#' of the form \code{function(w,v,alpha)} - where w is a vector of
-#' weights with length equal to the number of elementary hypotheses,
-#' \code{v} the timing of the interim analysis, and \code{alpha} the
-#' overall alpha level - which returns a matrix where each column
-#' corresponds to an elementary hypotheses and the first row gives the
-#' interim rejection boundary; the second row the final rejection
-#' boundary. See \code{link{agMCPldbounds}}.
-#' 
-#' For details see the given references.
-#' 
-#' @param graph A graph of class \code{\link{graphMCP}}.
-#' @param z1 A numeric vector giving first stage z-scores.
-#' @param v A numeric vector giving the proportions of pre-planned measurements
-#' collected up to the interim analysis. Will be recycled if length differs from
-#' the number of elementary hypotheses.
-#' @param alpha A numeric specifying the maximal allowed type one error rate.
-#' @param gSB group sequential boundaries function 
-#' @return An object of class \code{gPADInterim}, more specifically a list with
-#' elements
-#' @returnItem Aj a matrix of PCEs for all elementary hypotheses in each
-#' intersection hypothesis
-#' @returnItem BJ a numeric vector giving sum of PCEs per intersection
-#' hypothesis
-#' @returnItem preplanned Pre planned test represented by an object of class
-#' \code{\link{graphMCP}}
-#' @author Florian Klinglmueller \email{float@@lefant.net}
-#' @seealso \code{\link{graphMCP}}, \code{\link{secondStageTest}}
-#' @references Frank Bretz, Willi Maurer, Werner Brannath, Martin Posch: A
-#' graphical approach to sequentially rejective multiple test procedures.
-#' Statistics in Medicine 2009 vol. 28 issue 4 page 586-604.
-#' \url{http://www.meduniwien.ac.at/fwf_adaptive/papers/bretz_2009_22.pdf}
-#' 
-#' Frank Bretz, Martin Posch, Ekkehard Glimm, Florian Klinglmueller, Willi
-#' Maurer, Kornelius Rohmeyer (2011): Graphical approaches for multiple
-#' comparison procedures using weighted Bonferroni, Simes or parametric tests.
-#' Biometrical Journal 53 (6), pages 894-913, Wiley.
-#' \url{http://onlinelibrary.wiley.com/doi/10.1002/bimj.201000239/full}
-#' 
-#' Posch M, Futschik A (2008): A Uniform Improvement of Bonferroni-Type Tests
-#' by Sequential Tests JASA 103/481, 299-308
-#' 
-#' Posch M, Maurer W, Bretz F (2010): Type I error rate control in adaptive
-#' designs for confirmatory clinical trials with treatment selection at interim
-#' Pharm Stat 10/2, 96-104
-#' @keywords htest graphs
-#' @examples
-#' 
-#' 
-#' ## Simple successive graph (Maurer et al. 2011)
-#' ## two treatments two hierarchically ordered endpoints
-#' a <- .025
-#' G <- simpleSuccessiveI()
-#' ## some z-scores:
-#' 
-#' p1=c(.1,.12,.21,.16)
-#' z1 <- qnorm(1-p1)
-#' p2=c(.04,1,.14,1)
-#' z2 <- qnorm(1-p2)
-#' v <- c(1/2,1/3,1/2,1/3)
-#' 
-#' intA <- doInterim(G,z1,v)
-#' 
-#' ## select only the first treatment 
-#' fTest <- secondStageTest(intA,c(1,0,1,0))
-#' 
-#' 
-#' 
-#' @export doInterim
-#' 
-doInterim <- function(graph,z1,v,alpha=.025,gSB=NULL){
-  g <- graph2matrix(graph)
-  w <- getWeights(graph)
-  ws <- generateWeights(g,w)
-  m <- length(w)
+interim <- function(ssw,z1,v,alpha=.025,gSB=NULL,stages=2,cur.stage=1,silent=FALSE){
+  m <- ncol(ssw)
   #########################################################
   ## non run-time optimized version of group sequentialism
   ##
@@ -106,23 +13,43 @@ doInterim <- function(graph,z1,v,alpha=.025,gSB=NULL){
   ## boundary at some previous stage can be implemented by
   ## setting the corresponding z statistics to Inf.
   #########################################################
-  ## second stage weights
-  ssw <- ws[,(m+1):(2*m)]
-
-  ## rejection boundaries
   if(!is.null(gSB)){
-      boundaries <- simplify2array(lapply(1:nrow(ssw),function(i) gSB(ssw[i,],alpha=alpha,v=v)))
-      ## early rejection boundaries
-      sb <- t(boundaries[1,,])
-      ## nominal second stage local levels divided by alpha
-      ssw <- pnorm(t(boundaries[2,,]),lower.tail=FALSE)/alpha
-      As <- t(apply(ssw,1,gMCP:::partialCE,z1=z1,v=v,alpha=alpha))
-      ## any z1 that crosses an early rejection boundary?
-      cerb <- sweep(sb,2,z1,"<=")
-      ## set As to 1 where z1 crosses an early rejection boundary
-      As[cerb] <- 1
-  } else {n
-      As <- t(apply(ssw,1,gMCP:::partialCE,z1=z1,v=v,alpha=alpha))
+      ## group sequentialism
+      if(stages-cur.stage>1){
+          if(length(v) < stages-1){
+              stop(paste("Require at least:",stages-1,"timings for the remaining, preplanned interim analysis"))
+          } else if(!is.matrix(v)) {
+              if(!silent){
+                  warning("Using elements of v as timings for the remaining, preplanned stages, assuming equal interim timings across hypotheses.")
+              }
+              v <- matrix(rep(v,each=m),nrow=m)
+          } else if(ncol(v) < stages-1){
+              stop(paste("Require at least:",stages-1,"timings for the remaining, preplanned interim analysis"))
+          }
+          boundaries <- simplify2array(lapply(1:nrow(ssw),function(i) gSB(ssw[i,],alpha=alpha,v=v)))
+          ## early rejection boundaries
+          sb <- t(boundaries[cur.stage,,])
+          ## nominal second stage local levels divided by alpha
+          ssw <- pnorm(t(boundaries[2,,]),lower.tail=FALSE)/alpha
+          As <- t(sapply(1:nrow(ssw),function(int) sapply(1:ncol(ssw), function(hyp) gsdPartialCE(z1=z1[hyp],v=v[cur.stage:(stages-1)],boundaries[(cur.stage+1):stages,hyp,int]))))
+          ## any z1 that crosses an early rejection boundary?
+          cerb <- sweep(sb,2,z1,"<=")
+          ## set As to 1 where z1 crosses an early rejection boundary
+          As[cerb] <- 1
+      } else {
+          boundaries <- simplify2array(lapply(1:nrow(ssw),function(i) gSB(ssw[i,],alpha=alpha,v=v)))
+          ## early rejection boundaries
+          sb <- t(boundaries[cur.stage,,])
+          ## nominal second stage local levels divided by alpha
+          ssw <- pnorm(t(boundaries[cur.stage+1,,]),lower.tail=FALSE)/alpha
+          As <- t(apply(ssw,1,partialCE,z1=z1,v=v,alpha=alpha))
+          ## any z1 that crosses an early rejection boundary?
+          cerb <- sweep(sb,2,z1,"<=")
+          ## set As to 1 where z1 crosses an early rejection boundary
+          As[cerb] <- 1
+      }
+  } else {
+      As <- t(apply(ssw,1,partialCE,z1=z1,v=v,alpha=alpha))
       sb <- matrix(NA,0,0) 
   }
   Bs <- rowSums(As)
@@ -131,7 +58,9 @@ doInterim <- function(graph,z1,v,alpha=.025,gSB=NULL){
       index <- contains(i,m)
       rejected[i] <- all(Bs[index]>=1)
   }
-  res <- new('gPADInterim',Aj=As,BJ=Bs,z1=z1,v=v,preplanned=graph,alpha=alpha,rejected=rejected,erb=sb)
+  if(!is.matrix(v))
+      v <- matrix(v)
+  res <- new('agMCPInterim',Aj=As,BJ=Bs,z1=z1,v=v,preplanned=graph,alpha=alpha,rejected=rejected,erb=sb)
   return(res)
 }
 
@@ -147,7 +76,7 @@ doInterim <- function(graph,z1,v,alpha=.025,gSB=NULL){
 #' 
 #' For details see the given references.
 #' 
-#' @param interim An object of class \code{\link{gPADInterim}}.
+#' @param interim An object of class \code{\link{agMCPInterim}}.
 #' @param select A logical vector giving specifying which hypotheses are
 #' carried forward to the second stage
 #' @param matchCE Logical specifying whether second stage weights should be
@@ -228,7 +157,7 @@ secondStageTest <- function(interim,select,matchCE=TRUE,zWeights="reject",G2=int
 #' 
 #' For details see the given references.
 #' 
-#' @param interim An object of class \code{\link{gPADInterim}}.
+#' @param interim An object of class \code{\link{agMCPInterim}}.
 #' @param z2 Final-stage z-scores
 #' @param select A logical vector giving specifying which hypotheses are
 #' carried forward to the second stage
@@ -239,7 +168,7 @@ secondStageTest <- function(interim,select,matchCE=TRUE,zWeights="reject",G2=int
 #' second stage weight.
 #' @param G2 An object of class \code{\link{graphMCP}} laying down the rule to
 #' compute second stage weights. Defaults to pre-planned graph.
-#' @return A \code{\link{gPADInterim}} object containing the results
+#' @return A \code{\link{agMCPInterim}} object containing the results
 #' of the final analysis. Most importantly:
 #' @returnItem z1, z-scores observed at the final analysis 
 #' @returnItem preplanned, final stage graphical procedure  
@@ -298,11 +227,102 @@ doFinal <- function(interim,z2,select,matchCE=TRUE,zWeights="reject",G2=interim@
       matchCE(Bw[-1],Bw[1],interim@z1,interim@v,interim@alpha)
     }))
   }
-  rejected <- interim@rejected | decideTest(z2,Cs)
+  rejected <- (interim@rejected | decideTest(z2,Cs)) & select
   fweights <- sweep(Cs,1,interim@BJ,'/')
-  res <- new('gPADFinal',fweights=fweights,BJ=interim@BJ,z2=z2,final=G2,alpha=interim@alpha,rejected=rejected,frb=qnorm(Cs,lower.tail=F))
+  res <- new('agMCPFinal',fweights=fweights,BJ=interim@BJ,z2=z2,final=G2,alpha=interim@alpha,rejected=rejected,frb=qnorm(Cs,lower.tail=F))
   return(res)
 }
+
+#' Perform the final analysis in an adaptive graph based trial
+#'
+#' Based on a pre-planned graphical multiple comparison procedure, construct a
+#' valid multiple level alpha test that conserves the family wise error in the
+#' strong sense regardless of any trial adaptations during an unblinded interim
+#' analysis. - Implementation of adaptive procedures is still in an early stage
+#' and may change in the near future
+#' 
+#' For details see the given references.
+#' 
+#' @param interim An object of class \code{\link{agMCPInterim}}.
+#' @param z2 Final-stage z-scores
+#' @param select A logical vector giving specifying which hypotheses are
+#' carried forward to the second stage
+#' @param matchCE Logical specifying whether second stage weights should be
+#' computed proportional to corresponding PCEs
+#' @param zWeights Either "reject","accept", or "strict" giving the rule what
+#' should be done in cases where none of the selected hypotheses has positive
+#' second stage weight.
+#' @param G2 An object of class \code{\link{graphMCP}} laying down the rule to
+#' compute second stage weights. Defaults to pre-planned graph.
+#' @return A \code{\link{agMCPInterim}} object containing the results
+#' of the final analysis. Most importantly:
+#' @returnItem z1, z-scores observed at the final analysis 
+#' @returnItem preplanned, final stage graphical procedure  
+#' @returnItem rejected logical vector specifying which hypothesis can be rejcted
+#' @returnItem erb final rejection boundaries
+#' @author Florian Klinglmueller \email{float@@lefant.net}
+#' @seealso \code{\link{graphMCP}}, \code{\link{doInterim}}
+#' @references Frank Bretz, Willi Maurer, Werner Brannath, Martin Posch: A
+#' graphical approach to sequentially rejective multiple test procedures.
+#' Statistics in Medicine 2009 vol. 28 issue 4 page 586-604.
+#' \url{http://www.meduniwien.ac.at/fwf_adaptive/papers/bretz_2009_22.pdf}
+#' 
+#' Bretz F., Posch M., Glimm E., Klinglmueller F., Maurer W., Rohmeyer K.
+#' (2011): Graphical approaches for multiple endpoint problems using weighted
+#' Bonferroni, Simes or parametric tests - to appear.
+#' 
+#' Posch M, Futschik A (2008): A Uniform Improvement of Bonferroni-Type Tests
+#' by Sequential Tests JASA 103/481, 299-308
+#' 
+#' Posch M, Maurer W, Bretz F (2010): Type I error rate control in adaptive
+#' designs for confirmatory clinical trials with treatment selection at interim
+#' Pharm Stat 10/2, 96-104
+#' @keywords htest graphs
+#' @examples
+#' 
+#' 
+#' ## Simple successive graph (Maurer et al. 2011)
+#' ## two treatments two hierarchically ordered endpoints
+#' G <- simpleSuccessiveI()
+#' 
+#' ## some z-scores:
+#' z1 <- c(3.4,3,2.5,2)
+#' ## O'Brien Fleming boundaries for the primary,
+#' ## Pocock boundaries for the secondary  hypotheses.
+#' obfpoc <- agMCPldbounds(c(1,1,2,2))
+#'
+#' ## Interim analysis
+#' v <- c(1/2,1/3,1/2,1/3)
+#' intA <- doInterim(G,z1,v,gSB=obfpoc)
+#' p2=c(.04,1,.14,1)
+#' z2 <- qnorm(1-p2)
+#' 
+#' ## select only the first treatment 
+#' fTest <- secondStageTest(intA,c(1,0,1,0))
+#' 
+#' 
+#' 
+#' @export adaptTrial
+adaptTrial <- function(interim,select,matchCE=TRUE,zWeights=c("direct","reject","accept","strict"),G2=interim@preplanned,gSB=NULL){
+  n <- nhyp(interim@preplanned)
+  zWeights <- zWeights[1]
+  if(zWeights="direct"){
+      w2s <- generateWeights(G2@m,G2@weights)
+  } else {
+      w2s <- t(sapply(1:(2^n-1),function(J) adaptWeights(to.binom(J,n),select,G2,zWeights)))
+  }
+  Cs <- w2s*interim@BJ
+  if(matchCE){
+    Cs <- t(apply(cbind(interim@BJ,w2s),1,function(Bw){
+      matchCE(Bw[-1],Bw[1],interim@z1,interim@v,interim@alpha)
+    }))
+  }
+  rejected <- (interim@rejected | decideTest(z2,Cs)) & select
+  fweights <- sweep(Cs,1,interim@BJ,'/')
+  res <- new('agMCPFinal',fweights=fweights,BJ=interim@BJ,z2=z2,final=G2,alpha=interim@alpha,rejected=rejected,frb=qnorm(Cs,lower.tail=F))
+  return(res)
+}
+
 
 
 #' Generate a group sequential boundaries function using ldbounds.
@@ -324,30 +344,29 @@ doFinal <- function(interim,z2,select,matchCE=TRUE,zWeights="reject",G2=interim@
 agMCPldbounds <- function(iuse,opts = NULL){
     if(!require(ldbounds))
         stop("In order to use agMCPldbounds to construct group sequential boundary functions you need to install package: ldbounds")
-    if(!is.null(opts)){
-        ## error handling
-        if(length(opts) != length(iuse)){
-            stop("List of options needs to be the same length as number of spending functions")
+    ## error handling
+    
+    if(!is.null(opts) & length(opts) != length(iuse)){
+        stop("List of options needs to be the same length as number of spending functions")
+    }
+    function(w,v,alpha){
+        if(length(v)==1){
+            v <- matrix(rep(v,length(w)),ncol=1)
+        } else if(!is.matrix(v)){
+            ## if v is a vector we assume more than 2 stages and equal timings for hypotheses
+            v <- matrix(rep(v,each=length(w)),ncol=length(v))
         }
-        function(w,v,alpha){
+        if(nrow(v) != length(w)){
+            stop(paste("Mismatching number of stage-wise interim timings:",nrow(v),"and elementary hypotheses:",length(w)))
+        } else {
             sapply(1:length(iuse),function(i) {
                 if(w[i]>0) {
-                    do.call(bounds,c(list(iuse=iuse[i],alpha=w[i]*alpha,t=c(v[i],1)),opts[[i]]))$upper.bounds
-                    } else {
-                        c(Inf,Inf)
-                    }
-        })
+                    return(do.call(bounds,c(list(iuse=iuse[i],alpha=w[i]*alpha,t=c(v[i,],1)),opts[[i]]))$upper.bounds)
+                } else {
+                    return(rep(Inf,ncol(v)+1))
+                }
+            })
         }
-    } else {
-        function(w,v,alpha){
-           sapply(1:length(iuse),function(i) {
-               if(w[i]>0) {
-                   do.call(bounds,list(iuse=iuse[i],alpha=w[i]*alpha,t=c(v[i],1)))$upper.bounds
-                   } else {
-                       c(Inf,Inf)
-                   }
-       })
-       }
     }
 }
 
@@ -376,6 +395,15 @@ partialCE <- function(w,z1,v,alpha){
   ## returns the A(i,J) or if called with a vector the vector A(J,J)
   1-pnorm((qnorm(1-w*alpha)-(sqrt(v)*z1))/sqrt(1-v))
 }
+
+gsdPartialCE <- function(z1,v,cs){
+    v <- c(v,1)
+    K <- length(v)
+    cor <- outer(sqrt(v[2:K]),sqrt(v[2:K]),FUN='/')
+    cor[lower.tri(cor)] <- t(cor)[lower.tri(cor)]
+    1-pmvnorm(upper=(cs*sqrt(v[1]+cumsum(v[2:K]))-sqrt(v[1])*z1)/sqrt(cumsum(v[2:K])),corr=cor)
+}
+
 
 matchCE <- function(w2,B,z1,v,alpha,enhanced=T){
   ## find a suitable alpha level that matches the sum of PCEs for the selected hypotheses and adapted weights to that of the pre-planned procedure

@@ -1,13 +1,13 @@
-\name{gPADInterim-class}
+\name{agMCPInterim-class}
 \docType{class}
-\alias{gPADInterim-class}
-\alias{gPADInterim}
-\alias{print,gPADInterim-method}
-\alias{plot,gPADInterim-method}
-\alias{getWeights,gPADInterim-method}
-\alias{getRejected,gPADInterim-method}
-\title{Class gPADInterim}
-\description{A gPADInterim object describes an object holding interim
+\alias{agMCPInterim-class}
+\alias{agMCPInterim}
+\alias{print,agMCPInterim-method}
+\alias{plot,agMCPInterim-method}
+\alias{getWeights,agMCPInterim-method}
+\alias{getRejected,agMCPInterim-method}
+\title{Class agMCPInterim}
+\description{A agMCPInterim object describes an object holding interim
   information for an adaptive procedure that is based on a preplanned
   graphical procedure.}
 \section{Slots}{

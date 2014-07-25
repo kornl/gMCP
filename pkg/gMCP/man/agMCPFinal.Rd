@@ -1,13 +1,13 @@
-\name{gPADFinal-class}
+\name{agMCPFinal-class}
 \docType{class}
-\alias{gPADFinal-class}
-\alias{gPADFinal}
-\alias{print,gPADFinal-method}
-\alias{plot,gPADFinal-method}
-\alias{getWeights,gPADFinal-method}
-\alias{getRejected,gPADFinal-method}
-\title{Class gPADFinal}
-\description{A gPADFinal object describes holds information about the
+\alias{agMCPFinal-class}
+\alias{agMCPFinal}
+\alias{print,agMCPFinal-method}
+\alias{plot,agMCPFinal-method}
+\alias{getWeights,agMCPFinal-method}
+\alias{getRejected,agMCPFinal-method}
+\title{Class agMCPFinal}
+\description{A agMCPFinal object describes holds information about the
   final analysis of an adaptive graph based trial testing multiple hypotheses.}
 \section{Slots}{
   \describe{

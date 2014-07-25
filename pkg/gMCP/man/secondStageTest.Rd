@@ -8,7 +8,7 @@ adaptive design that is based on a pre-planned graphical MCP}
 }
 \arguments{
   \item{interim}{An object of class
-  \code{\link{gPADInterim}}.}
+  \code{\link{agMCPInterim}}.}
 
   \item{select}{A logical vector giving specifying which
   hypotheses are carried forward to the second stage}

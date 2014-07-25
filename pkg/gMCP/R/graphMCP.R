@@ -352,18 +352,142 @@ setMethod("simConfint", c("graphMCP"), function(object, pvalues, confint, altern
 		})
 
 
-setClass("gPADInterim",
+setClass("agMCPInterim",
 		representation(Aj="matrix",
 				BJ="numeric",
 				z1="numeric",
-				v="numeric",
+				v="matrix",
 				preplanned="graphMCP",
                                alpha="numeric",
                                rejected="logical",
                                erb="matrix"),
 		validity=function(object) validPartialCEs(object))
 
-setClass("gPADFinal",
+#' EXPERIMENTAL: Evaluate conditional errors at interim for a pre-planned
+#' graphical procedure
+#' 
+#' Computes partial conditional errors (PCE) for a pre-planned graphical
+#' procedure given information fractions and first stage z-scores. If a
+#' function giving group sequential boundaries is specified for each
+#' elementary hypotheses PCEs are computed for the corresponding group
+#' sequential trial - Implementation of adaptive procedures is still in
+#' an early stage and may change in the near future
+#' 
+#' At the moment partial conditional error rates are only 
+#' computed assuming that the trial is already at
+#' at the last preplanned interim analysis before the final
+#' analysis. E.g. if a three stage group sequential trial is
+#' planned we assume that the adaptive interim analysis is
+#' performed after the second stage. Early stopping because 
+#' an interim test statistic crosses an early rejection
+#' boundary at some previous stage can be implemented by
+#' setting the corresponding z statistics to Inf.
+#'
+#' Group sequential boundaries have to be specified using a function
+#' of the form \code{function(w,v,alpha)} - where w is a vector of
+#' weights with length equal to the number of elementary hypotheses,
+#' \code{v} the timing of the interim analysis, and \code{alpha} the
+#' overall alpha level - which returns a matrix where each column
+#' corresponds to an elementary hypotheses and the first row gives the
+#' interim rejection boundary; the second row the final rejection
+#' boundary. See \code{link{agMCPldbounds}}.
+#'
+#' If \code{v} is a scalar the same interim timing will be used for
+#' all elementary hypotheses. If \code{v} is a vector and
+#' \code{stages} is not larger than two, it different interim timings
+#' will be applied to each elementary hypotheses, if \code{stages} is
+#' larger than two \code{v} will be interpreted as timings for the
+#' interim stages, assuming equal stage-wise timings across elementary
+#' hypotheses. If \code{v} is a matrix each row row gives the timings
+#' of interim analyses for a particular hypothesis.
+#' 
+#' For details see the given references.
+#' 
+#' @param object Either graph of class \code{\link{graphMCP}} or the
+#' resulting \code{\link{agMCPInterim}} object from a previous interim
+#' analysis.
+#' @param z1 A numeric vector giving the observed interim z-scores.
+#' @param v Timings of the interim analyses as proportions of the preplanned measurements (see Details). 
+#' @param alpha A numeric specifying the level of family wise error rate control.
+#' @param gSB group sequential boundaries function (see details)
+#' @param stages number of preplanned (group sequential) stages
+#' @param cur.stage number of the stage after which the interim analysis is performed
+#' @return An object of class \code{agMCPInterim}, more specifically a list with
+#' elements
+#' @returnItem Aj a matrix of PCEs for all elementary hypotheses in each
+#' intersection hypothesis
+#' @returnItem BJ a numeric vector giving sum of PCEs per intersection
+#' hypothesis
+#' @returnItem preplanned Pre planned test represented by an object of class
+#' \code{\link{graphMCP}}
+#' @author Florian Klinglmueller \email{float@@lefant.net}
+#' @seealso \code{\link{graphMCP}}, \code{\link{secondStageTest}}
+#' @references Frank Bretz, Willi Maurer, Werner Brannath, Martin Posch: A
+#' graphical approach to sequentially rejective multiple test procedures.
+#' Statistics in Medicine 2009 vol. 28 issue 4 page 586-604.
+#' \url{http://www.meduniwien.ac.at/fwf_adaptive/papers/bretz_2009_22.pdf}
+#' 
+#' Frank Bretz, Martin Posch, Ekkehard Glimm, Florian Klinglmueller, Willi
+#' Maurer, Kornelius Rohmeyer (2011): Graphical approaches for multiple
+#' comparison procedures using weighted Bonferroni, Simes or parametric tests.
+#' Biometrical Journal 53 (6), pages 894-913, Wiley.
+#' \url{http://onlinelibrary.wiley.com/doi/10.1002/bimj.201000239/full}
+#' 
+#' Posch M, Futschik A (2008): A Uniform Improvement of Bonferroni-Type Tests
+#' by Sequential Tests JASA 103/481, 299-308
+#' 
+#' Posch M, Maurer W, Bretz F (2010): Type I error rate control in adaptive
+#' designs for confirmatory clinical trials with treatment selection at interim
+#' Pharm Stat 10/2, 96-104
+#' @keywords htest graphs
+#' @examples
+#' 
+#' 
+#' ## Simple successive graph (Maurer et al. 2011)
+#' ## two treatments two hierarchically ordered endpoints
+#' a <- .025
+#' G <- simpleSuccessiveI()
+#' ## some z-scores:
+#' 
+#' p1=c(.1,.12,.21,.16)
+#' z1 <- qnorm(1-p1)
+#' p2=c(.04,1,.14,1)
+#' z2 <- qnorm(1-p2)
+#' v <- c(1/2,1/3,1/2,1/3)
+#' 
+#' intA <- doInterim(G,z1,v)
+#' 
+#' ## select only the first treatment 
+#' fTest <- secondStageTest(intA,c(1,0,1,0))
+#' 
+#' 
+#' 
+#' @export doInterim
+#'
+setGeneric("doInterim",function(object,...) standardGeneric("doInterim"))
+
+setMethod("doInterim","graphMCP",
+          function(object,...){
+              graph <- object
+              g <- graph2matrix(graph)
+              w <- getWeights(graph)
+              ws <- generateWeights(g,w)
+              m <- ncol(ws)/2
+              ws <- ws[,(m+1):(2*m)]
+              interim(ws,...)
+          })
+
+setMethod("doInterim","agMCPInterim",
+          function(object,...){
+              ws <- object@Aj/alpha
+              re <- rowSums(ws*alpha)>=1
+              if(any(re)){
+                  ws[re,] <- ws[re,]/ws[re,]
+              }
+              interim(ws,...)
+          })
+
+setClass("agMCPFinal",
 		representation(fweights="matrix",
                                BJ="numeric",
                                z2="numeric",
@@ -374,14 +498,14 @@ setClass("gPADFinal",
 		validity=function(object) validPartialCEs(object))
 
 
-setMethod("print", "gPADInterim",
+setMethod("print", "agMCPInterim",
 		function(x, ...) {
 			callNextMethod(x, ...)
 			
 		})
 
 
-setMethod("show","gPADInterim",
+setMethod("show","agMCPInterim",
 		function(object) {
 			cat("Pre-planned graphical MCP at level:",object@alpha,"\n")
                         show(object@preplanned)
@@ -415,7 +539,7 @@ setMethod("show","gPADInterim",
 		}
 )
 
-setMethod("show","gPADFinal",
+setMethod("show","agMCPFinal",
 		function(object) {
                         cat("Overall alpha level:",object@alpha,"\n")
 			cat("Final graphical MCP\n")
@@ -451,6 +575,8 @@ validEntangledGraph <- function(graph) {
 	if (!all("graphMCP" == lapply(graph@subgraphs, class))) stop("Subgraphs need to be of class 'graphMCP'.")
 	return(TRUE)
 }
+
+
 
 setGeneric("getMatrices", function(object, ...) standardGeneric("getMatrices"))
 

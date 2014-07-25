@@ -7,7 +7,7 @@
 }
 \arguments{
   \item{interim}{An object of class
-  \code{\link{gPADInterim}}.}
+  \code{\link{agMCPInterim}}.}
 
   \item{z2}{Final-stage z-scores}
 
@@ -28,8 +28,8 @@
   Defaults to pre-planned graph.}
 }
 \value{
-  A \code{\link{gPADInterim}} object containing the results
-  of the final analysis. Most importantly:
+  A \code{\link{agMCPInterim}} object containing the
+  results of the final analysis. Most importantly:
 
   \item{z1,}{z-scores observed at the final analysis}
 
