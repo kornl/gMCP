@@ -388,18 +388,19 @@ setClass("agMCPInterim",
 #' weights with length equal to the number of elementary hypotheses,
 #' \code{v} the timing of the interim analysis, and \code{alpha} the
 #' overall alpha level - which returns a matrix where each column
-#' corresponds to an elementary hypotheses and the first row gives the
-#' interim rejection boundary; the second row the final rejection
-#' boundary. See \code{link{agMCPldbounds}}.
+#' corresponds to an elementary hypotheses and rows give rejection
+#' boundaries corresponding the preplanned number of stages; the last
+#' row corresponds to the final rejection boundary. See
+#' \code{link{agMCPldbounds}}.
 #'
 #' If \code{v} is a scalar the same interim timing will be used for
-#' all elementary hypotheses. If \code{v} is a vector and
-#' \code{stages} is not larger than two, it different interim timings
-#' will be applied to each elementary hypotheses, if \code{stages} is
-#' larger than two \code{v} will be interpreted as timings for the
-#' interim stages, assuming equal stage-wise timings across elementary
-#' hypotheses. If \code{v} is a matrix each row row gives the timings
-#' of interim analyses for a particular hypothesis.
+#' all elementary hypotheses. If \code{v} is a vector it will be
+#' interpreted as timings for the interim stages, assuming equal
+#' stage-wise timings across elementary hypotheses. If \code{v} is a
+#' matrix each row gives the timings of interim analyses for a
+#' particular hypothesis. Note, that with differing interim timings
+#' additional distributional assumptions may be required to guarantee
+#' type I error control!
 #' 
 #' For details see the given references.
 #' 
@@ -407,10 +408,9 @@ setClass("agMCPInterim",
 #' resulting \code{\link{agMCPInterim}} object from a previous interim
 #' analysis.
 #' @param z1 A numeric vector giving the observed interim z-scores.
-#' @param v Timings of the interim analyses as proportions of the preplanned measurements (see Details). 
+#' @param v Timings of the interim analyses as proportions of the preplanned measurements (see Details).  
 #' @param alpha A numeric specifying the level of family wise error rate control.
 #' @param gSB group sequential boundaries function (see details)
-#' @param stages number of preplanned (group sequential) stages
 #' @param cur.stage number of the stage after which the interim analysis is performed
 #' @return An object of class \code{agMCPInterim}, more specifically a list with
 #' elements
@@ -467,24 +467,24 @@ setClass("agMCPInterim",
 setGeneric("doInterim",function(object,...) standardGeneric("doInterim"))
 
 setMethod("doInterim","graphMCP",
-          function(object,...){
+          function(object,z1,alpha=.025,gSB=NULL,cur.stage=1){
               graph <- object
               g <- graph2matrix(graph)
               w <- getWeights(graph)
               ws <- generateWeights(g,w)
               m <- ncol(ws)/2
               ws <- ws[,(m+1):(2*m)]
-              interim(ws,...)
+              interim(ws,z1,alpha,gSB,cur.stage)
           })
 
 setMethod("doInterim","agMCPInterim",
-          function(object,...){
+          function(object,z1,alpha=.025,gSB=NULL,cur.stage=1){
               ws <- object@Aj/alpha
               re <- rowSums(ws*alpha)>=1
               if(any(re)){
                   ws[re,] <- ws[re,]/ws[re,]
               }
-              interim(ws,...)
+              interim(ws,z1,alpha,gSB,cur.stage)
           })
 
 setClass("agMCPFinal",

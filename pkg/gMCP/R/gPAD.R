@@ -1,4 +1,4 @@
-interim <- function(ssw,z1,v,alpha=.025,gSB=NULL,stages=2,cur.stage=1,silent=FALSE){
+interim <- function(ssw,z1,v,alpha,gSB,cur.stage){
   m <- ncol(ssw)
   #########################################################
   ## non run-time optimized version of group sequentialism
@@ -14,17 +14,12 @@ interim <- function(ssw,z1,v,alpha=.025,gSB=NULL,stages=2,cur.stage=1,silent=FAL
   ## setting the corresponding z statistics to Inf.
   #########################################################
   if(!is.null(gSB)){
-      ## group sequentialism
-      if(stages-cur.stage>1){
-          if(length(v) < stages-1){
-              stop(paste("Require at least:",stages-1,"timings for the remaining, preplanned interim analysis"))
-          } else if(!is.matrix(v)) {
-              if(!silent){
-                  warning("Using elements of v as timings for the remaining, preplanned stages, assuming equal interim timings across hypotheses.")
-              }
+      if({!is.matrix(v)} & {(length(v) - cur.stage)>1}){
+          ## more than one stage left
+          if(!is.matrix(v)) {
               v <- matrix(rep(v,each=m),nrow=m)
-          } else if(ncol(v) < stages-1){
-              stop(paste("Require at least:",stages-1,"timings for the remaining, preplanned interim analysis"))
+          } else if(nrow(v) != m){
+              stop(paste("Mismatching number of timing vectors",nrow(v),"and elementary hypotheses",m))
           }
           boundaries <- simplify2array(lapply(1:nrow(ssw),function(i) gSB(ssw[i,],alpha=alpha,v=v)))
           ## early rejection boundaries
@@ -37,6 +32,7 @@ interim <- function(ssw,z1,v,alpha=.025,gSB=NULL,stages=2,cur.stage=1,silent=FAL
           ## set As to 1 where z1 crosses an early rejection boundary
           As[cerb] <- 1
       } else {
+          ## only 1 stage left
           boundaries <- simplify2array(lapply(1:nrow(ssw),function(i) gSB(ssw[i,],alpha=alpha,v=v)))
           ## early rejection boundaries
           sb <- t(boundaries[cur.stage,,])
@@ -233,7 +229,8 @@ doFinal <- function(interim,z2,select,matchCE=TRUE,zWeights="reject",G2=interim@
   return(res)
 }
 
-#' Perform the final analysis in an adaptive graph based trial
+#' EXPERIMENTAL: Adapt an adaptive group sequential graph based
+#' multiple testing procedure
 #'
 #' Based on a pre-planned graphical multiple comparison procedure, construct a
 #' valid multiple level alpha test that conserves the family wise error in the
@@ -302,7 +299,6 @@ doFinal <- function(interim,z2,select,matchCE=TRUE,zWeights="reject",G2=interim@
 #' 
 #' 
 #' 
-#' @export adaptTrial
 adaptTrial <- function(interim,select,matchCE=TRUE,zWeights=c("direct","reject","accept","strict"),G2=interim@preplanned,gSB=NULL){
   n <- nhyp(interim@preplanned)
   zWeights <- zWeights[1]
