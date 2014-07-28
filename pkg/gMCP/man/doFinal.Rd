@@ -3,7 +3,8 @@
 \title{Perform the final analysis in an adaptive graph based trial}
 \usage{
   doFinal(interim, z2, select, matchCE = TRUE,
-    zWeights = "reject", G2 = interim@preplanned)
+    zWeights = c("direct", "reject", "accept", "strict"),
+    G2 = interim@preplanned)
 }
 \arguments{
   \item{interim}{An object of class
@@ -18,10 +19,10 @@
   weights should be computed proportional to corresponding
   PCEs}
 
-  \item{zWeights}{Either "reject","accept", or "strict"
-  giving the rule what should be done in cases where none
-  of the selected hypotheses has positive second stage
-  weight.}
+  \item{zWeights}{Either "direct", "reject","accept", or
+  "strict" giving the rule what should be done in cases
+  where none of the selected hypotheses has positive second
+  stage weight.}
 
   \item{G2}{An object of class \code{\link{graphMCP}}
   laying down the rule to compute second stage weights.
@@ -51,6 +52,27 @@
 }
 \details{
   For details see the given references.
+
+  #' The choice of \code{zWeights} governs the way weights
+  of hypotheses that have been dropped (i.e.
+  \code{!selected}) are allocated to the remaining
+  hypotheses. \code{direct} directly uses the weights of
+  \code{G2} (note, that this may lead to inconsistencies if
+  \code{G2} assigns weight to dropped hypotheses).
+  \code{reject} redistributes the weights as if the dropped
+  hypotheses have been rejected (i.e. if the primary
+  hypotheses in a fixed sequence test is dropped, in the
+  second stage test its weight is allocated to the
+  secondary hypotheses). \code{accept} operates as if the
+  dropped hypotheses are retained, and their weight is
+  allocated to the remaining hypotheses proportional to
+  their initial weight (note that if none of the remaining
+  hypotheses has an initial weight, no weight will be
+  allocated to them). \code{strict} sets the weights of
+  dropped hypotheses to zero, leaving the weights of the
+  remaining hypotheses at their initial level (note, that
+  this will lead to a strictly conservative second stage
+  test)
 }
 \examples{
 ## Simple successive graph (Maurer et al. 2011)

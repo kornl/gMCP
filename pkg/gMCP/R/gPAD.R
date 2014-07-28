@@ -71,15 +71,32 @@ interim <- function(ssw,z1,v,alpha,gSB,cur.stage){
 #' and may change in the near future
 #' 
 #' For details see the given references.
+#'
+#' The choice of \code{zWeights} governs the way weights of hypotheses
+#' that have been dropped (i.e. \code{!selected}) are allocated to the
+#' remaining hypotheses. \code{direct} directly uses the weights of
+#' \code{G2} (note, that this may lead to inconsistencies if \code{G2}
+#' assigns weight to dropped hypotheses). \code{reject} redistributes
+#' the weights as if the dropped hypotheses have been rejected
+#' (i.e. if the primary hypotheses in a fixed sequence test is
+#' dropped, in the second stage test its weight is allocated to the
+#' secondary hypotheses). \code{accept} operates as if the dropped
+#' hypotheses are retained, and their weight is allocated to the
+#' remaining hypotheses proportional to their initial weight (note
+#' that if none of the remaining hypotheses has an initial weight, no
+#' weight will be allocated to them). \code{strict} sets the weights
+#' of dropped hypotheses to zero, leaving the weights of the remaining
+#' hypotheses at their initial level (note, that this will lead to a
+#' strictly conservative second stage test)
 #' 
 #' @param interim An object of class \code{\link{agMCPInterim}}.
 #' @param select A logical vector giving specifying which hypotheses are
 #' carried forward to the second stage
 #' @param matchCE Logical specifying whether second stage weights should be
 #' computed proportional to corresponding PCEs
-#' @param zWeights Either "reject","accept", or "strict" giving the rule what
+#' @param zWeights Either "direct","reject","accept", or "strict" giving the rule what
 #' should be done in cases where none of the selected hypotheses has positive
-#' second stage weight.
+#' second stage weight (see Details).
 #' @param G2 An object of class \code{\link{graphMCP}} laying down the rule to
 #' compute second stage weights. Defaults to pre-planned graph.
 #' @return A function of signature \code{function(z2)} with arguments:
@@ -129,9 +146,13 @@ interim <- function(ssw,z1,v,alpha,gSB,cur.stage){
 #' 
 #' @export secondStageTest
 #' 
-secondStageTest <- function(interim,select,matchCE=TRUE,zWeights="reject",G2=interim@preplanned){
+secondStageTest <- function(interim,select,matchCE=TRUE,zWeights=c("direct","reject","accept","strict"),G2=interim@preplanned){
   n <- nhyp(interim@preplanned)
-  w2s <- t(sapply(1:(2^n-1),function(J) adaptWeights(to.binom(J,n),select,G2,zWeights)))
+  if(zWeights[1]=="direct"){
+      w2s <- generateWeights(G2@m,G2@weights)
+  } else {
+      w2s <- t(sapply(1:(2^n-1),function(J) adaptWeights(to.binom(J,n),select,G2,zWeights[1])))
+  }
   Cs <- w2s*interim@BJ
   if(matchCE){
     Cs <- t(apply(cbind(interim@BJ,w2s),1,function(Bw){
@@ -152,6 +173,23 @@ secondStageTest <- function(interim,select,matchCE=TRUE,zWeights="reject",G2=int
 #' and may change in the near future
 #' 
 #' For details see the given references.
+#'
+#' #' The choice of \code{zWeights} governs the way weights of hypotheses
+#' that have been dropped (i.e. \code{!selected}) are allocated to the
+#' remaining hypotheses. \code{direct} directly uses the weights of
+#' \code{G2} (note, that this may lead to inconsistencies if \code{G2}
+#' assigns weight to dropped hypotheses). \code{reject} redistributes
+#' the weights as if the dropped hypotheses have been rejected
+#' (i.e. if the primary hypotheses in a fixed sequence test is
+#' dropped, in the second stage test its weight is allocated to the
+#' secondary hypotheses). \code{accept} operates as if the dropped
+#' hypotheses are retained, and their weight is allocated to the
+#' remaining hypotheses proportional to their initial weight (note
+#' that if none of the remaining hypotheses has an initial weight, no
+#' weight will be allocated to them). \code{strict} sets the weights
+#' of dropped hypotheses to zero, leaving the weights of the remaining
+#' hypotheses at their initial level (note, that this will lead to a
+#' strictly conservative second stage test)
 #' 
 #' @param interim An object of class \code{\link{agMCPInterim}}.
 #' @param z2 Final-stage z-scores
@@ -159,7 +197,7 @@ secondStageTest <- function(interim,select,matchCE=TRUE,zWeights="reject",G2=int
 #' carried forward to the second stage
 #' @param matchCE Logical specifying whether second stage weights should be
 #' computed proportional to corresponding PCEs
-#' @param zWeights Either "reject","accept", or "strict" giving the rule what
+#' @param zWeights Either "direct", "reject","accept", or "strict" giving the rule what
 #' should be done in cases where none of the selected hypotheses has positive
 #' second stage weight.
 #' @param G2 An object of class \code{\link{graphMCP}} laying down the rule to
@@ -214,9 +252,13 @@ secondStageTest <- function(interim,select,matchCE=TRUE,zWeights="reject",G2=int
 #' 
 #' @export doFinal
 #' 
-doFinal <- function(interim,z2,select,matchCE=TRUE,zWeights="reject",G2=interim@preplanned){
+doFinal <- function(interim,z2,select,matchCE=TRUE,zWeights=c("direct","reject","accept","strict"),G2=interim@preplanned){
   n <- nhyp(interim@preplanned)
-  w2s <- t(sapply(1:(2^n-1),function(J) adaptWeights(to.binom(J,n),select,G2,zWeights)))
+  if(zWeights[1]=="direct"){
+      w2s <- generateWeights(G2@m,G2@weights)
+  } else {
+      w2s <- t(sapply(1:(2^n-1),function(J) adaptWeights(to.binom(J,n),select,G2,zWeights[1])))
+  }
   Cs <- w2s*interim@BJ
   if(matchCE){
     Cs <- t(apply(cbind(interim@BJ,w2s),1,function(Bw){
@@ -239,6 +281,23 @@ doFinal <- function(interim,z2,select,matchCE=TRUE,zWeights="reject",G2=interim@
 #' and may change in the near future
 #' 
 #' For details see the given references.
+#'
+#' #' The choice of \code{zWeights} governs the way weights of hypotheses
+#' that have been dropped (i.e. \code{!selected}) are allocated to the
+#' remaining hypotheses. \code{direct} directly uses the weights of
+#' \code{G2} (note, that this may lead to inconsistencies if \code{G2}
+#' assigns weight to dropped hypotheses). \code{reject} redistributes
+#' the weights as if the dropped hypotheses have been rejected
+#' (i.e. if the primary hypotheses in a fixed sequence test is
+#' dropped, in the second stage test its weight is allocated to the
+#' secondary hypotheses). \code{accept} operates as if the dropped
+#' hypotheses are retained, and their weight is allocated to the
+#' remaining hypotheses proportional to their initial weight (note
+#' that if none of the remaining hypotheses has an initial weight, no
+#' weight will be allocated to them). \code{strict} sets the weights
+#' of dropped hypotheses to zero, leaving the weights of the remaining
+#' hypotheses at their initial level (note, that this will lead to a
+#' strictly conservative second stage test)
 #' 
 #' @param interim An object of class \code{\link{agMCPInterim}}.
 #' @param z2 Final-stage z-scores
@@ -246,7 +305,7 @@ doFinal <- function(interim,z2,select,matchCE=TRUE,zWeights="reject",G2=interim@
 #' carried forward to the second stage
 #' @param matchCE Logical specifying whether second stage weights should be
 #' computed proportional to corresponding PCEs
-#' @param zWeights Either "reject","accept", or "strict" giving the rule what
+#' @param zWeights Either "direct", "reject","accept", or "strict" giving the rule what
 #' should be done in cases where none of the selected hypotheses has positive
 #' second stage weight.
 #' @param G2 An object of class \code{\link{graphMCP}} laying down the rule to
@@ -301,11 +360,10 @@ doFinal <- function(interim,z2,select,matchCE=TRUE,zWeights="reject",G2=interim@
 #' 
 adaptTrial <- function(interim,select,matchCE=TRUE,zWeights=c("direct","reject","accept","strict"),G2=interim@preplanned,gSB=NULL){
   n <- nhyp(interim@preplanned)
-  zWeights <- zWeights[1]
-  if(zWeights="direct"){
+  if(zWeights[1]=="direct"){
       w2s <- generateWeights(G2@m,G2@weights)
   } else {
-      w2s <- t(sapply(1:(2^n-1),function(J) adaptWeights(to.binom(J,n),select,G2,zWeights)))
+      w2s <- t(sapply(1:(2^n-1),function(J) adaptWeights(to.binom(J,n),select,G2,zWeights[1])))
   }
   Cs <- w2s*interim@BJ
   if(matchCE){
