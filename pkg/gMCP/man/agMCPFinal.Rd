@@ -7,30 +7,20 @@
 \alias{getWeights,agMCPFinal-method}
 \alias{getRejected,agMCPFinal-method}
 \title{Class agMCPFinal}
-\description{A agMCPFinal object describes holds information about the
-  final analysis of an adaptive graph based trial testing multiple hypotheses.}
+\description{A \code{\link{agMCPFinal}} object describes the result of the analysis form an adaptive graph based multiple comparison procedure.}
 \section{Slots}{
   \describe{
-    \item{\code{fweights}:}{\code{numeric} matrix of partial conditional
-      error allocation ratios (proportion of the sum of partial
-      conditional error (BJ) that each elementary hypotheses receives)} 
-    \item{\code{BJ}:}{A \code{numeric} specifying the sum of PCEs per
-      intersection hypothesis.}
-    \item{\code{z2}:}{The \code{numeric} vector of z-scores observed at
-      the final analysis.}
-    \item{\code{final}:}{Object of class \code{\link{graphMCP}}
-      specifying the graphical weighting procedure applied in the second
-      stage.}
-    \item{\code{alpha}:}{A \code{numeric} giving the alpha level of the
-      pre-planned test}
-    \item{\code{rejected}}{A \code{logical} vector specifying which
-      hypotheses can be rejected at the final analysis}
-    \item{\code{frb}}{A \code{matrix} giving the final rejection boundaries
-      applied in the final closed testing procedure}
+\item{\code{fweights}:}{Matrix of weights applied in the final closed test procedure}
+\item{\code{BJ}:}{Vector of sums of partial conditional errors from computed at the last interim analysis}
+\item{\code{z2}:}{z-scores from the last stage observed at the final analysis}
+\item{\code{final}:}{Object of class \code{\link{graphMCP}} specifying the test applied at the final stage}
+\item{\code{alpha}:}{Prespecified alpha level at which FWER is controlled.}
+\item{\code{rejected}:}{Vector indicating which elementary hypotheses were rejected at the final analysis}
+\item{\code{frb}:}{Matrix with rejection boundaries applied at the final analysis.}
   }
 }
 \author{Florian Klinglmueller \email{float@lefant.net}}
 \seealso{
-\code{\link{gMCP}}, \code{\link{doInterim}}, \code{\link{secondStageTest}}
+\code{\link{gMCP}}, \code{\link{doFinal}}, \code{\link{secondStageTest}}
 }
 \keyword{ graphs }

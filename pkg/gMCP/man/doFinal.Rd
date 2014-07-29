@@ -80,19 +80,19 @@
 G <- simpleSuccessiveI()
 
 ## some z-scores:
-z1 <- c(3.4,3,2.5,2)
+z1 <- c(1.4,1.8,2.5,2)
 ## O'Brien Fleming boundaries for the primary,
 ## Pocock boundaries for the secondary  hypotheses.
 obfpoc <- agMCPldbounds(c(1,1,2,2))
 
 ## Interim analysis
-v <- c(1/2,1/3,1/2,1/3)
+v <- 1/2
 intA <- doInterim(G,z1,v,gSB=obfpoc)
 p2=c(.04,1,.14,1)
 z2 <- qnorm(1-p2)
 
 ## select only the first treatment
-fTest <- secondStageTest(intA,c(1,0,1,0))
+doFinal(intA,z2,c(1,0,1,0),zWeights="reject")
 }
 \author{
   Florian Klinglmueller \email{float@lefant.net}

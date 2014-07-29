@@ -1,12 +1,11 @@
+\docType{methods}
 \name{doInterim}
 \alias{doInterim}
+\alias{doInterim,graphMCP-method}
 \title{EXPERIMENTAL: Evaluate conditional errors at interim for a pre-planned
 graphical procedure}
 \arguments{
-  \item{object}{Either graph of class
-  \code{\link{graphMCP}} or the resulting
-  \code{\link{agMCPInterim}} object from a previous interim
-  analysis.}
+  \item{object}{A graph of class \code{\link{graphMCP}}}
 
   \item{z1}{A numeric vector giving the observed interim
   z-scores.}
@@ -91,12 +90,13 @@ p1=c(.1,.12,.21,.16)
 z1 <- qnorm(1-p1)
 p2=c(.04,1,.14,1)
 z2 <- qnorm(1-p2)
-v <- c(1/2,1/3,1/2,1/3)
+v <- 1/2
 
 intA <- doInterim(G,z1,v)
 
 ## select only the first treatment
-fTest <- secondStageTest(intA,c(1,0,1,0))
+fTest <- secondStageTest(intA,c(1,0,1,0),zWeights='reject')
+fTest(z2)
 }
 \author{
   Florian Klinglmueller \email{float@lefant.net}

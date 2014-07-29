@@ -1,4 +1,4 @@
-interim <- function(ssw,z1,v,alpha,gSB,cur.stage){
+interim <- function(ssw,z1,v,alpha,gSB,cur.stage,graph){
   m <- ncol(ssw)
   #########################################################
   ## non run-time optimized version of group sequentialism
@@ -13,6 +13,7 @@ interim <- function(ssw,z1,v,alpha,gSB,cur.stage){
   ## boundary at some previous stage can be implemented by
   ## setting the corresponding z statistics to Inf.
   #########################################################
+  stages <- length(v)+1
   if(!is.null(gSB)){
       if({!is.matrix(v)} & {(length(v) - cur.stage)>1}){
           ## more than one stage left
@@ -135,12 +136,12 @@ interim <- function(ssw,z1,v,alpha,gSB,cur.stage){
 #' z1 <- qnorm(1-p1)
 #' p2=c(.04,1,.14,1)
 #' z2 <- qnorm(1-p2)
-#' v <- c(1/2,1/3,1/2,1/3)
+#' v <- 1/2
 #' 
 #' intA <- doInterim(G,z1,v)
 #' 
 #' ## select only the first treatment 
-#' fTest <- secondStageTest(intA,c(1,0,1,0))
+#' fTest <- secondStageTest(intA,c(1,0,1,0),zWeights='reject')
 #' 
 #' 
 #' 
@@ -149,7 +150,7 @@ interim <- function(ssw,z1,v,alpha,gSB,cur.stage){
 secondStageTest <- function(interim,select,matchCE=TRUE,zWeights=c("direct","reject","accept","strict"),G2=interim@preplanned){
   n <- nhyp(interim@preplanned)
   if(zWeights[1]=="direct"){
-      w2s <- generateWeights(G2@m,G2@weights)
+      w2s <- generateWeights(G2@m,G2@weights)[,(n+1):(2*n)]
   } else {
       w2s <- t(sapply(1:(2^n-1),function(J) adaptWeights(to.binom(J,n),select,G2,zWeights[1])))
   }
@@ -234,28 +235,27 @@ secondStageTest <- function(interim,select,matchCE=TRUE,zWeights=c("direct","rej
 #' G <- simpleSuccessiveI()
 #' 
 #' ## some z-scores:
-#' z1 <- c(3.4,3,2.5,2)
+#' z1 <- c(1.4,1.8,2.5,2)
 #' ## O'Brien Fleming boundaries for the primary,
 #' ## Pocock boundaries for the secondary  hypotheses.
 #' obfpoc <- agMCPldbounds(c(1,1,2,2))
 #'
 #' ## Interim analysis
-#' v <- c(1/2,1/3,1/2,1/3)
+#' v <- 1/2
 #' intA <- doInterim(G,z1,v,gSB=obfpoc)
 #' p2=c(.04,1,.14,1)
 #' z2 <- qnorm(1-p2)
 #' 
 #' ## select only the first treatment 
-#' fTest <- secondStageTest(intA,c(1,0,1,0))
+#' doFinal(intA,z2,c(1,0,1,0),zWeights="reject")
 #' 
 #' 
 #' 
 #' @export doFinal
-#' 
 doFinal <- function(interim,z2,select,matchCE=TRUE,zWeights=c("direct","reject","accept","strict"),G2=interim@preplanned){
   n <- nhyp(interim@preplanned)
   if(zWeights[1]=="direct"){
-      w2s <- generateWeights(G2@m,G2@weights)
+      w2s <- generateWeights(G2@m,G2@weights)[,(n+1):(2*n)]
   } else {
       w2s <- t(sapply(1:(2^n-1),function(J) adaptWeights(to.binom(J,n),select,G2,zWeights[1])))
   }
@@ -271,111 +271,6 @@ doFinal <- function(interim,z2,select,matchCE=TRUE,zWeights=c("direct","reject",
   return(res)
 }
 
-#' EXPERIMENTAL: Adapt an adaptive group sequential graph based
-#' multiple testing procedure
-#'
-#' Based on a pre-planned graphical multiple comparison procedure, construct a
-#' valid multiple level alpha test that conserves the family wise error in the
-#' strong sense regardless of any trial adaptations during an unblinded interim
-#' analysis. - Implementation of adaptive procedures is still in an early stage
-#' and may change in the near future
-#' 
-#' For details see the given references.
-#'
-#' #' The choice of \code{zWeights} governs the way weights of hypotheses
-#' that have been dropped (i.e. \code{!selected}) are allocated to the
-#' remaining hypotheses. \code{direct} directly uses the weights of
-#' \code{G2} (note, that this may lead to inconsistencies if \code{G2}
-#' assigns weight to dropped hypotheses). \code{reject} redistributes
-#' the weights as if the dropped hypotheses have been rejected
-#' (i.e. if the primary hypotheses in a fixed sequence test is
-#' dropped, in the second stage test its weight is allocated to the
-#' secondary hypotheses). \code{accept} operates as if the dropped
-#' hypotheses are retained, and their weight is allocated to the
-#' remaining hypotheses proportional to their initial weight (note
-#' that if none of the remaining hypotheses has an initial weight, no
-#' weight will be allocated to them). \code{strict} sets the weights
-#' of dropped hypotheses to zero, leaving the weights of the remaining
-#' hypotheses at their initial level (note, that this will lead to a
-#' strictly conservative second stage test)
-#' 
-#' @param interim An object of class \code{\link{agMCPInterim}}.
-#' @param z2 Final-stage z-scores
-#' @param select A logical vector giving specifying which hypotheses are
-#' carried forward to the second stage
-#' @param matchCE Logical specifying whether second stage weights should be
-#' computed proportional to corresponding PCEs
-#' @param zWeights Either "direct", "reject","accept", or "strict" giving the rule what
-#' should be done in cases where none of the selected hypotheses has positive
-#' second stage weight.
-#' @param G2 An object of class \code{\link{graphMCP}} laying down the rule to
-#' compute second stage weights. Defaults to pre-planned graph.
-#' @return A \code{\link{agMCPInterim}} object containing the results
-#' of the final analysis. Most importantly:
-#' @returnItem z1, z-scores observed at the final analysis 
-#' @returnItem preplanned, final stage graphical procedure  
-#' @returnItem rejected logical vector specifying which hypothesis can be rejcted
-#' @returnItem erb final rejection boundaries
-#' @author Florian Klinglmueller \email{float@@lefant.net}
-#' @seealso \code{\link{graphMCP}}, \code{\link{doInterim}}
-#' @references Frank Bretz, Willi Maurer, Werner Brannath, Martin Posch: A
-#' graphical approach to sequentially rejective multiple test procedures.
-#' Statistics in Medicine 2009 vol. 28 issue 4 page 586-604.
-#' \url{http://www.meduniwien.ac.at/fwf_adaptive/papers/bretz_2009_22.pdf}
-#' 
-#' Bretz F., Posch M., Glimm E., Klinglmueller F., Maurer W., Rohmeyer K.
-#' (2011): Graphical approaches for multiple endpoint problems using weighted
-#' Bonferroni, Simes or parametric tests - to appear.
-#' 
-#' Posch M, Futschik A (2008): A Uniform Improvement of Bonferroni-Type Tests
-#' by Sequential Tests JASA 103/481, 299-308
-#' 
-#' Posch M, Maurer W, Bretz F (2010): Type I error rate control in adaptive
-#' designs for confirmatory clinical trials with treatment selection at interim
-#' Pharm Stat 10/2, 96-104
-#' @keywords htest graphs
-#' @examples
-#' 
-#' 
-#' ## Simple successive graph (Maurer et al. 2011)
-#' ## two treatments two hierarchically ordered endpoints
-#' G <- simpleSuccessiveI()
-#' 
-#' ## some z-scores:
-#' z1 <- c(3.4,3,2.5,2)
-#' ## O'Brien Fleming boundaries for the primary,
-#' ## Pocock boundaries for the secondary  hypotheses.
-#' obfpoc <- agMCPldbounds(c(1,1,2,2))
-#'
-#' ## Interim analysis
-#' v <- c(1/2,1/3,1/2,1/3)
-#' intA <- doInterim(G,z1,v,gSB=obfpoc)
-#' p2=c(.04,1,.14,1)
-#' z2 <- qnorm(1-p2)
-#' 
-#' ## select only the first treatment 
-#' fTest <- secondStageTest(intA,c(1,0,1,0))
-#' 
-#' 
-#' 
-adaptTrial <- function(interim,select,matchCE=TRUE,zWeights=c("direct","reject","accept","strict"),G2=interim@preplanned,gSB=NULL){
-  n <- nhyp(interim@preplanned)
-  if(zWeights[1]=="direct"){
-      w2s <- generateWeights(G2@m,G2@weights)
-  } else {
-      w2s <- t(sapply(1:(2^n-1),function(J) adaptWeights(to.binom(J,n),select,G2,zWeights[1])))
-  }
-  Cs <- w2s*interim@BJ
-  if(matchCE){
-    Cs <- t(apply(cbind(interim@BJ,w2s),1,function(Bw){
-      matchCE(Bw[-1],Bw[1],interim@z1,interim@v,interim@alpha)
-    }))
-  }
-  rejected <- (interim@rejected | decideTest(z2,Cs)) & select
-  fweights <- sweep(Cs,1,interim@BJ,'/')
-  res <- new('agMCPFinal',fweights=fweights,BJ=interim@BJ,z2=z2,final=G2,alpha=interim@alpha,rejected=rejected,frb=qnorm(Cs,lower.tail=F))
-  return(res)
-}
 
 
 

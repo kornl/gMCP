@@ -404,9 +404,7 @@ setClass("agMCPInterim",
 #' 
 #' For details see the given references.
 #' 
-#' @param object Either graph of class \code{\link{graphMCP}} or the
-#' resulting \code{\link{agMCPInterim}} object from a previous interim
-#' analysis.
+#' @param object A graph of class \code{\link{graphMCP}} 
 #' @param z1 A numeric vector giving the observed interim z-scores.
 #' @param v Timings of the interim analyses as proportions of the preplanned measurements (see Details).  
 #' @param alpha A numeric specifying the level of family wise error rate control.
@@ -453,39 +451,45 @@ setClass("agMCPInterim",
 #' z1 <- qnorm(1-p1)
 #' p2=c(.04,1,.14,1)
 #' z2 <- qnorm(1-p2)
-#' v <- c(1/2,1/3,1/2,1/3)
+#' v <- 1/2
 #' 
 #' intA <- doInterim(G,z1,v)
 #' 
 #' ## select only the first treatment 
-#' fTest <- secondStageTest(intA,c(1,0,1,0))
+#' fTest <- secondStageTest(intA,c(1,0,1,0),zWeights='reject')
+#' fTest(z2)
 #' 
 #' 
-#' 
-#' @export doInterim
-#'
-setGeneric("doInterim",function(object,...) standardGeneric("doInterim"))
+#' @export doInterim-methods
+#' @docType methods
+#' @rdname doInterim-methods
+setGeneric("doInterim",function(object,z1,v,alpha=.025,gSB=NULL,cur.stage=1) standardGeneric("doInterim"))
 
+#' @rdname doInterim-methods
+#' @aliases doInterim,graphMCP-method
 setMethod("doInterim","graphMCP",
-          function(object,z1,alpha=.025,gSB=NULL,cur.stage=1){
+          function(object,z1,v,alpha=.025,gSB=NULL,cur.stage=1){
               graph <- object
               g <- graph2matrix(graph)
               w <- getWeights(graph)
               ws <- generateWeights(g,w)
               m <- ncol(ws)/2
               ws <- ws[,(m+1):(2*m)]
-              interim(ws,z1,alpha,gSB,cur.stage)
+              interim(ws,z1,v,alpha,gSB,cur.stage,graph=object)
           })
 
-setMethod("doInterim","agMCPInterim",
-          function(object,z1,alpha=.025,gSB=NULL,cur.stage=1){
-              ws <- object@Aj/alpha
-              re <- rowSums(ws*alpha)>=1
-              if(any(re)){
-                  ws[re,] <- ws[re,]/ws[re,]
-              }
-              interim(ws,z1,alpha,gSB,cur.stage)
-          })
+## or the resulting \code{\link{agMCPInterim}} object from a previous interim
+## analysis.
+## setMethod("doInterim","agMCPInterim",
+##           function(object,z1,v,alpha=.025,gSB=NULL,cur.stage=1){
+##               ws <- object@Aj/alpha
+##               re <- rowSums(ws*alpha)>=1
+##               if(any(re)){
+##                   ws[re,] <- ws[re,]/ws[re,]
+##               }
+##               interim(ws,z1,v,alpha,gSB,cur.stage,graph=object@preplanned)
+##           })
+
 
 setClass("agMCPFinal",
 		representation(fweights="matrix",
