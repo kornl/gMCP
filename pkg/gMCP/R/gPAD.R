@@ -16,12 +16,14 @@
 #' @param alpha A numeric specifying the maximal allowed type one error rate.
 #' @return An object of class \code{gPADInterim}, more specifically a list with
 #' elements
-#' @returnItem Aj a matrix of PCEs for all elementary hypotheses in each
-#' intersection hypothesis
-#' @returnItem BJ a numeric vector giving sum of PCEs per intersection
-#' hypothesis
-#' @returnItem preplanned Pre planned test represented by an object of class
+#' \describe{
+#' \item{\code{Aj}}{a matrix of PCEs for all elementary hypotheses in each
+#' intersection hypothesis}
+#' \item{\code{BJ}}{a numeric vector giving sum of PCEs per intersection
+#' hypothesis}
+#' \item{\code{preplanned}}{Pre planned test represented by an object of class}
 #' \code{\link{graphMCP}}
+#' }
 #' @author Florian Klinglmueller \email{float@@lefant.net}
 #' @seealso \code{\link{graphMCP}}, \code{\link{secondStageTest}}
 #' @references Frank Bretz, Willi Maurer, Werner Brannath, Martin Posch: A
@@ -98,11 +100,11 @@ doInterim <- function(graph,z1,v,alpha=.025){
 #' second stage weight.
 #' @param G2 An object of class \code{\link{graphMCP}} laying down the rule to
 #' compute second stage weights. Defaults to pre-planned graph.
-#' @return A function of signature \code{function(z2)} with arguments:
-#' 
+#' @return A function of signature \code{function(z2)} with arguments
+#' \code{z2} a numeric vector with second stage z-scores (Z-scores of
+#' dropped hypotheses should be set no \code{NA})
 #' that returns objects of class \code{\link{gMCPResult}}.
-#' @returnItem z2 A numeric vector with second stage z-scores. Z-scores of
-#' dropped hypotheses should be set no \code{NA},
+#'  
 #' @author Florian Klinglmueller \email{float@@lefant.net}
 #' @seealso \code{\link{graphMCP}}, \code{\link{doInterim}}
 #' @references Frank Bretz, Willi Maurer, Werner Brannath, Martin Posch: A
