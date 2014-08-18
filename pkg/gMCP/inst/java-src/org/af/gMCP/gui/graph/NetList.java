@@ -85,7 +85,8 @@ public class NetList extends JTabbedPane implements ChangeListener {
 			i = i + 1;
 			name = "H" + i;
 		}
-		addNode(new Node(name, x, y, new double[] {0d}, this));		
+		double[] weights = new double[layer];
+		addNode(new Node(name, x, y, weights, this));		
 	}
 	
 	public void addEntangledLayer() {		
@@ -599,10 +600,10 @@ public class NetList extends JTabbedPane implements ChangeListener {
 		}		
 	}
 	
-	public Edge getEdge (int i, int j) {
+	public Edge getEdge (int i, int j, int layer) {
 		if ( i < 0 || j < 0 || i >= nodes.size() || j >= nodes.size() ) return null;
 		for (Edge e : getEdges()) {
-			if (e.from == nodes.get(i) && e.to == nodes.get(j)) return e;
+			if (e.from == nodes.get(i) && e.to == nodes.get(j) && e.layer == layer) return e;
 		}
 		return null;
 	}
@@ -616,13 +617,14 @@ public class NetList extends JTabbedPane implements ChangeListener {
 	 * A call like highlightEdge(-1, -1) can be used to disable all highlighting.
 	 * @param i Index of node the edge is starting.
 	 * @param j Index of node the edge is ending.
+	 * @param layer Layer of entangled graph. Counting starts with 0.
 	 */
-	public void highlightEdge(int i, int j) {
-		Edge e = getEdge(oldi, oldj);
+	public void highlightEdge(int i, int j, int layer) {
+		Edge e = getEdge(oldi, oldj, layer);
 		if (e!=null) {
 			e.linewidth = oldLinewidth;
 		}
-		e = getEdge(i, j);		
+		e = getEdge(i, j, layer);		
 		if (e==null) {
 			oldi = -1;
 			oldj = -1;
@@ -630,7 +632,7 @@ public class NetList extends JTabbedPane implements ChangeListener {
 		}
 		oldi = i; oldj = j;
 		oldLinewidth = e.linewidth;
-		e.linewidth = 5;		
+		e.linewidth = 3;		
 		repaint();
 	}
 

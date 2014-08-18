@@ -3,16 +3,21 @@
 #' Runs the R unit (and optional the JUnit) test suite for gMCP and prints the
 #' results.
 #' 
+#' The environment variable GMCP_UNIT_TESTS may be used to specify which
+#' unit tests should run: "extended", "interactive", "java" or a combination
+#' of these separated by comma (without blanks). A short cut for all three is
+#' "all".
 #' 
 #' @param extended If \code{TRUE} (or if the environment variable
 #' GMCP_UNIT_TESTS equals "extended" or "all") an extended version of the R
 #' unit test suite for gMCP will be used.  The run will take significantly
-#' longer time. %and only cover further cases of the same %kind that also
-#' tested in the non-extended version.
-#' @param java If \code{TRUE} the GUI and its logic is tested with JUnit tests.
+#' longer time.
+#' @param java If \code{TRUE} (or if the environment variable
+#' GMCP_UNIT_TESTS equals "java" or "all") the GUI and its logic is tested with JUnit tests.
 #' You need JUnit 4 classes in the classpath or specify the path to a JUnit 4
 #' jar file via the parameter junitLibrary.
-#' @param interactive If \code{TRUE} the interactive part of the RUnit tests is
+#' @param interactive If \code{TRUE} (or if the environment variable
+#' GMCP_UNIT_TESTS equals "interactive" or "all") the interactive part of the RUnit tests is
 #' run.  The user have to look at results and answer questions.
 #' @param junitLibrary A character String specifying the path to a JUnit 4 jar
 #' file to run the JUnit tests.  You can download it from
@@ -41,8 +46,9 @@ unitTestsGMCP <- function(extended=FALSE, java=FALSE, interactive=FALSE, junitLi
 	if(!require("RUnit", quietly=TRUE)) {
 		stop("Please install package RUnit to run the unit tests.")
 	}
-	if (extended) Sys.setenv(GMCP_UNIT_TESTS=paste(Sys.getenv("GMCP_UNIT_TESTS"),"extended"))
-	if (interactive) Sys.setenv(GMCP_UNIT_TESTS=paste(Sys.getenv("GMCP_UNIT_TESTS"),"interactive"))
+	if (extended) Sys.setenv(GMCP_UNIT_TESTS=paste(Sys.getenv("GMCP_UNIT_TESTS"),"extended"), sep=",")
+	if (interactive) Sys.setenv(GMCP_UNIT_TESTS=paste(Sys.getenv("GMCP_UNIT_TESTS"),"interactive"), sep=",")
+	if (java) Sys.setenv(GMCP_UNIT_TESTS=paste(Sys.getenv("GMCP_UNIT_TESTS"),"java"), sep=",")
 	if (missing(outputPath)) {
 		if (Sys.getenv("GMCP_UNIT_TEST_OPATH")=="") {
 			Sys.setenv(GMCP_UNIT_TEST_OPATH=getwd())
@@ -82,7 +88,7 @@ unitTestsGMCP <- function(extended=FALSE, java=FALSE, interactive=FALSE, junitLi
 	printTextProtocol(tests, showDetails=TRUE,
 			fileName=paste(pathReport, ".txt", sep=""))
 	
-	if (java || "java" %in% strsplit(Sys.getenv("GMCP_UNIT_TESTS"),",")[[1]]) {
+	if (java || tests("java")) {
 		# Test whether junit*.jar is in classpath
 		if (!missing(junitLibrary)) {
 			.jaddClassPath(junitLibrary)
@@ -105,6 +111,11 @@ unitTestsGMCP <- function(extended=FALSE, java=FALSE, interactive=FALSE, junitLi
 			cat(.jcall(result, "I", "getRunCount"), " Java Unit Tests successful! (Runtime: ",.jcall(result, "J", "getRunTime")/1000," sec)")
 		}
 	}
+}
+
+# tests("java") gives back a logical specifying whether java tests should be run.
+tests <- function(type) {
+  return (any(type, "all") %in% strsplit(Sys.getenv("GMCP_UNIT_TESTS"),",")[[1]])  	
 }
 
 equals <- function(graph1, graph2, checkAttributes=FALSE, verbose=FALSE) {
