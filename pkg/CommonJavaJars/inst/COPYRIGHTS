@@ -1,0 +1,67 @@
+We provide the following open source Java libraries:
+
+- Apache Commons Logging under the Apache License, 
+  Version 2.0, January 2004, 
+  http://commons.apache.org/logging/, 
+  Copyright 2001-2007 The Apache Software Foundation 
+
+- Apache jog4j under Apache License 2.0, 
+  http://logging.apache.org/log4j/, 
+  Copyright 2007 The Apache Software Foundation
+
+- Apache Commons Lang under Apache License 2.0, 
+  http://commons.apache.org/lang/, 
+  Copyright 2001-2011 The Apache Software Foundation
+
+- Apache POI under Apache License 2.0, 
+  http://poi.apache.org/,  
+  Copyright 2001-2007 The Apache Software Foundation
+
+- Apache Commons Collections under the Apache License, 
+  Version 2.0, January 2004, http://commons.apache.org/collections/,  
+  Copyright 2001-2008 The Apache Software Foundation
+
+- Apache Commons Validator under the Apache License, 
+  Version 2.0, January 2004, http://commons.apache.org/validator/,  
+  Copyright 2001-2010 The Apache Software Foundation
+
+- Apache Commons IO under the Apache License, 
+  Version 2.2 (last compatible with JDK 1.5), 2004, http://commons.apache.org/io/,  
+  Copyright 2002-2012 The Apache Software Foundation
+
+- JLaTeXMath under GPL >= 2.0, 
+  http://forge.scilab.org/index.php/p/jlatexmath/,  
+  Copyright 2004-2007, 2009 Calixte, Coolsaet, Cleemput, Vermeulen and Universiteit Gent
+
+- iText 2.1.4 under LGPL, 
+  http://itextpdf.com/,  
+  Copyright by Bruno Lowagie 
+
+- SwingWorker under LGPL, 
+  https://swingworker.dev.java.net/,  
+  Copyright (c) 2005 Sun Microsystems 
+
+- JXLayer under BSD License, 
+  https://jxlayer.dev.java.net/,  
+  Copyright 2006-2009, Alexander Potochkin 
+
+- JGoodies Forms under BSD License, 
+  http://www.jgoodies.com/freeware/forms/,  
+  Copyright JGoodies Karsten Lentzsch  
+
+- AFCommons under BSD License, 
+  http://www.algorithm-forge.com/afcommons/,  
+  Copyright (c) 2007-2010 by Kornelius Rohmeyer and Bernd Bischl
+
+- JHLIR under BSD License, 
+  http://jhlir.r-forge.r-project.org/,  
+  Copyright (c) 2008-2010 by Bernd Bischl and Kornelius Rohmeyer  
+
+- SGTK under BSD License, 
+  http://www.algorithm-forge.com/rjavaclient/,  
+  Copyright (c) 2007-2010 by Bernd Bischl and Kornelius Rohmeyer 
+
+- JRIEngine and REngine under LGPL-2.1, 
+  http://www.rforge.net/rJava/, 
+  Copyright 2010 by Simon Urbanek. 
+  Please use these two jar files only if package rJava does not provide them. 
