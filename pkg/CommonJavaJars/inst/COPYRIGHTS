@@ -49,17 +49,13 @@ We provide the following open source Java libraries:
   http://www.jgoodies.com/freeware/forms/,  
   Copyright JGoodies Karsten Lentzsch  
 
-- AFCommons under BSD License, 
-  http://www.algorithm-forge.com/afcommons/,  
-  Copyright (c) 2007-2010 by Kornelius Rohmeyer and Bernd Bischl
+- AFCommons under Apache License 2.0, 
+  https://github.com/kornl/afcommons/,  
+  Copyright (c) 2007-2014 by Kornelius Rohmeyer and Bernd Bischl
 
 - JHLIR under BSD License, 
   http://jhlir.r-forge.r-project.org/,  
-  Copyright (c) 2008-2010 by Bernd Bischl and Kornelius Rohmeyer  
-
-- SGTK under BSD License, 
-  http://www.algorithm-forge.com/rjavaclient/,  
-  Copyright (c) 2007-2010 by Bernd Bischl and Kornelius Rohmeyer 
+  Copyright (c) 2008-2010 by Bernd Bischl and Kornelius Rohmeyer
 
 - JRIEngine and REngine under LGPL-2.1, 
   http://www.rforge.net/rJava/, 
