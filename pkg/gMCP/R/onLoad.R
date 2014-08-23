@@ -7,7 +7,7 @@
 	
 	jars <- c("afcommons", "commons-collections", "commons-lang", 
 			"commons-logging", "commons-validator", "forms", 
-			"iText", "jhlir.jar", "jlatexmath", "jxlayer", 
+			"iText", "javax.json", "jhlir.jar", "jlatexmath", "jxlayer", 
 			"log4j", "swing-worker")
 	
 	loadJars(jars)
