@@ -37,6 +37,10 @@ We provide the following open source Java libraries:
   http://itextpdf.com/,  
   Copyright by Bruno Lowagie 
 
+- JSON Processing dual licensed under CDDL 1.1 and GPL 2 with Classpath Exception,
+  https://jsonp.java.net/,
+  Copyright (c) 2011-2013 Oracle
+
 - SwingWorker under LGPL, 
   https://swingworker.dev.java.net/,  
   Copyright (c) 2005 Sun Microsystems 

@@ -42,7 +42,8 @@ We provide the following Java libraries:
  \item SwingWorker under LGPL, \url{https://swingworker.dev.java.net/}, Copyright (c) 2005 Sun Microsystems 
  \item JXLayer under BSD License, \url{https://jxlayer.dev.java.net/}, Copyright 2006-2009, Alexander Potochkin 
  \item JGoodies Forms under BSD License, \url{http://www.jgoodies.com/freeware/forms/}, Copyright JGoodies Karsten Lentzsch  
- \item AFCommons under the Apache License, Version 2.0, \url{http://www.algorithm-forge.com/afcommons/}, Copyright (c) 2007-2014 by Kornelius Rohmeyer and Bernd Bischl
+ \item JSON Processing dual licensed under CDDL 1.1 and GPL 2 with Classpath Exception, \url{https://jsonp.java.net/}, Copyright (c) 2011-2013 Oracle
+ \item AFCommons under the LGPL >= 2.1, \url{https://github.com/kornl/afcommons/}, Copyright (c) 2007-2014 by Kornelius Rohmeyer, Bernd Bischl, Santhosh Kumar T (ComponentTitledBorder class), Jerry Huxtable (filter code), Sebastian Haufe (JListDnD class), Romain Guy (Star class), Oracle (CloseTabPanel)
  \item JHLIR under BSD License, \url{http://jhlir.r-forge.r-project.org/}, Copyright (c) 2008-2010 by Bernd Bischl and Kornelius Rohmeyer  
  \item JRIEngine and REngine under LGPL-2.1, \url{http://www.rforge.net/rJava/}, Copyright 2010 by Simon Urbanek. Please use these two jar files only if package rJava does not provide them. 
  } 
