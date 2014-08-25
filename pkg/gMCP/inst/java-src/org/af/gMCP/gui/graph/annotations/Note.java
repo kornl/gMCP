@@ -2,7 +2,9 @@ package org.af.gMCP.gui.graph.annotations;
 
 import java.awt.Color;
 
-public class Note {
+import javax.json.stream.JsonGenerator;
+
+public class Note extends Annotation {
 
 	String text;
 	int fontsize;
@@ -18,6 +20,12 @@ public class Note {
 		this.y = y;
 		this.color = color;
 		this.fontsize = fontsize;
+	}
+
+	@Override
+	public void writeObject(JsonGenerator gen) {
+		// TODO Auto-generated method stub
+		
 	}
 	
 }
