@@ -40,7 +40,7 @@ We provide the following Java libraries:
  \item iText 2.1.4 under LGPL, \url{http://itextpdf.com/}, Copyright by Bruno Lowagie 
  \item SwingWorker under LGPL, \url{https://swingworker.dev.java.net/}, Copyright (c) 2005 Sun Microsystems 
  \item JXLayer under BSD License, \url{https://jxlayer.dev.java.net/}, Copyright 2006-2009, Alexander Potochkin 
- \item JGoodies Forms under BSD License, \url{http://www.jgoodies.com/freeware/forms/}, Copyright JGoodies Karsten Lentzsch  
+ \item JGoodies Forms and Commons under BSD License, \url{http://www.jgoodies.com/freeware/forms/}, Copyright JGoodies Karsten Lentzsch  
  \item JSON Processing dual licensed under CDDL 1.1 and GPL 2 with Classpath Exception, \url{https://jsonp.java.net/}, Copyright (c) 2011-2013 Oracle
  \item AFCommons under the LGPL >= 2.1, \url{https://github.com/kornl/afcommons/}, Copyright (c) 2007-2014 by Kornelius Rohmeyer, Bernd Bischl, Santhosh Kumar T (ComponentTitledBorder class), Jerry Huxtable (filter code), Sebastian Haufe (JListDnD class), Romain Guy (Star class), Oracle (CloseTabPanel)
  \item JHLIR under BSD License, \url{http://jhlir.r-forge.r-project.org/}, Copyright (c) 2008-2010 by Bernd Bischl and Kornelius Rohmeyer  
