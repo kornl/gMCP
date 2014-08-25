@@ -49,9 +49,10 @@ We provide the following open source Java libraries:
   http://www.jgoodies.com/freeware/forms/,  
   Copyright JGoodies Karsten Lentzsch  
 
-- AFCommons under Apache License 2.0, 
+- AFCommons under LGPL >= 2.1, 
   https://github.com/kornl/afcommons/,  
-  Copyright (c) 2007-2014 by Kornelius Rohmeyer and Bernd Bischl
+  Copyright (c) 2007-2014 by Kornelius Rohmeyer, Bernd Bischl, Santhosh Kumar T (ComponentTitledBorder class), 
+  Jerry Huxtable (filter code), Sebastian Haufe (JListDnD class), Romain Guy (Star class), Oracle (CloseTabPanel)
 
 - JHLIR under BSD License, 
   http://jhlir.r-forge.r-project.org/,  
@@ -61,3 +62,26 @@ We provide the following open source Java libraries:
   http://www.rforge.net/rJava/, 
   Copyright 2010 by Simon Urbanek. 
   Please use these two jar files only if package rJava does not provide them. 
+
+
+Licence
+=======
+
+    This is free software; you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation; either version 2 or 3 of the License
+    (at your option).
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+    GNU General Public License for more details.
+
+Files GPL-*, LGPL-*, BSD-3-clause, in the folder share/licenses
+of the R (source or binary) distribution are copies of the respective
+licenses above.
+They are also found at http://www.r-project.org/licenses/
+
+You may obtain a copy of the Apache License, Version 2.0 at
+http://www.apache.org/licenses/LICENSE-2.0
+
