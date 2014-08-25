@@ -1,25 +1,20 @@
 \documentclass[a4paper, 10pt]{article}
 \usepackage[T1]{fontenc}
 \usepackage{url}
-\usepackage{Sweave}
+
 \usepackage{graphicx}
-\usepackage{tikz}
-\usetikzlibrary{snakes,arrows,shapes}
 \usepackage[margin=0.9in]{geometry}
 \usepackage{url}
 \usepackage{hyperref}
 \usepackage{listings}
 \usepackage{xspace}
-\usepackage[numbers]{natbib}
-%\usepackage[left=3cm,right=3cm,top=2cm,bottom=2cm]{geometry}
-\usepackage{amsmath,amsthm,amsfonts,amssymb}
-\bibliographystyle{plainnat}
 \setlength{\parindent}{0mm}
 \setlength{\parskip}{1mm}
 \newcommand{\commentout}[1]{}
 
 \begin{document}
 
+% \VignetteEngine{knitr::knitr}
 % \VignetteIndexEntry{A package with useful libraries for Java GUIs}
 
 \title{CommonJavaJars - A package with useful libraries for Java GUIs} 
@@ -28,7 +23,7 @@
 
 %\maketitle
 
-<<echo=FALSE,results=hide>>=
+<<echo=FALSE,results='hide'>>=
 
 options(width=140)
 options(prompt=" ", continue=" ")
@@ -92,7 +87,7 @@ package if the rJava version is less than 0.8-3.
 Otherwise the package rJava provides these jar files.
 
 \scriptsize
-<<echo=TRUE,eval=FALSE>>=	
+<<echo=TRUE,eval=FALSE>>=
 # The following few lines are based on the code of the rJava .jpackage function
 if (!is.null(sessionInfo()$otherPkgs$rJava$Version) && sessionInfo()$otherPkgs$rJava$Version < "0.8-3") {
 	classes <- system.file("R28", package = "CommonJavaJars", lib.loc = NULL)
