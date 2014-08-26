@@ -75,15 +75,12 @@
 	Sys.setenv("JAVAGD_CLASS_NAME"="org/mutoss/gui/JavaGD")  
 	
 	# Optional Deducer integration:
-	if(exists(".deducer")) {
-		if (!is.null(.deducer)) {
-			deducer.addMenuItem("Multiple Test Graph",,"graphGUI()","Analysis")
-			if(.jgr){
-				jgr.addMenuSeparator("Analysis")
-				jgr.addMenuItem("Analysis","Multiple Test Graph","graphGUI()")
-			}
-		}
-	}
+	#deducer.addMenuItem <- if (exists("deducer")) get("deducer") else function(...) {}
+	#jgr.addMenuSeparator <- if (exists("jgr.addMenuSeparator")) get("jgr.addMenuSeparator") else function(...) {}
+	#jgr.addMenuItem <- if (exists("jgr.addMenuItem")) get("jgr.addMenuItem") else function(...) {}
+	#deducer.addMenuItem("Multiple Test Graph", NULL, "graphGUI()", "Analysis")
+	#jgr.addMenuSeparator("Analysis")
+	#jgr.addMenuItem("Analysis", "Multiple Test Graph", "graphGUI()")	
 }  
 
 .onUnload <- function(libpath) {

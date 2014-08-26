@@ -58,6 +58,8 @@ Changes in version 0.8-7 (??-0?-2014)
 
 - Better handling of unintentionally entered NaN or infinity values.
 
+- Dropped Deducer integration for now.
+
 
 Changes in version 0.8-6 (17-02-2014)
 =====================================
