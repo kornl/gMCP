@@ -78,10 +78,12 @@
 #' significantly less calculations in most cases.
 #' @return An object of class \code{gMCPResult}, more specifically a list with
 #' elements
-#' @returnItem graphs list of graphs
-#' @returnItem pvalues p-values
-#' @returnItem rejected logical whether hyptheses could be rejected
-#' @returnItem adjPValues adjusted p-values
+#' \describe{
+#' \item{\code{graphs}}{list of graphs}
+#' \item{\code{pvalues}}{p-values}
+#' \item{\code{rejected}}{logical whether hyptheses could be rejected}
+#' \item{\code{adjPValues}}{adjusted p-values}
+#' }
 #' @author Kornelius Rohmeyer \email{rohmeyer@@small-projects.de}
 #' @seealso \code{\link{graphMCP}} \code{\link[multcomp:contrMat]{graphNEL}}
 #' @references Frank Bretz, Willi Maurer, Werner Brannath, Martin Posch: A

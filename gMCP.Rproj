@@ -11,7 +11,6 @@ Encoding: UTF-8
 
 RnwWeave: knitr
 LaTeX: pdfLaTeX
-RootDocument: pkg/gMCP/inst/doc/gMCP/gMCP.Rnw
 
 BuildType: Package
 PackagePath: pkg/gMCP

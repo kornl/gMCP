@@ -12,19 +12,21 @@ import javax.swing.event.ChangeListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
+import org.af.commons.widgets.tables.CloseTabPanel;
+import org.af.commons.widgets.tables.DFPanelIF;
 import org.af.gMCP.gui.graph.EdgeWeight;
 import org.af.gMCP.gui.graph.GraphView;
 
 import com.jgoodies.forms.layout.CellConstraints;
 import com.jgoodies.forms.layout.FormLayout;
 
-public class DataFramePanel extends JTabbedPane implements ChangeListener, ListSelectionListener {
+public class DataFramePanel extends JTabbedPane implements ChangeListener, ListSelectionListener, DFPanelIF {
     private Vector<DataTable> tables = new Vector<DataTable>();
     private JScrollPane scrollPane;
     GraphView control;
-
+    
     public DataFramePanel(RDataFrameRef dfRefW) {
-    	addChangeListener(this);
+    	addChangeListener(this);    	
     	tables.add(new DataTable(dfRefW));
     	this.addTab("Transition Matrix", getPanel(tables.get(0)));
     }
@@ -152,4 +154,5 @@ public class DataFramePanel extends JTabbedPane implements ChangeListener, ListS
 		oldj = j;
 		oldLayer = layer;
 	}
+
 }
