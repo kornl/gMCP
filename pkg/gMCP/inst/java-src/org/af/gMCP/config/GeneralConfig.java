@@ -1,7 +1,6 @@
 package org.af.gMCP.config;
 
 import java.io.File;
-import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -353,16 +352,16 @@ public class GeneralConfig extends SpecificConfig {
 		setProperty("envir", envir);
 	}
 	
-	public String getParametricTest() {
-		return getProperty("parametricTest", "Bretz2011");
+	public boolean getUpscale() {
+		return Boolean.parseBoolean(getProperty("upscale", ""+false));
 	}
 	
-	public void setParametricTest(String test) {
-		setProperty("parametricTest", test);
+	public void setUpscale(boolean upscale) {
+		setProperty("upscale", ""+upscale);
 	}
 
 	public Double getExportZoom() {		
-		return getProperty("Exportzoom", "null")=="null"?null:Double.parseDouble(getProperty("Exportzoom", "null"));		
+		return getProperty("Exportzoom", "2")=="null"?2:Double.parseDouble(getProperty("Exportzoom", "2"));		
 	}
 	
 	public void setShowRCode(boolean b) {

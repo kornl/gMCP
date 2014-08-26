@@ -7,6 +7,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -42,7 +43,7 @@ public class GraphDocXWriter {
 		run.addPicture(picIS, XWPFDocument.PICTURE_TYPE_PNG, "graph.png", Units.toEMU(image.getWidth()/zoom), Units.toEMU(image.getHeight()/zoom));
 	}
 	
-	final static int zoom = 8; 
+	final static double zoom = 4; 
 	
 	/* Stuff one could use:
 	 * run.setSubscript(VerticalAlign.SUBSCRIPT);
@@ -53,19 +54,12 @@ public class GraphDocXWriter {
 	
 	public void createDocXReport(File file) throws IOException, InvalidFormatException {
 		XWPFDocument doc = new XWPFDocument();
+		XWPFRun run;
+		XWPFParagraph p;
 		
-		XWPFParagraph p = doc.createParagraph();
-		p.setAlignment(ParagraphAlignment.LEFT);
-		setAllBorders(p, Borders.SINGLE);
+		createHeader(doc);
 		
-		XWPFRun run = p.createRun();
-		run.setFontSize(24);
-		run.setBold(true);
-		run.setText("gMCP Report");
-		
-		doc.createParagraph().createRun().setText("Date: "+new Date()+ ", User: "+Configuration.getInstance().getGeneralConfig().getUser());
-
-		doc.createParagraph().createRun().addBreak();
+		/* Insert graph */
 		
 		p = doc.createParagraph();
 		addImage(p, control.getNL().getImage(zoom));
@@ -114,6 +108,26 @@ public class GraphDocXWriter {
 		FileOutputStream fos = new FileOutputStream(file);
 		doc.write(fos);
 		fos.close();
+	}
+	
+	private void createHeader(XWPFDocument doc) {
+		XWPFParagraph p = doc.createParagraph();
+		p.setAlignment(ParagraphAlignment.LEFT);
+		setAllBorders(p, Borders.SINGLE);
+		
+		XWPFRun run = p.createRun();
+		run.setFontSize(24);
+		run.setBold(true);
+		run.setText("gMCP Report");
+		
+		//TODO Let user set user name and date format.
+		String user = Configuration.getInstance().getGeneralConfig().getUser();
+		String rVersion = Configuration.getInstance().getGeneralConfig().getRVersionNumber();
+		String gMCPVersion = Configuration.getInstance().getGeneralConfig().getVersionNumber();
+		String date = new SimpleDateFormat("yyyy-MM-dd HH:mm").format(new Date());
+		doc.createParagraph().createRun().setText("Date: "+date+ ", User: "+user+", R "+rVersion+", gMCP "+gMCPVersion);
+
+		doc.createParagraph().createRun().addBreak();
 	}
 	
 	/**

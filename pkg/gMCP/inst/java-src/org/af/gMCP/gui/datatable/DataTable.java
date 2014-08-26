@@ -23,6 +23,7 @@ public class DataTable extends JTable {
         getColumnModel().setColumnSelectionAllowed(false);
         setRowSelectionAllowed(false);
         setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+        //setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         setDefaultEditor(EdgeWeight.class, new CellEditorE(null, this));
     	setDefaultRenderer(EdgeWeight.class, new EpsilonTableCellRenderer());
     	putClientProperty("terminateEditOnFocusLost", Boolean.TRUE);

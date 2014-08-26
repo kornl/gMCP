@@ -33,7 +33,7 @@
 #' even if the sum of weights is strictly smaller than one. This has the
 #' consequence that certain test procedures that do not test each intersection
 #' null hypothesis at the full level alpha may not be implemented (e.g., a
-#' single step Dunnett test). If \code{exhaust} is set to \code{FALSE}
+#' single step Dunnett test). If \code{upscale} is set to \code{FALSE}
 #' (default) the parametric tests are performed at a reduced level alpha of
 #' sum(w) * alpha and p-values adjusted accordingly such that test procedures
 #' with non-exhaustive weighting strategies may be implemented. If set to
@@ -58,7 +58,7 @@
 #' @param hint if intersection hypotheses weights have already been computed
 #' (output of \code{\link{generateWeights}}) can be passed here otherwise will
 #' be computed during execution
-#' @param exhaust if \code{FALSE} (default) the p-values are additionally
+#' @param upscale if \code{FALSE} (default) the p-values are additionally
 #' adjusted for the case that non-exhaustive weights are specified. (See
 #' details)
 #' @return If adjusted is set to true returns a vector of adjusted p-values.
@@ -80,7 +80,7 @@
 #' @examples
 #' 
 #' ## Define some graph as matrix
-#' g <- matrix(c(0,0,1,0, 0,0,0,1, 0,1,0,0, 1,0,0,0), nrow = 4,byrow=TRUE)
+#' g <- matrix(c(0,0,1,0, 0,0,0,1, 0,1,0,0, 1,0,0,0), nrow = 4, byrow=TRUE)
 #' ## Choose weights
 #' w <- c(.5,.5,0,0)
 #' ## Some correlation (upper and lower first diagonal 1/2)
@@ -97,10 +97,13 @@
 #' ## Boundaries for correlated test statistics at alpha level .05:
 #' generatePvals(g,w,c,p)
 #' 
+#' g <- Entangled2Maurer2012()
+#' generatePvals(g=g, cr=diag(5), p=rep(0.1,5))
+#' 
 #' @export generatePvals
 #' 
-generatePvals <- function(g,w,cr,p,adjusted=TRUE,hint=generateWeights(g,w),exhaust=FALSE){#, alternatives="less"){
-  res <- t(apply(hint,1,pvals.dunnett,p=p,cr=cr,exhaust=exhaust))#, alternatives=alternatives))
+generatePvals <- function(g,w,cr,p,adjusted=TRUE,hint=generateWeights(g,w),upscale=FALSE){#, alternatives="less"){
+  res <- t(apply(hint,1,pvals.dunnett,p=p,cr=cr,upscale=upscale))#, alternatives=alternatives))
   if(adjusted){
     return(ad.p(res))
   } else {
@@ -108,7 +111,7 @@ generatePvals <- function(g,w,cr,p,adjusted=TRUE,hint=generateWeights(g,w),exhau
   } 
 }
 
-## At the moment hypotheses that are not tested at all get and adj. p-value of 1
+## At the moment hypotheses that are not tested at all get an adj. p-value of 1
 ad.p <- function(P){
   p.ad <- rep(NA,ncol(P))
   for(i in 1:ncol(P)){

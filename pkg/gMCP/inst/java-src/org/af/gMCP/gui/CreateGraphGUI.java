@@ -16,6 +16,7 @@ import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
+import org.af.commons.errorhandling.DefaultExceptionHandler;
 import org.af.commons.errorhandling.ErrorHandler;
 import org.af.commons.widgets.InfiniteProgressPanel;
 import org.af.commons.widgets.InfiniteProgressPanel.AbortListener;
@@ -50,6 +51,8 @@ public class CreateGraphGUI extends JFrame implements WindowListener, AbortListe
 	public InfiniteProgressPanel glassPane;
 	protected static Log logger = LogFactory.getLog(CreateGraphGUI.class);
 	public static CreateGraphGUI lastCreatedGUI;
+	/** If we drop back to zero GUIs we may want to terminate the currently running Java Virtual Machine. */
+	public static int countGUIs = 0; 
 	
 	/**
 	 * Constructor of the GUI main frame
@@ -63,6 +66,7 @@ public class CreateGraphGUI extends JFrame implements WindowListener, AbortListe
 	 */
 	public CreateGraphGUI(String graph, double[] pvalues, boolean debug, double grid, boolean experimentalFeatures) {
 		super("gMCP GUI");
+		countGUIs++;
 		System.setProperty("java.net.useSystemProxies","true");
 		RControl.getRControl(debug);
 		if (grid>0) {
@@ -108,8 +112,8 @@ public class CreateGraphGUI extends JFrame implements WindowListener, AbortListe
 		setJMenuBar(new MenuBarMGraph(control));		
 		makeContent();
 		
-		if (RControl.getR().eval("exists(\""+graph+"\""+Configuration.getInstance().getGeneralConfig().getEnvir()+")").asRLogical().getData()[0]) {
-			control.getNL().loadGraph(graph);
+		if (RControl.getR().eval("exists(\""+graph+"\""+Configuration.getInstance().getGeneralConfig().getEnvir()+")", true).asRLogical().getData()[0]) {
+			control.getNL().loadGraph(graph, true);
 		}
 		
 		if (pvalues.length>0) getPView().setPValues(ArrayUtils.toObject(pvalues));
@@ -136,9 +140,18 @@ public class CreateGraphGUI extends JFrame implements WindowListener, AbortListe
 		// or perhaps try something like this:
 		// http://www.jguru.com/faq/view.jsp?EID=27191
 
+		// Java 7 does not respect system property "sun.awt.exception.handler".
+		// Eventually this fix should be included in afcommons.
+		javax.swing.SwingUtilities.invokeLater(new Runnable() {
+			public void run() {		
+				Thread.currentThread().setUncaughtExceptionHandler(new DefaultExceptionHandler());
+			}
+		});
+		
 		//TODO Is there really no better way than this kind of strange workaround?!?
 		new Thread(new Runnable() {
 			public void run() {
+				Thread.currentThread().setUncaughtExceptionHandler(new DefaultExceptionHandler());
 				for (int i=0; i<6; i++) {
 					try {
 						Thread.sleep(1000);
@@ -159,6 +172,7 @@ public class CreateGraphGUI extends JFrame implements WindowListener, AbortListe
 				}
 				new Thread(new Runnable() {
 					public void run() {
+						Thread.currentThread().setUncaughtExceptionHandler(new DefaultExceptionHandler());
 						VersionComparator.getOnlineVersion();
 					}
 				}).start();				
@@ -213,6 +227,11 @@ public class CreateGraphGUI extends JFrame implements WindowListener, AbortListe
 			if (answer==JOptionPane.YES_OPTION) {
 				control.saveGraph();
 			}
+		}
+		countGUIs--;
+		if (countGUIs==0) { 
+			//System.exit(0);
+			//RControl.console.f.dispose();
 		}
 		if (RControl.getR().eval("exists(\".isBundle\")").asRLogical().getData()[0]) {
 			RControl.getR().eval("q(save=\"no\")");

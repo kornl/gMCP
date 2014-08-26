@@ -50,6 +50,17 @@ checkPSD <- function(m) {
 	return("")
 }
 
+# Checks the following properties:
+# 
+checkCorrelation <- function(m) {
+  if (!isTRUE(all.equal(max(1, max(abs(m)))))) {
+    return("Values must be between -1 and 1.")
+  }
+  if (!isTRUE(all.equal(diag(m), rep(1, dim(m)[1])))) {
+    return("Diagonal must be equal to 1.")
+  }
+}
+
 #' Placement of graph nodes
 #' 
 #' Places the nodes of a graph according to a specified layout.
@@ -188,7 +199,12 @@ getAllGraphs <- function(envir=globalenv()) {
 }
 
 getObjectInfo <- function(object) {
-	return(paste(capture.output(print(object)), collapse="\n"))
+  s <- paste(capture.output(print(object)), collapse="\n")
+  descr <- attr(object, "description")
+  if (!is.null(descr)) {
+    s <- paste(s, "\nDescription:", descr, sep="\n")
+  }
+	return(s)
 }
 
 gMCPVersion <- function() {

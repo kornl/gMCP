@@ -60,7 +60,12 @@ test.checkWeights <- function() {
 			BauerEtAl2001(),
 			BretzEtAl2009a(),
 			BretzEtAl2009b(),
-			BretzEtAl2009c())
+			BretzEtAl2009c()#,
+			#FerberTimeDose2011(times=5, doses=3, w=1/2),
+			#Ferber2011(),
+			#Entangled1Maurer2012(),
+			#Entangled2Maurer2012(),
+	)
 	for (graph in graphs) {		
 		p <- gMCP:::permutations(length(getNodes(graph)))
 		for (i in 1:(dim(p)[1])) {
@@ -69,4 +74,16 @@ test.checkWeights <- function() {
 			checkWeights(graph, pvalues)
 		}
 	}
+}
+
+test.upscale <- function() {
+  g <- BonferroniHolm(5)
+  r1 <- gMCP(g, pvalues=c(0.01, 0.02, 0.04, 0.04, 0.7))
+  # Simple Bonferroni with empty graph:
+  g2 <- matrix2graph(matrix(0, nrow=5, ncol=5))
+  r2 <- gMCP(g2, pvalues=c(0.01, 0.02, 0.04, 0.04, 0.7))
+  # With 'upscale=TRUE' equal to BonferroniHolm:
+  r3 <- gMCP(g2, pvalues=c(0.01, 0.02, 0.04, 0.04, 0.7), upscale=TRUE)
+  checkEquals(r1@rejected, r3@rejected)
+  checkTrue(all(r1@rejected>=r2@rejected)) # FALSE<TRUE
 }

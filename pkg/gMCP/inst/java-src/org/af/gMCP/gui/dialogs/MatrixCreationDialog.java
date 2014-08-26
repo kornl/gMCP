@@ -53,7 +53,7 @@ public class MatrixCreationDialog extends JDialog implements ActionListener, Cha
 	JFrame parent;
     List<String> names;
     JTextArea jta = new JTextArea();
-    SingleDataFramePanel dfp;
+    public SingleDataFramePanel dfp;
     SingleDataFramePanel dfpDiag;
     SingleDataFramePanel dfpInterCor;
     SingleDataFramePanel dfpIntraCor;
@@ -61,6 +61,8 @@ public class MatrixCreationDialog extends JDialog implements ActionListener, Cha
     JList hypotheses;
     JLabel warning = new JLabel();
     protected static Log logger = LogFactory.getLog(MatrixCreationDialog.class);
+    // Was some matrix created?
+    public boolean created = false;
     
     JTabbedPane tabbedPane = new JTabbedPane(); 
     
@@ -87,7 +89,10 @@ public class MatrixCreationDialog extends JDialog implements ActionListener, Cha
 	public MatrixCreationDialog(JFrame parent, String matrix, List<String> names) {
 		super(parent, "Specify correlation matrix", true);
 		setLocationRelativeTo(parent);
-		this.names = names;
+		this.names = new Vector<String>();
+		for (String name : names) {
+			this.names.add(name);
+		}
 		this.parent = parent;
 		
 		RDataFrameRef df = new RDataFrameRef();
@@ -96,8 +101,9 @@ public class MatrixCreationDialog extends JDialog implements ActionListener, Cha
 			df.setValue(df.getColumnCount()-1, df.getColumnCount()-1, new EdgeWeight(1));
 		}		
 		dfp = new SingleDataFramePanel(df);
-		dfp.getTable().getModel().diagEditable = true;
+		dfp.getTable().getModel().diagEditable = false;
 		dfp.getTable().getModel().setCheckRowSum(false);
+		dfp.getTable().getModel().checkCorMat();
 		
 		setUpTabbedPane();
 		getPossibleCorrelations();
@@ -386,6 +392,7 @@ public class MatrixCreationDialog extends JDialog implements ActionListener, Cha
 		if (e.getSource()==ok) {
 			String name = RControl.getR().eval("make.names(\""+tfname.getText()+"\")").asRChar().getData()[0];
 			RControl.getR().evalInGlobalEnv(name+" <- "+dfp.getTable().getModel().getDataFrame().getRMatrix());
+			created = true;
 			dispose();
 		} else if (e.getSource()==jbAdd) {
 			int k = Integer.parseInt(spinnerN2.getModel().getValue().toString());
@@ -413,11 +420,11 @@ public class MatrixCreationDialog extends JDialog implements ActionListener, Cha
 				names.add((String) hypotheses.getModel().getElementAt(i));
 			}			
 			createMDiag();
-			List<String> names = new Vector<String>();
+			List<String> names2 = new Vector<String>();
 			for (String n : names) {
-				names.add(n);
+				names2.add(n);
 			}
-			dfp.getTable().getModel().getDataFrame().setNames(names);
+			dfp.getTable().getModel().getDataFrame().setNames(names2);
 			dfp.getTable().update();
 		} else if (e.getSource()==resetDiag) {
 			DataTableModel m2 = dfp.getTable().getModel();

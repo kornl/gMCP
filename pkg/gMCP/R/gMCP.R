@@ -40,15 +40,11 @@
 #' @param pvalues A numeric vector specifying the p-values for the graph based
 #' MCP. Note the assumptions in the details section for the parametric tests, 
 #' when a correlation is specified.
-#' @param test By default the Bonferroni-based test procedures are used if no
-#' correlation is specified and the algorithm from Bretz et al. 2011 if a
-#' correlation is specified.  If test is set to \code{"Simes"} the weighted
-#' Simes test will be performed for each subset of hypotheses.  If test equals
-#' \code{"Bretz2011"} the weighted parametric test described in Bretz et al.
-#' 2011 is performed.  If test equals \code{"simple-parametric"} for each
-#' subset a weighted parametric test is performed at the reduced level alpha of
-#' sum(w)*alpha, where sum(w) is the sum of all node weights in this subset.
-#' Otherwise the procedure is the same as described in Bretz et al. 2011.
+#' @param test Should be either \code{"Bonferroni"}, \code{"Simes"} or \code{"parametric"}.
+#' If not specified by default the Bonferroni-based test procedure is used if no
+#' correlation is specified or the algorithm from Bretz et al. 2011 if a
+#' correlation is specified. If \code{test} is set to \code{"Simes"} the weighted
+#' Simes test will be performed for each subset of hypotheses.
 #' @param correlation Optional correlation matrix.  If the weighted Simes test
 #' is performed, it is checked whether type I error rate can be ensured and a
 #' warning is given if this is not the case.  For parametric tests the p-values
@@ -62,6 +58,11 @@
 #' substituted with the value given in the parameter \code{eps}.
 #' @param eps A numeric scalar specifying a value for epsilon edges.
 #' @param ...  Test specific arguments can be given here.
+#' @param upscale Logical. If \code{upscale=FALSE} then for each intersection 
+#' of hypotheses (i.e. each subgraph) a weighted test is performed at the 
+#' possibly reduced level alpha of sum(w)*alpha, 
+#' where sum(w) is the sum of all node weights in this subset.
+#' If \code{upscale=TRUE} all weights are upscaled, so that sum(w)=1.
 #' @param useC Logical scalar. If \code{TRUE} neither adjusted p-values nor
 #' intermediate graphs are returned, but the calculation is sped up by using
 #' code written in C. THIS CODE IS NOT FOR PRODUCTIVE USE YET!  If approxEps is
@@ -77,10 +78,12 @@
 #' significantly less calculations in most cases.
 #' @return An object of class \code{gMCPResult}, more specifically a list with
 #' elements
-#' @returnItem graphs list of graphs
-#' @returnItem pvalues p-values
-#' @returnItem rejected logical whether hyptheses could be rejected
-#' @returnItem adjPValues adjusted p-values
+#' \describe{
+#' \item{\code{graphs}}{list of graphs}
+#' \item{\code{pvalues}}{p-values}
+#' \item{\code{rejected}}{logical whether hyptheses could be rejected}
+#' \item{\code{adjPValues}}{adjusted p-values}
+#' }
 #' @author Kornelius Rohmeyer \email{rohmeyer@@small-projects.de}
 #' @seealso \code{\link{graphMCP}} \code{\link[multcomp:contrMat]{graphNEL}}
 #' @references Frank Bretz, Willi Maurer, Werner Brannath, Martin Posch: A
@@ -108,21 +111,50 @@
 #' 
 #' 
 #' g <- BonferroniHolm(5)
-#' 
 #' gMCP(g, pvalues=c(0.01, 0.02, 0.04, 0.04, 0.7))
+#' # Simple Bonferroni with empty graph:
+#' g2 <- matrix2graph(matrix(0, nrow=5, ncol=5))
+#' gMCP(g2, pvalues=c(0.01, 0.02, 0.04, 0.04, 0.7))
+#' # With 'upscale=TRUE' equal to BonferroniHolm:
+#' gMCP(g2, pvalues=c(0.01, 0.02, 0.04, 0.04, 0.7), upscale=TRUE)
 #' 
-#' 
+#' # Entangled graphs:
+#' g3 <- Entangled2Maurer2012()
+#' gMCP(g3, pvalues=c(0.01, 0.02, 0.04, 0.04, 0.7), correlation=diag(5))
 #' 
 #' @export gMCP
 
 gMCP <- function(graph, pvalues, test, correlation, alpha=0.05, 
-		approxEps=TRUE, eps=10^(-3), ..., useC=FALSE, 
+		approxEps=TRUE, eps=10^(-3), ..., upscale=FALSE, useC=FALSE, 
 		verbose=FALSE, keepWeights=TRUE, adjPValues=TRUE) {
 #		, alternatives="less") {	
-	if ("entangledMCP" %in% class(graph)) {
-		if (!missing(correlation) || !missing(test) && test != "Bonferroni") {
-			stop("Only Bonferroni based testing procedures are supported for entangled graphs in this version.")
-		}
+  # Temporary translation of old syntax:
+  if (!missing(test)) {
+    if (test=="Bretz2011") {
+      test <- "parametric"
+      if (!upscale) warning("For 'Bretz2011' upscale is 'TRUE'.")
+      upscale <- TRUE
+    } else if (test=="simple-parametric") {
+      test <- "parametric"
+      if (upscale) warning("For 'simple-parametric' upscale is 'FALSE'.")
+      upscale <- FALSE
+    }
+  }
+  # Check for entangled graphs and yet unsupported tests:
+  if (!missing(test) && test=="Simes" && "entangledMCP" %in% class(graph)) {
+    #TODO
+    stop("Simes test is not yet supported for entangled graphs in this version.")
+  }
+  
+  if (approxEps) {
+    graph <- substituteEps(graph, eps=eps)
+  }
+  if ("graphMCP" %in% class(graph) && !is.numeric(graph@m)) {
+    stop("Graph seems to contain variables - please use function replaceVariables.")
+    #graph <- parse2numeric(graph) # TODO ask for variables
+  }
+  
+  if ((missing(test) || test=="Bonferroni") && "entangledMCP" %in% class(graph)) {		
 		out <- graphTest(pvalues=pvalues, weights=getWeights(graph), alpha=alpha*graph@weights, G=getMatrices(graph))
 		result <- new("gMCPResult", graphs=list(graph), alpha=alpha, pvalues=pvalues, rejected=(out==1), adjPValues=numeric(0))
     attr(result, "call") <- call2char(match.call())
@@ -130,16 +162,10 @@ gMCP <- function(graph, pvalues, test, correlation, alpha=0.05,
 	}
 	output <- ""
 	callFromGUI <- !is.null(list(...)[["callFromGUI"]])
-	if (verbose) {
-		output <- paste(output, checkOptimal(graph, verbose=FALSE), sep="\n")
-	}
-	if (approxEps && !is.numeric(graph@m)) {
-		graph <- substituteEps(graph, eps=eps)
-	}
-	if (!is.numeric(graph@m)) {
-		stop("Graph seems to contain variables - please use function replaceVariables.")
-		#graph <- parse2numeric(graph) # TODO ask for variables
-	}
+  #TODO - Disable checkOptimal as long as it takes > 1 min for some example graphs.
+	#if (verbose) {
+	#	output <- paste(output, checkOptimal(graph, verbose=FALSE), sep="\n")
+	#}
 	sequence <- list(graph)
 	if (length(pvalues)!=length(getNodes(graph))) {
 		stop("Length of pvalues must equal number of nodes.")
@@ -172,7 +198,7 @@ gMCP <- function(graph, pvalues, test, correlation, alpha=0.05,
 			attr(result, "call") <- call2char(match.call())
 			return(result)
 		}
-	} else if ((missing(test) && !missing(correlation)) || !missing(test) && test == "Bretz2011" || !missing(test) && test == "simple-parametric") {				
+	} else if ((missing(test) && !missing(correlation)) || !missing(test) && test == "parametric") {				
 		if (missing(correlation) || !is.matrix(correlation)) {
 			stop("Procedure for correlated tests, expects a correlation matrix as parameter \"correlation\".")
 		} else {
@@ -182,22 +208,21 @@ gMCP <- function(graph, pvalues, test, correlation, alpha=0.05,
 #				x <- contrMat(samplesize, type = correlation) # balanced design up to now and only Dunnett will work with n+1
 #				var <- x %*% diag(length(samplesize)) %*% t(x)
 #				correlation <- diag(1/sqrt(diag(var)))%*%var%*%diag(1/sqrt(diag(var)))
-#			}                       
-			Gm <- graph2matrix(graph)
+#			}                       			
 			w <- getWeights(graph)
 			if( all(w==0) ) {
-                adjP <- rep(1,length(w))
-				rejected <- rep(FALSE,length(w))
-				names(rejected) <- getNodes(graph)
-                names(adjP) <- getNodes(graph)
+			  adjP <- rep(1,length(w))
+			  rejected <- rep(FALSE,length(w))
+			  names(rejected) <- getNodes(graph)
+			  names(adjP) <- getNodes(graph)
 			} else {
-				#myTest <- generateTest(Gm, w, correlation, alpha)
-				#zScores <- -qnorm(pvalues)
-				#rejected <- myTest(zScores)
-                adjP <- generatePvals(Gm, w, correlation, pvalues, exhaust=(missing(test) || test == "Bretz2011")) #, alternatives=alternatives)
-                rejected <- adjP <= alpha
-                names(adjP) <- getNodes(graph)
-				names(rejected) <- getNodes(graph)
+			  #myTest <- generateTest(Gm, w, correlation, alpha)
+			  #zScores <- -qnorm(pvalues)
+			  #rejected <- myTest(zScores)
+			  adjP <- generatePvals(g=graph, cr=correlation, p=pvalues, upscale=upscale) #, alternatives=alternatives)
+			  rejected <- adjP <= alpha
+			  names(adjP) <- getNodes(graph)
+			  names(rejected) <- getNodes(graph)
 			}
 			result <- new("gMCPResult", graphs=sequence, alpha=alpha, pvalues=pvalues, rejected=rejected, adjPValues=adjP)
 			attr(result, "call") <- call2char(match.call())
@@ -310,7 +335,7 @@ call2char <- function(call) {
 }
 
 createGMCPCall <- function(graph, pvalues, test, correlation, alpha=0.05, 
-		approxEps=TRUE, eps=10^(-3), ..., useC=FALSE, 
+		approxEps=TRUE, eps=10^(-3), ..., upscale=FALSE, useC=FALSE, 
 		verbose=FALSE, keepWeights=TRUE, adjPValues=TRUE) {	
 	command <- dputGraph(graph, "graph")
 	command <- paste(command, "pvalues <- ",dput2(unname(pvalues)),"\n", sep="")
@@ -321,6 +346,9 @@ createGMCPCall <- function(graph, pvalues, test, correlation, alpha=0.05,
 	if (!missing(test)) {
 		command <- paste(command, ", test=\"",test,"\"", sep="")
 	}
+	if (upscale) {
+	  command <- paste(command, ", upscale=TRUE", sep="")
+	}	
 	if (!missing(correlation)) {
 		command <- paste(command, ", correlation=cr", sep="")
 	}

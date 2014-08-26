@@ -30,7 +30,6 @@ import org.af.commons.tools.OSTools;
 import org.af.gMCP.config.Configuration;
 import org.af.gMCP.gui.dialogs.GraphSendToArchiveDialog;
 import org.af.gMCP.gui.dialogs.ParameterDialog;
-import org.af.gMCP.gui.dialogs.PowerDialogParameterUncertainty;
 import org.af.gMCP.gui.dialogs.RObjectLoadingDialog;
 import org.af.gMCP.gui.dialogs.RearrangeNodesDialog;
 import org.af.gMCP.gui.dialogs.TextFileViewer;
@@ -38,6 +37,8 @@ import org.af.gMCP.gui.dialogs.VariableNameDialog;
 import org.af.gMCP.gui.graph.GraphView;
 import org.af.gMCP.gui.graph.WrongInputException;
 import org.af.gMCP.gui.options.OptionsDialog;
+import org.af.gMCP.gui.power.PowerDialog;
+import org.af.gMCP.gui.power.SampleSizeDialog;
 import org.af.gMCP.poi.GraphDocXWriter;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -163,6 +164,7 @@ public class MenuBarMGraph extends JMenuBar implements ActionListener {
 		subMenu.add(makeMenuItem("Drug clinical trial example (serial gatekeeping) from Maurer et al. (1995)", "maurer1995"));
 		subMenu.add(makeMenuItem("Graph I from Ferber et al. (2011)", "ferber2011"));
 		subMenu.add(makeMenuItem("Graph II from Ferber et al. (2011)", "ferber2011b"));
+		subMenu.add(makeMenuItem("Graph from Wang and Ting (2014)", "wangting2014"));
 		exampleMenu.add(subMenu);
 		
 		subMenu = new JMenu("Entangled graphs");		
@@ -170,7 +172,7 @@ public class MenuBarMGraph extends JMenuBar implements ActionListener {
 		subMenu.add(makeMenuItem("Entangled Graph II from Maurer et al. (2012)", "entangled2"));
 		exampleMenu.add(subMenu);
 		
-		exampleMenu.add(makeMenuItem("Browse archive of user submitted graphs", "userSubmitted"));
+		//exampleMenu.add(makeMenuItem("Browse archive of user submitted graphs", "userSubmitted"));
 	}
 	
 	public void createExtraMenu() {
@@ -183,9 +185,9 @@ public class MenuBarMGraph extends JMenuBar implements ActionListener {
 		extraMenu.addSeparator();
 		extraMenu.add(makeMenuItem("Log", "showLog", KeyEvent.VK_L));
 		extraMenu.add(makeMenuItem("Report error", "reportError", KeyEvent.VK_R));
-		extraMenu.add(makeMenuItem("Submit your own graph to gMCP archive", "submitGraph"));
+		//extraMenu.add(makeMenuItem("Submit your own graph to gMCP archive", "submitGraph"));
 		extraMenu.addSeparator();
-		extraMenu.add(makeMenuItem("Add entangled graph", "entangledGraphs"));	
+		extraMenu.add(makeMenuItem("Entangled graphs: Add component graph", "entangledGraphs"));	
 		if (System.getProperty("eclipse") != null) {		
 			extraMenu.add(makeMenuItem("Debug console", "debugConsole", KeyEvent.VK_D));
 		}
@@ -219,7 +221,7 @@ public class MenuBarMGraph extends JMenuBar implements ActionListener {
 				} else {					
 					if (s.startsWith("R Object: ")) {
 						s = s.substring(10);
-						if (RControl.getR().eval("exists(\""+s+"\")").asRLogical().getData()[0]) {
+						if (RControl.getR().eval("exists(\""+s+"\")", true).asRLogical().getData()[0]) {
 							fmenu.add(makeMenuItem(i+" "+s, "LOAD_GRAPH"+graph, (i+"").charAt(0)));
 						}
 					}
@@ -242,9 +244,9 @@ public class MenuBarMGraph extends JMenuBar implements ActionListener {
 		return item;
 	}
 
-	public void loadGraph(String string) {
+	public void loadGraph(String string, boolean global) {
 		control.stopTesting();
-		control.getNL().loadGraph(string);
+		control.getNL().loadGraph(string, global);
 		control.setGraphName(RControl.getR().eval("gMCP:::nextAvailableName(gMCP:::removeSymbols(\""+string+"\", numbers=FALSE))").asRChar().getData()[0]);
 		control.getMainFrame().validate();
 	}
@@ -276,7 +278,7 @@ public class MenuBarMGraph extends JMenuBar implements ActionListener {
         	logger.info("Trying to load \""+s+"\"");
         	if (s.startsWith("R Object")) {
         		s = s.substring(10);
-        		loadGraph(s);
+        		loadGraph(s, true);
         		Configuration.getInstance().getGeneralConfig().addGraph("R Object: "+s);
             	createLastUsed();
         	} else {
@@ -385,7 +387,7 @@ public class MenuBarMGraph extends JMenuBar implements ActionListener {
         		JOptionPane.showMessageDialog(control.getMainFrame(), "Simes test not yet supported in power calculations.", "Simes test not yet supported", JOptionPane.ERROR_MESSAGE);
         		return;
         	}
-        	new PowerDialogParameterUncertainty(control.getMainFrame());
+        	new PowerDialog(control.getMainFrame());
         } else if (e.getActionCommand().equals("samplesize")) {
         	if (control.getNL().getNodes().size()==0) {
         		JOptionPane.showMessageDialog(control.getMainFrame(), "Graph is empty!", "Graph is empty!", JOptionPane.ERROR_MESSAGE);
@@ -395,7 +397,7 @@ public class MenuBarMGraph extends JMenuBar implements ActionListener {
         		JOptionPane.showMessageDialog(control.getMainFrame(), "Simes test not yet supported in power calculations.", "Simes test not yet supported", JOptionPane.ERROR_MESSAGE);
         		return;
         	}
-        	new PowerDialogParameterUncertainty(control.getMainFrame());
+        	new SampleSizeDialog(control.getMainFrame());
         } else if (e.getActionCommand().equals("load p-values from R")) {
         	control.loadPValuesFromR(); 
         } else if (e.getActionCommand().equals("changeGraphLayout")) {
@@ -430,53 +432,55 @@ public class MenuBarMGraph extends JMenuBar implements ActionListener {
         	ht.put("weights", new double[] {0.25, 0.25, 0.25, 0.25});
         	new ParameterDialog(control.getGraphGUI(), ht, this, "fallback");        	
         } else if (e.getActionCommand().equals("pg")) {       	
-        	loadGraph("parallelGatekeeping()");
+        	loadGraph("parallelGatekeeping()", false);
         } else if (e.getActionCommand().equals("pgi")) {       	
-        	loadGraph("improvedParallelGatekeeping()");
+        	loadGraph("improvedParallelGatekeeping()", false);
         } else if (e.getActionCommand().equals("bauer")) {       	
-        	loadGraph("BauerEtAl2001()");
+        	loadGraph("BauerEtAl2001()", false);
         } else if (e.getActionCommand().equals("bretzEtAl")) {       	
-        	loadGraph("BretzEtAl2011()");
+        	loadGraph("BretzEtAl2011()", false);
         } else if (e.getActionCommand().equals("bretzEtAl2009a")) {       	
-        	loadGraph("BretzEtAl2009a()");
+        	loadGraph("BretzEtAl2009a()", false);
         } else if (e.getActionCommand().equals("bretzEtAl2009b")) {       	
-        	loadGraph("BretzEtAl2009b()");
+        	loadGraph("BretzEtAl2009b()", false);
         } else if (e.getActionCommand().equals("bretzEtAl2009c")) {       	
-        	loadGraph("BretzEtAl2009c()");
+        	loadGraph("BretzEtAl2009c()", false);
         } else if (e.getActionCommand().equals("hommelEtAl")) {      	
-        	loadGraph("HommelEtAl2007()");
+        	loadGraph("HommelEtAl2007()", false);
         } else if (e.getActionCommand().equals("hommelEtAlSimple")) {       	
-        	loadGraph("HommelEtAl2007Simple()");
+        	loadGraph("HommelEtAl2007Simple()", false);
         } else if (e.getActionCommand().equals("hung")) { 	
-        	loadGraph("HungEtWang2010()");
+        	loadGraph("HungEtWang2010()", false);
         } else if (e.getActionCommand().equals("huque")) { 	
-        	loadGraph("HuqueAloshEtBhore2011()");
+        	loadGraph("HuqueAloshEtBhore2011()", false);
         } else if (e.getActionCommand().equals("maurer1995")) {     	
-        	loadGraph("MaurerEtAl1995()");
+        	loadGraph("MaurerEtAl1995()", false);
         } else if (e.getActionCommand().equals("truncHolm")) {     	
-        	loadGraph("truncatedHolm()");
+        	loadGraph("truncatedHolm()", false);
         } else if (e.getActionCommand().equals("gSuccessive")) {     	
-        	loadGraph("generalSuccessive()");
+        	loadGraph("generalSuccessive()", false);
         } else if (e.getActionCommand().equals("successiveI")) {     	
-        	loadGraph("simpleSuccessiveI()");
+        	loadGraph("simpleSuccessiveI()", false);
         } else if (e.getActionCommand().equals("successiveII")) {     	
-        	loadGraph("simpleSuccessiveII()");
+        	loadGraph("simpleSuccessiveII()", false);
         } else if (e.getActionCommand().equals("fallbackI")) {     	
-        	loadGraph("improvedFallbackI()");
+        	loadGraph("improvedFallbackI()", false);
         } else if (e.getActionCommand().equals("fallbackII")) {     	
-        	loadGraph("improvedFallbackII()");
+        	loadGraph("improvedFallbackII()", false);
         } else if (e.getActionCommand().equals("ferber2011")) {     	
-        	loadGraph("Ferber2011()");
+        	loadGraph("Ferber2011()", false);
         } else if (e.getActionCommand().equals("entangled1")) {     	
-        	loadGraph("Entangled1Maurer2012()");
+        	loadGraph("Entangled1Maurer2012()", false);
         } else if (e.getActionCommand().equals("entangled2")) {     	
-        	loadGraph("Entangled2Maurer2012()");
+        	loadGraph("Entangled2Maurer2012()", false);
         } else if (e.getActionCommand().equals("ferber2011b")) {     	
         	Hashtable<String,Object> ht = new Hashtable<String,Object>();
         	ht.put("times", new int[] {1,5,20});
         	ht.put("doses", new int[] {1,3,20});
         	//ht.put("w", new Double(0.5));
         	new ParameterDialog(control.getGraphGUI(), ht, this, "FerberTimeDose2011");
+        } else if (e.getActionCommand().equals("wangting2014")) {     	
+        	loadGraph("WangTing2014()", false);
         } 
 	}
 	
@@ -768,7 +772,9 @@ public class MenuBarMGraph extends JMenuBar implements ActionListener {
 	}
 	
 	/**
-	 * Loads a graph from a selected RData file.
+	 * Loads a graph from a selected RData file into the gMCP environment
+	 * and the GUI. An objects already in the gMCP environment with the same name
+	 * will be overwritten.
 	 * @param f file that contains the graph to load.
 	 */
 	private void loadGraph(File f) {
@@ -777,9 +783,11 @@ public class MenuBarMGraph extends JMenuBar implements ActionListener {
         try {            	
         	//((ControlMGraph) control).getNL().loadFromXML(f);
         	String filename = f.getAbsolutePath().replaceAll("\\\\", "\\\\\\\\"); 
+        	// TODO: Check whether more than one object was in the file
     		String loadedGraph = RControl.getR().eval("load(file=\""+filename+"\")").asRChar().getData()[0];
     		RControl.getR().eval(loadedGraph+ "<- gMCP:::updateGraphToNewClassDefinition("+loadedGraph+")");
-    		loadGraph(loadedGraph);
+    		// RControl.getR().eval("assign(\""+loadedGraph+ "\", gMCP:::updateGraphToNewClassDefinition("+loadedGraph+"), envir=globalenv()");
+    		loadGraph(loadedGraph, false);
     		Configuration.getInstance().getGeneralConfig().addGraph(f.getAbsolutePath());
         	createLastUsed();
 		} catch( Exception ex ) {

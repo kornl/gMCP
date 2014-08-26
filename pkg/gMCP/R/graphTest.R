@@ -31,6 +31,11 @@
 #' even if the sum of weights is strictly smaller than one. If
 #' \code{test="simple-parametric"} the tests are performed as defined in
 #' Equation (3) of Bretz et al. (2011).
+#' @param upscale Logical. If \code{upscale=FALSE} then for each intersection 
+#' of hypotheses (i.e. each subgraph) a weighted test is performed at the 
+#' possibly reduced level alpha of sum(w)*alpha, 
+#' where sum(w) is the sum of all node weights in this subset.
+#' If \code{upscale=TRUE} all weights are upscaled, so that sum(w)=1.
 #' @return A vector or a matrix containing the test results for the hypotheses
 #' under consideration. Significant tests are denoted by a 1, non-significant
 #' results by a 0.
@@ -84,7 +89,7 @@
 #' 
 #' @export graphTest
 
-graphTest <- function(pvalues, weights = NULL, alpha = 0.05, G = NULL, cr = NULL, graph = NULL, verbose = FALSE, test) {
+graphTest <- function(pvalues, weights = NULL, alpha = 0.05, G = NULL, cr = NULL, graph = NULL, verbose = FALSE, test, upscale=FALSE) {
 	usegraph <- !is.null(graph)
 	if (!is.list(G) && length(alpha)!=1) {
 		stop("Length of 'alpha' should be one for only one graph.")
@@ -121,7 +126,7 @@ graphTest <- function(pvalues, weights = NULL, alpha = 0.05, G = NULL, cr = NULL
 		out <- matrix(0, nrow=0, ncol=dim(pvalues)[2])
 		colnames(out) <- colnames(G)
 		for (i in 1:(dim(pvalues)[1])) {
-			adjP <- generatePvals(G, weights, cr, pvalues[i,], hint=hint, exhaust=(missing(test) || test == "Bretz2011"))
+			adjP <- generatePvals(G, weights, cr, pvalues[i,], hint=hint, upscale=upscale)
 			out <- rbind(out, ifelse(adjP<=alpha,1,0))
 		}
 		return(out)

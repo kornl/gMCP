@@ -183,14 +183,17 @@ layers <- function(graph) {
 #' 
 #' Get Memory and Runtime Info from JVM
 #' 
+#' @param memory Logical whether to include memory information + number of available cores
+#' @param filesystem Logical whether to include filesystem information (Total, free and usable space)
+#' @param runtime Logical whether to include runtime information (Class Path, Library Path, Input Arguments)
 #' @return character vector of length 1 containing the memory and runtime info.
 #' @author Kornelius Rohmeyer \email{rohmeyer@@small-projects.de}
 #' @examples
 #' 
 #' cat(getJavaInfo())
 #' 
-getJavaInfo <- function() {
-  return(J("org.af.commons.logging.SystemInfo")$getSystemInfo(TRUE, TRUE, TRUE))  
+getJavaInfo <- function(memory=TRUE, filesystem=TRUE, runtime=TRUE) {
+  return(.jcall("org.af.commons.logging.SystemInfo", "S", "getSystemInfo", memory, filesystem, runtime))  
 }
 
 getNewestRVersion <- function() {

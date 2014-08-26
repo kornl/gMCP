@@ -8,8 +8,10 @@
 #' @param package A character string specifying the LaTeX package that should
 #' be used.  Up to now only \code{TikZ} is available.
 #' @param scale A numeric scalar specifying a possible scaling of the graph.
-#' Note that this does not effect the fontsize of the graph.  (Coordinates are
-#' interpreted in big points - 72 bp = 1 inch).
+#' Note that this does not effect the fontsize of the graph.
+#' Is only used if \code{tikzEnv==TRUE}.
+#' (Coordinates are interpreted in big points: 72 bp = 1 inch).
+#' @param showAlpha Logical whether local alpha levels or weights should be shown.
 #' @param alpha An optional numeric argument to specify the type I error rate.
 #' @param pvalues If the optional numeric argument pvalues is given, nodes that
 #' can be rejected, will be marked.
@@ -28,9 +30,12 @@
 #' @param fill A list containing 2 elements \code{reject} and \code{retain}
 #' specifying node fill colour of rejected and retained (or not yet rejected)
 #' nodes.
+#' @param fig Logical whether a figure environment should be created.
+#' @param fig.label Label for figure environment (if \code{fig==TRUE}).
+#' @param fig.caption Caption for figure environment (if \code{fig==TRUE}).
 #' @param nodeR Radius of nodes (pixel in Java, bp in LaTeX).
-#' @param scaleText Only relevant if scale is unequal 1. If \code{scaleText}
-#' is \code{TRUE} (the default) a scalebox environment is used.
+#' @param scaleText Only used if scale is unequal 1 and \code{tikzEnv==TRUE}. 
+#' If \code{scaleText} is \code{TRUE} (the default) a scalebox environment is used.
 #' If it is \code{FALSE} the optional parameter \code{scale} from the
 #' tikzpicture environment is used and font size will not change. 
 #' Note that while you easily can change the scale in the scalebox environment,
@@ -54,9 +59,10 @@
 #' 
 #' 
 #' @export graph2latex
-graph2latex <- function(graph, package="TikZ", scale=1, alpha=0.05, pvalues,
+graph2latex <- function(graph, package="TikZ", scale=1, showAlpha=FALSE, alpha=0.05, pvalues,
 		fontsize,	nodeTikZ, labelTikZ="near start,above,fill=blue!20",
-		tikzEnv=TRUE, offset=c(0,0),fill=list(reject="red!80",retain="green!80"), nodeR=25, scaleText=TRUE) {
+		tikzEnv=TRUE, offset=c(0,0),fill=list(reject="red!80",retain="green!80"),
+		fig=FALSE, fig.label=NULL, fig.caption=NULL, nodeR=25, scaleText=TRUE) {
 	graph <- placeNodes(graph)
 	colors <- c("yellow","black","blue","red","green")
 	if (tikzEnv) {        
@@ -78,10 +84,12 @@ graph2latex <- function(graph, package="TikZ", scale=1, alpha=0.05, pvalues,
 		y <- getYCoordinates(graph, node) + nodeR # It is more important to use nodeR to reduce the arc that should be drawn.
 		#alpha <- format(getWeights(graph,node), digits=3, drop0trailing=TRUE)
 		weight <- paste(getLaTeXFraction(getWeights(graph,node)), collapse=" ")
-		if (weight == 1) {
-			weight <- "\\alpha"
-		} else if (weight != "0") {
-			weight <- paste(weight, "\\alpha", sep="")
+		if (showAlpha) {
+		  if (weight == 1) {
+		    weight <- "\\alpha"
+		  } else if (weight != "0") {
+		    weight <- paste(weight, "\\alpha", sep="")
+		  }
 		}
 		double <- ""
 		if (!missing(pvalues)) {
@@ -147,6 +155,19 @@ graph2latex <- function(graph, package="TikZ", scale=1, alpha=0.05, pvalues,
 	}
   if ( !isTRUE(all.equal(scale,1, check.attributes=FALSE, check.names=FALSE)) && scaleText && tikzEnv) {
     tikz <- paste(paste("\\scalebox{",scale,"}{",sep=""),tikz,"}",sep="\n")
+  }
+  if (fig) {
+    label <- " "
+    if (!is.null(fig.label)) {
+      label <- paste("\\label{", fig.label, "} ", sep="")
+    }
+    caption <- ""
+    if (!is.null(fig.caption)) {
+      caption <- paste("\\caption{",label,fig.caption,"}", sep="")
+    }
+    tikz <- paste("\\begin{figure}[ht]\n\\begin{center}", tikz,
+                  "\\end{center}", caption, "\\end{figure}", sep="\n")
+    
   }
 	return(tikz)
 }

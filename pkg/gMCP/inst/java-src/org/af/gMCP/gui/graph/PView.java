@@ -49,9 +49,9 @@ public class PView extends JPanel implements KeyListener, ActionListener {
 	JButton jbLoadPValues = new JButton("Load p-values from R");
 	public JComboBox jcbCorObject;
 	
-	protected JRadioButton jrbNoCorrelation = new JRadioButton("No Information about correlations");
+	protected JRadioButton jrbNoCorrelation = new JRadioButton("No information about correlations (Bonferroni based weighted tests)");
 	public JRadioButton jrbRCorrelation = new JRadioButton("Select an R correlation matrix"); 
-	public JRadioButton jrbSimes = new JRadioButton("Correlation applicable for Simes test (new feature that still needs testing)");
+	public JRadioButton jrbSimes = new JRadioButton("Use Simes test");
 	
 	private Vector<PPanel> panels = new Vector<PPanel>();
 	
@@ -96,6 +96,18 @@ public class PView extends JPanel implements KeyListener, ActionListener {
 			parent.getGraphView().buttonConfInt.setEnabled(false);
 			parent.getGraphView().buttonadjPval.setEnabled(true);
 		} else if (e.getSource()==jrbSimes) {
+			if (!Configuration.getInstance().getClassProperty(this.getClass(), "showSimesInfo", "yes").equals("no")) {
+    			JCheckBox tellMeAgain = new JCheckBox("Don't show me this info again.");
+    			String message = 
+    					"The Simes test requires certain assumptions\n"+
+    					"(sufficient is for example independence or positive\n" +
+    					"regression dependence) and it's the responsibility\n" +
+    					"of the user to check whether they are fullfilled.";
+    			JOptionPane.showMessageDialog(parent, new Object[] {message, tellMeAgain}, "Info", JOptionPane.INFORMATION_MESSAGE);
+    			if (tellMeAgain.isSelected()) {
+    				Configuration.getInstance().setClassProperty(this.getClass(), "showSimesInfo", "no");
+    			}
+    		}
 			parent.getGraphView().buttonConfInt.setEnabled(false);
 			parent.getGraphView().buttonadjPval.setEnabled(true);
 		} else if (e.getSource()==jbLoadPValues) {
@@ -106,9 +118,11 @@ public class PView extends JPanel implements KeyListener, ActionListener {
 			} else {				
 				String obj = jcbCorObject.getSelectedItem().toString();
 				String matrix = obj.endsWith("matrices found.")?null:obj;
-				new MatrixCreationDialog(parent, matrix, MatrixCreationDialog.getNames(parent.getGraphView().getNL().getNodes()));
+				MatrixCreationDialog mcd = new MatrixCreationDialog(parent, matrix, MatrixCreationDialog.getNames(parent.getGraphView().getNL().getNodes()));
 				refresh(false);
-				jrbRCorrelation.setSelected(true);
+				if (mcd.created==true) {
+					jrbRCorrelation.setSelected(true);
+				}
 			}
 		}
 	}
@@ -195,10 +209,11 @@ public class PView extends JPanel implements KeyListener, ActionListener {
 		}
 		String param = ", test=\"Bonferroni\"";
 		if (jrbRCorrelation.isSelected()) {
-			param = ", correlation="+jcbCorObject.getSelectedItem()+", test=\""+Configuration.getInstance().getGeneralConfig().getParametricTest()+"\"";
+			param = ", correlation="+jcbCorObject.getSelectedItem()+", test=\"parametric\"";
 		} else if (jrbSimes.isSelected()) {
 			param = ", test=\"Simes\"";
 		}
+		param += ", upscale="+(Configuration.getInstance().getGeneralConfig().getUpscale()?"TRUE":"FALSE");
 		return param;
 	}
 
@@ -469,12 +484,17 @@ public class PView extends JPanel implements KeyListener, ActionListener {
 		subGraphLabel.setText("");
 		double weight = 0;
 		if (entangledWeights.size()>0) {
-			for (int i=0; i<entangledWeights.size(); i++) {
-				weight += Double.parseDouble(entangledWeights.get(i).getText());
-			}
-			if (Math.abs(1-weight)>0.0001) {
+			try {
+				for (int i=0; i<entangledWeights.size(); i++) {
+					weight += Double.parseDouble(entangledWeights.get(i).getText());
+				}
+				if (Math.abs(1-weight)>0.0001) {
+					subGraphLabel.setForeground(Color.RED);
+					subGraphLabel.setText("Component graph weights do not sum up to 1."); // We don't have to much space here, so we drop: " but instead to "+weight+".");
+				}
+			} catch (NumberFormatException nfe) {
 				subGraphLabel.setForeground(Color.RED);
-				subGraphLabel.setText("Component graph weights do not sum up to 1 but instead to "+weight+".");
+				subGraphLabel.setText("Component graph weights could not be parsed.");
 			}
 		}
 	}

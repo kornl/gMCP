@@ -76,6 +76,10 @@ public class VariableDialog extends JDialog implements ActionListener {
 		//Fill HashTable:
 		for (int i=0; i<variables.length; i++) {
 			double value = RControl.getR().eval(jtl.get(i).getText()).asRNumeric().getData()[0];
+			if (value==Double.NaN) {
+				// TODO Change Hashtable<String,Double> ht to Hashtable<String,Object> ht ?
+				// Also variables entered as "\epsilon" should be "\\\\epsilon" in R, i.e. "\\\\\\\\epsilon" in Java call.
+			}
 			ht.put(variables[i].toString(), value);
 			Configuration.getInstance().getGeneralConfig().setVariable(variables[i].toString(), value);
 		}

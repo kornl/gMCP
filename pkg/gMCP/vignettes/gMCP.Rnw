@@ -70,7 +70,13 @@
 
 \author{Kornelius Rohmeyer}
 
-\maketitle
+\maketitle\thispagestyle{empty}\vspace*{1cm}
+
+\begin{center}
+  \includegraphics[width=0.95\textwidth]{pictures/entangled.png}\\[0.4cm]
+  %\vspace*{2cm}
+  %\includegraphics[width=0.95\textwidth]{pictures/GeneratedRCode.png}
+\end{center}
 
 \newpage
 
@@ -106,7 +112,7 @@ controlling the family wise error rate in the strong sense. In some
 cases shortcuts are available, one example is the weighted Bonferroni
 procedure that leads to a sequentially rejective multiple test procedure.
 
-At all steps either graphical user interfaces or the R Console with S4
+For all steps either graphical user interfaces or the R Console with S4
 objects and methods can be used.
 
 %Please note that this is still an early release and the API will most
@@ -114,7 +120,7 @@ objects and methods can be used.
 
 \subsection{Installation}
 
-If you don't already have R on your system, you can download a bundled
+If you don't already have R (\cite{R}) on your system, you can download a bundled
 version of R and gMCP from \url{http://www.algorithm-forge.com/gMCP/bundle/}.
 
 Otherwise open R and type \texttt{install.packages("gMCP")}, 
@@ -148,13 +154,13 @@ For each intersection $\bigcap_{j\in J}H_j$, $J\subset I$ a graph $G_J$ can be
 derived from $G_I$ and the weights for the weighted local test for
 $\bigcap_{j\in J}H_j$ are the weights of the nodes of $G_J$. To derive
 graph $G_J$ remove all nodes that are not in $J$ and update the edges
-of the graph according to Algorithm \ref{rmNodeAlg} (the order does not matter).
+of the graph according to Algorithm \ref{alg:rmNodeAlg} (the order does not matter).
 For a more detailed version please take a look at the article from \cite{Bretz11} 
-that is freely available as OnlineOpen Article.
+that is freely available as an OnlineOpen Article.
 
 \begin{algorithm}
 \caption{Removing node $i$, passing the weight and updating the graph edges}
-\label{rmNodeAlg}
+\label{alg:rmNodeAlg}
 \begin{algorithmic}
 \FOR{$l \in I$} 
   \STATE $w_l \gets w_l+w_i\cdot g_{il}$
@@ -190,7 +196,7 @@ Reject $H^{(1)},H^{(2)},\ldots, H^{(j)}$ such that
 \end{Theorem}
 
 The corresponding graph for the Bonferroni-Holm-Procedure for three
-hypotheses is given in Figure \ref{exampleHolm}.  We see a fully
+hypotheses is given in Figure \ref{fig:exampleHolm}.  We see a fully
 connected graph, where each node represents a hypothesis and the nodes
 and edges have weights.
 
@@ -198,9 +204,9 @@ and edges have weights.
   \centering
 <<echo=FALSE,results='asis'>>=
 graph <- BonferroniHolm(3)
-cat(graph2latex(graph, scale=0.7, labelTikZ="near start,fill=blue!20"))
+cat(graph2latex(graph, scale=0.7, labelTikZ="near start,fill=blue!20", scaleText=FALSE))
 @
-  \caption{\label{exampleHolm} Graph representing the
+  \caption{\label{fig:exampleHolm} Graph representing the
     Bonferroni-Holm-Procedure for three hypotheses.}
 \end{figure}
 
@@ -210,17 +216,18 @@ updated and the alpha level of this node is passed according to the
 edge weights.
 
 \begin{Example}
-  We give an example for the Bonferroni-Holm-Procedure that will
-  be used repeatedly throughout this manual. Of course this 
+  We give an example for the Bonferroni-Holm-Procedure.
+  %that willbe used repeatedly throughout this manual. 
+  Of course this 
   package is made for more advanced tests (you find a selection in 
-  section \ref{caseStudies}),
+  appendix \ref{sec:exampleGraphs} with applied examples in section \ref{sec:caseStudies}),
   but since most readers are already familiar with this procedure,
   for a first introduction of gMCP, we stick to this simple example.  
   
   Let $p_1=0.01$, $p_2=0.07$ and $p_3=0.02$ be three p-values and
   $\alpha=0.05$.  In the first step $H_1$ can be rejected since
   $p_1<\alpha/3$.  The updated graph can be seen in figure
-  \ref{exampleHolmP} and now also $H_3$ can be rejected since
+  \ref{fig:exampleHolmP} and now also $H_3$ can be rejected since
   $p_1<\alpha/2$.  Again the graph is updated, but $H_2$
   can not be rejected.
 \end{Example}
@@ -229,15 +236,15 @@ edge weights.
   \centering
 <<echo=FALSE,results='asis'>>=
 graph <- BonferroniHolm(3)
-cat(graph2latex(graph, scale=0.7, nodeTikZ="minimum size=1.2cm"))
+cat(graph2latex(graph, scale=0.7, nodeTikZ="minimum size=1.2cm", scaleText=FALSE))
 cat("\\\\$\\downarrow$ reject $H_1$\\\\")
 graph <- rejectNode(graph, "H1")
-cat(graph2latex(graph, scale=0.7, nodeTikZ="minimum size=1.2cm"))
+cat(graph2latex(graph, scale=0.7, nodeTikZ="minimum size=1.2cm", scaleText=FALSE))
 cat("\\\\$\\downarrow$ reject $H_3$\\\\\\ \\\\")
 graph <- rejectNode(graph, "H3")
-cat(graph2latex(graph, scale=0.7, nodeTikZ="minimum size=1.2cm"))
+cat(graph2latex(graph, scale=0.7, nodeTikZ="minimum size=1.2cm", scaleText=FALSE))
 @
-  \caption{\label{exampleHolmP} Example showing how two
+  \caption{\label{fig:exampleHolmP} Example showing how two
     null hypotheses can be rejected with p-values $p_1=0.01$,
     $p_2=0.07$ and $p_3=0.02$.}
 \end{figure}
@@ -249,7 +256,7 @@ library(gMCP)
 graphGUI()
 @
 
-The GUI seen in Figure \ref{fullGUI} is shown and we select from the
+The GUI seen in Figure \ref{fig:fullGUI} is shown and we select from the
 menu "\emph{Example graphs}" the entry "\emph{Bonferroni-Holm Test}".
 We enter the three p-values in the respective fields on the right
 side.  By clicking on the button with the green arrow we start the
@@ -272,9 +279,9 @@ must be created.
   \centering   
 <<echo=FALSE,results='asis'>>=
 graph <- BretzEtAl2011()
-cat(graph2latex(graph, scale=0.7))
+cat(graph2latex(graph, scale=0.7, scaleText=FALSE))
 @
-  \caption{\label{exampleGraphBretz} Example graph from \cite{bretz2011test} that we will create in this vignette.}
+  \caption{\label{fig:exampleGraphBretz} Example graph from \cite{bretz2011test} that we will create in this vignette.}
 \end{figure}
 
 \subsection{Using R}
@@ -283,7 +290,7 @@ The most convenient way to create a graph in R is to use the functions
 \texttt{matrix2graph}\index{matrix2graph} and
 \texttt{setWeights}\index{setWeights}.  As an example we create the
 graph from \cite{bretz2011test} that you can see in
-figure \ref{exampleGraphBretz}.
+figure \ref{fig:exampleGraphBretz}.
 
 <<echo=TRUE, tidy=FALSE>>=
 m <- rbind(H11=c(0,   0.5, 0,   0.5, 0,   0  ),
@@ -328,7 +335,7 @@ Coordinates are interpretated as pixels in the GUI and big points in
 
 Let's take a look at the graph in {\LaTeX} rendered with package TikZ from 
 \cite{TikZ}\index{TikZ} (figure
-\ref{exampleGraphBretz} shows the compiled result):
+\ref{fig:exampleGraphBretz} shows the compiled result):
 
 %\lstset{language=[LaTeX]TeX}
 %\begin{lstlisting}
@@ -369,7 +376,7 @@ graphGUI("graph")
 \begin{figure}[ht]
   \centering    
   \includegraphics[width=0.95\textwidth]{pictures/FullFeaturedGUI.png}      
-  \caption{\label{fullGUI} The graphical user interface allows testing, calculation of confidence intervals and adjusted p-values.}
+  \caption{\label{fig:fullGUI} The graphical user interface allows testing, calculation of confidence intervals and adjusted p-values.}
 \end{figure}
 
 Let's take a look at the icon panel:
@@ -397,7 +404,20 @@ adjusted p-values.
 \includegraphics[width=0.5cm]{pictures/confint2.png} Calculates
 simultaneous confidence intervals.
 
-With drag and drop you can move nodes and also adjust edges.
+With drag and drop you can move nodes and also adjust edges. Double
+clicking the nodes or edges will open a property dialog that can also
+be accessed via the right-click context menu. These dialogs and
+context menus also give you the option to delete the selected
+node/edge.
+
+As seen in figure \ref{fig:guircode} the GUI will show you R code to
+reproduce results.
+
+\begin{figure}[ht]
+  \centering   
+  \includegraphics[width=0.7\textwidth]{pictures/GeneratedRCode.png}      
+  \caption{\label{fig:guircode} R Code generated and shown by the GUI to reproduce the results.}
+\end{figure}
 
 \section{The sequentially rejective MTP}
 
@@ -422,14 +442,14 @@ print(result)
 @
 
 We can create a TikZ graphic from the last graph with 
-\texttt{graph2latex(result@graphs[[4]])} that is shown in figure \ref{finalstate}.
+\texttt{graph2latex(result@graphs[[4]])} that is shown in figure \ref{fig:finalstate}.
 
 \begin{figure}[ht]
   \centering   
 <<echo=FALSE,results='asis'>>=
-cat(graph2latex(result@graphs[[4]], scale=0.7))
+cat(graph2latex(result@graphs[[4]], scale=0.7, scaleText=FALSE))
 @
-  \caption{\label{finalstate}Final graph from the test procedure after rejection of $H_{21}$, $H_{31}$ and $H_{32}$.}
+  \caption{\label{fig:finalstate}Final graph from the test procedure after rejection of $H_{21}$, $H_{31}$ and $H_{32}$.}
 \end{figure}
 
 The command \texttt{gMCPReport}\index{report generation} generates a
@@ -506,7 +526,7 @@ simConfint(BonferroniHolm(3), pvalues=pval,
 \begin{figure}[ht]
   \centering    
   \includegraphics[width=0.7\textwidth]{pictures/CIDialog.png}      
-  \caption{\label{CIDialog} For normal and t-distributions simultaneous CI can be calculated by the GUI.}
+  \caption{\label{fig:CIDialog} For normal and t-distributions simultaneous CI can be calculated by the GUI.}
 \end{figure}
 
 
@@ -522,12 +542,12 @@ tests}\index{Simes-Procedure}\index{parametric test}
 \begin{figure}[ht]
   \centering    
   \includegraphics[width=0.7\textwidth]{pictures/correlated.png}      
-  \caption{\label{correlated} You can also specify a correlation between the tests.}
+  \caption{\label{fig:correlated} You can also specify a correlation between the tests.}
 \end{figure}
 
 In the lower right panel with p-values, it is also possible to specify a known
 correlation between the original test statistics (see figure
-\ref{correlated}). Either you can perform a Simes test or a weighted parametric
+\ref{fig:correlated}). Either you can perform a Simes test or a weighted parametric
 tests as described in \cite{Bretz11}. For the later it is assumed that
 under the global null hypothesis $(\Phi^{-1}(1-p_1),\ldots,\Phi^{-1}(1-p_m))$ 
 follow a multivariate normal distribution with correlation matrix $\Sigma$ where
@@ -547,12 +567,12 @@ parametric tests defined by graphs}".
 
 \subsection{Correlation matrix creation}\index{correlation matrix}
 
-The GUI features a dialog for easy creation of correlation matrices (see figure \ref{createCM1}).
+The GUI features a dialog for easy creation of correlation matrices (see figure \ref{fig:createCM1}).
 
 \begin{figure}[ht]
   \centering    
-  \includegraphics[width=0.7\textwidth]{pictures/createCM1.png}      
-  \caption{\label{createCM1} Dialog for specifying a correlation matrix.}
+  \includegraphics[width=\textwidth]{pictures/createCM3.png}      
+  \caption{\label{fig:createCM1} Dialog for specifying a correlation matrix.}
 \end{figure}
 
 If the entered matrix is not positive semidefinite, 
@@ -566,13 +586,13 @@ calling the function \texttt{corMatWizard}.
 %\begin{figure}[ht]
 %  \centering    
 %  \includegraphics[width=0.7\textwidth]{pictures/createCM1.png}      
-%  \caption{\label{createCM2} You can configure many things in the option dialog.}
+%  \caption{\label{fig:createCM2} You can configure many things in the option dialog.}
 %\end{figure}
 
 %\begin{figure}[ht]
 %  \centering    
 %  \includegraphics[width=0.7\textwidth]{pictures/createCM1.png}      
-%  \caption{\label{createCM3} You can configure many things in the option dialog.}
+%  \caption{\label{fig:createCM3} You can configure many things in the option dialog.}
 %\end{figure}
 
 \section{Epsilon edges}\index{epsilon edges}
@@ -594,12 +614,12 @@ e.g.\ \texttt{1-2*\textbackslash epsilon+1/3*\textbackslash epsilon\^{}2} for $1
 % Chunk 19
 <<echo=FALSE,results='asis'>>=
 
-cat(graph2latex(parallelGatekeeping(), scale=0.7, nodeTikZ="minimum size=1.2cm", tikzEnv=FALSE))
-cat(graph2latex(improvedParallelGatekeeping(), scale=0.7, nodeTikZ="minimum size=1.2cm", tikzEnv=FALSE, offset=c(300, 0)))
+cat(graph2latex(parallelGatekeeping(), nodeTikZ="minimum size=1.2cm", tikzEnv=FALSE))
+cat(graph2latex(improvedParallelGatekeeping(), nodeTikZ="minimum size=1.2cm", tikzEnv=FALSE, offset=c(300, 0), nodeR=27))
 
 @
 \end{tikzpicture}
-  \caption{\label{gatekeeping}\index{parallel gatekeeping}\index{gatekeeping!parallel}\index{gatekeeping!improved parallel} The Parallel Gatekeeping and the Improved Parallel Gatekeeping Procedure.}
+  \caption{\label{fig:gatekeeping}\index{parallel gatekeeping}\index{gatekeeping!parallel}\index{gatekeeping!improved parallel} The Parallel Gatekeeping and the Improved Parallel Gatekeeping Procedure.}
 \end{figure}
 
 
@@ -641,34 +661,86 @@ gMCP(graph, pvalues=c(0.02, 0.04, 0.01, 0.02), eps=0.001)
 
 \section{Entangled graphs}\index{entangled graphs}\index{graphs!entangled}
 
-We support entangled graphs as a new feature. But since it is not yet well
-tested, you have to activate it in the options (see \ref{experimentalFeatures}).
+As a new feature we support entangled graphs (see
+\cite{maurer2013memory}), which allow us to describe an even bigger
+class of multiple test procedures in the familiar graphical way. Most
+notably these test procedures can have some kind of memory when
+passing the local significance levels to unrejected null hypotheses,
+i.e.\ for the step-wise rejective Bonferroni based test procedure the
+passing of alpha levels when a null hypothesis is rejected can be
+different depending from which previous rejected nodes this alpha
+level originates.
+
+\begin{Def}[Entangled Graph]
+  An \emph{entangled graph} is a pair $(\mathcal{G}, w)$ with
+  $\mathcal{G}=(\mathcal{G}_1,\ldots, \mathcal{G}_n)$ a $n$-tuple of
+  graphs and $w$ $\ldots$.  We call $\mathcal{G}_1,\ldots,
+  \mathcal{G}_n$ the \emph{component graphs}\index{graphs!component}
+  of the entangled graph $\mathcal{G}$.
+\end{Def}
+
+
+You can add a second component graph by selecting "\emph{Extras
+  $\rightarrow$ Add entangled graph}" from the menu. Should be
+"\emph{Extras $\rightarrow$ Add another component graph}"?
+
+
+For each graph a new tab in the graph panel and transition matrices
+panel is created (see figure \ref{fig:entangledGUI} for example).
+
+
+\begin{figure}[ht]
+  \centering    
+  \includegraphics[width=0.95\textwidth]{pictures/entangled.png}
+  \caption{\label{fig:entangledGUI} Different tabs show the different entangled graphs / transition matrices.}
+\end{figure}
+
+<<tidy=FALSE>>=
+m <- rbind(H1=c(0, 0, 1, 0, 0),
+           H2=c(0, 0, 1, 0, 0),
+           H3=c(0, 0, 0, 0.9999, 1e-04),
+           H4=c(0, 1, 0, 0, 0),
+           H5=c(0, 0, 0, 0, 0))
+weights <- c(1, 0, 0, 0, 0)
+subgraph1 <- new("graphMCP", m=m, weights=weights)
+
+m <- rbind(H1=c(0, 0, 1, 0, 0),
+           H2=c(0, 0, 1, 0, 0),
+           H3=c(0, 0, 0, 1e-04, 0.9999),
+           H4=c(0, 0, 0, 0, 0),
+           H5=c(1, 0, 0, 0, 0))
+weights <- c(0, 1, 0, 0, 0)
+subgraph2 <- new("graphMCP", m=m, weights=weights)
+
+weights <- c(0.5, 0.5)
+graph <- new("entangledMCP", subgraphs=list(subgraph1, subgraph2), weights=weights)
+@
 
 \begin{figure}[ht]
   \centering
   
 % This is also a good example how we could improve the graph2latex function:
 \begin{tikzpicture}[scale=1]
-\node (H1) at (70bp,-70bp)[draw,circle split,fill=green!80] {$H1$ \nodepart{lower} $\frac\alpha2\;0$};
-\node (H2) at (210bp,-70bp)[draw,circle split,fill=green!80] {$H2$ \nodepart{lower} $\frac\alpha2\;0$};
-\node (H3) at (140bp,-140bp)[draw,circle split,fill=green!80] {$H3$ \nodepart{lower} $0\;0$};
-\node (H4) at (70bp,-210bp)[draw,circle split,fill=green!80] {$H4$ \nodepart{lower} $0\;0$};
-\node (H5) at (210bp,-210bp)[draw,circle split,fill=green!80] {$H5$ \nodepart{lower} $0\;0$};
-\draw [draw=black,->,line width=1pt] (H1) to[bend left=15] node[midway,above,fill=blue!20] {$1$} (H3);
-\draw [draw=black,->,line width=1pt] (H2) to[bend left=15] node[midway,above,fill=blue!20] {$1$} (H3);
-\draw [draw=black,->,line width=1pt] (H3) to[bend left=15] node[midway,above,fill=blue!20] {$1-\epsilon$} (H4);
-\draw [draw=black,->,line width=1pt] (H3) to[bend left=15] node[midway,above,fill=blue!20] {$\epsilon$} (H5);
+\node (H1) at (70bp,-70bp)[draw,circle split,fill=green!80] {$H_1$ \nodepart{lower} $\frac12\;0$};
+\node (H2) at (210bp,-70bp)[draw,circle split,fill=green!80] {$H_2$ \nodepart{lower} $\frac12\;0$};
+\node (H3) at (140bp,-140bp)[draw,circle split,fill=green!80] {$H_3$ \nodepart{lower} $0\;0$};
+\node (H4) at (70bp,-210bp)[draw,circle split,fill=green!80] {$H_4$ \nodepart{lower} $0\;0$};
+\node (H5) at (210bp,-210bp)[draw,circle split,fill=green!80] {$H_5$ \nodepart{lower} $0\;0$};
+\draw [draw=black,->,line width=1pt] (H1) to[bend left=15] node[midway,fill=blue!20] {$1$} (H3);
+\draw [draw=black,->,line width=1pt] (H2) to[bend left=15] node[midway,fill=blue!20] {$1$} (H3);
+\draw [draw=black,->,line width=1pt] (H3) to[bend left=15] node[midway,below,fill=blue!20] {$1-\epsilon$} (H4);
+\draw [draw=black,->,line width=1pt] (H3) to[bend left=15] node[midway,fill=blue!20] {$\epsilon$} (H5);
 \draw [draw=black,->,line width=1pt] (H4.135) arc(-120:-310:100bp) node[fill=blue!20] {$1$} to (H2);
-\draw [draw=blue,->,line width=1pt] (H1) to[bend right=15] node[midway,above,fill=blue!20] {$1$} (H3);
-\draw [draw=blue,->,line width=1pt] (H2) to[bend right=15] node[midway,above,fill=blue!20] {$1$} (H3);
-\draw [draw=blue,->,line width=1pt] (H3) to[bend right=15] node[midway,above,fill=blue!20] {$\epsilon$} (H4);
-\draw [draw=blue,->,line width=1pt] (H3) to[bend right=15] node[midway,above,fill=blue!20] {$1-\epsilon$} (H5);
+\draw [draw=blue,->,line width=1pt] (H1) to[bend right=15] node[midway,fill=blue!20] {$1$} (H3);
+\draw [draw=blue,->,line width=1pt] (H2) to[bend right=15] node[midway,fill=blue!20] {$1$} (H3);
+\draw [draw=blue,->,line width=1pt] (H3) to[bend right=15] node[midway,fill=blue!20] {$\epsilon$} (H4);
+\draw [draw=blue,->,line width=1pt] (H3) to[bend right=15] node[midway,below,fill=blue!20] {$1-\epsilon$} (H5);
 \draw [draw=blue,->,line width=1pt] (H5.45) arc(-60:130:100bp) node[fill=blue!20] {$1$} to (H1);
 \end{tikzpicture}
 
 %<<echo=FALSE,results=tex>>=
 %
-%cat(graph2latex(Entangled1Maurer2012(), scale=0.7))
+%cat(graph2latex(Entangled1Maurer2012(), scale=0.7, scaleText=FALSE))
 %
 %@
   \caption{\label{entagledgraph} Entangled graph from Maurer et Bretz}
@@ -694,7 +766,7 @@ calcPower(weights, alpha=0.025, G, 2*theta, 2*corMat)
   \centering
 <<echo=FALSE,results='asis'>>=
 
-cat(graph2latex(generalSuccessive(), scale=0.7))
+cat(graph2latex(generalSuccessive(), scale=0.7, scaleText=FALSE))
 
 @
   \caption{\label{powergraph} Graph from Bretz et al. (2009)}
@@ -710,7 +782,7 @@ cat(graph2latex(generalSuccessive(), scale=0.7))
 
 Apart from latin letters the following greek letters can be used to
 name a variable\footnote{Note that omicron is not allowed since it can
-  not destinguished from the latin character "o".}. Please enter them
+not be destinguished from the latin character "o".}. Please enter them
 with a leading backslash so that they are recognized:
 
 \begin{quote}
@@ -812,9 +884,11 @@ graph
     whether a new version of gMCP is available. Only your version of R (like
     2.13.1), the version of gMCP (like 0.7-5) and a random number (to
     distinguish different requests) are transmitted.
-  \item[Weights of subgraphs are upscaled to 1] If "yes" is selected the weights 
-    of all subgraphs are always upscaled to one as described in \cite{Bretz11}.
-    %TODO Explain these options.
+  \item[Weights of subgraphs are upscaled to 1] If '\emph{No}' is selected then 
+    for each intersection of hypotheses (i.e. each subgraph)
+    a weighted test is performed at the possibly reduced level alpha of $\text{sum}(w)*alpha$,
+    where $\text{sum}(w)$ is the sum of all node weights in this subset
+    If '\emph{Yes}' is selected all weights are upscaled, so that $\text{sum}(w)=1$.
   \item[Export images with transparent background] If checked the background of
     exported PNG graphics will be transparent. Otherwise the graphs are
     displayed on a white background.
@@ -840,31 +914,43 @@ graph
 The GUI always asks before sending data to our server. It will do so to
 \begin{enumerate}
   \item check whether a new version of gMCP exists,  
-  \item send a wishlist if the user chooses to,
+%  \item send a wishlist if the user chooses to,
   \item submit/load a graph to the online archive 
   \item send bug reports if an error occurs.
 \end{enumerate}
 
 Only in the last case of a bug report some information about your
 computer is collected that can be reviewed by the user before sending
-the bug report.  If you do not agree with sending this data, simply
+the bug report. If you do not agree with sending this data, simply
 don't send a problematic bug report or if you never want to send bug
 reports, disable the option in the options menu.
 
 \subsection{Import/Exports}\index{import}\index{export}
 
 This subsection is work in progress, but fortunately the menu entries
-in figure \ref{fileMenu} should be fairly self-explanatory.
-
-You can export graphs to png files.  The background of these png files
-will be made transperant, so that they will fit into whichever
-document you insert them.  Note that some image viewers visualize
-transparency with a checkerboard pattern.
+in figure \ref{fig:fileMenu} should be fairly self-explanatory.
 
 \begin{figure}[ht]
   \centering    
   \includegraphics[width=4cm]{pictures/filemenu.png}      
-  \caption{\label{fileMenu} Import and export of graphs.}
+  \caption{\label{fig:fileMenu} Import and export of graphs.}
+\end{figure}
+
+You can export graphs to png files. The background of these png files
+will be made transparent, so that they will fit into whichever
+document you insert them.  Note that some image viewers visualize
+transparency with a checkerboard pattern. In some Windows application
+the transparent background may be wrongly shown as black - if this
+happens or you generally prefer a non-transparent white background,
+you can toggle the option "\emph{Export images with transparent 
+background}" in the options dialog.
+
+Since version 0.8-7 gMCP also can create word documents (Office Open XML / docx).
+
+\begin{figure}[ht]
+  \centering    
+  \includegraphics[width=7cm]{pictures/docxExport.png}      
+  \caption{\label{fig:wordexample} Example Word export - first page.}
 \end{figure}
 
 \subsection{Important TikZ commands for optimizing the reports}\index{graph2latex}\index{TikZ}
@@ -906,7 +992,7 @@ Let's start with this graph in figure \ref{uglygraph}:
   \centering
 <<echo=FALSE,results='asis'>>=
 
-cat(graph2latex(result@graphs[[3]], pvalues=pvalues, scale=0.7))
+cat(graph2latex(result@graphs[[3]], pvalues=pvalues, scale=0.7, scaleText=FALSE))
 
 @
   \caption{\label{uglygraph}Graph from \texttt{graph2latex} that does not look optimal.}
@@ -941,7 +1027,7 @@ A powerful feature is the use of styles, since this will effect all
 objects of a given class. But for this please take a look directly at
 the TikZ manual (\cite{TikZ}).
 
-\section{Case Studies}\label{caseStudies}
+\section{Case Studies}\label{sec:caseStudies}
 
 This section is work in progress.
 
@@ -952,7 +1038,7 @@ In this subsection we show how to use gMCP to reproduce the results of the paper
 
 \cite{bauer1998testing}
 
-<<echo=TRUE, message=FALSE>>=
+<<echo=TRUE, message=FALSE, warning=FALSE>>=
 data(hydroquinone)
 
 pvalues <- c() 
@@ -984,7 +1070,52 @@ boxplot(micronuclei~group, data=hydroquinone)
 \caption{\label{bpHydroquinone} Boxplot of the hydroquinone data set}
 \end{figure}
 
+\clearpage
+
 \begin{appendix} 
+
+\section{Appendix - Example graphs}\label{sec:exampleGraphs}
+
+<<echo=FALSE, results='asis'>>=
+
+graphs <- list(BonferroniHolm(4),
+               parallelGatekeeping(),
+               improvedParallelGatekeeping(),
+               BretzEtAl2011(),
+               #HungEtWang2010(),
+               #HuqueAloshEtBhore2011(),
+               HommelEtAl2007(),
+               HommelEtAl2007Simple(),
+               MaurerEtAl1995(),
+               improvedFallbackI(weights=rep(1/3, 3)),
+               improvedFallbackII(weights=rep(1/3, 3)),
+               cycleGraph(nodes=paste("H",1:4,sep=""), weights=rep(1/4, 4)),
+               fixedSequence(5),
+               fallback(weights=rep(1/4, 4)),
+               #generalSuccessive(weights = c(1/2, 1/2)),
+               simpleSuccessiveI(),
+               simpleSuccessiveII(),
+               #truncatedHolm(),
+               BauerEtAl2001(),
+               BretzEtAl2009a(),
+               BretzEtAl2009b(),
+               BretzEtAl2009c(),
+               FerberTimeDose2011(times=5, doses=3, w=1/2)
+               #Ferber2011(),
+               #Entangled1Maurer2012(),
+               #Entangled2Maurer2012(),
+)
+
+count <-0
+for (g in graphs) {
+  cat(graph2latex(g, fig=TRUE, scaleText=TRUE, scale=0.7))
+  count <- count + 1
+  if(count%%6==0) cat("\\cleardoublepage\n")
+}
+
+@
+
+\cleardoublepage
 
 \section{Appendix - Multiple Testing Basics}
 
@@ -1066,7 +1197,8 @@ Hommel 1988
 Hochberg 1988
 \end{Theorem}
 
-Adjusted p-values form the Hochberg Procedure are greater as or equal to the Hommel-adjusted p-values.   
+Adjusted p-values form the Hochberg Procedure are greater as or equal
+to the Hommel-adjusted p-values.
 
 \subsubsection*{Adjusted p-Values in the Simes Test}
 

@@ -29,11 +29,11 @@
 #' defined and an error is returned.
 #' 
 #' The parametric tests in (Bretz et al. (2011)) are defined such that the
-#' tests of intersection null hypotheses always exhaust the full alpha level
+#' tests of intersection null hypotheses always upscale the full alpha level
 #' even if the sum of weights is strictly smaller than one. This has the
 #' consequence that certain test procedures that do not test each intersection
 #' null hypothesis at the full level alpha may not be implemented (e.g., a
-#' single step Dunnett test). If \code{exhaust} is set to \code{FALSE}
+#' single step Dunnett test). If \code{upscale} is set to \code{FALSE}
 #' (default) the parametric tests are performed at a reduced level alpha of
 #' sum(w) * alpha and p-values adjusted accordingly such that test procedures
 #' with non-exhaustive weighting strategies may be implemented. If set to

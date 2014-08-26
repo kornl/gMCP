@@ -184,7 +184,7 @@ public class ParameterDialog extends JDialog implements ActionListener, ChangeLi
         if (parameters.get("w")!=null) {
         	command += "w="+jtW.getText()+",";
         }        
-		mbar.loadGraph(command.substring(0, command.length()-1)+")");
+		mbar.loadGraph(command.substring(0, command.length()-1)+")", false);
 		dispose();
 	}
 

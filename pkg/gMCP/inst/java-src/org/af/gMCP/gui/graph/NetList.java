@@ -85,7 +85,8 @@ public class NetList extends JTabbedPane implements ChangeListener {
 			i = i + 1;
 			name = "H" + i;
 		}
-		addNode(new Node(name, x, y, new double[] {0d}, this));		
+		double[] weights = new double[layer];
+		addNode(new Node(name, x, y, weights, this));		
 	}
 	
 	public void addEntangledLayer() {		
@@ -159,7 +160,7 @@ public class NetList extends JTabbedPane implements ChangeListener {
 		return ".tmpGraph";
 	}
 	
-	public BufferedImage getImage(double d) {
+	public BufferedImage getImage(Double d) {
 		return nlp.get(getSelectedIndex()).getImage(d);
 	}
 
@@ -178,7 +179,7 @@ public class NetList extends JTabbedPane implements ChangeListener {
 		Enumeration<String> keys = ht.keys();
 		for (; keys.hasMoreElements();) {
 			String key = keys.nextElement();
-			list += "\""+EdgeWeight.UTF2LaTeX(key.charAt(0))+"\"="+ht.get(key)+",";
+			list += "\""+LaTeXTool.UTF2LaTeX(key.charAt(0))+"\"="+ht.get(key)+",";
 		}
 		list += "\""+"epsilon"+"\"="+Configuration.getInstance().getGeneralConfig().getEpsilon()+",";
 		return list.substring(0, list.length()>5?list.length()-1:list.length())+")";			
@@ -201,8 +202,11 @@ public class NetList extends JTabbedPane implements ChangeListener {
 		if (variables.size()==0) {
 			try {
 				String graphName = ".tmpGraph" + (new Date()).getTime();
-				saveGraph(graphName, false, false);
-				analysis = RControl.getR().eval("graphAnalysis("+graphName+", file=tempfile())").asRChar().getData()[0];
+				saveGraph(graphName, false, false);				
+				if (control.getDView().getSelectedIndex()==1) {
+					System.out.println("Performing graph Analysis");
+					analysis = RControl.getR().eval("graphAnalysis("+graphName+", file=tempfile())").asRChar().getData()[0];
+				}
 			} catch (Exception e) {
 				// We simply set the analysis to null - that's fine.
 			}
@@ -222,13 +226,14 @@ public class NetList extends JTabbedPane implements ChangeListener {
 	public GraphMCP loadGraph() {
 		control.stopTesting();
 		reset();
+		boolean updateGUIOld = updateGUI; 
 		updateGUI = false;
 		graph = new GraphMCP(initialGraph, this);
 		control.getPView().restorePValues();
 		if (graph.entangledWeights!= null) {
 			control.getPView().setEntangledWeights(graph.entangledWeights);
 		}
-		updateGUI = true;
+		updateGUI = updateGUIOld;
 		graphHasChanged();
 		revalidate();
 		repaint();
@@ -240,15 +245,13 @@ public class NetList extends JTabbedPane implements ChangeListener {
 		return graph;
 	}
 
-	public void loadGraph(String string) {
+	public void loadGraph(String string, boolean global) {
+		if (global) {
+			string = "get(\""+string+"\", envir=globalenv())";
+		}
 		boolean matrix = RControl.getR().eval("is.matrix("+string+")").asRLogical().getData()[0];
-		RControl.getR().eval(initialGraph + " <- placeNodes("+ (matrix?"matrix2graph(":"(")+ string + "))");
-		graph = loadGraph();	
-		if (graph.getDescription()!=null) {
-			control.getDView().setDescription(graph.getDescription());
-		} else {
-			control.getDView().setDescription("");
-		}		
+		RControl.getR().eval(initialGraph + " <- placeNodes("+ (matrix?"matrix2graph(":"(")+ string + "))");				
+		graph = loadGraph();				
 		if (graph.pvalues!=null && graph.pvalues.length>1) {
 			control.getPView().setPValues(graph.pvalues);
 		}
@@ -359,7 +362,7 @@ public class NetList extends JTabbedPane implements ChangeListener {
 	 * @param ht Hashtable that contains for latin and greek characters (as Strings)
 	 * the corresponding Double values. Should not be null, but can be empty.
 	 * @param global if true graph is saved to global/specified environment otherwise to gMCP:::env. 
-	 * @return
+	 * @return name under which graph was saved, i.e. make.names(graphName)
 	 */
 	public String saveGraph(String graphNameOld, boolean verbose, Hashtable<String,Double> ht, boolean global) {
 		if (nodes.size()==0) {
@@ -389,6 +392,13 @@ public class NetList extends JTabbedPane implements ChangeListener {
 		return graphName;
 	}
 
+	/**
+	 * Will open dialog to enter values for all variables and then save the graph with these values.
+	 * @param graphName Name of the graph
+	 * @param verbose if true, a JOption MessageDialog will be shown stating the success
+	 * @param global if true graph is saved to global/specified environment otherwise to gMCP:::env. 
+	 * @return name under which graph was saved, i.e. make.names(graphName)
+	 */
 	public String saveGraphWithoutVariables(String graphName, boolean verbose, boolean global) {
 		Set<String> variables = getAllVariables();
 		if (!Configuration.getInstance().getGeneralConfig().useEpsApprox())	{
@@ -405,7 +415,7 @@ public class NetList extends JTabbedPane implements ChangeListener {
 		saveGraph(graphName, verbose, null, global);
 		RControl.getR().eval(graphName+"<- gMCP:::replaceVariables("+graphName+", variables="+getRVariableList(ht)+", ask=FALSE)");
 		//TODO This is really a strange place to load a graph... :
-		loadGraph(graphName);
+		loadGraph(graphName, false);
 		return saveGraph(graphName, verbose, ht, global);
 	}
 
@@ -588,6 +598,42 @@ public class NetList extends JTabbedPane implements ChangeListener {
 		if (i!=0) {
 			control.getDataFramePanel().setSelectedIndex(i-1);
 		}		
+	}
+	
+	public Edge getEdge (int i, int j, int layer) {
+		if ( i < 0 || j < 0 || i >= nodes.size() || j >= nodes.size() ) return null;
+		for (Edge e : getEdges()) {
+			if (e.from == nodes.get(i) && e.to == nodes.get(j) && e.layer == layer) return e;
+		}
+		return null;
+	}
+
+	int oldi = -1, oldj = -1;
+	Integer oldLinewidth = null;
+	
+	/**
+	 * Only one edge can be highlighted at a time.
+	 * Highlighting a new edge drops the highlight for the old egde.
+	 * A call like highlightEdge(-1, -1) can be used to disable all highlighting.
+	 * @param i Index of node the edge is starting.
+	 * @param j Index of node the edge is ending.
+	 * @param layer Layer of entangled graph. Counting starts with 0.
+	 */
+	public void highlightEdge(int i, int j, int layer) {
+		Edge e = getEdge(oldi, oldj, layer);
+		if (e!=null) {
+			e.linewidth = oldLinewidth;
+		}
+		e = getEdge(i, j, layer);		
+		if (e==null) {
+			oldi = -1;
+			oldj = -1;
+			return;
+		}
+		oldi = i; oldj = j;
+		oldLinewidth = e.linewidth;
+		e.linewidth = 3;		
+		repaint();
 	}
 
 }

@@ -241,12 +241,12 @@ public class Node {
 		this.rejectable = rejectable;
 	}
 
-	public void setWeight(double[] alpha, NodeListener me) {
+	public void setWeight(double[] weights, NodeListener me) {
 		DecimalFormat format = Configuration.getInstance().getGeneralConfig().getDecFormat();
 		weight = new Vector<Double>();
 		stringW = new Vector<String>();
 		
-		for (double w : alpha) {
+		for (double w : weights) {
 			addSingleLayerWeight(w);
 		}
 		

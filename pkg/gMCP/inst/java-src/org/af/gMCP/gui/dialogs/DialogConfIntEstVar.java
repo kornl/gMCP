@@ -31,9 +31,13 @@ import org.af.commons.widgets.validate.RealTextField;
 import org.af.commons.widgets.validate.ValidationException;
 import org.af.gMCP.config.Configuration;
 import org.af.gMCP.gui.RControl;
+import org.af.gMCP.gui.graph.LaTeXTool;
 import org.af.gMCP.gui.graph.NetList;
 import org.af.gMCP.gui.graph.Node;
 import org.mutoss.gui.JavaGDPanel;
+
+import com.jgoodies.forms.layout.CellConstraints;
+import com.jgoodies.forms.layout.FormLayout;
 
 public class DialogConfIntEstVar extends JDialog implements ActionListener, ChangeListener, DocumentListener {
 	
@@ -80,7 +84,7 @@ public class DialogConfIntEstVar extends JDialog implements ActionListener, Chan
 		c.gridy++;
 		
 		c.weightx=0;c.weighty=0;
-		JLabel label = new JLabel("Confidence Intervals:");		
+		JLabel label = new JLabel("  Confidence Intervals:");		
 		getContentPane().add(label, c);
 		c.weightx=1;c.weighty=1;
 		
@@ -103,30 +107,29 @@ public class DialogConfIntEstVar extends JDialog implements ActionListener, Chan
 	private JPanel getCIPanel() {
 		JPanel panel = new JPanel();
 		
-		GridBagConstraints c = new GridBagConstraints();
-		
-		c.fill = GridBagConstraints.BOTH;	
-		c.gridx=0; c.gridy=0;
-		c.gridwidth = 1; c.gridheight = 1;
-		c.ipadx=5; c.ipady=5;
-		c.weightx=1; c.weighty=1;
-		
-		panel.setLayout(new GridBagLayout());	
+		String cols = "5dlu, pref, 15dlu, pref";
+		String rows = "5dlu, pref, 2dlu";
+		for (int i=0; i<nl.getNodes().size(); i++) {
+			rows += ", pref, 2dlu";
+		}
+
+		FormLayout layout = new FormLayout(cols, rows);
+		panel.setLayout(layout);
+		CellConstraints cc = new CellConstraints();
+
+		int row = 2;	
 		
 		for (int i=0; i<nl.getNodes().size(); i++) {
 			Node node = nl.getNodes().get(i);
-			c.gridx=0;
 			
-			JLabel hypothesis = new JLabel(node.getName()+":");			
-			panel.add(hypothesis, c);
-			c.gridx++;
+			JLabel hypothesis = new JLabel(LaTeXTool.LaTeX2UTF(node.getName())+":");			
+			panel.add(hypothesis, cc.xy(2, row));
 			
 			JLabel ci = new JLabel("]"+format.format(Double.NEGATIVE_INFINITY)+","+format.format(Double.POSITIVE_INFINITY)+"[");			
 			this.ci.add(ci);
-			panel.add(ci, c);
-			c.gridx++;
+			panel.add(ci, cc.xy(4, row));
 			
-			c.gridy++;
+			row += 2;
 			
 		}
 
@@ -201,66 +204,57 @@ public class DialogConfIntEstVar extends JDialog implements ActionListener, Chan
 		
 		JPanel panel = new JPanel();
 		
-		GridBagConstraints c = new GridBagConstraints();
+		String cols = "5dlu, pref, 5dlu, pref, 5dlu, pref, 5dlu, pref, 5dlu, pref, 5dlu, pref, 5dlu, pref, 5dlu";
+		String rows = "5dlu, pref, 2dlu, pref, 2dlu";
+		for (int i=0; i<nl.getNodes().size(); i++) {
+			rows += ", pref, 2dlu";
+		}
+
+		FormLayout layout = new FormLayout(cols, rows);
+		panel.setLayout(layout);
+		CellConstraints cc = new CellConstraints();
+
+		int row = 2;		
 		
-		c.fill = GridBagConstraints.BOTH;	
-		c.gridx=0; c.gridy=0;
-		c.gridwidth = 1; c.gridheight = 1;
-		c.ipadx=5; c.ipady=5;
-		c.weightx=1; c.weighty=1;
-		
-		panel.setLayout(new GridBagLayout());		
-		
-		panel.add(new JLabel("Hypotheses"), c);
-		c.gridx++;
-		panel.add(new JLabel("Initial weights"), c);
-		c.gridx++;
-		panel.add(new JLabel("Estimate"), c);
-		c.gridx++;
-		panel.add(new JLabel("Standard error/deviation"), c);
-		c.gridx++;		
-		panel.add(new JLabel("Distribution"), c);
-		c.gridx++;
-		panel.add(new JLabel("df"), c);
-		c.gridx++;
-		panel.add(new JLabel("Alternative"), c);
-		c.gridy++;
+		panel.add(new JLabel("Hypotheses"), cc.xy(2, row));
+		panel.add(new JLabel("Initial weights"), cc.xy(4, row));
+		panel.add(new JLabel("Estimate θ\u0302"), cc.xy(6, row));
+		panel.add(new JLabel("Standard deviation θ\u0302 "), cc.xy(8, row));
+		panel.add(new JLabel("Distribution"), cc.xy(10, row));
+		panel.add(new JLabel("df"), cc.xy(12, row));
+		panel.add(new JLabel("Alternative"), cc.xy(14, row));
 		
 		for (int i = 0; i < nl.getNodes().size(); i++) {
 			Node node = nl.getNodes().get(i);
-			c.gridx=0;
 			
-			JLabel hypothesis = new JLabel(node.getName()+":");			
+			row += 2;
+			
+			JLabel hypothesis = new JLabel(LaTeXTool.LaTeX2UTF(node.getName())+":");			
 			names.add(hypothesis);
-			panel.add(hypothesis, c);
-			c.gridx++;
+			panel.add(hypothesis, cc.xy(2, row));
 			
 			JLabel alpha = new JLabel(format.format(node.getWeight().get(0)));
 			this.alphaLabel.add(alpha);
-			panel.add(alpha, c);
-			c.gridx++;
+			panel.add(alpha, cc.xy(4, row));
 			
 			RealTextField estimate = new RealTextField("Point estimate");
 			estimate.setColumns(8);
 			estimate.setText("0");
 			estimate.getDocument().addDocumentListener(this);
 			est.add(estimate);
-			panel.add(estimate, c);
-			c.gridx++;	
+			panel.add(estimate, cc.xy(6, row));
 						
 			RealTextField ste = new RealTextField("Standard error");
 			ste.setColumns(8);
 			ste.setText("1");
 			ste.getDocument().addDocumentListener(this);
 			var.add(ste);
-			panel.add(ste, c);
-			c.gridx++;
+			panel.add(ste, cc.xy(8, row));
 			
 			JComboBox dist = new JComboBox(dists);
 			dist.addActionListener(this);
 			this.dist.add(dist);			
-			panel.add(dist, c);			
-			c.gridx++;			
+			panel.add(dist, cc.xy(10, row));			
 			
 			SpinnerModel dfModel = new SpinnerNumberModel(9, 1, Integer.MAX_VALUE, 1);
 			JSpinner df = new JSpinner(dfModel);
@@ -268,30 +262,22 @@ public class DialogConfIntEstVar extends JDialog implements ActionListener, Chan
 			df.setEnabled(dist.getSelectedItem().equals(dists[1]));
 			this.df.add(df);
 			df.addChangeListener(this);
-			c.weightx=0;
-			panel.add(df, c);
-			c.weightx=1;
-			c.gridx++;
+			panel.add(df, cc.xy(12, row));
 			
 			JComboBox alt = new JComboBox(alternatives);
 			alt.setSelectedIndex(conf.getClassProperty(this.getClass(), "alternative", "less").equals("less")?0:1);
 			alt.addActionListener(this);
 			this.alt.add(alt);			
-			panel.add(alt, c);			
-			c.gridx++;			
-			
-			c.gridy++;
+			panel.add(alt, cc.xy(14, row));			
 		}
 		
-		c.gridx=0;
-		c.gridx++;
-		c.gridx++;
-		panel.add(jbLoadEst, c);
+		row += 2;
+		
+		panel.add(jbLoadEst, cc.xy(6, row));
 		jbLoadEst.addActionListener(this);
-		c.gridx++;
-		panel.add(jbLoadSD, c);
+		
+		panel.add(jbLoadSD, cc.xy(8, row));
 		jbLoadSD.addActionListener(this);
-		c.gridx++;
 		
 		return panel;
 	}
