@@ -1758,3 +1758,48 @@ Diff between gMCP versions 0.8-5 dated 2013-07-18 and 0.8-6 dated 2014-02-17
  gMCP-0.8-6/gMCP/vignettes/parametric.Rnw                                                   |  448 ----------
  gMCP-0.8-6/gMCP/vignettes/pictures/CIDialog.png                                            |binary
  116 files changed, 3905 insertions(+), 3328 deletions(-)
+
+Diff between gMCP versions 0.8-6 dated 2014-02-17 and 0.8-7 dated 2014-08-26
+
+ gMCP-0.8-6/gMCP/build                                 |only
+ gMCP-0.8-6/gMCP/inst/build.xml                        |only
+ gMCP-0.8-6/gMCP/inst/doc                              |only
+ gMCP-0.8-6/gMCP/inst/java-src                         |only
+ gMCP-0.8-6/gMCP/vignettes/Makefile                    |only
+ gMCP-0.8-6/gMCP/vignettes/cache                       |only
+ gMCP-0.8-6/gMCP/vignettes/createKnitrVignette.sh      |only
+ gMCP-0.8-6/gMCP/vignettes/figure                      |only
+ gMCP-0.8-6/gMCP/vignettes/gMCP                        |only
+ gMCP-0.8-7/gMCP/DESCRIPTION                           |   16 
+ gMCP-0.8-7/gMCP/MD5                                   |  581 +++++---
+ gMCP-0.8-7/gMCP/NAMESPACE                             |    1 
+ gMCP-0.8-7/gMCP/NEWS                                  |   16 
+ gMCP-0.8-7/gMCP/R/doRUnitTests.R                      |    5 
+ gMCP-0.8-7/gMCP/R/onLoad.R                            |   24 
+ gMCP-0.8-7/gMCP/inst/classes                          |only
+ gMCP-0.8-7/gMCP/java                                  |only
+ gMCP-0.8-7/gMCP/vignettes/AQuickStart-concordance.tex |only
+ gMCP-0.8-7/gMCP/vignettes/AQuickStart.R               |only
+ gMCP-0.8-7/gMCP/vignettes/AQuickStart.Rnw             |  112 +
+ gMCP-0.8-7/gMCP/vignettes/AQuickStart.pdf             |only
+ gMCP-0.8-7/gMCP/vignettes/AQuickStart.synctex.gz      |only
+ gMCP-0.8-7/gMCP/vignettes/AQuickStart.tex             |only
+ gMCP-0.8-7/gMCP/vignettes/gMCP-concordance.tex        |only
+ gMCP-0.8-7/gMCP/vignettes/gMCP.R                      |only
+ gMCP-0.8-7/gMCP/vignettes/gMCP.Rnw                    | 1163 +++++++++++++++++-
+ gMCP-0.8-7/gMCP/vignettes/gMCP.idx                    |only
+ gMCP-0.8-7/gMCP/vignettes/gMCP.ilg                    |only
+ gMCP-0.8-7/gMCP/vignettes/gMCP.ind                    |only
+ gMCP-0.8-7/gMCP/vignettes/gMCP.loa                    |only
+ gMCP-0.8-7/gMCP/vignettes/gMCP.lof                    |only
+ gMCP-0.8-7/gMCP/vignettes/gMCP.lot                    |only
+ gMCP-0.8-7/gMCP/vignettes/gMCP.pdf                    |only
+ gMCP-0.8-7/gMCP/vignettes/gMCP.synctex.gz             |only
+ gMCP-0.8-7/gMCP/vignettes/gMCP.tex                    |only
+ gMCP-0.8-7/gMCP/vignettes/parametric-concordance.tex  |only
+ gMCP-0.8-7/gMCP/vignettes/parametric.R                |only
+ gMCP-0.8-7/gMCP/vignettes/parametric.Rnw              |  449 ++++++
+ gMCP-0.8-7/gMCP/vignettes/parametric.pdf              |only
+ gMCP-0.8-7/gMCP/vignettes/parametric.synctex.gz       |only
+ gMCP-0.8-7/gMCP/vignettes/parametric.tex              |only
+ 41 files changed, 2089 insertions(+), 278 deletions(-)

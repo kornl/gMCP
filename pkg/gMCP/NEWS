@@ -70,6 +70,8 @@ Changes in version 0.8-7 (26-08-2014)
 
 - Dropped Deducer integration for now.
 
+ 41 files changed, 2089 insertions(+), 278 deletions(-)
+
 
 Changes in version 0.8-6 (17-02-2014)
 =====================================
