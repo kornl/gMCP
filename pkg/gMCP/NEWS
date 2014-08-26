@@ -1,4 +1,16 @@
-Changes in version 0.8-6 (??-0?-2013)
+Changes in version 0.8-7 (26-08-2014)
+=====================================
+
+- Compatible to CommonJavaJars 1.0-5.
+
+- Fixed CRAN warnings.
+
+- Moved Java source to /java as requested by CRAN.
+
+- Dropped Deducer integration for now.
+
+
+Changes in version 0.8-6 (17-02-2014)
 =====================================
 
 - Improved memory settings. Especially in R 2.15.1 and 2.15.2 on 32-bit systems 
@@ -35,6 +47,8 @@ Changes in version 0.8-6 (??-0?-2013)
   use the word Adjacency Matrix for the binary matrix).
 
 - We always use correlation matrices instead of covariance matrices in the GUI.
+
+ 139 files changed, 5526 insertions(+), 3428 deletions(-)
 
 
 Changes in version 0.8-5 (18-07-2013)
