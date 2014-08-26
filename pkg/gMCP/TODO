@@ -1,6 +1,8 @@
 Documention for value in secondStageTest looks strange.
 Does rJava again contain all necessary jar files?
 
+New features use Java 6 settings. Use reflection for Java 5 compatibility.
+
 - Multiple Setting:
    Instead of c(0,0,...) use #hypotheses text fields. Check whether tab works as expected. Tab works, but most likely we want "select all" on "focus".
    Check for empty textfields
@@ -67,6 +69,17 @@ Does not work any more:
 #' library(Rgraphviz)
 #' renderGraph(layoutGraph(g))
 #' }
+
+- checking dependencies in R code ... NOTE
+   There are ::: calls to the package's namespace in its code. A package
+   almost never needs to use ::: for its own objects:
+   'getJavaInfo'
+   See the information on DESCRIPTION files in the chapter 'Creating R
+   packages' of the 'Writing R Extensions' manual.
+
+- checking R code for possible problems ... NOTE
+   Error in loadNamespace(j <- i[[1L]], c(lib.loc, .libPaths()), versionCheck = vI[[j]]) : 
+   there is no package called 'multtest'
 
 - Check whether everything is okay here (with e.g. Ferber) - most likely yes:
 > eval(expression(edgeAttr(.InitialGraph1394185710245, "T3D1", "T2D1", "variableWeight") <- "1-\\nu"), envir=gMCP:::gMCPenv)
@@ -273,6 +286,7 @@ Possible MalWare 'W32/NewMalware-Generic-8d27-f554' found in '5832765_287X_AZ-D_
 - More fairness regarding the Maurer et al. example ("improved" - what does the paper cover)
 - All Dialogs should have cancel / ok buttons
 - Capture verbose output
+- Classpath exception
 
 Medium priority:
 ================

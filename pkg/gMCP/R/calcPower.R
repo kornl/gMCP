@@ -11,11 +11,11 @@
 #' && x[3]}}
 #' @return A list containg at least the following four elements and
 #' an element for each element in the parameter \code{f}.
-#' \itemize{
-#' \item LocPower A numeric giving the local powers for the hypotheses
-#' \item ExpNrRej The expected number of rejections
-#' \item PowAtlst1 The power to reject at least one hypothesis
-#' \item RejectAll The power to reject all hypotheses
+#' \describe{
+#' \item{\code{LocPower}}{A numeric giving the local powers for the hypotheses}
+#' \item{\code{ExpNrRej}}{The expected number of rejections}
+#' \item{\code{PowAtlst1}}{The power to reject at least one hypothesis}
+#' \item{\code{RejectAll}}{The power to reject all hypotheses}
 #' }
 #' @keywords htest
 #' @export extractPower
@@ -87,9 +87,11 @@ extractPower <- function(x, f=list()) {
 #' \code{test="simple-parametric"} the tests are performed as defined in
 #' Equation (3) of Bretz et al. (2011).
 #' @return A list containg three elements
-#' @returnItem LocalPower A numeric giving the local powers for the hypotheses
-#' @returnItem ExpRejections The expected number of rejections
-#' @returnItem PowAtlst1 The power to reject at least one hypothesis
+#' \describe{
+#' \item{\code{LocalPower}}{A numeric giving the local powers for the hypotheses}
+#' \item{\code{ExpRejections}}{The expected number of rejections}
+#' \item{\code{PowAtlst1}}{The power to reject at least one hypothesis}
+#' }
 #' @references
 #' 
 #' Bretz, F., Maurer, W., Brannath, W. and Posch, M. (2009) A graphical

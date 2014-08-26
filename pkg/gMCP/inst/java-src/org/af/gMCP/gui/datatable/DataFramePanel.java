@@ -2,6 +2,7 @@ package org.af.gMCP.gui.datatable;
 
 import java.util.Vector;
 
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
@@ -11,19 +12,21 @@ import javax.swing.event.ChangeListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
+import org.af.commons.widgets.tables.CloseTabPanel;
+import org.af.commons.widgets.tables.DFPanelIF;
 import org.af.gMCP.gui.graph.EdgeWeight;
 import org.af.gMCP.gui.graph.GraphView;
 
 import com.jgoodies.forms.layout.CellConstraints;
 import com.jgoodies.forms.layout.FormLayout;
 
-public class DataFramePanel extends JTabbedPane implements ChangeListener, ListSelectionListener {
+public class DataFramePanel extends JTabbedPane implements ChangeListener, ListSelectionListener, DFPanelIF {
     private Vector<DataTable> tables = new Vector<DataTable>();
     private JScrollPane scrollPane;
     GraphView control;
-
+    
     public DataFramePanel(RDataFrameRef dfRefW) {
-    	addChangeListener(this);
+    	addChangeListener(this);    	
     	tables.add(new DataTable(dfRefW));
     	this.addTab("Transition Matrix", getPanel(tables.get(0)));
     }
@@ -68,6 +71,9 @@ public class DataFramePanel extends JTabbedPane implements ChangeListener, ListS
 		tables.add(dt);
 		setTitleAt(0, "Transition matrix 1");
 		addTab("Transition matrix "+tables.size(), getPanel(dt));
+		if (getTabCount()==2) {
+			setTabComponentAt(0, new CloseTabPanel(this));
+		}
 		setTabComponentAt(getTabCount()-1, new CloseTabPanel(this));
 	}
 
@@ -75,7 +81,10 @@ public class DataFramePanel extends JTabbedPane implements ChangeListener, ListS
 		remove(i);
 		tables.remove(i);		
 		control.removeEntangledLayer(i);
-		if (getTabCount()==1) setTitleAt(0, "Transition matrix");
+		if (getTabCount()==1) {
+			setTitleAt(0, "Transition matrix");
+			setTabComponentAt(0, new JLabel("Transition matrix")); 
+		}
 	}
 	
 	public void renameNode(int i, String name) {
@@ -130,16 +139,20 @@ public class DataFramePanel extends JTabbedPane implements ChangeListener, ListS
 
 	int oldi = -1;
 	int oldj = -1;
+	int oldLayer = -1;
 	
 	public void valueChanged(ListSelectionEvent e) {
 		//int i = e.getFirstIndex();
 		DataTable table = tables.get(getSelectedIndex());
 		int i = table.getSelectedRow();
 		int j = table.getSelectedColumn();
+		int layer = getSelectedIndex();
 		if (i!=oldi || j!=oldj) {
-			control.getNL().highlightEdge(i, j);			
+			control.getNL().highlightEdge(i, j, layer);			
 		}
 		oldi = i; 
 		oldj = j;
+		oldLayer = layer;
 	}
+
 }

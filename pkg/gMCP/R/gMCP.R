@@ -78,10 +78,12 @@
 #' significantly less calculations in most cases.
 #' @return An object of class \code{gMCPResult}, more specifically a list with
 #' elements
-#' @returnItem graphs list of graphs
-#' @returnItem pvalues p-values
-#' @returnItem rejected logical whether hyptheses could be rejected
-#' @returnItem adjPValues adjusted p-values
+#' \describe{
+#' \item{\code{graphs}}{list of graphs}
+#' \item{\code{pvalues}}{p-values}
+#' \item{\code{rejected}}{logical whether hyptheses could be rejected}
+#' \item{\code{adjPValues}}{adjusted p-values}
+#' }
 #' @author Kornelius Rohmeyer \email{rohmeyer@@small-projects.de}
 #' @seealso \code{\link{graphMCP}} \code{\link[multcomp:contrMat]{graphNEL}}
 #' @references Frank Bretz, Willi Maurer, Werner Brannath, Martin Posch: A
@@ -143,7 +145,16 @@ gMCP <- function(graph, pvalues, test, correlation, alpha=0.05,
     #TODO
     stop("Simes test is not yet supported for entangled graphs in this version.")
   }
-	if ((missing(test) || test=="Bonferroni") && "entangledMCP" %in% class(graph)) {		
+  
+  if (approxEps) {
+    graph <- substituteEps(graph, eps=eps)
+  }
+  if ("graphMCP" %in% class(graph) && !is.numeric(graph@m)) {
+    stop("Graph seems to contain variables - please use function replaceVariables.")
+    #graph <- parse2numeric(graph) # TODO ask for variables
+  }
+  
+  if ((missing(test) || test=="Bonferroni") && "entangledMCP" %in% class(graph)) {		
 		out <- graphTest(pvalues=pvalues, weights=getWeights(graph), alpha=alpha*graph@weights, G=getMatrices(graph))
 		result <- new("gMCPResult", graphs=list(graph), alpha=alpha, pvalues=pvalues, rejected=(out==1), adjPValues=numeric(0))
     attr(result, "call") <- call2char(match.call())
@@ -155,13 +166,6 @@ gMCP <- function(graph, pvalues, test, correlation, alpha=0.05,
 	#if (verbose) {
 	#	output <- paste(output, checkOptimal(graph, verbose=FALSE), sep="\n")
 	#}
-	if (approxEps && !is.numeric(graph@m)) {
-		graph <- substituteEps(graph, eps=eps)
-	}
-	if (!is.numeric(graph@m)) {
-		stop("Graph seems to contain variables - please use function replaceVariables.")
-		#graph <- parse2numeric(graph) # TODO ask for variables
-	}
 	sequence <- list(graph)
 	if (length(pvalues)!=length(getNodes(graph))) {
 		stop("Length of pvalues must equal number of nodes.")

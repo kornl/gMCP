@@ -37,7 +37,9 @@ public class PDialog extends JDialog {
 
 	 public void loadConfig(Element root) {
 		 pNCP.loadConfig((Element) root.getElementsByTagName("scenarios").item(0));
-		 cvPanel.loadConfig((Element) root.getChildNodes().item(1));
+		 if (!parent.getPView().jrbRCorrelation.isSelected()) {
+			 cvPanel.loadConfig((Element) root.getChildNodes().item(1));
+		 }
 		 userDefinedFunctions.loadConfig((Element) root.getChildNodes().item(2));
 		 		 
 	 }

@@ -5,6 +5,7 @@ import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.io.IOException;
 import java.util.List;
 import java.util.Set;
 import java.util.Vector;
@@ -35,6 +36,8 @@ public class PowerDialog extends PDialog implements ActionListener {
 	/** List of JTextFields to enter values for variables. */
 	List<JTextField> jtlVar = new Vector<JTextField>();
 	
+	File config;
+	
 	/**
 	 * Constructor
 	 * @param parent Parent JFrame
@@ -44,6 +47,8 @@ public class PowerDialog extends PDialog implements ActionListener {
 		setLocationRelativeTo(parent);
 		this.parent = parent;
 		nodes = parent.getGraphView().getNL().getNodes();
+		
+		config = new File(System.getProperty("user.home"), "gMCP-power-settings.xml");
 		
 		parent.getPView().getParameters();
 		GridBagConstraints c = getDefaultGridBagConstraints();
@@ -73,7 +78,9 @@ public class PowerDialog extends PDialog implements ActionListener {
 		getContentPane().add(bp, c);
 		bp.addActionListener(this);		
 		
-		SettingsToXML.loadConfigFromXML(new File("/home/kornel/test.xml"), this);
+		if (config.exists()) {
+			SettingsToXML.loadConfigFromXML(config, this);
+		}
 		
         pack();
         setLocationRelativeTo(parent);
@@ -98,7 +105,7 @@ public class PowerDialog extends PDialog implements ActionListener {
 
 		if (e.getActionCommand().equals(HorizontalButtonPane.OK_CMD)) {
 			
-			SettingsToXML.saveSettingsToXML(new File("/home/kornel/test.xml"), this);
+			SettingsToXML.saveSettingsToXML(config, this);
 
 			rCommand = "gMCP:::calcMultiPower(weights="+weights+", alpha="+alpha+", G="+G+pNCP.getNCPString()
 					+ ","+"sigma = " + cvPanel.getSigma() //diag(length(mean)),corr = NULL,"+

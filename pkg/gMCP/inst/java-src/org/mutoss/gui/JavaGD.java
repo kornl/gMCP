@@ -1,5 +1,5 @@
 //
-//  JavaGD - Java Graphics Device for R
+//  Based on JavaGD - Java Graphics Device for R
 //  JavaGD.java - default GDInterface implementation for use in JavaGD
 // 
 //  Copyright (C) 2004-2009  Simon Urbanek
