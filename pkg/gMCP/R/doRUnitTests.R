@@ -70,6 +70,11 @@ unitTestsGMCP <- function(extended=FALSE, java=FALSE, interactive=FALSE, junitLi
 	## or simply call PKG:::myPrivateFunction() in tests
 	
 	## --- Testing ---
+  
+	# Yes, these functions always exist, since we stopped if RUnit could not be required:
+	defineTestSuite <- get("defineTestSuite")
+	runTestSuite <- get("runTestSuite")
+	printTextProtocol <- get("printTextProtocol")
 	
 	## Define tests
 	testSuite <- defineTestSuite(name=paste(pkg, "unit testing"), dirs=path)
