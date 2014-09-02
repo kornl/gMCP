@@ -80,17 +80,17 @@ unitTestsGMCP <- function(extended=FALSE, java=FALSE, interactive=FALSE, junitLi
 	testSuite <- defineTestSuite(name=paste(pkg, "unit testing"), dirs=path)
 	
 	## Run
-	tests <- runTestSuite(testSuite)
+	testRuns <- runTestSuite(testSuite)
 	
 	## Default report name
 	pathReport <- file.path(path, "report")
 	
 	## Report to stdout and text files
 	cat("------------------- UNIT TEST SUMMARY ---------------------\n\n")
-	printTextProtocol(tests, showDetails=FALSE)
-	printTextProtocol(tests, showDetails=FALSE,
+	printTextProtocol(testRuns, showDetails=FALSE)
+	printTextProtocol(testRuns, showDetails=FALSE,
 			fileName=paste(pathReport, "Summary.txt", sep=""))
-	printTextProtocol(tests, showDetails=TRUE,
+	printTextProtocol(testRuns, showDetails=TRUE,
 			fileName=paste(pathReport, ".txt", sep=""))
 	
 	if (java || tests("java")) {
