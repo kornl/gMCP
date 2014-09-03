@@ -42,7 +42,7 @@ public class SampleSizeDialog extends PDialog implements ActionListener {
 		gPanel = new GroupPanel(this);
 		tPanel.addTab("Groups", gPanel);
 		pNCP = new ScenarioPanel(this);
-		tPanel.addTab("NCP Settings", pNCP);
+		tPanel.addTab("Noncentrality Parameter (NCP) Settings", pNCP);
 		cvPanel = new CVPanel(this);
 		tPanel.addTab("Correlation Matrix", cvPanel);
 		userDefinedFunctions = new UserDefinedPanel(nodes);

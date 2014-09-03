@@ -56,7 +56,7 @@ public class PowerDialog extends PDialog implements ActionListener {
 		getContentPane().setLayout(new GridBagLayout());
 		
 		pNCP = new ScenarioPanel(this);
-		tPanel.addTab("NCP Settings", pNCP);
+		tPanel.addTab("Noncentrality Parameter (NCP) Settings", pNCP);
 		cvPanel = new CVPanel(this);
 		tPanel.addTab("Correlation Matrix", cvPanel);
 		userDefinedFunctions = new UserDefinedPanel(nodes);
