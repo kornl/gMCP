@@ -1,10 +1,12 @@
 package org.af.gMCP.gui.graph.annotations;
 
+import java.awt.Color;
 import java.io.StringReader;
 import java.io.StringWriter;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.net.URI;
+import java.util.Arrays;
 
 import javax.json.Json;
 import javax.json.stream.JsonGenerator;
@@ -66,7 +68,17 @@ public abstract class Annotation {
 	}
 	
 	public static void main(String[] args) {
-		Legend l = new Legend();
+		Legend l = new Legend(Arrays.asList(new String[]{
+				"Component Weights",
+				"Component Graph 1: 0.5",
+				"Component Graph 1: 0.3",
+				"Component Graph 1: 0.2"
+			}), Arrays.asList(new Color[]{
+					Color.BLACK,
+					Color.RED,
+					Color.GREEN,
+					Color.BLUE
+			}));
 		String s = l.saveToJSON();
 		System.out.println(s);
 		//createAnnotation("[0,{\"1\":{\"2\":{\"3\":{\"4\":[5,{\"6\":7}]}}}}]");

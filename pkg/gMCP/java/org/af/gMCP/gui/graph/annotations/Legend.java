@@ -4,10 +4,14 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.RenderingHints;
 import java.awt.Shape;
 import java.awt.font.GlyphVector;
 import java.awt.font.TextLayout;
 import java.awt.geom.AffineTransform;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Vector;
 
 import javax.json.stream.JsonGenerator;
 import javax.swing.JFrame;
@@ -15,39 +19,53 @@ import javax.swing.JPanel;
 
 public class Legend extends Annotation {
 
-	public Legend() {
-		
+	List<String> lines = new Vector<String>();
+	List<Color> colors = new Vector<Color>();
+	Font f = new Font("Helvetica", 1, 12);
+	
+	public Legend(List<String> lines, List<Color> colors) {
+		this.lines = lines;
+		this.colors = colors;
+		if (lines.size()!=colors.size()) throw new RuntimeException("Number of lines and colors does not match.");
 	}
 	
 	public void paintLegend(Graphics graphics) {
 		Graphics2D g = (Graphics2D) graphics;
 		//GlyphVector gv = g.getFont().createGlyphVector(g.getFontRenderContext(), "Component graph 1");
 		//Shape shape = gv.getGlyphOutline(1);
-		 Font f = new Font("Helvetica", 1, 12);
-		 
-		 String s = new String("Component graph 1");
-		 TextLayout textLayout = new TextLayout(s, f, g.getFontRenderContext());		   
-		 Shape outline = textLayout.getOutline(null);
-		 
-		 AffineTransform transform = g.getTransform();		 
-		 transform.translate(100, 100);		 
-		 g.transform(transform);		 
-		 
-		 g.setColor(Color.BLUE);
-		 g.fill(outline);
-		 
-		 g.setColor(Color.BLACK);
-		 g.draw(outline);
-		 
+
+		AffineTransform transform = g.getTransform();		 
+		transform.translate(100, 100);		 
+		g.transform(transform);
+		
+		f = g.getFont();
+		for (int i=0; i<lines.size(); i++) {
+			String s = lines.get(i);
+			TextLayout textLayout = new TextLayout(s, f, g.getFontRenderContext());		   
+			Shape outline = textLayout.getOutline(null);
+			
+			transform = new AffineTransform();
+			transform.translate(0, 20);		
+			g.transform(transform);
+
+			//g.setColor(Color.BLACK);
+			//g.draw(outline);
+			
+			g.setColor(colors.get(i));			
+			g.fill(outline);
+
+			
+		}
+
 	}
 	
 	public static void main(String[] args) {
 		JFrame f = new JFrame();
 		f.setVisible(true);
 		f.setSize(800, 600);
-		f.setContentPane(new TestPanel());
-		Legend l = new Legend();
-		System.out.println(l.saveToJSON());
+		TestPanel tp = new TestPanel();
+		f.setContentPane(tp);		
+		System.out.println(tp.l.saveToJSON());
 	}
 
 	@Override
@@ -73,9 +91,21 @@ public class Legend extends Annotation {
 
 class TestPanel extends JPanel {
 	
-	Legend l = new Legend();
+	Legend l = new Legend(Arrays.asList(new String[]{
+		"Component Weights",
+		"Component Graph 1: 0.5",
+		"Component Graph 1: 0.3",
+		"Component Graph 1: 0.2"
+	}), Arrays.asList(new Color[]{
+			Color.BLACK,
+			Color.RED,
+			Color.GREEN,
+			Color.BLUE
+	}));
 	
 	public void paintComponent(Graphics g) {
+		((Graphics2D)g).setRenderingHint(RenderingHints.KEY_ANTIALIASING,
+				RenderingHints.VALUE_ANTIALIAS_ON);
 		l.paintLegend(g);
 	}
 	
