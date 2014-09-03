@@ -22,6 +22,7 @@ public class Legend extends Annotation {
 	List<String> lines = new Vector<String>();
 	List<Color> colors = new Vector<Color>();
 	Font f = new Font("Helvetica", 1, 12);
+	boolean header = true;
 	
 	public Legend(List<String> lines, List<Color> colors) {
 		this.lines = lines;
@@ -38,11 +39,15 @@ public class Legend extends Annotation {
 		transform.translate(100, 100);		 
 		g.transform(transform);
 		
-		f = g.getFont();
-		for (int i=0; i<lines.size(); i++) {
+		double width = 0;
+		
+		for (int i=0; i<lines.size(); i++) {			
 			String s = lines.get(i);
+			f = g.getFont();
+			if (i==0) f = f.deriveFont(Font.BOLD);
 			TextLayout textLayout = new TextLayout(s, f, g.getFontRenderContext());		   
 			Shape outline = textLayout.getOutline(null);
+			width = Math.max(width, outline.getBounds().getWidth());
 			
 			transform = new AffineTransform();
 			transform.translate(0, 20);		
@@ -52,10 +57,10 @@ public class Legend extends Annotation {
 			//g.draw(outline);
 			
 			g.setColor(colors.get(i));			
-			g.fill(outline);
-
-			
+			g.fill(outline);			
 		}
+		
+		g.draw3DRect(-10, -20*lines.size(), (int)width+20, 20*lines.size()+10, true);
 
 	}
 	
@@ -94,8 +99,8 @@ class TestPanel extends JPanel {
 	Legend l = new Legend(Arrays.asList(new String[]{
 		"Component Weights",
 		"Component Graph 1: 0.5",
-		"Component Graph 1: 0.3",
-		"Component Graph 1: 0.2"
+		"Component Graph 2: 0.3",
+		"Component Graph 3: 0.2"
 	}), Arrays.asList(new Color[]{
 			Color.BLACK,
 			Color.RED,
