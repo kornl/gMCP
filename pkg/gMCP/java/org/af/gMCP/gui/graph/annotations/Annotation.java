@@ -1,6 +1,8 @@
 package org.af.gMCP.gui.graph.annotations;
 
 import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.io.StringReader;
 import java.io.StringWriter;
@@ -16,6 +18,7 @@ import javax.json.stream.JsonParser;
 public abstract class Annotation {
 
 	int x, y;
+	Color color = Color.BLACK;
 	
 	final static String CLASS = "Class";
 
@@ -36,7 +39,7 @@ public abstract class Annotation {
 	
 	public abstract Annotation readJSON(String json);
 	public abstract void writeObject(JsonGenerator gen);
-	public abstract void paintObject(Graphics graphics);
+	public abstract Dimension paintObject(Graphics graphics);
 	public abstract String getLaTeX();
 
 	public static Annotation createAnnotation(String s) {

@@ -1,6 +1,7 @@
 package org.af.gMCP.gui.graph.annotations;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Graphics;
 
 import javax.json.stream.JsonGenerator;
@@ -30,9 +31,9 @@ public class Line extends Annotation {
 	}
 
 	@Override
-	public void paintObject(Graphics graphics) {
+	public Dimension paintObject(Graphics graphics) {
 		// TODO Auto-generated method stub
-		
+		return new Dimension(Math.abs(x1-x2), Math.abs(y1-y2));
 	}
 
 	@Override

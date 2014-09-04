@@ -1,13 +1,26 @@
 package org.af.gMCP.gui.graph.annotations;
 
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Shape;
+import java.awt.font.TextLayout;
+import java.awt.geom.AffineTransform;
 
 import javax.json.stream.JsonGenerator;
 
 public class Rectangle extends Annotation {
-
+	
+	int width;
+	int height;
+	
 	public Rectangle(int x, int y, int width, int height) {
-		
+		this.x = x;
+		this.y = y;
+		this.width = width;
+		this.height = height;
 	}
 
 	@Override
@@ -17,9 +30,10 @@ public class Rectangle extends Annotation {
 	}
 
 	@Override
-	public void paintObject(Graphics graphics) {
-		// TODO Auto-generated method stub
-		
+	public Dimension paintObject(Graphics graphics) {
+		Graphics2D g = (Graphics2D) graphics;
+		g.draw3DRect(x, y, width, height, true);
+		return new Dimension(width, height);
 	}
 
 	@Override

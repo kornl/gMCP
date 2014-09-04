@@ -1,7 +1,9 @@
 package org.af.gMCP.gui.graph.annotations;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
@@ -23,6 +25,7 @@ public class Legend extends Annotation {
 	List<Color> colors = new Vector<Color>();
 	Font f = new Font("Helvetica", 1, 12);
 	boolean header = true;
+	List<Annotation> av = new Vector<Annotation>();
 	
 	public Legend(int x, int y, List<String> lines, List<Color> colors) {
 		this.x = x;
@@ -30,39 +33,34 @@ public class Legend extends Annotation {
 		this.lines = lines;
 		this.colors = colors;
 		if (lines.size()!=colors.size()) throw new RuntimeException("Number of lines and colors does not match.");
-	}
-	
-	public void paintObject(Graphics graphics) {
-		Graphics2D g = (Graphics2D) graphics;
-		//GlyphVector gv = g.getFont().createGlyphVector(g.getFontRenderContext(), "Component graph 1");
-		//Shape shape = gv.getGlyphOutline(1);
-
-		AffineTransform transform = g.getTransform();		 
-		transform.translate(x, y);		 
-		g.transform(transform);
-		
-		double width = 0;
 		
 		for (int i=0; i<lines.size(); i++) {			
-			String s = lines.get(i);
-			f = g.getFont();
-			if (i==0) f = f.deriveFont(Font.BOLD);
-			TextLayout textLayout = new TextLayout(s, f, g.getFontRenderContext());		   
-			Shape outline = textLayout.getOutline(null);
-			width = Math.max(width, outline.getBounds().getWidth());
-			
-			transform = new AffineTransform();
-			transform.translate(0, 20);		
-			g.transform(transform);
-
-			//g.setColor(Color.BLACK);
-			//g.draw(outline);
-			
-			g.setColor(colors.get(i));			
-			g.fill(outline);			
+			av.add(new Text(x+10, y+(i+1)*20, lines.get(i), colors.get(i), 12));
+			if (i==0 && header) f = f.deriveFont(Font.BOLD);			 
+		}		
+		
+		
+		
+	}
+	
+	public Dimension paintObject(Graphics graphics) {
+		Graphics2D g = (Graphics2D) graphics;
+		
+		int width = 0;
+		Dimension d = null;
+		
+		for (Annotation a : av) {
+			d = a.paintObject(g);
+			width = Math.max(d.width, width); 
 		}
 		
-		g.draw3DRect(-10, -20*lines.size(), (int)width+20, 20*lines.size()+10, true);
+		if (!(av.get(av.size()-1) instanceof Rectangle)) {
+			Rectangle r = new Rectangle(x, y, width+20, lines.size()*20+10);
+			av.add(r);
+			d = r.paintObject(g);
+		}
+		
+		return d;
 
 	}
 	

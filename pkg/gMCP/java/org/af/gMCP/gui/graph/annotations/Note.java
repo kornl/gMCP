@@ -1,6 +1,7 @@
 package org.af.gMCP.gui.graph.annotations;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Graphics;
 
 import javax.json.stream.JsonGenerator;
@@ -10,7 +11,7 @@ public class Note extends Annotation {
 	String text;
 	int fontsize;
 	Color color;
-	int xP, yP, x, y; 
+	int xP, yP; 
 	int width, height;
 	
 	public Note(String text, int xP, int yP, int x, int y, int width, int height, Color color, int fontsize) {
@@ -30,9 +31,9 @@ public class Note extends Annotation {
 	}
 
 	@Override
-	public void paintObject(Graphics graphics) {
+	public Dimension paintObject(Graphics graphics) {
 		// TODO Auto-generated method stub
-		
+		return new Dimension(width, height);	
 	}
 
 	@Override
