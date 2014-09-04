@@ -21,6 +21,7 @@ import org.af.gMCP.config.Configuration;
 import org.af.gMCP.gui.RControl;
 import org.af.gMCP.gui.ReproducableLog;
 import org.af.gMCP.gui.dialogs.VariableDialog;
+import org.af.gMCP.gui.graph.annotations.Annotation;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -31,6 +32,7 @@ public class NetList extends JTabbedPane implements ChangeListener {
 	
 	protected Vector<Node> nodes = new Vector<Node>();
 	protected Vector<Edge> edges = new Vector<Edge>();
+	protected Vector<Annotation> annotations = new Vector<Annotation>();
 	
 	public GraphMCP graph;	
 	

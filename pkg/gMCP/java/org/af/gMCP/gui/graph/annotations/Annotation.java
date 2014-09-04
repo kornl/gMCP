@@ -36,6 +36,10 @@ public abstract class Annotation {
 		return sw.toString();
 	}
 	
+	public int[] offset(int x2, int y2) {
+		return new int[] {(int) (x* nl.getZoom())-x2, (int) (y* nl.getZoom())-y2};
+	}
+	
 	public abstract Annotation readJSON(String json);
 	public abstract void writeObject(JsonGenerator gen);
 	public abstract Dimension paintObject(Graphics graphics);

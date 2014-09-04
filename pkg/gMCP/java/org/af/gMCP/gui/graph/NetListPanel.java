@@ -19,11 +19,14 @@ import javax.swing.JPanel;
 
 import org.af.commons.images.GraphDrawHelper;
 import org.af.gMCP.config.Configuration;
+import org.af.gMCP.gui.graph.annotations.Annotation;
 
 public class NetListPanel extends JPanel implements MouseMotionListener, MouseListener {
 
+	/* These three arrays contain the indices of the Nodes, Edges and Annotations, which are currently dragged. */ 
 	int[] dragN = new int[0];
 	int[] dragE = new int[0];
+	int[] dragA = new int[0];
 	
 	static DecimalFormat format = new DecimalFormat("#.####");
 	
@@ -120,6 +123,10 @@ public class NetListPanel extends JPanel implements MouseMotionListener, MouseLi
 
 	private List<Edge> getEdges() {		
 		return nl.edges;
+	}
+	
+	private List<Annotation> getAnnotations() {		
+		return nl.annotations;
 	}
 	
 	/**
@@ -255,6 +262,7 @@ public class NetListPanel extends JPanel implements MouseMotionListener, MouseLi
 
 	protected int[][] offsetE;
 	protected int[][] offsetN;
+	protected int[][] offsetA;
 	protected int[] startingPoint = null;
 	protected int[] endPoint = null;
 	
@@ -323,6 +331,15 @@ public class NetListPanel extends JPanel implements MouseMotionListener, MouseLi
 					dragE = new int[] {i};
 					offsetE = new int[getEdges().size()][2];
 					offsetE[i] = getEdges().get(i).offset(e.getX(), e.getY());
+				}
+			}
+			for (int i = getAnnotations().size()-1; i >=0 ; i--) {
+				if (getAnnotations().get(i).inYou(e.getX(), e.getY())) {
+					dragN = new int[0];
+					dragE = new int[0];
+					dragA = new int[] {i};
+					offsetA = new int[getAnnotations().size()][2];
+					offsetA[i] = getAnnotations().get(i).offset(e.getX(), e.getY());
 				}
 			}
 		}
@@ -505,7 +522,9 @@ public class NetListPanel extends JPanel implements MouseMotionListener, MouseLi
 				g.setColor(Color.BLACK);
 			}
 		}
-		
+		for (Annotation a : nl.annotations) {
+			a.paintObject(g);
+		}
 	}
 	
 	private boolean shouldDraw(Edge edge) {
