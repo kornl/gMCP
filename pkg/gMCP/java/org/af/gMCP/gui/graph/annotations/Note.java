@@ -47,5 +47,11 @@ public class Note extends Annotation {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	@Override
+	public boolean inYou(int x, int y) {
+		// TODO Auto-generated method stub
+		return false;
+	}
 	
 }

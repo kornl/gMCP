@@ -42,6 +42,14 @@ public class Rectangle extends Annotation {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	@Override
+	public boolean inYou(int x, int y) {		
+		return (x / nl.getZoom() - this.x)>0
+				&& (x / nl.getZoom() - this.x)<width
+				&& (y / nl.getZoom() - this.y)>0
+				&& (y / nl.getZoom() - this.y)<height;
+	}
 	
 	
 }

@@ -32,9 +32,7 @@ public class Legend extends Annotation {
 		for (int i=0; i<lines.size(); i++) {			
 			av.add(new Text(x+10, y+(i+1)*20, lines.get(i), colors.get(i), 12));
 			if (i==0 && header) f = f.deriveFont(Font.BOLD);			 
-		}		
-		
-		
+		}
 		
 	}
 	
@@ -97,6 +95,11 @@ public class Legend extends Annotation {
 	public Annotation readJSON(String json) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public boolean inYou(int x, int y) {
+		return av.get(av.size()-1).inYou(x, y);
 	}
 	
 }

@@ -11,10 +11,13 @@ import javax.json.Json;
 import javax.json.stream.JsonGenerator;
 import javax.json.stream.JsonParser;
 
+import org.af.gMCP.gui.graph.NetList;
+
 public abstract class Annotation {
 
 	int x, y;
 	Color color = Color.BLACK;
+	protected NetList nl;
 	
 	final static String CLASS = "Class";
 
@@ -37,6 +40,7 @@ public abstract class Annotation {
 	public abstract void writeObject(JsonGenerator gen);
 	public abstract Dimension paintObject(Graphics graphics);
 	public abstract String getLaTeX();
+	public abstract boolean inYou(int x, int y);
 
 	public static Annotation createAnnotation(String s) {
 		JsonParser parser = Json.createParser(new StringReader(s));
