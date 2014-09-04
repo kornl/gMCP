@@ -1,6 +1,7 @@
 package org.af.gMCP.gui.graph.annotations;
 
 import java.awt.Color;
+import java.awt.Graphics;
 import java.io.StringReader;
 import java.io.StringWriter;
 import java.lang.reflect.InvocationTargetException;
@@ -18,6 +19,10 @@ public abstract class Annotation {
 	
 	final static String CLASS = "Class";
 
+	/**
+	 * Returns a JSON String from which an equal Annotation object can be reconstructed by readJSON. 
+	 * @return
+	 */
 	public String saveToJSON() {
 		StringWriter sw = new StringWriter();
 		JsonGenerator gen = Json.createGenerator(sw);
@@ -28,8 +33,11 @@ public abstract class Annotation {
 		gen.close();
 		return sw.toString();
 	}
-
+	
+	public abstract Annotation readJSON(String json);
 	public abstract void writeObject(JsonGenerator gen);
+	public abstract void paintObject(Graphics graphics);
+	public abstract String getLaTeX();
 
 	public static Annotation createAnnotation(String s) {
 		JsonParser parser = Json.createParser(new StringReader(s));
@@ -68,17 +76,18 @@ public abstract class Annotation {
 	}
 	
 	public static void main(String[] args) {
-		Legend l = new Legend(Arrays.asList(new String[]{
-				"Component Weights",
-				"Component Graph 1: 0.5",
-				"Component Graph 1: 0.3",
-				"Component Graph 1: 0.2"
-			}), Arrays.asList(new Color[]{
-					Color.BLACK,
-					Color.RED,
-					Color.GREEN,
-					Color.BLUE
-			}));
+		Legend l = new Legend(100, 100,
+				Arrays.asList(new String[]{
+						"Component Weights",
+						"Component Graph 1: 0.5",
+						"Component Graph 1: 0.3",
+						"Component Graph 1: 0.2"
+				}), Arrays.asList(new Color[]{
+						Color.BLACK,
+						Color.RED,
+						Color.GREEN,
+						Color.BLUE
+				}));
 		String s = l.saveToJSON();
 		System.out.println(s);
 		//createAnnotation("[0,{\"1\":{\"2\":{\"3\":{\"4\":[5,{\"6\":7}]}}}}]");

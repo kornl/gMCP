@@ -24,19 +24,21 @@ public class Legend extends Annotation {
 	Font f = new Font("Helvetica", 1, 12);
 	boolean header = true;
 	
-	public Legend(List<String> lines, List<Color> colors) {
+	public Legend(int x, int y, List<String> lines, List<Color> colors) {
+		this.x = x;
+		this.y = y;
 		this.lines = lines;
 		this.colors = colors;
 		if (lines.size()!=colors.size()) throw new RuntimeException("Number of lines and colors does not match.");
 	}
 	
-	public void paintLegend(Graphics graphics) {
+	public void paintObject(Graphics graphics) {
 		Graphics2D g = (Graphics2D) graphics;
 		//GlyphVector gv = g.getFont().createGlyphVector(g.getFontRenderContext(), "Component graph 1");
 		//Shape shape = gv.getGlyphOutline(1);
 
 		AffineTransform transform = g.getTransform();		 
-		transform.translate(100, 100);		 
+		transform.translate(x, y);		 
 		g.transform(transform);
 		
 		double width = 0;
@@ -91,27 +93,40 @@ public class Legend extends Annotation {
 		.writeEnd();*/		
 		
 	}
+
+	@Override
+	public String getLaTeX() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Annotation readJSON(String json) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 	
 }
 
 class TestPanel extends JPanel {
 	
-	Legend l = new Legend(Arrays.asList(new String[]{
-		"Component Weights",
-		"Component Graph 1: 0.5",
-		"Component Graph 2: 0.3",
-		"Component Graph 3: 0.2"
-	}), Arrays.asList(new Color[]{
-			Color.BLACK,
-			Color.RED,
-			Color.GREEN,
-			Color.BLUE
-	}));
+	Legend l = new Legend(100, 100,
+			Arrays.asList(new String[]{
+					"Component Weights",
+					"Component Graph 1: 0.5",
+					"Component Graph 2: 0.3",
+					"Component Graph 3: 0.2"
+			}), Arrays.asList(new Color[]{
+					Color.BLACK,
+					Color.RED,
+					Color.GREEN,
+					Color.BLUE
+			}));
 	
 	public void paintComponent(Graphics g) {
 		((Graphics2D)g).setRenderingHint(RenderingHints.KEY_ANTIALIASING,
 				RenderingHints.VALUE_ANTIALIAS_ON);
-		l.paintLegend(g);
+		l.paintObject(g);
 	}
 	
 }
