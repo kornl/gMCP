@@ -2,13 +2,9 @@ package org.af.gMCP.gui.graph.annotations;
 
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.Font;
 import java.awt.Graphics;
 import java.io.StringReader;
 import java.io.StringWriter;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.net.URI;
 import java.util.Arrays;
 
 import javax.json.Json;
