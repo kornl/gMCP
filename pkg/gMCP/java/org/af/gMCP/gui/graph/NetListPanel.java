@@ -399,8 +399,14 @@ public class NetListPanel extends JPanel implements MouseMotionListener, MouseLi
 	 * @see java.awt.event.MouseListener#mouseReleased(java.awt.event.MouseEvent)
 	 */
 	public void mouseReleased(MouseEvent e) {
+		
+		for(int i : dragE) {			
+			getEdges().get(i).setFixed(true);
+		}
+		
 		dragN = new int[0];
 		dragE = new int[0];
+		dragA = new int[0];
 		
 		if (e != null)	{
 			if (endPoint!=null && startingPoint!=null && Configuration.getInstance().getGeneralConfig().experimentalFeatures()) {
@@ -422,10 +428,6 @@ public class NetListPanel extends JPanel implements MouseMotionListener, MouseLi
 			} else if (e.isPopupTrigger()) {
 				popUp(e);	
 			}
-		}
-		
-		for(int i : dragE) {			
-			getEdges().get(i).setFixed(true);
 		}
 		
 		unAnchor = false;
