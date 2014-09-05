@@ -220,7 +220,7 @@ public class NetListPanel extends JPanel implements MouseMotionListener, MouseLi
 			repaint();
 			return;
 		}
-		if (dragN.length==0 && dragE.length==0) { /* Dragging without objects creates a rectangular. */
+		if (dragN.length==0 && dragE.length==0 && dragA.length==0) { /* Dragging without objects creates a rectangular. */
 			endPoint = new int[] {e.getX(), e.getY()};
 			repaint();
 			return;
@@ -244,6 +244,12 @@ public class NetListPanel extends JPanel implements MouseMotionListener, MouseLi
 			getEdges().get(i).setK1( (int) ((e.getX()+offsetE[i][0]) / (double) getZoom()));
 			getEdges().get(i).setK2( (int) ((e.getY()+offsetE[i][1]) / (double) getZoom()));
 		}
+		
+		for (int i : dragA) {		
+			getAnnotations().get(i).setX( (int) ((e.getX()+offsetA[i][0]) / (double) getZoom()));
+			getAnnotations().get(i).setY( (int) ((e.getY()+offsetA[i][1]) / (double) getZoom()));
+		}		
+		
 
 		calculateSize();
 		repaint();

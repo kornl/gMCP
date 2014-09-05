@@ -100,5 +100,14 @@ public abstract class Annotation {
 		//createAnnotation("[0,{\"1\":{\"2\":{\"3\":{\"4\":[5,{\"6\":7}]}}}}]");
 		createAnnotation(s);
 	}
+
+	public void setX(int x) {
+		//System.out.println("Moving from x="+this.x+" to "+x+".");
+		this.x = x;		
+	}
+	
+	public void setY(int y) {
+		this.y = y;		
+	}
 	
 }

@@ -108,6 +108,23 @@ public class Legend extends Annotation {
 		return av.get(av.size()-1).inYou(x, y);
 	}
 	
+	@Override
+	public void setX(int x) {
+		for (Annotation a : av) {
+			a.setX(a.x+(x-this.x));
+		}
+		super.setX(x);				
+	}
+	
+	@Override
+	public void setY(int y) {
+		for (Annotation a : av) {
+			a.setY(a.y+(y-this.y));
+		}		
+		super.setY(y);		
+	}
+	
+	
 }
 
 class TestPanel extends JPanel {
