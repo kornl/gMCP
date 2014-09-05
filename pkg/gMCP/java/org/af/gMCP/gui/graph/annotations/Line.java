@@ -3,6 +3,7 @@ package org.af.gMCP.gui.graph.annotations;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 
 import javax.json.stream.JsonGenerator;
 
@@ -32,7 +33,8 @@ public class Line extends Annotation {
 
 	@Override
 	public Dimension paintObject(Graphics graphics) {
-		// TODO Auto-generated method stub
+		Graphics2D g = (Graphics2D) graphics;
+		g.drawLine((int)(x1*nl.getZoom()), (int)(y1*nl.getZoom()), (int)(x2*nl.getZoom()), (int)(y2*nl.getZoom()));
 		return new Dimension(Math.abs(x1-x2), Math.abs(y1-y2));
 	}
 
