@@ -48,6 +48,18 @@ public class Legend extends Annotation {
 						 
 		}
 	}
+	
+	public void add(int index, String line, Color color) {
+		lines.add(index, line);
+		colors.add(index, color);
+		av.add(index, new Text(x+10, y+(index+1)*20, line, color, f, nl));
+	}
+	
+	public void rm(int index) {
+		lines.remove(index);
+		colors.remove(index);
+		av.remove(index);
+	}
 
 	public Dimension paintObject(Graphics graphics) {
 		Graphics2D g = (Graphics2D) graphics;
