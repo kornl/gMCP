@@ -32,7 +32,7 @@ public class Rectangle extends Annotation {
 	@Override
 	public Dimension paintObject(Graphics graphics) {
 		Graphics2D g = (Graphics2D) graphics;
-		g.draw3DRect(x, y, width, height, true);
+		g.draw3DRect((int)(x* nl.getZoom()), (int)(y* nl.getZoom()), (int)(width* nl.getZoom()), (int)(height* nl.getZoom()), true);
 		return new Dimension(width, height);
 	}
 

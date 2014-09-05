@@ -94,7 +94,7 @@ public abstract class Annotation {
 						Color.RED,
 						Color.GREEN,
 						Color.BLUE
-				}));
+				}), new TestPanel());
 		String s = l.saveToJSON();
 		System.out.println(s);
 		//createAnnotation("[0,{\"1\":{\"2\":{\"3\":{\"4\":[5,{\"6\":7}]}}}}]");

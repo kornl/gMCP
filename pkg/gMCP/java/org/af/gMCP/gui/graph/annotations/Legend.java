@@ -13,6 +13,7 @@ import java.util.Vector;
 import javax.json.stream.JsonGenerator;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.UIManager;
 
 import org.af.gMCP.gui.graph.NetList;
 
@@ -20,15 +21,16 @@ public class Legend extends Annotation {
 
 	List<String> lines = new Vector<String>();
 	List<Color> colors = new Vector<Color>();
-	Font f = new Font("Helvetica", 1, 12);
 	boolean header = true;
+	Font f;
 	List<Annotation> av = new Vector<Annotation>();
 	
-	public Legend(int x, int y, List<String> lines, List<Color> colors) {
-		this(x, y, lines, colors, null);
+	public Legend(int x, int y, List<String> lines, List<Color> colors, AnnotationPanel nl) {		
+		this(x, y, lines, colors, nl, new Font("Arial", Font.PLAIN, 14));
+		//TODO Can we use UIManager.getDefaults().getFont("JLabel.font") as default? Or do we want "Helvetica"?
 	}
 	
-	public Legend(int x, int y, List<String> lines, List<Color> colors, AnnotationPanel nl) {
+	public Legend(int x, int y, List<String> lines, List<Color> colors, AnnotationPanel nl, Font font) {
 		this.x = x;
 		this.y = y;
 		this.lines = lines;
@@ -36,9 +38,14 @@ public class Legend extends Annotation {
 		this.nl = nl;
 		if (lines.size()!=colors.size()) throw new RuntimeException("Number of lines and colors does not match.");
 		
-		for (int i=0; i<lines.size(); i++) {			
-			av.add(new Text(x+10, y+(i+1)*20, lines.get(i), colors.get(i), 12));
-			if (i==0 && header) f = f.deriveFont(Font.BOLD);			 
+		for (int i=0; i<lines.size(); i++) {
+			if (i==0 && header) {
+				f = font.deriveFont(Font.BOLD);
+			} else {
+				f = font;
+			}
+			av.add(new Text(x+10, y+(i+1)*20, lines.get(i), colors.get(i), f, nl));
+						 
 		}
 	}
 
@@ -127,25 +134,33 @@ public class Legend extends Annotation {
 	
 }
 
-class TestPanel extends JPanel {
+class TestPanel extends JPanel implements AnnotationPanel {
 	
-	Legend l = new Legend(100, 100,
-			Arrays.asList(new String[]{
-					"Component Weights",
-					"Component Graph 1: 0.5",
-					"Component Graph 2: 0.3",
-					"Component Graph 3: 0.2"
-			}), Arrays.asList(new Color[]{
-					Color.BLACK,
-					Color.RED,
-					Color.GREEN,
-					Color.BLUE
-			}));
+	Legend l;
+
+	TestPanel() {
+		l = new Legend(100, 100,
+				Arrays.asList(new String[]{
+						"Component Weights",
+						"Component Graph 1: 0.5",
+						"Component Graph 2: 0.3",
+						"Component Graph 3: 0.2"
+				}), Arrays.asList(new Color[]{
+						Color.BLACK,
+						Color.RED,
+						Color.GREEN,
+						Color.BLUE
+				}), this);
+	}
 	
 	public void paintComponent(Graphics g) {
 		((Graphics2D)g).setRenderingHint(RenderingHints.KEY_ANTIALIASING,
 				RenderingHints.VALUE_ANTIALIAS_ON);
 		l.paintObject(g);
+	}
+
+	public double getZoom() {		
+		return 1;
 	}
 	
 }
