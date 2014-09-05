@@ -12,10 +12,15 @@ public class Rectangle extends Annotation {
 	int height;
 	
 	public Rectangle(int x, int y, int width, int height) {
+		this(x, y, width, height, null);
+	}
+
+	public Rectangle(int x, int y,int width, int height, AnnotationPanel nl) {
 		this.x = x;
 		this.y = y;
 		this.width = width;
 		this.height = height;
+		this.nl = nl;
 	}
 
 	@Override

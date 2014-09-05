@@ -17,7 +17,7 @@ public abstract class Annotation {
 
 	int x, y;
 	Color color = Color.BLACK;
-	protected NetList nl;
+	protected AnnotationPanel nl;
 	
 	final static String CLASS = "Class";
 

@@ -14,6 +14,8 @@ import javax.json.stream.JsonGenerator;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import org.af.gMCP.gui.graph.NetList;
+
 public class Legend extends Annotation {
 
 	List<String> lines = new Vector<String>();
@@ -23,19 +25,23 @@ public class Legend extends Annotation {
 	List<Annotation> av = new Vector<Annotation>();
 	
 	public Legend(int x, int y, List<String> lines, List<Color> colors) {
+		this(x, y, lines, colors, null);
+	}
+	
+	public Legend(int x, int y, List<String> lines, List<Color> colors, AnnotationPanel nl) {
 		this.x = x;
 		this.y = y;
 		this.lines = lines;
 		this.colors = colors;
+		this.nl = nl;
 		if (lines.size()!=colors.size()) throw new RuntimeException("Number of lines and colors does not match.");
 		
 		for (int i=0; i<lines.size(); i++) {			
 			av.add(new Text(x+10, y+(i+1)*20, lines.get(i), colors.get(i), 12));
 			if (i==0 && header) f = f.deriveFont(Font.BOLD);			 
 		}
-		
 	}
-	
+
 	public Dimension paintObject(Graphics graphics) {
 		Graphics2D g = (Graphics2D) graphics;
 		
@@ -48,7 +54,7 @@ public class Legend extends Annotation {
 		}
 		
 		if (!(av.get(av.size()-1) instanceof Rectangle)) {
-			Rectangle r = new Rectangle(x, y, width+20, lines.size()*20+10);
+			Rectangle r = new Rectangle(x, y, width+20, lines.size()*20+10, nl);
 			av.add(r);
 			d = r.paintObject(g);
 		}
