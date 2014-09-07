@@ -51,8 +51,20 @@ public class AboutDialog extends InfoDialog implements ActionListener {
 			doc.insertString(doc.getLength(),					
 					"gMCP "+Configuration.getInstance().getGeneralConfig().getVersionNumber()+"\n\n", getH1());			
 			doc.insertString(doc.getLength(),
-					"by Kornelius Rohmeyer and Florian Klinglmueller is distributed under GPL>=2.0."+"\n\n", getT());			
+					"by Kornelius Rohmeyer and Florian Klinglmueller is distributed under GPL 2.0."+"\n\n", getT());			
 			doc.insertString(doc.getLength(), "This program uses the libraries log4j, JLaTeXMath, POI, iText (2.1.4), jxlayer,\n swingworker, commons logging/lang, JRI and JGoodies Forms.\n", getT());
+			doc.insertString(doc.getLength(),"\n"
+					+"This program is free software; you can redistribute it and/or\n"
+					+"modify it under the terms of the GNU General Public License\n"
+					+"as published by the Free Software Foundation; either version 2\n"
+					+"of the License, or (at your option) any later version.\n"				
+					+"\n"
+					+"This program is distributed in the hope that it will be useful,\n"
+					+"but WITHOUT ANY WARRANTY; without even the implied warranty of\n"
+					+"MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\n"
+					+"GNU General Public License for more details. It is included\n" 
+					+"in the R distribution (in directory share/licenses) or can be\n" 
+					+"found at: http://www.gnu.org/licenses/\n", getT());
 			doc.setParagraphAttributes(0, doc.getLength(), getC(), true);
         } catch (BadLocationException ble) {
         	logger.error("BadLocationException was thrown. Should never happen.", ble);

@@ -12,6 +12,7 @@ import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.image.BufferedImage;
 import java.text.DecimalFormat;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Vector;
 
@@ -19,11 +20,15 @@ import javax.swing.JPanel;
 
 import org.af.commons.images.GraphDrawHelper;
 import org.af.gMCP.config.Configuration;
+import org.af.gMCP.gui.graph.annotations.Annotation;
+import org.af.gMCP.gui.graph.annotations.AnnotationPanel;
+import org.af.gMCP.gui.graph.annotations.Legend;
 
-public class NetListPanel extends JPanel implements MouseMotionListener, MouseListener {
-
+public class NetListPanel extends JPanel implements MouseMotionListener, MouseListener, AnnotationPanel {
+	/* These three arrays contain the indices of the Nodes, Edges and Annotations, which are currently dragged. */ 
 	int[] dragN = new int[0];
 	int[] dragE = new int[0];
+	int[] dragA = new int[0];
 	
 	static DecimalFormat format = new DecimalFormat("#.####");
 	
@@ -122,6 +127,10 @@ public class NetListPanel extends JPanel implements MouseMotionListener, MouseLi
 		return nl.edges;
 	}
 	
+	private List<Annotation> getAnnotations() {		
+		return nl.annotations;
+	}
+	
 	/**
 	 * Takes a BufferedImage, searches the smallest non-empty (e.g. RGB != 0 and -1) area and returns it with a specified offset.
 	 * Note that the size of the image will not be increased if the specified offset is bigger than the distance from the non-empty
@@ -211,7 +220,7 @@ public class NetListPanel extends JPanel implements MouseMotionListener, MouseLi
 			repaint();
 			return;
 		}
-		if (dragN.length==0 && dragE.length==0) { /* Dragging without objects creates a rectangular. */
+		if (dragN.length==0 && dragE.length==0 && dragA.length==0) { /* Dragging without objects creates a rectangular. */
 			endPoint = new int[] {e.getX(), e.getY()};
 			repaint();
 			return;
@@ -235,6 +244,12 @@ public class NetListPanel extends JPanel implements MouseMotionListener, MouseLi
 			getEdges().get(i).setK1( (int) ((e.getX()+offsetE[i][0]) / (double) getZoom()));
 			getEdges().get(i).setK2( (int) ((e.getY()+offsetE[i][1]) / (double) getZoom()));
 		}
+		
+		for (int i : dragA) {		
+			getAnnotations().get(i).setX( (int) ((e.getX()+offsetA[i][0]) / (double) getZoom()));
+			getAnnotations().get(i).setY( (int) ((e.getY()+offsetA[i][1]) / (double) getZoom()));
+		}		
+		
 
 		calculateSize();
 		repaint();
@@ -255,6 +270,7 @@ public class NetListPanel extends JPanel implements MouseMotionListener, MouseLi
 
 	protected int[][] offsetE;
 	protected int[][] offsetN;
+	protected int[][] offsetA;
 	protected int[] startingPoint = null;
 	protected int[] endPoint = null;
 	
@@ -325,6 +341,15 @@ public class NetListPanel extends JPanel implements MouseMotionListener, MouseLi
 					offsetE[i] = getEdges().get(i).offset(e.getX(), e.getY());
 				}
 			}
+			for (int i = getAnnotations().size()-1; i >=0 ; i--) {
+				if (getAnnotations().get(i).inYou(e.getX(), e.getY())) {
+					dragN = new int[0];
+					dragE = new int[0];
+					dragA = new int[] {i};
+					offsetA = new int[getAnnotations().size()][2];
+					offsetA[i] = getAnnotations().get(i).offset(e.getX(), e.getY());
+				}
+			}
 		}
 		
 		// Double click opens dialog for changing nodes or edges. 
@@ -374,8 +399,14 @@ public class NetListPanel extends JPanel implements MouseMotionListener, MouseLi
 	 * @see java.awt.event.MouseListener#mouseReleased(java.awt.event.MouseEvent)
 	 */
 	public void mouseReleased(MouseEvent e) {
+		
+		for(int i : dragE) {			
+			getEdges().get(i).setFixed(true);
+		}
+		
 		dragN = new int[0];
 		dragE = new int[0];
+		dragA = new int[0];
 		
 		if (e != null)	{
 			if (endPoint!=null && startingPoint!=null && Configuration.getInstance().getGeneralConfig().experimentalFeatures()) {
@@ -397,10 +428,6 @@ public class NetListPanel extends JPanel implements MouseMotionListener, MouseLi
 			} else if (e.isPopupTrigger()) {
 				popUp(e);	
 			}
-		}
-		
-		for(int i : dragE) {			
-			getEdges().get(i).setFixed(true);
 		}
 		
 		unAnchor = false;
@@ -505,7 +532,9 @@ public class NetListPanel extends JPanel implements MouseMotionListener, MouseLi
 				g.setColor(Color.BLACK);
 			}
 		}
-		
+		for (Annotation a : nl.annotations) {
+			a.paintObject(g);
+		}
 	}
 	
 	private boolean shouldDraw(Edge edge) {

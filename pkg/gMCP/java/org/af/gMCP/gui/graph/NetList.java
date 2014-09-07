@@ -1,8 +1,11 @@
 package org.af.gMCP.gui.graph;
 
+import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.Point;
 import java.awt.image.BufferedImage;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.Enumeration;
 import java.util.HashSet;
@@ -21,16 +24,21 @@ import org.af.gMCP.config.Configuration;
 import org.af.gMCP.gui.RControl;
 import org.af.gMCP.gui.ReproducableLog;
 import org.af.gMCP.gui.dialogs.VariableDialog;
+import org.af.gMCP.gui.graph.annotations.Annotation;
+import org.af.gMCP.gui.graph.annotations.AnnotationPanel;
+import org.af.gMCP.gui.graph.annotations.Legend;
+import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-public class NetList extends JTabbedPane implements ChangeListener {
+public class NetList extends JTabbedPane implements ChangeListener, AnnotationPanel {
 
 	private static final Log logger = LogFactory.getLog(NetList.class);
 	GraphView control;
 	
 	protected Vector<Node> nodes = new Vector<Node>();
 	protected Vector<Edge> edges = new Vector<Edge>();
+	protected Vector<Annotation> annotations = new Vector<Annotation>();
 	
 	public GraphMCP graph;	
 	
@@ -41,6 +49,15 @@ public class NetList extends JTabbedPane implements ChangeListener {
 	public String initialGraph = ".InitialGraph" + (new Date()).getTime();
 	
 	JLabel statusBar;
+	Color[] layerColors = new Color[]{
+			Color.BLACK, // This first line is for the header!
+			Color.BLACK,
+			Color.RED,
+			Color.GREEN,
+			Color.BLUE
+	};
+	
+	Legend entangledLegend = null; 
 
 	public boolean testingStarted = false;	
 	
@@ -93,14 +110,43 @@ public class NetList extends JTabbedPane implements ChangeListener {
 		if (layer==1) {
 			setTitleAt(0, "Combined");
 			nlp.add(new NetListPanel(this, 0));
-			addTab("Graph 1", nlp.get(nlp.size()-1));			
+			addTab("Graph 1", nlp.get(nlp.size()-1));
 		}
+		
+		Vector<String> vl = new Vector<String>();
+		vl.add("Component Weights");			
+		for (int i=0; i<layer+1; i++) {
+			String weight = "";
+			try {
+				 weight = control.getPView().entangledWeights.get(i).getText();
+			} catch (Exception e) {
+				// Not yet created.
+			}
+			vl.add("Component Graph "+i+": "+ weight);
+		}
+		int x = -1, y = -1;
+		if (entangledLegend!=null) {
+			x = entangledLegend.getX();
+			y = entangledLegend.getY();
+		}
+		annotations.remove(entangledLegend);
+		entangledLegend = new Legend(100, 100,
+				vl, Arrays.asList((Color[])ArrayUtils.subarray(layerColors, 0, layer+2)), this); // sic!
+		if (x != -1 && y != -1)  {
+			entangledLegend.setX(x);
+			entangledLegend.setY(y);
+		} else {
+			//TODO Find a suitable place.
+		}
+		annotations.add(entangledLegend);		
+		
 		nlp.add(new NetListPanel(this, layer));		
 		layer++;				
 		addTab("Graph "+layer, nlp.get(nlp.size()-1));
 		for (Node n : nodes) {
 			n.addLayer();
 		}
+		//System.out.println("Number of Layers:" + layer);
 		refresh();
 	}
 
@@ -288,19 +334,34 @@ public class NetList extends JTabbedPane implements ChangeListener {
 	 * @param layer Layer to remove. Counting layers starts from 0 (not 1).
 	 */
 	public void removeEntangledLayer(int layer) {
+		nlp.remove(layer+1);
 		remove(layer+1); // +1 since the combined graph is shown at tab 0.
 		this.layer--;
+		//System.out.println("Number of Layers:" + this.layer);
 		if (this.layer==1) {			
 			setTitleAt(0, "Graph");
 			remove(1);
+			annotations.remove(entangledLegend);
+			entangledLegend = null;			
+		} else {
+			entangledLegend.rm(layer+1, true); // +1 for header
 		}
 		for (int i = edges.size(); i>0; i--) {
 			if (edges.get(i-1).layer == layer) {
 				edges.remove(i-1);
 			}
 		}
+		for (Edge e : edges) {
+			if (e.layer>layer) {
+				e.layer--;
+				e.color = NetListPanel.layerColors[e.layer%NetListPanel.layerColors.length];
+			}
+		}
 		for (Node n : nodes) {
 			n.removeLayer(layer);
+		}		
+		for (int i=1; i<nlp.size(); i++) {
+			nlp.get(i).layer = i-1;
 		}
 		refresh();
 	}	

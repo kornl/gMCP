@@ -61,10 +61,14 @@ public class DataFramePanel extends JTabbedPane implements ChangeListener, ListS
         return tables;
     }
 
+    Vector<CellEditorE> defaultEditors = new Vector<CellEditorE>(); 
+    
 	public void addLayer() {
 		RDataFrameRef dfRefW = new RDataFrameRef();
 		DataTable dt = new DataTable(dfRefW);
-		dt.setDefaultEditor(EdgeWeight.class, new CellEditorE(control, dt, tables.size()));
+		CellEditorE de = new CellEditorE(control, dt, tables.size());
+		defaultEditors.add(de);
+		dt.setDefaultEditor(EdgeWeight.class, de);
 		for (String s : tables.get(0).getNames()) {
 			dt.getModel().addRowCol(s);
 		}
@@ -79,11 +83,15 @@ public class DataFramePanel extends JTabbedPane implements ChangeListener, ListS
 
 	public void removeLayer(int i) {
 		remove(i);
-		tables.remove(i);		
+		tables.remove(i);	
+		defaultEditors.remove(i);
 		control.removeEntangledLayer(i);
 		if (getTabCount()==1) {
 			setTitleAt(0, "Transition matrix");
 			setTabComponentAt(0, new JLabel("Transition matrix")); 
+		}
+		for (int j=i; j<tables.size(); j++) {
+			defaultEditors.get(j).layer--;
 		}
 	}
 	
@@ -95,8 +103,11 @@ public class DataFramePanel extends JTabbedPane implements ChangeListener, ListS
 
 	public void registerControl(GraphView control) {
 		this.control = control;
+		defaultEditors.removeAllElements();		
 		for (DataTable dt : getTable()) {
-			dt.setDefaultEditor(EdgeWeight.class, new CellEditorE(control, dt, 0));
+			CellEditorE de = new CellEditorE(control, dt, 0);
+			defaultEditors.add(de);
+			dt.setDefaultEditor(EdgeWeight.class, de);
 		}
 	}
 

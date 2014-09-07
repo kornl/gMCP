@@ -5,6 +5,11 @@ Changes in version 0.9-0 (??-0?-2014)
   'generateBounds', 'generatePvals' and 'generateTest' was renamed to
   'upscale' to reduce misinterpretation.
 
+- Since CRAN currently will build binaries only for 3.0 and 3.1, we drop support
+  for R < 3.0.0 in the official releases to make our lives easier. Nevertheless 
+  there is a branch pre-R3 on github for those interested (or simply contact us 
+  if you are using an older version of R).
+
 - Up to now the parameter 'test' of function gMCP could be one of the following:
   "Bonferroni", "Simes", "Bretz2011" or "simple-parametric".
   We now introduced a new parameter 'upscale' (default FALSE) and restricted 'test' to:
