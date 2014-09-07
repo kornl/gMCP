@@ -13,9 +13,6 @@ import java.util.Vector;
 import javax.json.stream.JsonGenerator;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.UIManager;
-
-import org.af.gMCP.gui.graph.NetList;
 
 public class Legend extends Annotation {
 

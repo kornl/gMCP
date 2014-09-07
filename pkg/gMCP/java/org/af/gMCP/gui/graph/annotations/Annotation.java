@@ -11,8 +11,6 @@ import javax.json.Json;
 import javax.json.stream.JsonGenerator;
 import javax.json.stream.JsonParser;
 
-import org.af.gMCP.gui.graph.NetList;
-
 public abstract class Annotation {
 
 	int x, y;
