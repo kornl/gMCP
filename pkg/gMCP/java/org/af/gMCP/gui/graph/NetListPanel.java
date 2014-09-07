@@ -76,23 +76,10 @@ public class NetListPanel extends JPanel implements MouseMotionListener, MouseLi
 		// Remove all highlighting:
 		nl.highlightEdge(-1, -1, -1);
 		
-		long maxX = 0;
-		long maxY = 0;
-		for (Node node : getNodes()) {
-			if (node.getX() > maxX)
-				maxX = node.getX();
-			if (node.getY() > maxY)
-				maxY = node.getY();
-		}
-		for (Edge edge : getEdges()) {
-			if (edge.getK1() > maxX)
-				maxX = edge.getK1();
-			if (edge.getK2() > maxY)
-				maxY = edge.getK2();
-		}		
+		Point p = nl.getMaxPoint();
 		
-		BufferedImage img = new BufferedImage((int) ((maxX + 2 * Node.getRadius() + 400) * getZoom()),
-				(int) ((maxY + 2 * Node.getRadius() + 400) * getZoom()), BufferedImage.TYPE_INT_ARGB);
+		BufferedImage img = new BufferedImage((int) ((p.getX() + 2 * Node.getRadius() + 400) * getZoom()),
+				(int) ((p.getY() + 2 * Node.getRadius() + 400) * getZoom()), BufferedImage.TYPE_INT_ARGB);
 		Graphics2D g = img.createGraphics();
 		
 		if (!Configuration.getInstance().getGeneralConfig().exportTransparent()) {
