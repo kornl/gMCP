@@ -65,4 +65,8 @@ public class Text extends Annotation {
 		// TODO Auto-generated method stub
 		return false;
 	}
+
+	public void setText(String text) {
+		this.text = text;		
+	}
 }

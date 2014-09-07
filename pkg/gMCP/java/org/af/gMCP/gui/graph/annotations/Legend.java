@@ -174,6 +174,10 @@ public class Legend extends Annotation {
 		}
 		super.setY(y);		
 	}
+
+	public void setText(int i, String text) {
+		av.get(i).setText(text);		
+	}
 	
 	
 }
