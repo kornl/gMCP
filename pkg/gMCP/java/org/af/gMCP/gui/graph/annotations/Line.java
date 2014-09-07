@@ -7,6 +7,8 @@ import java.awt.Graphics2D;
 
 import javax.json.stream.JsonGenerator;
 
+import org.af.commons.images.GraphDrawHelper;
+
 public class Line extends Annotation {
 
 	final static int NONE = 0;
@@ -34,7 +36,11 @@ public class Line extends Annotation {
 	@Override
 	public Dimension paintObject(Graphics graphics) {
 		Graphics2D g = (Graphics2D) graphics;
-		g.drawLine((int)(x1*nl.getZoom()), (int)(y1*nl.getZoom()), (int)(x2*nl.getZoom()), (int)(y2*nl.getZoom()));
+		if (type == NONE) {
+			g.drawLine((int)(x1*nl.getZoom()), (int)(y1*nl.getZoom()), (int)(x2*nl.getZoom()), (int)(y2*nl.getZoom()));
+		} else {
+			GraphDrawHelper.malVollenPfeil(g, (int)(x1*nl.getZoom()), (int)(y1*nl.getZoom()), (int)(x2*nl.getZoom()), (int)(y2*nl.getZoom()), 5, 45);		
+		}
 		return new Dimension(Math.abs(x1-x2), Math.abs(y1-y2));
 	}
 
