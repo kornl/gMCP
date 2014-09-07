@@ -146,6 +146,7 @@ public class NetList extends JTabbedPane implements ChangeListener, AnnotationPa
 		for (Node n : nodes) {
 			n.addLayer();
 		}
+		//System.out.println("Number of Layers:" + layer);
 		refresh();
 	}
 
@@ -333,8 +334,10 @@ public class NetList extends JTabbedPane implements ChangeListener, AnnotationPa
 	 * @param layer Layer to remove. Counting layers starts from 0 (not 1).
 	 */
 	public void removeEntangledLayer(int layer) {
+		nlp.remove(layer+1);
 		remove(layer+1); // +1 since the combined graph is shown at tab 0.
 		this.layer--;
+		//System.out.println("Number of Layers:" + this.layer);
 		if (this.layer==1) {			
 			setTitleAt(0, "Graph");
 			remove(1);
@@ -348,8 +351,17 @@ public class NetList extends JTabbedPane implements ChangeListener, AnnotationPa
 				edges.remove(i-1);
 			}
 		}
+		for (Edge e : edges) {
+			if (e.layer>layer) {
+				e.layer--;
+				e.color = NetListPanel.layerColors[e.layer%NetListPanel.layerColors.length];
+			}
+		}
 		for (Node n : nodes) {
 			n.removeLayer(layer);
+		}		
+		for (int i=1; i<nlp.size(); i++) {
+			nlp.get(i).layer = i-1;
 		}
 		refresh();
 	}	
