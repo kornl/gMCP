@@ -116,7 +116,13 @@ public class NetList extends JTabbedPane implements ChangeListener, AnnotationPa
 		Vector<String> vl = new Vector<String>();
 		vl.add("Component Weights");			
 		for (int i=0; i<layer+1; i++) {
-			vl.add("Component Graph "+i+": ");
+			String weight = "";
+			try {
+				 weight = control.getPView().entangledWeights.get(i).getText();
+			} catch (Exception e) {
+				// Not yet created.
+			}
+			vl.add("Component Graph "+i+": "+ weight);
 		}
 		int x = -1, y = -1;
 		if (entangledLegend!=null) {
@@ -334,6 +340,8 @@ public class NetList extends JTabbedPane implements ChangeListener, AnnotationPa
 			remove(1);
 			annotations.remove(entangledLegend);
 			entangledLegend = null;			
+		} else {
+			entangledLegend.rm(layer+1, true); // +1 for header
 		}
 		for (int i = edges.size(); i>0; i--) {
 			if (edges.get(i-1).layer == layer) {

@@ -115,5 +115,9 @@ public abstract class Annotation {
 	public int getY() {
 		return y;
 	}
+
+	public void setColor(Color color) {
+		this.color = color;		
+	}
 	
 }

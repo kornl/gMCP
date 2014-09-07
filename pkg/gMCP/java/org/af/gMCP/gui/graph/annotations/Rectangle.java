@@ -11,7 +11,7 @@ public class Rectangle extends Annotation {
 	
 	int width;
 	int height;
-	Color color = Color.BLACK;
+	Color backColor = Color.WHITE;
 	
 	public Rectangle(int x, int y, int width, int height) {
 		this(x, y, width, height, null);
@@ -34,7 +34,9 @@ public class Rectangle extends Annotation {
 	@Override
 	public Dimension paintObject(Graphics graphics) {
 		Graphics2D g = (Graphics2D) graphics;
-		g.setColor(color);
+		g.setColor(backColor);
+		g.fill3DRect((int)(x* nl.getZoom()), (int)(y* nl.getZoom()), (int)(width* nl.getZoom()), (int)(height* nl.getZoom()), true);
+		g.setColor(color);		
 		g.draw3DRect((int)(x* nl.getZoom()), (int)(y* nl.getZoom()), (int)(width* nl.getZoom()), (int)(height* nl.getZoom()), true);
 		return new Dimension(width, height);
 	}
