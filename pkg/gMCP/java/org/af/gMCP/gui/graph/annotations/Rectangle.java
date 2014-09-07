@@ -1,5 +1,6 @@
 package org.af.gMCP.gui.graph.annotations;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -10,6 +11,7 @@ public class Rectangle extends Annotation {
 	
 	int width;
 	int height;
+	Color color = Color.BLACK;
 	
 	public Rectangle(int x, int y, int width, int height) {
 		this(x, y, width, height, null);
@@ -32,6 +34,7 @@ public class Rectangle extends Annotation {
 	@Override
 	public Dimension paintObject(Graphics graphics) {
 		Graphics2D g = (Graphics2D) graphics;
+		g.setColor(color);
 		g.draw3DRect((int)(x* nl.getZoom()), (int)(y* nl.getZoom()), (int)(width* nl.getZoom()), (int)(height* nl.getZoom()), true);
 		return new Dimension(width, height);
 	}
