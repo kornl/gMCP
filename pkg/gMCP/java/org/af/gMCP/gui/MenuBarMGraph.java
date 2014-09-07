@@ -337,17 +337,17 @@ public class MenuBarMGraph extends JMenuBar implements ActionListener {
         } else if (e.getActionCommand().equals("exit")) {       	
         	 control.getMainFrame().windowClosing(null);
         } else if (e.getActionCommand().equals("showAppHelp")) {
-        	showFile("doc/gMCP.pdf");       	 	
+        	showPackageFile("doc/gMCP.pdf");       	 	
         } else if (e.getActionCommand().equals("showParametric")) {
-        	showFile("doc/parametric.pdf");       	 	
+        	showPackageFile("doc/parametric.pdf");       	 	
         } else if (e.getActionCommand().equals("showManual")) {
         	showURL("http://cran.at.r-project.org/web/packages/gMCP/gMCP.pdf");
         } else if (e.getActionCommand().equals("showPaper1")) {
         	showURL("http://onlinelibrary.wiley.com/doi/10.1002/bimj.201000239/full");
         } else if (e.getActionCommand().equals("showReferences")) {
-        	showFile("References.html");
+        	showPackageFile("References.html");
         } else if (e.getActionCommand().equals("showEpsDoc")) {
-        	showFile("doc/EpsilonEdges.pdf");       	 	
+        	showPackageFile("doc/EpsilonEdges.pdf");       	 	
         } else if (e.getActionCommand().equals("showNEWS")) {
         	new TextFileViewer(control.getMainFrame(), new File(RControl.getR().eval("system.file(\"NEWS\", package=\"gMCP\")").asRChar().getData()[0]));      	 	
         } else if (e.getActionCommand().equals("showAbout")) {
@@ -508,17 +508,20 @@ public class MenuBarMGraph extends JMenuBar implements ActionListener {
 			"evince", "xpdf"
 	};
 
-	public void showFile(String s) {
+	public void showPackageFile(String s) {
 		File f = new File(RControl.getR().eval("system.file(\""+s+"\", package=\"gMCP\")").asRChar().getData()[0]);
 		if (OSTools.isWindows() && s.indexOf('.') == -1) {
 			try {
 				f = FileTransfer.copyFile(f, new File(System.getProperty("java.io.tmpdir"), f.getName()+"TXT"));
 			} catch (IOException e) {
-				JOptionPane.showMessageDialog(control.getMainFrame(), "Please open and read the following file:\n"+f.getAbsolutePath(), "Could not find appropriate viewer", JOptionPane.WARNING_MESSAGE);
+				JOptionPane.showMessageDialog(control.getMainFrame(), "Please open and read the following file:\n"+f.getAbsolutePath(), "Could not copy file.", JOptionPane.WARNING_MESSAGE);
 			}
 		}		
+	}
+	
+	public void showFile(File f) {
 		if (!f.exists()) {
-			throw new RuntimeException("This is strange. The file \""+s+"\" could not be found.");
+			throw new RuntimeException("This is strange. The file \""+f.getAbsolutePath()+"\" could not be found.");
 		} else {
 			try {	
 				Method main = Class.forName("java.awt.Desktop").getDeclaredMethod("getDesktop");
@@ -754,6 +757,7 @@ public class MenuBarMGraph extends JMenuBar implements ActionListener {
             	f = new File(f.getAbsolutePath()+".png");
             }
             control.saveGraphImage(f);
+            showFile(f);
         }		
 	}
 	
