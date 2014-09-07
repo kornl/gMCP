@@ -724,4 +724,14 @@ public class NetList extends JTabbedPane implements ChangeListener, AnnotationPa
 		repaint();
 	}
 
+	public void setEntangledLegendWeight(int i, String weight) {
+		if (entangledLegend==null) return;
+		try {
+			entangledLegend.setText(i+1, "Component Graph "+(i+1)+": "+ weight);
+		} catch(ArrayIndexOutOfBoundsException e) {
+			//TODO this okay if we remove a layer, but should be handled differently in general. 
+		}
+		repaint();
+	}
+
 }
