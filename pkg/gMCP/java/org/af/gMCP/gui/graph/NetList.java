@@ -106,39 +106,38 @@ public class NetList extends JTabbedPane implements ChangeListener, AnnotationPa
 		addNode(new Node(name, x, y, weights, this));		
 	}
 	
+	public Point getMaxPoint() {
+		int maxX = 0;
+		int maxY = 0;
+		for (Node node : getNodes()) {
+			if (node.getX() > maxX)
+				maxX = node.getX();
+			if (node.getY() > maxY)
+				maxY = node.getY();
+		}
+		for (Edge edge : getEdges()) {
+			if (edge.getK1() > maxX)
+				maxX = edge.getK1();
+			if (edge.getK2() > maxY)
+				maxY = edge.getK2();
+		}
+		return new Point(maxX, maxY);
+	}
+	
+	public void placeEntangledLegend() {
+		if (entangledLegend!=null) {
+			Point p = getMaxPoint();
+			entangledLegend.setX(100);
+			entangledLegend.setY((int) p.getY() + 100);
+		}		
+	}
+	
 	public void addEntangledLayer() {		
 		if (layer==1) {
 			setTitleAt(0, "Combined");
 			nlp.add(new NetListPanel(this, 0));
 			addTab("Graph 1", nlp.get(nlp.size()-1));
 		}
-		
-		Vector<String> vl = new Vector<String>();
-		vl.add("Component Weights");			
-		for (int i=0; i<layer+1; i++) {
-			String weight = "";
-			try {
-				 weight = control.getPView().entangledWeights.get(i).getText();
-			} catch (Exception e) {
-				// Not yet created.
-			}
-			vl.add("Component Graph "+i+": "+ weight);
-		}
-		int x = -1, y = -1;
-		if (entangledLegend!=null) {
-			x = entangledLegend.getX();
-			y = entangledLegend.getY();
-		}
-		annotations.remove(entangledLegend);
-		entangledLegend = new Legend(100, 100,
-				vl, Arrays.asList((Color[])ArrayUtils.subarray(layerColors, 0, layer+2)), this); // sic!
-		if (x != -1 && y != -1)  {
-			entangledLegend.setX(x);
-			entangledLegend.setY(y);
-		} else {
-			//TODO Find a suitable place.
-		}
-		annotations.add(entangledLegend);		
 		
 		nlp.add(new NetListPanel(this, layer));		
 		layer++;				
@@ -147,6 +146,34 @@ public class NetList extends JTabbedPane implements ChangeListener, AnnotationPa
 			n.addLayer();
 		}
 		//System.out.println("Number of Layers:" + layer);
+		
+		Vector<String> vl = new Vector<String>();
+		vl.add("Component Weights");			
+		for (int i=0; i<layer; i++) {
+			String weight = "";
+			try {
+				 weight = control.getPView().entangledWeights.get(i).getText();
+			} catch (Exception e) {
+				// Not yet created.
+			}
+			vl.add("Component Graph "+(i+1)+": "+ weight);
+		}
+		
+		int x = -1, y = -1;
+		if (entangledLegend!=null) {
+			x = entangledLegend.getX();
+			y = entangledLegend.getY();
+		} else {
+			Point p = getMaxPoint();
+			x = 100;
+			y = (int) p.getY() + 50;			
+		}
+		annotations.remove(entangledLegend);
+		entangledLegend = new Legend(x, y,
+				vl, Arrays.asList((Color[])ArrayUtils.subarray(layerColors, 0, layer+1)), this); // sic! +1
+		
+		annotations.add(entangledLegend);		
+		
 		refresh();
 	}
 

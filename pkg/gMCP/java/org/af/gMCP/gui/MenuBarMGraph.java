@@ -470,8 +470,10 @@ public class MenuBarMGraph extends JMenuBar implements ActionListener {
         	loadGraph("Ferber2011()", false);
         } else if (e.getActionCommand().equals("entangled1")) {     	
         	loadGraph("Entangled1Maurer2012()", false);
+        	control.getNL().placeEntangledLegend();
         } else if (e.getActionCommand().equals("entangled2")) {     	
         	loadGraph("Entangled2Maurer2012()", false);
+        	control.getNL().placeEntangledLegend();
         } else if (e.getActionCommand().equals("ferber2011b")) {     	
         	Hashtable<String,Object> ht = new Hashtable<String,Object>();
         	ht.put("times", new int[] {1,5,20});
