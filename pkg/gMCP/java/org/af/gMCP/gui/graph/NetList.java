@@ -372,6 +372,9 @@ public class NetList extends JTabbedPane implements ChangeListener, AnnotationPa
 			entangledLegend = null;			
 		} else {
 			entangledLegend.rm(layer+1, true); // +1 for header
+			for (int j=0; j<layer; j++) {
+				setTitleAt((j+1), "Graph "+(j+1));
+			}
 		}
 		for (int i = edges.size(); i>0; i--) {
 			if (edges.get(i-1).layer == layer) {
