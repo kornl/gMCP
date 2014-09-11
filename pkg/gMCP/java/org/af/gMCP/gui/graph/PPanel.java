@@ -15,13 +15,15 @@ import java.util.Vector;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 
 import org.af.gMCP.gui.RControl;
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-public class PPanel implements ActionListener, KeyListener, NodeListener, FocusListener {
+public class PPanel implements ActionListener, KeyListener, NodeListener, FocusListener, DocumentListener {
 	
 	private static final Log logger = LogFactory.getLog(PPanel.class);
 	
@@ -252,36 +254,58 @@ public class PPanel implements ActionListener, KeyListener, NodeListener, FocusL
 	public void focusGained(FocusEvent e) {	}
 
 	public void focusLost(FocusEvent e) {
-		if (wTFList.get(0).isEditable()) {
-			keyTyped(null);
-			for (int i=0; i<wTFList.size(); i++) {
-				JTextField wTF = wTFList.get(i); 
-				if (e.getSource()==wTF && !testing) {
-					if ( !Double.isInfinite(w.get(i)) && !Double.isNaN(w.get(i)) ) {
-						wTF.setText(RControl.getFraction(w.get(i)));
-					} else {
-						wTF.setText(""+w.get(i));
-					}
-				}
-			}
-			updateMe(true);
-		}
+		 textFieldChange();
 	}
 
+	//TODO We have to clean up this lot of different listeners (doing different things?)
+	
 	public void addEntangledLayer() {
 		JTextField wTF = new JTextField("0", 7);
     	wTF.addActionListener(this);
     	wTF.addFocusListener(this);
     	wTF.addKeyListener(this);
+    	wTF.getDocument().addDocumentListener(this);
     	wTFList.add(wTF);
 	}
-
+	
 	public void removeEntangledLayer(int layer) {
 		wTFList.get(layer).removeActionListener(this);
 		wTFList.remove(layer);
 		/* We don't have to remove a value from variable w,
 		 * since it will be updated via the NodeListener functionality.
 		 */		
+	}
+
+	private void textFieldChange() {
+		//System.out.println("TextFieldChange");
+		if (wTFList.get(0).isEditable()) {
+			keyTyped(null);
+			for (int i=0; i<wTFList.size(); i++) {
+				JTextField wTF = wTFList.get(i); 
+				if (!testing) {
+					if ( !Double.isInfinite(w.get(i)) && !Double.isNaN(w.get(i)) ) {
+						wTF.setText(RControl.getFraction(w.get(i)));
+					} else {
+						wTF.setText(""+w.get(i));
+					}
+				}
+				
+			}
+			updateMe(true);
+		}
+	}
+	
+	public void insertUpdate(DocumentEvent e) {
+		textFieldChange();
+	}
+
+
+	public void removeUpdate(DocumentEvent e) {
+		textFieldChange();
+	}
+
+	public void changedUpdate(DocumentEvent e) {
+		textFieldChange();
 	}
 
 }

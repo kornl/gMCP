@@ -89,6 +89,10 @@ public class DataFramePanel extends JTabbedPane implements ChangeListener, ListS
 		if (getTabCount()==1) {
 			setTitleAt(0, "Transition matrix");
 			setTabComponentAt(0, new JLabel("Transition matrix")); 
+		} else {
+			for (int j=0; j<tables.size(); j++) {
+				setTitleAt(j, "Transition matrix "+(j+1));
+			}
 		}
 		for (int j=i; j<tables.size(); j++) {
 			defaultEditors.get(j).layer--;

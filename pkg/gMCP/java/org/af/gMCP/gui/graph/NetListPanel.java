@@ -12,7 +12,6 @@ import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.image.BufferedImage;
 import java.text.DecimalFormat;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Vector;
 
@@ -22,7 +21,6 @@ import org.af.commons.images.GraphDrawHelper;
 import org.af.gMCP.config.Configuration;
 import org.af.gMCP.gui.graph.annotations.Annotation;
 import org.af.gMCP.gui.graph.annotations.AnnotationPanel;
-import org.af.gMCP.gui.graph.annotations.Legend;
 
 public class NetListPanel extends JPanel implements MouseMotionListener, MouseListener, AnnotationPanel {
 	/* These three arrays contain the indices of the Nodes, Edges and Annotations, which are currently dragged. */ 
@@ -41,10 +39,11 @@ public class NetListPanel extends JPanel implements MouseMotionListener, MouseLi
 	
 	public static Color[] layerColors = new Color[] {
 		Color.BLACK,
+		Color.RED,
 		Color.BLUE,
-		Color.RED, //TODO: Find better Colors then the following:
-		Color.YELLOW,
-		Color.GREEN
+		//TODO: Find better Colors then the following:
+		Color.GREEN,
+		Color.YELLOW
 	};
 	
 	NetList nl;
@@ -76,23 +75,10 @@ public class NetListPanel extends JPanel implements MouseMotionListener, MouseLi
 		// Remove all highlighting:
 		nl.highlightEdge(-1, -1, -1);
 		
-		long maxX = 0;
-		long maxY = 0;
-		for (Node node : getNodes()) {
-			if (node.getX() > maxX)
-				maxX = node.getX();
-			if (node.getY() > maxY)
-				maxY = node.getY();
-		}
-		for (Edge edge : getEdges()) {
-			if (edge.getK1() > maxX)
-				maxX = edge.getK1();
-			if (edge.getK2() > maxY)
-				maxY = edge.getK2();
-		}		
+		Point p = nl.getMaxPoint();
 		
-		BufferedImage img = new BufferedImage((int) ((maxX + 2 * Node.getRadius() + 400) * getZoom()),
-				(int) ((maxY + 2 * Node.getRadius() + 400) * getZoom()), BufferedImage.TYPE_INT_ARGB);
+		BufferedImage img = new BufferedImage((int) ((p.getX() + 2 * Node.getRadius() + 400) * getZoom()),
+				(int) ((p.getY() + 2 * Node.getRadius() + 400) * getZoom()), BufferedImage.TYPE_INT_ARGB);
 		Graphics2D g = img.createGraphics();
 		
 		if (!Configuration.getInstance().getGeneralConfig().exportTransparent()) {

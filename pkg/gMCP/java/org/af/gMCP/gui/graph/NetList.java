@@ -27,7 +27,6 @@ import org.af.gMCP.gui.dialogs.VariableDialog;
 import org.af.gMCP.gui.graph.annotations.Annotation;
 import org.af.gMCP.gui.graph.annotations.AnnotationPanel;
 import org.af.gMCP.gui.graph.annotations.Legend;
-import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -49,13 +48,6 @@ public class NetList extends JTabbedPane implements ChangeListener, AnnotationPa
 	public String initialGraph = ".InitialGraph" + (new Date()).getTime();
 	
 	JLabel statusBar;
-	Color[] layerColors = new Color[]{
-			Color.BLACK, // This first line is for the header!
-			Color.BLACK,
-			Color.RED,
-			Color.GREEN,
-			Color.BLUE
-	};
 	
 	Legend entangledLegend = null; 
 
@@ -106,39 +98,38 @@ public class NetList extends JTabbedPane implements ChangeListener, AnnotationPa
 		addNode(new Node(name, x, y, weights, this));		
 	}
 	
+	public Point getMaxPoint() {
+		int maxX = 0;
+		int maxY = 0;
+		for (Node node : getNodes()) {
+			if (node.getX() > maxX)
+				maxX = node.getX();
+			if (node.getY() > maxY)
+				maxY = node.getY();
+		}
+		for (Edge edge : getEdges()) {
+			if (edge.getK1() > maxX)
+				maxX = edge.getK1();
+			if (edge.getK2() > maxY)
+				maxY = edge.getK2();
+		}
+		return new Point(maxX, maxY);
+	}
+	
+	public void placeEntangledLegend() {
+		if (entangledLegend!=null) {
+			Point p = getMaxPoint();
+			entangledLegend.setX(100);
+			entangledLegend.setY((int) p.getY() + 100);
+		}		
+	}
+	
 	public void addEntangledLayer() {		
 		if (layer==1) {
 			setTitleAt(0, "Combined");
 			nlp.add(new NetListPanel(this, 0));
 			addTab("Graph 1", nlp.get(nlp.size()-1));
 		}
-		
-		Vector<String> vl = new Vector<String>();
-		vl.add("Component Weights");			
-		for (int i=0; i<layer+1; i++) {
-			String weight = "";
-			try {
-				 weight = control.getPView().entangledWeights.get(i).getText();
-			} catch (Exception e) {
-				// Not yet created.
-			}
-			vl.add("Component Graph "+i+": "+ weight);
-		}
-		int x = -1, y = -1;
-		if (entangledLegend!=null) {
-			x = entangledLegend.getX();
-			y = entangledLegend.getY();
-		}
-		annotations.remove(entangledLegend);
-		entangledLegend = new Legend(100, 100,
-				vl, Arrays.asList((Color[])ArrayUtils.subarray(layerColors, 0, layer+2)), this); // sic!
-		if (x != -1 && y != -1)  {
-			entangledLegend.setX(x);
-			entangledLegend.setY(y);
-		} else {
-			//TODO Find a suitable place.
-		}
-		annotations.add(entangledLegend);		
 		
 		nlp.add(new NetListPanel(this, layer));		
 		layer++;				
@@ -147,6 +138,38 @@ public class NetList extends JTabbedPane implements ChangeListener, AnnotationPa
 			n.addLayer();
 		}
 		//System.out.println("Number of Layers:" + layer);
+		
+		Vector<String> vl = new Vector<String>();
+		vl.add("Component Weights");			
+		for (int i=0; i<layer; i++) {
+			String weight = "";
+			try {
+				 weight = control.getPView().entangledWeights.get(i).getText();
+			} catch (Exception e) {
+				// Not yet created.
+			}
+			vl.add("Component Graph "+(i+1)+": "+ weight);
+		}
+		
+		int x = -1, y = -1;
+		if (entangledLegend!=null) {
+			x = entangledLegend.getX();
+			y = entangledLegend.getY();
+		} else {
+			Point p = getMaxPoint();
+			x = 100;
+			y = (int) p.getY() + 50;			
+		}
+		annotations.remove(entangledLegend);
+		Color[] colors = new Color[layer+1];
+		colors[0] = Color.BLACK;
+		for (int i = 1; i<layer+1; i++) {
+			colors[i] = NetListPanel.layerColors[(i-1)%NetListPanel.layerColors.length];
+		}
+		entangledLegend = new Legend(x, y, vl, Arrays.asList(colors), this);
+		
+		annotations.add(entangledLegend);		
+		
 		refresh();
 	}
 
@@ -345,6 +368,9 @@ public class NetList extends JTabbedPane implements ChangeListener, AnnotationPa
 			entangledLegend = null;			
 		} else {
 			entangledLegend.rm(layer+1, true); // +1 for header
+			for (int j=0; j<layer; j++) {
+				setTitleAt((j+1), "Graph "+(j+1));
+			}
 		}
 		for (int i = edges.size(); i>0; i--) {
 			if (edges.get(i-1).layer == layer) {
@@ -694,6 +720,16 @@ public class NetList extends JTabbedPane implements ChangeListener, AnnotationPa
 		oldi = i; oldj = j;
 		oldLinewidth = e.linewidth;
 		e.linewidth = 3;		
+		repaint();
+	}
+
+	public void setEntangledLegendWeight(int i, String weight) {
+		if (entangledLegend==null) return;
+		try {
+			entangledLegend.setText(i+1, "Component Graph "+(i+1)+": "+ weight);
+		} catch(ArrayIndexOutOfBoundsException e) {
+			//TODO this okay if we remove a layer, but should be handled differently in general. 
+		}
 		repaint();
 	}
 

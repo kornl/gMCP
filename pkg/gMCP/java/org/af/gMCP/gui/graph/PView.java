@@ -496,6 +496,9 @@ public class PView extends JPanel implements KeyListener, ActionListener {
 				subGraphLabel.setForeground(Color.RED);
 				subGraphLabel.setText("Component graph weights could not be parsed.");
 			}
+		}		
+		for (int i=0; i<entangledWeights.size(); i++) {
+			parent.getGraphView().getNL().setEntangledLegendWeight(i, entangledWeights.get(i).getText());
 		}
 	}
 
