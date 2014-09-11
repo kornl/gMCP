@@ -49,13 +49,6 @@ public class NetList extends JTabbedPane implements ChangeListener, AnnotationPa
 	public String initialGraph = ".InitialGraph" + (new Date()).getTime();
 	
 	JLabel statusBar;
-	Color[] layerColors = new Color[]{
-			Color.BLACK, // This first line is for the header!
-			Color.BLACK,
-			Color.RED,
-			Color.GREEN,
-			Color.BLUE
-	};
 	
 	Legend entangledLegend = null; 
 
@@ -169,8 +162,12 @@ public class NetList extends JTabbedPane implements ChangeListener, AnnotationPa
 			y = (int) p.getY() + 50;			
 		}
 		annotations.remove(entangledLegend);
-		entangledLegend = new Legend(x, y,
-				vl, Arrays.asList((Color[])ArrayUtils.subarray(layerColors, 0, layer+1)), this); // sic! +1
+		Color[] colors = new Color[layer+1];
+		colors[0] = Color.BLACK;
+		for (int i = 1; i<layer+1; i++) {
+			colors[i] = NetListPanel.layerColors[(i-1)%NetListPanel.layerColors.length];
+		}
+		entangledLegend = new Legend(x, y, vl, Arrays.asList(colors), this);
 		
 		annotations.add(entangledLegend);		
 		
