@@ -12,7 +12,6 @@ import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.image.BufferedImage;
 import java.text.DecimalFormat;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Vector;
 
@@ -22,7 +21,6 @@ import org.af.commons.images.GraphDrawHelper;
 import org.af.gMCP.config.Configuration;
 import org.af.gMCP.gui.graph.annotations.Annotation;
 import org.af.gMCP.gui.graph.annotations.AnnotationPanel;
-import org.af.gMCP.gui.graph.annotations.Legend;
 
 public class NetListPanel extends JPanel implements MouseMotionListener, MouseListener, AnnotationPanel {
 	/* These three arrays contain the indices of the Nodes, Edges and Annotations, which are currently dragged. */ 

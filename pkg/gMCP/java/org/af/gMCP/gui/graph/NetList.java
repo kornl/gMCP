@@ -27,7 +27,6 @@ import org.af.gMCP.gui.dialogs.VariableDialog;
 import org.af.gMCP.gui.graph.annotations.Annotation;
 import org.af.gMCP.gui.graph.annotations.AnnotationPanel;
 import org.af.gMCP.gui.graph.annotations.Legend;
-import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
