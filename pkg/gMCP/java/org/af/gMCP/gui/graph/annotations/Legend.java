@@ -35,7 +35,7 @@ public class Legend extends Annotation {
 		this.lines = new Vector(lines); // Otherwise rm could throw an UnsupportedOperationException.
 		this.colors = new Vector(colors);
 		this.nl = nl;
-		if (lines.size()!=colors.size()) throw new RuntimeException("Number of lines and colors does not match.");
+		if (lines.size()!=colors.size()) throw new RuntimeException("Number of lines ("+lines.size()+") and colors "+colors.size()+" does not match.");
 		
 		for (int i=0; i<lines.size(); i++) {
 			if (i==0 && header) {
