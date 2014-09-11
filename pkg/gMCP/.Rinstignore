@@ -1,11 +1,1 @@
-inst/java-src
-inst/build.xml
-inst/classes
-vignettes/Makefile
-vignettes/createKnitrVignette.sh
-vignettes/createSweaveVignette.sh
 vignettes/myIndex.ist
-vignettes/gMCP.loa
-vignettes/gMCP.lof
-vignettes/gMCP.lot
-vignettes/figure
