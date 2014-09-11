@@ -31,13 +31,12 @@ parseEpsPolynom <- function(s) {
 }
 
 getDebugInfo <- function() {
-	graphs <- ls(pattern="\\.InitialGraph*", all.names=TRUE, envir=globalenv())
-	if (exists(".tmpGraph")) {
-		graphs <- c(graphs, ".tmpGraph")
-	}
+	graphs <- ls(pattern="\\.InitialGraph*", all.names=TRUE, envir=gMCP:::gMCPenv)
+	graphs <- c(graphs, ls(pattern="\\.tmpGraph*", all.names=TRUE, envir=gMCP:::gMCPenv))
+	graphs <- c(graphs, ls(pattern="\\.ResetGraph*", all.names=TRUE, envir=gMCP:::gMCPenv))
 	graphInfo <- c()
 	for (graph in graphs) {
-		.DebugGraph <- get(graph, envir=globalenv())
+		.DebugGraph <- get(graph, envir=gMCP:::gMCPenv)
 		graphTXT <- paste(capture.output(print(.DebugGraph)), collapse="\n")
 		matrixTXT <- paste("m <-",paste(capture.output(dput(graph2matrix(.DebugGraph))), collapse="\n"),"\n")
 		weightsTXT <- paste("w <-",paste(capture.output(dput(getWeights(.DebugGraph))), collapse="\n"),"\n")
