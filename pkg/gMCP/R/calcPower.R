@@ -183,9 +183,9 @@ calcPower <- function(weights, alpha, G, mean = rep(0, nrow(sigma)),
 	  }
 	  return(result)
   } else {
-    print(mean)
-    print(sigma)
-    print(nSim)
+    #print(mean)
+    #print(sigma)
+    #print(nSim)
 	  sims <- rqmvnorm(nSim, mean = mean, sigma = sigma, type = type)
 	  pvals <- pnorm(sims, lower.tail = FALSE)
 	  out <- graphTest(pvalues=pvals, weights=weights, alpha=alpha, G=G, cr=cr, test=test)
