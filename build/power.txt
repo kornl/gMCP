@@ -1,0 +1,31 @@
+
+Graph:
+  A graphMCP graph
+H1 (weight=1)
+H2 (weight=0)
+H3 (weight=0)
+H4 (weight=0)
+H5 (weight=0)
+Edges:
+H1  -( 0.25 )->  H2 
+H1  -( 0.25 )->  H3 
+H1  -( 0.25 )->  H4 
+H1  -( 0.25 )->  H5 
+H2  -( 1 )->  H3 
+H3  -( 1 )->  H2 
+H4  -( 1 )->  H5 
+H5  -( 1 )->  H4 
+
+
+Setting: mu: 2,1,1,1,1, sigma: 1,1,1,1,1, n: 10,10,10,10,10
+===========================================================
+  Local Power:
+  H1     H2     H3     H4     H5 
+1.0000 0.9175 0.9177 0.9186 0.9181 
+
+Expected number of rejections:
+  4.6719
+Prob. to reject at least one hyp.:
+  1
+Prob. to reject all hypotheses:
+  0.7533
