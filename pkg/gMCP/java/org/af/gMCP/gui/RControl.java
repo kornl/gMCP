@@ -63,6 +63,7 @@ public class RControl {
 		try {
 			rcs = new RCallServicesREngineWrapper(new JRIEngine(rengine));
 			if (System.getProperty("eclipse") != null) {
+				rcs.eval("Sys.setlocale(\"LC_NUMERIC\", \"C\")");
 				if (System.getProperty("libPath") != null) {
 					rcs.eval(".libPaths(new=\""+System.getProperty("libPath")+"\")");
 				}
