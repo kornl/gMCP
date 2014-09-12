@@ -61,7 +61,11 @@ void graphproc(double *h, double *a, double *G,
 								G1[aind(i,j,grId,dm)] = 0;
 							} else {
 								tmp = (G[aind(i,j,grId,dm)] + G[aind(i,rej,grId,dm)]*G[aind(rej,j,grId,dm)]);
-								G1[aind(i,j,grId,dm)] = tmp/(1 - G[aind(i,rej,grId,dm)]*G[aind(rej,i,grId,dm)]);
+                if (G[aind(i,rej,grId,dm)]*G[aind(rej,i,grId,dm)]<1) {
+								  G1[aind(i,j,grId,dm)] = tmp/(1 - G[aind(i,rej,grId,dm)]*G[aind(rej,i,grId,dm)]);
+                } else {
+                  G1[aind(i,j,grId,dm)] = 0;
+                }
 							}
 						}
 					}
