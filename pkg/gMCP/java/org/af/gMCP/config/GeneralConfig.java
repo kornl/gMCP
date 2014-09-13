@@ -144,6 +144,14 @@ public class GeneralConfig extends SpecificConfig {
 		setProperty("useEpsApprox", ""+useEpsApprox);
 	}
 	
+	public boolean useSeed() {
+		return Boolean.parseBoolean(getProperty("useSeed", "false"));
+	}
+	
+	public void setUseSeed(boolean useSeed) {
+		setProperty("useSeed", ""+useSeed);
+	}
+	
 	public boolean useJLaTeXMath() {
 		return Boolean.parseBoolean(getProperty("useJLaTeXMath", "true"));
 	}
@@ -298,6 +306,15 @@ public class GeneralConfig extends SpecificConfig {
 	public int getDigits2() {
 		return Integer.parseInt(getProperty("digits2", "6"));		
 	}
+	
+	public int getSeed() {
+		return Integer.parseInt(getProperty("ramdomSeed", "1234"));		
+	}
+	
+	public void setSeed(int seed) {
+		setProperty("ramdomSeed", ""+seed);		
+	}
+
 
 	public void setSimplify(boolean b) {
 		setProperty("simplify", ""+b);		

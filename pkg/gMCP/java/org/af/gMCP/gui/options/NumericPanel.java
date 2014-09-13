@@ -30,6 +30,9 @@ public class NumericPanel extends OptionsPanel implements ActionListener {
     private JTextField numberOfSimulations;
     private JComboBox randomNumbers;
     private JComboBox upscale;
+    private JCheckBox useSeed;
+    private JTextField seed;
+    private JLabel seedLabel = new JLabel("Seed:");
 
     public NumericPanel(Configuration conf) {
         this.conf = conf;
@@ -100,6 +103,24 @@ public class NumericPanel extends OptionsPanel implements ActionListener {
         		"where sum(w) is the sum of all node weights in this subset.<br>" +
         		"If 'Yes' is selected all weights are upscaled, so that sum(w)=1.<br>" +
         		"Please see the manual for a longer explanation and examples.</html>");
+        
+        useSeed = new JCheckBox("Use seed");
+        useSeed.setSelected(conf.getGeneralConfig().useSeed());
+        useSeed.addActionListener(this);        
+        useSeed.setToolTipText("<html>" +
+        		"Should a user specified seed be used<br>" +
+        		"for all calculations involving random numbers?" +
+        		"</html>");
+        
+        seed = new JTextField(30);
+        seed.setEnabled(useSeed.isSelected());
+        seedLabel.setEnabled(useSeed.isSelected());
+        seed.setText(""+conf.getGeneralConfig().getSeed());
+        seed.setToolTipText("<html>" +
+        		"Integer seed value to use."+
+        		"</html>");
+        
+        
     }
 
     private void doTheLayout() {
@@ -152,6 +173,15 @@ public class NumericPanel extends OptionsPanel implements ActionListener {
         p1.add(upscale, cc.xy(3, row));        
         
         add(p1);
+        
+        row += 2;
+        
+        p1.add(useSeed, cc.xyw(1, row, 3));
+        
+        row += 2;
+        
+        p1.add(seedLabel,     cc.xy(1, row));
+        p1.add(seed, cc.xy(3, row));   
     }
     
     public void setProperties() throws ValidationException {
@@ -177,11 +207,21 @@ public class NumericPanel extends OptionsPanel implements ActionListener {
         }
        	conf.getGeneralConfig().setTypeOfRandom(randomNumbers.getSelectedItem().toString());
        	conf.getGeneralConfig().setUpscale(upscale.getSelectedIndex()==0);
+       	conf.getGeneralConfig().setUseSeed(useSeed.isSelected());
+       	try {
+       		conf.getGeneralConfig().setSeed(Integer.parseInt(seed.getText()));
+        } catch (NumberFormatException e) {
+        	JOptionPane.showMessageDialog(this, "\""+seed.getText()+"\" is not a valid integer.", "Invalid input", JOptionPane.ERROR_MESSAGE);
+        }
     }
 
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource()==useEpsApprox) {
 			jtfEps.setEnabled(useEpsApprox.isSelected());
+		}
+		if (e.getSource()==useSeed) {
+			seed.setEnabled(useSeed.isSelected());
+			seedLabel.setEnabled(useSeed.isSelected());
 		}
 	}
 }
