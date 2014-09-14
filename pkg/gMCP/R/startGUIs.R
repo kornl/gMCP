@@ -8,6 +8,11 @@
 #' See the vignette of this package for further details, since describing a GUI
 #' interface is better done with a lot of nice pictures.
 #' 
+#' The GUI can save result files if asked to, can look for a new version on CRAN
+#' (if this behaviour has been approved by the user), will change the random seed in 
+#' the R session if this is specified by the user in the options (default: no)
+#' and could send bug reports if an error occurs and the user approves it.
+#' 
 #' @param graph Either a variable name for the graph, given as a character
 #' string.  (If it is not a syntactically valid name, \code{\link{make.names}}
 #' is called to change it to a valid one.)  Or an object of class
