@@ -154,7 +154,7 @@ gMCP <- function(graph, pvalues, test, correlation, alpha=0.05,
     #graph <- parse2numeric(graph) # TODO ask for variables
   }
   
-  if ((missing(test) || test=="Bonferroni") && "entangledMCP" %in% class(graph)) {		
+  if ((missing(test) && missing(correlation) || !missing(test) && test=="Bonferroni") && "entangledMCP" %in% class(graph)) {		
 		out <- graphTest(pvalues=pvalues, weights=getWeights(graph), alpha=alpha*graph@weights, G=getMatrices(graph))
 		result <- new("gMCPResult", graphs=list(graph), alpha=alpha, pvalues=pvalues, rejected=(out==1), adjPValues=numeric(0))
     attr(result, "call") <- call2char(match.call())
@@ -202,6 +202,10 @@ gMCP <- function(graph, pvalues, test, correlation, alpha=0.05,
 		if (missing(correlation) || !is.matrix(correlation)) {
 			stop("Procedure for correlated tests, expects a correlation matrix as parameter \"correlation\".")
 		} else {
+      check <- checkCorrelation(correlation, TRUE)
+      if (!isTRUE(check)) {
+        stop(paste("Parameter 'correlation' is no correlation matrix:", check, sep="\n"))
+      }
 #			if (is.character(correlation)) {
 #				samplesize <- list(...)[["samplesize"]]
 #				if (is.null(samplesize)) samplesize <- getBalancedDesign(correlation, length(pvalues))				
