@@ -74,6 +74,11 @@ checkCorrelation <- function(m, returnMessage=FALSE) {
   return(TRUE)
 }
 
+forceCorrelation <- function(m) {
+  m[lower.tri(m)] <- t(m)[lower.tri(m)]
+  return(cov2cor(m))
+}
+
 #' Placement of graph nodes
 #' 
 #' Places the nodes of a graph according to a specified layout.
