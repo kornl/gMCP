@@ -54,7 +54,7 @@ public class NetList extends JTabbedPane implements ChangeListener, AnnotationPa
 	public boolean testingStarted = false;	
 	
 	/** Counts the number of layers. Always greater 0, starts with 1. */
-	int layer = 1;
+	private int layer = 1;
 	
 	/**
 	 * For faster loading and resets the variable updateGUI exists.
@@ -731,6 +731,10 @@ public class NetList extends JTabbedPane implements ChangeListener, AnnotationPa
 			//TODO this okay if we remove a layer, but should be handled differently in general. 
 		}
 		repaint();
+	}
+
+	public int getLayer() {
+		return layer;
 	}
 
 }

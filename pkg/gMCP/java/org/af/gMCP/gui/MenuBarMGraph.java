@@ -377,13 +377,17 @@ public class MenuBarMGraph extends JMenuBar implements ActionListener {
         	control.getNL().saveGraph(".tmpGraph", false, false);
         	String text = RControl.getR().eval("graphAnalysis(.tmpGraph, file=tempfile())").asRChar().getData()[0];
         	new TextFileViewer(control.getMainFrame(), "Graph analysis", text);
-        } else if (e.getActionCommand().equals("powerAnalysis")) {
+        } else if (e.getActionCommand().equals("powerAnalysis")) {        	
         	if (control.getNL().getNodes().size()==0) {
         		JOptionPane.showMessageDialog(control.getMainFrame(), "Graph is empty!", "Graph is empty!", JOptionPane.ERROR_MESSAGE);
         		return;
         	}
         	if (control.getMainFrame().getPView().jrbSimes.isSelected()) {
         		JOptionPane.showMessageDialog(control.getMainFrame(), "Simes test not yet supported in power calculations.", "Simes test not yet supported", JOptionPane.ERROR_MESSAGE);
+        		return;
+        	}
+        	if (control.getNL().getLayer()>1) {
+        		JOptionPane.showMessageDialog(control.getMainFrame(), "Entangled graphs are not yet supported!", "Entangled graphs not supported", JOptionPane.ERROR_MESSAGE);
         		return;
         	}
         	new PowerDialog(control.getMainFrame());
