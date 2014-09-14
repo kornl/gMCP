@@ -284,12 +284,12 @@ public class PView extends JPanel implements KeyListener, ActionListener {
 	private void refresh(boolean showInfo) {
 		jcbCorObject.removeAllItems();
 		int dim = parent.getGraphView().getNL().getNodes().size();
-		String[] matrices = RControl.getR().eval("gMCP:::getAllQuadraticMatrices(n="+dim+")").asRChar().getData();
+		String[] matrices = RControl.getR().eval("gMCP:::getAllCorrelationMatrices(n="+dim+")").asRChar().getData();
 		if (showInfo && !Configuration.getInstance().getClassProperty(this.getClass(), "showRefreshInfo", "yes").equals("no")) {
 			JCheckBox tellMeAgain = new JCheckBox("Don't show me this info again.");
 			int n = (matrices.length==1 && matrices[0].endsWith("matrices found."))?0:+matrices.length;
-			String message = "Searched and found "+n+((n==1)?" matrix":" matrices")+" of\n" +
-					"dimension "+dim+" in the R global environment.";
+			String message = "Searched and found "+n+" correlation "+((n==1)?" matrix":" matrices")+" of\n" +
+					"dimension "+dim+"x"+dim+" in the R global environment.";
 			JOptionPane.showMessageDialog(parent, new Object[] {message, tellMeAgain}, "Info", JOptionPane.INFORMATION_MESSAGE);
 			if (tellMeAgain.isSelected()) {
 				Configuration.getInstance().setClassProperty(this.getClass(), "showRefreshInfo", "no");

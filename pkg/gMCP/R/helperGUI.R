@@ -51,14 +51,27 @@ checkPSD <- function(m) {
 }
 
 # Checks the following properties:
-# 
-checkCorrelation <- function(m) {
-  if (!isTRUE(all.equal(max(1, max(abs(m)))))) {
-    return("Values must be between -1 and 1.")
+# Values must be between -1 and 1.
+# Diagonal must be equal to 1.
+# Matrix must be symmetric.
+checkCorrelation <- function(m, returnMessage=FALSE) {
+  if (!is.numeric(m)) {
+    if (returnMessage) return("Matrix must be numeric.")
+    return(FALSE)
+  }
+  if (!isTRUE(all.equal(1, max(1, max(abs(m)))))) {
+    if (returnMessage) return("Values must be between -1 and 1.")
+    return(FALSE)
   }
   if (!isTRUE(all.equal(diag(m), rep(1, dim(m)[1])))) {
-    return("Diagonal must be equal to 1.")
+    if (returnMessage) return("Diagonal must be equal to 1.")
+    return(FALSE)
+  }  
+  if (!isSymmetric(unname(m))) {
+    if (returnMessage) return("Matrix must be symmetric.")
+    return(FALSE)
   }
+  return(TRUE)
 }
 
 #' Placement of graph nodes
@@ -162,6 +175,27 @@ stupidWorkAround <- function(graph) {
 		}
 	}
 	return(graph)
+}
+
+getAllCorrelationMatrices <- function(envir=globalenv(), n="all") {
+  objects <- ls(envir)
+  matrices <- c()
+  for (obj in objects) {
+    candidate <- get(obj, envir=envir)
+    if (is.matrix(candidate) && dim(candidate)[1] == dim(candidate)[2] && checkCorrelation(candidate)) {
+      if (n=="all" || dim(candidate)[1]==n) {
+        matrices <- c(matrices, obj)
+      }
+    }
+  }
+  if (length(matrices)==0) {
+    if (n=="all") {
+      return("No quadratic matrices found.")
+    } else {
+      return(paste("No ",n,"x",n,"-matrices found.", sep=""))
+    }
+  }
+  return(matrices)
 }
 
 getAllQuadraticMatrices <- function(envir=globalenv(), n="all") {
