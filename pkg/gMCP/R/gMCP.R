@@ -154,7 +154,7 @@ gMCP <- function(graph, pvalues, test, correlation, alpha=0.05,
     #graph <- parse2numeric(graph) # TODO ask for variables
   }
   
-  if ((missing(test) || test=="Bonferroni") && "entangledMCP" %in% class(graph)) {		
+  if ((missing(test) && missing(correlation) || !missing(test) && test=="Bonferroni") && "entangledMCP" %in% class(graph)) {		
 		out <- graphTest(pvalues=pvalues, weights=getWeights(graph), alpha=alpha*graph@weights, G=getMatrices(graph))
 		result <- new("gMCPResult", graphs=list(graph), alpha=alpha, pvalues=pvalues, rejected=(out==1), adjPValues=numeric(0))
     attr(result, "call") <- call2char(match.call())
