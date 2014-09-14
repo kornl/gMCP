@@ -55,8 +55,8 @@ checkPSD <- function(m) {
 # Diagonal must be equal to 1.
 # Matrix must be symmetric.
 checkCorrelation <- function(m, returnMessage=FALSE) {
-  if (!is.numeric(m)) {
-    if (returnMessage) return("Matrix must be numeric.")
+  if (!is.numeric(m) || !is.matrix(m)) {
+    if (returnMessage) return("Matrix must be a numeric matirx.")
     return(FALSE)
   }
   if (!isTRUE(all.equal(1, max(1, max(abs(m)))))) {
@@ -72,6 +72,12 @@ checkCorrelation <- function(m, returnMessage=FALSE) {
     return(FALSE)
   }
   return(TRUE)
+}
+
+checkQuadraticMatrix <- function(m, n=NULL) {
+  if (!is.numeric(m) || !is.matrix(m)) return(FALSE)
+  if (!is.null(n) && dim(m)[1]!=n) return(FALSE)
+  return(dim(m)[1]==dim(m)[2])
 }
 
 forceCorrelation <- function(m) {

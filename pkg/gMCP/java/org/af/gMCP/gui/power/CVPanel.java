@@ -152,12 +152,24 @@ public class CVPanel extends JPanel implements ActionListener {
 
 	private void load(SingleDataFramePanel dfp) {
 		VariableNameDialog vnd = new VariableNameDialog(parent);
+		if (!RControl.getR().eval("gMCP:::checkQuadraticMatrix("+vnd.getName()+", n="+nodes.size()+")").asRLogical().getData()[0]) {
+			JOptionPane.showMessageDialog((JDialog)pd, 
+					"Can not get a numeric quadradtic matric from \""+vnd.getName()+"\" of dimension "+nodes.size()+"x"+nodes.size()+".", "Not a numeric quadratic matrix of correct dimension", JOptionPane.ERROR_MESSAGE);
+			return;
+		}		
 		load(dfp, vnd.getName());		
 	}
 
 	private void load(SingleDataFramePanel dfp3, String name) {
 		try {
-			double[] result = RControl.getR().eval("as.numeric("+name+")").asRNumeric().getData();
+			String force = "";
+			if (!RControl.getR().eval("gMCP:::checkCorrelation("+name+")").asRLogical().getData()[0]) {
+				int answer = JOptionPane.showConfirmDialog((JDialog)pd, 
+						"Matrix is not a correlation matrix. Should it be forced to be symmetric and normalized?", "Not a correlation matrix", JOptionPane.YES_NO_OPTION);
+				if (answer == JOptionPane.NO_OPTION) return;
+				force = "gMCP:::forceCorrelation";
+			}
+			double[] result = RControl.getR().eval("as.numeric("+force+"("+name+"))").asRNumeric().getData();
 			int n = nodes.size();
 			for (int i=0; i<n; i++) {
 				for (int j=0; j<n; j++) {
