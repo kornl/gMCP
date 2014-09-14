@@ -202,6 +202,10 @@ gMCP <- function(graph, pvalues, test, correlation, alpha=0.05,
 		if (missing(correlation) || !is.matrix(correlation)) {
 			stop("Procedure for correlated tests, expects a correlation matrix as parameter \"correlation\".")
 		} else {
+      check <- checkCorrelation(correlation, TRUE)
+      if (!isTRUE(check)) {
+        stop(paste("Parameter 'correlation' is no correlation matrix:", check, sep="\n"))
+      }
 #			if (is.character(correlation)) {
 #				samplesize <- list(...)[["samplesize"]]
 #				if (is.null(samplesize)) samplesize <- getBalancedDesign(correlation, length(pvalues))				
