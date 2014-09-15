@@ -86,7 +86,7 @@ public class SampleSizeDialog extends PDialog implements ActionListener {
 		if (e.getActionCommand().equals(HorizontalButtonPane.OK_CMD)) {
 
 			rCommand = "gMCP:::calcMultiPower(weights="+weights+", alpha="+alpha+", G="+G+pNCP.getNCPString()
-					+ ","+"sigma = " + cvPanel.getSigma() //diag(length(mean)),corr = NULL,"+
+					+ ","+"corr.sim = " + cvPanel.getSigma() //diag(length(mean)),corr = NULL,"+
 					+ cvPanel.getMatrixForParametricTest()
 					+ userDefinedFunctions.getUserDefined()
 					+ ", nSim = "+Configuration.getInstance().getGeneralConfig().getNumberOfSimulations()
