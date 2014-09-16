@@ -38,12 +38,9 @@ public class CVPanel extends JPanel implements ActionListener {
     SingleDataFramePanel dfp2;
     
     JCheckBox secondCV = new JCheckBox("Use another correlation matrix of test statistics used by the parametric test (misspecified or contains NA values)");
-    
     JButton loadCV = new JButton("Load Matrix from R");
     JButton createCV = new JButton("Advanced Matrix Creation");
-    JButton loadCV2 = new JButton("Load Matrix from R");
-    JButton createCV2 = new JButton("Advanced Matrix Creation");
-	
+   
 	public CVPanel(PDialog pd) {
 		this.pd = pd;
 		parent = pd.getParent();
@@ -136,16 +133,6 @@ public class CVPanel extends JPanel implements ActionListener {
 
 			add(new JScrollPane(dfp2), cc.xyw(2, row, 3));
 
-			row +=2;
-
-			add(loadCV2, cc.xy(2, row));
-			loadCV2.addActionListener(this);
-			loadCV2.setEnabled(false);
-
-			add(createCV2, cc.xy(4, row));
-			createCV2.addActionListener(this);
-			createCV2.setEnabled(false);
-
 		}
 	}	
 	
@@ -184,8 +171,8 @@ public class CVPanel extends JPanel implements ActionListener {
 	
 	String getMatrixForParametricTest() {
 		if (parent.getPView().jrbRCorrelation.isSelected()) {			
-			SingleDataFramePanel df = secondCV.isSelected()?dfp2:dfp;			
-			return ", cr="+df.getTable().getModel().getDataFrame().getRMatrix()+", upscale=\""+Configuration.getInstance().getGeneralConfig().getUpscale()+"\"";
+			SingleDataFramePanel df = dfp2;			
+			return ", corr.test="+df.getTable().getModel().getDataFrame().getRMatrix()+", upscale=\""+Configuration.getInstance().getGeneralConfig().getUpscale()+"\"";
 		}
 		return "";
 	}
@@ -193,9 +180,7 @@ public class CVPanel extends JPanel implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		
 		if (e.getSource() == secondCV) {
-			dfp2.setEnabled(secondCV.isSelected());
-			loadCV2.setEnabled(secondCV.isSelected());
-			createCV2.setEnabled(secondCV.isSelected());
+			// TODO
 			return;
 		}
 		if (e.getSource() == createCV) {			
@@ -203,19 +188,11 @@ public class CVPanel extends JPanel implements ActionListener {
 			dfp.getTable().getModel().copy(mcd.dfp.getTable().getModel()); 
 			return;
 		}
-		if (e.getSource() == createCV2) {			
-			MatrixCreationDialog mcd = new MatrixCreationDialog(parent, dfp2.getTable().getRMatrix(), MatrixCreationDialog.getNames(parent.getGraphView().getNL().getNodes()));
-			dfp2.getTable().getModel().copy(mcd.dfp.getTable().getModel()); 
-			return;
-		}		
+
 		if (e.getSource() == loadCV) {
 			load(dfp);
 			return;
 		}
-		if (e.getSource() == loadCV2) {
-			load(dfp2);
-			return;
-		}	
 	}
 
 
