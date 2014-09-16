@@ -36,8 +36,6 @@ public class PowerDialog extends PDialog implements ActionListener {
 	/** List of JTextFields to enter values for variables. */
 	List<JTextField> jtlVar = new Vector<JTextField>();
 	
-	File config;
-	
 	/**
 	 * Constructor
 	 * @param parent Parent JFrame
@@ -47,21 +45,6 @@ public class PowerDialog extends PDialog implements ActionListener {
 		setLocationRelativeTo(parent);
 		this.parent = parent;
 		nodes = parent.getGraphView().getNL().getNodes();
-		
-		File path = null;
-		boolean tmp = false;
-		
-		if (Configuration.getInstance().getGeneralConfig().usePersistentConfigFile()) {
-			path = new File(Configuration.getInstance().getGeneralConfig().getConfigDir());			
-		} else {
-			path = new File(RControl.getR().eval("tempdir()").asRChar().getData()[0]);
-			tmp = true;
-		}
-		
-		if (!path.exists()) {
-			path = new File(RControl.getR().eval("tempdir()").asRChar().getData()[0]);
-			tmp = true;
-		}
 		
 		config = new File(path, "gMCP-power-settings.xml");
 		

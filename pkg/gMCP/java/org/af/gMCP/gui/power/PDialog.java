@@ -1,13 +1,16 @@
 package org.af.gMCP.gui.power;
 
 import java.awt.GridBagConstraints;
+import java.io.File;
 import java.util.List;
 import java.util.Vector;
 
 import javax.swing.JDialog;
 import javax.swing.JTabbedPane;
 
+import org.af.gMCP.config.Configuration;
 import org.af.gMCP.gui.CreateGraphGUI;
+import org.af.gMCP.gui.RControl;
 import org.af.gMCP.gui.graph.Node;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -20,11 +23,29 @@ public class PDialog extends JDialog {
     ScenarioPanel pNCP;    
     UserDefinedPanel userDefinedFunctions;
     CVPanel cvPanel;
+    
+	File config;
+	/** Path to save config files. */
+	File path = null;
+	/** Are config files only saved temporarily? */
+	boolean tmp = false;
 	
 	JTabbedPane tPanel = new JTabbedPane();
 
 	public PDialog(CreateGraphGUI parent, String string, boolean b) {
 		super(parent, string, b);
+		
+		if (Configuration.getInstance().getGeneralConfig().usePersistentConfigFile()) {
+			path = new File(Configuration.getInstance().getGeneralConfig().getConfigDir());			
+		} else {
+			path = new File(RControl.getR().eval("tempdir()").asRChar().getData()[0]);
+			tmp = true;
+		}
+		
+		if (!path.exists()) {
+			path = new File(RControl.getR().eval("tempdir()").asRChar().getData()[0]);
+			tmp = true;
+		}
 	}
 	
 	public Vector<Node> getNodes() {		
