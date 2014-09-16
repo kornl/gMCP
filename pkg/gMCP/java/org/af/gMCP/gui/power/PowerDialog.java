@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.Vector;
 
+import javax.swing.JCheckBox;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -47,7 +48,22 @@ public class PowerDialog extends PDialog implements ActionListener {
 		this.parent = parent;
 		nodes = parent.getGraphView().getNL().getNodes();
 		
-		config = new File(System.getProperty("user.home"), "gMCP-power-settings.xml");
+		File path = null;
+		boolean tmp = false;
+		
+		if (Configuration.getInstance().getGeneralConfig().usePersistentConfigFile()) {
+			path = new File(Configuration.getInstance().getGeneralConfig().getConfigDir());			
+		} else {
+			path = new File(RControl.getR().eval("tempdir()").asRChar().getData()[0]);
+			tmp = true;
+		}
+		
+		if (!path.exists()) {
+			path = new File(RControl.getR().eval("tempdir()").asRChar().getData()[0]);
+			tmp = true;
+		}
+		
+		config = new File(path, "gMCP-power-settings.xml");
 		
 		parent.getPView().getParameters();
 		GridBagConstraints c = getDefaultGridBagConstraints();
@@ -83,7 +99,22 @@ public class PowerDialog extends PDialog implements ActionListener {
 		
         pack();
         setLocationRelativeTo(parent);
+        
+		if (tmp && !Configuration.getInstance().getClassProperty(this.getClass(), "tellAboutFiles", "yes").equals("no")) {
+			JCheckBox tellMeAgain = new JCheckBox("Don't show me this info again.");			
+			String message = "The settings in this dialog will be saved for further runs.\n" +
+					"If you want these settings to be automatically saved not only\n" +
+					"temporarily, but even between sessions, please specify a\n" +
+					"directory for saving these files in the options and reopen\n" +
+					"this dialog.";
+			JOptionPane.showMessageDialog(parent, new Object[] {message, tellMeAgain}, "Info", JOptionPane.INFORMATION_MESSAGE);
+			if (tellMeAgain.isSelected()) {
+				Configuration.getInstance().setClassProperty(this.getClass(), "tellAboutFiles", "no");
+			}
+		}
+        
         setVisible(true);
+		
 	} 
 	
 	String rCommand = "";
