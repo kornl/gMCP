@@ -3,9 +3,9 @@
 \alias{calcPower}
 \title{Calculate power values}
 \usage{
-calcPower(weights, alpha, G, mean = rep(0, nrow(sigma)),
-  sigma = diag(length(mean)), cr = NULL, nSim = 10000,
-  type = c("quasirandom", "pseudorandom"), f = list(), test)
+calcPower(weights, alpha, G, mean = rep(0, nrow(corr.sim)),
+  corr.sim = diag(length(mean)), corr.test = NULL, nSim = 10000,
+  type = c("quasirandom", "pseudorandom"), f = list(), test, ...)
 }
 \arguments{
 \item{weights}{Initial weight levels for the test procedure, see graphTest
@@ -24,10 +24,10 @@ different graphs as elements.}
 
 \item{mean}{Mean under the alternative}
 
-\item{sigma}{Covariance matrix under the alternative.}
+\item{corr.sim}{Covariance matrix under the alternative.}
 
-\item{cr}{Correlation matrix that should be used for the parametric test.
-If \code{cr==NULL} the Bonferroni based test procedure is used. Can contain
+\item{corr.test}{Correlation matrix that should be used for the parametric test.
+If \code{corr.test==NULL} the Bonferroni based test procedure is used. Can contain
 NAs.}
 
 \item{type}{What type of random numbers to use. \code{quasirandom} uses a
