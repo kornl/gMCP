@@ -54,12 +54,16 @@ checkPSD <- function(m) {
 # Values must be between -1 and 1.
 # Diagonal must be equal to 1.
 # Matrix must be symmetric.
-checkCorrelation <- function(m, returnMessage=FALSE) {
+checkCorrelation <- function(m, returnMessage=FALSE, na.allowed=TRUE) {
+  if (!na.allowed && any(is.na(m))) {
+    if (returnMessage) return("Matrix can not contain NAs.")
+    return(FALSE)
+  }
   if (!is.numeric(m) || !is.matrix(m)) {
     if (returnMessage) return("Matrix must be a numeric matirx.")
     return(FALSE)
   }
-  if (!isTRUE(all.equal(1, max(1, max(abs(m)))))) {
+  if (!isTRUE(all.equal(1, max(1, max(abs(m)[!is.na(m)]))))) {
     if (returnMessage) return("Values must be between -1 and 1.")
     return(FALSE)
   }
