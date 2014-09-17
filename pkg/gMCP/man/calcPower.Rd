@@ -55,6 +55,10 @@ tests of intersection null hypotheses always exhaust the full alpha level
 even if the sum of weights is strictly smaller than one. If
 \code{test="simple-parametric"} the tests are performed as defined in
 Equation (3) of Bretz et al. (2011).}
+
+\item{...}{For backwards compatibility. For example up to version 0.8-7
+the parameters \code{corr.model} and \code{corr.test} were called \code{sigma}
+and \code{cr}.}
 }
 \value{
 A list containg three elements

@@ -86,6 +86,9 @@ extractPower <- function(x, f=list()) {
 #' even if the sum of weights is strictly smaller than one. If
 #' \code{test="simple-parametric"} the tests are performed as defined in
 #' Equation (3) of Bretz et al. (2011).
+#' @param ... For backwards compatibility. For example up to version 0.8-7
+#' the parameters \code{corr.model} and \code{corr.test} were called \code{sigma}
+#' and \code{cr}.
 #' @return A list containg three elements
 #' \describe{
 #' \item{\code{LocalPower}}{A numeric giving the local powers for the hypotheses}
