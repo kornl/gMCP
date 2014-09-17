@@ -169,10 +169,10 @@ calcPower <- function(weights, alpha, G, mean = rep(0, nrow(corr.sim)),
                       nSim = 10000, type = c("quasirandom", "pseudorandom"),
 					  f=list(), test, ...) {
   if (!is.null(list(...)[["sigma"]]) && missing(corr.sim)) {
-     corr.sim <- is.null(list(...)[["sigma"]])
+     corr.sim <- list(...)[["sigma"]]
   }
   if (!is.null(list(...)[["cr"]]) && missing(corr.test)) {
-    corr.test <- is.null(list(...)[["cr"]])
+    corr.test <- list(...)[["cr"]]
   }
   
 	type <- match.arg(type)
@@ -206,7 +206,13 @@ calcPower <- function(weights, alpha, G, mean = rep(0, nrow(corr.sim)),
 calcMultiPower <- function(weights, alpha, G, ncpL, muL, sigmaL, nL,
 		corr.sim = diag(length(muL[[1]])), corr.test = NULL,
 		nSim = 10000, type = c("quasirandom", "pseudorandom"),
-		f=list(), digits=4, variables=NULL, test) {
+		f=list(), digits=4, variables=NULL, test, ...) {
+  if (!is.null(list(...)[["sigma"]]) && missing(corr.sim)) {
+    corr.sim <- list(...)[["sigma"]]
+  }
+  if (!is.null(list(...)[["cr"]]) && missing(corr.test)) {
+    corr.test <- list(...)[["cr"]]
+  }
   if (!missing(ncpL) && (!missing(muL)||!missing(sigmaL)||!missing(nL))) {
     warning("Only parameter 'ncpL' will be used, not 'muL', 'sigmaL' or 'nL'.")
   }
