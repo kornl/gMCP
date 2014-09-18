@@ -228,9 +228,9 @@ public class CVPanel extends JPanel implements ActionListener {
 	public Element getConfigNode(Document document) {
 		Element e = document.createElement("scenarios");
 		e.setAttribute("secondCV", ""+secondCV.isSelected());
-		Element e1 = document.createElement("cv1");
-		Element e2 = document.createElement("cv2");
 		int n = nodes.size();
+		Element e1 = document.createElement("cv1."+n);
+		Element e2 = document.createElement("cv2."+n);		
 		for (int i=0; i<n; i++) {
 			Element eRow1 = document.createElement("Row"+(i+1));
 			Element eRow2 = document.createElement("Row"+(i+1));				
@@ -252,13 +252,14 @@ public class CVPanel extends JPanel implements ActionListener {
 	
 	public void loadConfig(Element e) {
 		secondCV.setSelected(Boolean.parseBoolean(e.getAttribute("secondCV")));
-		Element cv1 = (Element)e.getChildNodes().item(0);
-		Element cv2 = (Element)e.getChildNodes().item(1);		
 		int n = nodes.size();
+		Element cv1 = (Element)e.getElementsByTagName("cv1."+n).item(0);
+		Element cv2 = (Element)e.getElementsByTagName("cv2."+n).item(0);
+		//ToDo Save all other nodes?
 		for (int i=0; i<n; i++) {
 			for (int j=0; j<n; j++) {
-				dfp.getTable().getModel().setValueAt(new EdgeWeight(Double.parseDouble(((Element)(cv1.getChildNodes().item(i).getChildNodes().item(j))).getAttribute("value"))), i, j);
-				dfpTest.getTable().getModel().setValueAt(new EdgeWeight(Double.parseDouble(((Element)(cv2.getChildNodes().item(i).getChildNodes().item(j))).getAttribute("value"))), i, j);
+				if (cv1!=null) dfp.getTable().getModel().setValueAt(new EdgeWeight(Double.parseDouble(((Element)(cv1.getChildNodes().item(i).getChildNodes().item(j))).getAttribute("value"))), i, j);
+				if (cv2!=null) dfpTest.getTable().getModel().setValueAt(new EdgeWeight(Double.parseDouble(((Element)(cv2.getChildNodes().item(i).getChildNodes().item(j))).getAttribute("value"))), i, j);
 			}
 		}		
 		repaint();
