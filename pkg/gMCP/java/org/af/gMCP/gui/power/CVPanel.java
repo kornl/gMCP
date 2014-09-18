@@ -35,7 +35,8 @@ public class CVPanel extends JPanel implements ActionListener {
 	Vector<Node> nodes;
     
 	SingleDataFramePanel dfp;
-    SingleDataFramePanel dfp2;
+    SingleDataFramePanel dfpTest;
+    boolean containsNA;
     
     JCheckBox secondCV = new JCheckBox("Use another correlation matrix of test statistics used by the parametric test (misspecified or contains NA values)");
     JButton loadCV = new JButton("Load Matrix from R");
@@ -61,17 +62,17 @@ public class CVPanel extends JPanel implements ActionListener {
 		dfp.getTable().setDefaultEditor(EdgeWeight.class, new CellEditorE(null, dfp.getTable()));
 		dfp.getTable().getModel().setCheckRowSum(false);
 		
-		dfp2 = new SingleDataFramePanel(df);
-		dfp2.getTable().getModel().checkCorMat();
-		dfp2.getTable().setDefaultEditor(EdgeWeight.class, new CellEditorE(null, dfp.getTable()));
-		dfp2.getTable().getModel().setCheckRowSum(false);
-		dfp2.setEnabled(false);		
+		dfpTest = new SingleDataFramePanel(df);
+		dfpTest.getTable().getModel().checkCorMat();
+		dfpTest.getTable().setDefaultEditor(EdgeWeight.class, new CellEditorE(null, dfpTest.getTable()));
+		dfpTest.getTable().getModel().setCheckRowSum(false);
+		dfpTest.setEnabled(false);		
 		
 		if (parent.getPView().jrbRCorrelation.isSelected()) {
 			try {
 			String mat = parent.getPView().jcbCorObject.getSelectedItem().toString();
 			load(dfp, mat);
-			load(dfp2, mat);
+			load(dfpTest, mat);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -79,13 +80,14 @@ public class CVPanel extends JPanel implements ActionListener {
 		
 		if (parent.getPView().jrbRCorrelation.isSelected()) {			
 			String name = parent.getPView().jcbCorObject.getSelectedItem().toString();
+			containsNA = RControl.getR().eval("any(is.na("+name+"))").asRLogical().getData()[0];
 			try {
 				double[] result = RControl.getR().eval("as.numeric("+name+")").asRNumeric().getData();
 				int n = nodes.size();
 				for (int i=0; i<n; i++) {
 					for (int j=0; j<n; j++) {
 						dfp.getTable().getModel().setValueAt(new EdgeWeight(result[i*n+j]), i, j);
-						dfp2.getTable().getModel().setValueAt(new EdgeWeight(result[i*n+j]), i, j);
+						dfpTest.getTable().getModel().setValueAt(new EdgeWeight(result[i*n+j]), i, j);
 					}
 				}
 			} catch (Exception exc) {
@@ -108,31 +110,50 @@ public class CVPanel extends JPanel implements ActionListener {
 
 		setLayout(new FormLayout(cols, rows));
 		
-		add(new JLabel("Correlation matrix of test statistics for power simulations"), cc.xyw(2, row, 3));
-		
-		row +=2;
-		
-		add(new JScrollPane(dfp), cc.xyw(2, row, 3));
-		
-		row +=2;
-		
-		add(loadCV, cc.xy(2, row));
-		loadCV.addActionListener(this);
-		
-		add(createCV, cc.xy(4, row));
-		createCV.addActionListener(this);
-		
-		row +=2;
-		
 		if (parent.getPView().jrbRCorrelation.isSelected()) {
+			
+			if (containsNA) {
+				add(new JLabel("Correlation matrix used by parametric test (can be changed in the main window)"), cc.xyw(2, row, 3));
+			} else {
+				add(new JLabel("Correlation matrix used by parametric test and simulation (has to be changed in the main window)"), cc.xyw(2, row, 3));
+			}
 
-			add(secondCV, cc.xyw(2, row, 3));
-			secondCV.addActionListener(this);
+			row +=2;
+			
+			add(new JScrollPane(dfpTest), cc.xyw(2, row, 3));
+			
+			row +=2;
+			
+			/*
+			if (!containsNA) {
+				
+				add(secondCV, cc.xyw(2, row, 3));
+				secondCV.addActionListener(this);
+
+				row +=2;
+			}*/
+			
+		}
+		
+		if (!parent.getPView().jrbRCorrelation.isSelected() || containsNA) {
+
+			if (containsNA) {
+				add(new JLabel("For the simulation setting please sepcify values for the NA entries"), cc.xyw(2, row, 3));
+			} else {
+				add(new JLabel("Correlation matrix of test statistics for power simulations"), cc.xyw(2, row, 3));
+			}
 
 			row +=2;
 
-			add(new JScrollPane(dfp2), cc.xyw(2, row, 3));
+			add(new JScrollPane(dfp), cc.xyw(2, row, 3));
 
+			row +=2;
+
+			add(loadCV, cc.xy(2, row));
+			loadCV.addActionListener(this);
+
+			add(createCV, cc.xy(4, row));
+			createCV.addActionListener(this);
 		}
 	}	
 	
@@ -171,7 +192,7 @@ public class CVPanel extends JPanel implements ActionListener {
 	
 	String getMatrixForParametricTest() {
 		if (parent.getPView().jrbRCorrelation.isSelected()) {			
-			SingleDataFramePanel df = dfp2;			
+			SingleDataFramePanel df = dfpTest;			
 			return ", corr.test="+df.getTable().getModel().getDataFrame().getRMatrix()+", upscale=\""+Configuration.getInstance().getGeneralConfig().getUpscale()+"\"";
 		}
 		return "";
@@ -197,7 +218,11 @@ public class CVPanel extends JPanel implements ActionListener {
 
 
 	public String getSigma() {
-		return dfp.getTable().getModel().getDataFrame().getRMatrix();
+		if (parent.getPView().jrbRCorrelation.isSelected() && !containsNA) {
+			return dfpTest.getTable().getModel().getDataFrame().getRMatrix();
+		} else {			
+			return dfp.getTable().getModel().getDataFrame().getRMatrix();
+		}
 	}
 	
 	public Element getConfigNode(Document document) {
@@ -213,7 +238,7 @@ public class CVPanel extends JPanel implements ActionListener {
 				Element eCol1 = document.createElement("Col"+(j+1));
 				Element eCol2 = document.createElement("Col"+(j+1));
 				eCol1.setAttribute("value", dfp.getTable().getModel().getValueAt(i,j).toString());
-				eCol2.setAttribute("value", dfp2.getTable().getModel().getValueAt(i,j).toString());
+				eCol2.setAttribute("value", dfpTest.getTable().getModel().getValueAt(i,j).toString());
 				eRow1.appendChild(eCol1);
 				eRow2.appendChild(eCol2);				
 			}
@@ -233,7 +258,7 @@ public class CVPanel extends JPanel implements ActionListener {
 		for (int i=0; i<n; i++) {
 			for (int j=0; j<n; j++) {
 				dfp.getTable().getModel().setValueAt(new EdgeWeight(Double.parseDouble(((Element)(cv1.getChildNodes().item(i).getChildNodes().item(j))).getAttribute("value"))), i, j);
-				dfp2.getTable().getModel().setValueAt(new EdgeWeight(Double.parseDouble(((Element)(cv2.getChildNodes().item(i).getChildNodes().item(j))).getAttribute("value"))), i, j);
+				dfpTest.getTable().getModel().setValueAt(new EdgeWeight(Double.parseDouble(((Element)(cv2.getChildNodes().item(i).getChildNodes().item(j))).getAttribute("value"))), i, j);
 			}
 		}		
 		repaint();
