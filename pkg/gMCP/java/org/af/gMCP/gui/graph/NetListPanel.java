@@ -16,6 +16,7 @@ import java.util.List;
 import java.util.Vector;
 
 import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
 
 import org.af.commons.images.GraphDrawHelper;
 import org.af.gMCP.config.Configuration;
@@ -266,7 +267,7 @@ public class NetListPanel extends JPanel implements MouseMotionListener, MouseLi
 			popUp(e);	
 		}
 		// Right-click stops placement of new nodes
-		if (e.getButton()==MouseEvent.BUTTON2) {
+		if (SwingUtilities.isRightMouseButton(e)) {
 			newVertex = false;
 			nl.control.buttonNewNode.setSelected(false);
 			return;
