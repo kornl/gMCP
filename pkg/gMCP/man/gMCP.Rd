@@ -4,8 +4,9 @@
 \title{Graph based Multiple Comparison Procedures}
 \usage{
 gMCP(graph, pvalues, test, correlation, alpha = 0.05, approxEps = TRUE,
-  eps = 10^(-3), ..., upscale = FALSE, useC = FALSE, verbose = FALSE,
-  keepWeights = TRUE, adjPValues = TRUE)
+  eps = 10^(-3), ..., upscale = ifelse(missing(test) &&
+  !missing(correlation) || !missing(test) && test == "Bretz2011", TRUE, FALSE),
+  useC = FALSE, verbose = FALSE, keepWeights = TRUE, adjPValues = TRUE)
 }
 \arguments{
 \item{graph}{A graph of class \code{\link{graphMCP}}.}
