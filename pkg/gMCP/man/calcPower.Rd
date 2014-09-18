@@ -3,9 +3,9 @@
 \alias{calcPower}
 \title{Calculate power values}
 \usage{
-calcPower(weights, alpha, G, mean = rep(0, nrow(sigma)),
-  sigma = diag(length(mean)), cr = NULL, nSim = 10000,
-  type = c("quasirandom", "pseudorandom"), f = list(), test)
+calcPower(weights, alpha, G, mean = rep(0, nrow(corr.sim)),
+  corr.sim = diag(length(mean)), corr.test = NULL, nSim = 10000,
+  type = c("quasirandom", "pseudorandom"), f = list(), test, ...)
 }
 \arguments{
 \item{weights}{Initial weight levels for the test procedure, see graphTest
@@ -24,10 +24,10 @@ different graphs as elements.}
 
 \item{mean}{Mean under the alternative}
 
-\item{sigma}{Covariance matrix under the alternative.}
+\item{corr.sim}{Covariance matrix under the alternative.}
 
-\item{cr}{Correlation matrix that should be used for the parametric test.
-If \code{cr==NULL} the Bonferroni based test procedure is used. Can contain
+\item{corr.test}{Correlation matrix that should be used for the parametric test.
+If \code{corr.test==NULL} the Bonferroni based test procedure is used. Can contain
 NAs.}
 
 \item{type}{What type of random numbers to use. \code{quasirandom} uses a
@@ -55,6 +55,10 @@ tests of intersection null hypotheses always exhaust the full alpha level
 even if the sum of weights is strictly smaller than one. If
 \code{test="simple-parametric"} the tests are performed as defined in
 Equation (3) of Bretz et al. (2011).}
+
+\item{...}{For backwards compatibility. For example up to version 0.8-7
+the parameters \code{corr.model} and \code{corr.test} were called \code{sigma}
+and \code{cr}.}
 }
 \value{
 A list containg three elements

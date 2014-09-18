@@ -44,6 +44,11 @@ procedures.
 \details{
 See the vignette of this package for further details, since describing a GUI
 interface is better done with a lot of nice pictures.
+
+The GUI can save result files if asked to, can look for a new version on CRAN
+(if this behaviour has been approved by the user), will change the random seed in
+the R session if this is specified by the user in the options (default: no)
+and could send bug reports if an error occurs and the user approves it.
 }
 \examples{
 \dontrun{

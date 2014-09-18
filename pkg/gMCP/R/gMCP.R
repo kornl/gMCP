@@ -63,6 +63,9 @@
 #' possibly reduced level alpha of sum(w)*alpha, 
 #' where sum(w) is the sum of all node weights in this subset.
 #' If \code{upscale=TRUE} all weights are upscaled, so that sum(w)=1.
+#' 
+#' For backward comptibility the default value is TRUE if a the parameter \code{test}
+#' is missing, but parameter \code{correlation} is specified or if \code{test=="Bretz2011"}.
 #' @param useC Logical scalar. If \code{TRUE} neither adjusted p-values nor
 #' intermediate graphs are returned, but the calculation is sped up by using
 #' code written in C. THIS CODE IS NOT FOR PRODUCTIVE USE YET!  If approxEps is
@@ -125,8 +128,8 @@
 #' @export gMCP
 
 gMCP <- function(graph, pvalues, test, correlation, alpha=0.05, 
-		approxEps=TRUE, eps=10^(-3), ..., upscale=FALSE, useC=FALSE, 
-		verbose=FALSE, keepWeights=TRUE, adjPValues=TRUE) {
+		approxEps=TRUE, eps=10^(-3), ..., upscale=ifelse(missing(test)&&!missing(correlation)||!missing(test)&&test=="Bretz2011", TRUE, FALSE),
+    useC=FALSE, verbose=FALSE, keepWeights=TRUE, adjPValues=TRUE) {
 #		, alternatives="less") {	
   # Temporary translation of old syntax:
   if (!missing(test)) {

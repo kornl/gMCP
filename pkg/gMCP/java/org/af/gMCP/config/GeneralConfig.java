@@ -32,6 +32,23 @@ public class GeneralConfig extends SpecificConfig {
         }
         return tmpDir;
     }
+    
+	public boolean usePersistentConfigFile() {
+		return Boolean.parseBoolean(getProperty("usePersistentConfigFile", "false"));
+	}
+	
+	public void setUsePersistentConfigFile(boolean usePersistentConfigFile) {		
+		setProperty("usePersistentConfigFile", ""+usePersistentConfigFile);
+	}
+    
+    public void setConfigDir(String configDir) {
+        setProperty("configDir", configDir);
+    }
+
+    public String getConfigDir() {
+        String configDir = getProperty("configDir", System.getProperty("user.home"));        
+        return configDir;
+    }
 
     public void setPDFViewerPath(String pdfViewerPath) {
         setProperty("acrobat.path", pdfViewerPath);

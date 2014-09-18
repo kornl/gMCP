@@ -76,7 +76,7 @@ public class PView extends JPanel implements KeyListener, ActionListener {
 		c.gridx=0; c.gridy=0; c.gridwidth = 1; c.gridheight = 1; c.ipadx=0; c.ipady=0;
 		
 		totalAlpha.addKeyListener(this);
-		totalAlpha.setText(Configuration.getInstance().getClassProperty(this.getClass(), "alpha level", "0.05"));
+		totalAlpha.setText(Configuration.getInstance().getClassProperty(this.getClass(), "alpha level", "0.025"));
 		
 		setUp();
 		

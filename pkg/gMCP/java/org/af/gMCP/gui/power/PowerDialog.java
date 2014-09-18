@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.Vector;
 
+import javax.swing.JCheckBox;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -35,8 +36,6 @@ public class PowerDialog extends PDialog implements ActionListener {
 	/** List of JTextFields to enter values for variables. */
 	List<JTextField> jtlVar = new Vector<JTextField>();
 	
-	File config;
-	
 	/**
 	 * Constructor
 	 * @param parent Parent JFrame
@@ -47,7 +46,7 @@ public class PowerDialog extends PDialog implements ActionListener {
 		this.parent = parent;
 		nodes = parent.getGraphView().getNL().getNodes();
 		
-		config = new File(System.getProperty("user.home"), "gMCP-power-settings.xml");
+		config = new File(path, "gMCP-power-settings.xml");
 		
 		parent.getPView().getParameters();
 		GridBagConstraints c = getDefaultGridBagConstraints();
@@ -83,7 +82,22 @@ public class PowerDialog extends PDialog implements ActionListener {
 		
         pack();
         setLocationRelativeTo(parent);
+        
+		if (tmp && !Configuration.getInstance().getClassProperty(this.getClass(), "tellAboutFiles", "yes").equals("no")) {
+			JCheckBox tellMeAgain = new JCheckBox("Don't show me this info again.");			
+			String message = "The settings in this dialog will be saved for further runs.\n" +
+					"If you want these settings to be automatically saved not only\n" +
+					"temporarily, but even between sessions, please specify a\n" +
+					"directory for saving these files in the options and reopen\n" +
+					"this dialog.";
+			JOptionPane.showMessageDialog(parent, new Object[] {message, tellMeAgain}, "Info", JOptionPane.INFORMATION_MESSAGE);
+			if (tellMeAgain.isSelected()) {
+				Configuration.getInstance().setClassProperty(this.getClass(), "tellAboutFiles", "no");
+			}
+		}
+        
         setVisible(true);
+		
 	} 
 	
 	String rCommand = "";
@@ -104,10 +118,16 @@ public class PowerDialog extends PDialog implements ActionListener {
 
 		if (e.getActionCommand().equals(HorizontalButtonPane.OK_CMD)) {
 			
+			if (RControl.getR().eval("any(is.na("+cvPanel.getSigma()+"))").asRLogical().getData()[0]) {
+				JOptionPane.showMessageDialog(this, "Correlation matrix for simulation can not contain NAs.", "No NAs allowed", JOptionPane.ERROR_MESSAGE);
+				tPanel.setSelectedComponent(cvPanel);
+				return;
+			}
+			
 			SettingsToXML.saveSettingsToXML(config, this);
 
 			rCommand = "gMCP:::calcMultiPower(weights="+weights+", alpha="+alpha+", G="+G+pNCP.getNCPString()
-					+ ","+"sigma = " + cvPanel.getSigma() //diag(length(mean)),corr = NULL,"+
+					+ ","+"corr.sim = " + cvPanel.getSigma() //diag(length(mean)),corr = NULL,"+
 					+ cvPanel.getMatrixForParametricTest()
 					+ userDefinedFunctions.getUserDefined()
 					+ ", nSim = "+Configuration.getInstance().getGeneralConfig().getNumberOfSimulations()
