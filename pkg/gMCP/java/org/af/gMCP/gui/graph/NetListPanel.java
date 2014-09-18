@@ -266,10 +266,14 @@ public class NetListPanel extends JPanel implements MouseMotionListener, MouseLi
 		if (e.isPopupTrigger()) {
 			popUp(e);	
 		}
-		// Right-click stops placement of new nodes
+		// Right-click stops placement of new nodes and edges
 		if (SwingUtilities.isRightMouseButton(e)) {
 			newVertex = false;
+			firstVertexSelected = false;
+			firstVertex = null;
+			arrowHeadPoint = null;
 			nl.control.buttonNewNode.setSelected(false);
+			repaint();
 			return;
 		}
 		// Check whether to add new node
@@ -291,6 +295,12 @@ public class NetListPanel extends JPanel implements MouseMotionListener, MouseLi
 			} else {
 				Node secondVertex = vertexSelected(e.getX(), e.getY());
 				if (secondVertex == null || secondVertex == firstVertex) {
+					// Selecting the same node stops placing the edge.
+					if (secondVertex == firstVertex) {
+						firstVertexSelected = false;
+						firstVertex = null;
+						arrowHeadPoint = null;
+					}
 					return;
 				}	
 				nl.setEdge(firstVertex, secondVertex, this);
