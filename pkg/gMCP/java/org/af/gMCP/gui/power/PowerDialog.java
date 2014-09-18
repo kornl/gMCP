@@ -118,6 +118,12 @@ public class PowerDialog extends PDialog implements ActionListener {
 
 		if (e.getActionCommand().equals(HorizontalButtonPane.OK_CMD)) {
 			
+			if (RControl.getR().eval("any(is.na("+cvPanel.getSigma()+"))").asRLogical().getData()[0]) {
+				JOptionPane.showMessageDialog(this, "Correlation matrix for simulation can not contain NAs.", "No NAs allowed", JOptionPane.ERROR_MESSAGE);
+				tPanel.setSelectedComponent(cvPanel);
+				return;
+			}
+			
 			SettingsToXML.saveSettingsToXML(config, this);
 
 			rCommand = "gMCP:::calcMultiPower(weights="+weights+", alpha="+alpha+", G="+G+pNCP.getNCPString()
