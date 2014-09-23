@@ -54,9 +54,8 @@
 				}		
 			}
 		}	
-		# If we have a rJava version > 0.9-3 load JRIEngine.jar and REngine.jar
-    # TODO: Should we check for rJava again containing JRIEngine and REngine.jar in later versions?
-		if (rJavaVersion > "0.9-3") {
+		# If we have a rJava version 0.9-4 load JRIEngine.jar and REngine.jar    
+		if (rJavaVersion == "0.9-4") {
 		  classes <- system.file("JRI", package = "CommonJavaJars", lib.loc = NULL)
 		  if (nzchar(classes)) {
 		    .jaddClassPath(classes) # Necessary?!
