@@ -412,11 +412,13 @@ setClass("agMCPInterim",
 #' @param cur.stage number of the stage after which the interim analysis is performed
 #' @return An object of class \code{agMCPInterim}, more specifically a list with
 #' elements
-#' @returnItem Aj a matrix of PCEs for all elementary hypotheses in each
-#' intersection hypothesis
-#' @returnItem BJ a numeric vector giving sum of PCEs per intersection
-#' hypothesis
-#' @returnItem preplanned Pre planned test represented by an object of class
+#' \describe{
+#' \item{\code{Aj}}{a matrix of PCEs for all elementary hypotheses in each
+#' intersection hypothesis}
+#' \item{\code{BJ}}{a numeric vector giving sum of PCEs per intersection
+#' hypothesis}
+#' \item{\code{preplanned}}{Pre planned test represented by an object of class}
+#' }
 #' \code{\link{graphMCP}}
 #' @author Florian Klinglmueller \email{float@@lefant.net}
 #' @seealso \code{\link{graphMCP}}, \code{\link{secondStageTest}}

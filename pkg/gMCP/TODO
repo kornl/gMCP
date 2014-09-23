@@ -1,5 +1,17 @@
+Are changes to "Use experimental features" persistent during sessions?
+
+Attach correlation matrix to graph?
+
+Alpha in power calculations?
+
+Should correlation matrices be attached to graphs (as it is down with pvalues)?
+
+ToDo: Buttons if one edge point is selected. Right mouse click as cancel.
+
 Documention for value in secondStageTest looks strange.
 Does rJava again contain all necessary jar files?
+
+New features use Java 6 settings. Use reflection for Java 5 compatibility.
 
 - Multiple Setting:
    Instead of c(0,0,...) use #hypotheses text fields. Check whether tab works as expected. Tab works, but most likely we want "select all" on "focus".
@@ -19,6 +31,9 @@ Does rJava again contain all necessary jar files?
 
 - Reodering hypotheses doesn't work.
 - See ?Deprecated and ?Defunct for outdated code
+
+- cat((graph2latex(improvedParallelGatekeeping(), nodeTikZ="minimum size=1.2cm", tikzEnv=FALSE, offset=c(300, 0)))
+  has inverted arrows (arcs are too long) without manual 'nodeR=27'.
 
 - Check verbose output of algorithm (i) when, why? ii) new FormLayout)
 - Check whether option "Colored image files and reports" is respected.
@@ -270,6 +285,7 @@ Possible MalWare 'W32/NewMalware-Generic-8d27-f554' found in '5832765_287X_AZ-D_
 - More fairness regarding the Maurer et al. example ("improved" - what does the paper cover)
 - All Dialogs should have cancel / ok buttons
 - Capture verbose output
+- Classpath exception
 
 Medium priority:
 ================

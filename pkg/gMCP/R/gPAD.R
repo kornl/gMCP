@@ -101,10 +101,12 @@ interim <- function(ssw,z1,v,alpha,gSB,cur.stage,graph){
 #' @param G2 An object of class \code{\link{graphMCP}} laying down the rule to
 #' compute second stage weights. Defaults to pre-planned graph.
 #' @return A function of signature \code{function(z2)} with arguments:
-#' @returnItem z2 A numeric vector with second stage
+#' \describe{
+#' \item{\code{z2}}{A numeric vector with second stage
 #' z-scores. Z-scores of dropped hypotheses should be set no
 #' \code{NA}, that returns a logical vector specifying for each
-#' elementary null hypothesis whether it is rejected or not
+#' elementary null hypothesis whether it is rejected or not.}
+#' }
 #' @author Florian Klinglmueller \email{float@@lefant.net}
 #' @seealso \code{\link{graphMCP}}, \code{\link{doInterim}}
 #' @references Frank Bretz, Willi Maurer, Werner Brannath, Martin Posch: A
@@ -205,10 +207,12 @@ secondStageTest <- function(interim,select,matchCE=TRUE,zWeights=c("direct","rej
 #' compute second stage weights. Defaults to pre-planned graph.
 #' @return A \code{\link{agMCPInterim}} object containing the results
 #' of the final analysis. Most importantly:
-#' @returnItem z1, z-scores observed at the final analysis 
-#' @returnItem preplanned, final stage graphical procedure  
-#' @returnItem rejected logical vector specifying which hypothesis can be rejcted
-#' @returnItem erb final rejection boundaries
+#' \describe{
+#' \item{\code{z1}}{z-scores observed at the final analysis}
+#' \item{\code{preplanned}}{final stage graphical procedure}
+#' \item{\code{rejected}}{logical vector specifying which hypothesis can be rejcted}
+#' \item{\code{erb}}{final rejection boundaries}
+#' }
 #' @author Florian Klinglmueller \email{float@@lefant.net}
 #' @seealso \code{\link{graphMCP}}, \code{\link{doInterim}}
 #' @references Frank Bretz, Willi Maurer, Werner Brannath, Martin Posch: A
