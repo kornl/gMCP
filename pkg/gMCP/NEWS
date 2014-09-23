@@ -16,7 +16,19 @@ Changes in version 0.9-0 (??-0?-2014)
   "Bonferroni", "Simes" and "parametric", 
   where the old "Bretz2011" corresponds to 'test="parametric", upscale=TRUE' and
   the old "simple-parametric" to 'test="parametric", upscale=FALSE'.
-  (For compatibility the old function calls actually still work, but are discouraged.)
+  For compatibility the old function calls actually still work, but are discouraged.
+
+- The parameters 'cr' and 'sigma' in function 'calcPower' were renamed into 'corr.test' 
+  and 'corr.sim' respectively to further clarify that both are correlation matrices,
+  the first used for the test (this matrix may contain NAs if the full correlation is 
+  not known for the test) and the second one for the simulation (which can not contain 
+  NAs and may also differ from the first one if power under misspecification is 
+  investigated). 
+  For compatibility the old function calls actually still work, but are discouraged.
+
+- Fixed: The (experimental) power calculations were off for graphs where not all  
+  subgraphs created by rejections have the full alpha level.
+  Thanks to Yevgen Tymofyeyev for spotting this!
 
 - The function graph2latex got a new parameter 'showAlpha'. Now per default the graph
   weights are shown and not the local alpha levels in the nodes. The old output
@@ -27,6 +39,9 @@ Changes in version 0.9-0 (??-0?-2014)
 - Fixed: Some matrices were completely grayed out although only the diagonal 
   was not editable.
 
+- Random seed is shown for results from methods which use random numbers and can 
+  be set via options.
+
 - Support for entangled graphs is no longer highly experimental, 
   but enabled as default.
 
@@ -36,6 +51,8 @@ Changes in version 0.9-0 (??-0?-2014)
 - For entangled graphs there is now more than one tab showing the graph:
   The first tab still shows the combined graphs and then a separate tab
   for each graph follows.
+
+- Settings for power calculations are saved temporarily or between sessions.
   
 - The (disabled) menu entry for PDF reports was replaced by functionality
   for Office Open XML (MS Word docx) support. Package xlsxjars is therefore
