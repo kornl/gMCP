@@ -6,7 +6,8 @@ git diff --stat 392aa6bc..HEAD instead of v0.8-6..HEAD
 - R CMD check --as-cran under development version of R
 - tested with Windows?
 - Extensive RUnit Checks? unitTestsGMCP(extended=TRUE, interactive=TRUE, outputPath="/home/kornel/test/")
-
+- Check manual with R CMD Rd2pdf
+ 
 Mail:
 - Text-only?
 - From rohmeyer@small-projects.de?
