@@ -141,6 +141,7 @@ public class PowerDialog extends PDialog implements ActionListener {
 				@Override
 				protected Void doInBackground() throws Exception {					
 					try {
+						RControl.setSeed();
 						String result = RControl.getR().eval(rCommand).asRChar().getData()[0];
 						new TextFileViewer(parent, "Power results", result, true);
 					} catch (Exception e) {

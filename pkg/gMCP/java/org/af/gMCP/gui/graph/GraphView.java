@@ -36,6 +36,7 @@ import org.af.gMCP.gui.dialogs.VariableNameDialog;
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.apache.xmlbeans.impl.xb.xmlconfig.ConfigDocument.Config;
 import org.jdesktop.swingworker.SwingWorker;
 import org.mutoss.gui.TransferableImage;
 
@@ -224,8 +225,9 @@ public class GraphView extends JPanel implements ActionListener {
 					protected Void doInBackground() throws Exception {
 						try {
 							if (!isResultUpToDate()) {
+								rCode = RControl.setSeed();
 								RControl.getR().evalVoid(result+" <- gMCP("+getNL().initialGraph+getGMCPOptions()+")");
-								rCode = RControl.getR().eval("gMCP:::createGMCPCall("+getNL().initialGraph+getGMCPOptions()+")").asRChar().getData()[0];
+								rCode += RControl.getR().eval("gMCP:::createGMCPCall("+getNL().initialGraph+getGMCPOptions()+")").asRChar().getData()[0];
 								setResultUpToDate(true);
 							}
 							double[] alpha = RControl.getR().eval(""+getPView().getTotalAlpha()+"*getWeights("+result+")").asRNumeric().getData();
@@ -262,8 +264,9 @@ public class GraphView extends JPanel implements ActionListener {
 					protected Void doInBackground() throws Exception {
 						try {
 							if (!isResultUpToDate()) {
+								rCode = RControl.setSeed();
 								RControl.getR().evalVoid(result+" <- gMCP("+getNL().initialGraph+getGMCPOptions()+")");
-								rCode = RControl.getR().eval("gMCP:::createGMCPCall("+getNL().initialGraph+getGMCPOptions()+")").asRChar().getData()[0];
+								rCode += RControl.getR().eval("gMCP:::createGMCPCall("+getNL().initialGraph+getGMCPOptions()+")").asRChar().getData()[0];
 								setResultUpToDate(true);
 							}
 							boolean[] rejected = RControl.getR().eval(result+"@rejected").asRLogical().getData();
@@ -309,8 +312,9 @@ public class GraphView extends JPanel implements ActionListener {
 					protected Void doInBackground() throws Exception {
 						try {							
 							if (!isResultUpToDate()) {
+								rCode = RControl.setSeed();
 								RControl.getR().evalVoid(result+" <- gMCP("+getNL().initialGraph+getGMCPOptions()+")");
-								rCode = RControl.getR().eval("gMCP:::createGMCPCall("+getNL().initialGraph+getGMCPOptions()+")").asRChar().getData()[0];
+								rCode += RControl.getR().eval("gMCP:::createGMCPCall("+getNL().initialGraph+getGMCPOptions()+")").asRChar().getData()[0];
 								setResultUpToDate(true);
 							}
 							double[] adjPValues = RControl.getR().eval(result+"@adjPValues").asRNumeric().getData();
