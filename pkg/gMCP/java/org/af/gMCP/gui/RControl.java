@@ -178,6 +178,15 @@ public class RControl {
 		getR().eval(command);		
 	}
 
+	public static String setSeed() {
+		String code = "";
+		if (Configuration.getInstance().getGeneralConfig().useSeed()) {
+			code = "set.seed("+Configuration.getInstance().getGeneralConfig().getSeed()+")";
+			getR().eval(code);
+		}		
+		return code+"\n";
+	}
+
 }
 
 class LoggingOutputStream extends ByteArrayOutputStream { 
