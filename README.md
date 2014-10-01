@@ -8,7 +8,7 @@ The development version of this package can be directly installed with the R pac
 
     install.packages("devtools")
     library(devtools)
-    install_github("gMCP", username="kornl", subdir="pkg/gMCP", dependencies = TRUE, build_vignettes = TRUE)
+    install_github("kornl/gMCP", subdir="pkg/gMCP", dependencies = TRUE, build_vignettes = TRUE)
 
 (If some LaTeX packages are missing, consider `build_vignettes = FALSE` or install them.)
 
