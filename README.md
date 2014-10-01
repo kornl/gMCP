@@ -8,7 +8,9 @@ The development version of this package can be directly installed with the R pac
 
     install.packages("devtools")
     library(devtools)
-    install_github("gMCP", username="kornl", subdir="pkg/gMCP")
+    install_github("gMCP", username="kornl", subdir="pkg/gMCP", dependencies = TRUE, build_vignettes = TRUE)
+
+(If some LaTeX packages are missing, consider `build_vignettes = FALSE` or install them.)
 
 But note that the gMCP jar file is only rarely updated and it may be appropriate to build it yourself from the Java source code.
 
