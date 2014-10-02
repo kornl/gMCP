@@ -1,4 +1,4 @@
-Changes in version 0.9-0 (??-0?-2014)
+Changes in version 0.8-8 (03-10-2014)
 =====================================
 
 - API FUNCTION PARAMETER CHANGE: The argument 'exhaust' in the functions
@@ -80,7 +80,7 @@ Changes in version 0.9-0 (??-0?-2014)
 
 - Better handling of unintentionally entered NaN or infinity values.
 
- 179 files changed, 6831 insertions(+), 3484 deletions(-) [git diff --stat v0.8-7..master]
+ 191 files changed, 8047 insertions(+), 3575 deletions(-) [git diff --stat v0.8-7..master]
 
 Changes in version 0.8-7 (26-08-2014)
 =====================================
