@@ -1,7 +1,7 @@
 Package: gMCP
 Type: Package
 Title: Graph Based Multiple Comparison Procedures
-Version: 0.9-0
+Version: 0.8-9
 Authors@R: c(person("Kornelius", "Rohmeyer", role = c("aut", "cre"),  email = "rohmeyer@small-projects.de"),
 	      person("Florian", "Klinglmueller", role = "aut", email = "float@lefant.net"))
 Maintainer: Kornelius Rohmeyer <rohmeyer@small-projects.de>
