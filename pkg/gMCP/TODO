@@ -1,3 +1,5 @@
+Is install_github(..., dependencies = TRUE) checking for the correct package versions?
+
 Are changes to "Use experimental features" persistent during sessions?
 
 Attach correlation matrix to graph?
