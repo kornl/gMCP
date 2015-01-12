@@ -43,7 +43,7 @@
 #' @export unitTestsGMCP
 unitTestsGMCP <- function(extended=FALSE, java=FALSE, interactive=FALSE, junitLibrary, outputPath) {
   # Adapted and extended from the code from http://rwiki.sciviews.org/doku.php?id=developers:runit
-	if(!require("RUnit", quietly=TRUE)) {
+	if(!requireNamespace("RUnit", quietly=TRUE)) {
 		stop("Please install package RUnit to run the unit tests.")
 	}
 	if (extended) Sys.setenv(GMCP_UNIT_TESTS=paste(Sys.getenv("GMCP_UNIT_TESTS"),"extended"), sep=",")
