@@ -4,6 +4,8 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Set;
 
 import javax.swing.JDialog;
@@ -20,7 +22,8 @@ import org.jdesktop.swingworker.SwingWorker;
 
 public class SampleSizeDialog extends PDialog implements ActionListener {
 
-    GroupPanel gPanel;
+    RandomizationPanel gPanel;
+    PowerReqPanel prPanel;
 
     //  Theta hat: θ\u0302
 
@@ -39,14 +42,16 @@ public class SampleSizeDialog extends PDialog implements ActionListener {
 		
 		getContentPane().setLayout(new GridBagLayout());
 		
-		gPanel = new GroupPanel(this);
-		tPanel.addTab("Groups", gPanel);
 		pNCP = new ScenarioPanel(this);
-		tPanel.addTab("Noncentrality Parameter (NCP) Settings", pNCP);
+		tPanel.addTab("Effect Size", pNCP);
+		prPanel = new PowerReqPanel(this);
+		tPanel.addTab("Power Requirements", prPanel);
+		gPanel = new RandomizationPanel(this);
+		tPanel.addTab("Randomization", gPanel);
 		cvPanel = new CVPanel(this);
 		tPanel.addTab("Correlation Matrix", cvPanel);
 		userDefinedFunctions = new UserDefinedPanel(nodes);
-		tPanel.addTab("User defined power function", userDefinedFunctions);
+		//tPanel.addTab("User defined power function", userDefinedFunctions);
 		tPanel.addTab("Options", new PowerOptionsPanel(parent));
 		
 		Set<String> variables = parent.getGraphView().getNL().getAllVariables();
@@ -58,7 +63,8 @@ public class SampleSizeDialog extends PDialog implements ActionListener {
 		
 		c.weighty=0; c.gridy++; c.weightx=0; c.fill=GridBagConstraints.NONE;
 		c.anchor = GridBagConstraints.EAST;
-		HorizontalButtonPane bp = new OkCancelButtonPane();
+		//HorizontalButtonPane bp = new OkCancelButtonPane();
+		HorizontalButtonPane bp = new HorizontalButtonPane(new String[] {"Help", "Ok", "Cancel"}, new String[] {"help", HorizontalButtonPane.OK_CMD, HorizontalButtonPane.CANCEL_CMD});
 		getContentPane().add(bp, c);
 		bp.addActionListener(this);		
 		
@@ -121,7 +127,11 @@ public class SampleSizeDialog extends PDialog implements ActionListener {
 			};
 			worker.execute();				
 		}
-		dispose();
+		if (e.getActionCommand().equals("help")) {
+			//TODO Open Help.
+		} else {		
+			dispose();
+		}
 	}
 
 }

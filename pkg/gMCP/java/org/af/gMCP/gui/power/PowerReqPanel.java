@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Vector;
 
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -16,18 +17,20 @@ import org.af.gMCP.gui.graph.Node;
 import com.jgoodies.forms.layout.CellConstraints;
 import com.jgoodies.forms.layout.FormLayout;
 
-public class GroupPanel extends JPanel implements ActionListener {
-	List<Group> gv = new Vector<Group>();
+public class PowerReqPanel extends JPanel implements ActionListener {
+	List<Arm> gv = new Vector<Arm>();
 	JButton addScenario = new JButton("Add scenario");
 	JButton rmScenario = new JButton("Remove last scenario");
+	
+	JComboBox jcbType = new JComboBox(new String[] {"All", "Any", "User defined"});
 	
 	SampleSizeDialog sd;
 	
 	JPanel panel = new JPanel();
 	
-	public GroupPanel(SampleSizeDialog sd) {
+	public PowerReqPanel(SampleSizeDialog sd) {
 		this.sd = sd;
-		gv.add(new Group(sd, "Group "+(gv.size()+1)));
+		gv.add(new Arm(sd, "Group "+(gv.size()+1)));
 		setUpLayout();
 	}
 	
@@ -70,7 +73,7 @@ public class GroupPanel extends JPanel implements ActionListener {
 		for (Node n : sd.getNodes()) {
 			cols += ", pref, 5dlu";
 		}
-		for (Group g : gv) {
+		for (Arm g : gv) {
 			rows += ", pref, 5dlu";
 		}
 
@@ -84,7 +87,7 @@ public class GroupPanel extends JPanel implements ActionListener {
 			panel.add(new JLabel("NCP "+ LaTeXTool.LaTeX2UTF(n.getName())+"    "), cc.xy(col, row));
 		}
 
-		for (Group g : gv) {
+		for (Arm g : gv) {
 			row += 2;
 			g.addComponents(panel, cc, row);
 		}
@@ -93,7 +96,7 @@ public class GroupPanel extends JPanel implements ActionListener {
 
 	public String getNCPString() {
 		String sList = ", list(";
-		for (Group g : gv) {
+		for (Arm g : gv) {
 			//sList += g.getNCPString()+", ";
 		}
 		return sList.substring(0, sList.length()-2)+")";
@@ -101,7 +104,7 @@ public class GroupPanel extends JPanel implements ActionListener {
 
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource()==addScenario) {
-			gv.add(new Group(sd, "Group "+(gv.size()+1)));
+			gv.add(new Arm(sd, "Group "+(gv.size()+1)));
 			getMainPanel();
 			revalidate();
 			repaint();

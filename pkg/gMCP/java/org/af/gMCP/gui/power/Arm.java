@@ -12,13 +12,13 @@ import org.af.gMCP.gui.graph.Node;
 
 import com.jgoodies.forms.layout.CellConstraints;
 
-public class Group {
+public class Arm {
 	List<JTextField> ncp = new Vector<JTextField>();
 	JTextField scname;
 	SampleSizeDialog sd;
 	
 
-	public Group(SampleSizeDialog sd, String name) {
+	public Arm(SampleSizeDialog sd, String name) {
 		this.sd = sd;
 		scname = new JTextField(name);
 		for (Node n : sd.getNodes()) {
