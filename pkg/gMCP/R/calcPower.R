@@ -8,7 +8,8 @@
 #' graphTest function.
 #' @param f List of user defined power functions. If one is interested in the
 #' power to reject hypotheses 1 and 3 one could specify \code{function(x) {x[1]
-#' && x[3]}}
+#' && x[3]}}. If f is a named list, the result will contain corresponding items 
+#' with the same names (among the default elements described in the following).
 #' @return A list containg at least the following four elements and
 #' an element for each element in the parameter \code{f}.
 #' \describe{
