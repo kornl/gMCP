@@ -18,11 +18,9 @@ import com.jgoodies.forms.layout.CellConstraints;
 import com.jgoodies.forms.layout.FormLayout;
 
 public class PowerReqPanel extends JPanel implements ActionListener {
-	List<Arm> gv = new Vector<Arm>();
+	List<PowerReq> gv = new Vector<PowerReq>();
 	JButton addScenario = new JButton("Add scenario");
 	JButton rmScenario = new JButton("Remove last scenario");
-	
-	JComboBox jcbType = new JComboBox(new String[] {"All", "Any", "User defined"});
 	
 	SampleSizeDialog sd;
 	
@@ -30,7 +28,7 @@ public class PowerReqPanel extends JPanel implements ActionListener {
 	
 	public PowerReqPanel(SampleSizeDialog sd) {
 		this.sd = sd;
-		gv.add(new Arm(sd, "Group "+(gv.size()+1)));
+		gv.add(new PowerReq(sd, "Power requirement "+(gv.size()+1)));
 		setUpLayout();
 	}
 	
@@ -68,12 +66,12 @@ public class PowerReqPanel extends JPanel implements ActionListener {
 
 		int row = 2;
 
-		String cols = "5dlu, pref, 5dlu";
+		String cols = "5dlu, pref, 5dlu, pref, 5dlu, pref, 5dlu";
 		String rows = "5dlu, pref, 5dlu";
 		for (Node n : sd.getNodes()) {
 			cols += ", pref, 5dlu";
 		}
-		for (Arm g : gv) {
+		for (PowerReq g : gv) {
 			rows += ", pref, 5dlu";
 		}
 
@@ -87,7 +85,7 @@ public class PowerReqPanel extends JPanel implements ActionListener {
 			panel.add(new JLabel("NCP "+ LaTeXTool.LaTeX2UTF(n.getName())+"    "), cc.xy(col, row));
 		}
 
-		for (Arm g : gv) {
+		for (PowerReq g : gv) {
 			row += 2;
 			g.addComponents(panel, cc, row);
 		}
@@ -96,7 +94,7 @@ public class PowerReqPanel extends JPanel implements ActionListener {
 
 	public String getNCPString() {
 		String sList = ", list(";
-		for (Arm g : gv) {
+		for (PowerReq g : gv) {
 			//sList += g.getNCPString()+", ";
 		}
 		return sList.substring(0, sList.length()-2)+")";
@@ -104,7 +102,7 @@ public class PowerReqPanel extends JPanel implements ActionListener {
 
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource()==addScenario) {
-			gv.add(new Arm(sd, "Group "+(gv.size()+1)));
+			gv.add(new PowerReq(sd, "Group "+(gv.size()+1)));
 			getMainPanel();
 			revalidate();
 			repaint();

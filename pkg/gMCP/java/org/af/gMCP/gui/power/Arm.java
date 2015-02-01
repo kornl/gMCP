@@ -45,5 +45,24 @@ public class Arm {
 		}
 		return s.substring(0, s.length()-2)+")";
 	}
+	
+	/* public void loadConfig(Element e) {
+	scname.setText(e.getAttribute("name"));
+	NodeList nlist = e.getChildNodes();
+	for (int i=0; i<Math.min(nlist.getLength(), ncp.size()); i++) {
+		ncp.get(i).setText(((Element)nlist.item(i)).getAttribute("ncp"));
+	}
+ }
+
+public Element getConfigNode(Document document) {
+	Element e = document.createElement("scenario");
+	e.setAttribute("name", scname.getText());
+	for (JTextField jt : ncp) {
+		Element eNCP = document.createElement("ncp");
+		eNCP.setAttribute("ncp", jt.getText());
+		e.appendChild(eNCP);
+	}
+	return e;
+} */
 
 }

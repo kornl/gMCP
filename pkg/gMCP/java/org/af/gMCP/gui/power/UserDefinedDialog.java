@@ -36,7 +36,9 @@ public class UserDefinedDialog extends JDialog implements ActionListener {
     JButton saveUDPF = new JButton("Save");
 
 	
-	public UserDefinedDialog(List<Node> nodes) {		
+	public UserDefinedDialog(PDialog pd) {
+		super(pd, "User Defined Power Function");
+		List<Node> nodes = pd.getNodes();
 		
 		JButton b = new JButton("(");
 		b.setActionCommand("(");
@@ -97,28 +99,31 @@ public class UserDefinedDialog extends JDialog implements ActionListener {
         String cols = "5dlu, fill:pref:grow, 5dlu";
         String rows = "5dlu, pref, 5dlu, fill:pref:grow, 5dlu, pref, 5dlu, pref, 5dlu";
         
-        setLayout(new FormLayout(cols, rows));
+        getContentPane().setLayout(new FormLayout(cols, rows));
         CellConstraints cc = new CellConstraints();
 		
 		int row = 2;
 		
 		jtUserDefined.addActionListener(this);
-		add(jtUserDefined, cc.xy(2, row));
+		getContentPane().add(jtUserDefined, cc.xy(2, row));
 		
 		/*clearList.addActionListener(this);
 		mPanel.add(addAnother, cc.xy(4, row));*/		
 		
 		row +=2;
 
-		add(new JScrollPane(jta), cc.xy(2, row));
+		getContentPane().add(new JScrollPane(jta), cc.xy(2, row));
 	
 		row +=2;		
 				
-		add(new JScrollPane(hypPanel), cc.xy(2, row));
+		getContentPane().add(new JScrollPane(hypPanel), cc.xy(2, row));
 
 		row +=2;
 		
-		add(new JScrollPane(opPanel), cc.xy(2, row));
+		getContentPane().add(new JScrollPane(opPanel), cc.xy(2, row));
+		
+		pack();
+		setVisible(true);
 		
 	}
 	
