@@ -15,11 +15,13 @@ import java.util.Date;
 import java.util.StringTokenizer;
 import java.util.concurrent.TimeUnit;
 
+import javax.swing.JCheckBox;
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
+import org.af.commons.tools.OSTools;
 import org.af.commons.widgets.buttons.OKButtonPane;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -112,6 +114,7 @@ public class VersionComparator extends JDialog implements ActionListener {
     }
     
 	public static void getOnlineVersion() {
+		logger.info("Checking for outdated version...");
 		if (Configuration.getInstance().getGeneralConfig().checkOnline()) {
 			try {			
 				String version = Configuration.getInstance().getGeneralConfig().getVersionNumber();
@@ -160,8 +163,7 @@ public class VersionComparator extends JDialog implements ActionListener {
 			} catch (Exception e) {
 				logger.error(e.getMessage(), e);
 			}
-		} //else 
-		{
+		} else {
 			Date rd = Configuration.getInstance().getGeneralConfig().getReleaseDate();
 			if (rd==null) {
 				logger.warn("Release Date not available!");
@@ -171,7 +173,17 @@ public class VersionComparator extends JDialog implements ActionListener {
 				long days = TimeUnit.DAYS.convert(now.getTime()-rd.getTime(), TimeUnit.MILLISECONDS);
 				logger.info("This release is "+days+" days old.");
 				if (days>200) {
-					//TODO Warn if release is older than...					
+					if (!Configuration.getInstance().getClassProperty(VersionComparator.class, "show200DayWarning", "yes").equals("no")) {
+						String message = "Your gMCP version is older than 200 days.\n" +
+								"Most likely there is a newer version.\n" +
+								"Please check the following URL:\n"+
+								"http://cran.r-project.org/web/packages/gMCP/";
+						JCheckBox tellMeAgain = new JCheckBox("Don't show me this info again.");			
+						JOptionPane.showMessageDialog(null, new Object[] {message, tellMeAgain}, "Your gMCP version is older than 200 days.", JOptionPane.WARNING_MESSAGE);
+						if (tellMeAgain.isSelected()) {
+							Configuration.getInstance().setClassProperty(VersionComparator.class.getClass(), "show200DayWarning", "no");
+						}
+					}					
 				}
 			}
 		}
