@@ -1,3 +1,5 @@
+Check with jvisualvm for bottlenecks for huge graphs
+
 Check user defined power function
 
 Is install_github(..., dependencies = TRUE) checking for the correct package versions?
