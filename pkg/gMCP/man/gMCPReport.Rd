@@ -41,7 +41,7 @@ Kornelius Rohmeyer \email{rohmeyer@small-projects.de}
 }
 \references{
 The TikZ and PGF Packages Manual for version 2.00, Till Tantau,
-\url{http://www.ctan.org/tex-archive/graphics/pgf/base/doc/generic/pgf/pgfmanual.pdf}
+\url{https://www.ctan.org/pkg/pgf/}
 }
 \seealso{
 \code{\link{cat}} \code{\link{graph2latex}}
