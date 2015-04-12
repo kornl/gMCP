@@ -1,6 +1,15 @@
-
+#' Sample size calculations
+#' 
+#' Sample size calculations
+#' 
 #' @param powerReqFunc The power requirement function. 
-#' For example \code{function(x) {any(x)}} for at least one rejection or more complex user defined functions like \code{function(x) {(x[1]&&x[3])||(x[2]&&x[4])}.
+#' @param target For example \code{function(x) {any(x)}} for at least one rejection or more complex user defined functions like \code{function(x) {(x[1]&&x[3])||(x[2]&&x[4])}}.
+#' @param effSize ...
+#' @param endPoints ...
+#' @return ...
+#' @examples
+#' 
+#' f <- function(x){1/100*log(x)}
 sampSize <- function(powerReqFunc, target, effSize, endPoints, ...) {
   # Create targFunc from powerReqFunc
 }
