@@ -60,8 +60,7 @@ We use the following Java libraries:
  \item JXLayer under BSD License, \url{https://java.net/projects/jxlayer/}, Copyright 2006-2009, Alexander Potochkin 
  \item JGoodies Forms under BSD License, \url{http://www.jgoodies.com/freeware/libraries/forms/}, Copyright JGoodies Karsten Lentzsch  
  \item AFCommons under BSD License, \url{http://www.algorithm-forge.com/afcommons/}, Copyright (c) 2007-2014 by Kornelius Rohmeyer and Bernd Bischl
- \item JHLIR under BSD License, \url{http://jhlir.r-forge.r-project.org/}, Copyright (c) 2008-2014 by Bernd Bischl and Kornelius Rohmeyer  
- \item SGTK under BSD License, \url{http://www.algorithm-forge.com/rjavaclient/}, Copyright (c) 2007-2014 by Bernd Bischl and Kornelius Rohmeyer 
+ \item JHLIR under BSD License, \url{http://jhlir.r-forge.r-project.org/}, Copyright (c) 2008-2014 by Bernd Bischl and Kornelius Rohmeyer
  } 
 }
 \keyword{ package }
