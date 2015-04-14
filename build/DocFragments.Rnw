@@ -1,0 +1,15 @@
+\documentclass{article}
+
+\begin{document}
+
+<<>>=
+library(gMCP)
+library(multcomp)
+@
+
+\section{Relationship of parametric tests}
+
+
+
+
+\end{document}
