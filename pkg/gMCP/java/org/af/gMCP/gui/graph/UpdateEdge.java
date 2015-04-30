@@ -143,7 +143,7 @@ public class UpdateEdge extends JDialog implements ActionListener {
 		} else {
 			edge.setW(tf.getText());
 			int n = Integer.parseInt(spinner.getModel().getValue().toString());
-			//TODO Set line width n.
+			edge.linewidth = n;
 			control.getDataFramePanel().setValueAt(new EdgeWeight(tf.getText()), netzListe.getNodes().indexOf(edge.from), netzListe.getNodes().indexOf(edge.to), edge.layer);
 		}
 		netzListe.repaint();

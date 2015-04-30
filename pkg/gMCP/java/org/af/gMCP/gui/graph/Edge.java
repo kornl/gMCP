@@ -231,9 +231,9 @@ public class Edge {
 			g2d = (Graphics2D) g;			
 			g2d.setColor(color);
 			Stroke oldStroke = g2d.getStroke();
-			BasicStroke stroke = new BasicStroke(Configuration.getInstance().getGeneralConfig().getLineWidth());
+			BasicStroke stroke = new BasicStroke(Configuration.getInstance().getGeneralConfig().getLineWidth(), BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND);
 			if (linewidth!=null) {
-				stroke = new BasicStroke(linewidth);				
+				stroke = new BasicStroke(linewidth, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND);				
 			}
 			try {
 				if (ew.isEpsilon() && Configuration.getInstance().getGeneralConfig().markEpsilon()) {
