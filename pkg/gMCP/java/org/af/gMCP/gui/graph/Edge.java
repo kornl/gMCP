@@ -45,20 +45,21 @@ public class Edge {
 	
 	int lastFontSize = 16;
 
-	public Edge(Node von, Node nach, Double w, NetList nl, int layer) {		
+	public Edge(Node from, Node to, Double w, NetList nl, int layer) {		
 		int x1, x2, y1, y2;
-		x1 = von.getX() + Node.getRadius();
-		x2 = nach.getX() + Node.getRadius();
-		y1 = von.getY() + Node.getRadius();
-		y2 = nach.getY() + Node.getRadius();
-		k1 = x1 + (x2-x1)/4; //(x1+x2)/2;
-		k2 = y1 + (y2-y1)/4; //(y1+y2)/2;
-		this.from = von;
-		this.to = nach;
+		x1 = from.getX() + Node.getRadius();
+		x2 = to.getX() + Node.getRadius();
+		y1 = from.getY() + Node.getRadius();
+		y2 = to.getY() + Node.getRadius();
+		this.from = from;
+		this.to = to;
 		this.ew = new EdgeWeight(w);
 		this.nl = nl;		
 		this.layer = layer;
 		this.color = NetListPanel.layerColors[layer%NetListPanel.layerColors.length];
+		int[] k = getK(from, to, curve);
+		k1 = k[0];
+		k2 = k[1];
 	}
 	
 	public static int[] getK(Node from, Node to, boolean curve) {
@@ -67,25 +68,31 @@ public class Edge {
 		x2 = to.getX() + Node.getRadius();
 		y1 = from.getY() + Node.getRadius();
 		y2 = to.getY() + Node.getRadius();
+		
+		double y = y2-y1;
+		double x = x2-x1;
+		double alpha;
+		if (x==0 && y<0) {
+			alpha = 90;
+		} else if (x==0&&y>0) {
+			alpha = -90;
+		} else {
+			alpha = Math.atan(-y/x)/(Math.PI*2)*360+((x<0)?180:0);
+		}
+		
 		if (curve) {
-			double d = Math.sqrt((x1-x2)*(x1-x2)+(y1-y2)*(y1-y2));
-			double y = y2-y1;
-			double x = x2-x1;
-			double alpha;
-			if (x==0 && y<0) {
-				alpha = 90;
-			} else if (x==0&&y>0) {
-				alpha = -90;
-			} else {
-				alpha = Math.atan(-y/x)/(Math.PI*2)*360+((x<0)?180:0);
-			}
+			double d = Math.sqrt((x1-x2)*(x1-x2)+(y1-y2)*(y1-y2));			
 			alpha = alpha + 15;
 			k1 = x1 + (int)(Math.cos(alpha*(Math.PI*2)/360)*d/2);
 			k2 = y1 - (int)(Math.sin(alpha*(Math.PI*2)/360)*d/2);
 		} else {
 			if (Math.sqrt((x2-x1)*(x2-x1)+(y2-y1)*(y2-y1))>150) { // For long edges a placement at the beginning is good.
-				k1 = x1 + (x2-x1)/4;
-				k2 = y1 + (y2-y1)/4;
+				int xx = (int) (Math.cos(alpha*(Math.PI*2)/360)*Node.getRadius());
+				int yy = (int) (-Math.sin(alpha*(Math.PI*2)/360)*Node.getRadius());
+				k1 = x1 + xx + (x2-x1-2*xx)/4;
+				k2 = y1 + yy + (y2-y1-2*yy)/4;
+				//k1 = x1 + (x2-x1)/4;
+				//k2 = y1 + (y2-y1)/4;
 			} else {                 // But for short edges we prefer placement in the middle. 
 				k1 = x1 + (x2-x1)/2;
 				k2 = y1 + (y2-y1)/2;
