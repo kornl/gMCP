@@ -39,7 +39,7 @@ public class RejectedDialog extends JDialog implements ActionListener {
 			//Label R-Code, R-Code JTA, JButton
 			rows +=", pref, 5dlu, fill:pref:grow, 5dlu, pref, 5dlu";
 		} else {
-			rows +=", pref, 5dlu, fill:pref:grow, 5dlu, fill:pref:grow, 5dlu, pref, 5dlu";
+			rows +=", pref, 5dlu, fill:pref, 5dlu, fill:120dlu:grow, 5dlu, pref, 5dlu";
 		}
 
 		FormLayout layout = new FormLayout(cols, rows);
