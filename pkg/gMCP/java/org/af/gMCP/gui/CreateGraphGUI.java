@@ -79,6 +79,7 @@ public class CreateGraphGUI extends JFrame implements WindowListener, AbortListe
 			Configuration.getInstance().getGeneralConfig().setRVersionNumber(RControl.getR().eval("paste(R.version$major,R.version$minor,sep=\".\")").asRChar().getData()[0]);
 			Configuration.getInstance().getGeneralConfig().setVersionNumber(RControl.getR().eval("gMCP:::gMCPVersion()").asRChar().getData()[0]);		
 			this.setTitle("gMCP GUI "+Configuration.getInstance().getGeneralConfig().getVersionNumber());
+			//The following line may fail if "Date/Publication" is NA: WARN - Package version could not be set: org.rosuda.REngine.REXPLogical cannot be cast to org.rosuda.REngine.REXPString
 			Configuration.getInstance().getGeneralConfig().setReleaseDate(RControl.getR().eval("packageDescription(\"gMCP\", fields=\"Date/Publication\")").asRChar().getData()[0]);
 		} catch (Exception e) {
 			// This is no vital information and will fail for e.g. R 2.8.0, so no error handling here...
