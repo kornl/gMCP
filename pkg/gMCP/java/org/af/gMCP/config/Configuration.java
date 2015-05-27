@@ -62,6 +62,31 @@ public class Configuration {
     	String cn = c.getName().substring(c.getName().lastIndexOf('.'));
     	return getProperty(keyPrefix + cn+"."+key, def);
     }
+    
+    /**
+     * Sets for one Class a key to some String value.
+     * @param c Class
+     * @param key Key
+     * @param value Value
+     */
+    public void setBooleanClassProperty(Class c, String key, Boolean value) {
+    	String cn = c.getName().substring(c.getName().lastIndexOf('.'));
+    	setProperty(keyPrefix + cn+"."+key, ""+value);
+    }
+
+    /**
+     * Returns for one Class the associated value to a key.
+     * @param c Class
+     * @param key Key
+     */
+    public Boolean getBooleanClassProperty(Class c, String key) {    	
+    	return getBooleanClassProperty(c, key, false);
+    }
+    
+    public Boolean getBooleanClassProperty(Class c, String key, Boolean def) {
+    	String cn = c.getName().substring(c.getName().lastIndexOf('.'));
+    	return Boolean.parseBoolean(getProperty(keyPrefix + cn+"."+key, ""+def));
+    }
 
     protected String getProperty(String prop, String def) {
         return prefs.get(keyPrefix + prop, def);
