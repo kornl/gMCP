@@ -27,6 +27,7 @@ import org.af.commons.logging.LoggingSystem;
 import org.af.commons.logging.widgets.DetailsDialog;
 import org.af.commons.tools.OSTools;
 import org.af.gMCP.config.Configuration;
+import org.af.gMCP.gui.dialogs.GraphSaveDialog;
 import org.af.gMCP.gui.dialogs.GraphSendToArchiveDialog;
 import org.af.gMCP.gui.dialogs.ParameterDialog;
 import org.af.gMCP.gui.dialogs.RObjectLoadingDialog;
@@ -305,11 +306,8 @@ public class MenuBarMGraph extends JMenuBar implements ActionListener {
         		JOptionPane.showMessageDialog(control.getMainFrame(), "Will not save empty graph.", "Saving to R failed.", JOptionPane.ERROR_MESSAGE);
         		return;
         	}
-        	VariableNameDialog vnd = new VariableNameDialog(control.getGraphGUI(), control.getGraphName());
-        	String name = control.getNL().saveGraph(vnd.getName(), true, true);        	    	
-        	Configuration.getInstance().getGeneralConfig().addGraph("R Object: "+name);
+        	GraphSaveDialog gsd = new GraphSaveDialog(control);
         	createLastUsed();
-        	control.isGraphSaved = true;
         } else if (e.getActionCommand().equals("copy graph to clipboard")) {       	
         	control.copyGraphToClipboard();
         } else if (e.getActionCommand().equals("export graph image")) {       	
