@@ -11,6 +11,9 @@ setMethod("initialize", "graphMCP",
 			if (length(weights)) {			
 				checkValidWeights(weights)
 			}			
+      if (is.null(rownames(m))) {
+        rownames(m) <- paste("H", 1:dim(m)[1], sep="")
+      }
 			colnames(m) <- rownames(m)
 			.Object@m <- m
 			names(weights) <- rownames(m)
