@@ -438,6 +438,23 @@ public class NetList extends JTabbedPane implements ChangeListener, AnnotationPa
 		control.getPView().savePValues();
 	}
 	
+	public String saveGraph(String graphName, boolean verbose, boolean global, boolean addPValues, boolean addCorrelation) {
+		String finalGraphName = saveGraph(graphName, verbose, new Hashtable<String,Double>(), global);
+		if (addCorrelation) {
+			String test = control.getPView().getTest();
+			RControl.getR().evalVoid("attr("+graphName+", \"test\") <- "+ test, global);
+			if (test.equals("\"parametric\"")) {
+				String correlation = control.getPView().jcbCorObject.getSelectedItem().toString();
+				RControl.getR().evalVoid("attr("+graphName+", \"corMat\") <- "+ correlation, global);
+			}
+		}
+		if (addPValues) {
+			String pvals = control.getPView().getPValuesString();
+			RControl.getR().evalVoid("attr("+graphName+", \"pvalues\") <- "+ pvals, global);
+		}
+		return finalGraphName;
+	}
+	
 	public String saveGraph(String graphName, boolean verbose, boolean global) {
 		return saveGraph(graphName, verbose, new Hashtable<String,Double>(), global);
 	}
