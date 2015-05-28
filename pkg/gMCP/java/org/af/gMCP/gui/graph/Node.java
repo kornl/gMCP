@@ -117,20 +117,22 @@ public class Node {
 	 * @param g Graphs object for drawing
 	 * @param layer Layer to draw. Will be 'null' if all layers should be drawn. Starts with 0 (not 1).
 	 */
-	public void paintYou(Graphics g, Integer layer) {
+	public void paintYou(Graphics g, Integer layer, boolean color) {
 		if (rejected && !Configuration.getInstance().getGeneralConfig().showRejected()) return;
 		Graphics2D g2d = (Graphics2D) g;
 		g2d.setFont(new Font("Arial", Font.PLAIN, (int) (12 * nl.getZoom())));		
 		FontRenderContext frc = g2d.getFontRenderContext();		
 		Rectangle2D rc;
-		g2d.setColor(getColor());
-		// if (this.fix) {	g2d.setColor(new Color(50, 255, 50)); }		
 		Ellipse2D e = new Ellipse2D.Double();
-		e.setFrame(x * nl.getZoom(), 
-				y * nl.getZoom(), 
-				r * 2 * nl.getZoom(), 
-				r * 2 * nl.getZoom());
-		g2d.fill(e);
+		if(color) {
+			g2d.setColor(getColor());		
+			// if (this.fix) {	g2d.setColor(new Color(50, 255, 50)); }		
+			e.setFrame(x * nl.getZoom(), 
+					y * nl.getZoom(), 
+					r * 2 * nl.getZoom(), 
+					r * 2 * nl.getZoom());
+			g2d.fill(e);
+		}
 		g2d.setColor(new Color(0, 0, 0));
 		e.setFrame(x * nl.getZoom(), 
 				y * nl.getZoom(), 
@@ -311,4 +313,8 @@ public class Node {
 		lastFontSize = 0;		
 	}
 
+	//TODO Remove this method and check whether color should always be true.
+	public void paintYou(Graphics g, Integer layer) {
+		paintYou(g, layer, true);		
+	}
 }

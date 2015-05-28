@@ -454,7 +454,7 @@ public class GraphView extends JPanel implements ActionListener {
 	}
 	
 	public void saveGraphImage(File file) {
-		BufferedImage img = getNL().getImage(Configuration.getInstance().getGeneralConfig().getExportZoom());
+		BufferedImage img = getNL().getImage(Configuration.getInstance().getGeneralConfig().getExportZoom(), Configuration.getInstance().getGeneralConfig().getColoredImages());
 		try {
 			ImageIO.write(img, "png", file);
 		} catch( Exception ex ) {
@@ -529,7 +529,7 @@ public class GraphView extends JPanel implements ActionListener {
     		JOptionPane.showMessageDialog(getMainFrame(), "Graph is empty - nothing copied to clipboard.", "Empty graph", JOptionPane.ERROR_MESSAGE);
     		return;
     	}
-		TransferableImage.copyImageToClipboard(getNL().getImage(Configuration.getInstance().getGeneralConfig().getExportZoom()));
+		TransferableImage.copyImageToClipboard(getNL().getImage(Configuration.getInstance().getGeneralConfig().getExportZoom(), Configuration.getInstance().getGeneralConfig().getColoredImages()));
 	}
 	
 	

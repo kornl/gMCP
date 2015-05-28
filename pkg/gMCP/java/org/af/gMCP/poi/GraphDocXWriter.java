@@ -62,7 +62,7 @@ public class GraphDocXWriter {
 		/* Insert graph */
 		
 		p = doc.createParagraph();
-		addImage(p, control.getNL().getImage(zoom));
+		addImage(p, control.getNL().getImage(zoom, Configuration.getInstance().getGeneralConfig().getColoredImages()));
 		
 		doc.createParagraph().createRun().addBreak();
 		

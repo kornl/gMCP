@@ -5,6 +5,8 @@ Changes in version 0.8-9 (??-??-2015)
 
 - Saving a graph now asks which properties should also be saved.
 
+- Fixed color/no-color option for exported images.
+
 - Nodes (Colors/Sizes)
 
 - Improved Edges

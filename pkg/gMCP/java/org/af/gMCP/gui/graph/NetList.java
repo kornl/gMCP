@@ -229,8 +229,8 @@ public class NetList extends JTabbedPane implements ChangeListener, AnnotationPa
 		return ".tmpGraph";
 	}
 	
-	public BufferedImage getImage(Double d) {
-		return nlp.get(getSelectedIndex()).getImage(d);
+	public BufferedImage getImage(Double d, boolean color) {
+		return nlp.get(getSelectedIndex()).getImage(d, color);
 	}
 
 	public String getLaTeX() {
