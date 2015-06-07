@@ -4,12 +4,13 @@ library(ggplot2)
 
 w<-c(0.5,0.3)
 rho<-0.1
+rho<-0.9
 cr<-matrix(c(1,rho,rho,1),nrow=2)
 p<-c(0.02,0.03)
 g<-diag(2)
 g<-matrix(1,2,2)
 
-upscale=TRUE
+upscale=FALSE
 r1 <- r2 <- 0
 for (i in 1:1000) {  
   test <- generateTest(g, w, cr, 0.05, upscale=upscale)
@@ -24,7 +25,7 @@ for (i in 1:1000) {
   r1 <- c(r1, tail(r1, 1) + sum(result1))
   r2 <- c(r2, tail(r2, 1) + sum(result2))  
   
-  cat(tail(r1, 1), "vs.", tail(r2, 1), "\n")  
+  cat(tail(r1, 1), "vs.", tail(r2, 1), ", rate:",tail(r1, 1)/tail(r2, 1),"\n")  
   
   #dat <- data.frame(y=c(r1,r2), type=rep(c("r1","r2"), each=length(r1)), x=rep(1:length(r1), 2))
   #plot(ggplot(dat, aes(x=x, y=y, color=type)) + geom_point(shape=1))
@@ -32,8 +33,22 @@ for (i in 1:1000) {
   plot(ggplot(dat, aes(x=x, y=y)) + geom_point(shape=1))
 }
 
-#  10004 vs. 10044 ie. 0.4% more rejections
-# 10026 vs. 10067 
+###
 
+generatePvals(g,w,cr,p,upscale=FALSE)
+
+# calls
+
+gMCP:::p.dunnet(p, cr, w, FALSE)
+1-pmvnorm(lower=-Inf, upper=qnorm(1-pmin(1,(w*p[1]/(w[1]*sum(w))))), corr=cr,abseps=10^-5)
+1-pmvnorm(lower=-Inf, upper=qnorm(1-pmin(1,(w*p[2]/(w[2]*sum(w))))), corr=cr,abseps=10^-5)
+
+gMCP:::p.dunnet(p[1], 1, sum(w), FALSE)
+#1-pmvnorm(lower=-Inf, upper=qnorm(1-pmin(1,(w*p[1]/(w[1]*sum(w))))), corr=cr,abseps=10^-5)
+(p[1]/sum(w))
+
+gMCP:::p.dunnet(p[2], 1, sum(w), FALSE)
+#1-pmvnorm(lower=-Inf, upper=qnorm(1-pmin(1,(w*p[2]/(w[2]*sum(w))))), corr=cr,abseps=10^-5)
+(p[2]/sum(w))
 
 
