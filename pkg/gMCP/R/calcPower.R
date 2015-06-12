@@ -169,7 +169,6 @@ calcPower <- function(graph, alpha, mean = rep(0, nrow(corr.sim)),
                       corr.sim = diag(length(mean)), corr.test = NULL,
                       n.sim = 10000, type = c("quasirandom", "pseudorandom"),
 					  f=list(), test, ...) {
-  # TODO 
   if (!is.null(list(...)[["nSim"]]) && missing(n.sim)) { n.sim <- list(...)[["nSim"]] }
   if (!is.null(list(...)[["sigma"]]) && missing(corr.sim)) { corr.sim <- list(...)[["sigma"]] }
   if (!is.null(list(...)[["cr"]]) && missing(corr.test)) { corr.test <- list(...)[["cr"]] }
@@ -180,7 +179,7 @@ calcPower <- function(graph, alpha, mean = rep(0, nrow(corr.sim)),
     G <-list(...)[["G"]]
     weights <- list(...)[["weights"]]
   }
-  
+  ### END OF API COMPATIBILITY CODE  
 	type <- match.arg(type)
 	if (any(is.na(corr.sim))) stop("While parameter 'corr.test' can contain NAs, this does not make sense for 'corr.sim'.")
 	#print(G)
