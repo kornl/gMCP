@@ -1,3 +1,27 @@
+upscale does not work for Bonferroni or Simes! Also pay attention to GUI rejection.
+
+- Paste to Excel like in http://www.cordinc.com/blog/2010/12/cut-and-paste-from-java-swing.html
+
+Check with jvisualvm for bottlenecks for huge graphs
+
+-> Trimmed weighted Simes' test for two one-sided hypotheses with arbitrarily correlated test statistics.
+
+Check user defined power function
+
+Can two GUIs in one session break things?
+
+Is install_github(..., dependencies = TRUE) checking for the correct package versions?
+
+Are changes to "Use experimental features" persistent during sessions?
+
+Attach correlation matrix to graph?
+
+Alpha in power calculations?
+
+Should correlation matrices be attached to graphs (as it is down with pvalues)?
+
+ToDo: Buttons if one edge point is selected. Right mouse click as cancel.
+
 Documention for value in secondStageTest looks strange.
 Does rJava again contain all necessary jar files?
 
@@ -69,17 +93,6 @@ Does not work any more:
 #' library(Rgraphviz)
 #' renderGraph(layoutGraph(g))
 #' }
-
-- checking dependencies in R code ... NOTE
-   There are ::: calls to the package's namespace in its code. A package
-   almost never needs to use ::: for its own objects:
-   'getJavaInfo'
-   See the information on DESCRIPTION files in the chapter 'Creating R
-   packages' of the 'Writing R Extensions' manual.
-
-- checking R code for possible problems ... NOTE
-   Error in loadNamespace(j <- i[[1L]], c(lib.loc, .libPaths()), versionCheck = vI[[j]]) : 
-   there is no package called 'multtest'
 
 - Check whether everything is okay here (with e.g. Ferber) - most likely yes:
 > eval(expression(edgeAttr(.InitialGraph1394185710245, "T3D1", "T2D1", "variableWeight") <- "1-\\nu"), envir=gMCP:::gMCPenv)

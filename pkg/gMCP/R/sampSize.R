@@ -1,3 +1,20 @@
+#' Sample size calculations
+#' 
+#' Sample size calculations
+#' 
+#' @param powerReqFunc The power requirement function. 
+#' @param target For example \code{function(x) {any(x)}} for at least one rejection or more complex user defined functions like \code{function(x) {(x[1]&&x[3])||(x[2]&&x[4])}}.
+#' @param effSize ...
+#' @param endPoints ...
+#' @param ... ...
+#' @return ...
+#' @examples
+#' 
+#' f <- function(x){1/100*log(x)}
+sampSize <- function(powerReqFunc, target, effSize, endPoints, ...) {
+  # Create targFunc from powerReqFunc
+}
+
 ## This function is taken from package DoseFinding under GPL 
 ## from Bjoern Bornkamp, Jose Pinheiro and Frank Bretz
 
@@ -22,10 +39,10 @@
 #' @examples 
 #' 
 #' f <- function(x){1/100*log(x)}
-#' gMCP:::sampSize(upperN=1000, targFunc=f, target=0.8, verbose=TRUE, alRatio=1) 
-#' gMCP:::sampSize(lowerN=1, upperN=1000, targFunc=f, target=0.8, verbose=TRUE, alRatio=1)  
+#' gMCP:::sampSizeCore(upperN=1000, targFunc=f, target=0.8, verbose=TRUE, alRatio=1) 
+#' gMCP:::sampSizeCore(lowerN=1, upperN=1000, targFunc=f, target=0.8, verbose=TRUE, alRatio=1)  
 #' 
-sampSize <- function (upperN, lowerN = floor(upperN/2),
+sampSizeCore <- function (upperN, lowerN = floor(upperN/2),
                       targFunc, target, tol = 0.001, alRatio,
                       Ntype = c("arm", "total"), verbose = FALSE){
   ## target function to iterate

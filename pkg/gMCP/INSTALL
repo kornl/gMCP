@@ -1,4 +1,4 @@
-PLEASE USE R 2.13 OR A NEWER VERSION OF R, IF AVAILABLE.
+PLEASE USE R 3.0 OR A NEWER VERSION OF R, IF AVAILABLE.
 IF YOU NEED gMCP FOR AN OLDER VERSION OF R, PLEASE CONTACT US!
 (It is theoretically compatible with R 2.8.0 and rJava 0.6-3)
 
@@ -60,11 +60,21 @@ root permissions to let R find your java compiler and headers.
  * Try setInternet2(TRUE) if R can not connect to the internet.
 
  * I get: 
+
      Loading required package: rJava
      Error : .onLoad failed in loadNamespace() for 'rJava', details:
        call: fun(libname, pkgname)
        error: JAVA_HOME cannot be determined from the Registry
      Error: package 'rJava' could not be loaded
+
+   or
+
+     Error : .onLoad failed in loadNamespace() for 'rJava', details:
+       call: fun(libname, pkgname)
+       error: No CurrentVersion entry in Software/JavaSoft registry! 
+       Try re-installing Java and make sure R and Java have matching architectures.
+     Error: package ‘rJava’ could not be loaded
+
    Java is not installed or at least not in the correct variant.
    For example if you have only Java 32-bit on a 64-bit system
    and you start the 64-bit R you will run into this error.

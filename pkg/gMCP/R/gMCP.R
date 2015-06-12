@@ -63,6 +63,9 @@
 #' possibly reduced level alpha of sum(w)*alpha, 
 #' where sum(w) is the sum of all node weights in this subset.
 #' If \code{upscale=TRUE} all weights are upscaled, so that sum(w)=1.
+#' 
+#' For backward comptibility the default value is TRUE if a the parameter \code{test}
+#' is missing, but parameter \code{correlation} is specified or if \code{test=="Bretz2011"}.
 #' @param useC Logical scalar. If \code{TRUE} neither adjusted p-values nor
 #' intermediate graphs are returned, but the calculation is sped up by using
 #' code written in C. THIS CODE IS NOT FOR PRODUCTIVE USE YET!  If approxEps is
@@ -125,8 +128,8 @@
 #' @export gMCP
 
 gMCP <- function(graph, pvalues, test, correlation, alpha=0.05, 
-		approxEps=TRUE, eps=10^(-3), ..., upscale=FALSE, useC=FALSE, 
-		verbose=FALSE, keepWeights=TRUE, adjPValues=TRUE) {
+		approxEps=TRUE, eps=10^(-3), ..., upscale=ifelse(missing(test)&&!missing(correlation)||!missing(test)&&test=="Bretz2011", TRUE, FALSE),
+    useC=FALSE, verbose=FALSE, keepWeights=TRUE, adjPValues=TRUE) {
 #		, alternatives="less") {	
   # Temporary translation of old syntax:
   if (!missing(test)) {
@@ -154,7 +157,7 @@ gMCP <- function(graph, pvalues, test, correlation, alpha=0.05,
     #graph <- parse2numeric(graph) # TODO ask for variables
   }
   
-  if ((missing(test) || test=="Bonferroni") && "entangledMCP" %in% class(graph)) {		
+  if ((missing(test) && missing(correlation) || !missing(test) && test=="Bonferroni") && "entangledMCP" %in% class(graph)) {		
 		out <- graphTest(pvalues=pvalues, weights=getWeights(graph), alpha=alpha*graph@weights, G=getMatrices(graph))
 		result <- new("gMCPResult", graphs=list(graph), alpha=alpha, pvalues=pvalues, rejected=(out==1), adjPValues=numeric(0))
     attr(result, "call") <- call2char(match.call())
@@ -202,6 +205,10 @@ gMCP <- function(graph, pvalues, test, correlation, alpha=0.05,
 		if (missing(correlation) || !is.matrix(correlation)) {
 			stop("Procedure for correlated tests, expects a correlation matrix as parameter \"correlation\".")
 		} else {
+      check <- checkCorrelation(correlation, TRUE)
+      if (!isTRUE(check)) {
+        stop(paste("Parameter 'correlation' is no correlation matrix:", check, sep="\n"))
+      }
 #			if (is.character(correlation)) {
 #				samplesize <- list(...)[["samplesize"]]
 #				if (is.null(samplesize)) samplesize <- getBalancedDesign(correlation, length(pvalues))				

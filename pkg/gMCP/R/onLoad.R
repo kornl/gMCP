@@ -8,7 +8,7 @@
 	.jpackage("JavaGD")
 	
 	jars <- c("afcommons", "commons-collections", "commons-lang", 
-			"commons-logging", "commons-validator", "forms", 
+			"commons-logging", "commons-validator", "jgoodies-common", "forms", 
 			"iText", "javax.json", "jhlir.jar", "jlatexmath", "jxlayer", 
 			"log4j", "swing-worker")
 	
@@ -54,9 +54,8 @@
 				}		
 			}
 		}	
-		# If we have a rJava version > 0.9-3 load JRIEngine.jar and REngine.jar
-    # TODO: Should we check for rJava again containing JRIEngine and REngine.jar in later versions?
-		if (rJavaVersion > "0.9-3") {
+		# If we have a rJava version 0.9-4 load JRIEngine.jar and REngine.jar    
+		if (rJavaVersion == "0.9-4") {
 		  classes <- system.file("JRI", package = "CommonJavaJars", lib.loc = NULL)
 		  if (nzchar(classes)) {
 		    .jaddClassPath(classes) # Necessary?!
@@ -77,15 +76,12 @@
 	Sys.setenv("JAVAGD_CLASS_NAME"="org/mutoss/gui/JavaGD")  
 	
 	# Optional Deducer integration:
-	if(exists(".deducer")) {
-		if (!is.null(.deducer)) {
-			deducer.addMenuItem("Multiple Test Graph",,"graphGUI()","Analysis")
-			if(.jgr){
-				jgr.addMenuSeparator("Analysis")
-				jgr.addMenuItem("Analysis","Multiple Test Graph","graphGUI()")
-			}
-		}
-	}
+	#deducer.addMenuItem <- if (exists("deducer")) get("deducer") else function(...) {}
+	#jgr.addMenuSeparator <- if (exists("jgr.addMenuSeparator")) get("jgr.addMenuSeparator") else function(...) {}
+	#jgr.addMenuItem <- if (exists("jgr.addMenuItem")) get("jgr.addMenuItem") else function(...) {}
+	#deducer.addMenuItem("Multiple Test Graph", NULL, "graphGUI()", "Analysis")
+	#jgr.addMenuSeparator("Analysis")
+	#jgr.addMenuItem("Analysis", "Multiple Test Graph", "graphGUI()")	
 }  
 
 .onUnload <- function(libpath) {

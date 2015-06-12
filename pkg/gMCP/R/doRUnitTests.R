@@ -43,7 +43,7 @@
 #' @export unitTestsGMCP
 unitTestsGMCP <- function(extended=FALSE, java=FALSE, interactive=FALSE, junitLibrary, outputPath) {
   # Adapted and extended from the code from http://rwiki.sciviews.org/doku.php?id=developers:runit
-	if(!require("RUnit", quietly=TRUE)) {
+	if(!requireNamespace("RUnit", quietly=TRUE)) {
 		stop("Please install package RUnit to run the unit tests.")
 	}
 	if (extended) Sys.setenv(GMCP_UNIT_TESTS=paste(Sys.getenv("GMCP_UNIT_TESTS"),"extended"), sep=",")
@@ -70,22 +70,27 @@ unitTestsGMCP <- function(extended=FALSE, java=FALSE, interactive=FALSE, junitLi
 	## or simply call PKG:::myPrivateFunction() in tests
 	
 	## --- Testing ---
+  
+	# Yes, these functions always exist, since we stopped if RUnit could not be required:
+	defineTestSuite <- get("defineTestSuite")
+	runTestSuite <- get("runTestSuite")
+	printTextProtocol <- get("printTextProtocol")
 	
 	## Define tests
 	testSuite <- defineTestSuite(name=paste(pkg, "unit testing"), dirs=path)
 	
 	## Run
-	tests <- runTestSuite(testSuite)
+	testRuns <- runTestSuite(testSuite)
 	
 	## Default report name
 	pathReport <- file.path(path, "report")
 	
 	## Report to stdout and text files
 	cat("------------------- UNIT TEST SUMMARY ---------------------\n\n")
-	printTextProtocol(tests, showDetails=FALSE)
-	printTextProtocol(tests, showDetails=FALSE,
+	printTextProtocol(testRuns, showDetails=FALSE)
+	printTextProtocol(testRuns, showDetails=FALSE,
 			fileName=paste(pathReport, "Summary.txt", sep=""))
-	printTextProtocol(tests, showDetails=TRUE,
+	printTextProtocol(testRuns, showDetails=TRUE,
 			fileName=paste(pathReport, ".txt", sep=""))
 	
 	if (java || tests("java")) {
