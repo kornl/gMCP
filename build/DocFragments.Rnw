@@ -11,5 +11,119 @@ library(multcomp)
 
 
 
+<<>>=
+library(gMCP)
+library(mvtnorm)
+
+w <- c(0.5,0.5)
+m <- rbind(H1=c(0,1),
+           H2=c(1,0))
+cr <- matrix(c(1,0.5,0.5,1),nrow=2,byrow=T)
+ 
+graph <- new("graphMCP", m=m, weights=w)
+
+ap1 <- ap2 <- c()
+set.seed(1234)
+runs <- 5000
+
+n <- 50
+sigma <- diag(3)
+cr <- matrix(1/2, 2, 2) + 1/2*diag(2)
+
+for (i in 1:runs) {
+  
+  x <- rmvnorm(n=n, mean=c(0, 0, 2.2), sigma=sigma)
+  
+  z1 <- mean(x[,1]-x[,2])*sqrt(n/2)
+  z2 <- mean(x[,1]-x[,3])*sqrt(n/2)
+  
+  p1 <- pnorm(z1)
+  p2 <- pnorm(z2)
+  
+  ap <- gMCP(graph, c(p1, p2), test="parametric", correlation=cr, alpha=alpha)@adjPValues
+  
+  ap1 <- c(ap1, ap[1])
+  ap2 <- c(ap2, ap[2])
+  
+}
+sum(ap1<=0.05)/runs
+sum(ap2<=0.05)/runs
+plot(sort(ap1))
+
+@
+
+<<>>=
+library(gMCP)
+library(mvtnorm)
+
+p1 <- p2 <- c()
+set.seed(1234)
+runs <- 100000
+
+for (i in 1:runs) {
+  sigma <- diag(3)
+  n <- 50
+  x <- rmvnorm(n=n, mean=c(0,0,0.2), sigma=sigma)
+  
+  z1 <- mean(x[,1]-x[,2])*sqrt(n/2)
+  z2 <- mean(x[,1]-x[,3])*sqrt(n/2)
+  
+  p1 <- c(p1, pnorm(z1))
+  p2 <- c(p2, pnorm(z2))
+}
+sum(p1<=0.05)/runs
+sum(p2<=0.05)/runs
+
+
+@
+
+
+<<>>=
+
+
+w <- c(0.5,0.5)
+m <- rbind(H1=c(0,0),
+           H2=c(0,0))
+cr <- matrix(c(1,0.5,0.5,1),nrow=2,byrow=T)
+ 
+graph <- new("graphMCP", m=m, weights=w)
+ 
+p <- c(0.4251, 0.121)
+alpha=0.2
+ 
+gMCP(graph,p,test="parametric", correlation=cr, alpha=alpha)
+
+1-pmvnorm(-Inf, upper=qnorm(1-(c(0.5,0.5)*cb*alpha)/2), corr=cr)
+
+#> gMCP:::p.dunnet(p, cr, w, upscale=TRUE)
+#[1] 0.5885213 0.1995256
+#> gMCP:::p.dunnet(p[1], cr=1, w=0.5, upscale=TRUE)
+#[1] 0.4251
+#> gMCP:::p.dunnet(p[2], cr=1, w=0.5, upscale=TRUE)
+#[1] 0.121
+
+1-pmvnorm(-Inf, upper=qnorm(1-pmin(1,(w*p[1]/(w[1]*sum(w))))), corr=cr)
+1-pmvnorm(-Inf, upper=qnorm(1-pmin(1,(w*p[2]/(w[2]*sum(w))))), corr=cr)
+
+w*p[1]/(w[1]*sum(w))
+
+
+gMCP(graph,p,test="parametric", correlation=cr, alpha=alpha, upscale=TRUE)
+
+gMCP:::p.dunnet(p, cr, w, upscale=FALSE)
+gMCP:::p.dunnet(p[1], cr=1, w=0.5, upscale=FALSE)
+gMCP:::p.dunnet(p[2], cr=1, w=0.5, upscale=FALSE)
+gMCP:::p.dunnet(p, cr, w, upscale=TRUE)
+gMCP:::p.dunnet(p[1], cr=1, w=0.5, upscale=TRUE)
+gMCP:::p.dunnet(p[2], cr=1, w=0.5, upscale=TRUE)
+
+
+@
+
+
+
+\section{P-Values}
+
+
 
 \end{document}
