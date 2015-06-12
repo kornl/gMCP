@@ -1,6 +1,14 @@
+upscale does not work for Bonferroni or Simes! Also pay attention to GUI rejection.
+
+- Paste to Excel like in http://www.cordinc.com/blog/2010/12/cut-and-paste-from-java-swing.html
+
 Check with jvisualvm for bottlenecks for huge graphs
 
+-> Trimmed weighted Simes' test for two one-sided hypotheses with arbitrarily correlated test statistics.
+
 Check user defined power function
+
+Can two GUIs in one session break things?
 
 Is install_github(..., dependencies = TRUE) checking for the correct package versions?
 
