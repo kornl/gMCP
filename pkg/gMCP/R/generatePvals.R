@@ -80,7 +80,7 @@
 #' @examples
 #' 
 #' ## Define some graph as matrix
-#' g <- matrix(c(0,0,1,0, 0,0,0,1, 0,1,0,0, 1,0,0,0), nrow = 4,byrow=TRUE)
+#' g <- matrix(c(0,0,1,0, 0,0,0,1, 0,1,0,0, 1,0,0,0), nrow = 4, byrow=TRUE)
 #' ## Choose weights
 #' w <- c(.5,.5,0,0)
 #' ## Some correlation (upper and lower first diagonal 1/2)
@@ -97,6 +97,9 @@
 #' ## Boundaries for correlated test statistics at alpha level .05:
 #' generatePvals(g,w,c,p)
 #' 
+#' g <- Entangled2Maurer2012()
+#' generatePvals(g=g, cr=diag(5), p=rep(0.1,5))
+#' 
 #' @export generatePvals
 #' 
 generatePvals <- function(g,w,cr,p,adjusted=TRUE,hint=generateWeights(g,w),upscale=FALSE){#, alternatives="less"){
@@ -108,7 +111,7 @@ generatePvals <- function(g,w,cr,p,adjusted=TRUE,hint=generateWeights(g,w),upsca
   } 
 }
 
-## At the moment hypotheses that are not tested at all get and adj. p-value of 1
+## At the moment hypotheses that are not tested at all get an adj. p-value of 1
 ad.p <- function(P){
   p.ad <- rep(NA,ncol(P))
   for(i in 1:ncol(P)){

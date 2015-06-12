@@ -1,9 +1,30 @@
-Changes in version 0.8-7 (??-0?-2014)
+Changes in version 0.8-9 (??-??-2015)
+=====================================
+
+- Better layout for result window when Simes test is used.
+
+- Saving a graph now asks which properties should also be saved.
+
+- Fixed color/no-color option for exported images.
+
+- Nodes (Colors/Sizes)
+
+- Improved Edges
+
+- Save p-values / correlations
+
+
+Changes in version 0.8-8 (03-10-2014)
 =====================================
 
 - API FUNCTION PARAMETER CHANGE: The argument 'exhaust' in the functions
   'generateBounds', 'generatePvals' and 'generateTest' was renamed to
   'upscale' to reduce misinterpretation.
+
+- Since CRAN currently will build binaries only for 3.0 and 3.1, we drop support
+  for R < 3.0.0 in the official releases to make our lives easier. Nevertheless 
+  there is a branch pre-R3 on github for those interested (or simply contact us 
+  if you are using an older version of R).
 
 - Up to now the parameter 'test' of function gMCP could be one of the following:
   "Bonferroni", "Simes", "Bretz2011" or "simple-parametric".
@@ -11,28 +32,84 @@ Changes in version 0.8-7 (??-0?-2014)
   "Bonferroni", "Simes" and "parametric", 
   where the old "Bretz2011" corresponds to 'test="parametric", upscale=TRUE' and
   the old "simple-parametric" to 'test="parametric", upscale=FALSE'.
-  (For compatibility the old function calls actually still work, but are discouraged.)
+  For compatibility the old function calls actually still work, but are discouraged.
+
+- The parameters 'cr' and 'sigma' in function 'calcPower' were renamed into 'corr.test' 
+  and 'corr.sim' respectively to further clarify that both are correlation matrices,
+  the first used for the test (this matrix may contain NAs if the full correlation is 
+  not known for the test) and the second one for the simulation (which can not contain 
+  NAs and may also differ from the first one if power under misspecification is 
+  investigated). 
+  For compatibility the old function calls actually still work, but are discouraged.
+
+- Fixed: The (experimental) power calculations were off for graphs where not all  
+  subgraphs created by rejections have the full alpha level.
+  Thanks to Yevgen Tymofyeyev for spotting this!
+
+- The function graph2latex got a new parameter 'showAlpha'. Now per default the graph
+  weights are shown and not the local alpha levels in the nodes. The old output
+  can be reproduced by setting 'showAlpha' to TRUE.
 
 - Fixed: Graph image exports were not possible due to some recently introduced bug.
 
 - Fixed: Some matrices were completely grayed out although only the diagonal 
   was not editable.
 
+- Random seed is shown for results from methods which use random numbers and can 
+  be set via options.
+
 - Support for entangled graphs is no longer highly experimental, 
   but enabled as default.
+
+- Support for parametric tests for entangled graphs, i.e. 'generatePvals'
+  and 'generateWeights' accept entangled graphs now.
 
 - For entangled graphs there is now more than one tab showing the graph:
   The first tab still shows the combined graphs and then a separate tab
   for each graph follows.
+
+- Settings for power calculations are saved temporarily or between sessions.
   
 - The (disabled) menu entry for PDF reports was replaced by functionality
   for Office Open XML (MS Word docx) support. Package xlsxjars is therefore
   now a dependency (IMPORTS), since it already provides the necessary
   Apache POI jar files.
 
+- Settings in the dialogs for power analysis and sample size calculations
+  are remembered and can be saved and loaded as XML files.
+
 - Improved Graph Analysis checks whether weights sum up to 1 for all subgraphs.
 
+- In case of unexpected errors on Java's Event-Dispatch-Thread no error dialog
+  was shown if Java >=7 was used. This is now fixed. Also error handling
+  is now more robust.
+
 - Edges are highlighted if transition matrix cells are edited.
+
+- New example graph from Wang, B. and Ting, N. (2014): "An Application of Graphical 
+  Approach to Construct Multiple Testing Procedures in a Hypothetical Phase III Design." 
+  Frontiers in public health, 1 (75).
+
+- Fixed: In some cases the description of the graph objects was not loaded.
+
+- Fixed: A backslash '\' in the graph description could crash the GUI including R.
+
+- Better handling of unintentionally entered NaN or infinity values.
+
+ 191 files changed, 8047 insertions(+), 3575 deletions(-) [git diff --stat v0.8-7..master]
+
+Changes in version 0.8-7 (26-08-2014)
+=====================================
+
+- Compatible to CommonJavaJars 1.0-5.
+
+- Fixed CRAN warnings.
+
+- Moved Java source to /java as requested by CRAN.
+
+- Dropped Deducer integration for now.
+
+ 41 files changed, 2089 insertions(+), 278 deletions(-)
 
 
 Changes in version 0.8-6 (17-02-2014)

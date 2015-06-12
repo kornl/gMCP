@@ -1,15 +1,15 @@
 .onLoad <- function(libname, pkgname) {
 	if (!.jniInitialized) {
 		.jinit(parameters=c("-Xrs", "-Xss1m"))
-	} else {
-    warning("JVM was already initialized with unknown memory settings.")
+    # Remark - rJava 0.9-5: detect support for -Xrs and enable it by default (this prevents
+    # Java from killing R process on interrupt)
 	}
 	.jpackage(pkgname)	
 	.jpackage("JavaGD")
 	
 	jars <- c("afcommons", "commons-collections", "commons-lang", 
-			"commons-logging", "commons-validator", "forms", 
-			"iText", "jhlir.jar", "jlatexmath", "jxlayer", 
+			"commons-logging", "commons-validator", "jgoodies-common", "forms", 
+			"iText", "javax.json", "jhlir.jar", "jlatexmath", "jxlayer", 
 			"log4j", "swing-worker")
 	
 	loadJars(jars)
@@ -54,9 +54,8 @@
 				}		
 			}
 		}	
-		# If we have a rJava version > 0.9-3 load JRIEngine.jar and REngine.jar
-    # TODO: Should we check for rJava again containing JRIEngine and REngine.jar in later versions?
-		if (rJavaVersion > "0.9-3") {
+		# If we have a rJava version 0.9-4 load JRIEngine.jar and REngine.jar    
+		if (rJavaVersion == "0.9-4") {
 		  classes <- system.file("JRI", package = "CommonJavaJars", lib.loc = NULL)
 		  if (nzchar(classes)) {
 		    .jaddClassPath(classes) # Necessary?!
@@ -67,20 +66,22 @@
 		  }
 		}
 	}
+  
+  java.info <- getJavaInfo(FALSE, FALSE, TRUE)
+	if (length(grep("-Xss1m", java.info))==0) {
+	  warning(paste("JVM was already initialized with unknown memory settings:",strsplit(java.info, split="Input Arguments:")[1][[1]][2]))
+	}
 	
 	## We supply our own JavaGD class
 	Sys.setenv("JAVAGD_CLASS_NAME"="org/mutoss/gui/JavaGD")  
 	
 	# Optional Deducer integration:
-	if(exists(".deducer")) {
-		if (!is.null(.deducer)) {
-			deducer.addMenuItem("Multiple Test Graph",,"graphGUI()","Analysis")
-			if(.jgr){
-				jgr.addMenuSeparator("Analysis")
-				jgr.addMenuItem("Analysis","Multiple Test Graph","graphGUI()")
-			}
-		}
-	}
+	#deducer.addMenuItem <- if (exists("deducer")) get("deducer") else function(...) {}
+	#jgr.addMenuSeparator <- if (exists("jgr.addMenuSeparator")) get("jgr.addMenuSeparator") else function(...) {}
+	#jgr.addMenuItem <- if (exists("jgr.addMenuItem")) get("jgr.addMenuItem") else function(...) {}
+	#deducer.addMenuItem("Multiple Test Graph", NULL, "graphGUI()", "Analysis")
+	#jgr.addMenuSeparator("Analysis")
+	#jgr.addMenuItem("Analysis", "Multiple Test Graph", "graphGUI()")	
 }  
 
 .onUnload <- function(libpath) {

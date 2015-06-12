@@ -8,14 +8,15 @@
 #' graphTest function.
 #' @param f List of user defined power functions. If one is interested in the
 #' power to reject hypotheses 1 and 3 one could specify \code{function(x) {x[1]
-#' && x[3]}}
+#' && x[3]}}. If f is a named list, the result will contain corresponding items 
+#' with the same names (among the default elements described in the following).
 #' @return A list containg at least the following four elements and
 #' an element for each element in the parameter \code{f}.
-#' \itemize{
-#' \item LocPower A numeric giving the local powers for the hypotheses
-#' \item ExpNrRej The expected number of rejections
-#' \item PowAtlst1 The power to reject at least one hypothesis
-#' \item RejectAll The power to reject all hypotheses
+#' \describe{
+#' \item{\code{LocPower}}{A numeric giving the local powers for the hypotheses}
+#' \item{\code{ExpNrRej}}{The expected number of rejections}
+#' \item{\code{PowAtlst1}}{The power to reject at least one hypothesis}
+#' \item{\code{RejectAll}}{The power to reject all hypotheses}
 #' }
 #' @keywords htest
 #' @export extractPower
@@ -60,9 +61,9 @@ extractPower <- function(x, f=list()) {
 #' When multiple graphs should be used this needs to be a list containing the
 #' different graphs as elements.
 #' @param mean Mean under the alternative
-#' @param sigma Covariance matrix under the alternative.
-#' @param cr Correlation matrix that should be used for the parametric test.
-#' If \code{cr==NULL} the Bonferroni based test procedure is used. Can contain
+#' @param corr.sim Covariance matrix under the alternative.
+#' @param corr.test Correlation matrix that should be used for the parametric test.
+#' If \code{corr.test==NULL} the Bonferroni based test procedure is used. Can contain
 #' NAs.
 #' @param type What type of random numbers to use. \code{quasirandom} uses a
 #' randomized Lattice rule, and should be more efficient than
@@ -86,10 +87,15 @@ extractPower <- function(x, f=list()) {
 #' even if the sum of weights is strictly smaller than one. If
 #' \code{test="simple-parametric"} the tests are performed as defined in
 #' Equation (3) of Bretz et al. (2011).
+#' @param ... For backwards compatibility. For example up to version 0.8-7
+#' the parameters \code{corr.model} and \code{corr.test} were called \code{sigma}
+#' and \code{cr}.
 #' @return A list containg three elements
-#' @returnItem LocalPower A numeric giving the local powers for the hypotheses
-#' @returnItem ExpRejections The expected number of rejections
-#' @returnItem PowAtlst1 The power to reject at least one hypothesis
+#' \describe{
+#' \item{\code{LocalPower}}{A numeric giving the local powers for the hypotheses}
+#' \item{\code{ExpRejections}}{The expected number of rejections}
+#' \item{\code{PowAtlst1}}{The power to reject at least one hypothesis}
+#' }
 #' @references
 #' 
 #' Bretz, F., Maurer, W., Brannath, W. and Posch, M. (2009) A graphical
@@ -159,19 +165,26 @@ extractPower <- function(x, f=list()) {
 #' round(cbind(atlst1, locpow), 5)
 #' 
 #' @export calcPower
-calcPower <- function(weights, alpha, G, mean = rep(0, nrow(sigma)),
-                      sigma = diag(length(mean)), cr = NULL,
+calcPower <- function(weights, alpha, G, mean = rep(0, nrow(corr.sim)),
+                      corr.sim = diag(length(mean)), corr.test = NULL,
                       nSim = 10000, type = c("quasirandom", "pseudorandom"),
-					  f=list(), test) {
+					  f=list(), test, ...) {
+  if (!is.null(list(...)[["sigma"]]) && missing(corr.sim)) {
+     corr.sim <- list(...)[["sigma"]]
+  }
+  if (!is.null(list(...)[["cr"]]) && missing(corr.test)) {
+    corr.test <- list(...)[["cr"]]
+  }
+  
 	type <- match.arg(type)
-	if (any(is.na(sigma))) stop("While parameter 'cr' can contain NAs, this does not make sense for 'sigma'.")
+	if (any(is.na(corr.sim))) stop("While parameter 'corr.test' can contain NAs, this does not make sense for 'corr.sim'.")
 	#print(G)
 	if (is.list(mean)) {
 	  result <- list()
 	  for (m in mean) {
-		  sims <- rqmvnorm(nSim, mean = m, sigma = sigma, type = type)
+		  sims <- rqmvnorm(nSim, mean = m, sigma = corr.sim, type = type)
 		  pvals <- pnorm(sims, lower.tail = FALSE)
-		  out <- graphTest(pvalues=pvals, weights=weights, alpha=alpha, G=G, cr=cr, test=test)
+		  out <- graphTest(pvalues=pvals, weights=weights, alpha=alpha, G=G, cr=corr.test, test=test)
 		  out <- extractPower(out, f)
 		  label <- attr(m, "label")		  
 		  if (!is.null(label)) {
@@ -181,36 +194,51 @@ calcPower <- function(weights, alpha, G, mean = rep(0, nrow(sigma)),
 	  }
 	  return(result)
   } else {
-    print(mean)
-    print(sigma)
-    print(nSim)
-	  sims <- rqmvnorm(nSim, mean = mean, sigma = sigma, type = type)
+    #print(mean)
+    #print(corr.sim)
+    #print(nSim)
+	  sims <- rqmvnorm(nSim, mean = mean, sigma = corr.sim, type = type)
 	  pvals <- pnorm(sims, lower.tail = FALSE)
-	  out <- graphTest(pvalues=pvals, weights=weights, alpha=alpha, G=G, cr=cr, test=test)
+	  out <- graphTest(pvalues=pvals, weights=weights, alpha=alpha, G=G, cr=corr.test, test=test)
 	  extractPower(out, f)
   }
 }
 
-calcMultiPower <- function(weights, alpha, G, muL, sigmaL, nL,
-		sigma = diag(length(muL[[1]])), cr = NULL,
+calcMultiPower <- function(weights, alpha, G, ncpL, muL, sigmaL, nL,
+		corr.sim = diag(length(muL[[1]])), corr.test = NULL,
 		nSim = 10000, type = c("quasirandom", "pseudorandom"),
-		f=list(), digits=4, variables=NULL, test) {
-	meanL <- list()
-	for (mu in muL) {
-		for (s in sigmaL) {
-			for (n in nL) {
-				newSetting <- mu*sqrt(n)/s
-				attr(newSetting, "label") <- paste("mu: ",paste(mu,collapse=","),", sigma: ",paste(s,collapse=","),", n: ",paste(n,collapse=","),sep="")
-				meanL[[length(meanL)+1]] <- newSetting 
-			}
-		}
-	}
+		f=list(), digits=4, variables=NULL, test, ...) {
+  if (!is.null(list(...)[["sigma"]]) && missing(corr.sim)) {
+    corr.sim <- list(...)[["sigma"]]
+  }
+  if (!is.null(list(...)[["cr"]]) && missing(corr.test)) {
+    corr.test <- list(...)[["cr"]]
+  }
+  if (!missing(ncpL) && (!missing(muL)||!missing(sigmaL)||!missing(nL))) {
+    warning("Only parameter 'ncpL' will be used, not 'muL', 'sigmaL' or 'nL'.")
+  }
+  if (missing(ncpL)) {
+    ncpL <- list()
+    for (mu in muL) {
+      for (s in sigmaL) {
+        for (n in nL) {
+          newSetting <- mu*sqrt(n)/s
+          attr(newSetting, "label") <- paste("mu: ",paste(mu,collapse=","),", sigma: ",paste(s,collapse=","),", n: ",paste(n,collapse=","),sep="")
+          ncpL[[length(ncpL)+1]] <- newSetting 
+        }
+      }
+    }
+  } else {
+    for (i in 1:length(ncpL)) {
+      attr(ncpL[[i]], "label") <- names(ncpL)[i]
+    }
+  }
 	sResult <- ""
 	g <- matrix2graph(G)
 	g <- setWeights(g, weights)
 	if (is.null(variables)) {
 		sResult <- paste(sResult, "Graph:",paste(capture.output(print(g)), collapse="\n"), sep="\n")
-		resultL <- calcPower(weights, alpha, G, mean = meanL, sigma, cr, nSim, type, f, test=test)
+		resultL <- calcPower(weights, alpha, G, mean = ncpL, corr.sim, corr.test, nSim, type, f, test=test)
 		sResult <- paste(sResult, resultL2Text(resultL, digits), sep="\n")
 	} else {
 		# For testing purposes: variables <- list(a=c(1,2), b=(3), x=c(2,3,4), d=c(1,2))
@@ -224,12 +252,12 @@ calcMultiPower <- function(weights, alpha, G, muL, sigmaL, nL,
 			}
 			names(variablesII) <- names(variables)
 			GII <- replaceVariables(G, as.list(variablesII))
-			print(GII)
-			print(weights)
-			print(alpha)
-			print(meanL)
+			#print(GII)
+			#print(weights)
+			#print(alpha)
+			#print(ncpL)
 			additionalLabel <- paste(",", paste(paste(names(variables),"=",variablesII,sep=""), collapse=", "))
-			resultL <- calcPower(weights=weights, alpha=alpha, G=GII, mean = meanL, sigma, cr, nSim, type, f, test=test)
+			resultL <- calcPower(weights=weights, alpha=alpha, G=GII, mean = ncpL, corr.sim, corr.test, nSim, type, f, test=test)
 			sResult <- paste(sResult, resultL2Text(resultL, digits, additionalLabel=additionalLabel), sep="\n")
 			# Going through all of the variable settings:
 			i[j] <- i[j] + 1

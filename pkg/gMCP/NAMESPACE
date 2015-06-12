@@ -5,7 +5,7 @@ import(methods)
 importFrom(stats4, plot)
 import(utils)
 import(rJava)
-# Superfluous since xlsxjars only has a '.onload' method (but still here for CRAN checks):
+# Superfluous since xlsxjars has no functions (but still here for CRAN checks):
 import(xlsxjars)
 importFrom(CommonJavaJars, loadJars)
 importFrom(PolynomF, polynom)
@@ -46,6 +46,7 @@ export(cycleGraph)
 export(HuqueAloshEtBhore2011)
 export(Ferber2011, FerberTimeDose2011)
 export(Entangled1Maurer2012, Entangled2Maurer2012)
+export(WangTing2014)
 
 export(extractPower, calcPower, graphTest, rqmvnorm)
 export(plotSimCI)

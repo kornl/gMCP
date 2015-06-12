@@ -63,6 +63,9 @@
 #' possibly reduced level alpha of sum(w)*alpha, 
 #' where sum(w) is the sum of all node weights in this subset.
 #' If \code{upscale=TRUE} all weights are upscaled, so that sum(w)=1.
+#' 
+#' For backward comptibility the default value is TRUE if a the parameter \code{test}
+#' is missing, but parameter \code{correlation} is specified or if \code{test=="Bretz2011"}.
 #' @param useC Logical scalar. If \code{TRUE} neither adjusted p-values nor
 #' intermediate graphs are returned, but the calculation is sped up by using
 #' code written in C. THIS CODE IS NOT FOR PRODUCTIVE USE YET!  If approxEps is
@@ -78,10 +81,12 @@
 #' significantly less calculations in most cases.
 #' @return An object of class \code{gMCPResult}, more specifically a list with
 #' elements
-#' @returnItem graphs list of graphs
-#' @returnItem pvalues p-values
-#' @returnItem rejected logical whether hyptheses could be rejected
-#' @returnItem adjPValues adjusted p-values
+#' \describe{
+#' \item{\code{graphs}}{list of graphs}
+#' \item{\code{pvalues}}{p-values}
+#' \item{\code{rejected}}{logical whether hyptheses could be rejected}
+#' \item{\code{adjPValues}}{adjusted p-values}
+#' }
 #' @author Kornelius Rohmeyer \email{rohmeyer@@small-projects.de}
 #' @seealso \code{\link{graphMCP}} \code{\link[multcomp:contrMat]{graphNEL}}
 #' @references Frank Bretz, Willi Maurer, Werner Brannath, Martin Posch: A
@@ -116,11 +121,15 @@
 #' # With 'upscale=TRUE' equal to BonferroniHolm:
 #' gMCP(g2, pvalues=c(0.01, 0.02, 0.04, 0.04, 0.7), upscale=TRUE)
 #' 
+#' # Entangled graphs:
+#' g3 <- Entangled2Maurer2012()
+#' gMCP(g3, pvalues=c(0.01, 0.02, 0.04, 0.04, 0.7), correlation=diag(5))
+#' 
 #' @export gMCP
 
 gMCP <- function(graph, pvalues, test, correlation, alpha=0.05, 
-		approxEps=TRUE, eps=10^(-3), ..., upscale=FALSE, useC=FALSE, 
-		verbose=FALSE, keepWeights=TRUE, adjPValues=TRUE) {
+		approxEps=TRUE, eps=10^(-3), ..., upscale=ifelse(missing(test)&&!missing(correlation)||!missing(test)&&test=="Bretz2011", TRUE, FALSE),
+    useC=FALSE, verbose=FALSE, keepWeights=TRUE, adjPValues=TRUE) {
 #		, alternatives="less") {	
   # Temporary translation of old syntax:
   if (!missing(test)) {
@@ -135,11 +144,20 @@ gMCP <- function(graph, pvalues, test, correlation, alpha=0.05,
     }
   }
   # Check for entangled graphs and yet unsupported tests:
-	if ("entangledMCP" %in% class(graph)) {
-		if (!missing(correlation) || !missing(test) && test != "Bonferroni") {
-      #TODO
-			stop("Only Bonferroni based testing procedures are supported for entangled graphs in this version.")
-		}
+  if (!missing(test) && test=="Simes" && "entangledMCP" %in% class(graph)) {
+    #TODO
+    stop("Simes test is not yet supported for entangled graphs in this version.")
+  }
+  
+  if (approxEps) {
+    graph <- substituteEps(graph, eps=eps)
+  }
+  if ("graphMCP" %in% class(graph) && !is.numeric(graph@m)) {
+    stop("Graph seems to contain variables - please use function replaceVariables.")
+    #graph <- parse2numeric(graph) # TODO ask for variables
+  }
+  
+  if ((missing(test) && missing(correlation) || !missing(test) && test=="Bonferroni") && "entangledMCP" %in% class(graph)) {		
 		out <- graphTest(pvalues=pvalues, weights=getWeights(graph), alpha=alpha*graph@weights, G=getMatrices(graph))
 		result <- new("gMCPResult", graphs=list(graph), alpha=alpha, pvalues=pvalues, rejected=(out==1), adjPValues=numeric(0))
     attr(result, "call") <- call2char(match.call())
@@ -151,13 +169,6 @@ gMCP <- function(graph, pvalues, test, correlation, alpha=0.05,
 	#if (verbose) {
 	#	output <- paste(output, checkOptimal(graph, verbose=FALSE), sep="\n")
 	#}
-	if (approxEps && !is.numeric(graph@m)) {
-		graph <- substituteEps(graph, eps=eps)
-	}
-	if (!is.numeric(graph@m)) {
-		stop("Graph seems to contain variables - please use function replaceVariables.")
-		#graph <- parse2numeric(graph) # TODO ask for variables
-	}
 	sequence <- list(graph)
 	if (length(pvalues)!=length(getNodes(graph))) {
 		stop("Length of pvalues must equal number of nodes.")
@@ -194,28 +205,31 @@ gMCP <- function(graph, pvalues, test, correlation, alpha=0.05,
 		if (missing(correlation) || !is.matrix(correlation)) {
 			stop("Procedure for correlated tests, expects a correlation matrix as parameter \"correlation\".")
 		} else {
+      check <- checkCorrelation(correlation, TRUE)
+      if (!isTRUE(check)) {
+        stop(paste("Parameter 'correlation' is no correlation matrix:", check, sep="\n"))
+      }
 #			if (is.character(correlation)) {
 #				samplesize <- list(...)[["samplesize"]]
 #				if (is.null(samplesize)) samplesize <- getBalancedDesign(correlation, length(pvalues))				
 #				x <- contrMat(samplesize, type = correlation) # balanced design up to now and only Dunnett will work with n+1
 #				var <- x %*% diag(length(samplesize)) %*% t(x)
 #				correlation <- diag(1/sqrt(diag(var)))%*%var%*%diag(1/sqrt(diag(var)))
-#			}                       
-			Gm <- graph2matrix(graph)
+#			}                       			
 			w <- getWeights(graph)
 			if( all(w==0) ) {
-                adjP <- rep(1,length(w))
-				rejected <- rep(FALSE,length(w))
-				names(rejected) <- getNodes(graph)
-                names(adjP) <- getNodes(graph)
+			  adjP <- rep(1,length(w))
+			  rejected <- rep(FALSE,length(w))
+			  names(rejected) <- getNodes(graph)
+			  names(adjP) <- getNodes(graph)
 			} else {
-				#myTest <- generateTest(Gm, w, correlation, alpha)
-				#zScores <- -qnorm(pvalues)
-				#rejected <- myTest(zScores)
-                adjP <- generatePvals(Gm, w, correlation, pvalues, upscale=upscale) #, alternatives=alternatives)
-                rejected <- adjP <= alpha
-                names(adjP) <- getNodes(graph)
-				names(rejected) <- getNodes(graph)
+			  #myTest <- generateTest(Gm, w, correlation, alpha)
+			  #zScores <- -qnorm(pvalues)
+			  #rejected <- myTest(zScores)
+			  adjP <- generatePvals(g=graph, cr=correlation, p=pvalues, upscale=upscale) #, alternatives=alternatives)
+			  rejected <- adjP <= alpha
+			  names(adjP) <- getNodes(graph)
+			  names(rejected) <- getNodes(graph)
 			}
 			result <- new("gMCPResult", graphs=sequence, alpha=alpha, pvalues=pvalues, rejected=rejected, adjPValues=adjP)
 			attr(result, "call") <- call2char(match.call())

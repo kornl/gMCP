@@ -1,5 +1,0 @@
-\documentclass[10pt]{article}
-%\VignetteIndexEntry{A Graphical Approach to Weighted Multiple Test Procedures}
-\begin{document}
-This is a fake Rnw file. Take a look at gMCP/gMCP.Rnw for the real vignette.
-\end{document}

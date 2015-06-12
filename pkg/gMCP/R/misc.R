@@ -31,13 +31,12 @@ parseEpsPolynom <- function(s) {
 }
 
 getDebugInfo <- function() {
-	graphs <- ls(pattern="\\.InitialGraph*", all.names=TRUE, envir=globalenv())
-	if (exists(".tmpGraph")) {
-		graphs <- c(graphs, ".tmpGraph")
-	}
+	graphs <- ls(pattern="\\.InitialGraph*", all.names=TRUE, envir=gMCPenv)
+	graphs <- c(graphs, ls(pattern="\\.tmpGraph*", all.names=TRUE, envir=gMCPenv))
+	graphs <- c(graphs, ls(pattern="\\.ResetGraph*", all.names=TRUE, envir=gMCPenv))
 	graphInfo <- c()
 	for (graph in graphs) {
-		.DebugGraph <- get(graph, envir=globalenv())
+		.DebugGraph <- get(graph, envir=gMCPenv)
 		graphTXT <- paste(capture.output(print(.DebugGraph)), collapse="\n")
 		matrixTXT <- paste("m <-",paste(capture.output(dput(graph2matrix(.DebugGraph))), collapse="\n"),"\n")
 		weightsTXT <- paste("w <-",paste(capture.output(dput(getWeights(.DebugGraph))), collapse="\n"),"\n")
@@ -169,66 +168,6 @@ nextAvailableName <- function(x) {
 	return(x)
 }
 
-# The following code of regmatches under GPL is taken directly from the R base package. 
-# Copyright (C) 2012 The R Foundation for Statistical Computing
-# It was introduced in R 2.14.0 - but for backward-compatibility we also include it in gMCP.
-
-regmatches <- function (x, m, invert = FALSE) {
-	if (length(x) != length(m)) 
-		stop(gettextf("%s and %s must have the same length", 
-						sQuote("x"), sQuote("m")), domain = NA)
-	ili <- is.list(m)
-	useBytes <- if (ili) 
-				any(unlist(lapply(m, attr, "useBytes")))
-			else any(attr(m, "useBytes"))
-	if (useBytes) {
-		asc <- iconv(x, "latin1", "ASCII")
-		ind <- is.na(asc) | (asc != x)
-		if (any(ind)) 
-			Encoding(x[ind]) <- "bytes"
-	}
-	if (!ili && !invert) {
-		so <- m[ind <- (!is.na(m) & (m > -1L))]
-		eo <- so + attr(m, "match.length")[ind] - 1L
-		return(substring(x[ind], so, eo))
-	}
-	y <- if (invert) {
-				Map(function(u, so, ml) {
-							if ((n <- length(so)) == 1L) {
-								if (is.na(so)) 
-									return(character())
-								else if (so == -1L) 
-									return(u)
-							}
-							beg <- if (n > 1L) {
-										eo <- so + ml - 1L
-										if (any(eo[-n] >= so[-1L])) 
-											stop(gettextf("need non-overlapping matches for %s", 
-															sQuote("invert = TRUE")), domain = NA)
-										c(1L, eo + 1L)
-									}
-									else {
-										c(1L, so + ml)
-									}
-							end <- c(so - 1L, nchar(u))
-							substring(u, beg, end)
-						}, x, m, if (ili) 
-									lapply(m, attr, "match.length")
-								else attr(m, "match.length"), USE.NAMES = FALSE)
-			}
-			else {
-				Map(function(u, so, ml) {
-							if (length(so) == 1L) {
-								if (is.na(so) || (so == -1L)) 
-									return(character())
-							}
-							substring(u, so, so + ml - 1L)
-						}, x, m, lapply(m, attr, "match.length"), USE.NAMES = FALSE)
-			}
-	names(y) <- names(x)
-	y
-}
-
 layers <- function(graph) {
 	if ("graphMCP" %in% class(graph)) {
 		return(as.integer(1))
@@ -243,14 +182,17 @@ layers <- function(graph) {
 #' 
 #' Get Memory and Runtime Info from JVM
 #' 
+#' @param memory Logical whether to include memory information + number of available cores
+#' @param filesystem Logical whether to include filesystem information (Total, free and usable space)
+#' @param runtime Logical whether to include runtime information (Class Path, Library Path, Input Arguments)
 #' @return character vector of length 1 containing the memory and runtime info.
 #' @author Kornelius Rohmeyer \email{rohmeyer@@small-projects.de}
 #' @examples
 #' 
 #' cat(getJavaInfo())
 #' 
-getJavaInfo <- function() {
-  return(J("org.af.commons.logging.SystemInfo")$getSystemInfo(TRUE, TRUE, TRUE))  
+getJavaInfo <- function(memory=TRUE, filesystem=TRUE, runtime=TRUE) {
+  return(.jcall("org.af.commons.logging.SystemInfo", "S", "getSystemInfo", memory, filesystem, runtime))  
 }
 
 getNewestRVersion <- function() {

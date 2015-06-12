@@ -1,5 +1,5 @@
 test.calcpower <- function() {
-	if (Sys.getenv("GMC_UNIT_TESTS")=="extended") {
+	if (gMCP:::tests("extended")) {
 		# Here we can write down extended tests that will only be used if
 		# the environment variable GMC_UNIT_TESTS is set to "extended".
 	}
@@ -8,7 +8,7 @@ test.calcpower <- function() {
 }
 
 test.rqmvnorm <- function() {
-	if (!"extended" %in% strsplit(Sys.getenv("GMCP_UNIT_TESTS"),",")[[1]]) {		
+	if (gMCP:::tests("extended")) {		
 		# Check whether the correlation is correctly processed
 		# (especially in the right order)
 		R <- kronecker(matrix(.3,2,2)+diag(.7,2), matrix(1/2,3,3)+diag(1/2,3))

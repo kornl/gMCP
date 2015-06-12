@@ -86,8 +86,8 @@
 #' @export generateTest
 #' 
 generateTest <-
-function(g,w,cr,al){#, alternatives="less"){
-  bounds <- generateBounds(g,w,cr,al)#, alternatives=alternatives)
+function(g,w,cr,al, upscale=FALSE){#, alternatives="less"){
+  bounds <- generateBounds(g,w,cr,al,upscale=upscale)#, alternatives=alternatives)
   return(
          function(z){
            dm <- t(apply(bounds,1,function(b) {

@@ -1,10 +1,48 @@
+#' Sample size calculations
+#' 
+#' Sample size calculations
+#' 
+#' @param powerReqFunc The power requirement function. 
+#' @param target For example \code{function(x) {any(x)}} for at least one rejection or more complex user defined functions like \code{function(x) {(x[1]&&x[3])||(x[2]&&x[4])}}.
+#' @param effSize ...
+#' @param endPoints ...
+#' @param ... ...
+#' @return ...
+#' @examples
+#' 
+#' f <- function(x){1/100*log(x)}
+sampSize <- function(powerReqFunc, target, effSize, endPoints, ...) {
+  # Create targFunc from powerReqFunc
+}
+
 ## This function is taken from package DoseFinding under GPL 
 ## from Bjoern Bornkamp, Jose Pinheiro and Frank Bretz
 
-## function for sample size calculation and functions to evaluate
+## Function for sample size calculation and functions to evaluate
 ## performance metrics for different sample sizes
 
-sampSize <- function (upperN, lowerN = floor(upperN/2),
+#' Function for sample size calculation
+#' 
+#' Function for sample size calculation
+#' 
+#' For details see the manual and examples.
+#' 
+#' @param upperN \code{targFunc(upperN)} should be bigger than target (otherwise \code{upperN} is doubled until this is the case).
+#' @param lowerN \code{targFunc(lowerN)} should be smaller than target (otherwise \code{lowerN} is halfed until this is the case).
+#' @param targFunc The target (power) function that should be monotonically increasing in \code{n}.
+#' @param target The target value. The function searches the \code{n} with \code{targFunc(n)-target<tol} and \code{targFunc(n)>target}.
+#' @param tol Tolerance: The function searches the \code{n} with \code{targFunc(n)-target<tol} and \code{targFunc(n)>target}.
+#' @param alRatio Allocation ratio.
+#' @param Ntype Either \code{"arm"} or \code{"total"}.
+#' @param verbose Logical, whether verbose output should be printed.
+#' @return Integer value \code{n} (of type numeric) with \code{targFunc(n)-target<tol} and \code{targFunc(n)>target}.
+#' @examples 
+#' 
+#' f <- function(x){1/100*log(x)}
+#' gMCP:::sampSizeCore(upperN=1000, targFunc=f, target=0.8, verbose=TRUE, alRatio=1) 
+#' gMCP:::sampSizeCore(lowerN=1, upperN=1000, targFunc=f, target=0.8, verbose=TRUE, alRatio=1)  
+#' 
+sampSizeCore <- function (upperN, lowerN = floor(upperN/2),
                       targFunc, target, tol = 0.001, alRatio,
                       Ntype = c("arm", "total"), verbose = FALSE){
   ## target function to iterate
@@ -13,29 +51,21 @@ sampSize <- function (upperN, lowerN = floor(upperN/2),
   }
 
   Ntype <- match.arg(Ntype)
-  if (!missing(alRatio)) {
-    if (any(alRatio <= 0)) {
-      stop("all entries of alRatio need to be positive")
-    } else {
-      alRatio <- alRatio/sum(alRatio)
-    }
-    if(Ntype == "arm") {
-      alRatio <- alRatio/min(alRatio)
-    } 
-  } else { ## by default assume
-    stop("allocation ratios need to be specified")
-  }
+  if (missing(alRatio)) stop("allocation ratios need to be specified")
+  if (any(alRatio <= 0)) stop("all entries of alRatio need to be positive")
+  
+  alRatio <- alRatio/sum(alRatio)
+  if(Ntype == "arm") {
+    alRatio <- alRatio/min(alRatio)
+  } 
   
   ## first call
   upper <- func(round(upperN*alRatio))
-  if(length(upper) > 1)
-    stop("targFunc(n) to evaluate to a vector of length 1.")
-  if(!is.numeric(upper))
-    stop("targFunc(n) needs to evaluate to a numeric.")
+  if(length(upper) > 1) stop("targFunc(n) to evaluate to a vector of length 1.")
+  if(!is.numeric(upper)) stop("targFunc(n) needs to evaluate to a numeric.")
 
   ## bracket solution
-  if (upper < 0)
-    message("upper limit for sample size is raised")
+  if (upper < 0) message("upper limit for sample size is raised")
 
   while (upper < 0) {
     upperN <- 2 * upperN
@@ -44,13 +74,11 @@ sampSize <- function (upperN, lowerN = floor(upperN/2),
   
   lower <- func(round(lowerN*alRatio))
   
-  if (lower > 0) 
-    message("lower limit for sample size is decreased")
+  if (lower > 0) message("lower limit for sample size is decreased")
 
   while (lower > 0) {
     lowerN <- round(lowerN/2)
-    if (lowerN == 0) 
-      stop("cannot find lower limit on n")
+    if (lowerN == 0) stop("cannot find lower limit on n")
     lower <- func(round(lowerN*alRatio))
   }
 

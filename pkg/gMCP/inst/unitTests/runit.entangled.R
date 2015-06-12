@@ -13,5 +13,31 @@ test.graphTest <- function() {
   graph2 <- matrix2graph(G2, weights[2,])
 	graph <- new("entangledMCP", subgraphs=list(graph1, graph2), weights=c(0.5,0.5))
 	out_from_objects <- graphTest(pvals, alpha=0.025, graph=graph, verbose = TRUE)
-	all.equal(out, out_from_objects)
+	checkTrue(all.equal(out, out_from_objects))
+}
+
+test.bonferroni <- function() {
+  graph <- Entangled1Maurer2012()
+  pvalues <- c(0.5, 0.01, 0.02, 0.01, 0.01)
+  result <- gMCP(graph, pvalues, test="Bonferroni", alpha=0.05)
+  checkTrue(all(result@rejected==c(FALSE, TRUE, TRUE, FALSE, TRUE)))
+  pvalues <- c(0.04, 0.01, 0.02, 0.01, 0.01)
+  result <- gMCP(graph, pvalues, test="Bonferroni", alpha=0.05)
+  checkTrue(all(result@rejected))
+}
+
+test.parametric <- function() {
+  graph <- Entangled1Maurer2012()
+  pvalues <- c(0.5, 0.01, 0.02, 0.01, 0.01)
+  result <- gMCP(graph, pvalues, correlation=diag(5), test="parametric" , alpha=0.05)
+  
+  
+}
+
+test.simes <- function() {
+  
+}
+
+test.power <- function() {
+  
 }

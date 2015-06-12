@@ -60,7 +60,12 @@ test.checkWeights <- function() {
 			BauerEtAl2001(),
 			BretzEtAl2009a(),
 			BretzEtAl2009b(),
-			BretzEtAl2009c())
+			BretzEtAl2009c()#,
+			#FerberTimeDose2011(times=5, doses=3, w=1/2),
+			#Ferber2011(),
+			#Entangled1Maurer2012(),
+			#Entangled2Maurer2012(),
+	)
 	for (graph in graphs) {		
 		p <- gMCP:::permutations(length(getNodes(graph)))
 		for (i in 1:(dim(p)[1])) {

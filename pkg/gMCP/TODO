@@ -1,11 +1,35 @@
+upscale does not work for Bonferroni or Simes! Also pay attention to GUI rejection.
+
+- Paste to Excel like in http://www.cordinc.com/blog/2010/12/cut-and-paste-from-java-swing.html
+
+Check with jvisualvm for bottlenecks for huge graphs
+
+-> Trimmed weighted Simes' test for two one-sided hypotheses with arbitrarily correlated test statistics.
+
+Check user defined power function
+
+Can two GUIs in one session break things?
+
+Is install_github(..., dependencies = TRUE) checking for the correct package versions?
+
+Are changes to "Use experimental features" persistent during sessions?
+
+Attach correlation matrix to graph?
+
+Alpha in power calculations?
+
+Should correlation matrices be attached to graphs (as it is down with pvalues)?
+
+ToDo: Buttons if one edge point is selected. Right mouse click as cancel.
+
 Documention for value in secondStageTest looks strange.
 Does rJava again contain all necessary jar files?
 
+New features use Java 6 settings. Use reflection for Java 5 compatibility.
+
 - Multiple Setting:
-   Default: NCP (throw out n, \sigma, \mu)
-   Instead of c(0,0,...) use #hypotheses text fields.
-   Remove setting + check for empty textfields
-   Move power simulation options on the right side of the simulation window
+   Instead of c(0,0,...) use #hypotheses text fields. Check whether tab works as expected. Tab works, but most likely we want "select all" on "focus".
+   Check for empty textfields
    Remember multiple setting options and add "clear" button. Save settings under name.
    User specified power functions should be namable in the GUI. Save output as data.frame and CSV.
 
@@ -17,14 +41,39 @@ Does rJava again contain all necessary jar files?
 - _Always_ use correlation matrix - never covariance matrix. Check for this for imports (and ask for converting to corMat). In the GUI disable diagonal.
 
 - Check all output whether numbers should be rounded (e.g. 0.12000000000000000032) or converted to fractions?
+(Pay attention to epsilons and numerical instabilities.)
 
 - Reodering hypotheses doesn't work.
+- See ?Deprecated and ?Defunct for outdated code
+
+- cat((graph2latex(improvedParallelGatekeeping(), nodeTikZ="minimum size=1.2cm", tikzEnv=FALSE, offset=c(300, 0)))
+  has inverted arrows (arcs are too long) without manual 'nodeR=27'.
 
 - Check verbose output of algorithm (i) when, why? ii) new FormLayout)
+- Check whether option "Colored image files and reports" is respected.
 
 - Why is there still a thread running if the GUI is closed?
 
-- Add variables as parameters to example graphs
+- Test error handler with Java 5.
+
+- In the log there are two lines:
+Package version could not be set:
+org.rosuda.REngine.REXPLogical cannot be cast to org.rosuda.REngine.REXPString
+
+java.lang.NoSuchMethodError: gdFlush
+  at org.rosuda.JRI.Rengine.rniEval(Native Method)
+	at org.rosuda.REngine.JRI.JRIEngine.eval(JRIEngine.java:281)
+	at org.rosuda.REngine.REngine.parseAndEval(REngine.java:102)
+	at org.af.jhlir.backends.rengine.RCallServicesREngine.engineEval(RCallServicesREngine.java:92)
+	at org.af.jhlir.backends.rengine.RCallServicesREngine.eval(RCallServicesREngine.java:70)
+	at org.af.gMCP.gui.RCallServicesREngineWrapper.eval(RCallServicesREngineWrapper.java:15)
+	at org.af.gMCP.gui.dialogs.DialogConfIntEstVar.calculateCI(DialogConfIntEstVar.java:196)
+	at org.af.gMCP.gui.dialogs.DialogConfIntEstVar.insertUpdate(DialogConfIntEstVar.java:329)
+
+Use tools::write_PACKAGES(".", type="source") to create PACKAGES and PACKAGES.gz.
+
+Nodes are two big in this graph (and arrow heads therefore reverted - What about dropping $\alpha$?):
+graph2latex(improvedParallelGatekeeping(), scale=0.7, nodeTikZ="minimum size=1.2cm", tikzEnv=FALSE, offset=c(300, 0))
 
 - Upscale does not work yet with adjusted p-values!
 - Allow upscale for Simes test? (Theory!)
@@ -38,19 +87,23 @@ Does rJava again contain all necessary jar files?
 
 - Add close button for tabs to NetListPanels.
 
+Does not work any more:
+#' \dontrun{
+#' # If Rgraphviz is installed, we can take a look at the graph:
+#' library(Rgraphviz)
+#' renderGraph(layoutGraph(g))
+#' }
+
 - Check whether everything is okay here (with e.g. Ferber) - most likely yes:
 > eval(expression(edgeAttr(.InitialGraph1394185710245, "T3D1", "T2D1", "variableWeight") <- "1-\\nu"), envir=gMCP:::gMCPenv)
 > eval(expression(try(1-\nu, silent=TRUE)), envir=gMCP:::gMCPenv)
 Error: unexpected input in "eval(expression(try(1-\"
 
 - Streamline / throw out graphTest
-- Highlight edges (and perhaps nodes) depending on the focus in the dataframe. 
 
 - http://docs.oracle.com/javase/1.5.0/docs/guide/net/proxies.html - http://stackoverflow.com/questions/376101/setting-jvm-jre-to-use-windows-proxy-automatically
 - Unify graphMCP and entangled graphs?
 - Integrate parameter 'envir' into corMatWizard.
-
-- Java 7 ignores property "sun.awt.exception.handler"? http://stackoverflow.com/questions/5794472/why-bother-with-setting-the-sun-awt-exception-handler-property
 
 From xlsxjars:
  jversion <- .jcall("java.lang.System", "S", "getProperty", "java.version")
@@ -246,6 +299,7 @@ Possible MalWare 'W32/NewMalware-Generic-8d27-f554' found in '5832765_287X_AZ-D_
 - More fairness regarding the Maurer et al. example ("improved" - what does the paper cover)
 - All Dialogs should have cancel / ok buttons
 - Capture verbose output
+- Classpath exception
 
 Medium priority:
 ================
