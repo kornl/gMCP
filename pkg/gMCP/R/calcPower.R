@@ -165,15 +165,20 @@ extractPower <- function(x, f=list()) {
 #' round(cbind(atlst1, locpow), 5)
 #' 
 #' @export calcPower
-calcPower <- function(weights, alpha, G, mean = rep(0, nrow(corr.sim)),
+calcPower <- function(graph, alpha, mean = rep(0, nrow(corr.sim)),
                       corr.sim = diag(length(mean)), corr.test = NULL,
-                      nSim = 10000, type = c("quasirandom", "pseudorandom"),
+                      n.sim = 10000, type = c("quasirandom", "pseudorandom"),
 					  f=list(), test, ...) {
-  if (!is.null(list(...)[["sigma"]]) && missing(corr.sim)) {
-     corr.sim <- list(...)[["sigma"]]
-  }
-  if (!is.null(list(...)[["cr"]]) && missing(corr.test)) {
-    corr.test <- list(...)[["cr"]]
+  # TODO 
+  if (!is.null(list(...)[["nSim"]]) && missing(n.sim)) { n.sim <- list(...)[["nSim"]] }
+  if (!is.null(list(...)[["sigma"]]) && missing(corr.sim)) { corr.sim <- list(...)[["sigma"]] }
+  if (!is.null(list(...)[["cr"]]) && missing(corr.test)) { corr.test <- list(...)[["cr"]] }
+  if (!missing(graph)) {
+    G <- graph@m
+    weights <- graph@weights
+  } else {
+    G <-list(...)[["G"]]
+    weights <- list(...)[["weights"]]
   }
   
 	type <- match.arg(type)
