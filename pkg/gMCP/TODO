@@ -1,6 +1,6 @@
 upscale does not work for Bonferroni or Simes! Also pay attention to GUI rejection.
 
-- Paste to Excel like in http://www.cordinc.com/blog/2010/12/cut-and-paste-from-java-swing.html
+Instead of JavaHelp try PDF bookmarks: #nameddest=destination and \hypertarget{my-named-dest}
 
 Check with jvisualvm for bottlenecks for huge graphs
 
