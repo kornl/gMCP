@@ -216,6 +216,16 @@ public class PView extends JPanel implements KeyListener, ActionListener {
 		param += ", upscale="+(Configuration.getInstance().getGeneralConfig().getUpscale()?"TRUE":"FALSE");
 		return param;
 	}
+	
+	public String getTest() {
+		String param = "\"Bonferroni\"";
+		if (jrbRCorrelation.isSelected()) {
+			param = "\"parametric\"";
+		} else if (jrbSimes.isSelected()) {
+			param = "\"Simes\"";
+		}
+		return param;
+	}
 
 	public double getPValue(Node node) {
 		for (int i=panels.size()-1;i>=0;i--) {
@@ -226,7 +236,8 @@ public class PView extends JPanel implements KeyListener, ActionListener {
 		throw new RuntimeException("Something happend that should never happen. Please report!");
 	}
 
-	public String getPValuesString() {		
+	public String getPValuesString() {	
+		//Why can't we generally call 'savePValues();' here and when should we do this before calling getPValuesString()?
 		String s = "c(";
 		for (PPanel panel : panels) {		
 			s += panel.getP()+", ";
