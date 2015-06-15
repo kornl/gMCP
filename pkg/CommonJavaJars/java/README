@@ -51,6 +51,11 @@ The following open source Java libraries are included in this package:
   https://swingworker.dev.java.net/,  
   Copyright (c) 2005 Sun Microsystems 
   Source: http://www.java2s.com/Code/Jar/s/Downloadswingworker11sourcesjar.htm
+  
+- JavaHelp under GPL 2 with Classpath Exception, 
+  https://javahelp.java.net/, 
+  Copyright 2007 Sun Microsystems, Inc.
+  Source: https://java.net/projects/javahelp/sources
 
 - JXLayer under BSD License, 
   https://jxlayer.dev.java.net/,  
