@@ -66,7 +66,7 @@ public class ScenarioPanel extends JPanel implements ActionListener {
 
 		int row = 2;
 
-		String cols = "5dlu, pref, 5dlu";
+		String cols = "5dlu, pref, 5dlu, pref, 5dlu";
 		String rows = "5dlu, pref, 5dlu";
 		for (Node n : pd.getNodes()) {
 			cols += ", pref, 5dlu";

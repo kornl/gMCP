@@ -1,8 +1,11 @@
 package org.af.gMCP.gui.power;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.List;
 import java.util.Vector;
 
+import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
@@ -15,9 +18,10 @@ import org.w3c.dom.NodeList;
 
 import com.jgoodies.forms.layout.CellConstraints;
 
-public class Scenario {
+public class Scenario implements NCPRequestor, ActionListener {
 	List<JTextField> ncp = new Vector<JTextField>();
 	JTextField scname;
+	JButton ncpc = new JButton("Calculate NCP");
 	
 	PDialog pd;
 	
@@ -29,6 +33,7 @@ public class Scenario {
 			rt.setText("0.0");
 			ncp.add(rt);
 		}
+		ncpc.addActionListener(this);
 	}
 	
 	public void addComponents(JPanel panel, CellConstraints cc, int row) {
@@ -38,6 +43,8 @@ public class Scenario {
 			col += 2;
 			panel.add(jt, cc.xy(col, row));
 		}
+		col +=2;
+		panel.add(ncpc, cc.xy(col, row));
 		row +=2;
 	}
 	
@@ -66,5 +73,19 @@ public class Scenario {
 			e.appendChild(eNCP);
 		}
 		return e;
+	}
+
+	public void setNCP(double[] ncps) {		
+		
+	}
+
+	NCPCalculatorDialog ncpCD = null;
+	
+	public void actionPerformed(ActionEvent e) {
+		if (ncpCD==null) {
+			ncpCD = new NCPCalculatorDialog(pd.parent, this);
+		} else {
+			ncpCD.setVisible(true);
+		}
 	}
 }

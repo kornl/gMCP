@@ -36,11 +36,13 @@ public class NCPCalculatorDialog extends PDialog implements ActionListener {
 	/** List of JTextFields to enter values for variables. */
 	List<JTextField> jtlVar = new Vector<JTextField>();
 	
+	NCPRequestor ncpR;
+	
 	/**
 	 * Constructor
 	 * @param parent Parent JFrame
 	 */
-	public NCPCalculatorDialog(CreateGraphGUI parent) {
+	public NCPCalculatorDialog(CreateGraphGUI parent, NCPRequestor ncpR) {
 		super(parent, "Power Simulation - specify probability distribution of test statistics", true);
 		setLocationRelativeTo(parent);
 		this.parent = parent;
