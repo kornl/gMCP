@@ -180,7 +180,7 @@ public class MenuBarMGraph extends JMenuBar implements ActionListener {
 		extraMenu.add(makeMenuItem("Options", "showOptions", KeyEvent.VK_O));
 		extraMenu.add(makeMenuItem("Set all options back to default", "clearOptions", KeyEvent.VK_C));
 		extraMenu.addSeparator();
-		extraMenu.add(makeMenuItem("Change Layout of graph", "changeGraphLayout", KeyEvent.VK_G));
+		extraMenu.add(makeMenuItem("Change layout of graph", "changeGraphLayout", KeyEvent.VK_G));
 		extraMenu.add(makeMenuItem("Set variables to specific real values", "replaceVariables", KeyEvent.VK_V));
 		extraMenu.addSeparator();
 		extraMenu.add(makeMenuItem("Log", "showLog", KeyEvent.VK_L));
