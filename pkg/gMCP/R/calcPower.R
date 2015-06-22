@@ -32,7 +32,6 @@ extractPower <- function(x, f=list()) {
     n <- names(f)
     if (is.null(n) || all(is.na(n))) n <- paste("func", 1:length(f), sep="")
     n[n=="" | is.na(n)] <- paste("func", 1:sum(n==""), sep="")
-    n <- make.names(n, unique=TRUE)
     names(f) <- n
   }
   for (fn in names(f)) {
