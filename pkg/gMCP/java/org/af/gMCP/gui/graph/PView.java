@@ -102,7 +102,7 @@ public class PView extends JPanel implements KeyListener, ActionListener {
     					"The Simes test requires certain assumptions\n"+
     					"(sufficient is for example independence or positive\n" +
     					"regression dependence) and it's the responsibility\n" +
-    					"of the user to check whether they are fullfilled.";
+    					"of the user to check whether they are fulfilled.";
     			JOptionPane.showMessageDialog(parent, new Object[] {message, tellMeAgain}, "Info", JOptionPane.INFORMATION_MESSAGE);
     			if (tellMeAgain.isSelected()) {
     				Configuration.getInstance().setClassProperty(this.getClass(), "showSimesInfo", "no");
