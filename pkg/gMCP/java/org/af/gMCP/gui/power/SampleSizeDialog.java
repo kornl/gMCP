@@ -32,7 +32,7 @@ public class SampleSizeDialog extends PDialog implements ActionListener {
 	 * @param parent Parent CreateGraphGUI
 	 */
 	public SampleSizeDialog(CreateGraphGUI parent) {
-		super(parent, "Power Simulation - specify probability distribution of test statistics", true);
+		super(parent, "Sample Size Calculations", true);
 		setLocationRelativeTo(parent);
 		this.parent = parent;
 		nodes = parent.getGraphView().getNL().getNodes();
