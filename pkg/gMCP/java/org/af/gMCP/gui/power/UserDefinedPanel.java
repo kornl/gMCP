@@ -151,23 +151,23 @@ public class UserDefinedPanel extends JPanel implements ActionListener {
 		if (listModel.getSize()==0) return "";
 		String s = ", f=list(";
 		for (int i=0; i<listModel.getSize(); i++) {
-			s +="userDefined"+i+"=function(x) {"+listModel.get(i)+"}";
+			s +="'"+listModel.get(i)+"'=function(x) {"+listModel.get(i)+"}";
 			if (i!=listModel.getSize()-1) s+= ",";
 		}		
 		return s + ")";
 	}
 
 	public void actionPerformed(ActionEvent e) {
-		if (buttons.contains(e.getSource()) || buttons2.contains(e.getSource())) {
+		if (e!=null && (buttons.contains(e.getSource()) || buttons2.contains(e.getSource()))) {
 			jtUserDefined.setText(jtUserDefined.getText()+" "+((JButton)e.getSource()).getActionCommand());
 			return;
 		}
-		if (e.getSource() == clearList) {
+		if (e!=null && e.getSource() == clearList) {
 			listModel.removeAllElements();
 			return;
 		}	
 		if (jtUserDefined.getText().length()>0) {
-			listModel.insertElementAt(jtUserDefined.getText(), 0);
+			listModel.addElement(jtUserDefined.getText());
 			//listUserDefined.ensureIndexIsVisible(0);
 			jtUserDefined.setText("");
 		}
