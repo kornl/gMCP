@@ -8,11 +8,13 @@ import java.util.Vector;
 
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
+import javax.swing.JDialog;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.text.BadLocationException;
 
 import org.af.gMCP.gui.graph.Node;
 import org.w3c.dom.Document;
@@ -24,6 +26,7 @@ import com.jgoodies.forms.layout.FormLayout;
 
 public class UserDefinedPanel extends JPanel implements ActionListener {
 	
+	private static final String K_OUT_OF_N = "k out of n";
 	List<JButton> buttons = new Vector<JButton>();
 	List<JButton> buttons2 = new Vector<JButton>();  
 	
@@ -38,9 +41,14 @@ public class UserDefinedPanel extends JPanel implements ActionListener {
     
     JButton loadUDPF = new JButton("Load");
     JButton saveUDPF = new JButton("Save");
-
+    
+    List<Node> nodes;
+    
+    JDialog parent;
 	
-	public UserDefinedPanel(List<Node> nodes) {		
+	public UserDefinedPanel(JDialog parent, List<Node> nodes) {		
+		this.nodes = nodes;
+		this.parent = parent;
 		
 		JButton b = new JButton("(");
 		b.setActionCommand("(");
@@ -61,6 +69,14 @@ public class UserDefinedPanel extends JPanel implements ActionListener {
 		b = new JButton("NOT");
 		b.setActionCommand("!");		
 		buttons.add(b);		
+		
+		b = new JButton("At least k out of n");
+		b.setActionCommand(K_OUT_OF_N);		
+		buttons.add(b);
+		
+		/*b = new JButton("Weighted mean");
+		b.setActionCommand("!");		
+		buttons.add(b);*/	
 		
 		for (int i=0; i<nodes.size(); i++) {
 			b = new JButton(nodes.get(i).getName());
@@ -159,7 +175,16 @@ public class UserDefinedPanel extends JPanel implements ActionListener {
 
 	public void actionPerformed(ActionEvent e) {
 		if (e!=null && (buttons.contains(e.getSource()) || buttons2.contains(e.getSource()))) {
-			jtUserDefined.setText(jtUserDefined.getText()+" "+((JButton)e.getSource()).getActionCommand());
+			String command = ((JButton)e.getSource()).getActionCommand();
+			if (command.equals(K_OUT_OF_N)) {
+				KoutofNDialog koon = new KoutofNDialog(parent, nodes);				
+				command = koon.getCommand();
+			} 
+			try {
+				jtUserDefined.getDocument().insertString(jtUserDefined.getCaretPosition(), command, null);
+			} catch (BadLocationException e1) {					
+				jtUserDefined.setText(jtUserDefined.getText()+" "+command);
+			}
 			return;
 		}
 		if (e!=null && e.getSource() == clearList) {
