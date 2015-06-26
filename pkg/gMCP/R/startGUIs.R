@@ -110,6 +110,10 @@ graphGUI <- function(graph="createdGraph", pvalues=numeric(0), grid=0, debug=FAL
 #' 
 #' @export corMatWizard
 corMatWizard <- function(n=dim(matrix)[1], matrix=paste("diag(",n,")"), names=paste("H",1:n,sep=""), envir=globalenv()) {
+  if (is.matrix(n) && length(n)>1) stop("The parameter 'n' should be a single integer number.")
+  # Btw. the next code line is not only important for the check of the dimensions:
+  # If 'n' is evaluated before 'names' is used, one would get: "Error in 1:n : argument of length 0"
+  if (n<2) stop("Dimension should be at least 2x2.")
 	if (!is.character(matrix)) {
 		warning("Please specify the matrix name as character.")
 		stack <- sys.calls()
