@@ -89,8 +89,8 @@ graphGUI <- function(graph="createdGraph", pvalues=numeric(0), grid=0, debug=FAL
 #' 
 #' 
 #' @param n Square root of the dimension of the quadratic \eqn{n\times n}{nxn}-Matrix.
-#' @param matrix Matrix of dimension \eqn{n\times n}{nxn} to start with.
-#' @param names Row and column names.
+#' @param matrix Variable name of matrix of dimension \eqn{n\times n}{nxn} to start with.
+#' @param names Row and column names. (Default will be H1,H2,\ldots,Hn.)
 #' @param envir Environment where the object \var{matrix} is located and/or it
 #' should be saved (default is the global environment).
 #' @return The function itself returns NULL.  But with the dialog a symmetric
