@@ -88,7 +88,7 @@ graphGUI <- function(graph="createdGraph", pvalues=numeric(0), grid=0, debug=FAL
 #' Starts a graphical user interface for the correlation matrices.
 #' 
 #' 
-#' @param n Square root of the dimension of the \eqn{n\times n}{nxn}-Matrix.
+#' @param n Square root of the dimension of the quadratic \eqn{n\times n}{nxn}-Matrix.
 #' @param matrix Matrix of dimension \eqn{n\times n}{nxn} to start with.
 #' @param names Row and column names.
 #' @param envir Environment where the object \var{matrix} is located and/or it
@@ -109,16 +109,16 @@ graphGUI <- function(graph="createdGraph", pvalues=numeric(0), grid=0, debug=FAL
 #' 
 #' 
 #' @export corMatWizard
-corMatWizard <- function(n=dim(matrix)[1], matrix=paste("diag(",n,")"), names=paste("H",1:n,sep=""), envir=globalenv()) {
+corMatWizard <- function(n, matrix=paste("diag(",n,")"), names, envir=globalenv()) {
+  if (missing(n) && missing(matrix)) stop("Please specify matrix or dimension.")
+  if (missing(n)) n <- dim(matrix)[1]
+  if (missing(names)) names <- paste("H",1:n,sep="")
   if (is.matrix(n) && length(n)>1) stop("The parameter 'n' should be a single integer number.")
-  # Btw. the next code line is not only important for the check of the dimensions:
-  # If 'n' is evaluated before 'names' is used, one would get: "Error in 1:n : argument of length 0"
   if (n<2) stop("Dimension should be at least 2x2.")
-	if (!is.character(matrix)) {
-		warning("Please specify the matrix name as character.")
+	if (!is.character(matrix) || is.matrix(matrix)) {		
 		stack <- sys.calls()
 		stack.fun <- Filter(function(.) .[[1]] == as.name("corMatWizard"), stack)
-		matrix <- make.names(deparse(stack.fun[[1]][[2]]))
+		matrix <- deparse(stack.fun[[1]][[2]])
 		warning(paste("We guess you wanted to call corMatWizard(matrix=\"",matrix,"\")",sep=""))
 	}
 	invisible(.jnew("org/af/gMCP/gui/dialogs/MatrixCreationDialog", matrix, names))
