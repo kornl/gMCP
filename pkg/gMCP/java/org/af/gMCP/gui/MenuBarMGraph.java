@@ -312,6 +312,10 @@ public class MenuBarMGraph extends JMenuBar implements ActionListener {
         } else if (e.getActionCommand().equals("copy graph to clipboard")) {       	
         	control.copyGraphToClipboard();
         } else if (e.getActionCommand().equals("export graph image")) {
+    		if (control.getNL().getNodes().size()==0) {
+        		JOptionPane.showMessageDialog(control.getMainFrame(), "Will not save empty graph.", "Empty graph", JOptionPane.ERROR_MESSAGE);
+        		return;
+        	}
         	new ImageExportDialog(control.getMainFrame());
         	//saveGraphImage();
         } else if (e.getActionCommand().equals("export graph latex")) {       	
