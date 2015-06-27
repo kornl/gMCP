@@ -257,6 +257,10 @@ public class CreateGraphGUI extends JFrame implements WindowListener, AbortListe
 		return control;
 	}
 
+	public MenuBarMGraph getMBar() {
+		return (MenuBarMGraph) this.getJMenuBar();
+	}
+	
 	public void abort() {
 		if (RControl.getR().getREngine().getClass() == JRIEngine.class) {
 			JRIEngine engine = (JRIEngine) RControl.getR().getREngine();
