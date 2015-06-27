@@ -13,8 +13,13 @@ public class ImagePanel extends JPanel {
 	Image image;
 	
 	public ImagePanel(Image image) {
+		setImage(image);
+	}
+	
+	public void setImage(Image image) {
 		this.image = image;
-		this.setPreferredSize(new Dimension(image.getWidth(null), image.getHeight(null)));
+		this.setPreferredSize(new Dimension(image.getWidth(null), image.getHeight(null)));		
+		this.repaint();
 	}
 	
 	public void paintComponent(Graphics g) {
