@@ -29,6 +29,7 @@ import org.af.commons.tools.OSTools;
 import org.af.gMCP.config.Configuration;
 import org.af.gMCP.gui.dialogs.GraphSaveDialog;
 import org.af.gMCP.gui.dialogs.GraphSendToArchiveDialog;
+import org.af.gMCP.gui.dialogs.ImageExportDialog;
 import org.af.gMCP.gui.dialogs.ParameterDialog;
 import org.af.gMCP.gui.dialogs.RObjectLoadingDialog;
 import org.af.gMCP.gui.dialogs.RearrangeNodesDialog;
@@ -310,8 +311,9 @@ public class MenuBarMGraph extends JMenuBar implements ActionListener {
         	createLastUsed();
         } else if (e.getActionCommand().equals("copy graph to clipboard")) {       	
         	control.copyGraphToClipboard();
-        } else if (e.getActionCommand().equals("export graph image")) {       	
-        	saveGraphImage();
+        } else if (e.getActionCommand().equals("export graph image")) {
+        	new ImageExportDialog(control.getMainFrame());
+        	//saveGraphImage();
         } else if (e.getActionCommand().equals("export graph latex")) {       	
         	exportLaTeXGraph();
         } else if (e.getActionCommand().equals("show graph latex")) {       	
