@@ -11,6 +11,10 @@ Changes in version 0.8-9 (??-??-2015)
 
 - Improved Edges
 
+- Fixed call of corMatWizard if only a matrix is given without names and dimensions.
+
+- Fixed confusing (but mostly not relevant) mix-up between in NA and NaN during R/Java conversions.
+
 - Save p-values / correlations
 
 

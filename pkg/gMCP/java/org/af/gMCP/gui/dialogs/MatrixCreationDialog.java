@@ -78,15 +78,15 @@ public class MatrixCreationDialog extends JDialog implements ActionListener, Cha
      * Constructor
      * @param matrix String that specifies R object to be loaded.
      */
-	public MatrixCreationDialog(String matrix, String[] names) {
-		this(null, matrix, Arrays.asList(names));
+	public MatrixCreationDialog(String[] matrix, String mname, String[] names) {
+		this(null, Arrays.asList(matrix), mname, Arrays.asList(names));
 	}
     
     /**
      * Constructor
      * @param matrix String that specifies R object to be loaded.
      */
-	public MatrixCreationDialog(JFrame parent, String matrix, List<String> names) {
+	public MatrixCreationDialog(JFrame parent, List<String> matrix, String mname, List<String> names) {
 		super(parent, "Specify correlation matrix", true);
 		setLocationRelativeTo(parent);
 		this.names = new Vector<String>();
@@ -94,6 +94,8 @@ public class MatrixCreationDialog extends JDialog implements ActionListener, Cha
 			this.names.add(name);
 		}
 		this.parent = parent;
+		
+		//System.out.println(matrix.getClass().getName());
 		
 		RDataFrameRef df = new RDataFrameRef();
 		for (String n: names) {
@@ -133,16 +135,25 @@ public class MatrixCreationDialog extends JDialog implements ActionListener, Cha
 		getContentPane().add(warning, cc.xy(2, row));
 		getContentPane().add(ok, cc.xy(4, row));
 		
-		if (matrix !=null) {
+		if (matrix ==null) {
 			DataTableModel m = dfp.getTable().getModel();
 			int n = m.getColumnCount();			
-			String[] result = RControl.getR().eval("(function(x){ x[is.na(x)] <- \"NA\"; return(x)})("+matrix+")").asRChar().getData();
+			String[] result = RControl.getR().eval("(function(x){ x[is.na(x)] <- \"NA\"; return(x)})("+mname+")").asRChar().getData();
 			for (int i=0; i<n; i++) {
 				for (int j=0; j<n; j++) {
 					m.setValueAt(new EdgeWeight(result[i*n+j]), i, j);
 				}
 			}
+		} else {
+			DataTableModel m = dfp.getTable().getModel();
+			int n = m.getColumnCount();			
+			for (int i=0; i<n; i++) {
+				for (int j=0; j<n; j++) {
+					m.setValueAt(new EdgeWeight(matrix.get(i*n+j)), i, j);
+				}
+			}
 		}
+		tfname.setText(mname);
 		
         pack();
         Dimension d = getSize();        

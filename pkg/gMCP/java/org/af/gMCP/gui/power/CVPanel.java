@@ -205,7 +205,7 @@ public class CVPanel extends JPanel implements ActionListener {
 			return;
 		}
 		if (e.getSource() == createCV) {			
-			MatrixCreationDialog mcd = new MatrixCreationDialog(parent, dfp.getTable().getRMatrix(), MatrixCreationDialog.getNames(parent.getGraphView().getNL().getNodes()));
+			MatrixCreationDialog mcd = new MatrixCreationDialog(parent, null, dfp.getTable().getRMatrix(), MatrixCreationDialog.getNames(parent.getGraphView().getNL().getNodes()));
 			dfp.getTable().getModel().copy(mcd.dfp.getTable().getModel()); 
 			return;
 		}
