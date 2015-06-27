@@ -59,7 +59,7 @@ public class NCPCalculatorDialog extends PDialog implements ActionListener {
 		tPanel.addTab("Noncentrality Parameter (NCP) Settings", pNCP);
 		cvPanel = new CVPanel(this);
 		tPanel.addTab("Correlation Matrix", cvPanel);
-		userDefinedFunctions = new UserDefinedPanel(nodes);
+		userDefinedFunctions = new UserDefinedPanel(this, nodes);
 		tPanel.addTab("User defined power function", userDefinedFunctions);
 		tPanel.addTab("Options", new PowerOptionsPanel(parent));
 		Set<String> variables = parent.getGraphView().getNL().getAllVariables();
