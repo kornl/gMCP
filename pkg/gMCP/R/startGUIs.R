@@ -100,26 +100,37 @@ graphGUI <- function(graph="createdGraph", pvalues=numeric(0), grid=0, debug=FAL
 #' @keywords misc graphs
 #' @examples
 #' 
-#' 
 #' \dontrun{
-#' corMatWizard(5)
+#' corMatWizard(5) # is equivalent to
+#' corMatWizard(matrix=diag(5))
+#' corMatWizard(names=c("H1", "H2", "H3", E1", "E2"))
 #' C <- cor(matrix(rnorm(100),10), matrix(rnorm(100),10))
-#' corMatWizard(matrix="C")
+#' corMatWizard(matrix="C") # or
+#' corMatWizard(matrix=C) 
 #' }
 #' 
-#' 
 #' @export corMatWizard
-corMatWizard <- function(n, matrix=paste("diag(",n,")"), names, envir=globalenv()) {
-  if (missing(n) && missing(matrix)) stop("Please specify matrix or dimension.")
-  if (missing(n)) n <- dim(matrix)[1]
+corMatWizard <- function(n, matrix, names, envir=globalenv()) {  
+  if (missing(n) && missing(matrix) && missing(names)) stop("Please specify matrix or dimension.")
+  if (!missing(n) && (is.matrix(n) && length(n)>1)) stop("The parameter 'n' should be a single integer number.")
+  if (!missing(matrix)) {
+    if (!is.character(matrix) || is.matrix(matrix)) {  	
+      stack <- sys.calls()
+      stack.fun <- Filter(function(.) .[[1]] == as.name("corMatWizard"), stack)
+      mname <- deparse(stack.fun[[1]][[2]])    
+    }  else {
+      mname <- matrix
+      matrix <- get(mname, envir=envir)
+    }
+  } else {
+    mname <- "corMat"
+    if (!missing(n)) {
+      matrix <- diag(n)
+    } else {
+      matrix <- diag(length(names))
+    }
+  }
+  n <- dim(matrix)[1]  
   if (missing(names)) names <- paste("H",1:n,sep="")
-  if (is.matrix(n) && length(n)>1) stop("The parameter 'n' should be a single integer number.")
-  if (n<2) stop("Dimension should be at least 2x2.")
-	if (!is.character(matrix) || is.matrix(matrix)) {		
-		stack <- sys.calls()
-		stack.fun <- Filter(function(.) .[[1]] == as.name("corMatWizard"), stack)
-		matrix <- deparse(stack.fun[[1]][[2]])
-		warning(paste("We guess you wanted to call corMatWizard(matrix=\"",matrix,"\")",sep=""))
-	}
-	invisible(.jnew("org/af/gMCP/gui/dialogs/MatrixCreationDialog", matrix, names))
+	invisible(.jnew("org/af/gMCP/gui/dialogs/MatrixCreationDialog", as.character(matrix), mname, names))
 }
