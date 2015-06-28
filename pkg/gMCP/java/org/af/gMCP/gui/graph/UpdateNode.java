@@ -16,7 +16,6 @@ import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
 import javax.swing.SpinnerNumberModel;
 
-import org.af.gMCP.config.Configuration;
 import org.af.gMCP.gui.RControl;
 import org.af.gMCP.gui.dialogs.ColorChooseDialog;
 import org.apache.commons.lang.ArrayUtils;

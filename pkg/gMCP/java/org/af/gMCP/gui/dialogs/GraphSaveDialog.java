@@ -6,12 +6,10 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JDialog;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 
 import org.af.gMCP.config.Configuration;
-import org.af.gMCP.gui.CreateGraphGUI;
 import org.af.gMCP.gui.graph.GraphView;
 
 import com.jgoodies.forms.layout.CellConstraints;

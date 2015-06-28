@@ -1,18 +1,14 @@
 package org.af.gMCP.gui.power;
 
 import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Arrays;
-import java.util.List;
 import java.util.Set;
 
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 
 import org.af.commons.widgets.buttons.HorizontalButtonPane;
-import org.af.commons.widgets.buttons.OkCancelButtonPane;
 import org.af.gMCP.config.Configuration;
 import org.af.gMCP.gui.CreateGraphGUI;
 import org.af.gMCP.gui.RControl;

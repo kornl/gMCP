@@ -36,7 +36,6 @@ import org.af.gMCP.gui.dialogs.VariableNameDialog;
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.apache.xmlbeans.impl.xb.xmlconfig.ConfigDocument.Config;
 import org.jdesktop.swingworker.SwingWorker;
 import org.mutoss.gui.TransferableImage;
 
