@@ -1189,7 +1189,18 @@ For independent tests the FWER is controlled at level $\alpha$.
 Benjamini and Hochberg (1997)
 
 Let $\sum_{k=1}^m w_k = m$ and reject $H_0$ if
-\[p^{(j)}\leq\frac{\sum_{k=1}^jw_[{(k)}}{m}\cdot\alpha\quad\text{for some $1\leq j\leq m$}.\]
+\[p^{(j)}\leq\frac{\sum_{k=1}^jw_{(k)}}{m}\cdot\alpha\quad\text{for some $1\leq j\leq m$}.\]
+
+\end{Theorem}
+
+\begin{Theorem}[Trimmed weighted Simes test] 
+For two one-sided tests where the bivariate test statistic fulfills certain conditions, \cite{brannath2009trimmed} show that the following trimmed version of the weighted Simes test is bounded by $\alpha$ und $H_0$:
+$H_A\cap H_B$ is rejected if
+\begin{itemize}
+\item $p_A \leq \alpha_A$ and $p_B<1-\alpha_B$ or
+\item $p_B \leq \alpha_B$ and $p_A<1-\alpha_A$ or
+\item $max(p_A, p_B)<\alpha$
+\end{itemize}
 
 \end{Theorem}
 
