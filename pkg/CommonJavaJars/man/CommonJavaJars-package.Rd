@@ -19,7 +19,7 @@ LazyLoad: \tab yes\cr
 
 Since the CommonJavaJars package has relatively big library files (~ 7MByte)
 and should rarely be updated to save space in the CRAN archive,
-the more dynamic accompanying guide can be found at \url{http://algorithm-forge.com/JavaGUI/}.
+the more dynamic accompanying guide can be found at \url{http://algorithm-forge.com/}.
 
 }
 \author{
