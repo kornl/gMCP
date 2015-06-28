@@ -46,7 +46,11 @@ public class UserDefinedPanel extends JPanel implements ActionListener {
     
     JDialog parent;
 	
-	public UserDefinedPanel(JDialog parent, List<Node> nodes) {		
+	public UserDefinedPanel(PDialog parent, Vector<Node> nodes) {
+		this(parent, nodes, false);
+	}
+    
+	public UserDefinedPanel(JDialog parent, List<Node> nodes, boolean justOne) {		
 		this.nodes = nodes;
 		this.parent = parent;
 		
@@ -123,10 +127,15 @@ public class UserDefinedPanel extends JPanel implements ActionListener {
 		int row = 2;
 		
 		jtUserDefined.addActionListener(this);
-		add(jtUserDefined, cc.xy(2, row));
 		
-		addAnother.addActionListener(this);
-		add(addAnother, cc.xy(4, row));
+		if (justOne) { 
+			add(jtUserDefined, cc.xyw(2, row, 3));
+		} else {
+			add(jtUserDefined, cc.xy(2, row));	
+
+			addAnother.addActionListener(this);
+			add(addAnother, cc.xy(4, row));
+		}
 		
 		/*clearList.addActionListener(this);
 		mPanel.add(addAnother, cc.xy(4, row));*/		
@@ -136,14 +145,17 @@ public class UserDefinedPanel extends JPanel implements ActionListener {
 		listModel = new DefaultListModel();
 		listUserDefined = new JList(listModel);
 		
-		add(new JScrollPane(jta), cc.xywh(2, row, 1, 3));
-	
-		add(new JScrollPane(listUserDefined), cc.xy(4, row));
+		if (justOne) {
+			add(new JScrollPane(jta), cc.xywh(2, row, 3, 3));
+		} else {
+			add(new JScrollPane(jta), cc.xywh(2, row, 1, 3));
+			add(new JScrollPane(listUserDefined), cc.xy(4, row));
+		}		
 	
 		row +=2;
 		
 		clearList.addActionListener(this);
-		add(clearList, cc.xy(4, row));		
+		if (!justOne) add(clearList, cc.xy(4, row));		
 		//mPanel.add(saveUDPF, cc.xy(6, row));
 		
 		row +=2;		
@@ -155,7 +167,7 @@ public class UserDefinedPanel extends JPanel implements ActionListener {
 		add(new JScrollPane(opPanel), cc.xyw(2, row, 3));
 		
 	}
-	
+
 	/**
 	 * Constructs String that contains the parameter f for user defined
 	 * functions used by calcPower and extractPower

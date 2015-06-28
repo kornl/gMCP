@@ -80,7 +80,7 @@ public class PowerReq implements ActionListener {
 
 	public void actionPerformed(ActionEvent e) {
 		//System.out.println("\""+jcbType.getSelectedItem()+"\"");
-		if (jcbType.getSelectedItem().equals("User defined")) {
+		if (e.getSource()==jcbType && jcbType.getSelectedItem().equals("User defined")) {
 			new UserDefinedDialog(pd);
 		}
 	}
