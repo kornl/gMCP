@@ -1,6 +1,8 @@
 \documentclass[a4paper, 10pt]{article}
 \usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
 \usepackage{url}
+\usepackage{caption}
 
 \usepackage{graphicx}
 \usepackage{tikz}
@@ -1110,12 +1112,25 @@ graphs <- list(BonferroniHolm(4),
                #Entangled2Maurer2012(),
 )
 
+make.url <- function (x) {
+    return(gsub("(https?://[^ ]+)", "\\\\url{\\1}", x))
+}
+
+texify <- function(x) {
+  x <- make.url(x)
+  x <- gsub("\n\n", "\\\\\\\\\n", x)
+  x <- gsub("&", "\\\\&", x)
+  return(x)
+}
+
 count <-0
 for (g in graphs) {
-  cat(graph2latex(g, fig=TRUE, scaleText=TRUE, scale=0.7))
+  cat(graph2latex(g, fig=TRUE, scaleText=TRUE, scale=0.7, fig.caption=texify(attr(g, "descr"))))
+  #cat(attr(g, "descr"))
   count <- count + 1
   if(count%%6==0) cat("\\cleardoublepage\n")
 }
+
 
 @
 
