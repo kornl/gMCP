@@ -33,14 +33,6 @@ public class SampleSizeDialog extends PDialog implements ActionListener {
 	 */
 	public SampleSizeDialog(CreateGraphGUI parent) {
 		super(parent, "Sample Size Calculations", true);
-		setLocationRelativeTo(parent);
-		this.parent = parent;
-		nodes = parent.getGraphView().getNL().getNodes();
-		
-		parent.getPView().getParameters();
-		GridBagConstraints c = getDefaultGridBagConstraints();
-		
-		getContentPane().setLayout(new GridBagLayout());
 		
 		pNCP = new ScenarioPanel(this);
 		tPanel.addTab("Effect Size", pNCP);
@@ -50,7 +42,7 @@ public class SampleSizeDialog extends PDialog implements ActionListener {
 		tPanel.addTab("Randomization", gPanel);
 		cvPanel = new CVPanel(this);
 		tPanel.addTab("Correlation Matrix", cvPanel);
-		userDefinedFunctions = new UserDefinedPanel(nodes);
+		userDefinedFunctions = new UserDefinedPanel(this, nodes);
 		//tPanel.addTab("User defined power function", userDefinedFunctions);
 		tPanel.addTab("Options", new PowerOptionsPanel(parent));
 		
@@ -72,8 +64,6 @@ public class SampleSizeDialog extends PDialog implements ActionListener {
         setLocationRelativeTo(parent);
         setVisible(true);
 	} 
-	
-	String rCommand = "";
 	
 	public void actionPerformed(ActionEvent e) {
 

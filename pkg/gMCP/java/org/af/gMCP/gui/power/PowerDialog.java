@@ -42,16 +42,8 @@ public class PowerDialog extends PDialog implements ActionListener {
 	 */
 	public PowerDialog(CreateGraphGUI parent) {
 		super(parent, "Power Simulation - specify probability distribution of test statistics", true);
-		setLocationRelativeTo(parent);
-		this.parent = parent;
-		nodes = parent.getGraphView().getNL().getNodes();
 		
 		config = new File(path, "gMCP-power-settings.xml");
-		
-		parent.getPView().getParameters();
-		GridBagConstraints c = getDefaultGridBagConstraints();
-		
-		getContentPane().setLayout(new GridBagLayout());
 		
 		pNCP = new ScenarioPanel(this);
 		tPanel.addTab("Noncentrality Parameter (NCP) Settings", pNCP);
@@ -99,8 +91,6 @@ public class PowerDialog extends PDialog implements ActionListener {
         setVisible(true);
 		
 	} 
-	
-	String rCommand = "";
 	
 	public void actionPerformed(ActionEvent e) {
 

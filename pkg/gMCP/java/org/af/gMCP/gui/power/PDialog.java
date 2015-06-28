@@ -1,6 +1,7 @@
 package org.af.gMCP.gui.power;
 
 import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.io.File;
 import java.util.List;
 import java.util.Vector;
@@ -29,11 +30,16 @@ public class PDialog extends JDialog {
 	File path = null;
 	/** Are config files only saved temporarily? */
 	boolean tmp = false;
+	String rCommand = "";
 	
 	JTabbedPane tPanel = new JTabbedPane();
-
+	
+	GridBagConstraints c = getDefaultGridBagConstraints();
+	
 	public PDialog(CreateGraphGUI parent, String string, boolean b) {
 		super(parent, string, b);
+		setLocationRelativeTo(parent);
+		this.parent = parent;
 		
 		if (Configuration.getInstance().getGeneralConfig().usePersistentConfigFile()) {
 			path = new File(Configuration.getInstance().getGeneralConfig().getConfigDir());			
@@ -46,6 +52,13 @@ public class PDialog extends JDialog {
 			path = new File(RControl.getR().eval("tempdir()").asRChar().getData()[0]);
 			tmp = true;
 		}
+		
+		parent.getPView().getParameters();
+		
+		getContentPane().setLayout(new GridBagLayout());
+		
+		nodes = parent.getGraphView().getNL().getNodes();
+		
 	}
 	
 	public Vector<Node> getNodes() {		
