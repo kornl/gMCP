@@ -83,7 +83,7 @@ public class Scenario implements NCPRequestor, ActionListener {
 	
 	public void actionPerformed(ActionEvent e) {
 		if (ncpCD==null) {
-			ncpCD = new NCPCalculatorDialog(pd.parent, this);
+			ncpCD = new NCPCalculatorDialog(pd, this);
 		} else {
 			ncpCD.setVisible(true);
 		}
