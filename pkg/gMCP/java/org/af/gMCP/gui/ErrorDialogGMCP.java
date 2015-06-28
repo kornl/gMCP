@@ -11,6 +11,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.lang.reflect.Method;
 import java.net.URI;
+import java.util.Calendar;
 import java.util.Hashtable;
 import java.util.List;
 import java.util.Vector;
@@ -29,6 +30,7 @@ import javax.swing.JTextField;
 import org.af.commons.errorhandling.ErrorHandler;
 import org.af.commons.errorhandling.HTTPPoster;
 import org.af.commons.io.FileTools;
+import org.af.commons.io.Zipper;
 import org.af.commons.logging.ApplicationLog;
 import org.af.commons.logging.LoggingSystem;
 import org.af.commons.threading.SafeSwingWorker;
@@ -40,6 +42,8 @@ import org.af.commons.widgets.WidgetFactory;
 import org.af.commons.widgets.buttons.HorizontalButtonPane;
 import org.af.commons.widgets.buttons.OkCancelButtonPane;
 import org.af.gMCP.config.Configuration;
+import org.af.gMCP.gui.dialogs.TextFileViewer;
+import org.apache.commons.lang.exception.ExceptionUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.log4j.FileAppender;
@@ -52,11 +56,13 @@ import com.jgoodies.forms.layout.FormLayout;
 public class ErrorDialogGMCP extends JDialog implements ActionListener {
 
     static int count = 0;
+    
+    static File tempDir = new File(System.getProperty("java.io.tmpdir"), "gMCP"+Calendar.getInstance().getTime());
 
     protected static Log logger = LogFactory.getLog(ErrorDialogGMCP.class);
 
     public static File makeLogFile(String fileName, String content) throws IOException{
-        File tempDir = new File(System.getProperty("java.io.tmpdir"));
+        tempDir.mkdirs();
         File output = new File(tempDir, fileName);
         FileWriter fw = new FileWriter(output);
         fw.write(content);
