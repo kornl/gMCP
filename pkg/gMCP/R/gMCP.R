@@ -272,7 +272,7 @@ gMCP <- function(graph, pvalues, test, correlation, alpha=0.05,
 			if (verbose) {
 				if (n==2) output <- paste(output, "Only two hypotheses remaining.", sep="\n")
 				if (n==1) output <- paste(output, "Only one hypothesis remaining.", sep="\n")
-				if (n==0) output <- paste(output, "Everything allready rejected.", sep="\n")
+				if (n==0) output <- paste(output, "Everything already rejected.", sep="\n")
 				if (!callFromGUI) cat(output,"\n")
 				attr(result, "output") <- output
 			}
