@@ -30,6 +30,7 @@ import javax.swing.JTextField;
 import org.af.commons.errorhandling.ErrorHandler;
 import org.af.commons.errorhandling.HTTPPoster;
 import org.af.commons.io.FileTools;
+import org.af.commons.io.Zipper;
 import org.af.commons.logging.ApplicationLog;
 import org.af.commons.logging.LoggingSystem;
 import org.af.commons.threading.SafeSwingWorker;
@@ -41,6 +42,8 @@ import org.af.commons.widgets.WidgetFactory;
 import org.af.commons.widgets.buttons.HorizontalButtonPane;
 import org.af.commons.widgets.buttons.OkCancelButtonPane;
 import org.af.gMCP.config.Configuration;
+import org.af.gMCP.gui.dialogs.TextFileViewer;
+import org.apache.commons.lang.exception.ExceptionUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.log4j.FileAppender;
@@ -80,6 +83,8 @@ public class ErrorDialogGMCP extends JDialog implements ActionListener {
     protected LockableUI lockableUI;
     // displayed error message
     protected final String msg;
+    protected String message = "";
+    protected String stacktrace = "";
     // description
     protected JTextArea taDesc;
     
@@ -95,6 +100,15 @@ public class ErrorDialogGMCP extends JDialog implements ActionListener {
         this.e = e;
         if (e!=null && e instanceof Throwable) ((Throwable)e).printStackTrace();
         this.msg = msg;
+    	if (e!=null) {
+    		if (e instanceof Throwable) {
+        		message = ((Throwable)e).getMessage();        	
+        		stacktrace = ExceptionUtils.getStackTrace((Throwable)e);
+        	} else {
+        		message = e.toString();
+        	}
+    	}
+    	if (message==null) message = "";
 	}
 
 
@@ -198,15 +212,7 @@ public class ErrorDialogGMCP extends JDialog implements ActionListener {
     			table.put("Error", e.toString());
     		}
     	}
-    	String message = "";
-    	if (e!=null) {
-    		if (e instanceof Throwable) {
-        		message = ((Throwable)e).getMessage();        		
-        	} else {
-        		message = e.toString();
-        	}
-    	}
-    	if (message==null) message = "";
+    	
     	String prefix = "";
     	if (tfContact.getText().length()>2 || taDesc.getText().length()>2) {
     		prefix = "A FILLED OUT ";
@@ -365,6 +371,23 @@ public class ErrorDialogGMCP extends JDialog implements ActionListener {
             }
         };
         worker.execute();
+    }
+    
+    protected void onZip() {    	
+    	String info = "gMCP "+Configuration.getInstance().getGeneralConfig().getVersionNumber()+
+    			" (R "+Configuration.getInstance().getGeneralConfig().getRVersionNumber()+") " +
+    			"bug report from "+System.getProperty("os.name", "<unknown OS>")+": "; 
+    	String completeInfo = "Something went wrong.\nWe would be glad, if you could send us a mail to "+ErrorHandler.getInstance().getDeveloperAddress()+" with the following information:\n\n" + info +(stacktrace.isEmpty()?"":"\n\n")+ stacktrace +"\n\n"+ getTraceBack() + "\n\n" + getRSessionInfo();
+    	new TextFileViewer(null, "Error", completeInfo);
+    	dispose();
+    	try {
+			getAttachedFiles();
+			Zipper.writeIntoZip(tempDir, new File(System.getProperty("java.io.tmpdir"), "gMCP"+Calendar.getInstance().getTime()+".zip"));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    	
     }
     
     public File screen() throws IOException {
