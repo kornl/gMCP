@@ -442,7 +442,7 @@ fallback <- function(weights) {
 	nodeY <- rep(100, n)
 	graph@nodeAttr$X <- nodeX
 	graph@nodeAttr$Y <- nodeY		
-	attr(graph, "description") <- paste("Graph representing the fixed sequence test", 
+	attr(graph, "description") <- paste("Graph representing the fallback (a fixed sequence Bonferroni) procedure", 
 			"",
 			"Literature: Wiens B.L.: A fixed sequence Bonferroni procedure for testing multiple endpoints. Pharmaceutical Statistics 2003; 2: 211-215.",
 			"",
