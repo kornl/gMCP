@@ -236,6 +236,7 @@ public class ImageExportDialog extends JDialog implements ActionListener, Change
 		control.getNL().setRadius(Integer.parseInt(spinnerRadius.getModel().getValue().toString()));
 		ip.setImage(getImage());
 		repaint();
+		parent.repaint();
 	}
 
 }
