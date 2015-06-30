@@ -9,18 +9,25 @@ import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JDialog;
 import javax.swing.JFileChooser;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JSpinner;
 import javax.swing.JTextField;
+import javax.swing.SpinnerNumberModel;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import javax.swing.filechooser.FileFilter;
 
 import org.af.gMCP.config.Configuration;
 import org.af.gMCP.gui.CreateGraphGUI;
 import org.af.gMCP.gui.graph.GraphView;
+import org.af.gMCP.gui.graph.Node;
 
 import com.jgoodies.forms.layout.CellConstraints;
 import com.jgoodies.forms.layout.FormLayout;
 
-public class ImageExportDialog extends JDialog implements ActionListener {
+public class ImageExportDialog extends JDialog implements ActionListener, ChangeListener {
 
 	JButton ok = new JButton("Save file");
 	JTextField tfFile = new JTextField();
@@ -28,7 +35,11 @@ public class ImageExportDialog extends JDialog implements ActionListener {
 	JCheckBox cbTransparent = new JCheckBox();
 	JButton selectFile = new JButton("Choose file:");
 	ImagePanel ip;
-	
+	JSpinner spinnerRadius;
+	JCheckBox markEpsilon;	
+	JCheckBox drawHypNames = new JCheckBox("Draw names of hypotheses");
+	JCheckBox drawHypWeights = new JCheckBox("Draw weights of hypotheses");
+	JCheckBox drawEdgeWeights = new JCheckBox("Draw weights of edges");
 	
 	CreateGraphGUI parent;
 	GraphView control;
@@ -40,7 +51,7 @@ public class ImageExportDialog extends JDialog implements ActionListener {
 		control = parent.getGraphView();		
 		
         String cols = "5dlu, pref, 5dlu, fill:pref:grow, 5dlu, pref, 5dlu";
-        String rows = "5dlu, pref, 5dlu, pref, 5dlu, pref, 5dlu, pref, 5dlu, pref, 5dlu";    
+        String rows = "5dlu, fill:pref:grow, 5dlu, pref, 5dlu, pref, 5dlu";    
                
         FormLayout layout = new FormLayout(cols, rows);
         getContentPane().setLayout(layout);
@@ -48,39 +59,90 @@ public class ImageExportDialog extends JDialog implements ActionListener {
 
         int row = 2;
         
-        ip = new ImagePanel(getImage());
+        getContentPane().add(getOptionsPanel(), cc.xy(6, row));
         
-        getContentPane().add(ip, cc.xyw(2, row, 3));
-                
-        row += 2;
-        
-        cbColored = new JCheckBox("Colored graph");
-        cbColored.addActionListener(this);
-        cbColored.setSelected(Configuration.getInstance().getGeneralConfig().getColoredImages());
-        getContentPane().add(cbColored, cc.xyw(2, row, 3));        
-        
-        row += 2;
-        
-        cbTransparent = new JCheckBox("Transparent background (recommended)");
-        cbTransparent.addActionListener(this);
-        cbTransparent.setSelected(Configuration.getInstance().getGeneralConfig().exportTransparent());
-        getContentPane().add(cbTransparent, cc.xyw(2, row, 3));     
-        
+        ip = new ImagePanel(getImage());        
+        getContentPane().add(ip, cc.xyw(2, row, 3));  
+ 
+    	        
         row += 2;
         selectFile.addActionListener(this);
         tfFile.setText(Configuration.getInstance().getClassProperty(this.getClass(), "LastImage", ""));
         getContentPane().add(selectFile, cc.xy(2, row));
-        getContentPane().add(tfFile, cc.xyw(4, row, 3));
+        getContentPane().add(tfFile, cc.xyw(4, row, 3));        
         
         row += 2;
         
         getContentPane().add(ok, cc.xy(6, row));
+        
         ok.addActionListener(this);        
         
         pack();
         setVisible(true);
 	}
 
+	// TODO Layer
+	public JPanel getOptionsPanel() {
+		JPanel panel = new JPanel();
+        String cols = "5dlu, pref, 5dlu, fill:pref:grow, 5dlu, pref, 5dlu";
+        String rows = "5dlu, pref, 5dlu, pref, 5dlu, pref, 5dlu, pref, 5dlu, pref, 5dlu, pref, 5dlu, pref, 5dlu";    
+               
+        FormLayout layout = new FormLayout(cols, rows);
+        panel.setLayout(layout);
+        CellConstraints cc = new CellConstraints();
+        
+        int row = 2;
+        
+        cbColored = new JCheckBox("Colored graph");
+        cbColored.addActionListener(this);
+        cbColored.setSelected(Configuration.getInstance().getGeneralConfig().getColoredImages());
+        panel.add(cbColored, cc.xyw(2, row, 3));        
+        
+        row += 2;
+        
+        cbTransparent = new JCheckBox("Transparent background (recommended)");
+        cbTransparent.addActionListener(this);
+        cbTransparent.setSelected(Configuration.getInstance().getGeneralConfig().exportTransparent());
+        panel.add(cbTransparent, cc.xyw(2, row, 3));     
+        
+        row += 2;
+        
+        markEpsilon = new JCheckBox("Show epsilon edges as dashed lines.");
+        markEpsilon.setSelected(Configuration.getInstance().getGeneralConfig().markEpsilon());
+        markEpsilon.setToolTipText("<html>" +
+        		"You can set whether epsilon edges should<br>" +
+        		"been shown as dashed or solid lines." +
+        		"</html>");
+        
+
+        row += 2;
+        
+        drawHypNames.addActionListener(this);
+        drawHypNames.setSelected(Configuration.getInstance().getGeneralConfig().exportTransparent());
+        panel.add(drawHypNames, cc.xyw(2, row, 3));     
+        
+        row += 2;
+        
+        drawHypWeights.addActionListener(this);
+        drawHypWeights.setSelected(Configuration.getInstance().getGeneralConfig().exportTransparent());
+        panel.add(drawHypWeights, cc.xyw(2, row, 3));     
+        
+        row += 2;
+        
+        drawEdgeWeights.addActionListener(this);
+        drawEdgeWeights.setSelected(Configuration.getInstance().getGeneralConfig().exportTransparent());
+        panel.add(drawEdgeWeights, cc.xyw(2, row, 3));     
+        
+        row += 2;
+        
+        spinnerRadius = new JSpinner(new SpinnerNumberModel(Node.getRadius(), 2, 1000, 1));    	
+        spinnerRadius.addChangeListener(this);
+        panel.add(new JLabel("Node radius"), cc.xy(2, row));
+        panel.add(spinnerRadius, cc.xyw(4, row, 3));
+		
+        return panel;
+	}
+	
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource()==ok) {	
 			File f = new File(tfFile.getText());
@@ -96,7 +158,7 @@ public class ImageExportDialog extends JDialog implements ActionListener {
 				JOptionPane.showMessageDialog(this, "You either did not specify a file or the specified parent directory does not exist.\nPlease choose another file for saving the image.", "Can not save file", JOptionPane.ERROR_MESSAGE);
 				return;
 			}
-            control.saveGraphImage(f);
+            control.saveGraphImage(f, drawHypNames.isSelected(), drawHypWeights.isSelected(), drawEdgeWeights.isSelected());
             parent.getMBar().showFile(f);
 			dispose();
 		} else if (e.getSource()==cbColored) {
@@ -131,13 +193,19 @@ public class ImageExportDialog extends JDialog implements ActionListener {
 	
 	public BufferedImage getImage() {
 		//TODO Zoom? Configuration.getInstance().getGeneralConfig().getExportZoom();
-		return control.getNL().getImage(1d, Configuration.getInstance().getGeneralConfig().getColoredImages());
+		return control.getNL().getImage(1d, Configuration.getInstance().getGeneralConfig().getColoredImages(), drawHypNames.isSelected(), drawHypWeights.isSelected(), drawEdgeWeights.isSelected());
 	}
 	
 	public void save() {
 		
 
 		
+	}
+
+	public void stateChanged(ChangeEvent e) {		
+		Node.setRadius(Integer.parseInt(spinnerRadius.getModel().getValue().toString()));
+		ip.setImage(getImage());
+		repaint();
 	}
 
 }
