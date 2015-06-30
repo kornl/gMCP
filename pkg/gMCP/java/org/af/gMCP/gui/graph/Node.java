@@ -83,8 +83,8 @@ public class Node {
 	public boolean inYou(int x, int y) {
 		return ((x / nl.getZoom() - this.x - r)
 				* (x / nl.getZoom() - this.x - r)
-				+ (y / nl.getZoom() - this.y - r))
-				* (y / nl.getZoom() - this.y - r) <= (r * r);
+				+ (y / nl.getZoom() - this.y - r)
+				* (y / nl.getZoom() - this.y - r) <= (r * r));
 	}	
 
 	public boolean containsYou(int[] start, int[] end) {
