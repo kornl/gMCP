@@ -2,13 +2,21 @@ graph <- BonferroniHolm(4)
 pvalues <- c(0.01, 0.05, 0.03, 0.02)
 alpha <- 0.05
 
+# Test functions can be written in two ways:
+# 1) If pvalues, weights and alpha are given, a logical value is returned whether the null hypothesis can be rejected.
+# 2) If only pvalues and weights are given the minimal value for alpha is returned for which the null hypothesis can be rejected.
+
 # Weighted Bonferroni-test
-test <- function(pvalues, weights, alpha) {
-  return(any(pvalues<alpa*weights))
+bonferroni.test <- function(pvalues, weights, alpha) {
+  if (missing(alpha)) {
+    min(pvalues/weights)
+  } else {
+    return(any(pvalues<=alpha*weights))
+  }
 }
 
 # Simes test
-test <- function(pvalues, weights, alpha) {
+simes.test <- function(pvalues, weights, alpha) {
   mJ <- Inf  				
   for (j in J) {
     Jj <- subset!=0 & (pvalues2 <= pvalues2[j]) # & (1:n)!=j
@@ -84,5 +92,14 @@ gMCP.extended <- function(graph, pvalues, test, correlation, alpha=0.05,
     }
     adjPValuesV[i] <- max(result[result[,i]==1,n+2])
   }  
-  result <- new("gMCPResult", graphs=list(graph, alpha=alpha, pvalues=pvalues, rejected=getRejected(graph), adjPValues=adjPValuesV)
+  # Creating result object:
+  result <- new("gMCPResult", graphs=list(graph, alpha=alpha, pvalues=pvalues, rejected=getRejected(graph), adjPValues=adjPValuesV))
+  # Adding explanation for rejections:
+  if (verbose) {
+    output <- paste(output, paste(explanation, collapse="\n"), sep="\n")
+    if (!callFromGUI) cat(output,"\n")
+    attr(result, "output") <- output
+  }
+  # Adding attribute call:
+  attr(result, "call") <- call2char(match.call())
 }
