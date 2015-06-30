@@ -284,8 +284,8 @@ public class NetListPanel extends JPanel implements MouseMotionListener, MouseLi
 		}
 		// Check whether to add new node
 		if (newVertex && vertexSelected(e.getX(), e.getY())==null) {
-			nl.addDefaultNode((int)(e.getX() / getZoom()) - Node.r, 
-						(int) (e.getY() / getZoom()) - Node.r);
+			nl.addDefaultNode((int)(e.getX() / getZoom()) - Node.getRadius(), 
+						(int) (e.getY() / getZoom()) - Node.getRadius());
 			nl.statusBar.setText(GraphView.STATUSBAR_DEFAULT);
 			repaint();
 			return;
@@ -478,16 +478,16 @@ public class NetListPanel extends JPanel implements MouseMotionListener, MouseLi
 		int grid = Configuration.getInstance().getGeneralConfig().getGridSize();
 		g.setColor(Color.LIGHT_GRAY);
 		if (grid>1) {
-			for(int x=(int)(Node.r*getZoom()); x < getWidth(); x += grid*getZoom()) {				
+			for(int x=(int)(Node.getRadius()*getZoom()); x < getWidth(); x += grid*getZoom()) {				
 				g.drawLine(x, 0, x, getHeight());	
 			}
-			for(int x=(int)(Node.r*getZoom()); x > 0; x -= grid*getZoom()) {				
+			for(int x=(int)(Node.getRadius()*getZoom()); x > 0; x -= grid*getZoom()) {				
 				g.drawLine(x, 0, x, getHeight());	
 			}
-			for(int y=(int)(Node.r*getZoom()); y < getHeight(); y += grid*getZoom()) {
+			for(int y=(int)(Node.getRadius()*getZoom()); y < getHeight(); y += grid*getZoom()) {
 				g.drawLine(0, y, getWidth(), y);
 			}
-			for(int y=(int)(Node.r*getZoom()); y > 0; y -= grid*getZoom()) {
+			for(int y=(int)(Node.getRadius()*getZoom()); y > 0; y -= grid*getZoom()) {
 				g.drawLine(0, y, getWidth(), y);
 			}
 		}

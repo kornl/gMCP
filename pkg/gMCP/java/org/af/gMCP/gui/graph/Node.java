@@ -27,7 +27,7 @@ public class Node {
 	
 	static DecimalFormat format = new DecimalFormat("#.####");
 	static DecimalFormat formatSmall = new DecimalFormat("#.###E0");
-	public static int r = 25;	
+	private static int r = 25;	
 	private Color color = Color.WHITE;
 	TeXIcon iconName;
 	List<TeXIcon> iconWeightScaledDown;
@@ -47,9 +47,9 @@ public class Node {
 	private List<String> stringW = new Vector<String>();	
 	private List<Double> weight = new Vector<Double>();
 
-	int x;
+	int x, y;
 	
-	int y;
+	int mx, my;
 	
 	public Node(String name, int x, int y, double[] alpha, NetList vs) {
 		this.nl = vs;
@@ -83,19 +83,18 @@ public class Node {
 	public boolean inYou(int x, int y) {
 		return ((x / nl.getZoom() - this.x - r)
 				* (x / nl.getZoom() - this.x - r)
-				+ (y / nl.getZoom() - this.y - r)
-				* (y / nl.getZoom() - this.y - r) <= (r * r));
-	}
-	
+				+ (y / nl.getZoom() - this.y - r))
+				* (y / nl.getZoom() - this.y - r) <= (r * r);
+	}	
 
 	public boolean containsYou(int[] start, int[] end) {
 		return Math.min(start[0], end[0])/ nl.getZoom()<=x+r && Math.max(start[0], end[0])/ nl.getZoom()>=x-r
 				&& Math.min(start[1], end[1])/ nl.getZoom()<=y+r && Math.max(start[1], end[1])/ nl.getZoom()>=y-r; 
 	}
 
-	public static int getRadius() { return r; }
-	
-	public static void setRadius(int radius) { r = radius; }
+	//TODO Unify the following functions:
+	public static int getRadius() { return r; }	
+	static void setRadius(int r) {  Node.r = r; }	
 
 	public boolean isRejectable() {
 		return rejectable && !rejected;
@@ -303,14 +302,21 @@ public class Node {
 		int grid = Configuration.getInstance().getGeneralConfig().getGridSize();
 		x = ((x+ (int)(0.5*grid)) / grid)*grid;
 		this.x = x;
+		this.mx = x + r;
 	}
 
 	public void setY(int y) {
 		int grid = Configuration.getInstance().getGeneralConfig().getGridSize();
 		y = ((y+ (int)(0.5*grid)) / grid)*grid;
 		this.y = y;
+		this.my = y + r;
 	}
 
+	public void reCenter() {
+		this.x = mx - r;
+		this.y = my - r;
+	}
+	
 	public String toString() {		
 		return name+" (w: "+getWS()+")";
 	}

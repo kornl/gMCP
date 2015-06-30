@@ -760,4 +760,11 @@ public class NetList extends JTabbedPane implements ChangeListener, AnnotationPa
 		return layer;
 	}
 
+	public void setRadius(int r) {
+		Node.setRadius(r);
+		for (Node n : nodes) {
+			n.reCenter();
+		}
+	}
+
 }

@@ -308,7 +308,7 @@ public class Edge {
 		double phi3;
 		// phi correction factor:
 		double r = Math.sqrt((m1-a1)*(m1-a1)+(m2-a2)*(m2-a2));
-		double phiCF = (Node.r*360*nl.getZoom())/(2*Math.PI*r);
+		double phiCF = (Node.getRadius()*360*nl.getZoom())/(2*Math.PI*r);
 		//System.out.println("phiCF: "+phiCF);
 
 		if ((a1-m1)==0) {

@@ -61,7 +61,7 @@ public class ImageExportDialog extends JDialog implements ActionListener, Change
         
         getContentPane().add(getOptionsPanel(), cc.xy(6, row));
         
-        ip = new ImagePanel(getImage());        
+        ip = new ImagePanel(getImage(), 0, 0, 50, 50);        
         getContentPane().add(ip, cc.xyw(2, row, 3));  
  
     	        
@@ -203,7 +203,7 @@ public class ImageExportDialog extends JDialog implements ActionListener, Change
 	}
 
 	public void stateChanged(ChangeEvent e) {		
-		Node.setRadius(Integer.parseInt(spinnerRadius.getModel().getValue().toString()));
+		control.getNL().setRadius(Integer.parseInt(spinnerRadius.getModel().getValue().toString()));
 		ip.setImage(getImage());
 		repaint();
 	}

@@ -160,7 +160,7 @@ public class UpdateNode extends JDialog implements ActionListener {
 			}
 		}
 		node.setWeight(ArrayUtils.toPrimitive((Double[])wList.toArray(new Double[0])), null);
-		node.setRadius(Integer.parseInt(spinner.getModel().getValue().toString()));
+		gv.getNL().setRadius(Integer.parseInt(spinner.getModel().getValue().toString()));		
 		int which = netzListe.whichNode(tfname.getText());
 		if (which == -1 || netzListe.getNodes().get(which) == node) {
 			gv.renameNode(node, tfname.getText());			
