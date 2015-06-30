@@ -230,7 +230,13 @@ public class NetList extends JTabbedPane implements ChangeListener, AnnotationPa
 	}
 	
 	public BufferedImage getImage(Double d, boolean color) {
-		return nlp.get(getSelectedIndex()).getImage(d, color);
+		return nlp.get(getSelectedIndex()).getImage(d, color, true, true, true);
+	}
+	
+
+	public BufferedImage getImage(double d, boolean color,
+			boolean drawHypNames, boolean drawHypWeights, boolean drawEdgeWeights) {
+		return nlp.get(getSelectedIndex()).getImage(d, color, drawHypNames, drawHypWeights, drawEdgeWeights);
 	}
 
 	public String getLaTeX() {

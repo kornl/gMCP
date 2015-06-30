@@ -452,8 +452,8 @@ public class GraphView extends JPanel implements ActionListener {
 		return 	parent.getDView();	
 	}
 	
-	public void saveGraphImage(File file) {
-		BufferedImage img = getNL().getImage(Configuration.getInstance().getGeneralConfig().getExportZoom(), Configuration.getInstance().getGeneralConfig().getColoredImages());
+	public void saveGraphImage(File file, boolean drawHypNames, boolean drawHypWeights, boolean drawEdgeWeights) {
+		BufferedImage img = getNL().getImage(Configuration.getInstance().getGeneralConfig().getExportZoom(), Configuration.getInstance().getGeneralConfig().getColoredImages(), drawHypNames, drawHypWeights, drawEdgeWeights);
 		try {
 			ImageIO.write(img, "png", file);
 		} catch( Exception ex ) {

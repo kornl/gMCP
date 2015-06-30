@@ -111,14 +111,19 @@ public class Node {
 	public int[] offset(int x2, int y2) {
 		return new int[] {(int) (x* nl.getZoom())-x2, (int) (y* nl.getZoom())-y2};
 	}
-
+	
 	/**
 	 * Draws the node.
 	 * @param g Graphs object for drawing
 	 * @param layer Layer to draw. Will be 'null' if all layers should be drawn. Starts with 0 (not 1).
 	 */
 	public void paintYou(Graphics g, Integer layer, boolean color) {
-		if (rejected && !Configuration.getInstance().getGeneralConfig().showRejected()) return;
+		paintYou(g, layer, color, true, true);
+	}
+	
+	public void paintYou(Graphics g, Integer layer, boolean color,				
+				boolean drawHypNames, boolean drawHypWeights) {
+			if (rejected && !Configuration.getInstance().getGeneralConfig().showRejected()) return;
 		Graphics2D g2d = (Graphics2D) g;
 		g2d.setFont(new Font("Arial", Font.PLAIN, (int) (12 * nl.getZoom())));		
 		FontRenderContext frc = g2d.getFontRenderContext();		
@@ -143,9 +148,11 @@ public class Node {
 		if (!Configuration.getInstance().getGeneralConfig().useJLaTeXMath()) {			
 
 			rc = g2d.getFont().getStringBounds(name, frc);
-			g2d.drawString(name, 
-					(float) ((x + r) * nl.getZoom() - rc.getWidth() / 2), 
-					(float) ((y + r - 0.25*r) * nl.getZoom())); // +rc.getHeight()/2));
+			if (drawHypNames) {
+				g2d.drawString(name, 
+						(float) ((x + r) * nl.getZoom() - rc.getWidth() / 2), 
+						(float) ((y + r - 0.25*r) * nl.getZoom())); // +rc.getHeight()/2));
+			}
 
 			//TODO Color for different weights:
 			String wStr;
@@ -155,9 +162,11 @@ public class Node {
 				wStr = stringW.get(layer);
 			}
 			rc = g2d.getFont().getStringBounds(wStr, frc);
-			g2d.drawString(wStr,
-					(float) ((x + r) * nl.getZoom() - rc.getWidth() / 2),
-					(float) ((y + 1.5 * r) * nl.getZoom())); 
+			if (drawHypWeights) {
+				g2d.drawString(wStr,
+						(float) ((x + r) * nl.getZoom() - rc.getWidth() / 2),
+						(float) ((y + 1.5 * r) * nl.getZoom()));
+			}
 		} else {		
 			if (lastFontSize != (int) (14 * nl.getZoom())) {
 				lastFontSize = (int) (14 * nl.getZoom());
@@ -165,9 +174,11 @@ public class Node {
 				TeXFormula formula = new TeXFormula("\\mathbf{"+name+"}");
 				iconName = formula.createTeXIcon(TeXConstants.ALIGN_CENTER, lastFontSize);
 			}
-			iconName.paintIcon(LaTeXTool.panel, g2d,
-					(int) ((x + r) * nl.getZoom() - iconName.getIconWidth() / 2), 
-					(int) ((y + r - 0.6*r) * nl.getZoom()));	
+			if (drawHypNames) {
+				iconName.paintIcon(LaTeXTool.panel, g2d,
+						(int) ((x + r) * nl.getZoom() - iconName.getIconWidth() / 2), 
+						(int) ((y + r - 0.6*r) * nl.getZoom()));
+			}
 
 			List<TeXIcon> tmpIconWeight;
 			if (layer==null) {
@@ -177,12 +188,14 @@ public class Node {
 				tmpIconWeight.add(iconWeight.get(layer));
 			}			
 			int offset = (int)(-((tmpIconWeight.size()-1)/2.0)*10);
-			for (TeXIcon icon : tmpIconWeight) {				
-				//TODO Color and correct x coordinates:
-				icon.paintIcon(LaTeXTool.panel, g2d,
-						(int) ((x + r + offset) * nl.getZoom() - icon.getIconWidth() / 2), 
-						(int) ((y + 1.1 * r) * nl.getZoom()));
-				offset+=10;
+			if (drawHypWeights) {
+				for (TeXIcon icon : tmpIconWeight) {				
+					//TODO Color and correct x coordinates:
+					icon.paintIcon(LaTeXTool.panel, g2d,
+							(int) ((x + r + offset) * nl.getZoom() - icon.getIconWidth() / 2), 
+							(int) ((y + 1.1 * r) * nl.getZoom()));
+					offset+=10;
+				}
 			}
 		}
 		
@@ -317,4 +330,5 @@ public class Node {
 	public void paintYou(Graphics g, Integer layer) {
 		paintYou(g, layer, true);		
 	}
+
 }

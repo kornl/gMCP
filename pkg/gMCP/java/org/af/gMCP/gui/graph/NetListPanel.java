@@ -68,9 +68,12 @@ public class NetListPanel extends JPanel implements MouseMotionListener, MouseLi
 	 * @param zoom Zoom used for the image. Bigger values result in higher resolutions.
 	 * If "null" the current zoom is used.
 	 * @param color 
+	 * @param drawEdgeWeights 
+	 * @param drawHypWeights 
+	 * @param drawHypNames 
 	 * @return Returns an image of the graph with a border of 5 pixel in most cases.
 	 */
-	public BufferedImage getImage(Double zoom, boolean color) {
+	public BufferedImage getImage(Double zoom, boolean color, boolean drawHypNames, boolean drawHypWeights, boolean drawEdgeWeights) {
 		if (zoom == null) zoom = getZoom();
 		double oldZoom = getZoom();
 		setZoom(zoom);
@@ -92,13 +95,15 @@ public class NetListPanel extends JPanel implements MouseMotionListener, MouseLi
 		g.setRenderingHint(RenderingHints.KEY_ANTIALIASING,	RenderingHints.VALUE_ANTIALIAS_ON);
 		
 		for (Node node : getNodes()) {
-			node.paintYou(g, layer, color);
+			node.paintYou(g, layer, color, drawHypNames, drawHypWeights);
 		}
 		for (Edge edge : getEdges()) {
 			if (shouldDraw(edge)) edge.paintEdge(g);			
 		}
-		for (Edge edge : getEdges()) {
-			if (shouldDraw(edge)) edge.paintEdgeLabel(g);			
+		if (drawEdgeWeights) {
+			for (Edge edge : getEdges()) {
+				if (shouldDraw(edge)) edge.paintEdgeLabel(g);			
+			}
 		}
 		
 		img = cutImage(img, 5);

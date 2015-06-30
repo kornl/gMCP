@@ -765,7 +765,7 @@ public class MenuBarMGraph extends JMenuBar implements ActionListener {
             if (!f.getName().toLowerCase().endsWith(".png")) {
             	f = new File(f.getAbsolutePath()+".png");
             }
-            control.saveGraphImage(f);
+            control.saveGraphImage(f, true, true, true);
             showFile(f);
         }		
 	}
