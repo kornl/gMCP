@@ -19,10 +19,12 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.filechooser.FileFilter;
 
+import org.af.commons.tools.OSTools;
 import org.af.gMCP.config.Configuration;
 import org.af.gMCP.gui.CreateGraphGUI;
 import org.af.gMCP.gui.graph.GraphView;
 import org.af.gMCP.gui.graph.Node;
+import org.mutoss.gui.TransferableImage;
 
 import com.jgoodies.forms.layout.CellConstraints;
 import com.jgoodies.forms.layout.FormLayout;
@@ -40,18 +42,22 @@ public class ImageExportDialog extends JDialog implements ActionListener, Change
 	JCheckBox drawHypNames = new JCheckBox("Draw names of hypotheses");
 	JCheckBox drawHypWeights = new JCheckBox("Draw weights of hypotheses");
 	JCheckBox drawEdgeWeights = new JCheckBox("Draw weights of edges");
+	JButton copyToClipboard = new JButton("Copy to clipboard");
 	
 	CreateGraphGUI parent;
 	GraphView control;
 	
-	public ImageExportDialog(CreateGraphGUI parent) {
+	public ImageExportDialog(CreateGraphGUI parent, boolean saveToFile) {
 		super(parent, "Export Image", true);
 		setLocationRelativeTo(parent);
 		this.parent = parent;
 		control = parent.getGraphView();		
 		
         String cols = "5dlu, pref, 5dlu, fill:pref:grow, 5dlu, pref, 5dlu";
-        String rows = "5dlu, fill:pref:grow, 5dlu, pref, 5dlu, pref, 5dlu";    
+        String rows = "5dlu, fill:pref:grow, 5dlu, pref, 5dlu";
+        if (saveToFile) {
+        	rows += ", pref, 5dlu";
+        }
                
         FormLayout layout = new FormLayout(cols, rows);
         getContentPane().setLayout(layout);
@@ -63,19 +69,26 @@ public class ImageExportDialog extends JDialog implements ActionListener, Change
         
         ip = new ImagePanel(getImage(), 0, 0, 50, 50);        
         getContentPane().add(ip, cc.xyw(2, row, 3));  
- 
     	        
         row += 2;
-        selectFile.addActionListener(this);
-        tfFile.setText(Configuration.getInstance().getClassProperty(this.getClass(), "LastImage", ""));
-        getContentPane().add(selectFile, cc.xy(2, row));
-        getContentPane().add(tfFile, cc.xyw(4, row, 3));        
         
-        row += 2;
-        
-        getContentPane().add(ok, cc.xy(6, row));
-        
-        ok.addActionListener(this);        
+        if (saveToFile) {
+
+        	selectFile.addActionListener(this);
+        	tfFile.setText(Configuration.getInstance().getClassProperty(this.getClass(), "LastImage", ""));
+        	getContentPane().add(selectFile, cc.xy(2, row));
+        	getContentPane().add(tfFile, cc.xyw(4, row, 3));        
+
+        	row += 2;
+
+        	getContentPane().add(ok, cc.xy(6, row));        
+        	ok.addActionListener(this);
+
+        } else {
+        	
+        	getContentPane().add(copyToClipboard, cc.xy(6, row));        
+        	copyToClipboard.addActionListener(this);
+        }
         
         pack();
         setVisible(true);
@@ -161,7 +174,24 @@ public class ImageExportDialog extends JDialog implements ActionListener, Change
             control.saveGraphImage(f, drawHypNames.isSelected(), drawHypWeights.isSelected(), drawEdgeWeights.isSelected());
             parent.getMBar().showFile(f);
 			dispose();
-		} else if (e.getSource()==cbColored) {
+		} else if (e.getSource() == copyToClipboard) {
+			if (OSTools.isLinux() && !Configuration.getInstance().getClassProperty(this.getClass(), "showClipboardInfo", "yes").equals("no")) {
+				String jsv = System.getProperty("java.specification.version");
+				if (jsv.equals("1.5") || jsv.equals("1.6")) {
+					String message = "An old bug from 2007 that is widely known but never\n" +
+							"fixed by Sun/Oracle in Java will most likely prevent this\n" +
+							"feature to work on a Linux machine.\n" +
+							"We are sorry…";
+					JCheckBox tellMeAgain = new JCheckBox("Don't show me this info again.");			
+					JOptionPane.showMessageDialog(parent, new Object[] {message, tellMeAgain}, "Will most likely not work under Linux", JOptionPane.WARNING_MESSAGE);
+					if (tellMeAgain.isSelected()) {
+						Configuration.getInstance().setClassProperty(this.getClass(), "showClipboardInfo", "no");
+					}
+				}
+			}
+			TransferableImage.copyImageToClipboard(control.getNL().getImage(Configuration.getInstance().getGeneralConfig().getExportZoom(), Configuration.getInstance().getGeneralConfig().getColoredImages(), drawHypNames.isSelected(), drawHypWeights.isSelected(), drawEdgeWeights.isSelected()));
+			dispose();
+		} else if (e.getSource()==cbColored) {		
 			Configuration.getInstance().getGeneralConfig().setColoredImages(cbColored.isSelected());
 		} else if (e.getSource()==cbTransparent) {
 			Configuration.getInstance().getGeneralConfig().setExportTransparent(cbTransparent.isSelected());

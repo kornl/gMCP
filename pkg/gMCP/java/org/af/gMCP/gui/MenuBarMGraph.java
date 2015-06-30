@@ -308,15 +308,14 @@ public class MenuBarMGraph extends JMenuBar implements ActionListener {
         	}
         	GraphSaveDialog gsd = new GraphSaveDialog(control);
         	createLastUsed();
-        } else if (e.getActionCommand().equals("copy graph to clipboard")) {       	
-        	control.copyGraphToClipboard();
+        } else if (e.getActionCommand().equals("copy graph to clipboard")) {    
+        	new ImageExportDialog(control.getMainFrame(), false);
         } else if (e.getActionCommand().equals("export graph image")) {
     		if (control.getNL().getNodes().size()==0) {
         		JOptionPane.showMessageDialog(control.getMainFrame(), "Will not save empty graph.", "Empty graph", JOptionPane.ERROR_MESSAGE);
         		return;
         	}
-        	new ImageExportDialog(control.getMainFrame());
-        	//saveGraphImage();
+        	new ImageExportDialog(control.getMainFrame(), true);
         } else if (e.getActionCommand().equals("export graph latex")) {       	
         	exportLaTeXGraph();
         } else if (e.getActionCommand().equals("show graph latex")) {       	
@@ -739,36 +738,6 @@ public class MenuBarMGraph extends JMenuBar implements ActionListener {
         }
 	}
 	*/
-
-	/**
-	 * Opens a JFilechooser and saves the graph as an PNG image to the selected file.
-	 */
-	private void saveGraphImage() {
-		if (control.getNL().getNodes().size()==0) {
-    		JOptionPane.showMessageDialog(control.getMainFrame(), "Will not save empty graph.", "Empty graph", JOptionPane.ERROR_MESSAGE);
-    		return;
-    	}
-		JFileChooser fc = new JFileChooser(Configuration.getInstance().getClassProperty(this.getClass(), "ImageDirectory"));		
-        fc.setFileSelectionMode(JFileChooser.FILES_ONLY);
-        fc.setDialogType(JFileChooser.SAVE_DIALOG);
-        fc.setFileFilter(new FileFilter() {
-			public boolean accept(File f) {
-				if (f.isDirectory()) return true;
-				return f.getName().toLowerCase().endsWith(".png");
-			}
-			public String getDescription () { return "PNG image files"; }  
-		});
-        int returnVal = fc.showOpenDialog(this);
-        if (returnVal == JFileChooser.APPROVE_OPTION) {
-            File f = fc.getSelectedFile();
-            Configuration.getInstance().setClassProperty(this.getClass(), "ImageDirectory", f.getParent());
-            if (!f.getName().toLowerCase().endsWith(".png")) {
-            	f = new File(f.getAbsolutePath()+".png");
-            }
-            control.saveGraphImage(f, true, true, true);
-            showFile(f);
-        }		
-	}
 	
 	/**
 	 * Opens a JFileChooser and loads a graph from an RData file.

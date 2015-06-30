@@ -508,29 +508,6 @@ public class GraphView extends JPanel implements ActionListener {
 					"Error loading values from R", JOptionPane.ERROR_MESSAGE);
 		}		
 	}
-
-	public void copyGraphToClipboard() {
-		if (OSTools.isLinux() && !Configuration.getInstance().getClassProperty(this.getClass(), "showClipboardInfo", "yes").equals("no")) {
-			String jsv = System.getProperty("java.specification.version");
-			if (jsv.equals("1.5") || jsv.equals("1.6")) {
-				String message = "An old bug from 2007 that is widely known but never\n" +
-						"fixed by Sun/Oracle in Java will most likely prevent this\n" +
-						"feature to work on a Linux machine.\n" +
-						"We are sorry…";
-				JCheckBox tellMeAgain = new JCheckBox("Don't show me this info again.");			
-				JOptionPane.showMessageDialog(parent, new Object[] {message, tellMeAgain}, "Will most likely not work under Linux", JOptionPane.WARNING_MESSAGE);
-				if (tellMeAgain.isSelected()) {
-					Configuration.getInstance().setClassProperty(this.getClass(), "showClipboardInfo", "no");
-				}
-			}
-		}
-		if (getNL().getNodes().size()==0) {
-    		JOptionPane.showMessageDialog(getMainFrame(), "Graph is empty - nothing copied to clipboard.", "Empty graph", JOptionPane.ERROR_MESSAGE);
-    		return;
-    	}
-		TransferableImage.copyImageToClipboard(getNL().getImage(Configuration.getInstance().getGeneralConfig().getExportZoom(), Configuration.getInstance().getGeneralConfig().getColoredImages()));
-	}
-	
 	
 	public boolean isResultUpToDate() {
 		return resultUpToDate;
