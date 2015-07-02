@@ -20,6 +20,9 @@ partially known. Unknown values can be set to NA. (See details for more
 information)}
 
 \item{al}{overall alpha level at which the family error is controlled}
+
+\item{upscale}{if \code{FALSE} (default) the parametric tests are performed
+at a reduced level alpha of sum(w) * alpha. (See details)}
 }
 \value{
 Returns a function that will take a vector of z-scores to which the
@@ -64,8 +67,7 @@ consequence that certain test procedures that do not test each intersection
 null hypothesis at the full level alpha may not be implemented (e.g., a
 single step Dunnett test). If \code{upscale} is set to \code{FALSE}
 (default) the parametric tests are performed at a reduced level alpha of
-sum(w) * alpha and p-values adjusted accordingly such that test procedures
-with non-exhaustive weighting strategies may be implemented. If set to
+sum(w) * alpha. If set to
 \code{TRUE} the tests are performed as defined in Equation (3) of (Bretz et
 al. (2011)).
 }

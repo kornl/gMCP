@@ -35,8 +35,7 @@
 #' null hypothesis at the full level alpha may not be implemented (e.g., a
 #' single step Dunnett test). If \code{upscale} is set to \code{FALSE}
 #' (default) the parametric tests are performed at a reduced level alpha of
-#' sum(w) * alpha and p-values adjusted accordingly such that test procedures
-#' with non-exhaustive weighting strategies may be implemented. If set to
+#' sum(w) * alpha. If set to
 #' \code{TRUE} the tests are performed as defined in Equation (3) of (Bretz et
 #' al. (2011)).
 #' 
@@ -54,6 +53,8 @@
 #' test will be applied. This function in turn will return a boolean vector
 #' with elements false if the particular elementary hypothesis can not be
 #' rejected and true otherwise.
+#' @param upscale if \code{FALSE} (default) the parametric tests are performed 
+#' at a reduced level alpha of sum(w) * alpha. (See details)
 #' @author Florian Klinglmueller
 #' @references Bretz F, Maurer W, Brannath W, Posch M; (2008) - A graphical
 #' approach to sequentially rejective multiple testing procedures. - Stat Med -
