@@ -360,7 +360,7 @@ edgeAttr(graph, "H11", "H21", "labelX") <- 200
 edgeAttr(graph, "H11", "H21", "labelY") <- 80
 @
 
-\subsection{Using the GUI}
+\subsection{Using the GUI}\hypertarget{maingui}{}
 
 The creation of \texttt{graphMCP} objects as seen in the last section 
 with basic R commands is very straight forward,
@@ -752,7 +752,7 @@ graph <- new("entangledMCP", subgraphs=list(subgraph1, subgraph2), weights=weigh
   \caption{\label{entagledgraph} Entangled graph from Maurer et Bretz}
 \end{figure}
 
-\section{Power Simulations}\index{power simulation}
+\section{Power Simulations}\index{power simulation}\hypertarget{power}{}
 
 \subsection{Using the R command line}
 
@@ -817,7 +817,7 @@ graph <- generalSuccessive()
 graph
 @
 
-\section{Options and Import/Export}
+\section{Options and Import/Export}\hypertarget{options}{}
 
 \subsection{Options}\index{options}
 

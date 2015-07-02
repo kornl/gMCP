@@ -4,7 +4,8 @@ incomprehensible "Result is not up to date" message from docx export
 
 upscale does not work for Bonferroni or Simes! Also pay attention to GUI rejection.
 
-Instead of JavaHelp try PDF bookmarks: #nameddest=destination and \hypertarget{my-named-dest}
+Instead of JavaHelp try PDF bookmarks: #nameddest=destination and \hypertarget{my-named-dest}{}
+http://algorithm-forge.com/gMCP/archive/gMCP.pdf#nameddest=options
 
 Check with jvisualvm for bottlenecks for huge graphs
 
