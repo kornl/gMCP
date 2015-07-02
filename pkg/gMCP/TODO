@@ -1,5 +1,7 @@
 Is the sequence correct for the Simes test (i.e. the original graph the first - especially if adjusted.pvalues=TRUE)?
 
+incomprehensible "Result is not up to date" message from docx export
+
 upscale does not work for Bonferroni or Simes! Also pay attention to GUI rejection.
 
 Instead of JavaHelp try PDF bookmarks: #nameddest=destination and \hypertarget{my-named-dest}
