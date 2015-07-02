@@ -12,15 +12,21 @@ test.api.compatibility <- function() {
   weights <- graph@weights
   G <- graph@m
   alpha <- 0.05
+  mean <- rep(0,4)
+  sigma <- corr.sim <- diag(4)
+  
+  result1 <- calcPower(weights, alpha=alpha, G=G, mean = mean,
+                       sigma = sigma, cr = NULL,
+                       nSim = 10000)
   
   # Old API:
-  calcPower(weights, alpha, G, mean = rep(0, nrow(sigma)),
-           sigma = diag(length(mean)), cr = NULL,
+  result1 <- calcPower(weights=weights, alpha=alpha, G=G, mean = mean,
+           sigma = sigma, cr = NULL,
            nSim = 10000)
   
   # New API:
-  calcPower(graph, alpha, mean = rep(0, nrow(sigma)),
-           corr.sim = diag(length(mean)), corr.test = NULL,
+  result2 <- calcPower(graph, alpha, mean = mean,
+           corr.sim = corr.sim, corr.test = NULL,
            n.sim = 10000)
 }
 
