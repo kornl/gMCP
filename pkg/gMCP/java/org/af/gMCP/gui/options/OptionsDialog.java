@@ -3,13 +3,24 @@ package org.af.gMCP.gui.options;
 import java.awt.Container;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 
+import javax.imageio.ImageIO;
+import javax.swing.Box;
+import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
+import javax.swing.border.EmptyBorder;
 
+import org.af.commons.Localizer;
 import org.af.commons.errorhandling.ErrorHandler;
+import org.af.commons.widgets.DesktopPaneBG;
 import org.af.commons.widgets.WidgetFactory;
+import org.af.commons.widgets.buttons.HorizontalButtonPane;
 import org.af.commons.widgets.buttons.OkApplyCancelButtonPane;
 import org.af.commons.widgets.validate.ValidationException;
 import org.af.gMCP.config.Configuration;
@@ -19,6 +30,9 @@ import org.af.gMCP.gui.graph.Edge;
 import org.af.gMCP.gui.graph.Node;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+
+import com.jgoodies.forms.layout.CellConstraints;
+import com.jgoodies.forms.layout.FormLayout;
 
 /**
  * Dialog for configuring various settings.
@@ -30,11 +44,15 @@ public class OptionsDialog extends JDialog implements ActionListener {
     private GeneralPanel visualPanel;
     private NumericPanel numericPanel;
     private MiscPanel miscPanel;
-    private OkApplyCancelButtonPane bp;
+    private JPanel bp;
 
     private Configuration conf;
 
     CreateGraphGUI parent;
+    
+    JButton jbHelp;
+    
+    static final String HELP = "HELP";
 
     /**
      * Standard constructor
@@ -63,8 +81,60 @@ public class OptionsDialog extends JDialog implements ActionListener {
         tabbedPane = new JTabbedPane();
         visualPanel = new GeneralPanel(parent, this);
         numericPanel = new NumericPanel(conf);
-        miscPanel = new MiscPanel(conf);        
-        bp = new OkApplyCancelButtonPane();
+        miscPanel = new MiscPanel(conf); 
+        
+		
+        bp = getButtonPane();
+    }
+    
+    private JPanel getButtonPane() {
+    	JPanel panel = new JPanel();    	
+    	panel.setLayout(new BoxLayout(panel, BoxLayout.X_AXIS));
+    	try {
+			jbHelp = new JButton("Help", 
+					new ImageIcon(ImageIO.read(DesktopPaneBG.class
+							.getResource("/org/af/gMCP/gui/graph/images/questionmark.png"))));
+		} catch (IOException e) {
+			ErrorHandler.getInstance().makeErrDialog(e.getMessage(), e);
+			jbHelp = new JButton("Help!");
+		}
+		jbHelp.addActionListener(this);
+		jbHelp.setActionCommand(HELP);
+    	panel.add(jbHelp);
+        panel.add(Box.createHorizontalStrut(5));    	
+        JButton cancel = new JButton(Localizer.getInstance().getString("AFCOMMONS_WIDGETS_BUTTONS_CANCEL"));
+    	cancel.setActionCommand(OkApplyCancelButtonPane.CANCEL_CMD);
+    	panel.add(cancel);
+    	cancel.addActionListener(this);
+        panel.add(Box.createHorizontalStrut(5));
+        
+        JButton apply = new JButton(Localizer.getInstance().getString("AFCOMMONS_WIDGETS_BUTTONS_APPLY"));
+        apply.addActionListener(this);
+    	apply.setActionCommand(OkApplyCancelButtonPane.APPLY_CMD);
+    	panel.add(apply);
+        panel.add(Box.createHorizontalStrut(5));
+    	
+        JButton ok = new JButton(Localizer.getInstance().getString("AFCOMMONS_WIDGETS_BUTTONS_OK"));
+    	ok.setActionCommand(OkApplyCancelButtonPane.OK_CMD);
+    	ok.addActionListener(this);
+    	panel.add(ok);
+        panel.add(Box.createHorizontalStrut(5));
+    	
+    	return panel;
+    }
+    
+    public static JPanel makeDialogPanelWithButtons (Container content, JPanel hbp) {        
+        JPanel p = new JPanel();
+        String cols = "fill:pref:grow";
+        String rows = "fill:pref:grow, 5dlu, bottom:pref:n";
+        FormLayout layout = new FormLayout(cols, rows);
+        p.setLayout(layout);
+
+        CellConstraints cc = new CellConstraints();
+        p.add(content, cc.xy(1,1));
+        p.add(hbp, cc.xy(1,3, "right, bottom"));
+        p.setBorder(new EmptyBorder(5, 5, 5, 5));
+        return p;
     }
 
     /**
@@ -76,7 +146,7 @@ public class OptionsDialog extends JDialog implements ActionListener {
         tabbedPane.addTab("Misc", miscPanel);
         Container cp = getContentPane();
         cp.add(tabbedPane);
-        cp = WidgetFactory.makeDialogPanelWithButtons(cp, bp, this);
+        cp = makeDialogPanelWithButtons(cp, bp);
         setContentPane(cp);
     }
 
@@ -110,6 +180,9 @@ public class OptionsDialog extends JDialog implements ActionListener {
         }
         if (e.getActionCommand().equals(OkApplyCancelButtonPane.CANCEL_CMD)) {
             dispose();
+        }
+        if (e.getActionCommand().equals(HELP)) {
+        	((MenuBarMGraph)parent.getJMenuBar()).showURL(CreateGraphGUI.helpURL+"#nameddest=options");
         }
         ((MenuBarMGraph)parent.getJMenuBar()).createExampleMenu();
         ((MenuBarMGraph)parent.getJMenuBar()).createExtraMenu();
