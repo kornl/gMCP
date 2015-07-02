@@ -495,7 +495,7 @@ public class MenuBarMGraph extends JMenuBar implements ActionListener {
 		new GraphSendToArchiveDialog(control.getMainFrame(), control);		
 	}
 
-	private void showURL(String url) {
+	public void showURL(String url) {
 		try {	
 			Method main = Class.forName("java.awt.Desktop").getDeclaredMethod("getDesktop");
 			Object obj = main.invoke(new Object[0]);
