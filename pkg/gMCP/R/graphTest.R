@@ -193,6 +193,9 @@ checkArgs <- function(pvalues, alphas, G, nH){
 		}
 		
 	} else {
+    if(!is.matrix(G) || !is.numeric(G)) {
+      stop("G must be a numeric matrix")
+    }
 		if(any(G < 0) | any(G > 1))
 			stop("entries of G need to be in [0,1]")
 		if(any(rowSums(G) > 1))
