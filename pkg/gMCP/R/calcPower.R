@@ -48,18 +48,14 @@ extractPower <- function(x, f=list()) {
 #' number of rejections.
 #' 
 #' 
-#' @param weights Initial weight levels for the test procedure, see graphTest
-#' function.
+#' @param graph A graph of class \code{\link{graphMCP}}.
 #' @param alpha Overall alpha level of the procedure, see graphTest function.
 #' (For entangled graphs \code{alpha} should be a numeric vector of length 
 #' equal to the number of graphs, each element specifying the partial alpha 
 #' for the respective graph.
 #' The overall alpha level equals \code{sum(alpha)}.)
-#' @param G Matrix determining the graph underlying the test procedure. Note
-#' that the diagonal need to contain only 0s, while the rows need to sum to 1.
-#' When multiple graphs should be used this needs to be a list containing the
-#' different graphs as elements.
 #' @param mean Mean under the alternative
+#' @param G Parameter for backward compatibility. If you write new code, simply don't use it.
 #' @param corr.sim Covariance matrix under the alternative.
 #' @param corr.test Correlation matrix that should be used for the parametric test.
 #' If \code{corr.test==NULL} the Bonferroni based test procedure is used. Can contain
@@ -67,7 +63,7 @@ extractPower <- function(x, f=list()) {
 #' @param type What type of random numbers to use. \code{quasirandom} uses a
 #' randomized Lattice rule, and should be more efficient than
 #' \code{pseudorandom} that uses ordinary (pseudo) random numbers.
-#' @param nSim Monte Carlo sample size. If type = "quasirandom" this number is
+#' @param n.sim Monte Carlo sample size. If type = "quasirandom" this number is
 #' rounded up to the next power of 2, e.g. 1000 is rounded up to
 #' \eqn{1024=2^10}{1024=2^10} and at least 1024.
 #' @param f List of user defined power functions (or just a single power
@@ -86,9 +82,15 @@ extractPower <- function(x, f=list()) {
 #' even if the sum of weights is strictly smaller than one. If
 #' \code{test="simple-parametric"} the tests are performed as defined in
 #' Equation (3) of Bretz et al. (2011).
+#' @param upscale Logical. If \code{upscale=FALSE} then for each intersection 
+#' of hypotheses (i.e. each subgraph) a weighted test is performed at the 
+#' possibly reduced level alpha of sum(w)*alpha, 
+#' where sum(w) is the sum of all node weights in this subset.
+#' If \code{upscale=TRUE} all weights are upscaled, so that sum(w)=1.
 #' @param ... For backwards compatibility. For example up to version 0.8-7
 #' the parameters \code{corr.model} and \code{corr.test} were called \code{sigma}
-#' and \code{cr}.
+#' and \code{cr}. Also instead of supplying a graph object one could 
+#' supply a parameter \code{weights} and a transition matrix \code{G}.
 #' @return A list containg three elements
 #' \describe{
 #' \item{\code{LocalPower}}{A numeric giving the local powers for the hypotheses}
@@ -124,7 +126,7 @@ extractPower <- function(x, f=list()) {
 #'                 c(0.5,0.5/2,1,0.5),
 #'                 c(0.5/2,0.5,0.5,1))
 #' theta <- c(3, 0, 0, 0)
-#' calcPower(weights, alpha=0.025, G, theta, corMat, nSim = 100000)
+#' calcPower(weights=weights, alpha=0.025, G=G, mean=theta, corr.sim=corMat, n.sim= 100000)
 #' 
 #' 
 #' ## now reproduce all 14 simulation scenarios
@@ -147,7 +149,7 @@ extractPower <- function(x, f=list()) {
 #'   G <- rbind(c(0, g1, 1-g1, 0), c(g2, 0, 0, 1-g2), c(0, 1, 0, 0), c(1, 0, 0, 0))
 #'   corMat <- rbind(c(1, 0.5, rh, rh/2), c(0.5,1,rh/2,rh), c(rh,rh/2,1,0.5), c(rh/2,rh,0.5,1))
 #'   mean <- c(t1, t2, t3, t4)
-#'   calcPower(al, alpha=0.025, G, mean, corMat, nSim = nSim)
+#'   calcPower(weights=al, alpha=0.025, G=G, mean=mean, corr.sim=corMat, n.sim = nSim)
 #' }
 #' 
 #' ## calculate power for all 14 scenarios
@@ -164,18 +166,26 @@ extractPower <- function(x, f=list()) {
 #' round(cbind(atlst1, locpow), 5)
 #' 
 #' @export calcPower
-calcPower <- function(graph, alpha, mean = rep(0, nrow(corr.sim)),
+calcPower <- function(graph, alpha, G, mean = rep(0, nrow(corr.sim)),
                       corr.sim = diag(length(mean)), corr.test = NULL,
                       n.sim = 10000, type = c("quasirandom", "pseudorandom"),
-					  f=list(), test, ...) {
+					  f=list(), upscale=FALSE, ...) {
   if (!is.null(list(...)[["nSim"]]) && missing(n.sim)) { n.sim <- list(...)[["nSim"]] }
   if (!is.null(list(...)[["sigma"]]) && missing(corr.sim)) { corr.sim <- list(...)[["sigma"]] }
-  if (!is.null(list(...)[["cr"]]) && missing(corr.test)) { corr.test <- list(...)[["cr"]] }
+  if (!is.null(list(...)[["cr"]]) && missing(corr.test)) { corr.test <- list(...)[["cr"]] }  
   if (!missing(graph)) {
-    G <- graph@m
-    weights <- graph@weights
+    if (!missing(G) && is.numeric(graph) && is.matrix(G) && length(graph)==dim(G)[1]) {
+      weights <- graph
+      warning("We assume, you called calcPower with parameter 'weights' and 'G' as in previous versions.\n To get rid of this warning (and possible errors), please pass arguments by name and not by position.")
+    } else {
+      #if (!"graphMCP" %in% class(graph)) {    
+      #  stop("Parameter 'graph' should be a 'graphMCP' object.\n If your code did run previously, don't panic - there is backward compatibility.\n Simply don't pass arguments by position but by name, e.g. change\n calcPower(weights, 0.025, G, ...) to calcPower(weights=weights, alpha=0.025, G=G, ...).")
+      #}
+      G <- graph@m
+      weights <- graph@weights
+    }
   } else {
-    G <-list(...)[["G"]]
+    #For later versions: G <-list(...)[["G"]]
     weights <- list(...)[["weights"]]
   }
   ### END OF API COMPATIBILITY CODE  
@@ -185,9 +195,9 @@ calcPower <- function(graph, alpha, mean = rep(0, nrow(corr.sim)),
 	if (is.list(mean)) {
 	  result <- list()
 	  for (m in mean) {
-		  sims <- rqmvnorm(nSim, mean = m, sigma = corr.sim, type = type)
+		  sims <- rqmvnorm(n.sim, mean = m, sigma = corr.sim, type = type)
 		  pvals <- pnorm(sims, lower.tail = FALSE)
-		  out <- graphTest(pvalues=pvals, weights=weights, alpha=alpha, G=G, cr=corr.test, test=test)
+		  out <- graphTest(pvalues=pvals, weights=weights, alpha=alpha, G=G, cr=corr.test, upscale=upscale)
 		  out <- extractPower(out, f)
 		  label <- attr(m, "label")		  
 		  if (!is.null(label)) {
@@ -197,12 +207,9 @@ calcPower <- function(graph, alpha, mean = rep(0, nrow(corr.sim)),
 	  }
 	  return(result)
   } else {
-    #print(mean)
-    #print(corr.sim)
-    #print(nSim)
-	  sims <- rqmvnorm(nSim, mean = mean, sigma = corr.sim, type = type)
+	  sims <- rqmvnorm(n.sim, mean = mean, sigma = corr.sim, type = type)
 	  pvals <- pnorm(sims, lower.tail = FALSE)
-	  out <- graphTest(pvalues=pvals, weights=weights, alpha=alpha, G=G, cr=corr.test, test=test)
+	  out <- graphTest(pvalues=pvals, weights=weights, alpha=alpha, G=G, cr=corr.test, upscale=upscale)
 	  extractPower(out, f)
   }
 }
@@ -210,7 +217,7 @@ calcPower <- function(graph, alpha, mean = rep(0, nrow(corr.sim)),
 calcMultiPower <- function(weights, alpha, G, ncpL, muL, sigmaL, nL,
 		corr.sim = diag(length(muL[[1]])), corr.test = NULL,
 		nSim = 10000, type = c("quasirandom", "pseudorandom"),
-		f=list(), digits=4, variables=NULL, test, ...) {
+		f=list(), digits=4, variables=NULL, test, upscale=FALSE, ...) {
   if (!is.null(list(...)[["sigma"]]) && missing(corr.sim)) {
     corr.sim <- list(...)[["sigma"]]
   }
@@ -241,7 +248,7 @@ calcMultiPower <- function(weights, alpha, G, ncpL, muL, sigmaL, nL,
 	g <- setWeights(g, weights)
 	if (is.null(variables)) {
 		sResult <- paste(sResult, "Graph:",paste(capture.output(print(g)), collapse="\n"), sep="\n")
-		resultL <- calcPower(weights, alpha, G, mean = ncpL, corr.sim, corr.test, nSim, type, f, test=test)
+		resultL <- calcPower(weights, alpha, G, mean = ncpL, corr.sim, corr.test, nSim, type, f, upscale=upscale)
 		sResult <- paste(sResult, resultL2Text(resultL, digits), sep="\n")
 	} else {
 		# For testing purposes: variables <- list(a=c(1,2), b=(3), x=c(2,3,4), d=c(1,2))
@@ -260,7 +267,7 @@ calcMultiPower <- function(weights, alpha, G, ncpL, muL, sigmaL, nL,
 			#print(alpha)
 			#print(ncpL)
 			additionalLabel <- paste(",", paste(paste(names(variables),"=",variablesII,sep=""), collapse=", "))
-			resultL <- calcPower(weights=weights, alpha=alpha, G=GII, mean = ncpL, corr.sim, corr.test, nSim, type, f, test=test)
+			resultL <- calcPower(weights=weights, alpha=alpha, G=GII, mean = ncpL, corr.sim, corr.test, nSim, type, f, upscale=upscale)
 			sResult <- paste(sResult, resultL2Text(resultL, digits, additionalLabel=additionalLabel), sep="\n")
 			# Going through all of the variable settings:
 			i[j] <- i[j] + 1
