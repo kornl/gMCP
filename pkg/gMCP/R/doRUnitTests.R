@@ -34,7 +34,7 @@
 #' 
 #' 
 #' \dontrun{
-#' unitTestsForGMCP()
+#' unitTestsGMCP()
 #' unitTestsGMCP(extended=TRUE, java=TRUE, interactive=TRUE, outputPath="~/RUnitTests")
 #' 
 #' }
@@ -72,9 +72,11 @@ unitTestsGMCP <- function(extended=FALSE, java=FALSE, interactive=FALSE, junitLi
 	## --- Testing ---
   
 	# Yes, these functions always exist, since we stopped if RUnit could not be required:
-	defineTestSuite <- get("defineTestSuite")
-	runTestSuite <- get("runTestSuite")
-	printTextProtocol <- get("printTextProtocol")
+	defineTestSuite <- get("defineTestSuite", envir = loadNamespace("RUnit"))
+	runTestSuite <- get("runTestSuite", envir = loadNamespace("RUnit"))
+	printTextProtocol <- get("printTextProtocol", envir = loadNamespace("RUnit"))
+	checkEquals <-  get("checkEquals", envir = loadNamespace("RUnit"))
+	checkTrue <-  get("checkTrue", envir = loadNamespace("RUnit"))
 	
 	## Define tests
 	testSuite <- defineTestSuite(name=paste(pkg, "unit testing"), dirs=path)
