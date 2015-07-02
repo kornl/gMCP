@@ -1,4 +1,4 @@
-\documentclass[a4paper, 10pt]{article}
+\documentclass[a4paper, 10pt]{report}
 \usepackage[T1]{fontenc}
 \usepackage[utf8]{inputenc}
 \usepackage{url}
@@ -107,7 +107,7 @@ graphGUI <- function(...) {invisible(NULL)}
 
 \newpage
 
-\section{Introduction}
+\chapter{Introduction}
 
 This package provides functions and graphical user interfaces for
 graph based multiple test procedures. By defining weighted directed graphs one
@@ -124,7 +124,7 @@ objects and methods can be used.
 %Please note that this is still an early release and the API will most
 %likely still change in future versions.
 
-\subsection{Installation}
+\section{Installation}
 
 If you don't already have R (\cite{R}) on your system, you can download a bundled
 version of R and gMCP from \url{http://www.algorithm-forge.com/gMCP/bundle/}.
@@ -143,7 +143,7 @@ an email at
 \href{mailto:help@small-projects.de}{\texttt{help@small-projects.de}}.
 We are eager to help and to learn about existing problems. 
 
-\subsection{Basic Theoretical Background}
+\section{Basic Theoretical Background}
 
 Graph based multiple test procedures are closed test procedures, i.e.\ for a
 family $\{H_i\;|\; i\in I\}$, $I=\{1,\ldots,n\}$ of elementary hypotheses each
@@ -181,7 +181,7 @@ that is freely available as an OnlineOpen Article.
 \end{algorithmic}
 \end{algorithm}
 
-\subsection{Example and diving in}
+\section{Example and diving in}
 
 Let's start with a well-known procedure and see how it fits into this
 graphical approach to weighted multiple test procedures: The
@@ -276,7 +276,7 @@ graph <- BonferroniHolm(3)
 gMCP(graph, pvalues=c(0.01,0.07,0.02), alpha=0.05)
 @
 
-\section{Creating Weighted Graphs}
+\chapter{Creating Weighted Graphs}
 
 In the first step a graph that describes the multiple test procedures
 must be created.
@@ -290,7 +290,7 @@ cat(graph2latex(graph, scale=0.7, scaleText=FALSE))
   \caption{\label{fig:exampleGraphBretz} Example graph from \cite{bretz2011test} that we will create in this vignette.}
 \end{figure}
 
-\subsection{Using R}
+\section{Using R}
 
 The most convenient way to create a graph in R is to use the functions
 \texttt{matrix2graph}\index{matrix2graph} and
@@ -360,7 +360,7 @@ edgeAttr(graph, "H11", "H21", "labelX") <- 200
 edgeAttr(graph, "H11", "H21", "labelY") <- 80
 @
 
-\subsection{Using the GUI}\hypertarget{maingui}{}
+\section{Using the GUI}\hypertarget{maingui}{}
 
 The creation of \texttt{graphMCP} objects as seen in the last section 
 with basic R commands is very straight forward,
@@ -425,12 +425,12 @@ reproduce results.
   \caption{\label{fig:guircode} R Code generated and shown by the GUI to reproduce the results.}
 \end{figure}
 
-\section{The sequentially rejective MTP}
+\chapter{The sequentially rejective MTP}
 
 For a full description of the sequentially rejective multiple testing
 procedure take a look at \cite{bretzEtAl2009graphical}. 
 
-\subsection{Using R}
+\section{Using R}
 
 You can either specify each rejection step yourself or simply use the 
 method \texttt{gMCP}:
@@ -527,7 +527,7 @@ simConfint(BonferroniHolm(3), pvalues=pval,
 		confint="t", df=9, estimates=est, alpha=0.025, alternative="greater")
 @
 
-\subsection{Using the GUI}
+\section{Using the GUI}
 
 \begin{figure}[ht]
   \centering    
@@ -542,7 +542,7 @@ Use the following two buttons:
 
 See \cite{Bretz11}.
 
-\section{Weighted parametric and Simes
+\chapter{Weighted parametric and Simes
 tests}\index{Simes-Procedure}\index{parametric test} 
 
 \begin{figure}[ht]
@@ -571,7 +571,7 @@ For further information please take a look at the vignette
 "\href{http://cran.r-project.org/web/packages/gMCP/vignettes/parametric.pdf}{Weighted
 parametric tests defined by graphs}".
 
-\subsection{Correlation matrix creation}\index{correlation matrix}
+\section{Correlation matrix creation}\index{correlation matrix}
 
 The GUI features a dialog for easy creation of correlation matrices (see figure \ref{fig:createCM1}).
 
@@ -601,7 +601,7 @@ calling the function \texttt{corMatWizard}.
 %  \caption{\label{fig:createCM3} You can configure many things in the option dialog.}
 %\end{figure}
 
-\section{Epsilon edges}\index{epsilon edges}
+\chapter{Epsilon edges}\index{epsilon edges}
 
 %\begin{Def}
   %Convergence in distribution
@@ -665,7 +665,7 @@ substituteEps(graph, eps=0.001)
 gMCP(graph, pvalues=c(0.02, 0.04, 0.01, 0.02), eps=0.001)
 @
 
-\section{Entangled graphs}\index{entangled graphs}\index{graphs!entangled}
+\chapter{Entangled graphs}\index{entangled graphs}\index{graphs!entangled}
 
 As a new feature we support entangled graphs (see
 \cite{maurer2013memory}), which allow us to describe an even bigger
@@ -752,9 +752,9 @@ graph <- new("entangledMCP", subgraphs=list(subgraph1, subgraph2), weights=weigh
   \caption{\label{entagledgraph} Entangled graph from Maurer et Bretz}
 \end{figure}
 
-\section{Power Simulations}\index{power simulation}\hypertarget{power}{}
+\chapter{Power Simulations}\index{power simulation}\hypertarget{power}{}
 
-\subsection{Using the R command line}
+\section{Using the R command line}
 
 <<echo=TRUE, tidy=FALSE>>=
 
@@ -784,7 +784,7 @@ cat(graph2latex(generalSuccessive(), scale=0.7, scaleText=FALSE))
   \caption{\label{power} Local power and some (trivial) user defined power functions.}
 \end{figure}
 
-\subsection{Variable edge weights}\index{edge weights!variable}
+\section{Variable edge weights}\index{edge weights!variable}
 
 Apart from latin letters the following greek letters can be used to
 name a variable\footnote{Note that omicron is not allowed since it can
@@ -817,9 +817,9 @@ graph <- generalSuccessive()
 graph
 @
 
-\section{Options and Import/Export}\hypertarget{options}{}
+\chapter{Options and Import/Export}\hypertarget{options}{}
 
-\subsection{Options}\index{options}
+\section{Options}\index{options}
 
 \begin{description}
   \item[Grid] For easier placement of nodes a grid can be used that aligns the
@@ -931,7 +931,7 @@ the bug report. If you do not agree with sending this data, simply
 don't send a problematic bug report or if you never want to send bug
 reports, disable the option in the options menu.
 
-\subsection{Import/Exports}\index{import}\index{export}
+\section{Import/Exports}\index{import}\index{export}
 
 This subsection is work in progress, but fortunately the menu entries
 in figure \ref{fig:fileMenu} should be fairly self-explanatory.
@@ -959,7 +959,7 @@ Since version 0.8-7 gMCP also can create word documents (Office Open XML / docx)
   \caption{\label{fig:wordexample} Example Word export - first page.}
 \end{figure}
 
-\subsection{Important TikZ commands for optimizing the reports}\index{graph2latex}\index{TikZ}
+\section{Important TikZ commands for optimizing the reports}\index{graph2latex}\index{TikZ}
 A clear automatic placement of edges and weight labels without
 overlapping is a very difficult task and for complicated graphs the
 \texttt{gMCP} package will often fail to accomplish this
@@ -1033,14 +1033,14 @@ A powerful feature is the use of styles, since this will effect all
 objects of a given class. But for this please take a look directly at
 the TikZ manual (\cite{TikZ}).
 
-\section{Case Studies}\label{sec:caseStudies}
+\chapter{Case Studies}\label{sec:caseStudies}
 
 This section is work in progress.
 
-\subsection{Identifying effective and/or safe doses by stepwise confidence intervals for ratios}
+\section{Identifying effective and/or safe doses by stepwise confidence intervals for ratios}
 In this subsection we show how to use gMCP to reproduce the results of the paper from \cite{bretz2003identifying} with the same title.
 
-\subsection{Testing strategies in multi-dose experiments including active control}
+\section{Testing strategies in multi-dose experiments including active control}
 
 \cite{bauer1998testing}
 
@@ -1080,7 +1080,7 @@ boxplot(micronuclei~group, data=hydroquinone)
 
 \begin{appendix} 
 
-\section{Appendix - Example graphs}\label{sec:exampleGraphs}
+\chapter{Appendix - Example graphs}\label{sec:exampleGraphs}
 
 <<echo=FALSE, results='asis'>>=
 
@@ -1136,7 +1136,7 @@ for (g in graphs) {
 
 \cleardoublepage
 
-\section{Appendix - Multiple Testing Basics}
+\chapter{Appendix - Multiple Testing Basics}
 
 Let $\Theta$ be a parameter space indexing a family of probabilities
 $\{P_\theta\;|\;\theta\in\Theta\}$ and $(\Omega, \sF, P_\theta)$ the
@@ -1162,7 +1162,7 @@ The family of hypotheses $\{H_i \;|\;i\in I\}$ is called
 
 This section is work in progress.
 
-%\subsection{Closed testing principle}\index{closed testing principle}
+%\section{Closed testing principle}\index{closed testing principle}
 \begin{Theorem}[Closed testing principle]\index{closed testing principle}
  \cite{marcus1976closed}
 \end{Theorem}
@@ -1179,7 +1179,7 @@ This section is work in progress.
   \cite{hochberg2009multiple} and \cite{gabriel1969simultaneous}.
 \end{Def}
 
-%\subsection{Partitioning principle}\index{partitioning principle}
+%\section{Partitioning principle}\index{partitioning principle}
 
 \begin{Def}
 
@@ -1249,7 +1249,7 @@ the test to global level $\alpha$ rejects $H_j$.
 
 Therefore $p'_j=\text{max}(m_J\;|\;j\in J)$.
 
-\section{Appendix - Graph Theory Basics}
+\chapter{Appendix - Graph Theory Basics}
 
 When we talk about graphs in the context of gMCP we always mean finite,
 directed, weighted graphs with no self-loops and no parallel edges:
@@ -1294,8 +1294,8 @@ This section is work in progress.
 \bibliography{literatur}
 
 \addcontentsline{toc}{section}{Table of Symbols}
-\section*{Table of Symbols}\footnotesize
-%\twocolumn[\section{Symbolverzeichnis}]
+\chapter*{Table of Symbols}\footnotesize
+%\twocolumn[\chapter{Symbolverzeichnis}]
 \begin{tabularx}{\textwidth}{lX}
 \multicolumn{2}{l}{\textbf{Sets}}\\
 \R& set of real numbers\\
