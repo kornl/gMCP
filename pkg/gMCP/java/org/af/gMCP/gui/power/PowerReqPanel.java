@@ -2,14 +2,19 @@ package org.af.gMCP.gui.power;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.util.List;
 import java.util.Vector;
 
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
+import org.af.commons.errorhandling.ErrorHandler;
+import org.af.commons.widgets.DesktopPaneBG;
 import org.af.gMCP.gui.graph.LaTeXTool;
 import org.af.gMCP.gui.graph.Node;
 
@@ -22,6 +27,8 @@ public class PowerReqPanel extends JPanel implements ActionListener {
 	JButton rmScenario = new JButton("Remove last scenario");
 	
 	SampleSizeDialog sd;
+	
+	JButton jbHelp;
 	
 	JPanel panel = new JPanel();
 	
@@ -55,6 +62,16 @@ public class PowerReqPanel extends JPanel implements ActionListener {
 		addScenario.addActionListener(this);
 		rmScenario.addActionListener(this);
 		rmScenario.setEnabled(false);
+		
+		try {
+			jbHelp = new JButton(
+					new ImageIcon(ImageIO.read(DesktopPaneBG.class
+							.getResource("/org/af/gMCP/gui/graph/images/edge.png"))));
+		} catch (IOException e) {
+			ErrorHandler.getInstance().makeErrDialog(e.getMessage(), e);
+			jbHelp = new JButton("Help!");
+		}
+		jbHelp.addActionListener(this);
 		
 	}
 
