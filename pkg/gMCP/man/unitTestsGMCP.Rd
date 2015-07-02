@@ -48,7 +48,7 @@ of these separated by comma (without blanks). A short cut for all three is
 }
 \examples{
 \dontrun{
-unitTestsForGMCP()
+unitTestsGMCP()
 unitTestsGMCP(extended=TRUE, java=TRUE, interactive=TRUE, outputPath="~/RUnitTests")
 
 }

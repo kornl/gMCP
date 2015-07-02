@@ -4,15 +4,14 @@
 \alias{corMatWizard}
 \title{Graphical User Interface for the creation of correlation matrices}
 \usage{
-corMatWizard(n = dim(matrix)[1], matrix = paste("diag(", n, ")"),
-  names = paste("H", 1:n, sep = ""), envir = globalenv())
+corMatWizard(n, matrix, names, envir = globalenv())
 }
 \arguments{
-\item{n}{Square root of the dimension of the \eqn{n\times n}{nxn}-Matrix.}
+\item{n}{Square root of the dimension of the quadratic \eqn{n\times n}{nxn}-Matrix.}
 
-\item{matrix}{Matrix of dimension \eqn{n\times n}{nxn} to start with.}
+\item{matrix}{Variable name of matrix of dimension \eqn{n\times n}{nxn} to start with.}
 
-\item{names}{Row and column names.}
+\item{names}{Row and column names. (Default will be H1,H2,\ldots,Hn.)}
 
 \item{envir}{Environment where the object \var{matrix} is located and/or it
 should be saved (default is the global environment).}
@@ -27,9 +26,12 @@ Starts a graphical user interface for the correlation matrices.
 }
 \examples{
 \dontrun{
-corMatWizard(5)
+corMatWizard(5) # is equivalent to
+corMatWizard(matrix=diag(5))
+corMatWizard(names=c("H1", "H2", "H3", E1", "E2"))
 C <- cor(matrix(rnorm(100),10), matrix(rnorm(100),10))
-corMatWizard(matrix="C")
+corMatWizard(matrix="C") # or
+corMatWizard(matrix=C)
 }
 }
 \author{
