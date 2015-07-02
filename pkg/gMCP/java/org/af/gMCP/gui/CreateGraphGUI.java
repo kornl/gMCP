@@ -53,6 +53,7 @@ public class CreateGraphGUI extends JFrame implements WindowListener, AbortListe
 	public static CreateGraphGUI lastCreatedGUI;
 	/** If we drop back to zero GUIs we may want to terminate the currently running Java Virtual Machine. */
 	public static int countGUIs = 0; 
+	public static String helpURL = "http://cran.r-project.org/web/packages/gMCP/vignettes/gMCP.pdf";
 	
 	/**
 	 * Constructor of the GUI main frame
@@ -73,6 +74,7 @@ public class CreateGraphGUI extends JFrame implements WindowListener, AbortListe
 			Configuration.getInstance().getGeneralConfig().setGridSize((int)grid);
 		}
 		Configuration.getInstance().getGeneralConfig().setExperimental(experimentalFeatures);
+		if (System.getProperty("eclipse") != null) helpURL = "http://algorithm-forge.com/gMCP/archive/gMCP.pdf";
 		
 		/* Get and save R and gMCP version numbers */
 		try {		
