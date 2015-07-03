@@ -106,7 +106,7 @@ public class MenuBarMGraph extends JMenuBar implements ActionListener {
 		menu.add(makeMenuItem("About", "showAbout", KeyEvent.VK_B));         
 		menu.add(makeMenuItem("Introduction to gMCP", "showAppHelp", KeyEvent.VK_I));
 		menu.add(makeMenuItem("Weighted parametric tests defined by graphs", "showParametric", KeyEvent.VK_P));
-		menu.add(makeMenuItem("gMCP R Online Reference manual", "showManual", KeyEvent.VK_M));
+		//menu.add(makeMenuItem("gMCP R Online Reference manual", "showManual", KeyEvent.VK_M));
 		menu.add(makeMenuItem("Paper about gMCP in the Biometrical Journal", "showPaper1", KeyEvent.VK_P));
 		menu.add(makeMenuItem("References", "showReferences", KeyEvent.VK_R));
 		//menu.add(makeMenuItem("Theoretical Background", "showAppHelp"));
