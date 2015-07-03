@@ -1,6 +1,10 @@
 Changes in version 0.8-9 (??-??-2015)
 =====================================
 
+- Fixed some help documents not showing up.
+
+- New help buttons in the GUI which directly open the relevant sections of the user manual.
+
 - Better layout for result window when Simes test is used.
 
 - Saving a graph now asks which properties should also be saved.

@@ -525,6 +525,7 @@ public class MenuBarMGraph extends JMenuBar implements ActionListener {
 				JOptionPane.showMessageDialog(control.getMainFrame(), "Please open and read the following file:\n"+f.getAbsolutePath(), "Could not copy file.", JOptionPane.WARNING_MESSAGE);
 			}
 		}		
+		showFile(f);
 	}
 	
 	public void showFile(File f) {
