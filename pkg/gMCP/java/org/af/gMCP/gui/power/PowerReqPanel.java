@@ -66,7 +66,7 @@ public class PowerReqPanel extends JPanel implements ActionListener {
 		try {
 			jbHelp = new JButton(
 					new ImageIcon(ImageIO.read(DesktopPaneBG.class
-							.getResource("/org/af/gMCP/gui/graph/images/edge.png"))));
+							.getResource("/org/af/gMCP/gui/graph/images/questionmark32.png"))));
 		} catch (IOException e) {
 			ErrorHandler.getInstance().makeErrDialog(e.getMessage(), e);
 			jbHelp = new JButton("Help!");
@@ -95,10 +95,12 @@ public class PowerReqPanel extends JPanel implements ActionListener {
 
 		int col = 2;
 		panel.add(new JLabel("Scenario name"), cc.xy(col, row));
+		col += 2;
+		panel.add(new JLabel("Power requirement"), cc.xy(col, row));
 
 		for (Node n : sd.getParent().getGraphView().getNL().getNodes()) {
 			col += 2;
-			panel.add(new JLabel("NCP "+ LaTeXTool.LaTeX2UTF(n.getName())+"    "), cc.xy(col, row));
+			panel.add(new JLabel(LaTeXTool.LaTeX2UTF(n.getName())+"    "), cc.xy(col, row));
 		}
 
 		for (PowerReq g : gv) {
@@ -118,7 +120,7 @@ public class PowerReqPanel extends JPanel implements ActionListener {
 
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource()==addScenario) {
-			gv.add(new PowerReq(sd, "Group "+(gv.size()+1)));
+			gv.add(new PowerReq(sd, "Power requirement "+(gv.size()+1)));
 			getMainPanel();
 			revalidate();
 			repaint();

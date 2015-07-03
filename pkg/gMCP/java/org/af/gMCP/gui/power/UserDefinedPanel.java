@@ -45,6 +45,7 @@ public class UserDefinedPanel extends JPanel implements ActionListener {
     List<Node> nodes;
     
     JDialog parent;
+    boolean justOne;
 	
 	public UserDefinedPanel(PDialog parent, Vector<Node> nodes) {
 		this(parent, nodes, false);
@@ -53,6 +54,7 @@ public class UserDefinedPanel extends JPanel implements ActionListener {
 	public UserDefinedPanel(JDialog parent, List<Node> nodes, boolean justOne) {		
 		this.nodes = nodes;
 		this.parent = parent;
+		this.justOne = justOne;
 		
 		JButton b = new JButton("(");
 		b.setActionCommand("(");
@@ -125,12 +127,11 @@ public class UserDefinedPanel extends JPanel implements ActionListener {
         CellConstraints cc = new CellConstraints();
 		
 		int row = 2;
-		
-		jtUserDefined.addActionListener(this);
-		
+
 		if (justOne) { 
 			add(jtUserDefined, cc.xyw(2, row, 3));
 		} else {
+			jtUserDefined.addActionListener(this); // We really don't want the action listener in the other case.
 			add(jtUserDefined, cc.xy(2, row));	
 
 			addAnother.addActionListener(this);
@@ -171,11 +172,19 @@ public class UserDefinedPanel extends JPanel implements ActionListener {
 	/**
 	 * Constructs String that contains the parameter f for user defined
 	 * functions used by calcPower and extractPower
-	 * @return String that contains the parameter f for user defined
+	 * @return If justOne==false: String that contains the parameter f for user defined
 	 * functions used by calcPower and extractPower. Either empty or
 	 * of the form ", f=list(...)".
+	 * Otherwise if justOne==true: Body of the function, e.g. x[1] && x[2]  
+	 * @param single 
 	 */
-	String getUserDefined() {
+	public String getUserDefined() {
+		if (justOne) {
+			/*if (listModel.getSize()==1) {
+				return ""+listModel.getElementAt(0);
+			}*/
+			return "Why?"+jtUserDefined.getText();			
+		}
 		if (listModel.getSize()==0) return "";
 		String s = ", f=list(";
 		for (int i=0; i<listModel.getSize(); i++) {
@@ -228,6 +237,8 @@ public class UserDefinedPanel extends JPanel implements ActionListener {
 			i--;
 		}			
 	}
+
+	
 
 	
 	    

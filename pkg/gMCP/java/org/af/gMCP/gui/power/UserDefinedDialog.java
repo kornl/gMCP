@@ -20,7 +20,7 @@ public class UserDefinedDialog extends JDialog implements ActionListener {
 
 	
 	public UserDefinedDialog(PDialog pd) {
-		super(pd, "User Defined Power Function");
+		super(pd, "User Defined Power Function", true);
 		setLocationRelativeTo(pd);
 		
 		List<Node> nodes = pd.getNodes();
@@ -47,7 +47,11 @@ public class UserDefinedDialog extends JDialog implements ActionListener {
 	}
 	
 	public void actionPerformed(ActionEvent e) {
+		dispose();
+	}
 
+	public String getUserDefined() {		
+		return udp.getUserDefined();
 	}
 
 	    

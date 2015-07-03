@@ -6,6 +6,8 @@ import java.awt.event.ActionListener;
 import java.util.List;
 import java.util.Vector;
 
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
@@ -17,10 +19,14 @@ import org.af.gMCP.gui.graph.Node;
 import com.jgoodies.forms.layout.CellConstraints;
 
 public class PowerReq implements ActionListener {
-	List<JTextField> ncp = new Vector<JTextField>();
+	List<JCheckBox> includeL = new Vector<JCheckBox>();
 	JTextField scname;
 	
-	JComboBox jcbType = new JComboBox(new String[] {"All", "Any", "User defined"});
+	String[] selection = new String[] {"All of the selected", "Any of the selected", "User defined"};
+	
+	JComboBox jcbType = new JComboBox(selection);
+	
+	String userDefined;
 	
 	PDialog pd;
 	
@@ -28,11 +34,10 @@ public class PowerReq implements ActionListener {
 		this.pd = pd;
 		scname = new JTextField(name);
 		for (Node n : pd.getNodes()) {
-			RealTextField rt = new RealTextField("0.0");
-			rt.setText("0.0");
-			ncp.add(rt);
+			JCheckBox jc = new JCheckBox();
+			includeL.add(jc);
 		}
-		jcbType.setPreferredSize(new Dimension(jcbType.getPreferredSize().width, ncp.get(0).getPreferredSize().height));
+		jcbType.setPreferredSize(new Dimension(jcbType.getPreferredSize().width, includeL.get(0).getPreferredSize().height));
 		jcbType.addActionListener(this);
 	}
 	
@@ -41,17 +46,17 @@ public class PowerReq implements ActionListener {
 		panel.add(scname, cc.xy(col, row));
 		col += 2;
 		panel.add(jcbType, cc.xy(col, row));
-		for (JTextField jt : ncp) {
+		for (JCheckBox jc : includeL) {
 			col += 2;
-			panel.add(jt, cc.xy(col, row));
+			panel.add(jc, cc.xy(col, row));
 		}
 		row +=2;
 	}
 	
 	public String getNCPString() {		
 		String s = RControl.getR().eval("make.names(\""+scname.getText()+"\")").asRChar().getData()[0]+"=c(";
-		for (JTextField jt : ncp) {		
-			s += jt.getText()+", ";
+		for (JCheckBox jc : includeL) {			
+			s += jc.getText()+", ";
 		}
 		return s.substring(0, s.length()-2)+")";
 	}
@@ -77,8 +82,33 @@ public class PowerReq implements ActionListener {
 
 	public void actionPerformed(ActionEvent e) {
 		//System.out.println("\""+jcbType.getSelectedItem()+"\"");
-		if (e.getSource()==jcbType && jcbType.getSelectedItem().equals("User defined")) {
-			new UserDefinedDialog(pd);
+		if (e.getSource()==jcbType && (jcbType.getSelectedItem().equals(selection[2]) || jcbType.getSelectedItem().equals("Edit user defined"))) {
+			UserDefinedDialog udd = new UserDefinedDialog(pd);
+			userDefined = udd.getUserDefined();			
+			if (jcbType.getItemCount()==3) {
+				//DefaultComboBoxModel model = (DefaultComboBoxModel) jcbType.getModel();
+				jcbType.removeItemAt(2);
+				jcbType.addItem(userDefined);
+				jcbType.addItem("Edit user defined");
+			} else {							
+				jcbType.removeItemAt(2);
+				jcbType.removeItemAt(2);
+				jcbType.addItem(userDefined);
+				jcbType.addItem("Edit user defined");
+			}
+			jcbType.setSelectedIndex(2);
+			for (JCheckBox jc : includeL) {			
+				jc.setSelected(true);				
+			}
+		}
+		if (jcbType.getSelectedIndex()<2) {
+			for (JCheckBox jc : includeL) {			
+				jc.setEnabled(true);
+			}
+		} else {
+			for (JCheckBox jc : includeL) {			
+				jc.setEnabled(false);
+			}
 		}
 	}
 }
