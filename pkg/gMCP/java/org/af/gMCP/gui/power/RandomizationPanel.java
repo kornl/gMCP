@@ -21,6 +21,9 @@ public class RandomizationPanel extends JPanel implements ActionListener {
 	JButton addScenario = new JButton("Add scenario");
 	JButton rmScenario = new JButton("Remove last scenario");
 	
+	JButton jbEndpoint = new JButton("Endpoint");
+	JButton jbPopulation = new JButton("Population");
+	
 	SampleSizeDialog sd;
 	
 	JPanel panel = new JPanel();
@@ -42,7 +45,7 @@ public class RandomizationPanel extends JPanel implements ActionListener {
 		int row = 2;
 
 		String cols = "5dlu, fill:min:grow, pref, 5dlu, pref, 5dlu";
-		String rows = "5dlu, fill:min:grow, 5dlu, pref, 5dlu";
+		String rows = "5dlu, fill:min:grow, 5dlu, pref, 5dlu, pref, 5dlu";
 		
 		setLayout(new FormLayout(cols, rows));
 
@@ -55,6 +58,13 @@ public class RandomizationPanel extends JPanel implements ActionListener {
 		addScenario.addActionListener(this);
 		rmScenario.addActionListener(this);
 		rmScenario.setEnabled(false);
+		
+		row += 2;
+		
+		add(jbEndpoint, cc.xy(3, row));
+		add(jbPopulation, cc.xy(5, row));
+		jbEndpoint.addActionListener(this);
+		jbPopulation.addActionListener(this);
 		
 	}
 
@@ -116,7 +126,11 @@ public class RandomizationPanel extends JPanel implements ActionListener {
 			if (gv.size()==1) {
 				rmScenario.setEnabled(false);
 			}
-		}		
+		} else if (e.getSource()==jbEndpoint) {
+			new EndpointDialog(sd);
+		} else if (e.getSource()==jbPopulation) {
+			new PopulationDialog(sd);
+		}
 	}	
 	
 }
