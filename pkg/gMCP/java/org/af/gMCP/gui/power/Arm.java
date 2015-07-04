@@ -3,6 +3,7 @@ package org.af.gMCP.gui.power;
 import java.util.List;
 import java.util.Vector;
 
+import javax.swing.JCheckBox;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
@@ -13,38 +14,31 @@ import org.af.gMCP.gui.graph.Node;
 import com.jgoodies.forms.layout.CellConstraints;
 
 public class Arm {
-	List<JTextField> ncp = new Vector<JTextField>();
+	List<JCheckBox> includeL = new Vector<JCheckBox>();
 	JTextField scname;
 	SampleSizeDialog sd;
 	
 
 	public Arm(SampleSizeDialog sd, String name) {
 		this.sd = sd;
-		scname = new JTextField(name);
+		scname = new JTextField(name, 30);
 		for (Node n : sd.getNodes()) {
-			RealTextField rt = new RealTextField("0.0");
-			rt.setText("0.0");
-			ncp.add(rt);
+			JCheckBox jc = new JCheckBox();
+			includeL.add(jc);
 		}
 	}
 	
 	public void addComponents(JPanel panel, CellConstraints cc, int row) {
 		int col = 2;
 		panel.add(scname, cc.xy(col, row));
-		for (JTextField jt : ncp) {
+		for (JCheckBox jc : includeL) {
 			col += 2;
-			panel.add(jt, cc.xy(col, row));
+			panel.add(jc, cc.xy(col, row));
 		}
 		row +=2;
 	}
 	
-	public String getNCPString() {		
-		String s = RControl.getR().eval("make.names(\""+scname.getText()+"\")").asRChar().getData()[0]+"=c(";
-		for (JTextField jt : ncp) {		
-			s += jt.getText()+", ";
-		}
-		return s.substring(0, s.length()-2)+")";
-	}
+
 	
 	/* public void loadConfig(Element e) {
 	scname.setText(e.getAttribute("name"));
