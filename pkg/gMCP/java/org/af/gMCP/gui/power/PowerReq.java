@@ -24,7 +24,7 @@ public class PowerReq implements ActionListener {
 	
 	String[] selection = new String[] {"All of the selected", "Any of the selected", "User defined"};
 	
-	JComboBox jcbType = new JComboBox(selection);
+	JComboBox<String> jcbType = new JComboBox(selection);
 	
 	String userDefined;
 	
@@ -60,6 +60,37 @@ public class PowerReq implements ActionListener {
 		}
 		return s.substring(0, s.length()-2)+")";
 	}
+	
+	public String getPowerfunction() {		
+		String term="";
+		if (jcbType.getSelectedIndex()==0) {
+			term="all(x";
+		} else if (jcbType.getSelectedIndex()==1) {
+			term="any(x";
+		} else {
+			return "'"+jcbType.getItemAt(2)+"'=function(x) {"+jcbType.getItemAt(2)+")}";
+		}
+		String subset = "[c(";
+		boolean all = true;
+		for (int i=0; i<includeL.size(); i++) {			
+			if (includeL.get(i).isSelected()) {
+				subset += "" + i +",";
+			} else {
+				all = false;
+			}
+		}
+		if (subset.length()>3) {
+			subset = subset.substring(0, subset.length()-1) + ")]";
+		} else {
+			subset = "[NULL]";
+		}
+		if (all) {
+			subset = "";
+		}
+		term += subset;
+		return "'"+term+"'=function(x) {"+term+")}";
+	}
+
 
 	/* public void loadConfig(Element e) {
 		scname.setText(e.getAttribute("name"));
@@ -110,5 +141,6 @@ public class PowerReq implements ActionListener {
 				jc.setEnabled(false);
 			}
 		}
+		System.out.println(getPowerfunction());
 	}
 }
