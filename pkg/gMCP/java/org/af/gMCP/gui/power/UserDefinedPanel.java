@@ -183,7 +183,7 @@ public class UserDefinedPanel extends JPanel implements ActionListener {
 			/*if (listModel.getSize()==1) {
 				return ""+listModel.getElementAt(0);
 			}*/
-			return "Why?"+jtUserDefined.getText();			
+			return jtUserDefined.getText();			
 		}
 		if (listModel.getSize()==0) return "";
 		String s = ", f=list(";
