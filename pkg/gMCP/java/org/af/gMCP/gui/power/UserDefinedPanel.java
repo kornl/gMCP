@@ -114,9 +114,11 @@ public class UserDefinedPanel extends JPanel implements ActionListener {
 				"  (µ=difference of real mean and mean under null hypothesis, n=sample size, σ=standard deviation)\n"+
 				"- triangle(min, peak, max)\n"+
 				"- rnorm(1, mean=0.5, sd=1)\n"+*/
+				"(Negation (!) takes precedence over 'and' (&&), which takes precedence over 'or' (||).\n"+
+				"In doubt use brackets.\n)"+
 				"Note that you can use all R commands, for example also\n"+
 				"any(x) to see whether any hypotheses was rejected or\n" +
-				"all(x[1:4]) to see whether all of the first four hypotheses were rejected.\n"+
+				"all(x[1:4]) to see whether all of the first four hypotheses were rejected.\n"+				
 				"Hit return to add another power function.");
 		
 
