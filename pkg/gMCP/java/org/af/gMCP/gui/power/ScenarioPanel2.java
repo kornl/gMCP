@@ -19,8 +19,8 @@ import org.w3c.dom.NodeList;
 import com.jgoodies.forms.layout.CellConstraints;
 import com.jgoodies.forms.layout.FormLayout;
 
-public class ScenarioPanel extends JPanel implements ActionListener, ScenarioPanelInterface {
-	List<Scenario> sc = new Vector<Scenario>();
+public class ScenarioPanel2 extends JPanel implements ActionListener, ScenarioPanelInterface {
+	List<Scenario2> sc = new Vector<Scenario2>();
 	JButton addScenario = new JButton("Add scenario");
 	JButton rmScenario = new JButton("Remove last scenario");
 	
@@ -28,10 +28,10 @@ public class ScenarioPanel extends JPanel implements ActionListener, ScenarioPan
 	
 	JPanel panel = new JPanel();
 	
-	public ScenarioPanel(PDialog pd) {
+	public ScenarioPanel2(PDialog pd) {
 		this.pd = pd;		
 		
-		sc.add(new Scenario(pd, "Scenario "+(sc.size()+1)));
+		sc.add(new Scenario2(pd, "Scenario "+(sc.size()+1)));
 				
 		setUpLayout();
 	}
@@ -71,7 +71,7 @@ public class ScenarioPanel extends JPanel implements ActionListener, ScenarioPan
 		for (Node n : pd.getNodes()) {
 			cols += ", fill:pref:grow, 5dlu";
 		}
-		for (Scenario s : sc) {
+		for (Scenario2 s : sc) {
 			rows += ", pref, 5dlu";
 		}
 		cols += ", pref, 5dlu";
@@ -86,7 +86,7 @@ public class ScenarioPanel extends JPanel implements ActionListener, ScenarioPan
 			panel.add(new JLabel("NCP "+ LaTeXTool.LaTeX2UTF(n.getName())+"    "), cc.xy(col, row));
 		}
 
-		for (Scenario s : sc) {
+		for (Scenario2 s : sc) {
 			row += 2;
 			s.addComponents(panel, cc, row);
 		}
@@ -95,7 +95,7 @@ public class ScenarioPanel extends JPanel implements ActionListener, ScenarioPan
 
 	public String getNCPString() {
 		String sList = ", list(";
-		for (Scenario s : sc) {
+		for (Scenario2 s : sc) {
 			sList += s.getNCPString()+", ";
 		}
 		return sList.substring(0, sList.length()-2)+")";
@@ -103,7 +103,7 @@ public class ScenarioPanel extends JPanel implements ActionListener, ScenarioPan
 
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource()==addScenario) {
-			sc.add(new Scenario(pd, "Scenario "+(sc.size()+1)));
+			sc.add(new Scenario2(pd, "Scenario "+(sc.size()+1)));
 			getMainPanel();
 			revalidate();
 			repaint();
@@ -125,7 +125,7 @@ public class ScenarioPanel extends JPanel implements ActionListener, ScenarioPan
 		Element e = document.createElement("scenarios");
 		e.setAttribute("numberSC", ""+sc.size());
 		e.setAttribute("numberHS", ""+sc.get(0).ncp.size());
-		for (Scenario s : sc) {
+		for (Scenario2 s : sc) {
 			e.appendChild(s.getConfigNode(document));
 		}
       	return e;
@@ -135,7 +135,7 @@ public class ScenarioPanel extends JPanel implements ActionListener, ScenarioPan
 		int nSC = Integer.parseInt(e.getAttribute("numberSC"));
 		int nHS = Integer.parseInt(e.getAttribute("numberHS"));
 		while(sc.size()<nSC) {
-			sc.add(new Scenario(pd, "Scenario "+(sc.size()+1)));
+			sc.add(new Scenario2(pd, "Scenario "+(sc.size()+1)));
 			rmScenario.setEnabled(true);
 		}
 		NodeList nlist = e.getChildNodes();

@@ -19,14 +19,14 @@ import org.w3c.dom.NodeList;
 
 import com.jgoodies.forms.layout.CellConstraints;
 
-public class Scenario implements NCPRequestor, ActionListener {
+public class Scenario2 implements NCPRequestor, ActionListener {
 	List<JTextField> ncp = new Vector<JTextField>();
 	JTextField scname;
 	JButton ncpc = new JButton("Calculate NCP");
 	
 	PDialog pd;
 	
-	public Scenario(PDialog pd, String name) {
+	public Scenario2(PDialog pd, String name) {
 		this.pd = pd;
 		scname = new JTextField(name);
 		for (Node n : pd.getNodes()) {

@@ -1,5 +1,6 @@
 package org.af.gMCP.gui.power;
 
+import java.awt.Component;
 import java.awt.GridBagConstraints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -38,8 +39,8 @@ public class SampleSizeDialog extends PDialog implements ActionListener {
 	public SampleSizeDialog(CreateGraphGUI parent) {
 		super(parent, "Sample Size Calculations", true);
 		
-		pNCP = new ScenarioPanel(this);
-		tPanel.addTab("Effect Size", pNCP);
+		pNCP = new ScenarioPanel2(this);
+		tPanel.addTab("Effect Size", (Component) pNCP);
 		prPanel = new PowerReqPanel(this);
 		tPanel.addTab("Power Requirements", prPanel);
 		gPanel = new RandomizationPanel(this);

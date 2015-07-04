@@ -21,7 +21,7 @@ public class PDialog extends JDialog {
 	CreateGraphGUI parent;
     Vector<Node> nodes;
     
-    ScenarioPanel pNCP;    
+    ScenarioPanelInterface pNCP;    
     UserDefinedPanel userDefinedFunctions;
     CVPanel cvPanel;
     

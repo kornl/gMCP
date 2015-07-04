@@ -1,5 +1,6 @@
 package org.af.gMCP.gui.power;
 
+import java.awt.Component;
 import java.awt.GridBagConstraints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -45,7 +46,7 @@ public class PowerDialog extends PDialog implements ActionListener {
 		config = new File(path, "gMCP-power-settings.xml");
 		
 		pNCP = new ScenarioPanel(this);
-		tPanel.addTab("Noncentrality Parameter (NCP) Settings", pNCP);
+		tPanel.addTab("Noncentrality Parameter (NCP) Settings", (Component) pNCP);
 		cvPanel = new CVPanel(this);
 		tPanel.addTab("Correlation Matrix", cvPanel);
 		userDefinedFunctions = new UserDefinedPanel(this, nodes);
