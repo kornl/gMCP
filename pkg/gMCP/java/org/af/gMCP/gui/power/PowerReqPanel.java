@@ -27,9 +27,7 @@ public class PowerReqPanel extends JPanel implements ActionListener {
 	JButton rmScenario = new JButton("Remove last scenario");
 	
 	SampleSizeDialog sd;
-	
-	JButton jbHelp;
-	
+
 	JPanel panel = new JPanel();
 	
 	public PowerReqPanel(SampleSizeDialog sd) {
@@ -61,18 +59,7 @@ public class PowerReqPanel extends JPanel implements ActionListener {
 		add(rmScenario, cc.xy(5, row));
 		addScenario.addActionListener(this);
 		rmScenario.addActionListener(this);
-		rmScenario.setEnabled(false);
-		
-		try {
-			jbHelp = new JButton(
-					new ImageIcon(ImageIO.read(DesktopPaneBG.class
-							.getResource("/org/af/gMCP/gui/graph/images/questionmark32.png"))));
-		} catch (IOException e) {
-			ErrorHandler.getInstance().makeErrDialog(e.getMessage(), e);
-			jbHelp = new JButton("Help!");
-		}
-		jbHelp.addActionListener(this);
-		
+		rmScenario.setEnabled(false);		
 	}
 
 	public JPanel getMainPanel() {
@@ -82,7 +69,7 @@ public class PowerReqPanel extends JPanel implements ActionListener {
 
 		int row = 2;
 
-		String cols = "5dlu, pref, 5dlu, pref, 5dlu, pref, 5dlu";
+		String cols = "5dlu, fill:pref:grow, 5dlu, fill:pref:grow, 5dlu, pref, 5dlu";
 		String rows = "5dlu, pref, 5dlu";
 		for (Node n : sd.getNodes()) {
 			cols += ", pref, 5dlu";

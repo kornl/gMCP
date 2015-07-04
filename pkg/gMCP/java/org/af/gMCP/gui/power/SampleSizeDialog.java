@@ -3,11 +3,17 @@ package org.af.gMCP.gui.power;
 import java.awt.GridBagConstraints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.util.Set;
 
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 
+import org.af.commons.errorhandling.ErrorHandler;
+import org.af.commons.widgets.DesktopPaneBG;
 import org.af.commons.widgets.buttons.HorizontalButtonPane;
 import org.af.gMCP.config.Configuration;
 import org.af.gMCP.gui.CreateGraphGUI;
@@ -20,6 +26,8 @@ public class SampleSizeDialog extends PDialog implements ActionListener {
 
     RandomizationPanel gPanel;
     PowerReqPanel prPanel;
+    
+	JButton jbHelp;
 
     //  Theta hat: θ\u0302
 
@@ -52,6 +60,17 @@ public class SampleSizeDialog extends PDialog implements ActionListener {
 		c.weighty=0; c.gridy++; c.weightx=0; c.fill=GridBagConstraints.NONE;
 		c.anchor = GridBagConstraints.EAST;
 		//HorizontalButtonPane bp = new OkCancelButtonPane();
+		
+		try {
+			jbHelp = new JButton(
+					new ImageIcon(ImageIO.read(DesktopPaneBG.class
+							.getResource("/org/af/gMCP/gui/graph/images/questionmark32.png"))));
+		} catch (IOException e) {
+			ErrorHandler.getInstance().makeErrDialog(e.getMessage(), e);
+			jbHelp = new JButton("Help!");
+		}
+		jbHelp.addActionListener(this);
+		
 		HorizontalButtonPane bp = new HorizontalButtonPane(new String[] {"Help", "Ok", "Cancel"}, new String[] {"help", HorizontalButtonPane.OK_CMD, HorizontalButtonPane.CANCEL_CMD});
 		getContentPane().add(bp, c);
 		bp.addActionListener(this);		
