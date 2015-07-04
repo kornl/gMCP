@@ -27,7 +27,7 @@ public class RandomizationPanel extends JPanel implements ActionListener {
 	
 	public RandomizationPanel(SampleSizeDialog sd) {
 		this.sd = sd;
-		gv.add(new Arm(sd, "Group "+(gv.size()+1)));
+		gv.add(new Arm(sd, "Arm "+(gv.size()+1)));
 		setUpLayout();
 	}
 	
@@ -81,7 +81,7 @@ public class RandomizationPanel extends JPanel implements ActionListener {
 
 		for (Node n : sd.getParent().getGraphView().getNL().getNodes()) {
 			col += 2;
-			panel.add(new JLabel("NCP "+ LaTeXTool.LaTeX2UTF(n.getName())+"    "), cc.xy(col, row));
+			panel.add(new JLabel(LaTeXTool.LaTeX2UTF(n.getName())), cc.xy(col, row));
 		}
 
 		for (Arm g : gv) {
@@ -101,7 +101,7 @@ public class RandomizationPanel extends JPanel implements ActionListener {
 
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource()==addScenario) {
-			gv.add(new Arm(sd, "Group "+(gv.size()+1)));
+			gv.add(new Arm(sd, "Arm "+(gv.size()+1)));
 			getMainPanel();
 			revalidate();
 			repaint();
