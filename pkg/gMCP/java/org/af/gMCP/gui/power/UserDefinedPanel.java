@@ -34,7 +34,7 @@ public class UserDefinedPanel extends JPanel implements ActionListener {
 	JButton addAnother = new JButton("Add another power function");    
     JButton clearList = new JButton("Clear");
     
-	DefaultListModel listModel;
+	DefaultListModel<String> listModel;
     JList listUserDefined;
 
     JTextArea jta = new JTextArea();
@@ -115,8 +115,8 @@ public class UserDefinedPanel extends JPanel implements ActionListener {
 				"- triangle(min, peak, max)\n"+
 				"- rnorm(1, mean=0.5, sd=1)\n"+*/
 				"(Negation (!) takes precedence over 'and' (&&), which takes precedence over 'or' (||).\n"+
-				"In doubt use brackets.\n)"+
-				"Note that you can use all R commands, for example also\n"+
+				"In doubt use brackets.)\n"+
+				"Note that you can use all R commands, for example\n"+
 				"any(x) to see whether any hypotheses was rejected or\n" +
 				"all(x[1:4]) to see whether all of the first four hypotheses were rejected."+				
 				(justOne?"":"\nHit return to add another power function."));

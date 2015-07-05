@@ -12,6 +12,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
+import javax.swing.JTabbedPane;
 
 import org.af.commons.errorhandling.ErrorHandler;
 import org.af.commons.widgets.DesktopPaneBG;
@@ -39,17 +40,20 @@ public class SampleSizeDialog extends PDialog implements ActionListener {
 	public SampleSizeDialog(CreateGraphGUI parent) {
 		super(parent, "Sample Size Calculations", true);
 		
-		pNCP = new ScenarioPanel2(this);
-		tPanel.addTab("Effect Size", (Component) pNCP);
-		prPanel = new PowerReqPanel(this);
-		tPanel.addTab("Power Requirements", prPanel);
 		gPanel = new RandomizationPanel(this);
 		tPanel.addTab("Randomization", gPanel);
+		pNCP = new ScenarioPanel2(this);
+		tPanel.addTab(/*"Standardized "+*/"Effect Size", (Component) pNCP);		
+		prPanel = new PowerReqPanel(this);
+		tPanel.addTab("Power Requirements", prPanel);
 		cvPanel = new CVPanel(this);
 		tPanel.addTab("Correlation Matrix", cvPanel);
 		userDefinedFunctions = new UserDefinedPanel(this, nodes);
 		//tPanel.addTab("User defined power function", userDefinedFunctions);
 		tPanel.addTab("Options", new PowerOptionsPanel(parent));
+		
+		//TODO: Do we want scrollable tabs? 
+		//tPanel.setTabLayoutPolicy(JTabbedPane.SCROLL_TAB_LAYOUT);
 		
 		Set<String> variables = parent.getGraphView().getNL().getAllVariables();
 		if (!Configuration.getInstance().getGeneralConfig().useEpsApprox())	{
