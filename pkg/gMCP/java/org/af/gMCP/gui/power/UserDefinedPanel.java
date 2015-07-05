@@ -118,8 +118,8 @@ public class UserDefinedPanel extends JPanel implements ActionListener {
 				"In doubt use brackets.\n)"+
 				"Note that you can use all R commands, for example also\n"+
 				"any(x) to see whether any hypotheses was rejected or\n" +
-				"all(x[1:4]) to see whether all of the first four hypotheses were rejected.\n"+				
-				"Hit return to add another power function.");
+				"all(x[1:4]) to see whether all of the first four hypotheses were rejected."+				
+				(justOne?"":"\nHit return to add another power function."));
 		
 
         String cols = "5dlu, fill:pref:grow, 5dlu, fill:pref:grow, 5dlu";
