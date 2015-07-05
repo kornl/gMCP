@@ -87,7 +87,7 @@ public class RandomizationPanel extends JPanel implements ActionListener {
 		panel.setLayout(new FormLayout(cols, rows));
 
 		int col = 2;
-		panel.add(new JLabel("Scenario name"), cc.xy(col, row));
+		panel.add(new JLabel("Arm"), cc.xy(col, row));
 
 		for (Node n : sd.getParent().getGraphView().getNL().getNodes()) {
 			col += 2;
