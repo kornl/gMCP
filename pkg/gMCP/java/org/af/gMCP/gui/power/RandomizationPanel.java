@@ -75,7 +75,7 @@ public class RandomizationPanel extends JPanel implements ActionListener {
 
 		int row = 2;
 
-		String cols = "5dlu, pref, 5dlu";
+		String cols = "5dlu, pref, 5dlu, pref, 5dlu";
 		String rows = "5dlu, pref, 5dlu";
 		for (Node n : sd.getNodes()) {
 			cols += ", pref, 5dlu";
@@ -89,6 +89,9 @@ public class RandomizationPanel extends JPanel implements ActionListener {
 		int col = 2;
 		panel.add(new JLabel("Arm"), cc.xy(col, row));
 
+		col += 2;
+		panel.add(new JLabel("Ratio to first Arm "), cc.xy(col, row));
+		
 		for (Node n : sd.getParent().getGraphView().getNL().getNodes()) {
 			col += 2;
 			panel.add(new JLabel(LaTeXTool.LaTeX2UTF(n.getName())), cc.xy(col, row));

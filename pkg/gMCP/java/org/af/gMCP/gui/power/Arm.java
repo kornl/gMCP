@@ -17,11 +17,12 @@ public class Arm {
 	List<JCheckBox> includeL = new Vector<JCheckBox>();
 	JTextField scname;
 	SampleSizeDialog sd;
+	RealTextField ratio = new RealTextField("0.0", 10, -Double.MAX_VALUE, Double.MAX_VALUE);
 	
-
 	public Arm(SampleSizeDialog sd, String name) {
 		this.sd = sd;
-		scname = new JTextField(name, 30);
+		scname = new JTextField(name, 25);
+		ratio.setText("1");
 		for (Node n : sd.getNodes()) {
 			JCheckBox jc = new JCheckBox();
 			includeL.add(jc);
@@ -30,7 +31,12 @@ public class Arm {
 	
 	public void addComponents(JPanel panel, CellConstraints cc, int row) {
 		int col = 2;
-		panel.add(scname, cc.xy(col, row));
+		panel.add(scname, cc.xy(col, row));		
+		col += 2;
+		panel.add(ratio, cc.xy(col, row));
+		if (row<5) {
+			ratio.setEnabled(false);
+		}
 		for (JCheckBox jc : includeL) {
 			col += 2;
 			panel.add(jc, cc.xy(col, row));
