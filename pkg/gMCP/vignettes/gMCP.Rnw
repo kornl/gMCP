@@ -754,6 +754,80 @@ graph <- new("entangledMCP", subgraphs=list(subgraph1, subgraph2), weights=weigh
 
 \chapter{Power Simulations}\index{power simulation}\hypertarget{power}{}
 
+The underlying distribution of test statistics in power simulations is assumed to be multivariate normal in the following with the exception of section \ref{non-normal} "Simulation for Non-normal Distributions".
+
+\section{Sample Size Calculations}
+
+
+\subsection{Randomization}
+
+\begin{figure}[ht]
+  \centering    
+  \includegraphics[width=0.8\textwidth]{pictures/arm.png}      
+  \caption{\label{fig:arm} Randomization table}
+\end{figure}
+
+The first tab of the sample size dialog contains the randomization table (see figure \ref{fig:arm}). 
+In this table the different arms are specified. 
+In our example there is a control group and two treatment arms with a lose and a high dose.
+
+For each hypothesis you can select either a single arm (for a one sample test) or as in our example two arms which are compared.
+In our example $H1$ compares high vs.\ control for endpoint E1, $H2$ compares high vs.\ control for endpoint E2, $H3$ compares low vs.\ control for endpoint E1, and $H4$ compares low vs.\ control for endpoint E2.
+
+Although it would be better for power considerations to assign a higher sample size to control (since it is envolved in all comparisons), 
+in this example twice as many subjects are treated with the low dose and four times as many with the high dose. %TODO: Variable Ratios?
+%TODO: Ratios < 1 in example? 
+%TODO: Better example?
+
+In the following let $A_i$ be the sample sizes ratio of arm $i$ to the first arm (with $A_1$ always equal to 1) and 
+\[r_i=\frac{A_i}{\sum_{j=1}^n{A_j}},\; 1\leq i\leq n,\] 
+%$n$ the number of elementary hypotheses ($n=4$ in our example).
+the randomization proportion of arm $i$ to the overall sample size.
+
+\subsection{Standardized Effect Size}
+
+For a one sample test with effect size $\mu_i$ with sample size $N\cdot r_i$ and \emph{within-subpopulation standard deviation} $\sigma$ we would have a non-centrality parameter
+\[\text{NCP}=\frac{\mu_i}{\sigma}\cdot\sqrt{N\cdot r_i}\text{ and a standardized effect size }\text{ES}=\frac{\mu_i}{\sigma}.\]
+
+For the two sample tests in our example comparing arm $i$ and $j$ the non-centrality parameter is given by
+\[\frac{\mu_i-\mu_j}{\sigma}/\sqrt{\frac{1}{N}\left(\frac{1}{r_i}+\frac{1}{r_j}\right)}\text{ and a standardized effect size }\text{ES}=\frac{\mu_i-\mu_j}{\sigma}.\]
+
+\subsection{Power Requirements}
+
+\begin{figure}[ht]
+  \centering    
+  \includegraphics[width=9cm]{pictures/power_requirements.png}      
+  \caption{\label{powerReq} ...}
+\end{figure}
+
+\section{Simulation for Non-normal Distributions}\label{non-normal}
+
+If the underlying distribution of the test statistics is not multivariate normal, but test statistics can be simulated and p-values generated, one can still use function graphTest:
+
+<<eval=FALSE>>=
+
+library(bindata)
+
+rho <- 0.6
+n <- 30
+cr <- matrix(rho, ncol=4, nrow=4) + diag(rep(1-rho, 4))
+pvals <- t(replicate(1e2, 
+                     sapply(colSums(rmvbin(n, margprob = c(0.45, 0.4, 0.3, 0.25), bincorr = cr)), 
+                            function(x, ...) {binom.test(x, ...)$p.value}, n=n)
+                     ))
+# Other example:
+
+library(copula)
+cop <- mvdc(normalCopula(0.75, dim=4), c("norm", "norm", "exp", "exp"), list(list(mean=0.5), list(mean=1), list(rate = 2), list(rate = 3)))
+x <- rMvdc(250, cop)
+# ...
+
+# Boot example?
+# Permutation test example?
+# 
+
+@
+
 \section{Using the R command line}
 
 <<echo=TRUE, tidy=FALSE>>=
