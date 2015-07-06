@@ -8,7 +8,6 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import org.af.commons.widgets.validate.RealTextField;
-import org.af.gMCP.gui.RControl;
 import org.af.gMCP.gui.graph.Node;
 
 import com.jgoodies.forms.layout.CellConstraints;

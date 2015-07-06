@@ -10,7 +10,6 @@ import javax.swing.JCheckBox;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 
-import org.af.commons.widgets.validate.NumberTextField;
 import org.af.commons.widgets.validate.RealTextField;
 import org.af.gMCP.gui.graph.Node;
 

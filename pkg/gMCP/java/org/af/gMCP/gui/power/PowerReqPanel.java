@@ -2,19 +2,14 @@ package org.af.gMCP.gui.power;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.IOException;
 import java.util.List;
 import java.util.Vector;
 
-import javax.imageio.ImageIO;
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
-import org.af.commons.errorhandling.ErrorHandler;
-import org.af.commons.widgets.DesktopPaneBG;
 import org.af.gMCP.gui.graph.LaTeXTool;
 import org.af.gMCP.gui.graph.Node;
 

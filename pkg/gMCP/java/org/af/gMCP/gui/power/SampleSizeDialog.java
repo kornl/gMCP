@@ -13,18 +13,14 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
-import javax.swing.JTabbedPane;
 
-import org.af.commons.errorhandling.DefaultExceptionHandler;
 import org.af.commons.errorhandling.ErrorHandler;
 import org.af.commons.widgets.DesktopPaneBG;
 import org.af.commons.widgets.buttons.HorizontalButtonPane;
 import org.af.gMCP.config.Configuration;
-import org.af.gMCP.config.VersionComparator;
 import org.af.gMCP.gui.CreateGraphGUI;
 import org.af.gMCP.gui.RControl;
 import org.af.gMCP.gui.dialogs.PowerOptionsPanel;
-import org.af.gMCP.gui.dialogs.TellAboutOnlineUpate;
 import org.af.gMCP.gui.dialogs.TextFileViewer;
 import org.jdesktop.swingworker.SwingWorker;
 

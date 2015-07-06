@@ -22,7 +22,6 @@ import javax.swing.JToggleButton;
 import javax.swing.filechooser.FileFilter;
 
 import org.af.commons.errorhandling.ErrorHandler;
-import org.af.commons.tools.OSTools;
 import org.af.commons.widgets.DesktopPaneBG;
 import org.af.gMCP.config.Configuration;
 import org.af.gMCP.gui.CreateGraphGUI;
@@ -37,7 +36,6 @@ import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.jdesktop.swingworker.SwingWorker;
-import org.mutoss.gui.TransferableImage;
 
 public class GraphView extends JPanel implements ActionListener {
 

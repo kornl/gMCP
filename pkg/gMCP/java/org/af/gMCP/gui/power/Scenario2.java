@@ -1,17 +1,14 @@
 package org.af.gMCP.gui.power;
 
-import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
 import java.util.Vector;
 
-import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import org.af.commons.widgets.validate.RealTextField;
-import org.af.gMCP.gui.RControl;
 import org.af.gMCP.gui.graph.Node;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;

@@ -19,8 +19,6 @@ import javax.swing.border.EmptyBorder;
 import org.af.commons.Localizer;
 import org.af.commons.errorhandling.ErrorHandler;
 import org.af.commons.widgets.DesktopPaneBG;
-import org.af.commons.widgets.WidgetFactory;
-import org.af.commons.widgets.buttons.HorizontalButtonPane;
 import org.af.commons.widgets.buttons.OkApplyCancelButtonPane;
 import org.af.commons.widgets.validate.ValidationException;
 import org.af.gMCP.config.Configuration;
