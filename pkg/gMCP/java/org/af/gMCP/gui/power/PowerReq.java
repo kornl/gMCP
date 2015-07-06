@@ -21,6 +21,7 @@ import com.jgoodies.forms.layout.CellConstraints;
 public class PowerReq implements ActionListener {
 	List<JCheckBox> includeL = new Vector<JCheckBox>();
 	JTextField scname;
+	JTextField targetPower;
 	
 	String[] selection = new String[] {"All of the selected", "Any of the selected", "User defined"};
 	
@@ -33,6 +34,8 @@ public class PowerReq implements ActionListener {
 	public PowerReq(PDialog pd, String name) {
 		this.pd = pd;
 		scname = new JTextField(name);
+		targetPower = new RealTextField("targetPower", 10, 0, 1);			
+		targetPower.setText("0.8");
 		for (Node n : pd.getNodes()) {
 			JCheckBox jc = new JCheckBox();
 			includeL.add(jc);
@@ -46,6 +49,8 @@ public class PowerReq implements ActionListener {
 		panel.add(scname, cc.xy(col, row));
 		col += 2;
 		panel.add(jcbType, cc.xy(col, row));
+		col += 2;
+		panel.add(targetPower, cc.xy(col, row));
 		for (JCheckBox jc : includeL) {
 			col += 2;
 			panel.add(jc, cc.xy(col, row));

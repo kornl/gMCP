@@ -69,7 +69,7 @@ public class PowerReqPanel extends JPanel implements ActionListener {
 
 		int row = 2;
 
-		String cols = "5dlu, fill:pref:grow, 5dlu, fill:pref:grow, 5dlu, pref, 5dlu";
+		String cols = "5dlu, fill:pref:grow, 5dlu, fill:pref:grow, 5dlu, fill:pref:grow, 5dlu, pref, 5dlu";
 		String rows = "5dlu, pref, 5dlu";
 		for (Node n : sd.getNodes()) {
 			cols += ", pref, 5dlu";
@@ -84,6 +84,8 @@ public class PowerReqPanel extends JPanel implements ActionListener {
 		panel.add(new JLabel("Scenario name"), cc.xy(col, row));
 		col += 2;
 		panel.add(new JLabel("Power requirement"), cc.xy(col, row));
+		col += 2;
+		panel.add(new JLabel("Target power"), cc.xy(col, row));
 
 		for (Node n : sd.getParent().getGraphView().getNL().getNodes()) {
 			col += 2;
