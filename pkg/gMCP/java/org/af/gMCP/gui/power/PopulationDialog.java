@@ -49,10 +49,5 @@ public class PopulationDialog extends JDialog implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		dispose();
 	}
-
-	public String getUserDefined() {		
-		return udp.getUserDefined();
-	}
-
 	    
 }

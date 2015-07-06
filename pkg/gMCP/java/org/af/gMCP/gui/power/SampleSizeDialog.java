@@ -94,21 +94,34 @@ public class SampleSizeDialog extends PDialog implements ActionListener {
 		} catch (Exception e1) {
 			return;
 		}
-		String G = parent.getGraphView().getNL().getGraphName() + "@m";
+		String graph = parent.getGraphView().getNL().getGraphName();
 
 		// TODO: Do we still need sometimes something as parse2numeric? I guess yes.
 		//RControl.getR().eval(parent.getGraphView().getNL().getGraphName()+"<-gMCP:::parse2numeric("+parent.getGraphView().getNL().getGraphName()+")");
 
 		if (e.getActionCommand().equals(HorizontalButtonPane.OK_CMD)) {
 
-			rCommand = "gMCP:::calcMultiPower(weights="+weights+", alpha="+alpha+", G="+G+pNCP.getNCPString()
-					+ ","+"corr.sim = " + cvPanel.getSigma() //diag(length(mean)),corr = NULL,"+
+			rCommand = "sampSize(graph=" + graph 
+					+", ratio=" + gPanel.getRatio()
+					+", effSize=" + pNCP.getEffSizeString()
+					+", powerReqFunc=" + userDefinedFunctions.getUserDefined()
+					+", target="+prPanel.getPowerTargets()					 
+					+ ", corr.sim = " + cvPanel.getSigma() //diag(length(mean)),corr = NULL,"+
+					+", alpha=" + alpha
 					+ cvPanel.getMatrixForParametricTest()
-					+ userDefinedFunctions.getUserDefined()
-					+ ", nSim = "+Configuration.getInstance().getGeneralConfig().getNumberOfSimulations()
 					+ ", type = \""+Configuration.getInstance().getGeneralConfig().getTypeOfRandom()+"\""
+					+ ", upscale = "+(Configuration.getInstance().getGeneralConfig().getUpscale()?"TRUE":"FALSE")
 					+ ")";				
 
+			javax.swing.SwingUtilities.invokeLater(new Runnable() {
+				public void run() {				
+					new TextFileViewer(parent, "R Objects", "The following R will be executed:\n\n" + rCommand, true);		
+				}
+			});
+			
+			
+			if (true) return;
+			
 			parent.glassPane.start();
 			SwingWorker<Void, Void> worker = new SwingWorker<Void, Void>() {
 

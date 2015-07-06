@@ -43,6 +43,10 @@ public class Arm {
 		}
 		row +=2;
 	}
+
+	public String getRatio() {
+		return ratio.getText();
+	}
 	
 
 	

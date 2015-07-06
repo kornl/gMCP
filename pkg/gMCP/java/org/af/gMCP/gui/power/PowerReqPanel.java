@@ -99,12 +99,12 @@ public class PowerReqPanel extends JPanel implements ActionListener {
 		return panel;
 	}
 
-	public String getNCPString() {
-		String sList = ", list(";
+	public String getPowerTargets() {
+		String s = "c(";
 		for (PowerReq g : gv) {
-			//sList += g.getNCPString()+", ";
+			s += g.targetPower.getText()+", ";
 		}
-		return sList.substring(0, sList.length()-2)+")";
+		return s.substring(0, s.length()-2)+")";
 	}
 
 	public void actionPerformed(ActionEvent e) {

@@ -99,7 +99,7 @@ public class ScenarioPanel2 extends JPanel implements ActionListener, ScenarioPa
 	}
 
 	public String getEffSizeString() {
-		String sList = ", list(";
+		String sList = "list(";
 		for (Scenario2 s : sc) {
 			sList += s.getEffSizeString()+", ";
 		}

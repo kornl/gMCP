@@ -104,12 +104,12 @@ public class RandomizationPanel extends JPanel implements ActionListener {
 		return panel;
 	}
 
-	public String getNCPString() {
-		String sList = ", list(";
+	public String getRatio() {
+		String ratio = "c(";
 		for (Arm g : gv) {
-			//sList += g.getNCPString()+", ";
+			ratio += g.getRatio()+", ";
 		}
-		return sList.substring(0, sList.length()-2)+")";
+		return ratio.substring(0, ratio.length()-2)+")";
 	}
 
 	public void actionPerformed(ActionEvent e) {
@@ -134,6 +134,6 @@ public class RandomizationPanel extends JPanel implements ActionListener {
 		} else if (e.getSource()==jbPopulation) {
 			new PopulationDialog(sd);
 		}
-	}	
+	}
 	
 }
