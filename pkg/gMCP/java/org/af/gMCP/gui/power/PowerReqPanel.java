@@ -101,6 +101,16 @@ public class PowerReqPanel extends JPanel implements ActionListener {
 		}
 		return s.substring(0, s.length()-2)+")";
 	}
+	
+
+	public String getPowerFunctions() {
+		String s = "list(";
+		for (PowerReq g : gv) {
+			s += g.getPowerfunction() + ", ";
+		}		
+		s = s.substring(0, s.length()-2)+")";
+		return s;
+	}	
 
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource()==addScenario) {

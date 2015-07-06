@@ -48,8 +48,6 @@ public class SampleSizeDialog extends PDialog implements ActionListener {
 		tPanel.addTab("Power Requirements", prPanel);
 		cvPanel = new CVPanel(this);
 		tPanel.addTab("Correlation Matrix", cvPanel);
-		userDefinedFunctions = new UserDefinedPanel(this, nodes);
-		//tPanel.addTab("User defined power function", userDefinedFunctions);
 		tPanel.addTab("Options", new PowerOptionsPanel(parent));
 		
 		//TODO: Do we want scrollable tabs? 
@@ -107,7 +105,7 @@ public class SampleSizeDialog extends PDialog implements ActionListener {
 			rCommand = "sampSize(graph=" + graph 
 					+", ratio=" + gPanel.getRatio()
 					+", effSize=" + pNCP.getEffSizeString()
-					+", powerReqFunc=" + userDefinedFunctions.getUserDefined()
+					+", powerReqFunc=" + prPanel.getPowerFunctions()
 					+", target="+prPanel.getPowerTargets()					 
 					+ ", corr.sim = " + cvPanel.getSigma() //diag(length(mean)),corr = NULL,"+
 					+", alpha=" + alpha
