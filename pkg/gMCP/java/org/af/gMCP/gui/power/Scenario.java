@@ -53,7 +53,7 @@ public class Scenario implements NCPRequestor, ActionListener {
 	}
 	
 	public String getNCPString() {		
-		String s = RControl.getR().eval("make.names(\""+scname.getText()+"\")").asRChar().getData()[0]+"=c(";
+		String s = "\""+scname.getText()+"\"=c(";
 		for (JTextField jt : ncp) {		
 			s += jt.getText()+", ";
 		}

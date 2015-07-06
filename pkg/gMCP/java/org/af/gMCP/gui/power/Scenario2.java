@@ -50,7 +50,7 @@ public class Scenario2 implements NCPRequestor, ActionListener {
 	}
 	
 	public String getEffSizeString() {		
-		String s = RControl.getR().eval("make.names(\""+scname.getText()+"\")").asRChar().getData()[0]+"=c(";
+		String s = "\""+scname.getText()+"\"=c(";
 		for (JTextField jt : effSizes) {		
 			s += jt.getText()+", ";
 		}
