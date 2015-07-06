@@ -39,7 +39,7 @@ public class PowerOptionsPanel extends JPanel implements DocumentListener, Actio
     private JLabel seedLabel = new JLabel("Seed:");
 
     private void makeComponents() {
-        numberOfSimulations = new JTextField(30);
+        numberOfSimulations = new JTextField(8);
         numberOfSimulations.setText(""+conf.getGeneralConfig().getNumberOfSimulations());
         numberOfSimulations.setToolTipText("<html>" +
         		"The Monte Carlo sample size for power calculations.<br>" +
@@ -73,7 +73,7 @@ public class PowerOptionsPanel extends JPanel implements DocumentListener, Actio
         		"for all calculations involving random numbers?" +
         		"</html>");
         
-        seed = new JTextField(30);
+        seed = new JTextField(8);
         seed.setEnabled(useSeed.isSelected());
         seedLabel.setEnabled(useSeed.isSelected());
         seed.setText(""+conf.getGeneralConfig().getSeed());
@@ -86,14 +86,14 @@ public class PowerOptionsPanel extends JPanel implements DocumentListener, Actio
     private void doTheLayout() {
         JPanel p1 = new JPanel();
 
-        String cols = "pref, 5dlu, fill:pref:grow";
-        String rows = "pref, 5dlu, pref, 5dlu, pref, 5dlu, pref, 5dlu, pref, 5dlu";
+        String cols = "pref, 5dlu, pref";
+        String rows = "5dlu, pref, 5dlu, pref, 5dlu, pref, 5dlu, pref, 5dlu, pref, 5dlu";
         FormLayout layout = new FormLayout(cols, rows);
 
         p1.setLayout(layout);
         CellConstraints cc = new CellConstraints();
 
-        int row = 1;
+        int row = 2;
             
         p1.add(new JLabel("Monte Carlo sample size for power:"),     cc.xy(1, row));
         p1.add(numberOfSimulations, cc.xy(3, row));        
@@ -116,7 +116,7 @@ public class PowerOptionsPanel extends JPanel implements DocumentListener, Actio
         
         row += 2;
         
-        p1.add(seedLabel,     cc.xy(1, row));
+        p1.add(seedLabel, cc.xy(1, row));
         p1.add(seed, cc.xy(3, row));   
     }
     
