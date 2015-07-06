@@ -1,6 +1,7 @@
 package org.af.gMCP.gui.power;
 
 import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -14,13 +15,16 @@ import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 import javax.swing.JTabbedPane;
 
+import org.af.commons.errorhandling.DefaultExceptionHandler;
 import org.af.commons.errorhandling.ErrorHandler;
 import org.af.commons.widgets.DesktopPaneBG;
 import org.af.commons.widgets.buttons.HorizontalButtonPane;
 import org.af.gMCP.config.Configuration;
+import org.af.gMCP.config.VersionComparator;
 import org.af.gMCP.gui.CreateGraphGUI;
 import org.af.gMCP.gui.RControl;
 import org.af.gMCP.gui.dialogs.PowerOptionsPanel;
+import org.af.gMCP.gui.dialogs.TellAboutOnlineUpate;
 import org.af.gMCP.gui.dialogs.TextFileViewer;
 import org.jdesktop.swingworker.SwingWorker;
 
@@ -81,6 +85,9 @@ public class SampleSizeDialog extends PDialog implements ActionListener {
 		bp.addActionListener(this);		
 		
         pack();
+        // Adding space for further arms or scenarios:
+        Dimension d = this.getSize();
+        this.setSize(d.width, d.height+100);
         setLocationRelativeTo(parent);
         setVisible(true);
 	} 
