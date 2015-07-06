@@ -20,9 +20,9 @@ import org.w3c.dom.NodeList;
 import com.jgoodies.forms.layout.CellConstraints;
 
 public class Scenario2 implements NCPRequestor, ActionListener {
-	List<JTextField> ncp = new Vector<JTextField>();
+	List<JTextField> effSizes = new Vector<JTextField>();
 	JTextField scname;
-	JButton ncpc = new JButton("Calculate NCP");
+	//JButton ncpc = new JButton("Calculate NCP");
 	
 	PDialog pd;
 	
@@ -32,26 +32,26 @@ public class Scenario2 implements NCPRequestor, ActionListener {
 		for (Node n : pd.getNodes()) {
 			RealTextField rt = new RealTextField("0.0", 10, -Double.MAX_VALUE, Double.MAX_VALUE);			
 			rt.setText("0.0");
-			ncp.add(rt);
+			effSizes.add(rt);
 		}
-		ncpc.addActionListener(this);
+		//ncpc.addActionListener(this);
 	}
 	
 	public void addComponents(JPanel panel, CellConstraints cc, int row) {
 		int col = 2;
 		panel.add(scname, cc.xy(col, row));
-		for (JTextField jt : ncp) {
+		for (JTextField jt : effSizes) {
 			col += 2;
 			panel.add(jt, cc.xy(col, row));
 		}
-		col +=2;
-		panel.add(ncpc, cc.xy(col, row));
+		//col +=2;
+		//panel.add(ncpc, cc.xy(col, row));
 		row +=2;
 	}
 	
-	public String getNCPString() {		
+	public String getEffSizeString() {		
 		String s = RControl.getR().eval("make.names(\""+scname.getText()+"\")").asRChar().getData()[0]+"=c(";
-		for (JTextField jt : ncp) {		
+		for (JTextField jt : effSizes) {		
 			s += jt.getText()+", ";
 		}
 		return s.substring(0, s.length()-2)+")";
@@ -60,15 +60,15 @@ public class Scenario2 implements NCPRequestor, ActionListener {
 	 public void loadConfig(Element e) {
 		scname.setText(e.getAttribute("name"));
 		NodeList nlist = e.getChildNodes();
-		for (int i=0; i<Math.min(nlist.getLength(), ncp.size()); i++) {
-			ncp.get(i).setText(((Element)nlist.item(i)).getAttribute("ncp"));
+		for (int i=0; i<Math.min(nlist.getLength(), effSizes.size()); i++) {
+			effSizes.get(i).setText(((Element)nlist.item(i)).getAttribute("ncp"));
 		}
 	 }
 	
 	public Element getConfigNode(Document document) {
 		Element e = document.createElement("scenario");
 		e.setAttribute("name", scname.getText());
-		for (JTextField jt : ncp) {
+		for (JTextField jt : effSizes) {
 			Element eNCP = document.createElement("ncp");
 			eNCP.setAttribute("ncp", jt.getText());
 			e.appendChild(eNCP);

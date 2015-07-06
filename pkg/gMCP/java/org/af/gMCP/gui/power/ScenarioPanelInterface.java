@@ -10,5 +10,7 @@ public interface ScenarioPanelInterface {
 	void loadConfig(Element item);
 
 	String getNCPString();
+	
+	String getEffSizeString();
 
 }

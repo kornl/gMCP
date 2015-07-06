@@ -145,6 +145,10 @@ public class ScenarioPanel extends JPanel implements ActionListener, ScenarioPan
 		getMainPanel();
 		revalidate();
 		repaint();
+	}
+
+	public String getEffSizeString() {		
+		return null;
 	}	
 	
 }

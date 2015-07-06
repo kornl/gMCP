@@ -74,7 +74,7 @@ public class ScenarioPanel2 extends JPanel implements ActionListener, ScenarioPa
 		for (Scenario2 s : sc) {
 			rows += ", pref, 5dlu";
 		}
-		cols += ", pref, 5dlu";
+		//cols += ", pref, 5dlu";
 
 		panel.setLayout(new FormLayout(cols, rows));
 
@@ -94,9 +94,14 @@ public class ScenarioPanel2 extends JPanel implements ActionListener, ScenarioPa
 	}
 
 	public String getNCPString() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public String getEffSizeString() {
 		String sList = ", list(";
 		for (Scenario2 s : sc) {
-			sList += s.getNCPString()+", ";
+			sList += s.getEffSizeString()+", ";
 		}
 		return sList.substring(0, sList.length()-2)+")";
 	}
@@ -124,7 +129,7 @@ public class ScenarioPanel2 extends JPanel implements ActionListener, ScenarioPa
 	public Element getConfigNode(Document document) {
 		Element e = document.createElement("scenarios");
 		e.setAttribute("numberSC", ""+sc.size());
-		e.setAttribute("numberHS", ""+sc.get(0).ncp.size());
+		e.setAttribute("numberHS", ""+sc.get(0).effSizes.size());
 		for (Scenario2 s : sc) {
 			e.appendChild(s.getConfigNode(document));
 		}
@@ -145,6 +150,6 @@ public class ScenarioPanel2 extends JPanel implements ActionListener, ScenarioPa
 		getMainPanel();
 		revalidate();
 		repaint();
-	}	
+	}
 	
 }
