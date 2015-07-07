@@ -779,7 +779,7 @@ in this example twice as many subjects are treated with the low dose and four ti
 %TODO: Ratios < 1 in example? 
 %TODO: Better example?
 
-In the following let $A_i$ be the sample sizes ratio of arm $i$ to the first arm (with $A_1$ always equal to 1) and 
+In the following let $A_i$ be the sample sizes ratio of arm $i$ to the first arm (with $A_1$ equal to 1) and 
 \[r_i=\frac{A_i}{\sum_{j=1}^n{A_j}},\; 1\leq i\leq n,\] 
 %$n$ the number of elementary hypotheses ($n=4$ in our example).
 the randomization proportion of arm $i$ to the overall sample size.
@@ -790,13 +790,16 @@ For a one sample test with effect size $\mu_i$ with sample size $N\cdot r_i$ and
 \[\text{NCP}=\frac{\mu_i}{\sigma}\cdot\sqrt{N\cdot r_i}\text{ and a standardized effect size }\text{ES}=\frac{\mu_i}{\sigma}.\]
 
 For the two sample tests in our example comparing arm $i$ and $j$ the non-centrality parameter is given by
-\[\frac{\mu_i-\mu_j}{\sigma}/\sqrt{\frac{1}{N}\left(\frac{1}{r_i}+\frac{1}{r_j}\right)}\text{ and a standardized effect size }\text{ES}=\frac{\mu_i-\mu_j}{\sigma}.\]
+\[\frac{\mu_i-\mu_j}{\sigma}\cdot
+%/\sqrt{\frac{1}{N}\left(\frac{1}{r_i}+\frac{1}{r_j}\right)}=
+\sqrt{\frac{N\cdot r_i\cdot r_j}{r_i+r_j}}
+\text{ and a standardized effect size }\text{ES}=\frac{\mu_i-\mu_j}{\sigma}.\]
 
 \subsection{Power Requirements}
 
 \begin{figure}[ht]
   \centering    
-  \includegraphics[width=9cm]{pictures/power_requirements.png}      
+  \includegraphics[width=0.8\textwidth]{pictures/power_requirements.png}      
   \caption{\label{powerReq} ...}
 \end{figure}
 
