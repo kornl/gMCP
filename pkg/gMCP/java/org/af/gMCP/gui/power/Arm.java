@@ -8,6 +8,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import org.af.commons.widgets.validate.RealTextField;
+import org.af.commons.widgets.validate.ValidationException;
 import org.af.gMCP.gui.graph.Node;
 
 import com.jgoodies.forms.layout.CellConstraints;
@@ -43,8 +44,12 @@ public class Arm {
 		row +=2;
 	}
 
-	public String getRatio() {
-		return ratio.getText();
+	public Double getRatio() throws ValidationException {
+		return ratio.getValidatedValue();
+	}
+
+	public boolean isSelected(int i) {		
+		return includeL.get(i).isSelected();
 	}
 	
 
