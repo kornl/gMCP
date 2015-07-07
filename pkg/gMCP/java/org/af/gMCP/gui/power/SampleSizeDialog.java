@@ -17,6 +17,7 @@ import javax.swing.JOptionPane;
 import org.af.commons.errorhandling.ErrorHandler;
 import org.af.commons.widgets.DesktopPaneBG;
 import org.af.commons.widgets.buttons.HorizontalButtonPane;
+import org.af.commons.widgets.validate.ValidationException;
 import org.af.gMCP.config.Configuration;
 import org.af.gMCP.gui.CreateGraphGUI;
 import org.af.gMCP.gui.RControl;
@@ -102,17 +103,22 @@ public class SampleSizeDialog extends PDialog implements ActionListener {
 
 		if (e.getActionCommand().equals(HorizontalButtonPane.OK_CMD)) {
 
-			rCommand = "sampSize(graph=" + graph 
-					+", ratio=" + gPanel.getRatio()
-					+", effSize=" + pNCP.getEffSizeString()
-					+", powerReqFunc=" + prPanel.getPowerFunctions()
-					+", target="+prPanel.getPowerTargets()					 
-					+ ", corr.sim = " + cvPanel.getSigma() //diag(length(mean)),corr = NULL,"+
-					+", alpha=" + alpha
-					+ cvPanel.getMatrixForParametricTest()
-					+ ", type = \""+Configuration.getInstance().getGeneralConfig().getTypeOfRandom()+"\""
-					+ ", upscale = "+(Configuration.getInstance().getGeneralConfig().getUpscale()?"TRUE":"FALSE")
-					+ ")";				
+			try {
+				rCommand = "sampSize(graph=" + graph						
+						+", effSize=" + pNCP.getEffSizeString()
+						+", esf=" + gPanel.getESF()
+						+", powerReqFunc=" + prPanel.getPowerFunctions()
+						+", target="+prPanel.getPowerTargets()					 
+						+ ", corr.sim = " + cvPanel.getSigma() //diag(length(mean)),corr = NULL,"+
+						+", alpha=" + alpha
+						+ cvPanel.getMatrixForParametricTest()
+						+ ", type = \""+Configuration.getInstance().getGeneralConfig().getTypeOfRandom()+"\""
+						+ ", upscale = "+(Configuration.getInstance().getGeneralConfig().getUpscale()?"TRUE":"FALSE")
+						+ ")";
+			} catch (ValidationException e1) {
+				JOptionPane.showMessageDialog(this, "An error was detected in the input:\n"+e1.getMessage(), "Error detected in input", JOptionPane.ERROR_MESSAGE);
+				return;
+			}				
 
 			javax.swing.SwingUtilities.invokeLater(new Runnable() {
 				public void run() {				

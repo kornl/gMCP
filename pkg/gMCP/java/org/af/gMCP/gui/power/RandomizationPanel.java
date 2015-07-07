@@ -10,6 +10,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
+import org.af.commons.widgets.validate.ValidationException;
 import org.af.gMCP.gui.graph.LaTeXTool;
 import org.af.gMCP.gui.graph.Node;
 
@@ -92,7 +93,7 @@ public class RandomizationPanel extends JPanel implements ActionListener {
 		col += 2;
 		panel.add(new JLabel("Ratio to first Arm "), cc.xy(col, row));
 		
-		for (Node n : sd.getParent().getGraphView().getNL().getNodes()) {
+		for (Node n : sd.nodes) {
 			col += 2;
 			panel.add(new JLabel(LaTeXTool.LaTeX2UTF(n.getName())), cc.xy(col, row));
 		}
@@ -103,8 +104,51 @@ public class RandomizationPanel extends JPanel implements ActionListener {
 		}
 		return panel;
 	}
+	
+	//ESF = Effect size factor (i.e. either sqrt(r_i) or sqrt((r_i*r_j)/(r_i+r_j)))
+	public String getESF() throws ValidationException { 		
+		Vector<Node> nodes = sd.nodes;
+		//Vector<Vector<Integer>> armsInvolved = new Vector<Vector<Integer>>();		
+		
+		double sum = 0;
+		for (Arm g : gv) {
+			sum += g.getRatio();
+		}
+		List<Double> r = new Vector<Double>();
+		for (int j=0; j < gv.size(); j++) {
+			r.add(gv.get(j).getRatio()/sum); // Randomization proportion
+		}
+		
+		String esf = "c(";
+		
+		for (int i=0; i < nodes.size(); i++) {
+			
+			Vector<Integer> armsInvolved = new Vector<Integer>();
+			for (int j=0; j < gv.size(); j++) {
+				if (gv.get(j).isSelected(i)) {
+					armsInvolved.add(j);
+				}				
+			}
+			if (armsInvolved.size()==0) {
+				throw new ValidationException("No arm involved in hypothesis "+nodes.get(i).getName()+".");
+			} else if (armsInvolved.size()==1) {
+				Double ri = r.get(armsInvolved.get(0));
+				esf += Math.sqrt(ri) + ", ";
+			} else if (armsInvolved.size()==2) {
+				Double ri = r.get(armsInvolved.get(0));
+				Double rj = r.get(armsInvolved.get(1));
+				esf += Math.sqrt((ri*rj)/(ri+rj)) + ", ";
+			} else if (armsInvolved.size()>2) {
+				throw new ValidationException("Too many arms involvedin hypothesis "+nodes.get(i).getName()+".");
+			}
+			
+		}		
+		
+		return esf.substring(0, esf.length()-2)+")";
+	}
+	
 
-	public String getRatio() {
+	public String getRatio() throws ValidationException {
 		String ratio = "c(";
 		for (Arm g : gv) {
 			ratio += g.getRatio()+", ";

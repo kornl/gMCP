@@ -2,21 +2,69 @@
 #' 
 #' Sample size calculations
 #' 
-#' @param powerReqFunc The power requirement function. 
-#' @param target For example \code{function(x) {any(x)}} for at least one rejection or more complex user defined functions like \code{function(x) {(x[1]&&x[3])||(x[2]&&x[4])}}.
+#' @param graph A graph of class \code{\link{graphMCP}}.
+#' @param esf ...
 #' @param effSize ...
-#' @param endPoints ...
+#' @param powerReqFunc One power requirement function or a list of these. 
+#' % For example \code{function(x) {any(x)}} for at least one rejection or more complex user defined functions like \code{function(x) {(x[1]&&x[3])||(x[2]&&x[4])}}.
+#' If one is interested in the power to reject hypotheses 1 and 3
+#' one could specify: \cr\code{f=function(x) {x[1] && x[3]}}.\cr If the power
+#' of rejecting hypotheses 1 and 2 is also of interest one would use a
+#' (optionally named) list: \cr 
+#' \code{f=list(power1and3=function(x) {x[1] && x[3]},}\cr
+#' \code{power1and2=function(x) {x[1] && x[2]})}.
+#' If the list has no names, the functions will be referenced 
+#' to as "func1", "func2", etc. in the output.
+#' @param target Target power that should be at least achieved. Either a numeric scalar between 0 and 1 or if parameter \code{powerReqFunc} is a list a numeric vector of the same length as \code{powerReqFunc}.
+#' @param corr.sim Covariance matrix under the alternative.
+#' @param corr.test Correlation matrix that should be used for the parametric test.
+#' If \code{corr.test==NULL} the Bonferroni based test procedure is used. Can contain
+#' NAs.
+#' @param type What type of random numbers to use. \code{quasirandom} uses a
+#' randomized Lattice rule, and should be more efficient than
+#' \code{pseudorandom} that uses ordinary (pseudo) random numbers.
+#' @param test In the parametric case there is more than one way to handle
+#' subgraphs with less than the full alpha. If the parameter \code{test} is
+#' missing, the tests are performed as described by Bretz et al. (2011), i.e.
+#' tests of intersection null hypotheses always exhaust the full alpha level
+#' even if the sum of weights is strictly smaller than one. If
+#' \code{test="simple-parametric"} the tests are performed as defined in
+#' Equation (3) of Bretz et al. (2011).
+#' @param upscale Logical. If \code{upscale=FALSE} then for each intersection 
+#' of hypotheses (i.e. each subgraph) a weighted test is performed at the 
+#' possibly reduced level alpha of sum(w)*alpha, 
+#' where sum(w) is the sum of all node weights in this subset.
+#' If \code{upscale=TRUE} all weights are upscaled, so that sum(w)=1.
+#' @param alpha ...
 #' @param ... ...
 #' @return ...
 #' @examples
 #' 
 #' f <- function(x){1/100*log(x)}
-sampSize <- function(powerReqFunc, target, effSize, endPoints, ...) {
+#' graph <- BonferroniHolm(3)
+#' powerReqFunc <- function(x) { (x[1] && x[2]) || x[3] }
+#' #TODO Still causing errors / loops.
+#' #sampSize(graph, alpha=0.05, powerReqFunc, target=0.8, mean=c(6,4,2) )
+#' #sampSize(graph, alpha=0.05, powerReqFunc, target=0.8, mean=c(-1,-1,-1), nsim=100)
+#' sampSize(graph, esf=c(1,1,1,1), effSize=c(1,1,1,1), powerReqFunc=powerReqFunc, target=0.8, alpha=0.05)
+sampSize <- function(graph, esf, effSize, powerReqFunc, target,
+                     corr.sim = diag(length(effSize)), alpha, corr.test = NULL,
+                     type = c("quasirandom", "pseudorandom"),
+                     upscale=FALSE , ...) { # effSize, endPoints
+  
+  # First determine 
+  
+  targFunc <- function(n) {
+    calcPower(graph=graph, alpha=alpha, mean = effSize*sqrt(n)*esf,
+                               corr.sim = corr.sim, corr.test = corr.test,
+                               n.sim = 1000, type = type,
+                               f=powerReqFunc, upscale=upscale, ...)[[4]]
+  }
+  #
+  return(sampSizeCore(100, targFunc=targFunc, alRatio=1, target=target, verbose=TRUE))
   # Create targFunc from powerReqFunc
 }
 
-## This function is taken from package DoseFinding under GPL 
-## from Bjoern Bornkamp, Jose Pinheiro and Frank Bretz
 
 ## Function for sample size calculation and functions to evaluate
 ## performance metrics for different sample sizes
@@ -36,11 +84,11 @@ sampSize <- function(powerReqFunc, target, effSize, endPoints, ...) {
 #' @param Ntype Either \code{"arm"} or \code{"total"}.
 #' @param verbose Logical, whether verbose output should be printed.
 #' @return Integer value \code{n} (of type numeric) with \code{targFunc(n)-target<tol} and \code{targFunc(n)>target}.
+#' @author This function is taken from package DoseFinding under GPL from Bjoern Bornkamp, Jose Pinheiro and Frank Bretz
 #' @examples 
 #' 
 #' f <- function(x){1/100*log(x)}
-#' gMCP:::sampSizeCore(upperN=1000, targFunc=f, target=0.8, verbose=TRUE, alRatio=1) 
-#' gMCP:::sampSizeCore(lowerN=1, upperN=1000, targFunc=f, target=0.8, verbose=TRUE, alRatio=1)  
+#' gMCP:::sampSizeCore(upperN=1000, targFunc=f, target=0.008, verbose=TRUE, alRatio=1)
 #' 
 sampSizeCore <- function (upperN, lowerN = floor(upperN/2),
                       targFunc, target, tol = 0.001, alRatio,
