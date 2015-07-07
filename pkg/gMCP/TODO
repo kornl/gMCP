@@ -1,5 +1,7 @@
 Simes and parametric tests do not reset back to graph with variables.
 
+Check whether user defined power functions can be evaluated.
+
 Is the sequence correct for the Simes test (i.e. the original graph the first - especially if adjusted.pvalues=TRUE)?
 
 incomprehensible "Result is not up to date" message from docx export
