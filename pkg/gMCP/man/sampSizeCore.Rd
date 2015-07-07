@@ -35,7 +35,9 @@ For details see the manual and examples.
 }
 \examples{
 f <- function(x){1/100*log(x)}
-gMCP:::sampSizeCore(upperN=1000, targFunc=f, target=0.8, verbose=TRUE, alRatio=1)
-gMCP:::sampSizeCore(lowerN=1, upperN=1000, targFunc=f, target=0.8, verbose=TRUE, alRatio=1)
+gMCP:::sampSizeCore(upperN=1000, targFunc=f, target=0.008, verbose=TRUE, alRatio=1)
+}
+\author{
+This function is taken from package DoseFinding under GPL from Bjoern Bornkamp, Jose Pinheiro and Frank Bretz
 }
 

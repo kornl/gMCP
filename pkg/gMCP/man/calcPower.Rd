@@ -83,21 +83,14 @@ number of rejections.
 ## reproduce example from Stat Med paper (Bretz et al. 2010, Table I)
 ## first only consider line 2 of Table I
 ## significance levels
-weights <- c(1/2, 1/2, 0, 0)
-## graph
-G <- rbind(c(0, 0.5, 0.5, 0),
-           c(0.5, 0, 0, 0.5),
-           c(0, 1, 0, 0),
-           c(1, 0, 0, 0))
-## or equivalent:
-G <- simpleSuccessiveII()@m
+graph <- simpleSuccessiveII()
 ## alternative (mvn distribution)
 corMat <- rbind(c(1, 0.5, 0.5, 0.5/2),
                 c(0.5,1,0.5/2,0.5),
                 c(0.5,0.5/2,1,0.5),
                 c(0.5/2,0.5,0.5,1))
 theta <- c(3, 0, 0, 0)
-calcPower(weights=weights, alpha=0.025, G=G, mean=theta, corr.sim=corMat, n.sim= 100000)
+calcPower(graph=graph, alpha=0.025, mean=theta, corr.sim=corMat, n.sim= 100000)
 
 
 ## now reproduce all 14 simulation scenarios
