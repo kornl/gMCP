@@ -82,7 +82,7 @@ public class PowerReqPanel extends JPanel implements ActionListener {
 		col += 2;
 		panel.add(new JLabel("Target power"), cc.xy(col, row));
 
-		for (Node n : sd.getParent().getGraphView().getNL().getNodes()) {
+		for (Node n : sd.nodes) {
 			col += 2;
 			panel.add(new JLabel(LaTeXTool.LaTeX2UTF(n.getName())+"    "), cc.xy(col, row));
 		}

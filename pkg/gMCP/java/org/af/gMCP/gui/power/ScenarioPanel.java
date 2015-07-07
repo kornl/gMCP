@@ -81,7 +81,7 @@ public class ScenarioPanel extends JPanel implements ActionListener, ScenarioPan
 		int col = 2;
 		panel.add(new JLabel("Scenario name"), cc.xy(col, row));
 
-		for (Node n : pd.getParent().getGraphView().getNL().getNodes()) {
+		for (Node n : pd.nodes) {
 			col += 2;
 			panel.add(new JLabel("NCP "+ LaTeXTool.LaTeX2UTF(n.getName())+"    "), cc.xy(col, row));
 		}
