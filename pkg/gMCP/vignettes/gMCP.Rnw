@@ -759,7 +759,7 @@ The underlying distribution of test statistics in power simulations is assumed t
 \section{Sample Size Calculations}
 
 
-\subsection{Randomization}
+\subsection{Randomization}\hypertarget{randomization}{}
 
 \begin{figure}[ht]
   \centering    
@@ -784,7 +784,7 @@ In the following let $A_i$ be the sample sizes ratio of arm $i$ to the first arm
 %$n$ the number of elementary hypotheses ($n=4$ in our example).
 the randomization proportion of arm $i$ to the overall sample size.
 
-\subsection{Standardized Effect Size}
+\subsection{Standardized Effect Size}\hypertarget{ses}{}
 
 For a one sample test with effect size $\mu_i$ with sample size $N\cdot r_i$ and \emph{within-subpopulation standard deviation} $\sigma$ we would have a non-centrality parameter
 \[\text{NCP}=\frac{\mu_i}{\sigma}\cdot\sqrt{N\cdot r_i}\text{ and a standardized effect size }\text{ES}=\frac{\mu_i}{\sigma}.\]
@@ -795,13 +795,21 @@ For the two sample tests in our example comparing arm $i$ and $j$ the non-centra
 \sqrt{\frac{N\cdot r_i\cdot r_j}{r_i+r_j}}
 \text{ and a standardized effect size }\text{ES}=\frac{\mu_i-\mu_j}{\sigma}.\]
 
-\subsection{Power Requirements}
+\subsection{Power Requirements}\hypertarget{powerreq}{}
 
 \begin{figure}[ht]
   \centering    
   \includegraphics[width=0.8\textwidth]{pictures/power_requirements.png}      
   \caption{\label{powerReq} ...}
 \end{figure}
+
+\begin{figure}[ht]
+  \centering    
+  \includegraphics[width=0.8\textwidth]{pictures/udpf.png}      
+  \caption{\label{udpf} ...}
+\end{figure}
+
+\subsection{Two types of correlation matrices}\hypertarget{cormat2}{}
 
 \section{Simulation for Non-normal Distributions}\label{non-normal}
 
