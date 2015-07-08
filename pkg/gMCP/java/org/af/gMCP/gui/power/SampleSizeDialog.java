@@ -20,6 +20,7 @@ import org.af.commons.widgets.buttons.HorizontalButtonPane;
 import org.af.commons.widgets.validate.ValidationException;
 import org.af.gMCP.config.Configuration;
 import org.af.gMCP.gui.CreateGraphGUI;
+import org.af.gMCP.gui.MenuBarMGraph;
 import org.af.gMCP.gui.RControl;
 import org.af.gMCP.gui.dialogs.PowerOptionsPanel;
 import org.af.gMCP.gui.dialogs.TextFileViewer;
@@ -49,7 +50,8 @@ public class SampleSizeDialog extends PDialog implements ActionListener {
 		tPanel.addTab("Power Requirements", prPanel);
 		cvPanel = new CVPanel(this);
 		tPanel.addTab("Correlation Matrix", cvPanel);
-		tPanel.addTab("Options", new PowerOptionsPanel(parent));
+		oPanel = new PowerOptionsPanel(parent);
+		tPanel.addTab("Options", oPanel);
 		
 		//TODO: Do we want scrollable tabs? 
 		//tPanel.setTabLayoutPolicy(JTabbedPane.SCROLL_TAB_LAYOUT);
@@ -120,14 +122,8 @@ public class SampleSizeDialog extends PDialog implements ActionListener {
 				return;
 			}				
 
-			javax.swing.SwingUtilities.invokeLater(new Runnable() {
-				public void run() {				
-					new TextFileViewer(parent, "R Objects", "The following R will be executed:\n\n" + rCommand, true);		
-				}
-			});
-			
-			
-			if (true) return;
+			System.out.println("The following R will be executed:\n\n" + rCommand);	
+			rCommand = "paste(capture.output("+rCommand+"), collapse='\n')";					
 			
 			parent.glassPane.start();
 			SwingWorker<Void, Void> worker = new SwingWorker<Void, Void>() {
@@ -158,7 +154,19 @@ public class SampleSizeDialog extends PDialog implements ActionListener {
 			worker.execute();				
 		}
 		if (e.getActionCommand().equals("help")) {
-			//TODO Open Help.
+			if (tPanel.getSelectedComponent()==gPanel) {
+				parent.openHelp("randomization");
+			} else if (tPanel.getSelectedComponent()==pNCP) {
+				parent.openHelp("ses");
+			} else if (tPanel.getSelectedComponent()==prPanel) {
+				parent.openHelp("powerreq");
+			} else if (tPanel.getSelectedComponent()==cvPanel) {
+				parent.openHelp("cormat2");
+			} else if (tPanel.getSelectedComponent()==oPanel) {
+				parent.openHelp("options");
+			} else {
+				parent.openHelp("power");
+			}
 		} else {		
 			dispose();
 		}

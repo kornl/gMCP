@@ -180,7 +180,7 @@ public class OptionsDialog extends JDialog implements ActionListener {
             dispose();
         }
         if (e.getActionCommand().equals(HELP)) {
-        	((MenuBarMGraph)parent.getJMenuBar()).showURL(CreateGraphGUI.helpURL+"#nameddest=options");
+        	parent.openHelp("options");
         }
         ((MenuBarMGraph)parent.getJMenuBar()).createExampleMenu();
         ((MenuBarMGraph)parent.getJMenuBar()).createExtraMenu();

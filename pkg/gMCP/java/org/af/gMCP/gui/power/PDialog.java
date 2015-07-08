@@ -12,6 +12,7 @@ import javax.swing.JTabbedPane;
 import org.af.gMCP.config.Configuration;
 import org.af.gMCP.gui.CreateGraphGUI;
 import org.af.gMCP.gui.RControl;
+import org.af.gMCP.gui.dialogs.PowerOptionsPanel;
 import org.af.gMCP.gui.graph.Node;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -24,6 +25,7 @@ public class PDialog extends JDialog {
     ScenarioPanelInterface pNCP;    
     UserDefinedPanel userDefinedFunctions;
     CVPanel cvPanel;
+    PowerOptionsPanel oPanel;
     
 	File config;
 	/** Path to save config files. */

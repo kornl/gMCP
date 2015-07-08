@@ -51,7 +51,8 @@ public class PowerDialog extends PDialog implements ActionListener {
 		tPanel.addTab("Correlation Matrix", cvPanel);
 		userDefinedFunctions = new UserDefinedPanel(this, nodes);
 		tPanel.addTab("User defined power function", userDefinedFunctions);
-		tPanel.addTab("Options", new PowerOptionsPanel(parent));
+		oPanel = new PowerOptionsPanel(parent);
+		tPanel.addTab("Options", oPanel);
 		Set<String> variables = parent.getGraphView().getNL().getAllVariables();
 		if (!Configuration.getInstance().getGeneralConfig().useEpsApprox())	{
 			variables.remove("ε");

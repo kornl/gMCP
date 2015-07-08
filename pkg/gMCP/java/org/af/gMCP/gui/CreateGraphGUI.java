@@ -311,5 +311,10 @@ public class CreateGraphGUI extends JFrame implements WindowListener, AbortListe
 	public int getLayerNr() {		
 		return getGraphView().getNumberOfLayers();
 	}
+
+	public void openHelp(String topic) {
+		getMBar().showURL(helpURL+"#nameddest="+topic);
+		//TODO If this does not work (or options are set? or generally?) open local file.
+	}
 	
 }
