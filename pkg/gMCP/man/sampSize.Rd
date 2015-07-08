@@ -4,9 +4,9 @@
 \alias{sampSize}
 \title{Sample size calculations}
 \usage{
-sampSize(graph, esf, effSize, powerReqFunc, target,
-  corr.sim = diag(length(effSize)), alpha, corr.test = NULL,
-  type = c("quasirandom", "pseudorandom"), upscale = FALSE, ...)
+sampSize(graph, esf, effSize, powerReqFunc, target, corr.sim, alpha,
+  corr.test = NULL, type = c("quasirandom", "pseudorandom"),
+  upscale = FALSE, ...)
 }
 \arguments{
 \item{graph}{A graph of class \code{\link{graphMCP}}.}
@@ -63,12 +63,13 @@ Equation (3) of Bretz et al. (2011).}
 Sample size calculations
 }
 \examples{
-f <- function(x){1/100*log(x)}
-graph <- BonferroniHolm(3)
+graph <- BonferroniHolm(4)
 powerReqFunc <- function(x) { (x[1] && x[2]) || x[3] }
 #TODO Still causing errors / loops.
 #sampSize(graph, alpha=0.05, powerReqFunc, target=0.8, mean=c(6,4,2) )
 #sampSize(graph, alpha=0.05, powerReqFunc, target=0.8, mean=c(-1,-1,-1), nsim=100)
-sampSize(graph, esf=c(1,1,1,1), effSize=c(1,1,1,1), powerReqFunc=powerReqFunc, target=0.8, alpha=0.05)
+sampSize(graph, esf=c(1,1,1,1), effSize=c(1,1,1,1), corr.sim=diag(4), powerReqFunc=powerReqFunc, target=0.8, alpha=0.05)
+powerReqFunc=list('all(x[c(1,2)]'=function(x) {all(x[c(1,2)])}, 'any(x[c(0,1)]'=function(x) {any(x[c(0,1)])})
+sampSize(graph=graph, effSize=list("Scenario 1"=c(1, 0.1, 0.1, 0.1), "Scenario 2"=c(0.1, 2, 0.1, 0.1)), esf=c(0.5, 0.7071067811865476, 0.5, 0.7071067811865476), powerReqFunc=list('all(x[c(1,2)]'=function(x) {all(x[c(1,2)])}, 'any(x[c(0,1)]'=function(x) {any(x[c(0,1)])}), corr.sim=diag(4), target=c(0.8, 0.8), alpha=0.025)
 }
 
