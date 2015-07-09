@@ -6,7 +6,7 @@
 \usage{
 sampSize(graph, esf, effSize, powerReqFunc, target, corr.sim, alpha,
   corr.test = NULL, type = c("quasirandom", "pseudorandom"),
-  upscale = FALSE, ...)
+  upscale = FALSE, n.sim = 10000, ...)
 }
 \arguments{
 \item{graph}{A graph of class \code{\link{graphMCP}}.}

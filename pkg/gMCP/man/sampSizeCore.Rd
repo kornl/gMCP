@@ -5,7 +5,7 @@
 \title{Function for sample size calculation}
 \usage{
 sampSizeCore(upperN, lowerN = floor(upperN/2), targFunc, target,
-  tol = 0.001, alRatio, Ntype = c("arm", "total"), verbose = FALSE)
+  tol = 0.001, alRatio, Ntype = c("arm", "total"), verbose = FALSE, ...)
 }
 \arguments{
 \item{upperN}{\code{targFunc(upperN)} should be bigger than target (otherwise \code{upperN} is doubled until this is the case).}

@@ -47,11 +47,11 @@
 #' #sampSize(graph, alpha=0.05, powerReqFunc, target=0.8, mean=c(-1,-1,-1), nsim=100)
 #' sampSize(graph, esf=c(1,1,1,1), effSize=c(1,1,1,1), corr.sim=diag(4), powerReqFunc=powerReqFunc, target=0.8, alpha=0.05)
 #' powerReqFunc=list('all(x[c(1,2)]'=function(x) {all(x[c(1,2)])}, 'any(x[c(0,1)]'=function(x) {any(x[c(0,1)])})
-#' sampSize(graph=graph, effSize=list("Scenario 1"=c(1, 0.1, 0.1, 0.1), "Scenario 2"=c(0.1, 2, 0.1, 0.1)), esf=c(0.5, 0.7071067811865476, 0.5, 0.7071067811865476), powerReqFunc=list('all(x[c(1,2)]'=function(x) {all(x[c(1,2)])}, 'any(x[c(0,1)]'=function(x) {any(x[c(0,1)])}), corr.sim=diag(4), target=c(0.8, 0.8), alpha=0.025)
+#' sampSize(graph=graph, effSize=list("Scenario 1"=c(1, 0.1, 0.1, 0.1), "Scenario 2"=c(0.1, 2, 0.1, 0.1)), esf=c(0.5, 0.7071067811865476, 0.5, 0.7071067811865476), powerReqFunc=list('all(x[c(1,2)]'=function(x) {all(x[c(1,2)])}, 'any(x[c(0,1)]'=function(x) {any(x[c(0,1)])}), corr.sim=diag(4), target=c(0.8, 0.8), alpha=0.025, n.sim=1000)
 sampSize <- function(graph, esf, effSize, powerReqFunc, target,
                      corr.sim, alpha, corr.test = NULL,
                      type = c("quasirandom", "pseudorandom"),
-                     upscale=FALSE , ...) { # effSize, endPoints
+                     upscale=FALSE, n.sim=10000, ...) { # effSize, endPoints
   
   if (!is.list(effSize)) {
     effSize <- list(Scenario=effSize)
@@ -70,15 +70,15 @@ sampSize <- function(graph, esf, effSize, powerReqFunc, target,
       prf.name <- names(powerReqFunc)[i]
       es <- effSize[[scenario.name]]
       prf <- powerReqFunc[[prf.name]]
-      targFunc <- function(n) {
+      targFunc <- function(n, ...) {
         result <- calcPower(graph=graph, alpha=alpha, mean = es*sqrt(n)*esf,
-                  corr.sim = corr.sim, corr.test = corr.test,
-                  n.sim = 1000, type = type,
+                  corr.sim = corr.sim, corr.test = corr.test, type = type,
                   f=prf, upscale=upscale, ...)        
         return(result[[5]])
       }
-      subResult <- sampSizeCore(100, targFunc=targFunc, alRatio=1, target=target[i], verbose=TRUE)      
-      result <- c(result, subResult$samp.size)
+      subResult <- sampSizeCore(100, targFunc=targFunc, alRatio=1, target=target[i], verbose=TRUE, n.sim=n.sim)      
+      # n.sim = ceiling(n.sim/50)
+      result[[length(result)+1]] <- subResult
       names(result)[[length(result)]] <- paste(prf.name, "-", scenario.name)
     }
   }
@@ -113,12 +113,12 @@ sampSize <- function(graph, esf, effSize, powerReqFunc, target,
 #' 
 sampSizeCore <- function (upperN, lowerN = floor(upperN/2),
                       targFunc, target, tol = 0.001, alRatio,
-                      Ntype = c("arm", "total"), verbose = FALSE){
+                      Ntype = c("arm", "total"), verbose = FALSE, ...){
   cat("Trying to find a sample size for power", target, "\n")
   
   ## target function to iterate
-  func <- function(n){
-    targFunc(n) - target
+  func <- function(n, ...){
+    targFunc(n, ...) - target
   }
 
   Ntype <- match.arg(Ntype)
@@ -131,7 +131,7 @@ sampSizeCore <- function (upperN, lowerN = floor(upperN/2),
   } 
   
   ## first call
-  upper <- func(round(upperN*alRatio))
+  upper <- func(round(upperN*alRatio), ...)
   if(length(upper) > 1) stop(paste("targFunc(n) needs to evaluate to a vector of length 1, but returned:\n", paste(capture.output(dput(upper)), collapse="\n"), sep=""))
   if(!is.numeric(upper)) stop("targFunc(n) needs to evaluate to a numeric.")
 
@@ -140,18 +140,18 @@ sampSizeCore <- function (upperN, lowerN = floor(upperN/2),
 
   while (upper < 0) {
     upperN <- 2 * upperN
-    upper <- func(round(upperN*alRatio))
+    upper <- func(round(upperN*alRatio), ...)
     message(paste("Upper limit for sample size is raised to ",upperN," (diff:",upper,")", sep=""))
   }
   
-  lower <- func(round(lowerN*alRatio))
+  lower <- func(round(lowerN*alRatio), ...)
   
   if (lower > 0) message("lower limit for sample size is decreased")
 
   while (lower > 0) {
     lowerN <- round(lowerN/2)
     if (lowerN == 0) stop("cannot find lower limit on n")
-    lower <- func(round(lowerN*alRatio))
+    lower <- func(round(lowerN*alRatio), ...)
   }
 
   ## now start bisection
@@ -165,7 +165,7 @@ sampSizeCore <- function (upperN, lowerN = floor(upperN/2),
   ## bisect sample size until tolerance is achieved
   while (abs(current) > tol & (upperN > lowerN + 1)) {
     currN <- round((upperN + lowerN)/2)
-    current <- func(round(currN * alRatio))
+    current <- func(round(currN * alRatio), ...)
     if (current > 0) {
       upperN <- currN
     } else {
@@ -180,7 +180,7 @@ sampSizeCore <- function (upperN, lowerN = floor(upperN/2),
   ## increase sample size so that the obtained value is larger than the target
   while (current < 0) {
     currN <- currN + 1
-    current <- func(round(currN * alRatio))
+    current <- func(round(currN * alRatio), ...)
   }
 
   res <- list(samp.size = round(currN * alRatio),
