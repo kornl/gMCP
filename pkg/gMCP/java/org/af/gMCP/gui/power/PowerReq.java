@@ -72,7 +72,7 @@ public class PowerReq implements ActionListener {
 		} else if (jcbType.getSelectedIndex()==1) {
 			term="any(x";
 		} else {
-			return "'"+jcbType.getItemAt(2)+"'=function(x) {"+jcbType.getItemAt(2)+")}";
+			return "'"+jcbType.getItemAt(2)+"'=function(x) {"+jcbType.getItemAt(2)+"}";
 		}
 		String subset = "[c(";
 		boolean all = true;
