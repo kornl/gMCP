@@ -162,5 +162,12 @@ public class PowerReqPanel extends JPanel implements ActionListener {
 		revalidate();
 		repaint();
 	}
+
+
+	public void setActionListener() {
+		for (PowerReq pr : gv) {
+			pr.setActionListener();
+		}
+	}
 	
 }

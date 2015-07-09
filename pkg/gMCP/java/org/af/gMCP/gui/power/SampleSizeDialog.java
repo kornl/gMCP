@@ -90,6 +90,8 @@ public class SampleSizeDialog extends PDialog implements ActionListener {
 		if (config.exists()) {
 			SettingsToXML.loadConfigFromXML(config, this);
 		}
+		// After loading the config we can attach this ActionListener:
+		prPanel.setActionListener();
 		
         pack();
         // Adding space for further arms or scenarios:

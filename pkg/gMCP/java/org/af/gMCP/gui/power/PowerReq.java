@@ -42,7 +42,10 @@ public class PowerReq implements ActionListener {
 			JCheckBox jc = new JCheckBox();
 			includeL.add(jc);
 		}
-		jcbType.setPreferredSize(new Dimension(jcbType.getPreferredSize().width, includeL.get(0).getPreferredSize().height));
+		jcbType.setPreferredSize(new Dimension(jcbType.getPreferredSize().width, includeL.get(0).getPreferredSize().height));		
+	}
+	
+	public void setActionListener() {
 		jcbType.addActionListener(this);
 	}
 	
@@ -101,6 +104,18 @@ public class PowerReq implements ActionListener {
 
 	public void loadConfig(Element e) {
 		scname.setText(e.getAttribute("name"));
+		targetPower.setText(e.getAttribute("tpower"));
+		jcbType.setSelectedIndex(Integer.parseInt(e.getAttribute("index")));
+		if (jcbType.getSelectedIndex()>=2) {
+			for (JCheckBox jc : includeL) {			
+				jc.setEnabled(false);
+			}
+			userDefined = e.getAttribute("userDefined");
+			jcbType.removeItemAt(2);
+			jcbType.addItem(userDefined);
+			jcbType.addItem("Edit user defined");
+			jcbType.setSelectedIndex(2);
+		}
 		NodeList nlist = e.getChildNodes();
 		for (int i=0; i<Math.min(nlist.getLength(), includeL.size()); i++) {
 			includeL.get(i).setSelected(Boolean.parseBoolean(((Element)nlist.item(i)).getAttribute("include")));
@@ -110,6 +125,9 @@ public class PowerReq implements ActionListener {
 	public Element getConfigNode(Document document) {
 		Element e = document.createElement("powerreq");
 		e.setAttribute("name", scname.getText());
+		e.setAttribute("tpower", targetPower.getText());
+		e.setAttribute("index", ""+jcbType.getSelectedIndex());
+		e.setAttribute("userDefined", userDefined);
 		for (JCheckBox jc : includeL) {
 			Element eNCP = document.createElement("include");
 			eNCP.setAttribute("include", ""+jc.isSelected());
@@ -148,6 +166,6 @@ public class PowerReq implements ActionListener {
 				jc.setEnabled(false);
 			}
 		}
-		System.out.println(getPowerfunction());
+		//System.out.println(getPowerfunction());
 	}
 }
