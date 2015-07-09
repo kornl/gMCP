@@ -14,6 +14,9 @@ import javax.swing.JTextField;
 import org.af.commons.widgets.validate.RealTextField;
 import org.af.gMCP.gui.RControl;
 import org.af.gMCP.gui.graph.Node;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
 
 import com.jgoodies.forms.layout.CellConstraints;
 
@@ -96,24 +99,24 @@ public class PowerReq implements ActionListener {
 	}
 
 
-	/* public void loadConfig(Element e) {
+	public void loadConfig(Element e) {
 		scname.setText(e.getAttribute("name"));
 		NodeList nlist = e.getChildNodes();
-		for (int i=0; i<Math.min(nlist.getLength(), ncp.size()); i++) {
-			ncp.get(i).setText(((Element)nlist.item(i)).getAttribute("ncp"));
+		for (int i=0; i<Math.min(nlist.getLength(), includeL.size()); i++) {
+			includeL.get(i).setSelected(Boolean.parseBoolean(((Element)nlist.item(i)).getAttribute("include")));
 		}
 	 }
 	
 	public Element getConfigNode(Document document) {
-		Element e = document.createElement("scenario");
+		Element e = document.createElement("powerreq");
 		e.setAttribute("name", scname.getText());
-		for (JTextField jt : ncp) {
-			Element eNCP = document.createElement("ncp");
-			eNCP.setAttribute("ncp", jt.getText());
+		for (JCheckBox jc : includeL) {
+			Element eNCP = document.createElement("include");
+			eNCP.setAttribute("include", ""+jc.isSelected());
 			e.appendChild(eNCP);
 		}
 		return e;
-	} */
+	}
 
 	public void actionPerformed(ActionEvent e) {
 		//System.out.println("\""+jcbType.getSelectedItem()+"\"");

@@ -12,14 +12,17 @@ import javax.swing.JScrollPane;
 
 import org.af.gMCP.gui.graph.LaTeXTool;
 import org.af.gMCP.gui.graph.Node;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
 
 import com.jgoodies.forms.layout.CellConstraints;
 import com.jgoodies.forms.layout.FormLayout;
 
 public class PowerReqPanel extends JPanel implements ActionListener {
 	List<PowerReq> gv = new Vector<PowerReq>();
-	JButton addScenario = new JButton("Add scenario");
-	JButton rmScenario = new JButton("Remove last scenario");
+	JButton addPowerReq = new JButton("Add power requirement");
+	JButton rmPowerReq = new JButton("Remove last power requirement");
 	
 	SampleSizeDialog sd;
 
@@ -50,11 +53,11 @@ public class PowerReqPanel extends JPanel implements ActionListener {
 		
 		row += 2;
 		
-		add(addScenario, cc.xy(3, row));
-		add(rmScenario, cc.xy(5, row));
-		addScenario.addActionListener(this);
-		rmScenario.addActionListener(this);
-		rmScenario.setEnabled(false);		
+		add(addPowerReq, cc.xy(3, row));
+		add(rmPowerReq, cc.xy(5, row));
+		addPowerReq.addActionListener(this);
+		rmPowerReq.addActionListener(this);
+		rmPowerReq.setEnabled(false);		
 	}
 
 	public JPanel getMainPanel() {
@@ -113,13 +116,13 @@ public class PowerReqPanel extends JPanel implements ActionListener {
 	}	
 
 	public void actionPerformed(ActionEvent e) {
-		if (e.getSource()==addScenario) {
+		if (e.getSource()==addPowerReq) {
 			gv.add(new PowerReq(sd, "Power requirement "+(gv.size()+1)));
 			getMainPanel();
 			revalidate();
 			repaint();
-			rmScenario.setEnabled(true);
-		} else if (e.getSource()==rmScenario) {
+			rmPowerReq.setEnabled(true);
+		} else if (e.getSource()==rmPowerReq) {
 			if (gv.size()>1) {
 				gv.remove(gv.size()-1);
 				getMainPanel();
@@ -127,9 +130,37 @@ public class PowerReqPanel extends JPanel implements ActionListener {
 				repaint();
 			}
 			if (gv.size()==1) {
-				rmScenario.setEnabled(false);
+				rmPowerReq.setEnabled(false);
 			}
 		}		
-	}	
+	}
+
+
+
+	public Element getConfigNode(Document document) {
+		Element e = document.createElement("powerreq");
+		e.setAttribute("numberPR", ""+gv.size());
+		e.setAttribute("numberHS", ""+gv.get(0).includeL.size());
+		for (PowerReq pr : gv) {
+			e.appendChild(pr.getConfigNode(document));
+		}
+      	return e;
+	}
+	
+	public void loadConfig(Element e) {
+		int nPR = Integer.parseInt(e.getAttribute("numberPR"));
+		int nHS = Integer.parseInt(e.getAttribute("numberHS"));
+		while(gv.size()<nPR) {
+			gv.add(new PowerReq(sd, "Power requirement "+(gv.size()+1)));
+			rmPowerReq.setEnabled(true);
+		}
+		NodeList nlist = e.getChildNodes();
+		for (int i=0; i<gv.size(); i++) {			
+			gv.get(i).loadConfig((Element)nlist.item(i));
+		}
+		getMainPanel();
+		revalidate();
+		repaint();
+	}
 	
 }

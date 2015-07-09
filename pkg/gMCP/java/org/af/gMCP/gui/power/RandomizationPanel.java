@@ -13,14 +13,17 @@ import javax.swing.JScrollPane;
 import org.af.commons.widgets.validate.ValidationException;
 import org.af.gMCP.gui.graph.LaTeXTool;
 import org.af.gMCP.gui.graph.Node;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
 
 import com.jgoodies.forms.layout.CellConstraints;
 import com.jgoodies.forms.layout.FormLayout;
 
 public class RandomizationPanel extends JPanel implements ActionListener {
-	List<Arm> gv = new Vector<Arm>();
-	JButton addScenario = new JButton("Add scenario");
-	JButton rmScenario = new JButton("Remove last scenario");
+	List<Arm> armL = new Vector<Arm>();
+	JButton addArm = new JButton("Add arm");
+	JButton rmArm = new JButton("Remove last arm");
 	
 	JButton jbEndpoint = new JButton("Endpoint");
 	JButton jbPopulation = new JButton("Population");
@@ -31,7 +34,7 @@ public class RandomizationPanel extends JPanel implements ActionListener {
 	
 	public RandomizationPanel(SampleSizeDialog sd) {
 		this.sd = sd;
-		gv.add(new Arm(sd, "Arm "+(gv.size()+1)));
+		armL.add(new Arm(sd, "Arm "+(armL.size()+1)));
 		setUpLayout();
 	}
 	
@@ -54,11 +57,11 @@ public class RandomizationPanel extends JPanel implements ActionListener {
 		
 		row += 2;
 		
-		add(addScenario, cc.xy(3, row));
-		add(rmScenario, cc.xy(5, row));
-		addScenario.addActionListener(this);
-		rmScenario.addActionListener(this);
-		rmScenario.setEnabled(false);
+		add(addArm, cc.xy(3, row));
+		add(rmArm, cc.xy(5, row));
+		addArm.addActionListener(this);
+		rmArm.addActionListener(this);
+		rmArm.setEnabled(false);
 		
 		row += 2;
 		
@@ -81,7 +84,7 @@ public class RandomizationPanel extends JPanel implements ActionListener {
 		for (Node n : sd.getNodes()) {
 			cols += ", pref, 5dlu";
 		}
-		for (Arm g : gv) {
+		for (Arm g : armL) {
 			rows += ", pref, 5dlu";
 		}
 
@@ -98,7 +101,7 @@ public class RandomizationPanel extends JPanel implements ActionListener {
 			panel.add(new JLabel(LaTeXTool.LaTeX2UTF(n.getName())), cc.xy(col, row));
 		}
 
-		for (Arm g : gv) {
+		for (Arm g : armL) {
 			row += 2;
 			g.addComponents(panel, cc, row);
 		}
@@ -111,12 +114,12 @@ public class RandomizationPanel extends JPanel implements ActionListener {
 		//Vector<Vector<Integer>> armsInvolved = new Vector<Vector<Integer>>();		
 		
 		double sum = 0;
-		for (Arm g : gv) {
+		for (Arm g : armL) {
 			sum += g.getRatio();
 		}
 		List<Double> r = new Vector<Double>();
-		for (int j=0; j < gv.size(); j++) {
-			r.add(gv.get(j).getRatio()/sum); // Randomization proportion
+		for (int j=0; j < armL.size(); j++) {
+			r.add(armL.get(j).getRatio()/sum); // Randomization proportion
 		}
 		
 		String esf = "c(";
@@ -124,8 +127,8 @@ public class RandomizationPanel extends JPanel implements ActionListener {
 		for (int i=0; i < nodes.size(); i++) {
 			
 			Vector<Integer> armsInvolved = new Vector<Integer>();
-			for (int j=0; j < gv.size(); j++) {
-				if (gv.get(j).isSelected(i)) {
+			for (int j=0; j < armL.size(); j++) {
+				if (armL.get(j).isSelected(i)) {
 					armsInvolved.add(j);
 				}				
 			}
@@ -150,34 +153,60 @@ public class RandomizationPanel extends JPanel implements ActionListener {
 
 	public String getRatio() throws ValidationException {
 		String ratio = "c(";
-		for (Arm g : gv) {
+		for (Arm g : armL) {
 			ratio += g.getRatio()+", ";
 		}
 		return ratio.substring(0, ratio.length()-2)+")";
 	}
 
 	public void actionPerformed(ActionEvent e) {
-		if (e.getSource()==addScenario) {
-			gv.add(new Arm(sd, "Arm "+(gv.size()+1)));
+		if (e.getSource()==addArm) {
+			armL.add(new Arm(sd, "Arm "+(armL.size()+1)));
 			getMainPanel();
 			revalidate();
 			repaint();
-			rmScenario.setEnabled(true);
-		} else if (e.getSource()==rmScenario) {
-			if (gv.size()>1) {
-				gv.remove(gv.size()-1);
+			rmArm.setEnabled(true);
+		} else if (e.getSource()==rmArm) {
+			if (armL.size()>1) {
+				armL.remove(armL.size()-1);
 				getMainPanel();
 				revalidate();
 				repaint();
 			}
-			if (gv.size()==1) {
-				rmScenario.setEnabled(false);
+			if (armL.size()==1) {
+				rmArm.setEnabled(false);
 			}
 		} else if (e.getSource()==jbEndpoint) {
 			new EndpointDialog(sd);
 		} else if (e.getSource()==jbPopulation) {
 			new PopulationDialog(sd);
 		}
+	}
+
+	public Element getConfigNode(Document document) {
+		Element e = document.createElement("randomization");
+		e.setAttribute("numberArms", ""+armL.size());
+		e.setAttribute("numberHS", ""+armL.get(0).includeL.size());
+		for (Arm a : armL) {
+			e.appendChild(a.getConfigNode(document));
+		}
+      	return e;
+	}
+	
+	public void loadConfig(Element e) {
+		int nArms = Integer.parseInt(e.getAttribute("numberArms"));
+		int nHS = Integer.parseInt(e.getAttribute("numberHS"));
+		while(armL.size()<nArms) {
+			armL.add(new Arm(sd, "Arm "+(armL.size()+1)));
+			rmArm.setEnabled(true);
+		}
+		NodeList nlist = e.getChildNodes();
+		for (int i=0; i<armL.size(); i++) {			
+			armL.get(i).loadConfig((Element)nlist.item(i));
+		}
+		getMainPanel();
+		revalidate();
+		repaint();
 	}
 	
 }

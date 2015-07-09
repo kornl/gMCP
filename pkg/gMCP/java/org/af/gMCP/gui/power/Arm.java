@@ -10,6 +10,9 @@ import javax.swing.JTextField;
 import org.af.commons.widgets.validate.RealTextField;
 import org.af.commons.widgets.validate.ValidationException;
 import org.af.gMCP.gui.graph.Node;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
 
 import com.jgoodies.forms.layout.CellConstraints;
 
@@ -52,25 +55,25 @@ public class Arm {
 		return includeL.get(i).isSelected();
 	}
 	
-
-	
-	/* public void loadConfig(Element e) {
-	scname.setText(e.getAttribute("name"));
-	NodeList nlist = e.getChildNodes();
-	for (int i=0; i<Math.min(nlist.getLength(), ncp.size()); i++) {
-		ncp.get(i).setText(((Element)nlist.item(i)).getAttribute("ncp"));
+	public void loadConfig(Element e) {
+		scname.setText(e.getAttribute("name"));
+		ratio.setText(e.getAttribute("ratio"));
+		NodeList nlist = e.getChildNodes();
+		for (int i=0; i<Math.min(nlist.getLength(), includeL.size()); i++) {
+			includeL.get(i).setSelected(Boolean.parseBoolean(((Element)nlist.item(i)).getAttribute("include")));
+		}
 	}
- }
 
-public Element getConfigNode(Document document) {
-	Element e = document.createElement("scenario");
-	e.setAttribute("name", scname.getText());
-	for (JTextField jt : ncp) {
-		Element eNCP = document.createElement("ncp");
-		eNCP.setAttribute("ncp", jt.getText());
-		e.appendChild(eNCP);
-	}
-	return e;
-} */
+	public Element getConfigNode(Document document) {
+		Element e = document.createElement("arm");		
+		e.setAttribute("name", scname.getText());
+		e.setAttribute("ratio", ratio.getText());
+		for (JCheckBox jc : includeL) {
+			Element eNCP = document.createElement("include");
+			eNCP.setAttribute("include", ""+jc.isSelected());
+			e.appendChild(eNCP);
+		}
+		return e;
+	} 
 
 }

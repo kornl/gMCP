@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Vector;
 
 import javax.swing.JDialog;
+import javax.swing.JOptionPane;
 import javax.swing.JTabbedPane;
 
 import org.af.gMCP.config.Configuration;
@@ -51,6 +52,7 @@ public class PDialog extends JDialog {
 		}
 		
 		if (!path.exists()) {
+			JOptionPane.showMessageDialog(this, "Directory for saving the settings does not exist:\n"+path.exists()+"\nPlease choose another directory in the options.\nFor now settings are only saved temporarily.", "Directory does not exist.", JOptionPane.ERROR_MESSAGE);
 			path = new File(RControl.getR().eval("tempdir()").asRChar().getData()[0]);
 			tmp = true;
 		}
@@ -72,19 +74,18 @@ public class PDialog extends JDialog {
 	 }
 
 	 public void loadConfig(Element root) {
-		 pNCP.loadConfig((Element) root.getElementsByTagName("scenarios").item(0));
-		 if (!parent.getPView().jrbRCorrelation.isSelected()) {
-			 cvPanel.loadConfig((Element) root.getChildNodes().item(1));
-		 }
-		 userDefinedFunctions.loadConfig((Element) root.getChildNodes().item(2));
-		 		 
+		pNCP.loadConfig((Element) root.getElementsByTagName("scenarios").item(0));
+		if (!parent.getPView().jrbRCorrelation.isSelected()) {
+			cvPanel.loadConfig((Element) root.getChildNodes().item(1));
+		}
+		if (userDefinedFunctions!=null) userDefinedFunctions.loadConfig((Element) root.getChildNodes().item(2));
 	 }
 
 	public List<Element> getConfigurationNodes(Document document) {
 		Vector<Element> v = new Vector<Element>();
 		v.add(pNCP.getConfigNode(document));
 		v.add(cvPanel.getConfigNode(document));
-		v.add(userDefinedFunctions.getConfigNode(document));
+		if (userDefinedFunctions!=null) v.add(userDefinedFunctions.getConfigNode(document));
 		return v;
 	}
 	

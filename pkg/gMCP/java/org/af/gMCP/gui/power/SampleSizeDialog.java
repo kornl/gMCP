@@ -5,8 +5,11 @@ import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 import java.io.IOException;
+import java.util.List;
 import java.util.Set;
+import java.util.Vector;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
@@ -25,10 +28,12 @@ import org.af.gMCP.gui.RControl;
 import org.af.gMCP.gui.dialogs.PowerOptionsPanel;
 import org.af.gMCP.gui.dialogs.TextFileViewer;
 import org.jdesktop.swingworker.SwingWorker;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 
 public class SampleSizeDialog extends PDialog implements ActionListener {
 
-    RandomizationPanel gPanel;
+    RandomizationPanel randomizationPanel;
     PowerReqPanel prPanel;
     
 	JButton jbHelp;
@@ -42,8 +47,8 @@ public class SampleSizeDialog extends PDialog implements ActionListener {
 	public SampleSizeDialog(CreateGraphGUI parent) {
 		super(parent, "Sample Size Calculations", true);
 		
-		gPanel = new RandomizationPanel(this);
-		tPanel.addTab("Randomization", gPanel);
+		randomizationPanel = new RandomizationPanel(this);
+		tPanel.addTab("Randomization", randomizationPanel);
 		pNCP = new ScenarioPanel2(this);
 		tPanel.addTab(/*"Standardized "+*/"Effect Size", (Component) pNCP);		
 		prPanel = new PowerReqPanel(this);
@@ -81,6 +86,11 @@ public class SampleSizeDialog extends PDialog implements ActionListener {
 		getContentPane().add(bp, c);
 		bp.addActionListener(this);		
 		
+		config = new File(path, "gMCP-samplesize-settings.xml");
+		if (config.exists()) {
+			SettingsToXML.loadConfigFromXML(config, this);
+		}
+		
         pack();
         // Adding space for further arms or scenarios:
         Dimension d = this.getSize();
@@ -89,8 +99,20 @@ public class SampleSizeDialog extends PDialog implements ActionListener {
         setVisible(true);
 	} 
 	
-	public void actionPerformed(ActionEvent e) {
+	 public void loadConfig(Element root) {
+		 super.loadConfig(root);
+		 randomizationPanel.loadConfig((Element) root.getElementsByTagName("randomization").item(0));
+		 prPanel.loadConfig((Element) root.getElementsByTagName("powerreq").item(0));
+	 }
 
+	public List<Element> getConfigurationNodes(Document document) {
+		List<Element> v = super.getConfigurationNodes(document);
+		v.add(randomizationPanel.getConfigNode(document));
+		v.add(prPanel.getConfigNode(document));
+		return v;
+	}	
+	
+	public void actionPerformed(ActionEvent e) {
 		String weights = parent.getGraphView().getNL().getGraphName() + "@weights";
 		double alpha;
 		try {
@@ -105,10 +127,12 @@ public class SampleSizeDialog extends PDialog implements ActionListener {
 
 		if (e.getActionCommand().equals(HorizontalButtonPane.OK_CMD)) {
 
+			SettingsToXML.saveSettingsToXML(config, this);
+			
 			try {
 				rCommand = "sampSize(graph=" + graph						
 						+", effSize=" + pNCP.getEffSizeString()
-						+", esf=" + gPanel.getESF()
+						+", esf=" + randomizationPanel.getESF()
 						+", powerReqFunc=" + prPanel.getPowerFunctions()
 						+", target="+prPanel.getPowerTargets()					 
 						+ ", corr.sim = " + cvPanel.getSigma() //diag(length(mean)),corr = NULL,"+
@@ -154,7 +178,7 @@ public class SampleSizeDialog extends PDialog implements ActionListener {
 			worker.execute();				
 		}
 		if (e.getActionCommand().equals("help")) {
-			if (tPanel.getSelectedComponent()==gPanel) {
+			if (tPanel.getSelectedComponent()==randomizationPanel) {
 				parent.openHelp("randomization");
 			} else if (tPanel.getSelectedComponent()==pNCP) {
 				parent.openHelp("ses");
