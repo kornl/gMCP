@@ -142,6 +142,7 @@ public class SampleSizeDialog extends PDialog implements ActionListener {
 						+ cvPanel.getMatrixForParametricTest()
 						+ ", type = \""+Configuration.getInstance().getGeneralConfig().getTypeOfRandom()+"\""
 						+ ", upscale = "+(Configuration.getInstance().getGeneralConfig().getUpscale()?"TRUE":"FALSE")
+						+ ", n.sim = "+Configuration.getInstance().getGeneralConfig().getNumberOfSimulations()
 						+ ")";
 			} catch (ValidationException e1) {
 				JOptionPane.showMessageDialog(this, "An error was detected in the input:\n"+e1.getMessage(), "Error detected in input", JOptionPane.ERROR_MESSAGE);

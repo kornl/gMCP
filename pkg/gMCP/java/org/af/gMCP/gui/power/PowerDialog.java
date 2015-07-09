@@ -124,7 +124,7 @@ public class PowerDialog extends PDialog implements ActionListener {
 					+ ","+"corr.sim = " + cvPanel.getSigma() //diag(length(mean)),corr = NULL,"+
 					+ cvPanel.getMatrixForParametricTest()
 					+ ", f = "+userDefinedFunctions.getUserDefined()
-					+ ", nSim = "+Configuration.getInstance().getGeneralConfig().getNumberOfSimulations()
+					+ ", n.sim = "+Configuration.getInstance().getGeneralConfig().getNumberOfSimulations()
 					+ ", type = \""+Configuration.getInstance().getGeneralConfig().getTypeOfRandom()+"\""
 					+ getVariables()
 					+ ")";				
