@@ -160,12 +160,16 @@ public class CVPanel extends JPanel implements ActionListener {
 
 	private void load(SingleDataFramePanel dfp) {
 		VariableNameDialog vnd = new VariableNameDialog(parent);
-		if (!RControl.getR().eval("gMCP:::checkQuadraticMatrix("+vnd.getName()+", n="+nodes.size()+")").asRLogical().getData()[0]) {
-			JOptionPane.showMessageDialog((JDialog)pd, 
-					"Can not get a numeric quadradtic matric from \""+vnd.getName()+"\" of dimension "+nodes.size()+"x"+nodes.size()+".", "Not a numeric quadratic matrix of correct dimension", JOptionPane.ERROR_MESSAGE);
-			return;
-		}		
-		load(dfp, vnd.getName());		
+		try {
+			if (!RControl.getR().eval("gMCP:::checkQuadraticMatrix("+vnd.getName()+", n="+nodes.size()+")").asRLogical().getData()[0]) {
+				JOptionPane.showMessageDialog((JDialog)pd, 
+						"Can not get a numeric quadradtic matric from \""+vnd.getName()+"\" of dimension "+nodes.size()+"x"+nodes.size()+".", "Not a numeric quadratic matrix of correct dimension", JOptionPane.ERROR_MESSAGE);
+				return;
+			}		
+			load(dfp, vnd.getName());
+		} catch(Exception e) {
+			JOptionPane.showMessageDialog(parent, "An error occured loading the matrix (please check especially the variable name):\n"+e.getMessage(), "Error loading matrix", JOptionPane.ERROR_MESSAGE);
+		}
 	}
 
 	private void load(SingleDataFramePanel dfp3, String name) {
