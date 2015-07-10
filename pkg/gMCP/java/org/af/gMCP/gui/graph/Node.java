@@ -11,6 +11,8 @@ import java.text.DecimalFormat;
 import java.util.List;
 import java.util.Vector;
 
+import javax.swing.JOptionPane;
+
 import org.af.commons.tools.StringTools;
 import org.af.gMCP.config.Configuration;
 import org.af.gMCP.gui.RControl;
@@ -241,7 +243,13 @@ public class Node {
 	
 	public void setName(String name) {
 		this.name = name;	
-		TeXFormula formula = new TeXFormula("\\mathbf{"+name+"}"); 
+		TeXFormula formula;
+		try {
+			formula = new TeXFormula("\\mathbf{"+LaTeXTool.sanitize(name)+"}");
+		} catch(Exception e) {
+			JOptionPane.showMessageDialog(nl, "The name for the node could not be parsed in LaTeX:\n"+e.getMessage()+"\n\nDisable JLaTeXMath in the options, if you want to use simple text labels.");
+			formula = new TeXFormula("Syntax error");
+		}
 		iconName = formula.createTeXIcon(TeXConstants.ALIGN_CENTER, (int) (14 * nl.getZoom()));
 		nl.graphHasChanged();
 	}

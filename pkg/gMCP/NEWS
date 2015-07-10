@@ -23,6 +23,8 @@ Changes in version 0.8-9 (??-??-2015)
 
 - Dialog for PNG save options
 
+- Better handling of invalid LaTeX terms.
+
 
 Changes in version 0.8-8 (03-10-2014)
 =====================================
