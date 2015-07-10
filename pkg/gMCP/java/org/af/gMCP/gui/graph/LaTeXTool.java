@@ -144,10 +144,11 @@ public class LaTeXTool {
 		return s;
 	}
 
+	//TODO If the character is already escaped, this might cause problems... Therefore check for escape sequence?
 	public static String sanitize(String latex) {		
 		//latex = latex.replaceAll("\\}", "\\}");
 		//latex = latex.replaceAll("\\{", "\\{");		
-		latex = latex.replaceAll("\\^", "\\\\^");
+		//latex = latex.replaceAll("\\^", "\\\\^");
 		latex = latex.replaceAll("\\%", "\\\\%");
 		latex = latex.replaceAll("\\&", "\\\\&");
 		latex = latex.replaceAll("\\$", "\\\\\\$");		
