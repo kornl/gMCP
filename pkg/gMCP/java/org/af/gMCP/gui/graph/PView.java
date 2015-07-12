@@ -490,6 +490,7 @@ public class PView extends JPanel implements KeyListener, ActionListener {
 			}
 			text += Configuration.getInstance().getGeneralConfig().getDecFormat().format(weight)+"; ";
 		}
+		text = text.substring(0, text.length()-2);
 		statusLabel.setText(text);
 		subGraphLabel.setForeground(Color.BLACK);
 		subGraphLabel.setText("");
