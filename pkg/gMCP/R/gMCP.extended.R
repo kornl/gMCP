@@ -37,13 +37,13 @@ simes.on.subsets.test <- function(pvalues, weights, alpha, ...) {
 }
 
 # Simes test
-simes.test <- function(pvalues, weights, alpha) {
+simes.test <- function(pvalues, weights, alpha, ...) {
   mJ <- Inf  				
-  for (j in J) {
-    Jj <- subset!=0 & (pvalues <= pvalues[j]) # & (1:n)!=j
+  for (j in 1:length(pvalues)) {
+    Jj <- pvalues <= pvalues[j] # & (1:n)!=j
     if (adjPValues) {
       mJt <- pvalues[j]/sum(weights[i, Jj])	
-      if (is.na(mJt)) { # this happens only if pvalues2[j] is 0
+      if (is.na(mJt)) { # this happens only if pvalues[j] is 0
         mJt <- 0
       }
       #cat("pvalues2:\n", pvalues2, "\nmJt: ", mJt, "\nmJ: ", mJ, "\nj: ", j, "\nJ: ", J, "\nsubset: ", subset, "\n")
@@ -53,15 +53,21 @@ simes.test <- function(pvalues, weights, alpha) {
     }
     #cat("j: ",j, ", Jj: ",Jj,"\n")
     #cat("p_",j,"=",pvalues2[j],"<=a*(w_",paste(which(Jj),collapse ="+w_"),")=",alpha,"*(",paste(weights[i, Jj],collapse ="+"),")=",sum(weights[i, Jj]),"\n")
-    if (pvalues[j]<=alpha*sum(weights[i, Jj])) {
-      result[i, n+1] <- 1
-      if (verbose) {
-        explanation[i] <- paste("Subset {",paste(J,collapse=","),"}: p_",j,"=", pvalues[j],"<=a*(w_",paste(which(Jj),collapse ="+w_"),")\n     =",alpha,"*(",paste(weights[i, Jj],collapse ="+"),")=",alpha*sum(weights[i, Jj]),sep="")
-      }
+    if (missing(alpha)) {
+      return(mJ)
+    } else {
+      return(pvalues[j]<=alpha*sum(weights[i, Jj]))
     }
-  }	
-  result[i, n+2] <- mJ
+    #if (pvalues[j]<=alpha*sum(weights[i, Jj])) {
+    #  result[i, n+1] <- 1
+    #  if (verbose) {
+    #    explanation[i] <- paste("Subset {",paste(J,collapse=","),"}: p_",j,"=", pvalues[j],"<=a*(w_",paste(which(Jj),collapse ="+w_"),")\n     =",alpha,"*(",paste(weights[i, Jj],collapse ="+"),")=",alpha*sum(weights[i, Jj]),sep="")
+    #  }
+    #}
+  }
 }
+
+# resampling tests?
 
 # attach(loadNamespace("gMCP"), name="namespace:gMCP", pos=3)
 
@@ -71,7 +77,7 @@ simes.test <- function(pvalues, weights, alpha) {
 #' graph <- BonferroniHolm(4)
 #' pvalues <- c(0.01, 0.05, 0.03, 0.02)
 #' alpha <- 0.05
-#' gMCP.extended(graph, pvalues, test)
+#' gMCP.extended(graph=graph, pvalues=pvalues, test=bonferroni.test, verbose=TRUE)
 gMCP.extended <- function(graph, pvalues, test, correlation, alpha=0.05, 
                  approxEps=TRUE, eps=10^(-3), ..., upscale=ifelse(missing(test)&&!missing(correlation)||!missing(test)&&test=="Bretz2011", TRUE, FALSE),
                  useC=FALSE, verbose=FALSE, keepWeights=TRUE, adjPValues=TRUE) {
@@ -88,7 +94,7 @@ gMCP.extended <- function(graph, pvalues, test, correlation, alpha=0.05,
   
   allSubsets <- permutations(length(getNodes(graph2)))[-1,]
   result <- cbind(allSubsets, 0, Inf)
-  n <- length(graph@weights)
+  n <- length(graph2@weights)
   # Allow for different generateWeights? generateWeights can handle entangled graphs.
   weights <- generateWeights(graph2@m, getWeights(graph2))[,(n+(1:n))]
   
@@ -97,32 +103,43 @@ gMCP.extended <- function(graph, pvalues, test, correlation, alpha=0.05,
     subset <- allSubsets[i,]
     if(!all(subset==0)) {
       J <- which(subset!=0)	
-      test.result <- test(pvalues[J], weights[1, J], alpha, ...)
-      if (test.result) {
-        if (verbose) explanation[i] <- paste("Subset {",paste(J,collapse=","),"}: ",explanation[i], sep="") 
+      if (adjPValues) {
+        test.result <- test(pvalues2[J], weights[i, J], ...)
+        result[i, n+2] <- test.result
+        if (!missing(alpha)) {
+          result[i, n+1] <- test.result<=alpha
+          if (result[i, n+1] && verbose) {
+            explanation[i] <- paste("Subset {",paste(J,collapse=","),"}: rejected ", sep="") 
+          } else if (verbose) {
+            explanation[i] <- paste("Subset {",paste(J,collapse=","),"}: not rejected ", sep="") 
+          }
+        } else if (verbose) {
+          explanation[i] <- paste("Adjusted p-value for subset {",paste(J,collapse=","),"}: ", result[i, n+2], sep="")  
+        }
       } else {
-        rejected <- "rejected"
-        if (verbose) {
-          expl <- attr(test.result, "explanation")
-          if(!is.null(expl)) explanation <- expl
-        } 
-        if (adjPValues) {
-          stat <- attr(test.result, "stat")
-        }          
-        if (verbose) explanation[i] <- paste("Subset {",paste(J,collapse=","),"}: ", rejected, sep="")
+        test.result <- test(pvalues2[J], weights[1, J], alpha, ...)
+        result[i, n+1] <- test.result
+        if (result[i, n+1] && verbose) {
+          explanation[i] <- paste("Subset {",paste(J,collapse=","),"}: ",explanation[i], sep="") 
+        }
+      }
+      if (verbose) {
+        expl <- attr(test.result, "explanation")
+        if (!is.null(expl)) explanation[i] <- expl
       }
     }
   }
   adjPValuesV <- rep(NA, n)
   for (i in 1:n) {
     if (all(result[result[,i]==1,n+1]==1)) {
-      graph <- rejectNode(graph, getNodes(graph2)[i])
+      graph2 <- rejectNode(graph, getNodes(graph2)[i])
     }
     adjPValuesV[i] <- max(result[result[,i]==1,n+2])
   }  
   # Creating result object:
-  result <- new("gMCPResult", graphs=list(graph, alpha=alpha, pvalues=pvalues, rejected=getRejected(graph), adjPValues=adjPValuesV))
+  result <- new("gMCPResult", graphs=list(graph, graph2), alpha=alpha, pvalues=pvalues, rejected=getRejected(graph), adjPValues=adjPValuesV)
   # Adding explanation for rejections:
+  output <- "Info:"
   if (verbose) {
     output <- paste(output, paste(explanation, collapse="\n"), sep="\n")
     if (!callFromGUI) cat(output,"\n")
@@ -130,4 +147,5 @@ gMCP.extended <- function(graph, pvalues, test, correlation, alpha=0.05,
   }
   # Adding attribute call:
   attr(result, "call") <- call2char(match.call())
+  return(result)
 }
