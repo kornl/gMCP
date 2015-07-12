@@ -79,7 +79,7 @@ public class PowerReqPanel extends JPanel implements ActionListener {
 		panel.setLayout(new FormLayout(cols, rows));
 
 		int col = 2;
-		panel.add(new JLabel("Scenario name"), cc.xy(col, row));
+		panel.add(new JLabel("Name"), cc.xy(col, row));
 		col += 2;
 		panel.add(new JLabel("Power requirement"), cc.xy(col, row));
 		col += 2;
