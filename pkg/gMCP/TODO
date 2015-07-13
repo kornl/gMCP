@@ -1,3 +1,5 @@
+Is set.seed used everywhere (sampsize, ...)?
+
 Simes and parametric tests do not reset back to graph with variables.
 
 Check whether user defined power functions can be evaluated.
