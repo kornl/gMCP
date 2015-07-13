@@ -1288,21 +1288,24 @@ For independent tests the FWER is controlled at level $\alpha$.
 \begin{Theorem}[Weighted Simes Procedure]\index{Weighted Simes Procedure} 
 Benjamini and Hochberg (1997)
 
-Let $\sum_{k=1}^m w_k = m$ and reject $H_0$ if
-\[p^{(j)}\leq\frac{\sum_{k=1}^jw_{(k)}}{m}\cdot\alpha\quad\text{for some $1\leq j\leq m$}.\]
+Let $\sum_{k=1}^m w_k = 1$ and reject $H_0$ if
+\[p^{(j)}\leq\sum_{k=1}^jw_{(k)}\cdot\alpha\quad\text{for some $1\leq j\leq m$}.\]
 
 \end{Theorem}
 
 \begin{Theorem}[Trimmed weighted Simes test] 
-For two one-sided tests where the bivariate test statistic fulfills certain conditions, \cite{brannath2009trimmed} show that the following trimmed version of the weighted Simes test is bounded by $\alpha$ und $H_0$:
-$H_A\cap H_B$ is rejected if
+For two one-sided tests where the bivariate test statistic fulfills certain conditions, \cite{brannath2009trimmed} show that the following trimmed version of the weighted Simes test with weights $w_A, w_B$, $w_A+w_B=1$ is bounded by $\alpha$: 
+
+$H_0$: $H_A\cap H_B$ is rejected if
 \begin{itemize}
-\item $p_A \leq \alpha_A$ and $p_B<1-\alpha_B$ or
-\item $p_B \leq \alpha_B$ and $p_A<1-\alpha_A$ or
+\item $p_A \leq w_A\cdot\alpha$ and $p_B<1-w_B\cdot\alpha$ or
+\item $p_B \leq w_B\cdot\alpha_B$ and $p_A<1-w_A\cdot\alpha$ or
 \item $max(p_A, p_B)<\alpha$
 \end{itemize}
-
 \end{Theorem}
+\begin{Rem}
+It is not possible to calculate adjusted p-values for the timmed weighted Simes test, since for example with $w_A=w_B=0.5$, $p_A=0.01$, and $p_A=0.97$ the test does reject $H_0$ for $\alpha=0.05$ since $p_A \leq w_A\cdot\alpha=0.025$ and $p_B<1-w_B\cdot\alpha=0.975$, but not for $\alpha=0.1$ since $p_B>1-w_B\cdot\alpha$ in this case.
+\end{Rem}
 
 \begin{Theorem}[Hommel Procedure]\index{Hommel Procedure} 
 Hommel 1988
@@ -1315,7 +1318,7 @@ Hochberg 1988
 Adjusted p-values form the Hochberg Procedure are greater as or equal
 to the Hommel-adjusted p-values.
 
-\subsubsection*{Adjusted p-Values in the Simes Test}
+\subsubsection*{Adjusted p-Values in the Simes Test}%self derived, no source
 
 For each set $J\subset I$ we calculate
 \[m_J := \min\limits_{j\in J}\left(\frac{p_j}{\sum_{i\in J_j}w_i}\right),\quad J_j=\{k\in J\;|\; p_k\leq p_j\}.\]
