@@ -1,7 +1,7 @@
 
 # Weighted Bonferroni-test
-bonferroni.test <- function(pvalues, weights, alpha, ...) {
-  if (missing(alpha)) {
+bonferroni.test <- function(pvalues, weights, alpha=0.05, adjPValues=TRUE, ...) {
+  if (adjPValues) {
     min(pvalues/weights)
   } else {
     return(any(pvalues<=alpha*weights))
@@ -9,8 +9,8 @@ bonferroni.test <- function(pvalues, weights, alpha, ...) {
 }
 
 # Weighted Bonferroni-test / trimmed Simes
-bonferroni.trimmed.simes.test <- function(pvalues, weights, alpha, ...) {
-  if (missing(alpha)) stop("Alpha is needed, adjusted p-values not supported for this test")
+bonferroni.trimmed.simes.test <- function(pvalues, weights, alpha=0.05, adjPValues=FALSE, ...) {
+  if (adjPValues) stop("Alpha level is needed and adjusted p-values can not be calculated for this test.")
   if (length(pvalues)==2) {
     # Truncated Simes:
     rejected <- (pvalues[1]<=alpha*weights[1] && pvalues[2]<=1-alpha*weights[2]) ||
@@ -19,49 +19,41 @@ bonferroni.trimmed.simes.test <- function(pvalues, weights, alpha, ...) {
     return(rejected)
     #TODO adjusted p-values?
   } else {
-    return(bonferroni.test(pvalues, weights, alpha, ...))
+    return(bonferroni.test(pvalues, weights, alpha, adjPValues, ...))
   }
 }
 
 # Simes on subsets, otherwise Bonferroni
 # As an additional argument a list of subsets must be provided, that states in which cases a Simes test is applicable (i.e. if all hypotheses to test belong to one of these subsets), e.g.
 # subsets <- list(c("H1", "H2", "H3"), c("H4", "H5", "H6"))
-simes.on.subsets.test <- function(pvalues, weights, alpha, ...) {
+simes.on.subsets.test <- function(pvalues, weights, alpha=0.05, adjPValues=TRUE, ...) {
   subsets <- list(...)[["subsets"]]
   if (any(sapply(subsets, function(x) {all(subset %in% subsets)}))) {
     # Simes test:
-    return(simes.test(pvalues, weights, alpha, ...))
+    return(simes.test(pvalues, weights, alpha, adjPValues, ...))
   } else {
     # Bonferroni test:
-    return(bonferroni.test(pvalues, weights, alpha))
+    return(bonferroni.test(pvalues, weights, alpha, adjPValues, ...))
   }  
 }
 
 # Simes test
-simes.test <- function(pvalues, weights, alpha, ...) {
+simes.test <- function(pvalues, weights, alpha=0.05, adjPValues=TRUE, ...) {
   mJ <- Inf  				
   for (j in 1:length(pvalues)) {
     Jj <- pvalues <= pvalues[j] # & (1:n)!=j
-    if (missing(alpha)) {
+    if (adjPValues) {
       mJt <- pvalues[j]/sum(weights[Jj])	
       if (is.na(mJt)) { # this happens only if pvalues[j] is 0
         mJt <- 0
       }
-      #cat("pvalues2:\n", pvalues2, "\nmJt: ", mJt, "\nmJ: ", mJ, "\nj: ", j, "\nJ: ", J, "\nsubset: ", subset, "\n")
       if (mJt<mJ) {
         mJ <- mJt
       }
     }
-    #cat("j: ",j, ", Jj: ",Jj,"\n")
-    #cat("p_",j,"=",pvalues2[j],"<=a*(w_",paste(which(Jj),collapse ="+w_"),")=",alpha,"*(",paste(weights[i, Jj],collapse ="+"),")=",sum(weights[i, Jj]),"\n")
-    #if (pvalues[j]<=alpha*sum(weights[i, Jj])) {
-    #  result[i, n+1] <- 1
-    #  if (verbose) {
-    #    explanation[i] <- paste("Subset {",paste(J,collapse=","),"}: p_",j,"=", pvalues[j],"<=a*(w_",paste(which(Jj),collapse ="+w_"),")\n     =",alpha,"*(",paste(weights[i, Jj],collapse ="+"),")=",alpha*sum(weights[i, Jj]),sep="")
-    #  }
-    #}
+    # explanation[i] <- paste("Subset {",paste(J,collapse=","),"}: p_",j,"=", pvalues[j],"<=a*(w_",paste(which(Jj),collapse ="+w_"),")\n     =",alpha,"*(",paste(weights[i, Jj],collapse ="+"),")=",alpha*sum(weights[i, Jj]),sep="")
   }
-  if (missing(alpha)) {
+  if (adjPValues) {
     return(mJ)
   } else {
     return(pvalues[j]<=alpha*sum(weights[Jj]))
@@ -105,23 +97,29 @@ gMCP.extended <- function(graph, pvalues, test, correlation, alpha=0.05,
     if(!all(subset==0)) {
       J <- which(subset!=0)	
       if (adjPValues) {
-        test.result <- test(pvalues2[J], weights[i, J], ...)
+        test.result <- test(pvalues2[J], weights[i, J], alpha, adjPValues, ...)
         result[i, n+2] <- test.result
-        if (!missing(alpha)) {
-          result[i, n+1] <- test.result<=alpha
-          if (result[i, n+1] && verbose) {
+        result[i, n+1] <- ifelse(test.result<=alpha*sum(weights[i, J]), 1, 0)
+        if (verbose) {
+          if (result[i, n+1]==1) {
             explanation[i] <- paste("Subset {",paste(J,collapse=","),"}: rejected ", sep="") 
-          } else if (verbose) {
+          } else {
             explanation[i] <- paste("Subset {",paste(J,collapse=","),"}: not rejected ", sep="") 
           }
-        } else if (verbose) {
-          explanation[i] <- paste("Adjusted p-value for subset {",paste(J,collapse=","),"}: ", result[i, n+2], " [pvalues: ", dput2(pvalues2[J]) ,", weights: ", dput2(round(weights[i, J],4)), "]", sep="")  
         }
-      } else {
-        test.result <- test(pvalues2[J], weights[1, J], alpha, ...)
-        result[i, n+1] <- test.result
-        if (result[i, n+1] && verbose) {
-          explanation[i] <- paste("Subset {",paste(J,collapse=","),"}: ",explanation[i], sep="") 
+        #if (verbose) {
+        #  explanation[i] <- paste("Adjusted p-value for subset {",paste(J,collapse=","),"}: ", result[i, n+2], " [pvalues: ", dput2(pvalues2[J]) ,", weights: ", dput2(round(weights[i, J],4)), "]", sep="")  
+        #}
+      } else { # No adjusted p-values, just rejections:
+        test.result <- test(pvalues2[J], weights[i, J], alpha, adjPValues, ...)
+        result[i, n+1] <- ifelse(test.result, 1, 0)
+        result[i, n+2] <- NA
+        if (verbose) {
+          if (test.result) {
+            explanation[i] <- paste("Subset {",paste(J,collapse=","),"}: rejected [pvalues=", dput2(pvalues2[J]) ,", weights=", dput2(round(weights[i, J],4)), "]", sep="") 
+          } else {
+            explanation[i] <- paste("Subset {",paste(J,collapse=","),"}: not rejected [pvalues=", dput2(pvalues2[J]) ,", weights=", dput2(round(weights[i, J],4)), "]", sep="") 
+          }
         }
       }
       if (verbose) {
@@ -133,12 +131,12 @@ gMCP.extended <- function(graph, pvalues, test, correlation, alpha=0.05,
   adjPValuesV <- rep(NA, n)
   for (i in 1:n) {
     if (all(result[result[,i]==1,n+1]==1)) {
-      graph2 <- rejectNode(graph, getNodes(graph2)[i])
+      graph2 <- rejectNode(graph2, getNodes(graph2)[i])
     }
     adjPValuesV[i] <- max(result[result[,i]==1,n+2])
   }  
   # Creating result object:
-  result <- new("gMCPResult", graphs=list(graph, graph2), alpha=alpha, pvalues=pvalues, rejected=getRejected(graph), adjPValues=adjPValuesV)
+  result <- new("gMCPResult", graphs=list(graph, graph2), alpha=alpha, pvalues=pvalues, rejected=getRejected(graph2), adjPValues=adjPValuesV)
   # Adding explanation for rejections:
   output <- "Info:"
   if (verbose) {
