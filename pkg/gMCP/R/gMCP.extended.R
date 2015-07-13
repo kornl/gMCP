@@ -10,6 +10,7 @@ bonferroni.test <- function(pvalues, weights, alpha, ...) {
 
 # Weighted Bonferroni-test / trimmed Simes
 bonferroni.trimmed.simes.test <- function(pvalues, weights, alpha, ...) {
+  if (missing(alpha)) stop("Alpha is needed, adjusted p-values not supported for this test")
   if (length(pvalues)==2) {
     # Truncated Simes:
     rejected <- (pvalues[1]<=alpha*weights[1] && pvalues[2]<=1-alpha*weights[2]) ||
@@ -41,8 +42,8 @@ simes.test <- function(pvalues, weights, alpha, ...) {
   mJ <- Inf  				
   for (j in 1:length(pvalues)) {
     Jj <- pvalues <= pvalues[j] # & (1:n)!=j
-    if (adjPValues) {
-      mJt <- pvalues[j]/sum(weights[i, Jj])	
+    if (missing(alpha)) {
+      mJt <- pvalues[j]/sum(weights[Jj])	
       if (is.na(mJt)) { # this happens only if pvalues[j] is 0
         mJt <- 0
       }
@@ -53,17 +54,17 @@ simes.test <- function(pvalues, weights, alpha, ...) {
     }
     #cat("j: ",j, ", Jj: ",Jj,"\n")
     #cat("p_",j,"=",pvalues2[j],"<=a*(w_",paste(which(Jj),collapse ="+w_"),")=",alpha,"*(",paste(weights[i, Jj],collapse ="+"),")=",sum(weights[i, Jj]),"\n")
-    if (missing(alpha)) {
-      return(mJ)
-    } else {
-      return(pvalues[j]<=alpha*sum(weights[i, Jj]))
-    }
     #if (pvalues[j]<=alpha*sum(weights[i, Jj])) {
     #  result[i, n+1] <- 1
     #  if (verbose) {
     #    explanation[i] <- paste("Subset {",paste(J,collapse=","),"}: p_",j,"=", pvalues[j],"<=a*(w_",paste(which(Jj),collapse ="+w_"),")\n     =",alpha,"*(",paste(weights[i, Jj],collapse ="+"),")=",alpha*sum(weights[i, Jj]),sep="")
     #  }
     #}
+  }
+  if (missing(alpha)) {
+    return(mJ)
+  } else {
+    return(pvalues[j]<=alpha*sum(weights[Jj]))
   }
 }
 
@@ -114,7 +115,7 @@ gMCP.extended <- function(graph, pvalues, test, correlation, alpha=0.05,
             explanation[i] <- paste("Subset {",paste(J,collapse=","),"}: not rejected ", sep="") 
           }
         } else if (verbose) {
-          explanation[i] <- paste("Adjusted p-value for subset {",paste(J,collapse=","),"}: ", result[i, n+2], sep="")  
+          explanation[i] <- paste("Adjusted p-value for subset {",paste(J,collapse=","),"}: ", result[i, n+2], " [pvalues: ", dput2(pvalues2[J]) ,", weights: ", dput2(round(weights[i, J],4)), "]", sep="")  
         }
       } else {
         test.result <- test(pvalues2[J], weights[1, J], alpha, ...)

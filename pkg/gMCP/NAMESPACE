@@ -24,7 +24,8 @@ exportMethods(getWeights, getMatrix, getMatrices, setWeights, getRejected, "setR
 exportMethods(simConfint, setEdge, edgeAttr, "edgeAttr<-", nodeAttr, "nodeAttr<-", getNodes)
 
 export(graphGUI, corMatWizard)
-export(gMCP, rejectNode, substituteEps, placeNodes)
+export(gMCP, rejectNode, substituteEps, placeNodes, gMCP.extended)
+export(bonferroni.test, bonferroni.trimmed.simes.test, simes.on.subsets.test, simes.test)
 export(gMCPReport, graph2latex)
 export(matrix2graph, graph2matrix, bdiagNA, joinGraphs, subgraph)
 export(graphAnalysis)
