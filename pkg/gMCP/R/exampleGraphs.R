@@ -591,10 +591,10 @@ HungEtWang2010 <- function(nu, tau, omega) {
 	graph@nodeAttr$Y <- nodeY	
 	attr(graph, "description") <- paste("Graph representing the procedure from Hung and Wang (2010)",
 			"",
-			"H_{1,NI} : Non-inferiority of the primary endpoint",
-			"H_{1,S}  : Superiority of the primary endpoint",
-			"H_{2,NI} : Non-inferiority of the secondary endpoint",
-			"H_{2,S}  : Superiority of the secondary endpoint",
+			"$H_{1,NI}$ : Non-inferiority of the primary endpoint",
+			"$H_{1,S}$  : Superiority of the primary endpoint",
+			"$H_{2,NI}$ : Non-inferiority of the secondary endpoint",
+			"$H_{2,S}$  : Superiority of the secondary endpoint",
 			"",
 			"Literature: Hung H.M.J., Wang S.-J. (2010). Challenges to multiple testing in clinical trials. Biometrical Journal 52, 747-756.", sep="\n")
   variables <- list()
