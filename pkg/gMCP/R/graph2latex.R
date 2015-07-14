@@ -8,8 +8,8 @@
 #' @param package A character string specifying the LaTeX package that should
 #' be used.  Up to now only \code{TikZ} is available.
 #' @param scale A numeric scalar specifying a possible scaling of the graph.
-#' Note that this does not effect the fontsize of the graph.
-#' Is only used if \code{tikzEnv==TRUE}.
+#' It is only used if \code{tikzEnv==TRUE}.
+#' Note that this does only effect the fontsize of the graph if \code{scaleText==FALSE}.
 #' (Coordinates are interpreted in big points: 72 bp = 1 inch).
 #' @param showAlpha Logical whether local alpha levels or weights should be shown.
 #' @param alpha An optional numeric argument to specify the type I error rate.
