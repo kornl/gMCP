@@ -191,7 +191,7 @@ From xlsxjars:
 - test whether correlation is applicable:
   - Simes test -> postitive regression dependence (warn)
   - Dunnett -> ?
-- Sequentielle Power ist schwierig (basiert am Ende auf zu wenig Fallzahl der Simulation)
+- Sequential Power is difficult (is based at the end on a too small sample size)
 - verbose output for parametric tests
 - integrate the two files "tests.R" and "unirootbug.Rd" in directory "unitTests" into unit tests. 
 - improve behavior of tables if "Automatically enter the editing mode, whenever a table cell gets the focus" is set to false.
@@ -242,7 +242,6 @@ Critical:
 - Does Deducer interfere JavaGD? (When is .onLoad executed?)
 - Make JavaGD only a suggest (Solaris and generally safer)
 - Create function for renaming of graph nodes in R
-- Check installed structure of Windows binary.
 
 High priority:
 ==============
@@ -277,18 +276,6 @@ attr(,"last.alphas")
 - "The package environment is sealed, so you cannot use it to store
   changing values.  Use a separate environment instead: there are
   examples in package 'grDevices' for example."
-- "The preferred location for vignette sources is now directory
-  'vignettes' and not 'inst/doc'.  If you want to maintain compatibility
-  with R <= 2.13.x for the time being, do at least make use of a
-  .Rinstignore file to avoid installing anything other than the vignette
-  .Rnw (etc) and .pdf files, plus any other files needed for end-users
-  to run the vignette code.
-  If you know a priori that the vignettes cannot be re-made on CRAN
-  (e.g. because you use unusual LaTeX files), set the BuildVignettes
-  field in the DESCRIPTION file to a false value.  (The R code in the
-  vignettes as extracted by Stangle still needs to be runnable.)"
-- Check for missing suggested packages (JavaGD, graph) 
-  and ask on startup whether they should be installed and name the features that are otherwise missing.
 - Give feedback for old objects and missing graph package in GUI
 - Remove warnings: es gibt kein Paket names 'graph'
 - Some edge labels like for parallel gatekeeping are set to small values (0?)
@@ -344,7 +331,6 @@ Additional features / low priority:
 - Report generation in GUI (and respect the option whether to show rejected null hypothesis)
 - TikZ styles for rejected / rejectable nodes
 - further tests
-- Look at http://xmlgraphics.apache.org/fop/
 - After interruption of a calculation a new calculation gave:
   "unprotect(): only 0 protected items"
   Should be fixed now - but if we have time to spare, we could look further into this.
@@ -420,32 +406,8 @@ in your TEXINPUTS path. [http://r.789695.n4.nabble.com/inconsolata-sty-is-liable
 
 As always:
 ==========
-- more references, since some people will actually look at this package.
+- more references.
 - More details in manual pages.
-
-Sometimes install.packages fails on Windows machines (one session - second attempt works):
-
-install.packages("gMCP")
---- Please select a CRAN mirror for use in this session ---
-also installing the dependencies ‘mvtnorm’, ‘rJava’, ‘PolynomF’, ‘multcomp’, ‘graph’, ‘gtools’
-
-[...]
-
-trying URL 'http://ftp5.gwdg.de/pub/misc/cran/bin/windows/contrib/2.13/gMCP_0.6-1.zip'
-Content type 'application/zip' length 4668375 bytes (4.5 Mb)
-opened URL
-downloaded 4.5 Mb
-
-package 'mvtnorm' successfully unpacked and MD5 sums checked
-package 'PolynomF' successfully unpacked and MD5 sums checked
-package 'multcomp' successfully unpacked and MD5 sums checked
-package 'graph' successfully unpacked and MD5 sums checked
-package 'gtools' successfully unpacked and MD5 sums checked
-package 'gMCP' successfully unpacked and MD5 sums checked
-Warning: unable to move temporary installation 'C:\Program Files\R\R-2.13.0\library\file4a063a\gMCP' to 'C:\Program Files\R\R-2.13.0\library\gMCP'
-
-The downloaded packages are in
-        C:\Documents and Settings\Student\Local Settings\Temp\RtmpBJn6oK\downloaded_packages
 
 ---
         
