@@ -1173,44 +1173,54 @@ graphs <- list(BonferroniHolm(4),
                parallelGatekeeping(),
                improvedParallelGatekeeping(),
                BretzEtAl2011(),
-               #HungEtWang2010(),
-               #HuqueAloshEtBhore2011(),
+               HungEtWang2010(),
+               HuqueAloshEtBhore2011(),
                HommelEtAl2007(),
                HommelEtAl2007Simple(),
                MaurerEtAl1995(),
                improvedFallbackI(weights=rep(1/3, 3)),
                improvedFallbackII(weights=rep(1/3, 3)),
-               cycleGraph(nodes=paste("H",1:4,sep=""), weights=rep(1/4, 4)),
+               #cycleGraph(nodes=paste("H",1:4,sep=""), weights=rep(1/4, 4)),
                fixedSequence(5),
                fallback(weights=rep(1/4, 4)),
-               #generalSuccessive(weights = c(1/2, 1/2)),
+               generalSuccessive(weights = c(1/2, 1/2)),
                simpleSuccessiveI(),
                simpleSuccessiveII(),
-               #truncatedHolm(),
+               truncatedHolm(),
                BauerEtAl2001(),
                BretzEtAl2009a(),
                BretzEtAl2009b(),
                BretzEtAl2009c(),
-               FerberTimeDose2011(times=5, doses=3, w=1/2)
-               #Ferber2011(),
+               FerberTimeDose2011(times=5, doses=3, w=1/2),
+               Ferber2011(),
+               WangTing2014()
                #Entangled1Maurer2012(),
-               #Entangled2Maurer2012(),
+               #Entangled2Maurer2012()
 )
 
 make.url <- function (x) {
     return(gsub("(https?://[^ ]+)", "\\\\url{\\1}", x))
 }
 
-texify <- function(x) {
+texify <- function(x, linebreak="\n\n") {
   x <- make.url(x)
-  x <- gsub("\n\n", "\\\\\\\\\n", x)
+  x <- gsub(linebreak, "\\\\\\\\\n", x)
   x <- gsub("&", "\\\\&", x)
+  x <- gsub("\\\\epsilon", "$\\\\epsilon$", x)
+  x <- gsub("\\\\tau", "$\\\\tau$", x)
+  x <- gsub("\\\\nu", "$\\\\nu$", x)
   return(x)
+}
+
+# first.line("a\nb\nc")
+first.line <- function(x) {
+  return(strsplit(x, split="\n")[[1]][1])
 }
 
 count <-0
 for (g in graphs) {
-  cat(graph2latex(g, fig=TRUE, scaleText=TRUE, scale=0.7, fig.caption=texify(attr(g, "descr"))))
+  descr <- attr(g, "descr")
+  cat(graph2latex(g, fig=TRUE, scaleText=TRUE, scale=0.7, fig.caption=texify(descr, linebreak = "\n"), fig.caption.short=texify(first.line(descr))))
   #cat(attr(g, "descr"))
   count <- count + 1
   if(count%%6==0) cat("\\cleardoublepage\n")
