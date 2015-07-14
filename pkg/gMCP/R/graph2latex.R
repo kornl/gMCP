@@ -33,6 +33,7 @@
 #' @param fig Logical whether a figure environment should be created.
 #' @param fig.label Label for figure environment (if \code{fig==TRUE}).
 #' @param fig.caption Caption for figure environment (if \code{fig==TRUE}).
+#' @param fig.caption.short Optional short version of fig.caption for list of figures (if \code{fig==TRUE}).
 #' @param nodeR Radius of nodes (pixel in Java, bp in LaTeX).
 #' @param scaleText Only used if scale is unequal 1 and \code{tikzEnv==TRUE}. 
 #' If \code{scaleText} is \code{TRUE} (the default) a scalebox environment is used.
@@ -62,7 +63,7 @@
 graph2latex <- function(graph, package="TikZ", scale=1, showAlpha=FALSE, alpha=0.05, pvalues,
 		fontsize,	nodeTikZ, labelTikZ="near start,above,fill=blue!20",
 		tikzEnv=TRUE, offset=c(0,0),fill=list(reject="red!80",retain="green!80"),
-		fig=FALSE, fig.label=NULL, fig.caption=NULL, nodeR=25, scaleText=TRUE) {
+		fig=FALSE, fig.label=NULL, fig.caption=NULL, fig.caption.short=NULL, nodeR=25, scaleText=TRUE) {
 	graph <- placeNodes(graph)
 	colors <- c("yellow","black","blue","red","green")
 	if (tikzEnv) {        
@@ -163,7 +164,11 @@ graph2latex <- function(graph, package="TikZ", scale=1, showAlpha=FALSE, alpha=0
     }
     caption <- ""
     if (!is.null(fig.caption)) {
-      caption <- paste("\\caption{",label,fig.caption,"}", sep="")
+      short.caption <- ""
+      if (!is.null(fig.caption.short)) {
+        short.caption <- paste("[",fig.caption.short,"]", sep="")
+      }
+      caption <- paste("\\caption",short.caption,"{",label,fig.caption,"}", sep="")
     }
     tikz <- paste("\\begin{figure}[ht]\n\\begin{center}", tikz,
                   "\\end{center}", caption, "\\end{figure}", sep="\n")
