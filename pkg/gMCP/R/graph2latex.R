@@ -63,16 +63,28 @@
 graph2latex <- function(graph, package="TikZ", scale=1, showAlpha=FALSE, alpha=0.05, pvalues,
 		fontsize,	nodeTikZ, labelTikZ="near start,above,fill=blue!20",
 		tikzEnv=TRUE, offset=c(0,0),fill=list(reject="red!80",retain="green!80"),
-		fig=FALSE, fig.label=NULL, fig.caption=NULL, fig.caption.short=NULL, nodeR=25, scaleText=TRUE) {
+		fig=FALSE, fig.label=NULL, fig.caption=NULL, fig.caption.short=NULL, nodeR=25, scaleText=TRUE, ...) {
 	graph <- placeNodes(graph)
 	colors <- c("yellow","black","blue","red","green")
 	if (tikzEnv) {        
+	  # Experimental feature scale.text / scale.graph:
+	  scale.text <- list(...)[["scale.text"]]
+	  if (is.null(scale.text)) scale.text <- 1
+	  scale.graph <- list(...)[["scale.graph"]]
+	  if (is.null(scale.graph)) scale.graph <- 1
+	  
+	  if (scaleText) {
+	    scale.text <- scale.text * scale
+	  } else {
+	    scale.graph <- scale.graph * scale
+	  }
+	  # End of experimental feature
 		tikz <- paste("\\begin{tikzpicture}",
-                  ifelse(scaleText, 
+                  ifelse(scale.text==1, 
                          "",
-                         paste("[scale=",scale,"]", sep=""))
+                         paste("[scale=",scale.text,"]", sep=""))
                   ,"\n", sep="")    
-    if (!scaleText) nodeR <- nodeR / scale
+		nodeR <- nodeR / scale.graph
 	} else {
 		tikz <- ""
 	}
@@ -154,8 +166,8 @@ graph2latex <- function(graph, package="TikZ", scale=1, showAlpha=FALSE, alpha=0
 	if (!missing(fontsize)) {
 		tikz <- paste(paste("{\\", fontsize, sep=""), tikz, "}",sep="\n")
 	}
-  if ( !isTRUE(all.equal(scale,1, check.attributes=FALSE, check.names=FALSE)) && scaleText && tikzEnv) {
-    tikz <- paste(paste("\\scalebox{",scale,"}{",sep=""),tikz,"}",sep="\n")
+  if ( !isTRUE(all.equal(scale.text,1, check.attributes=FALSE, check.names=FALSE)) && tikzEnv) {
+    tikz <- paste(paste("\\scalebox{",scale.text,"}{",sep=""),tikz,"}",sep="\n")
   }
   if (fig) {
     label <- " "
