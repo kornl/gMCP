@@ -190,11 +190,11 @@ Bonferroni-Holm-Procedure from \cite{Holm79}.
 \begin{Theorem}[Bonferroni-Holm-Procedure]\index{Bonferroni-Holm-Procedure} 
 Let $T_1, \ldots, T_m$
 be test statistics for $m\in\N$ null hypotheses $H_1, \ldots, H_m$ and
-$p_1, \ldots, p_m$ the associated p-values. Then the following test
+$p_1, \ldots, p_m$ the associated $p$-values. Then the following test
 will control the familywise error rate at level $\alpha\in]0,1[$ in
     the strong sense:
 
-Denote the ordered p-values by $p^{(1)}<p^{(2)}<\ldots<p^{(m)}$ 
+Denote the ordered $p$-values by $p^{(1)}<p^{(2)}<\ldots<p^{(m)}$ 
 and the corresponding hypotheses by $H^{(1)},H^{(2)},\ldots, H^{(m)}$.
 
 Reject $H^{(1)},H^{(2)},\ldots, H^{(j)}$ such that 
@@ -216,7 +216,7 @@ cat(graph2latex(graph, scale=0.7, labelTikZ="near start,fill=blue!20", scaleText
     Bonferroni-Holm-Procedure for three hypotheses.}
 \end{figure}
 
-A null hypothesis can be rejected, when the p-value is less than the
+A null hypothesis can be rejected, when the $p$-value is less than the
 alpha level of the corresponding node.  In this case the graph will be
 updated and the alpha level of this node is passed according to the
 edge weights.
@@ -230,7 +230,7 @@ edge weights.
   but since most readers are already familiar with this procedure,
   for a first introduction of gMCP, we stick to this simple example.  
   
-  Let $p_1=0.01$, $p_2=0.07$ and $p_3=0.02$ be three p-values and
+  Let $p_1=0.01$, $p_2=0.07$ and $p_3=0.02$ be three $p$-values and
   $\alpha=0.05$.  In the first step $H_1$ can be rejected since
   $p_1<\alpha/3$.  The updated graph can be seen in figure
   \ref{fig:exampleHolmP} and now also $H_3$ can be rejected since
@@ -251,7 +251,7 @@ graph <- rejectNode(graph, "H3")
 cat(graph2latex(graph, scale=0.7, nodeTikZ="minimum size=1.2cm", scaleText=FALSE))
 @
   \caption{\label{fig:exampleHolmP} Example showing how two
-    null hypotheses can be rejected with p-values $p_1=0.01$,
+    null hypotheses can be rejected with $p$-values $p_1=0.01$,
     $p_2=0.07$ and $p_3=0.02$.}
 \end{figure}
 
@@ -264,7 +264,7 @@ graphGUI()
 
 The GUI seen in Figure \ref{fig:fullGUI} is shown and we select from the
 menu "\emph{Example graphs}" the entry "\emph{Bonferroni-Holm Test}".
-We enter the three p-values in the respective fields on the right
+We enter the three $p$-values in the respective fields on the right
 side.  By clicking on the button with the green arrow we start the
 test procedure and can sequentially reject all three hypotheses.
 
@@ -382,7 +382,7 @@ graphGUI("graph")
 \begin{figure}[ht]
   \centering    
   \includegraphics[width=0.95\textwidth]{pictures/FullFeaturedGUI.png}      
-  \caption{\label{fig:fullGUI} The graphical user interface allows testing, calculation of confidence intervals and adjusted p-values.}
+  \caption{\label{fig:fullGUI} The graphical user interface allows testing, calculation of confidence intervals and adjusted $p$-values.}
 \end{figure}
 
 Let's take a look at the icon panel:
@@ -405,7 +405,7 @@ graphs the ability to zoom in and out is usefull.
 procedure / goes back to the graph modification.
 
 \includegraphics[width=0.5cm]{pictures/adjPval.png} Calculates the
-adjusted p-values.
+adjusted $p$-values.
 
 \includegraphics[width=0.5cm]{pictures/confint2.png} Calculates
 simultaneous confidence intervals.
@@ -465,9 +465,9 @@ full report of the testing procedure:
 gMCPReport(result, "Report.tex")
 @
 
-\subsubsection{Adjusted p-values and simultaneous confidence intervals}\index{adjusted p-values}\index{simultaneous confidence intervals}
+\subsubsection{Adjusted $p$-values and simultaneous confidence intervals}\index{adjusted $p$-values}\index{simultaneous confidence intervals}
 
-Also adjusted p-values and simultaneous confidence intervals can be computed.
+Also adjusted $p$-values and simultaneous confidence intervals can be computed.
 
 <<include=FALSE>>=
 d1 <- c(1.68005156523844, 1.95566697423700, 0.00137860945822299, 0.660052238622464, 
@@ -503,7 +503,7 @@ $s_1=\Sexpr{format(s[1])}$,
 $s_2=\Sexpr{format(s[2])}$ and
 $s_3=\Sexpr{format(s[3])}$ the t-statistics
 $\Sexpr{format(st[1])}$, $\Sexpr{format(st[2])}$ and
-$\Sexpr{format(st[3])}$ and the corresponding p-values $\Sexpr{format(pval[1])}$, 
+$\Sexpr{format(st[3])}$ and the corresponding $p$-values $\Sexpr{format(pval[1])}$, 
 $\Sexpr{format(pval[2])}$ and
 $\Sexpr{format(pval[3])}$.  We want to adjust for multiple testing
 by using the Bonferroni-Holm-Procedure with $\alpha=0.025$.
@@ -551,7 +551,7 @@ tests}\index{Simes-Procedure}\index{parametric test}
   \caption{\label{fig:correlated} You can also specify a correlation between the tests.}
 \end{figure}
 
-In the lower right panel with p-values, it is also possible to specify a known
+In the lower right panel with $p$-values, it is also possible to specify a known
 correlation between the original test statistics (see figure
 \ref{fig:correlated}). Either you can perform a Simes test or a weighted parametric
 tests as described in \cite{Bretz11}. For the later it is assumed that
@@ -559,11 +559,11 @@ under the global null hypothesis $(\Phi^{-1}(1-p_1),\ldots,\Phi^{-1}(1-p_m))$
 follow a multivariate normal distribution with correlation matrix $\Sigma$ where
 $\Phi^{-1}$ denotes the inverse of the standard normal
 distribution function. For example, this is the case if $p_1,\ldots,
-  p_m$ are the raw p-values from one-sided $z$-tests for each of the
+  p_m$ are the raw $p$-values from one-sided $z$-tests for each of the
 elementary hypotheses where the correlation between z-test statistics
 is generated by an overlap in the observations (e.g. comparison with a
 common control, group-sequential analyses etc.). An application of the
-transformation $\Phi^{-1}(1-p_i)$ to raw p-values from a two-sided
+transformation $\Phi^{-1}(1-p_i)$ to raw $p$-values from a two-sided
 test will not in general lead to a multivariate normal
 distribution.
 
@@ -811,9 +811,15 @@ For the two sample tests in our example comparing arm $i$ and $j$ the non-centra
 
 \subsection{Two types of correlation matrices}\hypertarget{cormat2}{}
 
+\subsection{Search and accuracy}
+
+Each simulation step for sample size $N$ generates a $B(p_N, n)$ distributed value 
+%estimate for the power $p_N$ 
+%(if pseudo random numbers are used).
+
 \section{Simulation for Non-normal Distributions}\label{non-normal}
 
-If the underlying distribution of the test statistics is not multivariate normal, but test statistics can be simulated and p-values generated, one can still use function graphTest:
+If the underlying distribution of the test statistics is not multivariate normal, but test statistics can be simulated and $p$-values generated, one can still use function graphTest:
 
 <<eval=FALSE>>=
 
@@ -1221,7 +1227,6 @@ count <-0
 for (g in graphs) {
   descr <- attr(g, "descr")
   cat(graph2latex(g, fig=TRUE, scaleText=TRUE, scale=0.7, fig.caption=texify(descr, linebreak = "\n"), fig.caption.short=texify(first.line(descr))))
-  #cat(attr(g, "descr"))
   count <- count + 1
   if(count%%6==0) cat("\\cleardoublepage\n")
 }
@@ -1231,7 +1236,7 @@ for (g in graphs) {
 
 \cleardoublepage
 
-\chapter{Appendix - Multiple Testing Basics}
+\chapter{Appendix - Multiple Testing}
 
 Let $\Theta$ be a parameter space indexing a family of probabilities
 $\{P_\theta\;|\;\theta\in\Theta\}$ and $(\Omega, \sF, P_\theta)$ the
@@ -1283,10 +1288,10 @@ This section is work in progress.
 \begin{Theorem}[Simes-Procedure]\index{Simes-Procedure} 
 Let $T_1, \ldots, T_m$
 be test statistics for $m\in\N$ null hypotheses $H_1, \ldots, H_m$ and
-$p_1, \ldots, p_m$ the associated p-values and $\alpha\in]0,1[$.
+$p_1, \ldots, p_m$ the associated $p$-values and $\alpha\in]0,1[$.
 %Then the following test will control the familywise error rate at level $\alpha\in]0,1[$ in the strong sense:
 
-Denote the ordered p-values by $p^{(1)}<p^{(2)}<\ldots<p^{(m)}$ 
+Denote the ordered $p$-values by $p^{(1)}<p^{(2)}<\ldots<p^{(m)}$ 
 and the corresponding hypotheses by $H^{(1)},H^{(2)},\ldots, H^{(m)}$.
 
 Reject $H_0$ if
@@ -1314,7 +1319,7 @@ $H_0$: $H_A\cap H_B$ is rejected if
 \end{itemize}
 \end{Theorem}
 \begin{Rem}
-It is not possible to calculate adjusted p-values for the timmed weighted Simes test, since for example with $w_A=w_B=0.5$, $p_A=0.01$, and $p_A=0.97$ the test does reject $H_0$ for $\alpha=0.05$ since $p_A \leq w_A\cdot\alpha=0.025$ and $p_B<1-w_B\cdot\alpha=0.975$, but not for $\alpha=0.1$ since $p_B>1-w_B\cdot\alpha$ in this case.
+It is not possible to calculate adjusted $p$-values for the timmed weighted Simes test, since for example with $w_A=w_B=0.5$, $p_A=0.01$, and $p_A=0.97$ the test does reject $H_0$ for $\alpha=0.05$ since $p_A \leq w_A\cdot\alpha=0.025$ and $p_B<1-w_B\cdot\alpha=0.975$, but not for $\alpha=0.1$ since $p_B>1-w_B\cdot\alpha$ in this case.
 \end{Rem}
 
 \begin{Theorem}[Hommel Procedure]\index{Hommel Procedure} 
@@ -1325,10 +1330,10 @@ Hommel 1988
 Hochberg 1988
 \end{Theorem}
 
-Adjusted p-values form the Hochberg Procedure are greater as or equal
-to the Hommel-adjusted p-values.
+Adjusted $p$-values form the Hochberg Procedure are greater as or equal
+to the Hommel-adjusted $p$-values.
 
-\subsubsection*{Adjusted p-Values in the Simes Test}%self derived, no source
+\subsubsection*{Adjusted $p$-Values in the Simes Test}\index{adjusted $p$-values!Simes test}%self derived, no source
 
 For each set $J\subset I$ we calculate
 \[m_J := \min\limits_{j\in J}\left(\frac{p_j}{\sum_{i\in J_j}w_i}\right),\quad J_j=\{k\in J\;|\; p_k\leq p_j\}.\]
@@ -1342,10 +1347,17 @@ The weighted Simes Test rejects $H_J$ iff $m_J\leq\alpha$.
 In a closed testing procedure a hypothesis $H_j$ is rejected iff $H_J$
 is rejected for each $J\subset I$ with $j\in J$.
 
-An adjusted p-pvalue $p'_j$ is defined as the minimal $\alpha$ so that
+An adjusted $p$-pvalue $p'_j$ is defined as the minimal $\alpha$ so that
 the test to global level $\alpha$ rejects $H_j$.
 
 Therefore $p'_j=\text{max}(m_J\;|\;j\in J)$.
+
+\section{Parametric Tests}
+
+For $p$-values with a known joint distribution the gMCP package provides weighted min-$p$ test, i.e.\ the intersection hypotheses $H_J$, $J\subseteq I$ is rejected if
+\[\exists j\in J:\quad p_j\leq c_Jw_j(J)\alpha,\]
+with $c_J$ the largest constant satisfying
+\[P_{H_J}\left(\bigcup_{j\in J}\{p_j\leq c_Jw_j(J)\alpha\}\right)\leq\alpha.\]
 
 \chapter{Appendix - Graph Theory Basics}
 
