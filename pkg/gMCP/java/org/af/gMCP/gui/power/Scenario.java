@@ -30,7 +30,7 @@ public class Scenario implements NCPRequestor, ActionListener {
 		scname = new JTextField(name);
 		for (Node n : pd.getNodes()) {
 			RealTextField rt = new RealTextField("0.0");			
-			rt.setText("0.0");
+			rt.setText("1.0");
 			rt.setMaximumSize(
 				    new Dimension(Integer.MAX_VALUE,
 				    	    rt.getPreferredSize().height));

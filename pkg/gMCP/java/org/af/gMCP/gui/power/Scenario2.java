@@ -27,8 +27,8 @@ public class Scenario2 implements NCPRequestor, ActionListener {
 		this.pd = pd;
 		scname = new JTextField(name);
 		for (Node n : pd.getNodes()) {
-			RealTextField rt = new RealTextField("0.0", 10, -Double.MAX_VALUE, Double.MAX_VALUE);			
-			rt.setText("0.0");
+			RealTextField rt = new RealTextField("1.0", 10, -Double.MAX_VALUE, Double.MAX_VALUE);			
+			rt.setText("1.0");
 			effSizes.add(rt);
 		}
 		//ncpc.addActionListener(this);
