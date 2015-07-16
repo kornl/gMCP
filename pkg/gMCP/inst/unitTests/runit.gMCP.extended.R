@@ -30,6 +30,9 @@ test.gMCP.ext <- function() {
   checkTrue(all(as.numeric(r1@rejected) >= as.numeric(r2@rejected)))
   
   # Simes with partition:
-  
+  r1 <- gMCP.extended(graph=graph, pvalues=pvalues, test=simes.on.subsets.test, verbose=TRUE, alpha=0.05, subsets=list(1:2, 3:4))
+  #TODO r1 <- gMCP.extended(graph=graph, pvalues=pvalues, test=simes.on.subsets.test, verbose=TRUE, alpha=0.05, subsets=list(c("H1", "H2"), c("H3", "H4")))
+  r2 <- gMCP.extended(graph=graph, pvalues=pvalues, test=bonferroni.test, verbose=TRUE)
+  checkTrue(all(as.numeric(r1@rejected) >= as.numeric(r2@rejected)))
   
 }

@@ -1,6 +1,6 @@
 
 # Weighted Bonferroni-test
-bonferroni.test <- function(pvalues, weights, alpha=0.05, adjPValues=TRUE, ...) {
+bonferroni.test <- function(pvalues, weights, alpha=0.05, adjPValues=TRUE, verbose=FALSE, ...) {
   if (adjPValues) {
     return(min(pvalues/weights))
   } else {
@@ -9,7 +9,7 @@ bonferroni.test <- function(pvalues, weights, alpha=0.05, adjPValues=TRUE, ...) 
 }
 
 # Weighted parametric test
-parametric.test <- function(pvalues, weights, alpha=0.05, adjPValues=TRUE, correlation, ...) {
+parametric.test <- function(pvalues, weights, alpha=0.05, adjPValues=TRUE, verbose=FALSE, correlation, ...) {
   
   # ToDo Document dropping these dimensions with zero weights
   I <- which(weights>0)
@@ -45,7 +45,7 @@ parametric.test <- function(pvalues, weights, alpha=0.05, adjPValues=TRUE, corre
 }
 
 # Weighted Bonferroni-test / trimmed Simes
-bonferroni.trimmed.simes.test <- function(pvalues, weights, alpha=0.05, adjPValues=FALSE, ...) {
+bonferroni.trimmed.simes.test <- function(pvalues, weights, alpha=0.05, adjPValues=FALSE, verbose=FALSE, ...) {
   if (adjPValues) stop("Alpha level is needed and adjusted p-values can not be calculated for this test.")
   if (length(pvalues)==2) {
     # Truncated Simes:
@@ -62,19 +62,21 @@ bonferroni.trimmed.simes.test <- function(pvalues, weights, alpha=0.05, adjPValu
 # Simes on subsets, otherwise Bonferroni
 # As an additional argument a list of subsets must be provided, that states in which cases a Simes test is applicable (i.e. if all hypotheses to test belong to one of these subsets), e.g.
 # subsets <- list(c("H1", "H2", "H3"), c("H4", "H5", "H6"))
-simes.on.subsets.test <- function(pvalues, weights, alpha=0.05, adjPValues=TRUE, subset, ...) {
+simes.on.subsets.test <- function(pvalues, weights, alpha=0.05, adjPValues=TRUE, verbose=FALSE, subset, ...) {
   subsets <- list(...)[["subsets"]]
-  if (any(sapply(subsets, function(x) {all(subset %in% subsets)}))) {
+  if (any(sapply(subsets, function(x) {all(subset %in% x)}))) {
     # Simes test:
+    if (verbose) cat("Subset: ", subset, " -> Simes\n")
     return(simes.test(pvalues, weights, alpha, adjPValues, ...))
   } else {
     # Bonferroni test:
+    if (verbose) cat("Subset: ", subset, " -> Bonferroni\n")
     return(bonferroni.test(pvalues, weights, alpha, adjPValues, ...))
   }  
 }
 
 # Simes test
-simes.test <- function(pvalues, weights, alpha=0.05, adjPValues=TRUE, ...) {
+simes.test <- function(pvalues, weights, alpha=0.05, adjPValues=TRUE, verbose=FALSE, ...) {
   mJ <- Inf  				
   for (j in 1:length(pvalues)) {
     Jj <- pvalues <= pvalues[j] # & (1:n)!=j
@@ -113,7 +115,7 @@ gMCP.extended <- function(graph, pvalues, test, alpha=0.05, eps=10^(-3), upscale
   
   # Replace epsilon
   
-  provide.subset <- ("subsets" %in% names(formals(test)))
+  provide.subset <- ("subset" %in% names(formals(test)))
   provide.correlation <- ("correlation" %in% names(formals(test)))
   
   # Check whether sequential rejective testing is applicable.
@@ -136,27 +138,30 @@ gMCP.extended <- function(graph, pvalues, test, alpha=0.05, eps=10^(-3), upscale
     subset <- allSubsets[i,]
     if(!all(subset==0)) {
       J <- which(subset!=0)	
+      parameters <- list(pvalues=pvalues2[J], weights=weights[i, J], alpha=alpha, adjPValues=adjPValues, verbose=verbose)
+      if (provide.correlation) {
+        parameters <- c(parameters, list(correlation=correlation[J,J, drop=FALSE]))
+      }
+      if (provide.subset) {
+        parameters <- c(parameters, list(subset=J))
+      }
+      parameters <- c(parameters, list(...))
       if (adjPValues) {
-        #test.result <- do.call(test, list(pvalues2[J], weights[i, J], alpha, adjPValues, ...), quote=TRUE)
-        if (provide.correlation) {
-          test.result <- test(pvalues=pvalues2[J], weights=weights[i, J], alpha=alpha, adjPValues=adjPValues, correlation=correlation[J,J, drop=FALSE], ...)
-        } else {
-          test.result <- test(pvalues=pvalues2[J], weights=weights[i, J], alpha=alpha, adjPValues=adjPValues, ...)
-        }
+        test.result <- do.call(test, parameters, quote=TRUE)
         result[i, n+2] <- test.result
         result[i, n+1] <- ifelse(test.result<=alpha*sum(weights[i, J]), 1, 0)
         if (verbose) {
           if (result[i, n+1]==1) {
-            explanation[i] <- paste("Subset {",paste(J,collapse=","),"}: rejected (adj-p:",result[i, n+2],")", sep="") 
+            explanation[i] <- paste("Subset {",paste(J,collapse=","),"}: rejected (adj-p: ",result[i, n+2],")", sep="") 
           } else {
-            explanation[i] <- paste("Subset {",paste(J,collapse=","),"}: not rejected (adj-p:",result[i, n+2],")", sep="") 
+            explanation[i] <- paste("Subset {",paste(J,collapse=","),"}: not rejected (adj-p: ",result[i, n+2],")", sep="") 
           }
         }
         #if (verbose) {
         #  explanation[i] <- paste("Adjusted p-value for subset {",paste(J,collapse=","),"}: ", result[i, n+2], " [pvalues: ", dput2(pvalues2[J]) ,", weights: ", dput2(round(weights[i, J],4)), "]", sep="")  
         #}
       } else { # No adjusted p-values, just rejections:
-        test.result <- test(pvalues2[J], weights[i, J], alpha, adjPValues, ...)
+        test.result <- do.call(test, parameters, quote=TRUE)
         result[i, n+1] <- ifelse(test.result, 1, 0)
         result[i, n+2] <- NA
         if (verbose) {
