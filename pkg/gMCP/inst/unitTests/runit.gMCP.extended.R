@@ -34,5 +34,20 @@ test.gMCP.ext <- function() {
   #TODO r1 <- gMCP.extended(graph=graph, pvalues=pvalues, test=simes.on.subsets.test, verbose=TRUE, alpha=0.05, subsets=list(c("H1", "H2"), c("H3", "H4")))
   r2 <- gMCP.extended(graph=graph, pvalues=pvalues, test=bonferroni.test, verbose=TRUE)
   checkTrue(all(as.numeric(r1@rejected) >= as.numeric(r2@rejected)))
+}
+
+test.gMCP.ext.warnings.and.errors <- function() {
+  graph <- BonferroniHolm(4)
+  pvalues <- c(0.01, 0.05, 0.03, 0.02)
+  alpha <- 0.05
   
+  old.warn.level <- getOption("warn")
+  options(warn=2)
+  
+  checkException(gMCP.extended(graph=graph, pvalues=pvalues, test=bonferroni.test, subsets=list(1:2, 3:4)))
+  checkException(gMCP.extended(graph=graph, pvalues=pvalues, test=bonferroni.test, correlation=diag(4)))
+  checkException(gMCP.extended(graph=graph, pvalues=pvalues, test=simes.on.subsets.test, verbose=TRUE))
+  checkException(gMCP.extended(graph=graph, pvalues=pvalues, test=parametric.test, verbose=TRUE))
+  
+  options(warn=old.warn.level)
 }
