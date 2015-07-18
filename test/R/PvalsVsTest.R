@@ -1,6 +1,7 @@
 library(gMCP)
 library(mvtnorm)
 library(ggplot2)
+library(Matrix)
 
 w<-c(0.5,0.3)
 rho<-0.1
@@ -9,13 +10,28 @@ cr<-matrix(c(1,rho,rho,1),nrow=2)
 p<-c(0.02,0.03)
 g<-diag(2)
 g<-matrix(1,2,2)
-
 upscale=FALSE
 r1 <- r2 <- 0
+
+if (FALSE) {
+  graph <- truncatedHolm(0.3)
+  w<-graph@weights
+  g<-graph@m
+  rho1<-(-0.9)
+  rho2<-0.9
+  cr1<-matrix(c(1,rho1,rho1,1),nrow=2)
+  cr2<-matrix(c(1,rho2,rho2,1),nrow=2)
+  cr <- bdiagNA(cr1, cr2)
+  cr <- as.matrix(bdiag(cr1, cr2))
+  crT <- as.matrix(bdiag(cr1, cr2))
+  p<-c(0.02,0.03,0.01,0.02)
+  
+}
+
 for (i in 1:1000) {  
   test <- generateTest(g, w, cr, 0.05, upscale=upscale)
   
-  z <- rmvnorm(n = 1000, mean=c(0,0), sigma=cr)
+  z <- rmvnorm(n = 1000, mean=c(0,0,0,0), sigma=crT)
   # plot(sort(pnorm(z[,1])))
   pvals <- pnorm(z, lower.tail = FALSE)  
   
@@ -32,6 +48,12 @@ for (i in 1:1000) {
   dat <- data.frame(y=c(r1-r2), x=1:length(r1))
   plot(ggplot(dat, aes(x=x, y=y)) + geom_point(shape=1))
 }
+
+###
+
+res <- t(apply(gMCP:::generateWeights(g,w),1,gMCP:::pvals.dunnett,p=p,cr=cr,upscale=upscale))#, alternatives=alternatives))
+gMCP:::ad.p(res)
+
 
 ###
 
