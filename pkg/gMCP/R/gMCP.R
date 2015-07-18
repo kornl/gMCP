@@ -96,7 +96,8 @@
 #' 
 #' Bretz F., Posch M., Glimm E., Klinglmueller F., Maurer W., Rohmeyer K.
 #' (2011): Graphical approaches for multiple endpoint problems using weighted
-#' Bonferroni, Simes or parametric tests - to appear.
+#' Bonferroni, Simes or parametric tests. Biometrical Journal 53 (6), pages 894-913, Wiley.
+#' \url{http://onlinelibrary.wiley.com/doi/10.1002/bimj.201000239/full}
 #' 
 #' Strassburger K., Bretz F.: Compatible simultaneous lower confidence bounds
 #' for the Holm procedure and other Bonferroni based closed tests. Statistics
