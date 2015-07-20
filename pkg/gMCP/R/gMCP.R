@@ -71,8 +71,7 @@
 #' code written in C. THIS CODE IS NOT FOR PRODUCTIVE USE YET!  If approxEps is
 #' \code{FALSE} and the graph contains epsilon edges, a warning is thrown and
 #' \code{useC} will be ignored.
-#' @param verbose Logical scalar. If \code{TRUE} verbose output is generated
-#' during sequentially rejection steps.
+#' @param verbose Logical scalar. If \code{TRUE} verbose output is generated.
 #' @param keepWeights Logical scalar. If \code{FALSE} the weight of a node
 #' without outgoing edges is set to 0 if it is removed.  Otherwise it keeps its
 #' weight.
