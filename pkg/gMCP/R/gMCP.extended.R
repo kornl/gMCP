@@ -1,6 +1,81 @@
+#' Weighted Test Functions for use with gMCP
+#' 
+#' The package gMCP provides the following weighted test functions:
+#' \describe{
+#'   \item{bonferroni.test}{Bonferroni test - see \code{?bonferroni.test} for details.}
+#'   \item{parametric.test}{Parametric test - see \code{?parametric.test} for details.}
+#'   \item{simes.test}{Simes test - see \code{?simes.test} for details.}
+#'   \item{bonferroni.trimmed.simes.test}{Trimmed Simes test for intersections of two hypotheses and otherwise Bonferroni - see \code{?bonferroni.trimmed.simes.test} for details.}
+#'   \item{simes.on.subsets.test}{Simes test for intersections of hypotheses from certain sets and otherwise Bonferroni - see \code{?simes.on.subsets.test} for details.}
+#' }
+#' 
+#' Depending on whether \code{adjPValues==TRUE} these test functions return different values:
+#' \itemize{
+#'   \item If \code{adjPValues==TRUE} the minimal value for alpha is returned for which the null hypothesis can be rejected. If that's not possible (for example in case of the trimmed Simes test adjusted p-values can not be calculated), the test function may throw an error.
+#'   \item If \code{adjPValues==FALSE} a logical value is returned whether the null hypothesis can be rejected.
+#' }
+#' 
+#' To provide your own test function write a function that takes at least the following arguments:
+#' \describe{
+#'   \item{pvalues}{A numeric vector specifying the p-values.}
+#'   \item{weights}{A numeric vector of weights.}
+#'   \item{alpha}{A numeric specifying the maximal allowed type one error rate. If \code{adjPValues==TRUE} (default) the parameter \code{alpha} should not be used.}
+#'   \item{adjPValues}{Logical scalar. If \code{TRUE} an adjusted p-value for the weighted test is returned (if possible - if not the function should call \code{stop}).
+#' Otherwise if \code{adjPValues==FALSE} a logical value is returned whether the null hypothesis can be rejected.}
+#'   \item{...}{ Further arguments possibly passed by \code{gMCP} which will be used by other test procedures but not this one.}
+#' }
+#' 
+#' Further the following parameters have a predefined meaning:
+#' \describe{
+#'   \item{verbose}{}
+#'   \item{subset}{}
+#'   \item{correlation}{}
+#' }
+#' 
+#' @name weighted.test.functions
+#' @author Kornelius Rohmeyer \email{rohmeyer@@small-projects.de}
+#' @examples
+#' 
+#' # The test function 'bonferroni.test' is used in by gMCP in the following call:
+#' graph <- BonferroniHolm(4)
+#' pvalues <- c(0.01, 0.05, 0.03, 0.02)
+#' alpha <- 0.05
+#' r <- gMCP.extended(graph=graph, pvalues=pvalues, test=bonferroni.test, verbose=TRUE)
+#' 
+#' # For the intersection of all four elementary hypotheses this results in a call
+#' bonferroni.test(pvalues=pvalues, weights=getWeights(graph))
+#' bonferroni.test(pvalues=pvalues, weights=getWeights(graph), adjPValues=FALSE)
+#' 
+#' # bonferroni.test function: 
+#' bonferroni.test <- function(pvalues, weights, alpha=0.05, adjPValues=TRUE, verbose=FALSE, ...) {
+#'   if (adjPValues) {
+#'     return(min(pvalues/weights))
+#'   } else {
+#'     return(any(pvalues<=alpha*weights))
+#'   }
+#' }
+#' 
+NULL
 
-# Weighted Bonferroni-test
-bonferroni.test <- function(pvalues, weights, alpha=0.05, adjPValues=TRUE, verbose=FALSE, ...) {
+
+#' Weighted Bonferroni-test
+#' 
+#' 
+#' 
+#' @param pvalues A numeric vector specifying the p-values. 
+#' @param weights A numeric vector of weights.
+#' @param adjPValues Logical scalar. If \code{TRUE} (the default) an adjusted p-value for the weighted Bonferroni-test is returned.
+#' Otherwise if \code{adjPValues==FALSE} a logical value is returned whether the null hypothesis can be rejected.
+#' @param alpha A numeric specifying the maximal allowed type one error rate. If \code{adjPValues==TRUE} (default) the parameter \code{alpha} is not used.
+#' @param verbose Logical scalar. If \code{TRUE} verbose output is generated.
+#' @param ... Further arguments possibly passed by \code{gMCP} which will be used by other test procedures but not this one.
+#' @examples
+#' 
+#' bonferroni.test(pvalues=c(0.1,0.2,0.05), weights=c(0.5,0.5,0))
+#' bonferroni.test(pvalues=c(0.1,0.2,0.05), weights=c(0.5,0.5,0), adjPValues=FALSE)
+#' 
+#' @export bonferroni.test 
+bonferroni.test <- function(pvalues, weights, alpha=0.05, adjPValues=TRUE, verbose=FALSE, ...) { #TODO Do we really need ... ?
   if (adjPValues) {
     return(min(pvalues/weights))
   } else {
@@ -38,6 +113,25 @@ bonferroni.test <- function(pvalues, weights, alpha=0.05, adjPValues=TRUE, verbo
 #' returned.
 #' 
 #' For further details see the given references.
+#' 
+#' @param pvalues A numeric vector specifying the p-values. 
+#' @param weights A numeric vector of weights.
+#' @param correlation Correlation matrix. For parametric tests the p-values
+#' must arise from one-sided tests with multivariate normal distributed test
+#' statistics for which the correlation is (partially) known. In that case a
+#' weighted parametric closed test is performed (also see
+#' \code{\link{generatePvals}}). Unknown values can be set to NA. (See details
+#' for more information)
+#' @param alpha A numeric specifying the maximal allowed type one error rate. If \code{adjPValues==TRUE} (default) the parameter \code{alpha} is not used.
+#' @param adjPValues Logical scalar. If \code{TRUE} (the default) an adjusted p-value for the weighted parametric test is returned.
+#' Otherwise if \code{adjPValues==FALSE} a logical value is returned whether the null hypothesis can be rejected.
+#' @param verbose Logical scalar. If \code{TRUE} verbose output is generated.
+#' @param ... Further arguments possibly passed by \code{gMCP} which will be used by other test procedures but not this one.
+#' @references  
+#' Bretz F., Posch M., Glimm E., Klinglmueller F., Maurer W., Rohmeyer K.
+#' (2011): Graphical approaches for multiple endpoint problems using weighted
+#' Bonferroni, Simes or parametric tests. Biometrical Journal 53 (6), pages 894-913, Wiley.
+#' \url{http://onlinelibrary.wiley.com/doi/10.1002/bimj.201000239/full}
 parametric.test <- function(pvalues, weights, alpha=0.05, adjPValues=TRUE, verbose=FALSE, correlation, ...) {
   
   # ToDo Document dropping these dimensions with zero weights
@@ -73,7 +167,23 @@ parametric.test <- function(pvalues, weights, alpha=0.05, adjPValues=TRUE, verbo
   }
 }
 
-# Weighted Bonferroni-test / trimmed Simes
+#' Trimmed Simes test for intersections of two hypotheses and otherwise weighted Bonferroni-test
+#' 
+#' 
+#' 
+#' @param pvalues A numeric vector specifying the p-values. 
+#' @param weights A numeric vector of weights.
+#' @param adjPValues Logical scalar. If \code{TRUE} (the default) an adjusted p-value for the weighted test is returned.
+#' Otherwise if \code{adjPValues==FALSE} a logical value is returned whether the null hypothesis can be rejected.
+#' @param alpha A numeric specifying the maximal allowed type one error rate. If \code{adjPValues==TRUE} (default) the parameter \code{alpha} is not used.
+#' @param verbose Logical scalar. If \code{TRUE} verbose output is generated.
+#' @param ... Further arguments possibly passed by \code{gMCP} which will be used by other test procedures but not this one.
+#' @examples
+#' 
+#' bonferroni.trimmed.simes.test(pvalues=c(0.1,0.2,0.05), weights=c(0.5,0.5,0))
+#' bonferroni.trimmed.simes.test(pvalues=c(0.1,0.2,0.05), weights=c(0.5,0.5,0), adjPValues=FALSE)
+#' 
+#' @export bonferroni.trimmed.simes.test 
 bonferroni.trimmed.simes.test <- function(pvalues, weights, alpha=0.05, adjPValues=FALSE, verbose=FALSE, ...) {
   if (adjPValues) stop("Alpha level is needed and adjusted p-values can not be calculated for this test.")
   if (length(pvalues)==2) {
@@ -88,9 +198,32 @@ bonferroni.trimmed.simes.test <- function(pvalues, weights, alpha=0.05, adjPValu
   }
 }
 
-# Simes on subsets, otherwise Bonferroni
-# As an additional argument a list of subsets must be provided, that states in which cases a Simes test is applicable (i.e. if all hypotheses to test belong to one of these subsets), e.g.
-# subsets <- list(c("H1", "H2", "H3"), c("H4", "H5", "H6"))
+#' Simes on subsets, otherwise Bonferroni
+#'
+#' As an additional argument a list of subsets must be provided, that states in which cases a Simes test is applicable (i.e. if all hypotheses to test belong to one of these subsets), e.g.
+#' subsets <- list(c("H1", "H2", "H3"), c("H4", "H5", "H6"))
+#' Trimmed Simes test for intersections of two hypotheses and otherwise weighted Bonferroni-test
+#' 
+#' @param pvalues A numeric vector specifying the p-values. 
+#' @param weights A numeric vector of weights.
+#' @param adjPValues Logical scalar. If \code{TRUE} (the default) an adjusted p-value for the weighted test is returned.
+#' Otherwise if \code{adjPValues==FALSE} a logical value is returned whether the null hypothesis can be rejected.
+#' @param alpha A numeric specifying the maximal allowed type one error rate. If \code{adjPValues==TRUE} (default) the parameter \code{alpha} is not used.
+#' @param verbose Logical scalar. If \code{TRUE} verbose output is generated.
+#' @param subsets ...
+#' @param subset ...
+#' @param ... Further arguments possibly passed by \code{gMCP} which will be used by other test procedures but not this one.
+#' @examples
+#' 
+#' simes.on.subsets.test(pvalues=c(0.1,0.2,0.05), weights=c(0.5,0.5,0))
+#' simes.on.subsets.test(pvalues=c(0.1,0.2,0.05), weights=c(0.5,0.5,0), adjPValues=FALSE)
+#' 
+#' graph <- BonferroniHolm(4)
+#' pvalues <- c(0.01, 0.05, 0.03, 0.02)
+#' 
+#' gMCP.extended(graph=graph, pvalues=pvalues, test=simes.on.subsets.test, subsets=list(1:2, 3:4))
+#' 
+#' @export simes.on.subsets.test 
 simes.on.subsets.test <- function(pvalues, weights, alpha=0.05, adjPValues=TRUE, verbose=FALSE, subsets, subset, ...) {
   subsets <- list(...)[["subsets"]]
   if (any(sapply(subsets, function(x) {all(subset %in% x)}))) {
@@ -104,7 +237,23 @@ simes.on.subsets.test <- function(pvalues, weights, alpha=0.05, adjPValues=TRUE,
   }  
 }
 
-# Simes test
+#' Weighted Simes test
+#' 
+#' 
+#' 
+#' @param pvalues A numeric vector specifying the p-values. 
+#' @param weights A numeric vector of weights.
+#' @param adjPValues Logical scalar. If \code{TRUE} (the default) an adjusted p-value for the weighted Simes test is returned.
+#' Otherwise if \code{adjPValues==FALSE} a logical value is returned whether the null hypothesis can be rejected.
+#' @param alpha A numeric specifying the maximal allowed type one error rate. If \code{adjPValues==TRUE} (default) the parameter \code{alpha} is not used.
+#' @param verbose Logical scalar. If \code{TRUE} verbose output is generated.
+#' @param ... Further arguments possibly passed by \code{gMCP} which will be used by other test procedures but not this one.
+#' @examples
+#' 
+#' simes.test(pvalues=c(0.1,0.2,0.05), weights=c(0.5,0.5,0))
+#' simes.test(pvalues=c(0.1,0.2,0.05), weights=c(0.5,0.5,0), adjPValues=FALSE)
+#' 
+#' @export simes.test 
 simes.test <- function(pvalues, weights, alpha=0.05, adjPValues=TRUE, verbose=FALSE, ...) {
   mJ <- Inf  				
   for (j in 1:length(pvalues)) {
@@ -132,53 +281,40 @@ simes.test <- function(pvalues, weights, alpha=0.05, adjPValues=TRUE, verbose=FA
 
 #' Graph based Multiple Comparison Procedures
 #' 
-#' Performs a graph based multiple test procedure for a given graph and
-#' unadjusted p-values.
+#' Performs a graph based multiple test procedure for a given graph and unadjusted p-values.
 #' 
 #' 
 #' @param graph A graph of class \code{\link{graphMCP}}.
 #' @param pvalues A numeric vector specifying the p-values for the graph based
-#' MCP. Note the assumptions in the details section for the parametric tests, 
-#' when a correlation is specified.
-#' @param test Should be either \code{"Bonferroni"}, \code{"Simes"} or \code{"parametric"}.
-#' If not specified by default the Bonferroni-based test procedure is used if no
-#' correlation is specified or the algorithm from Bretz et al. 2011 if a
-#' correlation is specified. If \code{test} is set to \code{"Simes"} the weighted
-#' Simes test will be performed for each subset of hypotheses.
-#' @param correlation Optional correlation matrix.  If the weighted Simes test
-#' is performed, it is checked whether type I error rate can be ensured and a
-#' warning is given if this is not the case.  For parametric tests the p-values
-#' must arise from one-sided tests with multivariate normal distributed test
-#' statistics for which the correlation is (partially) known. In that case a
-#' weighted parametric closed test is performed (also see
-#' \code{\link{generatePvals}}). Unknown values can be set to NA. (See details
-#' for more information)
+#' MCP. Note the assumptions in the description of the selected test (if there are any -
+#' for example \code{test=bonferroni.test} has no further assumptions, but
+#' \code{test=parametric.test} assumes p-values from a multivariate normal distribution).
+#' @param test A weighted test function.
+#' 
+#' The package gMCP provides the following weighted test functions:
+#' \describe{
+#'   \item{bonferroni.test}{Bonferroni test - see \code{?bonferroni.test} for details.}
+#'   \item{parametric.test}{Parametric test - see \code{?parametric.test} for details.}
+#'   \item{simes.test}{Simes test - see \code{?simes.test} for details.}
+#'   \item{bonferroni.trimmed.simes.test}{Trimmed Simes test for intersections of two hypotheses and otherwise Bonferroni - see \code{?bonferroni.trimmed.simes.test} for details.}
+#'   \item{simes.on.subsets.test}{Simes test for intersections of hypotheses from certain sets and otherwise Bonferroni - see \code{?simes.on.subsets.test} for details.}
+#' }
+#' 
+#' To provide your own test function see \code{?weighted.test.function}.
+#' 
 #' @param alpha A numeric specifying the maximal allowed type one error rate.
-#' @param approxEps A boolean specifying whether epsilon values should be
-#' substituted with the value given in the parameter \code{eps}.
 #' @param eps A numeric scalar specifying a value for epsilon edges.
-#' @param ...  Test specific arguments can be given here.
 #' @param upscale Logical. If \code{upscale=FALSE} then for each intersection 
 #' of hypotheses (i.e. each subgraph) a weighted test is performed at the 
 #' possibly reduced level alpha of sum(w)*alpha, 
 #' where sum(w) is the sum of all node weights in this subset.
 #' If \code{upscale=TRUE} all weights are upscaled, so that sum(w)=1.
-#' 
-#' For backward comptibility the default value is TRUE if a the parameter \code{test}
-#' is missing, but parameter \code{correlation} is specified or if \code{test=="Bretz2011"}.
-#' @param useC Logical scalar. If \code{TRUE} neither adjusted p-values nor
-#' intermediate graphs are returned, but the calculation is sped up by using
-#' code written in C. THIS CODE IS NOT FOR PRODUCTIVE USE YET!  If approxEps is
-#' \code{FALSE} and the graph contains epsilon edges, a warning is thrown and
-#' \code{useC} will be ignored.
 #' @param verbose Logical scalar. If \code{TRUE} verbose output is generated
 #' during sequentially rejection steps.
-#' @param keepWeights Logical scalar. If \code{FALSE} the weight of a node
-#' without outgoing edges is set to 0 if it is removed.  Otherwise it keeps its
-#' weight.
 #' @param adjPValues Logical scalar. If \code{FALSE} no adjusted p-values will
-#' be calculated.  Especially for the weighted Simes test this will result in
+#' be calculated. Especially for the weighted Simes test this will result in
 #' significantly less calculations in most cases.
+#' @param ...  Test specific arguments can be given here.
 #' @return An object of class \code{gMCPResult}, more specifically a list with
 #' elements
 #' \describe{
@@ -225,15 +361,6 @@ simes.test <- function(pvalues, weights, alpha=0.05, adjPValues=TRUE, verbose=FA
 #' # Entangled graphs:
 #' g3 <- Entangled2Maurer2012()
 #' gMCP(g3, pvalues=c(0.01, 0.02, 0.04, 0.04, 0.7), correlation=diag(5))
-#' 
-#' Test functions can be written in two ways:
-#' 1) If pvalues, weights and alpha are given, a logical value is returned whether the null hypothesis can be rejected.
-#' 2) If only pvalues and weights are given the minimal value for alpha is returned for which the null hypothesis can be rejected.
-#' ... contains correlation
-#' graph <- BonferroniHolm(4)
-#' pvalues <- c(0.01, 0.05, 0.03, 0.02)
-#' alpha <- 0.05
-#' gMCP.extended(graph=graph, pvalues=pvalues, test=bonferroni.test, verbose=TRUE)
 #' 
 #' @export gMCP
 gMCP.extended <- function(graph, pvalues, test, alpha=0.05, eps=10^(-3), upscale=FALSE, verbose=FALSE, adjPValues=TRUE, ...) {
