@@ -35,7 +35,9 @@ extractPower <- function(x, f=list()) {
     names(f) <- n
   }
   for (fn in names(f)) {
-  	result[[fn]] <- sum(apply(x,1, f[[fn]]))/dim(x)[1]
+    suppressWarnings(# We don't want to see "coercing argument of type 'double' to logical" warnings.
+      result[[fn]] <- sum(apply(x,1, f[[fn]]))/dim(x)[1]
+    )
   }
   result
 }
