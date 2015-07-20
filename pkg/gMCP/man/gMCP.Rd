@@ -55,8 +55,7 @@ code written in C. THIS CODE IS NOT FOR PRODUCTIVE USE YET!  If approxEps is
 \code{FALSE} and the graph contains epsilon edges, a warning is thrown and
 \code{useC} will be ignored.}
 
-\item{verbose}{Logical scalar. If \code{TRUE} verbose output is generated
-during sequentially rejection steps.}
+\item{verbose}{Logical scalar. If \code{TRUE} verbose output is generated.}
 
 \item{keepWeights}{Logical scalar. If \code{FALSE} the weight of a node
 without outgoing edges is set to 0 if it is removed.  Otherwise it keeps its
@@ -138,7 +137,8 @@ Statistics in Medicine 2009 vol. 28 issue 4 page 586-604.
 
 Bretz F., Posch M., Glimm E., Klinglmueller F., Maurer W., Rohmeyer K.
 (2011): Graphical approaches for multiple endpoint problems using weighted
-Bonferroni, Simes or parametric tests - to appear.
+Bonferroni, Simes or parametric tests. Biometrical Journal 53 (6), pages 894-913, Wiley.
+\url{http://onlinelibrary.wiley.com/doi/10.1002/bimj.201000239/full}
 
 Strassburger K., Bretz F.: Compatible simultaneous lower confidence bounds
 for the Holm procedure and other Bonferroni based closed tests. Statistics

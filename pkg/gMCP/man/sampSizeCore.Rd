@@ -23,6 +23,8 @@ sampSizeCore(upperN, lowerN = floor(upperN/2), targFunc, target,
 \item{Ntype}{Either \code{"arm"} or \code{"total"}.}
 
 \item{verbose}{Logical, whether verbose output should be printed.}
+
+\item{...}{...}
 }
 \value{
 Integer value \code{n} (of type numeric) with \code{targFunc(n)-target<tol} and \code{targFunc(n)>target}.
