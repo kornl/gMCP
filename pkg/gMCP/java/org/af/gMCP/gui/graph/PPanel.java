@@ -98,10 +98,11 @@ public class PPanel implements ActionListener, KeyListener, NodeListener, FocusL
 	 * @see org.af.gMCP.gui.graph.NodeListener#reject()
 	 */
 	public void reject() {
-		for (JTextField wTF : wTFList) {
+		/*for (JTextField wTF : wTFList) { //Already setEditable(false) in testing.
 			wTF.setEnabled(false);
 		}
 		pTF.setEnabled(false);
+		*/		
 		jbReject.setEnabled(false);
 		label.setText(label.getText()+" rejected!");
 		label.setForeground(new Color(0,100,0));		
@@ -161,11 +162,10 @@ public class PPanel implements ActionListener, KeyListener, NodeListener, FocusL
 	void updateMe(boolean setText) {
 		if (setText) {
 			pTF.setText(format.format(p).replace(",", "."));
-		}		
-		if (testing) {
-			pTF.setEditable(false);
-		} else {
-			pTF.setEditable(true);
+		}
+		pTF.setEditable(!testing);
+		for (JTextField wTF : wTFList) {
+			wTF.setEditable(!testing);
 		}
 		for (int i=0; i<wTFList.size(); i++) {
 			JTextField wTF = wTFList.get(i); 
@@ -204,11 +204,6 @@ public class PPanel implements ActionListener, KeyListener, NodeListener, FocusL
 			}
 		} catch (Exception e) {
 			// Can not happen for warn = false.
-		}
-		if (testing) {
-			pTF.setEditable(false);
-		} else {
-			pTF.setEditable(true);
 		}
 		pview.updateLabels();
 	}
