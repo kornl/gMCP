@@ -3,6 +3,7 @@ package org.af.gMCP.gui;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
@@ -10,6 +11,8 @@ import javax.swing.JFrame;
 import javax.swing.JTextArea;
 
 import org.af.commons.errorhandling.ErrorHandler;
+import org.af.commons.logging.ApplicationLog;
+import org.af.commons.logging.LoggingSystem;
 import org.af.gMCP.config.Configuration;
 
 import com.jgoodies.forms.layout.CellConstraints;
@@ -27,9 +30,12 @@ public class ErrorDialogChooseLevel extends JDialog implements ActionListener {
 	protected JComboBox jcbReportLevel;
 	protected JCheckBox jcbScreenshot = new JCheckBox("Send screenshot of GUI");	
 	
-	public ErrorDialogChooseLevel(JFrame parent) {
-		super(parent, "Select information", true);
-		setLocationRelativeTo(parent);
+	public JButton send = new JButton("Send directly");
+	public JButton createZip = new JButton("Create zip file with log files");
+	public JButton close = new JButton("Close");	
+	
+	public ErrorDialogChooseLevel(String msg, Object e, boolean fatal) {	
+		super((JFrame)null, "Select information", true);
 
 		String cols = "5dlu, pref, 5dlu, fill:pref:grow, 5dlu";
 		String rows = "5dlu, pref, 5dlu, pref, 5dlu, pref, 5dlu, pref, 5dlu, pref, 5dlu, pref, 5dlu";
@@ -43,7 +49,7 @@ public class ErrorDialogChooseLevel extends JDialog implements ActionListener {
 	    int rLevel;
 	    try {
 	    	rLevel = Integer.parseInt(Configuration.getInstance().getClassProperty(this.getClass(), "reportLevel", "2"));
-	    } catch (Exception e) {
+	    } catch (Exception ex) {
 	    	rLevel = 2;
 	    }
 	    jcbReportLevel.setSelectedIndex(rLevel);
@@ -86,6 +92,8 @@ public class ErrorDialogChooseLevel extends JDialog implements ActionListener {
 	}	
 
 	public static void main(String[] args) {
+		LoggingSystem.init("/org/af/gMCP/gui/commons-logging.properties", false, true,	new ApplicationLog());
+		ErrorHandler.init("rohmeyer@small-projects.de", "http://www.algorithm-forge.com/report/bugreport.php", true, true, ErrorDialogChooseLevel.class);
 		RControl.getRControl(true);		
 		ErrorHandler.getInstance().makeErrDialog("Report Error");
 	}
