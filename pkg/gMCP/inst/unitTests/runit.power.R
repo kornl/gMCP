@@ -15,14 +15,10 @@ test.api.compatibility <- function() {
   mean <- rep(0,4)
   sigma <- corr.sim <- diag(4)
   
-  result1 <- calcPower(weights, alpha=alpha, G=G, mean = mean,
-                       sigma = sigma, cr = NULL,
-                       nSim = 10000)
-  
   # Old API:
-  result1 <- calcPower(weights=weights, alpha=alpha, G=G, mean = mean,
-           sigma = sigma, cr = NULL,
-           nSim = 10000)
+  suppressWarnings(result1 <- calcPower(weights=weights, alpha=alpha, G=G, mean = mean,
+                                        sigma = sigma, cr = NULL,
+                                        nSim = 10000))
   
   # New API:
   result2 <- calcPower(graph, alpha, mean = mean,
