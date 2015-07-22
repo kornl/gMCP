@@ -21,7 +21,7 @@ test.gMCP.ext <- function() {
   correlation <- bdiagNA(cr1, cr2)
   
   r1 <- gMCP.extended(graph=graph, pvalues=pvalues, test=parametric.test, verbose=TRUE, correlation=correlation)
-  r2 <- gMCP(graph=graph, pvalues=pvalues, verbose=TRUE, correlation=cr)
+  r2 <- gMCP(graph=graph, pvalues=pvalues, verbose=TRUE, correlation=correlation)
   checkTrue(all.equal(r1@adjPValues, r2@adjPValues, check.attributes=FALSE)) # No names for gMCP.extended
   
   # Trimmed Simes test:
