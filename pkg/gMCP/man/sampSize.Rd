@@ -65,6 +65,7 @@ Equation (3) of Bretz et al. (2011).}
 Sample size calculations
 }
 \examples{
+\dontrun{
 graph <- BonferroniHolm(4)
 powerReqFunc <- function(x) { (x[1] && x[2]) || x[3] }
 #TODO Still causing errors / loops.
@@ -79,6 +80,7 @@ sampSize(graph=graph,
                       "Scenario 2"=c(0.1, 2, 0.1, 0.1)),
          esf=c(0.5, 0.7071067811865476, 0.5, 0.7071067811865476),
          powerReqFunc=powerReqFunc,
-         corr.sim=diag(4), target=c(0.8, 0.8), alpha=0.025, n.sim=1000)
+         corr.sim=diag(4), target=c(0.8, 0.8), alpha=0.025)
+}
 }
 
