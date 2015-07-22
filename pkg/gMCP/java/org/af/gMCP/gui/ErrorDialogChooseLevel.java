@@ -9,6 +9,7 @@ import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JTextArea;
 
+import org.af.commons.errorhandling.ErrorHandler;
 import org.af.gMCP.config.Configuration;
 
 import com.jgoodies.forms.layout.CellConstraints;
@@ -82,5 +83,10 @@ public class ErrorDialogChooseLevel extends JDialog implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		Configuration.getInstance().setClassProperty(this.getClass(), "reportLevel", ""+jcbReportLevel.getSelectedIndex());
 	
+	}	
+
+	public static void main(String[] args) {
+		RControl.getRControl(true);		
+		ErrorHandler.getInstance().makeErrDialog("Report Error");
 	}
 }

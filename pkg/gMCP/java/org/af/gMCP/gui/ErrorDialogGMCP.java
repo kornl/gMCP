@@ -422,5 +422,10 @@ public class ErrorDialogGMCP extends JDialog implements ActionListener {
     	}
     }  
     
+	public static void main(String[] args) {
+		RControl.getRControl(true);		
+		ErrorHandler.getInstance().makeErrDialog("Report Error");
+	}
+    
 }
 
