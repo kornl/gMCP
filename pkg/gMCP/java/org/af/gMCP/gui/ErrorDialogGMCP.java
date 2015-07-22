@@ -243,37 +243,37 @@ public class ErrorDialogGMCP extends JDialog implements ActionListener {
 
     protected JPanel getPanel() {
         JPanel p = new JPanel();
-        String cols = "left:pref, 5dlu, f:d:g";
-        String rows = "pref, 5dlu, f:p:g, 5dlu, pref, 5dlu, pref, 5dlu, pref, 5dlu, pref";
+        String cols = "5dlu, left:pref, 5dlu, f:d:g, 5dlu";
+        String rows = "5dlu, pref, 5dlu, f:p:g, 5dlu, pref, 5dlu, pref, 5dlu, pref, 5dlu, pref, 5dlu";
         FormLayout layout = new FormLayout(cols, rows);
 
         p.setLayout(layout);
         CellConstraints cc = new CellConstraints();
 
-        int row = 1;
+        int row = 2;
         
-        p.add(new JLabel("<html>" + msg.replaceAll("\n", "<br>") + "</html>"),                  cc.xyw(1, row, 3));
+        p.add(new JLabel("<html>" + msg.replaceAll("\n", "<br>") + "</html>"),                  cc.xyw(2, row, 3));
 
-        p.add(taHeader,                                                 cc.xyw(1, row, 3));
+        p.add(taHeader,                                                 cc.xyw(2, row, 3));
 
         row += 2;
 
         p.add(new JLabel("Description:"),           cc.xy(1, row));
         JScrollPane sp1 = new JScrollPane(taDesc);
-        p.add(sp1,                                                      cc.xy(3, row));
+        p.add(sp1,                                                      cc.xy(4, row));
 
         row += 2;
 
-        p.add(new JLabel("OPTIONAL: If you want to help or get feedback, give us some way to contact you:"), cc.xyw(1, row, 3));
+        p.add(new JLabel("OPTIONAL: If you want to help or get feedback, give us some way to contact you:"), cc.xyw(2, row, 3));
 
         row += 2;
 
-        p.add(new JLabel("Optional contact (email, phone)"),            cc.xy(1, row));
-        p.add(tfContact,                                                  cc.xy(3, row));
+        p.add(new JLabel("Optional contact (email, phone)"),            cc.xy(2, row));
+        p.add(tfContact,                                                  cc.xy(4, row));
 
         row += 2;
 
-        p.add(getOptionalPanel(),                                       cc.xyw(1, row, 3));
+        p.add(getOptionalPanel(),                                       cc.xyw(2, row, 3));
 
         return p;
     }
