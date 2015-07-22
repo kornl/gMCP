@@ -36,18 +36,29 @@
 #' where sum(w) is the sum of all node weights in this subset.
 #' If \code{upscale=TRUE} all weights are upscaled, so that sum(w)=1.
 #' @param alpha ...
+#' @param n.sim ...
 #' @param ... ...
 #' @return ...
 #' @examples
 #' 
+#' \dontrun{
 #' graph <- BonferroniHolm(4)
 #' powerReqFunc <- function(x) { (x[1] && x[2]) || x[3] }
 #' #TODO Still causing errors / loops.
 #' #sampSize(graph, alpha=0.05, powerReqFunc, target=0.8, mean=c(6,4,2) )
 #' #sampSize(graph, alpha=0.05, powerReqFunc, target=0.8, mean=c(-1,-1,-1), nsim=100)
-#' sampSize(graph, esf=c(1,1,1,1), effSize=c(1,1,1,1), corr.sim=diag(4), powerReqFunc=powerReqFunc, target=0.8, alpha=0.05)
-#' powerReqFunc=list('all(x[c(1,2)]'=function(x) {all(x[c(1,2)])}, 'any(x[c(0,1)]'=function(x) {any(x[c(0,1)])})
-#' sampSize(graph=graph, effSize=list("Scenario 1"=c(1, 0.1, 0.1, 0.1), "Scenario 2"=c(0.1, 2, 0.1, 0.1)), esf=c(0.5, 0.7071067811865476, 0.5, 0.7071067811865476), powerReqFunc=list('all(x[c(1,2)]'=function(x) {all(x[c(1,2)])}, 'any(x[c(0,1)]'=function(x) {any(x[c(0,1)])}), corr.sim=diag(4), target=c(0.8, 0.8), alpha=0.025, n.sim=1000)
+#' sampSize(graph, esf=c(1,1,1,1), effSize=c(1,1,1,1), 
+#'          corr.sim=diag(4), powerReqFunc=powerReqFunc, target=0.8, alpha=0.05)
+#' powerReqFunc=list('all(x[c(1,2)]'=function(x) {all(x[c(1,2)])},
+#'                   'any(x[c(0,1)]'=function(x) {any(x[c(0,1)])})
+#' # We use a very small number 'n.sim' for simulation to 
+#' sampSize(graph=graph, 
+#'          effSize=list("Scenario 1"=c(1, 0.1, 0.1, 0.1), 
+#'                       "Scenario 2"=c(0.1, 2, 0.1, 0.1)), 
+#'          esf=c(0.5, 0.7071067811865476, 0.5, 0.7071067811865476),
+#'          powerReqFunc=powerReqFunc, 
+#'          corr.sim=diag(4), target=c(0.8, 0.8), alpha=0.025, n.sim=100)
+#'}
 sampSize <- function(graph, esf, effSize, powerReqFunc, target,
                      corr.sim, alpha, corr.test = NULL,
                      type = c("quasirandom", "pseudorandom"),
@@ -104,6 +115,7 @@ sampSize <- function(graph, esf, effSize, powerReqFunc, target,
 #' @param alRatio Allocation ratio.
 #' @param Ntype Either \code{"arm"} or \code{"total"}.
 #' @param verbose Logical, whether verbose output should be printed.
+#' @param ... ...
 #' @return Integer value \code{n} (of type numeric) with \code{targFunc(n)-target<tol} and \code{targFunc(n)>target}.
 #' @author This function is taken from package DoseFinding under GPL from Bjoern Bornkamp, Jose Pinheiro and Frank Bretz
 #' @examples 
