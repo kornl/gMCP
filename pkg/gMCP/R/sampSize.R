@@ -51,13 +51,12 @@
 #'          corr.sim=diag(4), powerReqFunc=powerReqFunc, target=0.8, alpha=0.05)
 #' powerReqFunc=list('all(x[c(1,2)]'=function(x) {all(x[c(1,2)])},
 #'                   'any(x[c(0,1)]'=function(x) {any(x[c(0,1)])})
-#' # We use a very small number 'n.sim' for simulation to 
 #' sampSize(graph=graph, 
 #'          effSize=list("Scenario 1"=c(1, 0.1, 0.1, 0.1), 
 #'                       "Scenario 2"=c(0.1, 2, 0.1, 0.1)), 
 #'          esf=c(0.5, 0.7071067811865476, 0.5, 0.7071067811865476),
 #'          powerReqFunc=powerReqFunc, 
-#'          corr.sim=diag(4), target=c(0.8, 0.8), alpha=0.025, n.sim=100)
+#'          corr.sim=diag(4), target=c(0.8, 0.8), alpha=0.025)
 #'}
 sampSize <- function(graph, esf, effSize, powerReqFunc, target,
                      corr.sim, alpha, corr.test = NULL,
