@@ -68,21 +68,28 @@
 % \VignetteIndexEntry{A Graphical Approach to Weighted Multiple Test Procedures}
 % \VignetteDepends{coin}
 
+\begin{titlepage}
+\begin{center}
+\vspace*{2cm}
+{\LARGE gMCP - an R package for a graphical approach to weighted multiple test procedures}\\[4cm]
+\includegraphics[width=0.95\textwidth]{pictures/entangled.png}\\[0.4cm]
+%\vspace*{2cm}
+%
+%Attention: The following command does only work in git repositories!
+%, \Sexpr{system("git rev-list HEAD --count", intern=TRUE)}th git commit, SHA-1 hash:\\
+%\texttt{\Sexpr{system("git rev-parse HEAD", intern=TRUE)}}
+%\includegraphics[width=0.95\textwidth]{pictures/GeneratedRCode.png}
+Kornelius Rohmeyer\\ V\Sexpr{packageVersion("gMCP")}\\\today
+\end{center}
+\end{titlepage}
+
 \title{gMCP - an R package for a graphical approach to weighted multiple test procedures} 
 
 \author{Kornelius Rohmeyer}
 
-\maketitle\thispagestyle{empty}\vspace*{1cm}
+%\maketitle\thispagestyle{empty}\vspace*{1cm}
 
-\begin{center}
-  \includegraphics[width=0.95\textwidth]{pictures/entangled.png}\\[0.4cm]
-  %\vspace*{2cm}
-  V\Sexpr{packageVersion("gMCP")}%
-  %Attention: The following command does only work in git repositories!
-  %, \Sexpr{system("git rev-list HEAD --count", intern=TRUE)}th git commit, SHA-1 hash:\\
-  %\texttt{\Sexpr{system("git rev-parse HEAD", intern=TRUE)}}
-  %\includegraphics[width=0.95\textwidth]{pictures/GeneratedRCode.png}
-\end{center}
+
 
 \newpage
 
