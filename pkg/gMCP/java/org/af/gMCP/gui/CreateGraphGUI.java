@@ -175,9 +175,10 @@ public class CreateGraphGUI extends JFrame implements WindowListener, AbortListe
 				if (!Configuration.getInstance().getGeneralConfig().tellAboutCheckOnline()) {
 					new TellAboutOnlineUpate(null);
 					Configuration.getInstance().getGeneralConfig().setTellAboutCheckOnline(true);
-				}
+				}				
 				new Thread(new Runnable() {
 					public void run() {
+						//TODO Is the following line unnecessary and a duplicate of the same line above?
 						Thread.currentThread().setUncaughtExceptionHandler(new DefaultExceptionHandler());
 						VersionComparator.getOnlineVersion();
 					}
