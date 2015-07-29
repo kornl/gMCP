@@ -1,6 +1,7 @@
 .onLoad <- function(libname, pkgname) {
 	if (!.jniInitialized) {
-		.jinit(parameters=c("-Xrs", "-Xss1m"))
+		.jinit(parameters=c("-Xrs", "-Xss1m",
+		                    paste0("-Djava.io.tmpdir=", tempdir())))
     # Remark - rJava 0.9-5: detect support for -Xrs and enable it by default (this prevents
     # Java from killing R process on interrupt)
 	}

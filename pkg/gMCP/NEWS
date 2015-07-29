@@ -27,6 +27,8 @@ Changes in version 0.8-9 (??-??-2015)
 
 - graph2latex gains argument 'fig.caption.short' for an optional short version of fig.caption for the list of figures.
 
+- Fixed logging errors/warnings when two different users used the gMCP GUI on the same system.
+
 
 Changes in version 0.8-8 (03-10-2014)
 =====================================
