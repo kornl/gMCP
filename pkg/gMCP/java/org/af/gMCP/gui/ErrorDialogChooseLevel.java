@@ -130,7 +130,7 @@ public class ErrorDialogChooseLevel extends JDialog implements ActionListener {
 		int row = 2;
 		
 		JTextArea jlabel = new JTextArea("We are sorry that an error occurred.\n" +
-				"Please send the report below to bugreport@small-projects.de :");		
+				"Please send the report below to "+ErrorHandler.getInstance().getDeveloperAddress()+" :"); // bugreport@small-projects.de		
 		jlabel.setOpaque(false);
 		jlabel.setEditable(false);
 		jlabel.setFont(jlabel.getFont().deriveFont(jlabel.getFont().getStyle() ^ Font.BOLD));
@@ -157,8 +157,11 @@ public class ErrorDialogChooseLevel extends JDialog implements ActionListener {
 		getContentPane().add(createZip, cc.xy(10, row));
 		createZip.addActionListener(this);
 		getContentPane().add(close, cc.xy(12, row));
-		close.addActionListener(this);
+		close.addActionListener(this);		
 		
+	}
+	
+	public void showDialog() {
 		pack();
 		setSize(900, 700);
 		
