@@ -306,7 +306,11 @@ public class MenuBarMGraph extends JMenuBar implements ActionListener {
         		JOptionPane.showMessageDialog(control.getMainFrame(), "Will not save empty graph.", "Saving to R failed.", JOptionPane.ERROR_MESSAGE);
         		return;
         	}
-        	GraphSaveDialog gsd = new GraphSaveDialog(control);
+        	GraphSaveDialog vnd = new GraphSaveDialog(control, control.getGraphName());            	
+        	String name = vnd.getName();
+        	// Save graph (globally).
+        	name = control.getNL().saveGraph(name, false, true, vnd.attachPValues(), vnd.attachCorrMat());
+        	Configuration.getInstance().getGeneralConfig().addGraph("R Object: "+name);
         	createLastUsed();
         } else if (e.getActionCommand().equals("copy graph to clipboard")) {    
         	new ImageExportDialog(control.getMainFrame(), false);
