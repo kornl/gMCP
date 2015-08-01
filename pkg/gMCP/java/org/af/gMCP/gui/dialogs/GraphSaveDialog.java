@@ -21,7 +21,7 @@ public class GraphSaveDialog extends JDialog implements ActionListener {
 	GraphView control;
     JTextField jt = new JTextField("", 30);
     JCheckBox savePvalues = new JCheckBox("Save p-values");
-    JCheckBox saveCorrelation = new JCheckBox("Save correlation");
+    JCheckBox saveCorrelation = new JCheckBox("Save test information / correlation");
     
 	public GraphSaveDialog(GraphView control, String name) {
 		super(control.getMainFrame(), "R object name", true);
@@ -70,12 +70,13 @@ public class GraphSaveDialog extends JDialog implements ActionListener {
 
 	public void actionPerformed(ActionEvent e) {
 		Configuration.getInstance().setClassProperty(GraphSaveDialog.class, "variableName", jt.getText());
+		Configuration.getInstance().setBooleanClassProperty(GraphSaveDialog.class, "saveCorrelation", saveCorrelation.isSelected());
+		Configuration.getInstance().setBooleanClassProperty(GraphSaveDialog.class, "savePvalues", savePvalues.isSelected());
 		dispose();
 	}	
 	
-	public void saveGraph() {
-		Configuration.getInstance().setBooleanClassProperty(GraphSaveDialog.class, "saveCorrelation", saveCorrelation.isSelected());
-		Configuration.getInstance().setBooleanClassProperty(GraphSaveDialog.class, "savePvalues", savePvalues.isSelected());
+	//TODO DO we want to use this method really?
+	public void saveGraph() {		
     	String name = control.getNL().saveGraph(getName(), true, true, savePvalues.isSelected(), saveCorrelation.isSelected());        	    	
     	Configuration.getInstance().getGeneralConfig().addGraph("R Object: "+name);
     	control.isGraphSaved = true;
@@ -83,5 +84,15 @@ public class GraphSaveDialog extends JDialog implements ActionListener {
 	
 	public String getName() {
 		return jt.getText();
+	}
+
+	public boolean attachPValues() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	public boolean attachCorrMat() {
+		// TODO Auto-generated method stub
+		return false;
 	}
 }
