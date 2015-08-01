@@ -2,6 +2,8 @@ package org.af.gMCP.gui.graph;
 
 import java.util.Vector;
 
+import javax.swing.JOptionPane;
+
 import org.af.gMCP.gui.RControl;
 import org.af.jhlir.call.RList;
 import org.apache.commons.logging.Log;
@@ -18,6 +20,8 @@ public class GraphMCP {
 	NetList nl;
 	
 	String description;
+	double[] correlation;
+	String test;
 	double[] pvalues = null;
 	double[] entangledWeights = null;
 
@@ -87,12 +91,25 @@ public class GraphMCP {
 		}
 		try {
 			pvalues = RControl.getR().eval("attr("+name+", \"pvalues\")").asRNumeric().getData();
+			int answer = JOptionPane.showConfirmDialog(nl.control.getGraphGUI(), "Graph object has pvalues attached.\n Should they be loaded?", "Load p-values", JOptionPane.YES_NO_OPTION);
+			if (answer==JOptionPane.NO_OPTION) pvalues = null;
 		} catch (Exception e) {
 			if (!(e instanceof NullPointerException)) {
 				e.printStackTrace();
 			}
 			// Nothing to do here.
 		}
+		try {
+			test = RControl.getR().eval("attr("+name+", \"test\")").asRChar().getData()[0];
+			int answer = JOptionPane.showConfirmDialog(nl.control.getGraphGUI(), "Graph object has test information attached.\n Should they be loaded?", "Load test information", JOptionPane.YES_NO_OPTION);
+			if (answer==JOptionPane.NO_OPTION) pvalues = null;
+			correlation = RControl.getR().eval("as.numeric(attr("+name+", \"corMat\"))").asRNumeric().getData();
+		} catch (Exception e) {
+			if (!(e instanceof NullPointerException)) {
+				e.printStackTrace();
+			}
+			// Nothing to do here.
+		} 
 		for (Node k : nodes) {
 			nl.addNode(k);
 		}		
