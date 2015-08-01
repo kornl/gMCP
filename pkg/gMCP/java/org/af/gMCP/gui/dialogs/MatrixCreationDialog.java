@@ -136,12 +136,14 @@ public class MatrixCreationDialog extends JDialog implements ActionListener, Cha
 		getContentPane().add(ok, cc.xy(4, row));
 		
 		if (matrix ==null) {
-			DataTableModel m = dfp.getTable().getModel();
-			int n = m.getColumnCount();			
-			String[] result = RControl.getR().eval("(function(x){ x[is.na(x)] <- \"NA\"; return(x)})("+mname+")").asRChar().getData();
-			for (int i=0; i<n; i++) {
-				for (int j=0; j<n; j++) {
-					m.setValueAt(new EdgeWeight(result[i*n+j]), i, j);
+			if (mname != null) {
+				DataTableModel m = dfp.getTable().getModel();
+				int n = m.getColumnCount();			
+				String[] result = RControl.getR().eval("(function(x){ x[is.na(x)] <- \"NA\"; return(x)})("+mname+")").asRChar().getData();
+				for (int i=0; i<n; i++) {
+					for (int j=0; j<n; j++) {
+						m.setValueAt(new EdgeWeight(result[i*n+j]), i, j);
+					}
 				}
 			}
 		} else {
