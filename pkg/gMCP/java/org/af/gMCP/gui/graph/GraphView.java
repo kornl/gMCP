@@ -30,6 +30,7 @@ import org.af.gMCP.gui.ReproducableLog;
 import org.af.gMCP.gui.datatable.DataFramePanel;
 import org.af.gMCP.gui.dialogs.AdjustedPValueDialog;
 import org.af.gMCP.gui.dialogs.DialogConfIntEstVar;
+import org.af.gMCP.gui.dialogs.GraphSaveDialog;
 import org.af.gMCP.gui.dialogs.RejectedDialog;
 import org.af.gMCP.gui.dialogs.VariableNameDialog;
 import org.apache.commons.lang.ArrayUtils;
@@ -478,9 +479,10 @@ public class GraphView extends JPanel implements ActionListener {
             	f = new File(f.getAbsolutePath()+".RData");
             }
             try {
-            	VariableNameDialog vnd = new VariableNameDialog(getGraphGUI(), getGraphName());            	
+            	GraphSaveDialog vnd = new GraphSaveDialog(this, getGraphName());            	
             	String name = vnd.getName();
-            	name = getNL().saveGraph(name, false, true); 
+            	// Save graph (globally).
+            	name = getNL().saveGraph(name, false, true, vnd.attachPValues(), vnd.attachCorrMat()); 
             	String filename = f.getAbsolutePath().replaceAll("\\\\", "\\\\\\\\");            	
             	RControl.getR().eval("save("+name+", file=\""+filename+"\")");        		
             	JOptionPane.showMessageDialog(getMainFrame(), "Exported graph to R object '"+name+"' and saved this to \n'" + f.getAbsolutePath() + "'.", "Saved graph", JOptionPane.INFORMATION_MESSAGE);
