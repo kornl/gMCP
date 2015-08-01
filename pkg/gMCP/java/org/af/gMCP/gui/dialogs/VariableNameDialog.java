@@ -27,7 +27,7 @@ public class VariableNameDialog extends JDialog implements ActionListener {
 		this.parent = parent;		
 
 		String cols = "5dlu, pref, 5dlu, fill:pref:grow, 5dlu, pref, 5dlu";
-		String rows = "5dlu, pref, 5dlu, pref, 5dlu, pref, 5dlu, pref, 5dlu";
+		String rows = "5dlu, pref, 5dlu, pref, 5dlu";
 
 		FormLayout layout = new FormLayout(cols, rows);
 		getContentPane().setLayout(layout);
