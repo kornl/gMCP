@@ -12,8 +12,6 @@ import java.lang.reflect.Method;
 import java.net.URI;
 import java.net.URLEncoder;
 import java.util.Hashtable;
-import java.util.List;
-import java.util.Vector;
 
 import javax.swing.JButton;
 import javax.swing.JCheckBox;

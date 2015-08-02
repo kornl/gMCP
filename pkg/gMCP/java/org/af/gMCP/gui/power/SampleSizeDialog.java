@@ -9,7 +9,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 import java.util.Set;
-import java.util.Vector;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
@@ -23,7 +22,6 @@ import org.af.commons.widgets.buttons.HorizontalButtonPane;
 import org.af.commons.widgets.validate.ValidationException;
 import org.af.gMCP.config.Configuration;
 import org.af.gMCP.gui.CreateGraphGUI;
-import org.af.gMCP.gui.MenuBarMGraph;
 import org.af.gMCP.gui.RControl;
 import org.af.gMCP.gui.dialogs.PowerOptionsPanel;
 import org.af.gMCP.gui.dialogs.TextFileViewer;
