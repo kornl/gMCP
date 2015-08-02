@@ -27,7 +27,7 @@
 #' 
 #' Further the following parameters have a predefined meaning:
 #' \describe{
-#'   \item{verbose}{}
+#'   \item{verbose}{Logical scalar. If \code{TRUE} verbose output should be generated and printed to the standard output}
 #'   \item{subset}{}
 #'   \item{correlation}{}
 #' }
@@ -178,6 +178,10 @@ parametric.test <- function(pvalues, weights, alpha=0.05, adjPValues=TRUE, verbo
 #' @param alpha A numeric specifying the maximal allowed type one error rate. If \code{adjPValues==TRUE} (default) the parameter \code{alpha} is not used.
 #' @param verbose Logical scalar. If \code{TRUE} verbose output is generated.
 #' @param ... Further arguments possibly passed by \code{gMCP} which will be used by other test procedures but not this one.
+#' @references 
+#' Brannath, W., Bretz, F., Maurer, W., & Sarkar, S. (2009). 
+#' Trimmed Weighted Simes' Test for Two One‐Sided Hypotheses With Arbitrarily Correlated Test Statistics. 
+#' Biometrical Journal, 51(6), 885-898.
 #' @examples
 #' 
 #' bonferroni.trimmed.simes.test(pvalues=c(0.1,0.2,0.05), weights=c(0.5,0.5,0))
@@ -199,6 +203,8 @@ bonferroni.trimmed.simes.test <- function(pvalues, weights, alpha=0.05, adjPValu
 }
 
 #' Simes on subsets, otherwise Bonferroni
+#' 
+#' Weighted Simes test introduced by Benjamini and Hochberg (1997)
 #'
 #' As an additional argument a list of subsets must be provided, that states in which cases a Simes test is applicable (i.e. if all hypotheses to test belong to one of these subsets), e.g.
 #' subsets <- list(c("H1", "H2", "H3"), c("H4", "H5", "H6"))
@@ -239,7 +245,7 @@ simes.on.subsets.test <- function(pvalues, weights, alpha=0.05, adjPValues=TRUE,
 
 #' Weighted Simes test
 #' 
-#' 
+#' Weighted Simes test introduced by Benjamini and Hochberg (1997)
 #' 
 #' @param pvalues A numeric vector specifying the p-values. 
 #' @param weights A numeric vector of weights.
