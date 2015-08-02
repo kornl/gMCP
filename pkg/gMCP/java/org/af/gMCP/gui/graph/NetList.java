@@ -319,8 +319,8 @@ public class NetList extends JTabbedPane implements ChangeListener, AnnotationPa
 		}
 		if (graph.test!=null) {
 			control.getPView().setTest(graph.test);
-			if (graph.correlation!=null) {
-				control.getPView().setCorrelation(graph.correlation);
+			if (graph.corMatName!=null) {
+				control.getPView().setCorrelation(graph.corMatName);
 			}
 		}
 		return graph;
@@ -457,6 +457,7 @@ public class NetList extends JTabbedPane implements ChangeListener, AnnotationPa
 			RControl.getR().evalVoid("attr("+finalGraphName+", \"test\") <- "+ test, global);
 			if (test.equals("\"parametric\"")) {
 				String correlation = control.getPView().jcbCorObject.getSelectedItem().toString();
+				RControl.getR().evalVoid("attr("+finalGraphName+", \"corMatName\") <- '"+ correlation+"'", global);
 				RControl.getR().evalVoid("attr("+finalGraphName+", \"corMat\") <- "+ correlation, global);
 			}
 		}

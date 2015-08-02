@@ -20,7 +20,7 @@ public class GraphMCP {
 	NetList nl;
 	
 	String description;
-	double[] correlation;
+	String corMatName;	
 	String test;
 	double[] pvalues = null;
 	double[] entangledWeights = null;
@@ -102,8 +102,12 @@ public class GraphMCP {
 		try {
 			test = RControl.getR().eval("attr("+name+", \"test\")").asRChar().getData()[0];
 			int answer = JOptionPane.showConfirmDialog(nl.control.getGraphGUI(), "Graph object has test information attached.\n Should they be loaded?", "Load test information", JOptionPane.YES_NO_OPTION);
-			if (answer==JOptionPane.NO_OPTION) pvalues = null;
-			correlation = RControl.getR().eval("as.numeric(attr("+name+", \"corMat\"))").asRNumeric().getData();
+			if (answer==JOptionPane.NO_OPTION) {
+				test = null;
+			} else {
+				corMatName = RControl.getR().eval("attr("+name+", \"corMatName\")").asRChar().getData()[0];
+				RControl.getR().eval("assign('"+corMatName+"', attr("+name+", \"corMat\"), envir=globalenv())").asRNumeric().getData();
+			}
 		} catch (Exception e) {
 			if (!(e instanceof NullPointerException)) {
 				e.printStackTrace();

@@ -558,9 +558,9 @@ public class PView extends JPanel implements KeyListener, ActionListener {
 		setUp();		
 	}
 
-	public void setCorrelation(double[] correlation) {
-		// TODO Auto-generated method stub
-		
+	public void setCorrelation(String correlation) {		
+		refresh(false);
+		jcbCorObject.setSelectedItem(correlation);
 	}
 
 	/*public String getAlpha() {
