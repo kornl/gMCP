@@ -482,7 +482,7 @@ public class GraphView extends JPanel implements ActionListener {
             	GraphSaveDialog vnd = new GraphSaveDialog(this, getGraphName());            	
             	String name = vnd.getName();
             	// Save graph (globally).
-            	name = getNL().saveGraph(name, false, true, vnd.attachPValues(), vnd.attachCorrMat()); 
+            	name = getNL().saveGraph(name, false, false, vnd.attachPValues(), vnd.attachCorrMat()); 
             	String filename = f.getAbsolutePath().replaceAll("\\\\", "\\\\\\\\");            	
             	RControl.getR().eval("save("+name+", file=\""+filename+"\")");        		
             	JOptionPane.showMessageDialog(getMainFrame(), "Exported graph to R object '"+name+"' and saved this to \n'" + f.getAbsolutePath() + "'.", "Saved graph", JOptionPane.INFORMATION_MESSAGE);
