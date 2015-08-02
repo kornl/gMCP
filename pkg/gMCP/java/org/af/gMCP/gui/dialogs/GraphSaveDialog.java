@@ -87,12 +87,10 @@ public class GraphSaveDialog extends JDialog implements ActionListener {
 	}
 
 	public boolean attachPValues() {
-		// TODO Auto-generated method stub
-		return false;
+		return savePvalues.isSelected();
 	}
 
 	public boolean attachCorrMat() {
-		// TODO Auto-generated method stub
-		return false;
+		return saveCorrelation.isSelected();
 	}
 }
