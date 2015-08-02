@@ -31,6 +31,7 @@ import org.af.commons.logging.LoggingSystem;
 import org.af.commons.threading.SafeSwingWorker;
 import org.af.commons.tools.StringTools;
 import org.af.commons.widgets.GUIToolKit;
+import org.af.commons.widgets.RightClickTextMenuListener;
 import org.af.gMCP.config.Configuration;
 import org.apache.commons.lang.exception.ExceptionUtils;
 import org.apache.commons.logging.Log;
@@ -116,6 +117,7 @@ public abstract class ErrorDialogChooseLevelBase extends JDialog implements Acti
 		jta.setLineWrap(true);
 		jta.setWrapStyleWord(true);
 		jta.setMargin(new Insets(4,4,4,4));
+		jta.addMouseListener(new RightClickTextMenuListener(jta));
 		
 		subjectShort = getSubjectShort();
 		
