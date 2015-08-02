@@ -26,6 +26,9 @@ Otherwise if \code{adjPValues==FALSE} a logical value is returned whether the nu
 \item{...}{Further arguments possibly passed by \code{gMCP} which will be used by other test procedures but not this one.}
 }
 \description{
+Weighted Simes test introduced by Benjamini and Hochberg (1997)
+}
+\details{
 As an additional argument a list of subsets must be provided, that states in which cases a Simes test is applicable (i.e. if all hypotheses to test belong to one of these subsets), e.g.
 subsets <- list(c("H1", "H2", "H3"), c("H4", "H5", "H6"))
 Trimmed Simes test for intersections of two hypotheses and otherwise weighted Bonferroni-test

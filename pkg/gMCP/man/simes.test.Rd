@@ -22,7 +22,7 @@ Otherwise if \code{adjPValues==FALSE} a logical value is returned whether the nu
 \item{...}{Further arguments possibly passed by \code{gMCP} which will be used by other test procedures but not this one.}
 }
 \description{
-Weighted Simes test
+Weighted Simes test introduced by Benjamini and Hochberg (1997)
 }
 \examples{
 simes.test(pvalues=c(0.1,0.2,0.05), weights=c(0.5,0.5,0))

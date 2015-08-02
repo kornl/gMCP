@@ -32,7 +32,7 @@ Otherwise if \code{adjPValues==FALSE} a logical value is returned whether the nu
 
 Further the following parameters have a predefined meaning:
 \describe{
-  \item{verbose}{}
+  \item{verbose}{Logical scalar. If \code{TRUE} verbose output should be generated and printed to the standard output}
   \item{subset}{}
   \item{correlation}{}
 }
