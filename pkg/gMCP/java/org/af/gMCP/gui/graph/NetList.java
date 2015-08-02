@@ -454,15 +454,15 @@ public class NetList extends JTabbedPane implements ChangeListener, AnnotationPa
 		String finalGraphName = saveGraph(graphName, verbose, new Hashtable<String,Double>(), global);
 		if (addCorrelation) {
 			String test = control.getPView().getTest();
-			RControl.getR().evalVoid("attr("+graphName+", \"test\") <- "+ test, global);
+			RControl.getR().evalVoid("attr("+finalGraphName+", \"test\") <- "+ test, global);
 			if (test.equals("\"parametric\"")) {
 				String correlation = control.getPView().jcbCorObject.getSelectedItem().toString();
-				RControl.getR().evalVoid("attr("+graphName+", \"corMat\") <- "+ correlation, global);
+				RControl.getR().evalVoid("attr("+finalGraphName+", \"corMat\") <- "+ correlation, global);
 			}
 		}
 		if (addPValues) {
 			String pvals = control.getPView().getPValuesString();
-			RControl.getR().evalVoid("attr("+graphName+", \"pvalues\") <- "+ pvals, global);
+			RControl.getR().evalVoid("attr("+finalGraphName+", \"pvalues\") <- "+ pvals, global);
 		}
 		return finalGraphName;
 	}
@@ -502,8 +502,7 @@ public class NetList extends JTabbedPane implements ChangeListener, AnnotationPa
 			RControl.getR().evalVoid(graphName+" <- new(\"entangledMCP\", subgraphs=list("+graphs+"), weights=c("+weights+"))");
 			if (global) RControl.getR().evalVoidInGlobalEnv(graphName+" <- get("+graphName+", envir=gMCP:::gMCPenv)");
 		}
-		RControl.getR().evalVoid("attr("+graphName+", \"description\") <- \""+ control.getDView().getDescription()+"\"", global);
-		RControl.getR().evalVoid("attr("+graphName+", \"pvalues\") <- "+ control.getPView().getPValuesString(), global);
+		RControl.getR().evalVoid("attr("+graphName+", \"description\") <- \""+ control.getDView().getDescription()+"\"", global);		
 		if (verbose && !graphName.equals(graphNameOld)) { JOptionPane.showMessageDialog(this, "The graph as been exported to R under ther variable name:\n\n"+graphName, "Saved as \""+graphName+"\"", JOptionPane.INFORMATION_MESSAGE); }
 		return graphName;
 	}
