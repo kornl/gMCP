@@ -317,6 +317,12 @@ public class NetList extends JTabbedPane implements ChangeListener, AnnotationPa
 		} else {
 			control.getDView().setDescription("");
 		}
+		if (graph.test!=null) {
+			control.getPView().setTest(graph.test);
+			if (graph.correlation!=null) {
+				control.getPView().setCorrelation(graph.correlation);
+			}
+		}
 		return graph;
 	}
 

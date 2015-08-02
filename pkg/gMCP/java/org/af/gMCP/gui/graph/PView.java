@@ -226,6 +226,18 @@ public class PView extends JPanel implements KeyListener, ActionListener {
 		}
 		return param;
 	}
+	
+	public void setTest(String test) {
+		if (test.equals("Bonferroni")) {
+			this.jrbNoCorrelation.setSelected(true);
+		} else if (test.equals("parametric")) {
+			this.jrbRCorrelation.setSelected(true);
+		} else if (test.equals("Simes")) {
+			this.jrbSimes.setSelected(true);
+		} else {
+			throw new RuntimeException("Test '"+test+"' not recognized.");
+		}
+	}
 
 	public double getPValue(Node node) {
 		for (int i=panels.size()-1;i>=0;i--) {
@@ -544,6 +556,11 @@ public class PView extends JPanel implements KeyListener, ActionListener {
 			weightLabel.setText("Weights");
 		}
 		setUp();		
+	}
+
+	public void setCorrelation(double[] correlation) {
+		// TODO Auto-generated method stub
+		
 	}
 
 	/*public String getAlpha() {
