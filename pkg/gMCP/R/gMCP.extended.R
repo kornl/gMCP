@@ -391,10 +391,11 @@ gMCP.extended <- function(graph, pvalues, test, alpha=0.05, eps=10^(-3), upscale
   exclude <- c("callFromGUI", "pvalues", "weights", "alpha", "adjPValues", "verbose", "subset")
   for (p in test.parameters) {
     if (p=="...") break # Everything after "..." in the test functions is optional.
-    if (!(p%in%exclude) && !(p%in%names(list(...)))) stop(paste("Specified test requires parameter '",p,"'.",sep=""))
+    if (!(p%in%exclude) && !(p%in%names(list(...)))) stop(paste("Specified test requires parameter '",p,"', which is missing.",sep=""))
   }
   
   # Replace epsilon
+  graph <- substituteEps(graph, eps=eps)
   
   # Check whether sequential rejective testing is applicable.
   if(FALSE) {
