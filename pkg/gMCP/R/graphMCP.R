@@ -274,6 +274,9 @@ setMethod("show", "graphMCP",
 				}
 			}
 			if (!printEdge) cat("No edges.\n")
+			#if (!is.null(attr(object, "pvalues"))) { # TODO Do we want to have more output here?
+			#  cat("\nAttached p-values: ", attr(object, "pvalues"), "\n")
+			#}
 			#cat(paste("\nalpha=",paste(format(getWeights(object), digits=4 ,drop0trailing=TRUE),collapse="+"),"=",sum(getWeights(object)),"\n", sep=""))
 			cat("\n")
 		}
