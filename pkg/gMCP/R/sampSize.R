@@ -126,7 +126,7 @@ sampSize <- function(graph, esf, effSize, powerReqFunc, target,
 sampSizeCore <- function (upperN, lowerN = floor(upperN/2),
                       targFunc, target, tol = 0.001, alRatio,
                       Ntype = c("arm", "total"), verbose = FALSE, ...){
-  cat("Trying to find a sample size for power", target, "\n")
+  if (verbose) cat("Trying to find a sample size for power", target, "\n")
   
   ## target function to iterate
   func <- function(n, ...){
