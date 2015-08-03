@@ -37,6 +37,7 @@
 #' If \code{upscale=TRUE} all weights are upscaled, so that sum(w)=1.
 #' @param alpha ...
 #' @param n.sim ...
+#' @param verbose Logical, whether verbose output should be printed.
 #' @param ... ...
 #' @return ...
 #' @examples
@@ -61,7 +62,7 @@
 sampSize <- function(graph, esf, effSize, powerReqFunc, target,
                      corr.sim, alpha, corr.test = NULL,
                      type = c("quasirandom", "pseudorandom"),
-                     upscale=FALSE, n.sim=10000, ...) { # effSize, endPoints
+                     upscale=FALSE, n.sim=10000, verbose=FALSE, ...) { # effSize, endPoints
   
   if (!is.list(effSize)) {
     effSize <- list(Scenario=effSize)
@@ -86,7 +87,7 @@ sampSize <- function(graph, esf, effSize, powerReqFunc, target,
                   f=prf, upscale=upscale, ...)        
         return(result[[5]])
       }
-      subResult <- sampSizeCore(100, targFunc=targFunc, alRatio=1, target=target[i], verbose=TRUE, n.sim=n.sim)      
+      subResult <- sampSizeCore(100, targFunc=targFunc, alRatio=1, target=target[i], verbose=verbose, n.sim=n.sim)      
       # n.sim = ceiling(n.sim/50)
       result[[length(result)+1]] <- subResult
       names(result)[[length(result)]] <- paste(prf.name, "-", scenario.name)
