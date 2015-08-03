@@ -30,7 +30,7 @@ bonferroni.trimmed.simes.test(pvalues=c(0.1,0.2,0.05), weights=c(0.5,0.5,0), adj
 }
 \references{
 Brannath, W., Bretz, F., Maurer, W., & Sarkar, S. (2009).
-Trimmed Weighted Simes' Test for Two One‐Sided Hypotheses With Arbitrarily Correlated Test Statistics.
+Trimmed Weighted Simes Test for Two One‐Sided Hypotheses With Arbitrarily Correlated Test Statistics.
 Biometrical Journal, 51(6), 885-898.
 }
 

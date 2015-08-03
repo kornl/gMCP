@@ -6,7 +6,7 @@
 \usage{
 sampSize(graph, esf, effSize, powerReqFunc, target, corr.sim, alpha,
   corr.test = NULL, type = c("quasirandom", "pseudorandom"),
-  upscale = FALSE, n.sim = 10000, ...)
+  upscale = FALSE, n.sim = 10000, verbose = FALSE, ...)
 }
 \arguments{
 \item{graph}{A graph of class \code{\link{graphMCP}}.}
@@ -47,6 +47,8 @@ where sum(w) is the sum of all node weights in this subset.
 If \code{upscale=TRUE} all weights are upscaled, so that sum(w)=1.}
 
 \item{n.sim}{...}
+
+\item{verbose}{Logical, whether verbose output should be printed.}
 
 \item{...}{...}
 
