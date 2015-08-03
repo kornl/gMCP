@@ -180,7 +180,7 @@ parametric.test <- function(pvalues, weights, alpha=0.05, adjPValues=TRUE, verbo
 #' @param ... Further arguments possibly passed by \code{gMCP} which will be used by other test procedures but not this one.
 #' @references 
 #' Brannath, W., Bretz, F., Maurer, W., & Sarkar, S. (2009). 
-#' Trimmed Weighted Simes Test for Two One‐Sided Hypotheses With Arbitrarily Correlated Test Statistics. 
+#' Trimmed Weighted Simes Test for Two One-Sided Hypotheses With Arbitrarily Correlated Test Statistics. 
 #' Biometrical Journal, 51(6), 885-898.
 #' @examples
 #' 
