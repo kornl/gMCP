@@ -1,5 +1,6 @@
 package org.af.gMCP.gui.dialogs;
 
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
@@ -13,6 +14,7 @@ import javax.swing.JLabel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
+import org.af.commons.widgets.RightClickTextMenuListener;
 import org.af.gMCP.config.Configuration;
 import org.af.gMCP.gui.graph.LaTeXTool;
 import org.af.gMCP.gui.graph.Node;
@@ -37,9 +39,9 @@ public class RejectedDialog extends JDialog implements ActionListener {
 		}
 		if (output==null) {
 			//Label R-Code, R-Code JTA, JButton
-			rows +=", pref, 5dlu, fill:pref:grow, 5dlu, pref, 5dlu";
+			rows +=", pref, 5dlu, fill:240dlu:grow, 5dlu, pref, 5dlu";
 		} else {
-			rows +=", pref, 5dlu, fill:pref, 5dlu, fill:120dlu:grow, 5dlu, pref, 5dlu";
+			rows +=", pref, 5dlu, fill:120dlu:grow, 5dlu, fill:120dlu:grow, 5dlu, pref, 5dlu";
 		}
 
 		FormLayout layout = new FormLayout(cols, rows);
@@ -69,9 +71,9 @@ public class RejectedDialog extends JDialog implements ActionListener {
 			
 			jta2.setFont(new Font("Monospaced", Font.PLAIN, 12));
 			jta2.setLineWrap(false);
+			jta2.addMouseListener(new RightClickTextMenuListener(jta2));
 			//jta.setWrapStyleWord(true);
-			getContentPane().add(new JScrollPane(jta2), cc.xyw(2, row, 3));
-			
+			getContentPane().add(new JScrollPane(jta2), cc.xyw(2, row, 3));			
 		}	
 		
 		if (output != null) {
@@ -82,6 +84,7 @@ public class RejectedDialog extends JDialog implements ActionListener {
 			//jta.setWrapStyleWord(true);
 			row += 2;
 			
+			jta.addMouseListener(new RightClickTextMenuListener(jta));
 			getContentPane().add(new JScrollPane(jta), cc.xyw(2, row, 3));
 		}		
 
@@ -89,16 +92,7 @@ public class RejectedDialog extends JDialog implements ActionListener {
 		jb.addActionListener(this);
 		getContentPane().add(jb, cc.xy(4, row));
 		
-		if (jta.getRows()> 2 || jta2.getRows()> 2) {
-			//System.out.println("setSize!!!");
-			this.setSize(800, 600);
-		} else {
-			//System.out.println("pack");
-			pack();
-		}
-		if (getHeight()>800) {
-			setSize(800,800);
-		}
+		pack();
 		
 	    setLocationRelativeTo(mainFrame);
 	    
