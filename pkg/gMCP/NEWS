@@ -33,8 +33,11 @@ Changes in version 0.8-9 (??-??-2015)
 
 - Fixed logging errors/warnings when two different users used the gMCP
   GUI on the same system.
-
+  
 - Improved dialog in case of errors.
+
+- Warning if R was compiled without shared library support and the 
+  graphical user interface will not be available due to missing JRI.
 
 
 Changes in version 0.8-8 (03-10-2014)
