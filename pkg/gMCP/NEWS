@@ -1,18 +1,41 @@
 Changes in version 0.8-9 (??-??-2015)
 =====================================
 
-- Fixed some help documents not showing up.
+- New function sampSize for sample size calculations
 
-- New help buttons in the GUI which directly open the relevant
+- Graphical user interface for sample size calculations
+
+- New function gMCP.extended, which mostly does the same as the old
+  gMCP function, but separates more clearly between weighting scheme
+  and the subsequent closed testing procedure (with possible shortcuts).
+  See ?gMCP.extended for the documentation of this new function.
+  
+- gMCP.extended can take any weighted test function as argument.
+  The trimmed one-sided Simes test for two hypotheses and the weighted 
+  Simes test for specified subsets (and Bonferroni otherwise) are two 
+  new weighted test functions provided by this package.
+  See ?bonferroni.trimmed.simes.test and ?simes.on.subsets.test for details.
+
+- When a graph is saved, the user now can decide whether p-values and
+  chosen test (including possible correlation matrix) should also be
+  saved as attributes attached to the graph. If such a graph is loaded
+  the user can choose whether he wants to restore p-values and/or test
+  information.
+
+- Saving a graph as PNG image file opens a dialog with the following
+  options and a live preview: Color, transparent background, drawing
+  of hypotheses names and weights, drawing of edge weights and node
+  radius.
+
+- Node size can be changed (e.g. for longer hypotheses names).
+
+- Fixed some help documents not showing up as expected.
+
+- Added new help buttons in the GUI which directly open the relevant
   sections of the user manual.
 
-- Better layout for result window when Simes test is used.
-
-- Saving a graph now asks which properties should also be saved.
-
-- Fixed color/no-color option for exported images.
-
-- Nodes (Colors/Sizes)
+- Better layout for result window when large graphs or Simes test 
+  is used.
 
 - Improved Edges
 
@@ -21,10 +44,6 @@ Changes in version 0.8-9 (??-??-2015)
 
 - Fixed confusing (but mostly not relevant) mix-up between NA and NaN
   during R/Java conversions.
-
-- Save p-values / correlations
-
-- Dialog for PNG save options
 
 - Better handling of invalid LaTeX terms.
 
@@ -38,6 +57,10 @@ Changes in version 0.8-9 (??-??-2015)
 
 - Warning if R was compiled without shared library support and the 
   graphical user interface will not be available due to missing JRI.
+  
+- Lots of small interface improvements and documentation additions.
+
+- Extended RUnit tests 
 
 
 Changes in version 0.8-8 (03-10-2014)

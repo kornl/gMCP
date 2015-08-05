@@ -1,5 +1,7 @@
 Is set.seed used everywhere (sampsize, ...)?
 
+Persistent node colors
+
 Simes and parametric tests do not reset back to graph with variables.
 
 Check whether user defined power functions can be evaluated.
