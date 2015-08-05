@@ -981,7 +981,7 @@ graph
 %  description, we sometimes try to display fractions instead of floating point
 %  numbers. This option will assure that the shown fraction does not
 %  differ in more than the specified value from the floating point number.
-  \item[Verbose output of algorithms] If checked the selected the algorithms produce a
+  \item[Verbose output of algorithms] If selected the algorithms produce a
   verbose output that is shown in the GUI. For example the Simes test specifies
   for each intersection of elementar hypotheses whether and why it could be
   rejected.
@@ -996,6 +996,10 @@ graph
     a weighted test is performed at the possibly reduced level alpha of $\text{sum}(w)*alpha$,
     where $\text{sum}(w)$ is the sum of all node weights in this subset
     If '\emph{Yes}' is selected all weights are upscaled, so that $\text{sum}(w)=1$.
+  \item[Use random number seed] If selected a user specified seed is used to set the 
+  random number generator state to the specified value. This way all 
+  calculations involving random numbers give a reproducable result.
+  \item[Random number seed] Integer seed value to use for random number generation.
 \end{description}  
   
 \subsection{Miscellaneous}  
@@ -1003,7 +1007,7 @@ graph
 \begin{description}  
   \item[Check online for updates] On start-up gMCP can check automatically
     whether a new version of gMCP is available. Only your version of R (like
-    2.13.1), the version of gMCP (like 0.7-5) and a random number (to
+    3.2.1), the version of gMCP (like 0.8-7) and a random number (to
     distinguish different requests) are transmitted.
   \item[Export images with transparent background] If checked the background of
     exported PNG graphics will be transparent. Otherwise the graphs are
@@ -1014,7 +1018,11 @@ graph
     are considered "anchored" and will stay with the edge weight label at the
     same position.
   \item[Automatically enter the editing mode, whenever a table cell
-    gets the focus] 
+    gets the focus] People are used to different behaviour of tables (mostly
+    depending on which spreadsheet applications they use regularly). If this
+    option is set to true it is easy to change the values of the cells but
+    navigating with arrow keys is hard since in the editing mode the right and
+    left key will move the cursor only in the currently selected cell.
   \item[Enable highly experimental feature]\label{experimentalFeatures} The gMCP
     GUI often contains new features that are not that well tested. If you want
     to use or take a look at them, activate this option. But be prepared that
@@ -1023,6 +1031,12 @@ graph
     the result dialog does not only show the pure results, but also R code to 
     reproduce these results in R. If you are not interested in this feature
     you can disable it here.
+  \item[Save config files] Many settings and options are automatically saved and 
+    restored between different gMCP sessions (using Java's Properties API). 
+    But more complicated settings (e.g. for power or sample size calculations) need 
+    to be saved as files. This can also be done automatically, but the user must 
+    first agree that non-temporary files are created and has to specify the 
+    directory, where these files should be placed.
 \end{description}
 
 % We don't need the following section any more, since both tasks are pretty well (i.e. better) described in the respective dialogs in the GUI.

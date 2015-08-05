@@ -32,7 +32,7 @@ public class NumericPanel extends OptionsPanel implements ActionListener {
     private JComboBox upscale;
     private JCheckBox useSeed;
     private JTextField seed;
-    private JLabel seedLabel = new JLabel("Seed:");
+    private JLabel seedLabel = new JLabel("Random number seed:");
 
     public NumericPanel(Configuration conf) {
         this.conf = conf;
@@ -76,7 +76,7 @@ public class NumericPanel extends OptionsPanel implements ActionListener {
         verbose = new JCheckBox("Verbose output of algorithms");
         verbose.setSelected(conf.getGeneralConfig().verbose());
         verbose.setToolTipText("<html>" +
-        		"If checked the selected the algorithms produce a verbose<br>" +
+        		"If selected the algorithms produce a verbose<br>" +
         		"output that is shown in the GUI. For example the Simes<br>" +
         		"test specifies for each intersection of elementar hypotheses<br>" +
         		"whether and why it could be rejected.</html>");
@@ -104,12 +104,13 @@ public class NumericPanel extends OptionsPanel implements ActionListener {
         		"If 'Yes' is selected all weights are upscaled, so that sum(w)=1.<br>" +
         		"Please see the manual for a longer explanation and examples.</html>");
         
-        useSeed = new JCheckBox("Use seed");
+        useSeed = new JCheckBox("Use random number seed");
         useSeed.setSelected(conf.getGeneralConfig().useSeed());
         useSeed.addActionListener(this);        
         useSeed.setToolTipText("<html>" +
-        		"Should a user specified seed be used<br>" +
-        		"for all calculations involving random numbers?" +
+        		"If selected a user specified seed is used to set the random number<br>"+
+                "generator state to the specified value. This way all calculations<br>"+
+                "involving random numbers give a reproducable result." +
         		"</html>");
         
         seed = new JTextField(30);
@@ -117,7 +118,7 @@ public class NumericPanel extends OptionsPanel implements ActionListener {
         seedLabel.setEnabled(useSeed.isSelected());
         seed.setText(""+conf.getGeneralConfig().getSeed());
         seed.setToolTipText("<html>" +
-        		"Integer seed value to use."+
+        		"Integer seed value to use for random number generation."+
         		"</html>");
         
         

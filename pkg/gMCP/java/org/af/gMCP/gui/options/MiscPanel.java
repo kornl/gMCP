@@ -48,8 +48,8 @@ public class MiscPanel extends OptionsPanel implements ActionListener {
         checkOnlineForUpdate = new JCheckBox("Check online for updates");
         checkOnlineForUpdate.setSelected(conf.getGeneralConfig().checkOnline());
         checkOnlineForUpdate.setToolTipText("<html>On start-up gMCP can check automatically whether a new version<br>\n" +
-        		"of gMCP is available. Only your version of R (like 2.13.1),<br>\n" +
-        		"the version of gMCP (like 0.7-5) and a random number<br>\n" +
+        		"of gMCP is available. Only your version of R (like 3.2.1),<br>\n" +
+        		"the version of gMCP (like 0.8-7) and a random number<br>\n" +
         		"(to distinguish different requests) are transmitted.</html>");
         exportTransparent = new JCheckBox("Export images with transparent background");
         exportTransparent.setSelected(conf.getGeneralConfig().exportTransparent());
@@ -64,10 +64,10 @@ public class MiscPanel extends OptionsPanel implements ActionListener {
         focusEqualsEdit = new JCheckBox("Automatically enter the editing mode, whenever a table cell gets the focus");
         focusEqualsEdit.setSelected(conf.getGeneralConfig().focusEqualsEdit());
         focusEqualsEdit.setToolTipText("<html>People are used to different behaviour of tables (mostly<br>"+
-    "depending on which spreadsheet applications they use regularly). If this<br>"+
-    "option is set to true it is easy to change the values of the cells but<br>"+
-    "navigating with arrow keys is hard since in the editing mode the right and<br>"+
-    "left key will move the cursor only in the currently selected cell.</html>");
+        		"depending on which spreadsheet applications they use regularly). If this<br>"+
+        		"option is set to true it is easy to change the values of the cells but<br>"+
+        		"navigating with arrow keys is hard since in the editing mode the right and<br>"+
+        		"left key will move the cursor only in the currently selected cell.</html>");
         enableNewFeatures = new JCheckBox("Enable highly experimental features");
         enableNewFeatures.setSelected(conf.getGeneralConfig().experimentalFeatures());
         enableNewFeatures.setToolTipText("<html>The gMCP GUI often contains new features that are not that well tested.<br>" +
@@ -82,7 +82,10 @@ public class MiscPanel extends OptionsPanel implements ActionListener {
         saveConfig = new JCheckBox("Save config files");
         saveConfig.addActionListener(this);
         saveConfig.setSelected(conf.getGeneralConfig().usePersistentConfigFile());
-        saveConfig.setToolTipText("<html>" +        		
+        saveConfig.setToolTipText("<html>Many settings and options are automatically saved and restored between different<br>"
+        		+ "gMCP sessions (using Java's Properties API). But more complicated settings (e.g. for power or sample size<br>"
+        		+ "calculations) need to be saved as files. This can also be done automatically, but the user must first agree<br>"
+        		+ "that non-temporary files are created and has to specify the directory, where these files should be placed." +        		
         		"</html>");
         
         configPath = new JTextField(conf.getGeneralConfig().getConfigDir(), 30);
