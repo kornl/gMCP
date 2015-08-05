@@ -1,7 +1,15 @@
 package org.af.gMCP.gui.options;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.File;
+
+import javax.swing.JButton;
 import javax.swing.JCheckBox;
+import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 
 import org.af.commons.widgets.validate.ValidationException;
 import org.af.gMCP.config.Configuration;
@@ -12,7 +20,7 @@ import com.jgoodies.forms.layout.FormLayout;
 /**
  * OptionsPanel for miscellaneous settings.
  */
-public class MiscPanel extends OptionsPanel { 
+public class MiscPanel extends OptionsPanel implements ActionListener { 
 
 
     private JCheckBox checkOnlineForUpdate;
@@ -22,8 +30,11 @@ public class MiscPanel extends OptionsPanel {
     private JCheckBox enableNewFeatures;
     private JCheckBox showRCode;
     
+    private JCheckBox saveConfig;
+    JButton jbConfigPath = new JButton("Save config files to:");	
+	JTextField configPath;
+    
     private Configuration conf;
-
 
     public MiscPanel(Configuration conf) {
         this.conf = conf;
@@ -67,13 +78,24 @@ public class MiscPanel extends OptionsPanel {
         showRCode.setToolTipText("<html>After performing a test in the GUI the result dialog does not only show the pure<br>"
         		+ "results, but also R code to reproduce these results in R. If you are not interested in this feature,<br>"
         		+ "you can disable it here.</html>");
+        
+        saveConfig = new JCheckBox("Save config files");
+        saveConfig.addActionListener(this);
+        saveConfig.setSelected(conf.getGeneralConfig().usePersistentConfigFile());
+        saveConfig.setToolTipText("<html>" +        		
+        		"</html>");
+        
+        configPath = new JTextField(conf.getGeneralConfig().getConfigDir(), 30);
+        jbConfigPath.addActionListener(this);
+		configPath.setEnabled(saveConfig.isSelected());
+		jbConfigPath.setEnabled(saveConfig.isSelected());
     }
 
     private void doTheLayout() {
         JPanel p1 = new JPanel();
 
         String cols = "pref, 5dlu, fill:pref:grow";
-        String rows = "pref, 5dlu, pref, 5dlu, pref, 5dlu, pref, 5dlu, pref, 5dlu, pref, 5dlu, pref, 5dlu, pref";
+        String rows = "pref, 5dlu, pref, 5dlu, pref, 5dlu, pref, 5dlu, pref, 5dlu, pref, 5dlu, pref, 5dlu, pref, 5dlu, pref, 5dlu, pref, 5dlu";
         FormLayout layout = new FormLayout(cols, rows);
 
         p1.setLayout(layout);
@@ -105,6 +127,15 @@ public class MiscPanel extends OptionsPanel {
         
         row += 2;	
         
+        row += 2;
+        
+        p1.add(saveConfig, cc.xyw(1, row, 3));
+
+        row += 2;
+        
+        p1.add(jbConfigPath, cc.xy(1, row));
+        p1.add(configPath, cc.xy(3, row));
+        
         add(p1);
     }
 
@@ -116,5 +147,39 @@ public class MiscPanel extends OptionsPanel {
        	conf.getGeneralConfig().setFocusEqualsEdit(focusEqualsEdit.isSelected());
        	conf.getGeneralConfig().setExperimental(enableNewFeatures.isSelected());
        	conf.getGeneralConfig().setShowRCode(showRCode.isSelected());
+       	        
+        if (saveConfig.isSelected()) {
+        	File f = new File(configPath.getText());
+        	if (!f.exists() || !f.isDirectory()) {
+        		JOptionPane.showMessageDialog(this, "\""+configPath.getText()+"\" is not a valid directory.", "Invalid input", JOptionPane.ERROR_MESSAGE);
+        	}
+        }        
+       	conf.getGeneralConfig().setUsePersistentConfigFile(saveConfig.isSelected());
+       	conf.getGeneralConfig().setConfigDir(configPath.getText());
+        
     }
+
+
+	public void actionPerformed(ActionEvent e) {
+		if (e.getSource() == jbConfigPath) { /** Button for selecting OutputPath */
+			JFileChooser fc;
+			File p = new File (configPath.getText());
+			if (p.exists() && p.isDirectory() ) {
+				fc = new JFileChooser(p);
+			} else {
+				fc = new JFileChooser();
+			}
+			fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);    
+			int returnVal = fc.showOpenDialog(this);
+			if (returnVal == JFileChooser.APPROVE_OPTION) {
+				File f = fc.getSelectedFile();
+				configPath.setText(f.getAbsolutePath());
+			}	
+			return;
+		} 
+		if (e.getSource() == saveConfig) {
+			configPath.setEnabled(saveConfig.isSelected());
+			jbConfigPath.setEnabled(saveConfig.isSelected());
+		}		
+	}
 }

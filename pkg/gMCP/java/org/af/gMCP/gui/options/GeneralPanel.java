@@ -48,10 +48,6 @@ public class GeneralPanel extends OptionsPanel implements ActionListener {
     private JCheckBox useJLaTeXMath;
     private JCheckBox markEpsilon;
     
-    private JCheckBox saveConfig;
-    JButton jbConfigPath = new JButton("Save config files to:");	
-	JTextField configPath;
-
 	JFrame parent;
 
     public GeneralPanel(JFrame parent, OptionsDialog odialog) {
@@ -157,24 +153,13 @@ public class GeneralPanel extends OptionsPanel implements ActionListener {
         		"You can set whether epsilon edges should<br>" +
         		"been shown as dashed or solid lines." +
         		"</html>");
-        
-        saveConfig = new JCheckBox("Save config files");
-        saveConfig.addActionListener(this);
-        saveConfig.setSelected(conf.getGeneralConfig().usePersistentConfigFile());
-        saveConfig.setToolTipText("<html>" +        		
-        		"</html>");
-        
-        configPath = new JTextField(conf.getGeneralConfig().getConfigDir(), 30);
-        jbConfigPath.addActionListener(this);
-		configPath.setEnabled(saveConfig.isSelected());
-		jbConfigPath.setEnabled(saveConfig.isSelected());
 
     }
 
     private void doTheLayout() {
         JPanel p1 = new JPanel();
         String cols = "pref, 5dlu, fill:pref:grow";
-        String rows = "pref, 5dlu, pref, 5dlu, pref, 5dlu, pref, 5dlu, pref, 5dlu, pref, 5dlu, pref, 5dlu, pref, 5dlu, pref, 5dlu, pref, 5dlu, pref, 5dlu, pref, 5dlu, pref, 5dlu, pref";
+        String rows = "pref, 5dlu, pref, 5dlu, pref, 5dlu, pref, 5dlu, pref, 5dlu, pref, 5dlu, pref, 5dlu, pref, 5dlu, pref, 5dlu, pref, 5dlu, pref, 5dlu, pref, 5dlu";
         
         FormLayout layout = new FormLayout(cols, rows);
         p1.setLayout(layout);
@@ -224,15 +209,6 @@ public class GeneralPanel extends OptionsPanel implements ActionListener {
         row += 2;
         
         p1.add(markEpsilon, cc.xyw(1, row, 3));    
-
-        row += 2;
-        
-        p1.add(saveConfig, cc.xyw(1, row, 3));
-
-        row += 2;
-        
-        p1.add(jbConfigPath, cc.xy(1, row));
-        p1.add(configPath, cc.xy(3, row));
         
         add(p1);
     }
@@ -281,20 +257,11 @@ public class GeneralPanel extends OptionsPanel implements ActionListener {
         	JOptionPane.showMessageDialog(this, "\""+jtfNumberOfDigits.getText()+"\" is not a valid integer for the number of digits.", "Invalid input", JOptionPane.ERROR_MESSAGE);
         }
         
-        if (saveConfig.isSelected()) {
-        	File f = new File(configPath.getText());
-        	if (!f.exists() || !f.isDirectory()) {
-        		JOptionPane.showMessageDialog(this, "\""+configPath.getText()+"\" is not a valid directory.", "Invalid input", JOptionPane.ERROR_MESSAGE);
-        	}
-        }
-        
        	conf.getGeneralConfig().setColoredImages(colorImages.isSelected());
        	conf.getGeneralConfig().setShowRejected(showRejected.isSelected());
        	conf.getGeneralConfig().setShowFractions(showFractions.isSelected());
        	conf.getGeneralConfig().setUseJLaTeXMath(useJLaTeXMath.isSelected());
        	conf.getGeneralConfig().setMarkEpsilon(markEpsilon.isSelected());
-       	conf.getGeneralConfig().setUsePersistentConfigFile(saveConfig.isSelected());
-       	conf.getGeneralConfig().setConfigDir(configPath.getText());
 
        	try {
        		String currentLF = conf.getJavaConfig().getLooknFeel(); // UIManager.getLookAndFeel();
@@ -343,27 +310,8 @@ public class GeneralPanel extends OptionsPanel implements ActionListener {
         setLooknFeel(lfID2FullName(lf.getID()));
     }
 
-	public void actionPerformed(ActionEvent e) {
-		if (e.getSource() == jbConfigPath) { /** Button for selecting OutputPath */
-			JFileChooser fc;
-			File p = new File (configPath.getText());
-			if (p.exists() && p.isDirectory() ) {
-				fc = new JFileChooser(p);
-			} else {
-				fc = new JFileChooser();
-			}
-			fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);    
-			int returnVal = fc.showOpenDialog(this);
-			if (returnVal == JFileChooser.APPROVE_OPTION) {
-				File f = fc.getSelectedFile();
-				configPath.setText(f.getAbsolutePath());
-			}	
-			return;
-		} 
-		if (e.getSource() == saveConfig) {
-			configPath.setEnabled(saveConfig.isSelected());
-			jbConfigPath.setEnabled(saveConfig.isSelected());
-		}
+	public void actionPerformed(ActionEvent e) {	
+		// Not used in the moment.
 	}
 }
 

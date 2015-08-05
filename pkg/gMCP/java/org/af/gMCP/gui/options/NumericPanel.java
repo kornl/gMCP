@@ -48,7 +48,7 @@ public class NumericPanel extends OptionsPanel implements ActionListener {
         useEpsApprox.addActionListener(this);
         useEpsApprox.setEnabled(false);
         useEpsApprox.setToolTipText("<html>" +
-        		"In this version this value can not be changed.<br>" +
+        		"In this version this option can not be changed.<br>" +
         		"No calculations with infinitesimal small values are done<br>" +
         		"but instead the epsilon is approximated by a small real number." +
         		"</html>");
