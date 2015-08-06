@@ -1066,16 +1066,38 @@ in figure \ref{fig:fileMenu} should be fairly self-explanatory.
   \caption{\label{fig:fileMenu} Import and export of graphs.}
 \end{figure}
 
-You can export graphs to png files. The background of these png files
-will be made transparent, so that they will fit into whichever
-document you insert them.  Note that some image viewers visualize
+\subsection{PNG Image Export}
+
+You can export graphs to PNG files with the dialog shown in figure \ref{fig:exportPNG}.
+
+\begin{figure}[ht]
+  \centering    
+  \includegraphics[width=10cm]{pictures/exportPNG}      
+  \caption{\label{fig:exportPNG} Export options for PNG image files.}
+\end{figure}
+
+The background of these png files can (and normally should) be made transparent, 
+so that they will fit into whichever
+document you insert them. Note that some image viewers visualize
 transparency with a checkerboard pattern. In some Windows application
 the transparent background may be wrongly shown as black - if this
 happens or you generally prefer a non-transparent white background,
-you can toggle the option "\emph{Export images with transparent 
-background}" in the options dialog.
+you can toggle the option \emph{"transparent 
+background"}.
 
-Since version 0.8-7 gMCP also can create word documents (Office Open XML / docx).
+Further you can choose between an black and white or colored graph.
+
+The options \emph{"draw names of hypotheses"}, \emph{"draw weights of hypotheses"} and 
+\emph{"draw weights of edges"} should be self-explanatory. Also the live preview at left
+side of the options shows their effects when selected/deselected.
+
+The node radius can be changed, which is especially useful if you disable the previous 
+options and add all labels by yourself afterwards (which might have a different size).
+
+\subsection{Word Docx Reports}
+
+Since version 0.8-7 gMCP also can create word documents (Office Open XML / docx) 
+with an example page seen in figure \ref{fig:wordexample}.
 
 \begin{figure}[ht]
   \centering    
