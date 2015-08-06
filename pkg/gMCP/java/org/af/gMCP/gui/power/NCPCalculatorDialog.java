@@ -3,9 +3,12 @@ package org.af.gMCP.gui.power;
 import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.util.List;
 import java.util.Vector;
 
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JDialog;
@@ -13,6 +16,8 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
+import org.af.commons.errorhandling.ErrorHandler;
+import org.af.commons.widgets.DesktopPaneBG;
 import org.af.commons.widgets.validate.RealTextField;
 import org.af.gMCP.gui.graph.Node;
 
@@ -26,6 +31,7 @@ public class NCPCalculatorDialog extends JDialog implements ActionListener {
 	JButton jbSaveClose = new JButton("Save and Close");
 	JButton jbCancelClose = new JButton("Cancel and Close");
 	JButton checkAll = new JButton("Check/Uncheck all"); 
+	JButton jbHelp;
 	List<RealTextField> mlV = new Vector<RealTextField>(); 
 	List<RealTextField> mpV = new Vector<RealTextField>();
 	List<RealTextField> ncpV = new Vector<RealTextField>();
@@ -107,16 +113,19 @@ public class NCPCalculatorDialog extends JDialog implements ActionListener {
 		
 		row +=2;
 		
-		jbCalc.addActionListener(this);
-		jbReset.addActionListener(this);
-		jbSaveClose.addActionListener(this);
-		jbCancelClose.addActionListener(this);
-		checkAll.addActionListener(this); 
+		try {
+			jbHelp = new JButton("Help", 
+					new ImageIcon(ImageIO.read(DesktopPaneBG.class
+							.getResource("/org/af/gMCP/gui/graph/images/questionmark.png"))));
+		} catch (IOException e) {
+			ErrorHandler.getInstance().makeErrDialog(e.getMessage(), e);
+			jbHelp = new JButton("Help!");
+		}
 		
-		getContentPane().add(jbCalc , cc.xy(2, row));
-		getContentPane().add(jbReset , cc.xy(4, row));
-		getContentPane().add(jbSaveClose , cc.xy(6, row));
-		getContentPane().add(jbCancelClose , cc.xy(8, row));
+		HorizontalButtonPane bp = new HorizontalButtonPane(new JButton[] {jbHelp, jbCalc, jbReset, jbSaveClose, jbCancelClose}, false);		
+		bp.addActionListener(this);
+		
+		getContentPane().add(bp, cc.xyw(2, row, 11));
 		
 		//TODO: config = new File(path, "gMCP-power-settings.xml");
 		
@@ -170,7 +179,9 @@ public class NCPCalculatorDialog extends JDialog implements ActionListener {
 			for (JCheckBox jc : saveV) {
 				jc.setSelected(!somethingSelected);
 			}
-		}		
+		} else if (e.getSource() == jbHelp) {
+			//TODO
+		}
 	}
 
 
