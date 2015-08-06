@@ -78,8 +78,11 @@ public class Scenario implements NCPRequestor, ActionListener {
 		return e;
 	}
 
-	public void setNCP(double[] ncps) {		
-		
+	public void setNCP(List<Double> ncps) {		
+		for (int i=0; i<ncps.size(); i++) {
+			Double d = ncps.get(i);
+			if (d!=null) ncp.get(i).setText(d.toString());
+		}
 	}
 
 	NCPCalculatorDialog ncpCD = null;
@@ -88,7 +91,22 @@ public class Scenario implements NCPRequestor, ActionListener {
 		if (ncpCD==null) {
 			ncpCD = new NCPCalculatorDialog(pd, this);
 		} else {
+			ncpCD.setNCPS(getOldNCP());
 			ncpCD.setVisible(true);
 		}
+	}
+
+	public List<Double> getOldNCP() {
+		Vector<Double> ncps = new Vector<Double>(); 
+		for (JTextField n : ncp) {			
+			Double d = null;
+			try {
+				d = Double.parseDouble(n.getText());
+			} catch (Exception e) {
+				// Nothing to do - really.
+			}
+			ncps.add(d);
+		}
+		return ncps;
 	}
 }

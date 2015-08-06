@@ -1,5 +1,6 @@
 package org.af.gMCP.gui.power;
 
+import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
@@ -9,6 +10,8 @@ import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JTextField;
 
 import org.af.commons.widgets.validate.RealTextField;
 import org.af.gMCP.gui.graph.Node;
@@ -36,6 +39,7 @@ public class NCPCalculatorDialog extends JDialog implements ActionListener {
 	 */
 	public NCPCalculatorDialog(PDialog pd, NCPRequestor ncpR) {
 		super(pd, "NCP Calculator - Marginal Power", true);
+		this.ncpR = ncpR;
 		setLocationRelativeTo(pd);
 		Vector<Node> nodes = pd.parent.getGraphView().getNL().getNodes();
 		
@@ -61,6 +65,7 @@ public class NCPCalculatorDialog extends JDialog implements ActionListener {
 		
 		for (int i=0; i<nodes.size(); i++) {
 			RealTextField ml = new RealTextField("", 0, 1);
+			ml.setText("0.025"); //TODO Save and restore default value.
 			mlV.add(ml);
 			getContentPane().add(ml, cc.xy(4+2*i, row));
 		}
@@ -79,9 +84,13 @@ public class NCPCalculatorDialog extends JDialog implements ActionListener {
 		
 		getContentPane().add(new JLabel("NCP") , cc.xy(2, row));
 		
+		List<Double> oldNCP = ncpR.getOldNCP();
+		
 		for (int i=0; i<nodes.size(); i++) {
-			RealTextField ncp = new RealTextField("", 0, 1);
-			ncpV.add(ncp);
+			RealTextField ncp = new RealTextField("", Double.MIN_VALUE, Double.MAX_VALUE);
+			Double d = oldNCP.get(i);
+			ncp.setText(d==null?"":d.toString());
+			ncpV.add(ncp);			
 			getContentPane().add(ncp, cc.xy(4+2*i, row));
 		}
 		
@@ -117,10 +126,70 @@ public class NCPCalculatorDialog extends JDialog implements ActionListener {
         setVisible(true);
 		
 	}
+	
+	public void setNCPS(List<Double> ncps) {
+		for (int i=0; i<ncps.size(); i++) {			
+			Double d = ncps.get(i);
+			ncpV.get(i).setText(d==null?"":d.toString());			
+		}
+	}
 
+	
+	
 	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
-		
+		if (e.getSource() == jbSaveClose) {
+			boolean somethingSelected = false;
+			for (JCheckBox jc : saveV) {
+				if (jc.isSelected()) somethingSelected = true;
+			}
+			if (!somethingSelected) {
+				int answer = JOptionPane.showConfirmDialog((Component) ncpR, "No NCP to save selected.\n"
+						+ "Do you really want to close this window?", 
+						"No NCP selected", JOptionPane.YES_NO_OPTION);
+				if (answer==JOptionPane.NO_OPTION) return; 
+			}
+			ncpR.setNCP(getNCPS());
+			dispose();
+		} else if (e.getSource() == jbCancelClose) {
+			dispose();
+		} else if (e.getSource() == jbReset) {
+			for (JTextField jt : mlV) {
+				jt.setText("");
+			}
+			for (JTextField jt : mpV) {
+				jt.setText("");
+			}
+			setNCPS(ncpR.getOldNCP());
+		} else if (e.getSource() == jbCalc) {
+			//TODO
+		} else if (e.getSource() == checkAll) {
+			boolean somethingSelected = false;
+			for (JCheckBox jc : saveV) {
+				if (jc.isSelected()) somethingSelected = true;
+			}
+			for (JCheckBox jc : saveV) {
+				jc.setSelected(!somethingSelected);
+			}
+		}		
+	}
+
+
+	private List<Double> getNCPS() {
+		Vector<Double> ncps = new Vector<Double>(); 
+		for (int i=0; i<saveV.size(); i++) {
+			if (saveV.get(i).isSelected()) {
+				Double d = null;
+				try {
+					d = Double.parseDouble(ncpV.get(i).getText());
+				} catch (Exception e) {
+					// Nothing to do - really.
+				}
+				ncps.add(d);
+			} else {
+				ncps.add(null);
+			}
+		}
+		return ncps;
 	} 
 	
 }

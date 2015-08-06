@@ -1,7 +1,5 @@
 package org.af.gMCP.gui.power;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.List;
 import java.util.Vector;
 
@@ -16,7 +14,7 @@ import org.w3c.dom.NodeList;
 
 import com.jgoodies.forms.layout.CellConstraints;
 
-public class Scenario2 implements NCPRequestor, ActionListener {
+public class Scenario2 {
 	List<JTextField> effSizes = new Vector<JTextField>();
 	JTextField scname;
 	//JButton ncpc = new JButton("Calculate NCP");
@@ -73,17 +71,4 @@ public class Scenario2 implements NCPRequestor, ActionListener {
 		return e;
 	}
 
-	public void setNCP(double[] ncps) {		
-		
-	}
-
-	NCPCalculatorDialog ncpCD = null;
-	
-	public void actionPerformed(ActionEvent e) {
-		if (ncpCD==null) {
-			ncpCD = new NCPCalculatorDialog(pd, this);
-		} else {
-			ncpCD.setVisible(true);
-		}
-	}
 }
