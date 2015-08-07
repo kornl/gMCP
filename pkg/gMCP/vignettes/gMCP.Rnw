@@ -763,8 +763,28 @@ graph <- new("entangledMCP", subgraphs=list(subgraph1, subgraph2), weights=weigh
 
 The underlying distribution of test statistics in power simulations is assumed to be multivariate normal in the following with the exception of section \ref{non-normal} "Simulation for Non-normal Distributions".
 
+
+\section{Power Analysis}
+
+For the \emph{"Options"} tab see subsection \ref{ssec:optNumeric}.
+
+\subsection{Noncentrality Parameter (NCP) Settings}\hypertarget{ncps}{}
+
+\subsubsection{Example Binary Endpoint}
+
+\subsection{Two types of correlation matrices}\hypertarget{cormat2}{}\label{ssec:cormat2}
+
+\begin{figure}[ht]
+  \centering    
+  \includegraphics[width=0.8\textwidth]{pictures/corMat2.png}      
+  \caption{\label{fig:cormat2} Correlation matrices for test and simulation}
+\end{figure}
+
 \section{Sample Size Calculations}
 
+For the \emph{"Options"} tab see subsection \ref{ssec:optNumeric} and for the \emph{"Correlation"} tab see subsection \ref{ssec:cormat2}.
+
+\subsection{User defined power functions}
 
 \subsection{Randomization}\hypertarget{randomization}{}
 
@@ -816,7 +836,6 @@ For the two sample tests in our example comparing arm $i$ and $j$ the non-centra
   \caption{\label{udpf} ...}
 \end{figure}
 
-\subsection{Two types of correlation matrices}\hypertarget{cormat2}{}
 
 \subsection{Search and accuracy}
 
@@ -963,7 +982,7 @@ graph
     edges should been shown as dashed or solid lines.
 \end{description}
 
-\subsection{Numeric}
+\subsection{Numeric}\label{ssec:optNumeric}
 
 \begin{description}
   \item[Use epsilon approximation] In this version this option can not be
@@ -1117,9 +1136,9 @@ the graph seen in the GUI.
 
 PGF/TikZ is very useful \LaTeX-package, we recommend it for many
 purposes and it's totally worth reading its 560 pages manual
-(\cite{TikZ}), but if you don't have the time right now, we will give
-you short overview of the most important commands for our kind of
-graphs so that you can easily adapt the output from
+(\cite{TikZ}), but if you don't have the time right now, we understand and therefore will give
+you a short overview of the most important commands for our kind of
+graphs, so that you can easily adapt the output from
 \texttt{graph2latex}.
 
 You also perhaps want to use an TikZ editor with a preview pane like qtikz
