@@ -62,7 +62,7 @@ public class CVPanel extends JPanel implements ActionListener {
 		dfp.getTable().setDefaultEditor(EdgeWeight.class, new CellEditorE(null, dfp.getTable()));
 		dfp.getTable().getModel().setCheckRowSum(false);
 		
-		dfpTest = new SingleDataFramePanel(df);
+		dfpTest = new SingleDataFramePanel(df2);
 		dfpTest.getTable().getModel().checkCorMat();
 		dfpTest.getTable().setDefaultEditor(EdgeWeight.class, new CellEditorE(null, dfpTest.getTable()));
 		dfpTest.getTable().getModel().setCheckRowSum(false);
