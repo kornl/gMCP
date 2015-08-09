@@ -792,6 +792,32 @@ In the correlation matrix tab you will see
 
 \subsection{User defined power functions}
 
+The user often is interested in certain combinations of rejections, for example
+that for one treatment the null hypotheses regarding both end points can be rejected.
+
+\begin{figure}[ht]
+  \centering    
+  \includegraphics[width=0.8\textwidth]{pictures/udpf2.png}      
+  \caption{\label{fig:udpf2} User defined power functions.}
+\end{figure}
+
+For example in figure \ref{fig:udpf2} we define three power functions:
+
+\begin{itemize}
+\item \texttt{x[1]\&\&x[3]} - Efficacy for treatment 1 can be shown for both endpoints.
+\item \texttt{x[2]\&\&x[4]} - Efficacy for treatment 2 can be shown for both endpoints.
+\item \texttt{(x[1]\&\&x[3]) || (x[2]\&\&x[4])} - For at least one treatment efficacy can be shown for both endpoints.
+
+\end{itemize}
+
+Use the R syntax and "\texttt{x[i]}" to specify the proposition that hypothesis $i$ could be rejected.
+
+Negation (!) takes precedence over the logical conjunction ('and', \&\&), which takes precedence over the logical disjunction ('or', ||). In doubt use brackets.
+
+Note that you can use all R commands, for example \texttt{any(x)} to see whether any hypotheses was rejected or \texttt{all(x[1:4])} to see whether all of the first four hypotheses were rejected.
+
+You even can use weight function, but then the result can no longer be interpreted as a probability.
+
 \commentout{
 \section{Sample Size Calculations}
 
