@@ -16,6 +16,8 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import org.af.commons.errorhandling.DefaultExceptionHandler;
+import org.af.commons.errorhandling.ErrorHandler;
 import org.af.commons.widgets.buttons.HorizontalButtonPane;
 import org.af.commons.widgets.buttons.OkCancelButtonPane;
 import org.af.gMCP.config.Configuration;
@@ -134,22 +136,12 @@ public class PowerDialog extends PDialog implements ActionListener {
 
 				@Override
 				protected Void doInBackground() throws Exception {					
-					try {
+					try {						
 						RControl.setSeed();
 						String result = RControl.getR().eval(rCommand).asRChar().getData()[0];
 						new TextFileViewer(parent, "Power results", result, true);
-					} catch (Exception e) {
-						String message = e.getMessage();
-						JOptionPane.showMessageDialog(parent, "R call produced an error:\n\n"+message+"\nWe will open a window with R code to reproduce this error for investigation.", "Error in R Call", JOptionPane.ERROR_MESSAGE);
-						JDialog d = new JDialog(parent, "R Error", true);
-						d.add(
-								new TextFileViewer(parent, "R Objects", "The following R code produced the following error:\n\n" +message+
-										rCommand, true)
-								);
-						d.pack();
-						d.setSize(800, 600);
-						d.setVisible(true);
-						e.printStackTrace();						
+					} catch (Exception e) {						
+						ErrorHandler.getInstance().makeErrDialog(e.getMessage(), e, false);
 					} finally {
 						parent.glassPane.stop();
 					}
