@@ -285,7 +285,11 @@ public abstract class ErrorDialogChooseLevelBase extends JDialog implements Acti
 	
     protected Hashtable<String, File> getAttachedFiles() throws IOException {
     	return new Hashtable<String, File>();
-    }
+    }    
+
+    protected String getRErrorMessage() {
+		return StringTools.collapseStringArray(RControl.getR().eval("paste(geterrmessage(), collapse=\"\\n\")").asRChar().getData());		
+	}
 	
 	protected String getROptions() {		
 		return StringTools.collapseStringArray(RControl.getR().eval("paste(capture.output(options()), collapse=\"\\n\")").asRChar().getData());

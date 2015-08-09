@@ -26,7 +26,7 @@ public class ErrorDialogChooseLevel extends ErrorDialogChooseLevelBase {
 	protected String getErrorReport(int level) {	
 		
 		if (level==0) return "Please reconsider reporting this error.";
-		String text = subjectShort +" : "+  message +"\n" +getSep("R TraceBack")+getTraceBack()+"\n" + getSep("Java Stacktrace") +stacktrace;  			
+		String text = subjectShort +" : "+  message +"\n"+ getSep("R Error Message") +getRErrorMessage() +getSep("R TraceBack")+getTraceBack()+"\n" + getSep("Java Stacktrace") +stacktrace;  			
     			//(message.length()<40?message:message.substring(0, 37)+"...");
 		if (level==1) return text;
 		
@@ -43,7 +43,7 @@ public class ErrorDialogChooseLevel extends ErrorDialogChooseLevelBase {
 		return text;
 	}
 	
-    private String getGraph() {
+	private String getGraph() {
     	return StringTools.collapseStringArray(RControl.getR().eval("gMCP:::getDebugInfo()").asRChar().getData());
 	}
 
