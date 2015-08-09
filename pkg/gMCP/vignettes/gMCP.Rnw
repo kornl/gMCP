@@ -46,6 +46,7 @@
 \newcommand{\NN}{\ensuremath{\mathbb{N}_0}\xspace}
 \newcommand{\N}{\ensuremath{\mathbb{N}}\xspace}
 \newcommand{\sF}{\ensuremath{\mathcal{F}}\xspace}
+\newcommand{\sN}{\ensuremath{\mathcal{N}}\xspace}
 \newcommand{\Pot}{\ensuremath{\mathfrak{Pot}}\xspace}
 \newcommand{\kronecker}{\raisebox{1pt}{\ensuremath{\:\otimes\:}}}
 
@@ -761,18 +762,27 @@ graph <- new("entangledMCP", subgraphs=list(subgraph1, subgraph2), weights=weigh
 
 \chapter{Power Simulations}\index{power simulation}\hypertarget{power}{}
 
-The underlying distribution of test statistics in power simulations is assumed to be multivariate normal in the following with the exception of section \ref{non-normal} "Simulation for Non-normal Distributions".
-
+The underlying distribution of test statistics in power simulations is assumed to be multivariate normal in the following with the exception of section \ref{sec:non-normal} "Simulation for Non-normal Distributions".
 
 \section{Power Analysis}
 
-For the \emph{"Options"} tab see subsection \ref{ssec:optNumeric}.
+For the \emph{"Options"} tab see subsection \ref{ssec:optNumeric}. The other tabs are described in the now following sections.
 
 \subsection{Noncentrality Parameter (NCP) Settings}\hypertarget{ncps}{}
 
-\subsubsection{Example Binary Endpoint}
+The noncentrality parameter (NCP) of a $Z$-statistic
 
-\subsection{Two types of correlation matrices}\hypertarget{cormat2}{}\label{ssec:cormat2}
+\[Z=\frac{\frac1n\sum_{i=1}^nX_i-\mu_0}{\sigma_X}\sqrt{n},\quad\text{with } X_1,\ldots,X_n \text{ i.i.d. }\sN(\mu_X, \sigma_X)\]
+
+is 
+
+\[NCP=\frac{\mu_X-\mu_0}{\sigma_X}\sqrt{n}.\]
+
+%\subsubsection{Example Binary Endpoint}
+
+\subsection{Correlation matrices}\hypertarget{cormat2}{}\label{ssec:cormat2}
+
+In the correlation matrix tab you will see 
 
 \begin{figure}[ht]
   \centering    
@@ -780,11 +790,12 @@ For the \emph{"Options"} tab see subsection \ref{ssec:optNumeric}.
   \caption{\label{fig:cormat2} Correlation matrices for test and simulation}
 \end{figure}
 
+\subsection{User defined power functions}
+
+\commentout{
 \section{Sample Size Calculations}
 
 For the \emph{"Options"} tab see subsection \ref{ssec:optNumeric} and for the \emph{"Correlation"} tab see subsection \ref{ssec:cormat2}.
-
-\subsection{User defined power functions}
 
 \subsection{Randomization}\hypertarget{randomization}{}
 
