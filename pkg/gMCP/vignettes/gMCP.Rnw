@@ -843,21 +843,63 @@ Each simulation step for sample size $N$ generates a $B(p_N, n)$ distributed val
 %estimate for the power $p_N$ 
 %(if pseudo random numbers are used).
 
-\section{Simulation for Non-normal Distributions}\label{non-normal}
+}
 
-If the underlying distribution of the test statistics is not multivariate normal, but test statistics can be simulated and $p$-values generated, one can still use function graphTest:
+\section{Simulation for Non-normal Distributions}\label{sec:non-normal}\index{non-normal distribution}\index{distribution!non-normal}
+
+If the underlying distribution of the test statistics is not multivariate normal, 
+but test statistics can be simulated and $p$-values generated, one can still use function \texttt{graphTest}.
+
+For example let's take a look at correlated binary data.
+We assume we have $n_1=20$ observations for two binary endpoints and two treatments, where the resulting binomial distributions are not well approximated by the normal distribution.
+Further we assume a correlation of 0.3 between different endpoints and 0.5 between treatments, i.e.\ the following correlation matrix with $H_1$ and $H_2$ denoting the null hypotheses that under treatment 1 and 2 we see the problematic outcome with probability not less than the known probability of $p_0=0.5$ in an untreated group. The hypotheses $H_3$ and $H_4$ denote the same for the secondary endpoint.
+
+% H1: Treatment 1, annualized relapse rate
+% H2: Treatment 2, annualized relapse rate
+% H3: Treatment 1, number of lesions in the brain
+% H4: Treatment 2, number of lesions in the brain
+
+<<eval=TRUE, tidy=FALSE>>=
+
+cr <- rbind(H1=c(1   , 0.5 , 0.3 , 0.15),
+            H2=c(0.5 , 1   , 0.15, 0.3 ),
+            H3=c(0.3 , 0.15, 1   , 0.5 ),
+            H4=c(0.15, 0.3 , 0.5 , 1   ))
+
+@
+
+We simulate $n_2=1000$ times $p$-values with function \texttt{rmvbin} from package \texttt{bindata} (\cite{bindata2012}):
 
 <<eval=FALSE>>=
 
 library(bindata)
 
-rho <- 0.6
-n <- 30
-cr <- matrix(rho, ncol=4, nrow=4) + diag(rep(1-rho, 4))
-pvals <- t(replicate(1e2, 
-                     sapply(colSums(rmvbin(n, margprob = c(0.45, 0.4, 0.3, 0.25), bincorr = cr)), 
-                            function(x, ...) {binom.test(x, ...)$p.value}, n=n)
+n1 <- 20
+n2 <- 1e4
+  
+pvals <- t(replicate(n2, 
+                     sapply(colSums(rmvbin(n1, margprob = c(0.35, 0.4, 0.25, 0.3), bincorr = cr)), 
+                            function(x, ...) {binom.test(x, ...)$p.value}, n=n1, alternative="less")
                      ))
+
+@
+
+<<appendices, child='pvals.Rnw'>>=
+@
+
+And then apply function \texttt{graphtest}\index{graphtest} and \texttt{extractPower}\index{extractPower}:
+
+<<eval=TRUE>>=
+
+g <- generalSuccessive(gamma=0, delta=0)
+out <- graphTest(pvalues=pvals, graph = g)
+extractPower(out)
+
+@
+
+\commentout{
+
+<<eval=FALSE>>=
 # Other example:
 
 library(copula)
@@ -868,8 +910,9 @@ x <- rMvdc(250, cop)
 # Boot example?
 # Permutation test example?
 # 
-
 @
+
+}
 
 \section{Using the R command line}
 
