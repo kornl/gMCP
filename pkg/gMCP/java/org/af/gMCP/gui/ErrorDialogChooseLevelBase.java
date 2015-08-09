@@ -108,6 +108,8 @@ public abstract class ErrorDialogChooseLevelBase extends JDialog implements Acti
 	    }
 	    jcbReportLevel.setSelectedIndex(rLevel);
 		jcbReportLevel.addActionListener(this);
+		
+		subjectShort = getSubjectShort();
 	    
 		jta = new JTextArea(getErrorReport(jcbReportLevel.getSelectedIndex()));
 		jta.setCaretPosition(0);
@@ -116,8 +118,6 @@ public abstract class ErrorDialogChooseLevelBase extends JDialog implements Acti
 		jta.setWrapStyleWord(true);
 		jta.setMargin(new Insets(4,4,4,4));
 		jta.addMouseListener(new RightClickTextMenuListener(jta));
-		
-		subjectShort = getSubjectShort();
 		
     	subjectLong = subjectShort+" : "+    			
     			(message.length()<40?message:message.substring(0, 37)+"...");
