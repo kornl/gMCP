@@ -122,7 +122,7 @@ public class PowerDialog extends PDialog implements ActionListener {
 			
 			SettingsToXML.saveSettingsToXML(config, this);
 
-			rCommand = "gMCP:::calcMultiPower(weights="+weights+", alpha="+alpha+", G="+G+pNCP.getNCPString()
+			rCommand = "gMCP:::calcMultiPower(weights="+weights+", alpha="+alpha+", G="+G+ ", ncpL="+pNCP.getNCPString()
 					+ ","+"corr.sim = " + cvPanel.getSigma() //diag(length(mean)),corr = NULL,"+
 					+ cvPanel.getMatrixForParametricTest()
 					+ ", f = "+userDefinedFunctions.getUserDefined()
