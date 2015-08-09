@@ -210,7 +210,7 @@ calcPower <- function(graph, alpha, G, mean = rep(0, nrow(corr.sim)),
 }
 
 calcMultiPower <- function(graph, alpha, G, ncpL, muL, sigmaL, nL,
-		corr.sim = diag(length(muL[[1]])), corr.test = NULL,
+		corr.sim = diag(length(ncpL[[1]])), corr.test = NULL,
 		n.sim = 10000, type = c("quasirandom", "pseudorandom"),
 		f=list(), digits=4, variables=NULL, test, upscale=FALSE, ...) {
   if (!is.null(list(...)[["nSim"]]) && missing(n.sim)) { n.sim <- list(...)[["nSim"]] }
