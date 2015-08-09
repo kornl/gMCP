@@ -90,11 +90,7 @@ public class CreateGraphGUI extends JFrame implements WindowListener, AbortListe
 		
 		// Java 7 does not respect system property "sun.awt.exception.handler".
 		// Eventually this fix should be included in afcommons.
-		javax.swing.SwingUtilities.invokeLater(new Runnable() {
-			public void run() {		
-				Thread.currentThread().setUncaughtExceptionHandler(new DefaultExceptionHandler());
-			}
-		});
+		Thread.setDefaultUncaughtExceptionHandler(new DefaultExceptionHandler());
 		
 		/* Count the number of starts */
 		int n = Configuration.getInstance().getGeneralConfig().getNumberOfStarts();
@@ -157,7 +153,7 @@ public class CreateGraphGUI extends JFrame implements WindowListener, AbortListe
 
 		//TODO Is there really no better way than this kind of strange workaround?!?
 		new Thread(new Runnable() {
-			public void run() {				
+			public void run() {	
 				for (int i=0; i<6; i++) {
 					try {
 						Thread.sleep(1000);
@@ -178,8 +174,6 @@ public class CreateGraphGUI extends JFrame implements WindowListener, AbortListe
 				}				
 				new Thread(new Runnable() {
 					public void run() {
-						//TODO Is the following line unnecessary and a duplicate of the same line above?
-						Thread.currentThread().setUncaughtExceptionHandler(new DefaultExceptionHandler());
 						VersionComparator.getOnlineVersion();
 					}
 				}).start();				
