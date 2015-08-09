@@ -975,12 +975,6 @@ cat(graph2latex(generalSuccessive(), scale=0.7, scaleText=FALSE))
   \caption{\label{powergraph} Graph from Bretz et al. (2009)}
 \end{figure}
 
-\begin{figure}[ht]
-  \centering    
-  \includegraphics[width=9cm]{pictures/power.png}      
-  \caption{\label{power} Local power and some (trivial) user defined power functions.}
-\end{figure}
-
 \section{Variable edge weights}\index{edge weights!variable}
 
 Apart from latin letters the following greek letters can be used to
