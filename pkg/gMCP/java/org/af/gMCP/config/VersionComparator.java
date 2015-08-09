@@ -180,7 +180,7 @@ public class VersionComparator extends JDialog implements ActionListener {
 						JCheckBox tellMeAgain = new JCheckBox("Don't show me this info again.");			
 						JOptionPane.showMessageDialog(null, new Object[] {message, tellMeAgain}, "Your gMCP version is older than 200 days.", JOptionPane.WARNING_MESSAGE);
 						if (tellMeAgain.isSelected()) {
-							Configuration.getInstance().setClassProperty(VersionComparator.class.getClass(), "show200DayWarning", "no");
+							Configuration.getInstance().setClassProperty(VersionComparator.class, "show200DayWarning", "no");
 						}
 					}					
 				}
