@@ -97,14 +97,12 @@ public class PowerDialog extends PDialog implements ActionListener {
 	
 	public void actionPerformed(ActionEvent e) {
 
-		String weights = parent.getGraphView().getNL().getGraphName() + "@weights";
 		double alpha;
 		try {
 			alpha = parent.getPView().getTotalAlpha();
 		} catch (Exception e1) {
 			return;
 		}
-		String G = parent.getGraphView().getNL().getGraphName() + "@m";
 
 		// TODO: Do we still need sometimes something as parse2numeric? I guess yes.
 		//RControl.getR().eval(parent.getGraphView().getNL().getGraphName()+"<-gMCP:::parse2numeric("+parent.getGraphView().getNL().getGraphName()+")");
@@ -122,7 +120,7 @@ public class PowerDialog extends PDialog implements ActionListener {
 			
 			SettingsToXML.saveSettingsToXML(config, this);
 
-			rCommand = "gMCP:::calcMultiPower(weights="+weights+", alpha="+alpha+", G="+G+ ", ncpL="+pNCP.getNCPString()
+			rCommand = "gMCP:::calcMultiPower(graph="+parent.getGraphView().getNL().getGraphName()+", alpha="+alpha+", ncpL="+pNCP.getNCPString()
 					+ ","+"corr.sim = " + cvPanel.getSigma() //diag(length(mean)),corr = NULL,"+
 					+ cvPanel.getMatrixForParametricTest()
 					+ ", f = "+userDefinedFunctions.getUserDefined()
