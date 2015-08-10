@@ -782,7 +782,9 @@ is
 
 \subsection{Correlation matrices}\hypertarget{cormat2}{}\label{ssec:cormat2}
 
-In the correlation matrix tab you will see 
+In the correlation matrix tab you will see the correlation matrix used for the generation of the test statistics and - if the parametric test was chosen - for the test.
+If the correlation matrix for the parametric test contains \texttt{NA} values, a second matrix is displayed (as can be seen in figure \ref{fig:cormat2}) were the user
+should specify the unknown values for the simulation.
 
 \begin{figure}[ht]
   \centering    
@@ -790,7 +792,7 @@ In the correlation matrix tab you will see
   \caption{\label{fig:cormat2} Correlation matrices for test and simulation}
 \end{figure}
 
-\subsection{User defined power functions}
+\subsection{User defined power functions}\hypertarget{udpf}{}\label{ssec:udpf}
 
 The user often is interested in certain combinations of rejections, for example
 that for one treatment the null hypotheses regarding both end points can be rejected.
@@ -1059,7 +1061,7 @@ graph
     edges should been shown as dashed or solid lines.
 \end{description}
 
-\subsection{Numeric}\label{ssec:optNumeric}
+\subsection{Numeric}\label{ssec:optNumeric}\hypertarget{optNumeric}{}
 
 \begin{description}
   \item[Use epsilon approximation] In this version this option can not be
