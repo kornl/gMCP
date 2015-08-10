@@ -1,3 +1,5 @@
 src-i386
 src-x64
 classes
+vignettes/childs/*.pdf
+vignettes/childs/*.tex

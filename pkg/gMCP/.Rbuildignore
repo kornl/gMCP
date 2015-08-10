@@ -13,3 +13,5 @@ bbl$
 ^inst/classes$
 ^java/classes$
 ^classes$
+^vignettes/childs/pvals.pdf
+^vignettes/childs/pvals.tex
