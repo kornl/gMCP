@@ -67,7 +67,8 @@ public class PowerDialog extends PDialog implements ActionListener {
 		
 		c.weighty=0; c.gridy++; c.weightx=0; c.fill=GridBagConstraints.NONE;
 		c.anchor = GridBagConstraints.EAST;
-		HorizontalButtonPane bp = new OkCancelButtonPane();
+		
+		HorizontalButtonPane bp = new HorizontalButtonPane(new String[] {"Help", "Ok", "Cancel"}, new String[] {"help", HorizontalButtonPane.OK_CMD, HorizontalButtonPane.CANCEL_CMD});
 		getContentPane().add(bp, c);
 		bp.addActionListener(this);		
 		
@@ -148,7 +149,21 @@ public class PowerDialog extends PDialog implements ActionListener {
 			};
 			worker.execute();				
 		}
-		dispose();
+		if (e.getActionCommand().equals("help")) {
+			if (tPanel.getSelectedComponent()==pNCP) {
+				parent.openHelp("ncps");
+			} else if (tPanel.getSelectedComponent()==cvPanel) {
+				parent.openHelp("cormat2");
+			} else if (tPanel.getSelectedComponent()==oPanel) {
+				parent.openHelp("optNumeric");
+			} else if (tPanel.getSelectedComponent()==userDefinedFunctions) {
+				parent.openHelp("udpf");
+			} else {
+				parent.openHelp("power");
+			}
+		} else {		
+			dispose();
+		}
 	}
 
 	public JPanel getVariablePanel(Set<String> v) {
