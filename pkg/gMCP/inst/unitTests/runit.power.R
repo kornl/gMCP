@@ -21,7 +21,7 @@ test.api.compatibility <- function() {
                                         nSim = 10000))
   
   # New API:
-  result2 <- calcPower(graph, alpha, mean = mean,
+  result2 <- calcPower(graph=graph, alpha=alpha, mean = mean,
            corr.sim = corr.sim, corr.test = NULL,
            n.sim = 10000)
 }
