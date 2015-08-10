@@ -105,6 +105,8 @@ if (exists("opts_chunk")) {
   opts_chunk$set(autodep=TRUE)
 }
 library(gMCP, quietly=TRUE)
+# knitr has to be loaded for 'set_parent' and CRAN checks.
+library(knitr)
 options(width=140)
 options(digits=4)
 gMCPReport <- function(...) {invisible(NULL)}
