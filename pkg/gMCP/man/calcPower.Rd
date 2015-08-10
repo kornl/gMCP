@@ -63,8 +63,6 @@ the parameters \code{corr.model} and \code{corr.test} were called \code{sigma}
 and \code{cr}. Also instead of supplying a graph object one could
 supply a parameter \code{weights} and a transition matrix \code{G}.}
 
-\item{G}{Parameter for backward compatibility. If you write new code, simply don't use it.}
-
 \item{test}{In the parametric case there is more than one way to handle
 subgraphs with less than the full alpha. If the parameter \code{test} is
 missing, the tests are performed as described by Bretz et al. (2011), i.e.

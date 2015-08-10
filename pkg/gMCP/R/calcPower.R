@@ -62,7 +62,6 @@ extractPower <- function(x, f=list()) {
 #' different graphs as elements. Alternatively a \code{\link{graphMCP}} object can be given as parameter \code{graph}.
 #' @param graph A graph of class \code{\link{graphMCP}}.
 #' @param mean Mean under the alternative
-#' @param G Parameter for backward compatibility. If you write new code, simply don't use it.
 #' @param corr.sim Covariance matrix under the alternative.
 #' @param corr.test Correlation matrix that should be used for the parametric test.
 #' If \code{corr.test==NULL} the Bonferroni based test procedure is used. Can contain
