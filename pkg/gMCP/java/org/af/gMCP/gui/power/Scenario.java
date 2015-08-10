@@ -47,7 +47,7 @@ public class Scenario implements NCPRequestor, ActionListener {
 			panel.add(jt, cc.xy(col, row));
 		}
 		col +=2;
-		panel.add(ncpc, cc.xy(col, row));
+		//panel.add(ncpc, cc.xy(col, row));
 		row +=2;
 	}
 	
