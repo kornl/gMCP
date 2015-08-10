@@ -1,5 +1,5 @@
 <<set-parent-pvals, echo=FALSE, cache=FALSE, include=FALSE>>=
-set_parent('gMCP.Rnw')
+set_parent('../gMCP.Rnw')
 library(gMCP)
 @
 
