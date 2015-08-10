@@ -49,13 +49,18 @@ extractPower <- function(x, f=list()) {
 #' hypothesis, the local power for the hypotheses as well as the expected
 #' number of rejections.
 #' 
-#' 
-#' @param graph A graph of class \code{\link{graphMCP}}.
+#' @param weights Initial weight levels for the test procedure (see graphTest
+#' function). Alternatively a \code{\link{graphMCP}} object can be given as parameter \code{graph}.
 #' @param alpha Overall alpha level of the procedure, see graphTest function.
 #' (For entangled graphs \code{alpha} should be a numeric vector of length 
 #' equal to the number of graphs, each element specifying the partial alpha 
 #' for the respective graph.
 #' The overall alpha level equals \code{sum(alpha)}.)
+#' @param G Matrix determining the graph underlying the test procedure. Note
+#' that the diagonal need to contain only 0s, while the rows need to sum to 1.
+#' When multiple graphs should be used this needs to be a list containing the
+#' different graphs as elements. Alternatively a \code{\link{graphMCP}} object can be given as parameter \code{graph}.
+#' @param graph A graph of class \code{\link{graphMCP}}.
 #' @param mean Mean under the alternative
 #' @param G Parameter for backward compatibility. If you write new code, simply don't use it.
 #' @param corr.sim Covariance matrix under the alternative.
@@ -161,29 +166,17 @@ extractPower <- function(x, f=list()) {
 #' round(cbind(atlst1, locpow), 5)
 #' 
 #' @export calcPower
-calcPower <- function(graph, alpha, G, mean = rep(0, nrow(corr.sim)),
+calcPower <- function(weights, alpha, G, mean = rep(0, nrow(corr.sim)),
                       corr.sim = diag(length(mean)), corr.test = NULL,
                       n.sim = 10000, type = c("quasirandom", "pseudorandom"),
-					  f=list(), upscale=FALSE, ...) {
+					  f=list(), upscale=FALSE, graph, ...) {
   if (!is.null(list(...)[["nSim"]]) && missing(n.sim)) { n.sim <- list(...)[["nSim"]] }
   if (!is.null(list(...)[["sigma"]]) && missing(corr.sim)) { corr.sim <- list(...)[["sigma"]] }
   if (!is.null(list(...)[["cr"]]) && missing(corr.test)) { corr.test <- list(...)[["cr"]] }  
   if (!missing(graph)) {
-    if (!missing(G) && is.numeric(graph) && is.matrix(G) && length(graph)==dim(G)[1]) {
-      weights <- graph
-      warning("We assume, you called calcPower with parameter 'weights' and 'G' as in previous versions.\n To get rid of this warning (and possible errors), please pass arguments by name and not by position.")
-    } else {
-      #if (!"graphMCP" %in% class(graph)) {    
-      #  stop("Parameter 'graph' should be a 'graphMCP' object.\n If your code did run previously, don't panic - there is backward compatibility.\n Simply don't pass arguments by position but by name, e.g. change\n calcPower(weights, 0.025, G, ...) to calcPower(weights=weights, alpha=0.025, G=G, ...).")
-      #}
       G <- graph@m
       weights <- graph@weights
-    }
-  } else {
-    #For later versions: G <-list(...)[["G"]]
-    weights <- list(...)[["weights"]]
-  }
-  ### END OF API COMPATIBILITY CODE  
+  } 
 	type <- match.arg(type)
 	if (any(is.na(corr.sim))) stop("While parameter 'corr.test' can contain NAs, this does not make sense for 'corr.sim'.")
 	#print(G)
@@ -209,28 +202,17 @@ calcPower <- function(graph, alpha, G, mean = rep(0, nrow(corr.sim)),
   }
 }
 
-calcMultiPower <- function(graph, alpha, G, ncpL, muL, sigmaL, nL,
+calcMultiPower <- function(weights, alpha, G, ncpL, muL, sigmaL, nL,
 		corr.sim = diag(length(ncpL[[1]])), corr.test = NULL,
 		n.sim = 10000, type = c("quasirandom", "pseudorandom"),
-		f=list(), digits=4, variables=NULL, test, upscale=FALSE, ...) {
+		f=list(), digits=4, variables=NULL, test, upscale=FALSE, graph, ...) {
   if (!is.null(list(...)[["nSim"]]) && missing(n.sim)) { n.sim <- list(...)[["nSim"]] }
   if (!is.null(list(...)[["sigma"]]) && missing(corr.sim)) { corr.sim <- list(...)[["sigma"]] }
   if (!is.null(list(...)[["cr"]]) && missing(corr.test)) { corr.test <- list(...)[["cr"]] }  
   if (!missing(graph)) {
-    if (!missing(G) && is.numeric(graph) && is.matrix(G) && length(graph)==dim(G)[1]) {
-      weights <- graph
-      warning("We assume, you called calcPower with parameter 'weights' and 'G' as in previous versions.\n To get rid of this warning (and possible errors), please pass arguments by name and not by position.")
-    } else {
-      #if (!"graphMCP" %in% class(graph)) {    
-      #  stop("Parameter 'graph' should be a 'graphMCP' object.\n If your code did run previously, don't panic - there is backward compatibility.\n Simply don't pass arguments by position but by name, e.g. change\n calcPower(weights, 0.025, G, ...) to calcPower(weights=weights, alpha=0.025, G=G, ...).")
-      #}
-      G <- graph@m
-      weights <- graph@weights
-    }
-  } else {
-    #For later versions: G <-list(...)[["G"]]
-    weights <- list(...)[["weights"]]
-  }
+    G <- graph@m
+    weights <- graph@weights
+  } 
   ### END OF API COMPATIBILITY CODE  
   if (!is.null(list(...)[["sigma"]]) && missing(corr.sim)) {
     corr.sim <- list(...)[["sigma"]]

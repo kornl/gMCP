@@ -4,13 +4,14 @@
 \alias{calcPower}
 \title{Calculate power values}
 \usage{
-calcPower(graph, alpha, G, mean = rep(0, nrow(corr.sim)),
+calcPower(weights, alpha, G, mean = rep(0, nrow(corr.sim)),
   corr.sim = diag(length(mean)), corr.test = NULL, n.sim = 10000,
   type = c("quasirandom", "pseudorandom"), f = list(), upscale = FALSE,
-  ...)
+  graph, ...)
 }
 \arguments{
-\item{graph}{A graph of class \code{\link{graphMCP}}.}
+\item{weights}{Initial weight levels for the test procedure (see graphTest
+function). Alternatively a \code{\link{graphMCP}} object can be given as parameter \code{graph}.}
 
 \item{alpha}{Overall alpha level of the procedure, see graphTest function.
 (For entangled graphs \code{alpha} should be a numeric vector of length
@@ -18,7 +19,10 @@ equal to the number of graphs, each element specifying the partial alpha
 for the respective graph.
 The overall alpha level equals \code{sum(alpha)}.)}
 
-\item{G}{Parameter for backward compatibility. If you write new code, simply don't use it.}
+\item{G}{Matrix determining the graph underlying the test procedure. Note
+that the diagonal need to contain only 0s, while the rows need to sum to 1.
+When multiple graphs should be used this needs to be a list containing the
+different graphs as elements. Alternatively a \code{\link{graphMCP}} object can be given as parameter \code{graph}.}
 
 \item{mean}{Mean under the alternative}
 
@@ -52,10 +56,14 @@ possibly reduced level alpha of sum(w)*alpha,
 where sum(w) is the sum of all node weights in this subset.
 If \code{upscale=TRUE} all weights are upscaled, so that sum(w)=1.}
 
+\item{graph}{A graph of class \code{\link{graphMCP}}.}
+
 \item{...}{For backwards compatibility. For example up to version 0.8-7
 the parameters \code{corr.model} and \code{corr.test} were called \code{sigma}
 and \code{cr}. Also instead of supplying a graph object one could
 supply a parameter \code{weights} and a transition matrix \code{G}.}
+
+\item{G}{Parameter for backward compatibility. If you write new code, simply don't use it.}
 
 \item{test}{In the parametric case there is more than one way to handle
 subgraphs with less than the full alpha. If the parameter \code{test} is

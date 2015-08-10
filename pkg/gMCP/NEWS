@@ -5,14 +5,6 @@ Changes in version 0.8-9 (??-??-2015)
 
 - Graphical user interface for sample size calculations
 
-- API FUNCTION PARAMETER CHANGE: calcPower changed from
-  calcPower(weights, alpha, G, [...]) to
-  calcPower(graph, alpha, [...])
-  to include entangled graphs or other possible future extension.
-  But all old function calls are still supported and functional,
-  given that all parameters are specified as named parameters,
-  i.e. calcPower(weights=..., alpha=..., G=..., ...).
-
 - New function gMCP.extended, which mostly does the same as the old
   gMCP function, but separates more clearly between weighting scheme
   and the subsequent closed testing procedure (with possible shortcuts).
@@ -44,6 +36,8 @@ Changes in version 0.8-9 (??-??-2015)
 
 - Better layout for result window when large graphs or Simes test 
   is used.
+  
+- Function calcPower now also takes graphMCP objects.
 
 - Improved Edges
 
