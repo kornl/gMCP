@@ -216,8 +216,8 @@ bonferroni.trimmed.simes.test <- function(pvalues, weights, alpha=0.05, adjPValu
 #' Otherwise if \code{adjPValues==FALSE} a logical value is returned whether the null hypothesis can be rejected.
 #' @param alpha A numeric specifying the maximal allowed type one error rate. If \code{adjPValues==TRUE} (default) the parameter \code{alpha} is not used.
 #' @param verbose Logical scalar. If \code{TRUE} verbose output is generated.
-#' @param subsets ...
-#' @param subset ...
+#' @param subsets A list of subsets given by numeric vectors containing the indices of the elementary hypotheses for which the weighted Simes test is applicable.
+#' @param subset A numeric vector containing the numbers of the indices of the currently tested elementary hypotheses.
 #' @param ... Further arguments possibly passed by \code{gMCP} which will be used by other test procedures but not this one.
 #' @examples
 #' 

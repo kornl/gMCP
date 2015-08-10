@@ -19,9 +19,9 @@ Otherwise if \code{adjPValues==FALSE} a logical value is returned whether the nu
 
 \item{verbose}{Logical scalar. If \code{TRUE} verbose output is generated.}
 
-\item{subsets}{...}
+\item{subsets}{A list of subsets given by numeric vectors containing the indices of the elementary hypotheses for which the weighted Simes test is applicable.}
 
-\item{subset}{...}
+\item{subset}{A numeric vector containing the numbers of the indices of the currently tested elementary hypotheses.}
 
 \item{...}{Further arguments possibly passed by \code{gMCP} which will be used by other test procedures but not this one.}
 }
