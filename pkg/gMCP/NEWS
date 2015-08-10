@@ -1,9 +1,5 @@
-Changes in version 0.8-9 (??-??-2015)
+Changes in version 0.8-9 (10-08-2015)
 =====================================
-
-- New function sampSize for sample size calculations
-
-- Graphical user interface for sample size calculations
 
 - New function gMCP.extended, which mostly does the same as the old
   gMCP function, but separates more clearly between weighting scheme
@@ -63,6 +59,8 @@ Changes in version 0.8-9 (??-??-2015)
 - Lots of small interface improvements and documentation additions.
 
 - Extended RUnit tests 
+
+ 144 files changed, 10027 insertions(+), 1106 deletions(-)
 
 
 Changes in version 0.8-8 (03-10-2014)
