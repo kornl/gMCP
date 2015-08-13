@@ -98,7 +98,7 @@ public class PowerReq implements ActionListener {
 			subset = "";
 		}
 		term += subset;
-		return "'"+term+"'=function(x) {"+term+")}";
+		return "'"+term+")'=function(x) {"+term+")}";
 	}
 
 
