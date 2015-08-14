@@ -928,15 +928,16 @@ pvals <- t(replicate(n2,
 
 @
 
-<<appendices, child='childs/pvals.Rnw'>>=
-@
-
 And then apply function \texttt{graphtest}\index{graphtest} and \texttt{extractPower}\index{extractPower}:
+
+<<include=FALSE>>=
+load("pvals.RData")
+@
 
 <<eval=TRUE>>=
 
-g <- generalSuccessive(gamma=0, delta=0)
-out <- graphTest(pvalues=pvals, graph = g)
+graph <- generalSuccessive(gamma=0, delta=0)
+out <- graphTest(pvalues=pvals, graph = graph)
 extractPower(out)
 
 @
