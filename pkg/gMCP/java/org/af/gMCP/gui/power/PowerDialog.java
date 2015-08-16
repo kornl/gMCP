@@ -27,6 +27,7 @@ import org.af.gMCP.gui.dialogs.PowerOptionsPanel;
 import org.af.gMCP.gui.dialogs.TextFileViewer;
 import org.af.gMCP.gui.graph.LaTeXTool;
 import org.af.jhlir.call.RDataFrame;
+import org.af.jhlir.call.RList;
 import org.jdesktop.swingworker.SwingWorker;
 
 import com.jgoodies.forms.layout.CellConstraints;
@@ -138,8 +139,9 @@ public class PowerDialog extends PDialog implements ActionListener {
 				protected Void doInBackground() throws Exception {					
 					try {						
 						RControl.setSeed();
-						RDataFrame result = RControl.getR().eval(rCommand).asRDataFrame();
-						new PowerResultDialog(parent, result);
+						//RDataFrame result = RControl.getR().eval(rCommand).asRDataFrame();
+						RList result = RControl.getR().eval(rCommand).asRList();
+						new PowerResultDialog(parent, result.get(0).asRDataFrame(), result.get(1).asRChar().getData());
 					} catch (Exception e) {						
 						ErrorHandler.getInstance().makeErrDialog(e.getMessage(), e, false);
 					} finally {

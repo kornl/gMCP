@@ -24,10 +24,11 @@ public class PowerResultDialog extends JDialog implements ActionListener {
 	JButton jbCopy = new JButton("Copy to Clipboard");
 	JButton jbOk = new JButton("Ok");
 	Object[][] data;
+	String[] colnames;
 	
-	public PowerResultDialog(CreateGraphGUI parent, RDataFrame result) {
+	public PowerResultDialog(CreateGraphGUI parent, RDataFrame result, String[] colnames) {
 		super(parent, "Power Results");
-		String[] colnames = result.getColNames();		
+		this.colnames = colnames;		
 		//JTable jt = new JTable(result.getRowCount(), result.getColumnCount());
 		data = new Object[result.getRowCount()][result.getColumnCount()];
 		for (int i=0; i<result.getRowCount(); i++) {
@@ -48,14 +49,14 @@ public class PowerResultDialog extends JDialog implements ActionListener {
 		
 		int row = 2;
 		
-		getContentPane().add(jsp, cc.xyw(row, 2, 3));
+		getContentPane().add(jsp, cc.xyw(2, row, 5));
 		
 		row += 2;
 		
 		jbCopy.addActionListener(this);
 		jbOk.addActionListener(this);
-		getContentPane().add(jbCopy, cc.xy(row, 4));
-		getContentPane().add(jbOk, cc.xy(row, 6));
+		getContentPane().add(jbCopy, cc.xy(4, row));
+		getContentPane().add(jbOk, cc.xy(6, row));
 		
 		pack();
 		//setSize(800,600);
@@ -67,6 +68,12 @@ public class PowerResultDialog extends JDialog implements ActionListener {
 
 	public void copyTableToClipboard() {
 		StringBuffer s = new StringBuffer();
+
+		for (int j=0; j<colnames.length; j++) {
+			s.append(colnames[j]+NEW_CELL);
+		}
+		s.append(NEW_LINE);
+
 		for (int i=0; i<data.length; i++) {
 			for (int j=0; j<data[0].length; j++) {
 				s.append(data[i][j].toString()+NEW_CELL);

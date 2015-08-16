@@ -292,7 +292,7 @@ calcMultiPower <- function(weights, alpha, G, ncpL, muL, sigmaL, nL,
 		}		
 	}	
 	#return(sResult)
-	return(result)
+	return(list(result, c("Scenario", probs)))
 	#return(paste(capture.output(print(result)), collapse="\n"))
 }
 
