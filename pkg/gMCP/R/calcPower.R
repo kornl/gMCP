@@ -292,8 +292,8 @@ calcMultiPower <- function(weights, alpha, G, ncpL, muL, sigmaL, nL,
 		}		
 	}	
 	#return(sResult)
-	#return(result)
-	return(paste(capture.output(print(result)), collapse="\n"))
+	return(result)
+	#return(paste(capture.output(print(result)), collapse="\n"))
 }
 
 addResult2DF <- function(resultM, resultL) {
