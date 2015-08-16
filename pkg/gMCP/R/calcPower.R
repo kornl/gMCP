@@ -238,12 +238,23 @@ calcMultiPower <- function(weights, alpha, G, ncpL, muL, sigmaL, nL,
       attr(ncpL[[i]], "label") <- names(ncpL)[i]
     }
   }
+  if (length(f)>0) {
+    n <- names(f)
+    if (is.null(n) || all(is.na(n))) n <- paste("func", 1:length(f), sep="")
+    n[n=="" | is.na(n)] <- paste("func", 1:sum(n==""), sep="")
+    names(f) <- n
+  }
+  result <- data.frame(Scenario=character(0))
+  probs <- c(paste("LocalPower", names(weights)), "ExpRejections", "PowAtlst1", "RejectAll", names(f))
+  result <- cbind(result, as.data.frame(setNames(replicate(length(probs), numeric(0), simplify = F), probs)))
+  
 	sResult <- ""
 	g <- matrix2graph(G)
 	g <- setWeights(g, weights)
 	if (is.null(variables)) {
 		sResult <- paste(sResult, "Graph:",paste(capture.output(print(g)), collapse="\n"), sep="\n")
 		resultL <- calcPower(graph=g, alpha=alpha, mean = ncpL, corr.sim=corr.sim, corr.test=corr.test, n.sim=n.sim, type=type, f=f, upscale=upscale)
+		result <- addResult2DF(result, resultL)
 		sResult <- paste(sResult, resultL2Text(resultL, digits), sep="\n")
 	} else {
 		# For testing purposes: variables <- list(a=c(1,2), b=(3), x=c(2,3,4), d=c(1,2))
@@ -263,6 +274,7 @@ calcMultiPower <- function(weights, alpha, G, ncpL, muL, sigmaL, nL,
 			#print(ncpL)
 			additionalLabel <- paste(",", paste(paste(names(variables),"=",variablesII,sep=""), collapse=", "))
 			resultL <- calcPower(weights=weights, alpha=alpha, G=GII, mean = ncpL, corr.sim=corr.sim, corr.test=corr.test, n.sim=n.sim, type=type, f=f, upscale=upscale)
+			result <- addResult2DF(result, resultL)
 			sResult <- paste(sResult, resultL2Text(resultL, digits, additionalLabel=additionalLabel), sep="\n")
 			# Going through all of the variable settings:
 			i[j] <- i[j] + 1
@@ -279,7 +291,26 @@ calcMultiPower <- function(weights, alpha, G, ncpL, muL, sigmaL, nL,
 			}
 		}		
 	}	
-	return(sResult)
+	#return(sResult)
+	#return(result)
+	return(paste(capture.output(print(result)), collapse="\n"))
+}
+
+addResult2DF <- function(resultM, resultL) {
+  resultRow <-  cbind( data.frame(Scenario=" "), as.data.frame(setNames(replicate(dim(resultM)[2]-1, 0, simplify = F), colnames(resultM)[-1])) )
+  
+  for(result in resultL) {
+    resultRow[1] <- attr(result, "label")
+    for (i in 1:length(result$LocalPower)) { 
+      resultRow[1+i] <- result$LocalPower[i]
+    }
+    for (j in 2:length(result)) {
+      resultRow[i+j] <- result[[j]]
+    }
+    
+    resultM <- rbind(resultM, resultRow)
+  }
+  return(resultM)
 }
 
 resultL2Text <- function(resultL, digits, additionalLabel="") {
