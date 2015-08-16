@@ -1,5 +1,8 @@
 Changes in version 0.8-10 (??-08-2015)
-=====================================
+======================================
+
+- Power calculations in Dialog are displayed in JTable with easy
+  copy to clipboard and into Excel support.
 
 - New function sampSize for sample size calculations
 
