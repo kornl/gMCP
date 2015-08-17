@@ -337,5 +337,45 @@ resultL2Text <- function(resultL, digits, additionalLabel="") {
 	return(sResult)
 }
 
+createCalcPowerCall <- function(alpha, ncpL, corr.sim = diag(length(ncpL[[1]])), corr.test = NULL,
+                                n.sim = 10000, type = c("quasirandom", "pseudorandom"),
+                                f="", digits=4, variables="", test, upscale=FALSE, graph) {	
+  command <- dputGraph(graph, "graph")
+  command <- paste(command, "ncpL <- ", ncpL,"\n", sep="")
+  command <- paste(command, "f <- ", f,"\n", sep="")
+  if (!missing(variables)) {
+    command <- paste(command, "variables <- ", variables,"\n", sep="")
+  }
+  if (!missing(corr.test)) {
+    command <- paste(command, dputMatrix(corr.test, name="corr.test", indent=TRUE),"\n", sep="")
+  }
+  if (!missing(corr.sim)) {
+    command <- paste(command, dputMatrix(corr.sim, name="corr.sim", indent=TRUE),"\n", sep="")
+  }
+  command <- paste(command, "gMCP:::calcMultiPower(graph, ncpL=ncpL, f=f, ", sep="")
+  if (!missing(test)) {
+    command <- paste(command, ", test=\"",test,"\"", sep="")
+  }
+  if (!missing(type)) {
+    command <- paste(command, ", test=\"",type,"\"", sep="")
+  }
+  if (upscale) {
+    command <- paste(command, ", upscale=TRUE", sep="")
+  }	
+  if (!missing(corr.test)) {
+    command <- paste(command, ", corr.test=corr.test", sep="")
+  }
+  if (!missing(corr.sim)) {
+    command <- paste(command, ", corr.sim=corr.sim", sep="")
+  }
+  if (!missing(variables)) {
+    command <- paste(command, ", variables=variables", sep="")
+  }
+  command <- paste(command, ", alpha=",dput2(alpha), sep="")
+  command <- paste(command, ", n.sim=",dput2(n.sim), sep="")
+  command <- paste(command, ")\n", sep="")
+  return(command)
+}
+
 #x <- calcMultiPower(weights=BonferroniHolm(3)@weights, alpha=0.05, G=BonferroniHolm(3)@m, muL=list(c(0,0,0),c(10,10,10),c(10,20,30)), sigmaL=list(c(1,1,1)), nL=list(c(10,10,10),c(20,20,20)), f=list(p1=function(x){x[1]&&x[2]}))
 #cat(x)
