@@ -410,7 +410,7 @@ dputMatrix <- function(m, name, indent=6, rowNames=FALSE) {
 	}
 	if (nameLater) {
 		if (missing(name)) {
-			warning("Can set row names if no name for matrix is given.")
+			warning("Can't set row names if no name for matrix is given.")
 			return(s)
 		}
 		s <- paste(s, 
