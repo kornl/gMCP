@@ -254,7 +254,7 @@ calcMultiPower <- function(weights, alpha, G, ncpL, muL, sigmaL, nL,
 	if (is.null(variables)) {
 		sResult <- paste(sResult, "Graph:",paste(capture.output(print(g)), collapse="\n"), sep="\n")
 		resultL <- calcPower(graph=g, alpha=alpha, mean = ncpL, corr.sim=corr.sim, corr.test=corr.test, n.sim=n.sim, type=type, f=f, upscale=upscale)
-		result <- addResult2DF(result, resultL)
+		result <- addResult2DF(result, resultL, digits=digits)
 		sResult <- paste(sResult, resultL2Text(resultL, digits), sep="\n")
 	} else {
 		# For testing purposes: variables <- list(a=c(1,2), b=(3), x=c(2,3,4), d=c(1,2))
@@ -274,7 +274,7 @@ calcMultiPower <- function(weights, alpha, G, ncpL, muL, sigmaL, nL,
 			#print(ncpL)
 			additionalLabel <- paste(",", paste(paste(names(variables),"=",variablesII,sep=""), collapse=", "))
 			resultL <- calcPower(weights=weights, alpha=alpha, G=GII, mean = ncpL, corr.sim=corr.sim, corr.test=corr.test, n.sim=n.sim, type=type, f=f, upscale=upscale)
-			result <- addResult2DF(result, resultL)
+			result <- addResult2DF(result, resultL, additionalLabel=additionalLabel, digits=digits)
 			sResult <- paste(sResult, resultL2Text(resultL, digits, additionalLabel=additionalLabel), sep="\n")
 			# Going through all of the variable settings:
 			i[j] <- i[j] + 1
@@ -296,17 +296,18 @@ calcMultiPower <- function(weights, alpha, G, ncpL, muL, sigmaL, nL,
 	#return(paste(capture.output(print(result)), collapse="\n"))
 }
 
-addResult2DF <- function(resultM, resultL) {
+addResult2DF <- function(resultM, resultL, additionalLabel="", digits) {
   resultRow <-  cbind( data.frame(Scenario=" "), as.data.frame(setNames(replicate(dim(resultM)[2]-1, 0, simplify = F), colnames(resultM)[-1])) )
   
   for(result in resultL) {
-    resultRow[1] <- attr(result, "label")
+    resultRow[1] <- paste(attr(result, "label"), additionalLabel, sep="")
     for (i in 1:length(result$LocalPower)) { 
       resultRow[1+i] <- result$LocalPower[i]
     }
     for (j in 2:length(result)) {
       resultRow[i+j] <- result[[j]]
     }
+    resultRow[2:dim(resultRow)[2]] <- round(resultRow[2:dim(resultRow)[2]], digits)
     
     resultM <- rbind(resultM, resultRow)
   }
@@ -317,7 +318,7 @@ resultL2Text <- function(resultL, digits, additionalLabel="") {
 	sResult <- ""
 	for(result in resultL) {
 		label <- attr(result, "label")
-		title <- paste("Setting: ",label, additionalLabel, sep="")		
+		title <- paste("Setting: ", label, additionalLabel, sep="")		
 		sResult <- paste(sResult, title, paste(rep("=", nchar(title)),collapse=""), sep="\n")			
 		sResult <- paste(sResult, "Local Power:",paste(capture.output(print(round(result$LocalPower, digits))), collapse="\n"), sep="\n")
 		sResult <- paste(sResult, "\nExpected number of rejections:", round(result$ExpRejections, digits), sep="\n")

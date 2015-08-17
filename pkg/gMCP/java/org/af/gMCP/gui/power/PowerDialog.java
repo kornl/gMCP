@@ -130,6 +130,7 @@ public class PowerDialog extends PDialog implements ActionListener {
 					+ ", n.sim = "+Configuration.getInstance().getGeneralConfig().getNumberOfSimulations()
 					+ ", type = \""+Configuration.getInstance().getGeneralConfig().getTypeOfRandom()+"\""
 					+ getVariables()
+					+ ", digits=4"
 					+ ")";				
 
 			parent.glassPane.start();
