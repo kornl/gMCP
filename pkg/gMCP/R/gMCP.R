@@ -386,6 +386,12 @@ dputGraph <- function(g, name="graph") {
 }
 
 dputMatrix <- function(m, name, indent=6, rowNames=FALSE) {
+  if (isTRUE(indent)) {
+    indent <- 6
+    if (!missing(name)) {
+      indent <- 10+nchar(name)
+    }
+  }
 	s <- "rbind("
 	if (!missing(name)) s <- paste(name,"<- rbind(") 
 	for (i in 1:(dim(m)[1])) {
