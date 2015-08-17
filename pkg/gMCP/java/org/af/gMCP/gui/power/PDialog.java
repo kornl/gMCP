@@ -34,6 +34,7 @@ public class PDialog extends JDialog {
 	/** Are config files only saved temporarily? */
 	boolean tmp = false;
 	String rCommand = "";
+	String longRCommand = "";
 	
 	JTabbedPane tPanel = new JTabbedPane();
 	
