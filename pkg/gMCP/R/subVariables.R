@@ -84,6 +84,7 @@ replaceVariables <-function(graph, variables=list(), ask=TRUE, partial=FALSE, ex
     for (v in variables) {
       result <- c(result, list(replaceVariables(graph, v, ask, partial, expand=FALSE)))
     }
+    if (length(result)==1) return(result[[1]])
     return(result)
   }
 	# Call this function recursivly for entangled graphs.
