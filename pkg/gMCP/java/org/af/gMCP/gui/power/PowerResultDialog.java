@@ -12,6 +12,7 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JScrollPane;
+import javax.swing.JSplitPane;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.ScrollPaneConstants;
@@ -57,7 +58,7 @@ public class PowerResultDialog extends JDialog implements ActionListener {
 		jt.setAutoResizeMode( JTable.AUTO_RESIZE_OFF );
 		
 		String cols = "5dlu, fill:pref:grow, 5dlu, pref, 5dlu, pref, 5dlu";
-        String rows = "5dlu, fill:pref, 5dlu, fill:pref:grow, 5dlu, pref, 5dlu, pref, 5dlu";
+        String rows = "5dlu, fill:pref:grow, 5dlu, fill:pref:grow, 5dlu, pref, 5dlu, pref, 5dlu";
         
         FormLayout layout = new FormLayout(cols, rows);
         getContentPane().setLayout(layout);
@@ -67,9 +68,7 @@ public class PowerResultDialog extends JDialog implements ActionListener {
 		
 		int row = 2;
 		
-		getContentPane().add(jsp, cc.xyw(2, row, 5));
-		
-		row += 2;
+		//getContentPane().add(jsp, cc.xyw(2, row, 5));
 		
 		jta.setText(command);
 		jta.setMargin(new Insets(4,4,4,4));
@@ -78,8 +77,13 @@ public class PowerResultDialog extends JDialog implements ActionListener {
 		//jta.setWrapStyleWord(true);
 		
 		jta.addMouseListener(new RightClickTextMenuListener(jta));
-		getContentPane().add(new JScrollPane(jta), cc.xyw(2, row, 3));
+		//getContentPane().add(new JScrollPane(jta), cc.xyw(2, row, 3));
+		JSplitPane splitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT,
+				jsp, new JScrollPane(jta));
 		
+		getContentPane().add(splitPane, cc.xywh(2, row, 5, 3));		
+		
+		row += 2;
 		row += 2;		
 		
 		jbCopy.addActionListener(this);
