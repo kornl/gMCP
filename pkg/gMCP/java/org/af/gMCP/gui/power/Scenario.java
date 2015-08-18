@@ -54,7 +54,7 @@ public class Scenario implements NCPRequestor, ActionListener {
 	public String getNCPString() {		
 		String s = "'"+scname.getText()+"'=c(";
 		for (JTextField jt : ncp) {		
-			s += jt.getText()+",";
+			s += jt.getText()+", ";
 		}
 		return s.substring(0, s.length()-2)+")";
 	}
