@@ -94,11 +94,12 @@ public class ScenarioPanel extends JPanel implements ActionListener, ScenarioPan
 	}
 
 	public String getNCPString() {
-		String sList = "list(";
-		for (Scenario s : sc) {
-			sList += s.getNCPString()+",\n             ";
+		String sList = "list(";		
+		for (int i=0; i<sc.size(); i++) {
+			sList += sc.get(i).getNCPString();
+			if (i!=sc.size()-1) sList += ",\n             ";
 		}
-		return sList.substring(0, sList.length()-2)+")";
+		return sList+")";
 	}
 
 	public void actionPerformed(ActionEvent e) {
