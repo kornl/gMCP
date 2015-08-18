@@ -51,16 +51,18 @@ substituteEps <- function(graph, eps=10^(-3)) {
 #' 
 #' @param graph A graph of class \code{\link{graphMCP}} or class
 #' \code{\link{entangledMCP}}.
-#' @param variables A named list with the specified real values, for example
-#' \code{list(a=0.5, b=0.8, "tau"=0.5)}.  If \code{ask=TRUE} and this list is
+#' @param variables A named list with one or more specified real values, for example
+#' \code{list(a=0.5, b=0.8, "tau"=0.5)} or \code{list(a=c(0.5, 0.8), b=0.8, "tau"=0.5)}.  
+#' If \code{ask=TRUE} and this list is
 #' missing at all or single variables are missing from the list, the user is
 #' asked for the values (if the session is not interactive an error is thrown).
+#' For interactively entered values only single numbers are supported.
 #' @param ask If \code{FALSE} all variables that are not specified are not
 #' replaced.
 #' @param partial IF \code{TRUE} only specified variables are replaced and 
 #' parameter \code{ask} is ignored.
 #' @return A graph or a matrix with variables replaced by the specified numeric
-#' values.
+#' values. Or a list of theses graphs and matrices if a variable had more than one value.
 #' @author Kornelius Rohmeyer \email{rohmeyer@@small-projects.de}
 #' @seealso \code{\link{graphMCP}}, \code{\link{entangledMCP}}
 #' @keywords print graphs
@@ -72,9 +74,18 @@ substituteEps <- function(graph, eps=10^(-3)) {
 #' replaceVariables(graph)
 #' }
 #' replaceVariables(graph, list("tau"=0.5,"omega"=0.5, "nu"=0.5))
+#' replaceVariables(graph, list("tau"=c(0.1, 0.5, 0.9),"omega"=c(0.2, 0.8), "nu"=0.4))
 #' 
 #' @export replaceVariables
-replaceVariables <-function(graph, variables=list(), ask=TRUE, partial=FALSE) {
+replaceVariables <-function(graph, variables=list(), ask=TRUE, partial=FALSE, expand=TRUE) {
+  if (expand) variables <- varcombs(variables)
+  if (is.list(variables[[1]])) {
+    result <- list()
+    for (v in variables) {
+      result <- c(result, list(replaceVariables(graph, v, ask, partial, expand=FALSE)))
+    }
+    return(result)
+  }
 	# Call this function recursivly for entangled graphs.
 	if ("entangledMCP" %in% class(graph)) {
 		for(i in 1:length(graph@subgraphs)) {
@@ -152,4 +163,21 @@ isEpsilon <- function(w) {
 	x <- try(eval(parse(text = gsub("\\\\epsilon", 0, w)), envir = emptyenv()), silent=TRUE)
 	if ("try-error" %in% class(x)) return(FALSE)
 	return(x==0)
+}
+
+# For testing purposes: variables <- list(a=c(1,2), b=(3), x=c(2,3,4), d=c(1,2))
+varcombs <- function(variables) {
+  combs <- list()
+  m <- do.call(expand.grid, lapply(variables, function(x){1:length(x)}))
+  for (i in 1:dim(m)[1]) {
+    variablesII <- rep(0, length(variables))
+    for(k in 1:length(variables)) {
+      variablesII[k] <- variables[[k]][m[i,k]]
+    }
+    names(variablesII) <- names(variables)
+    combs <- c(combs, list(as.list(variablesII)))
+  }
+  # GII <- replaceVariables(G, as.list(variablesII))
+  # additionalLabel <- paste(",", paste(paste(names(variables),"=",variablesII,sep=""), collapse=", "))
+  return(combs)
 }
