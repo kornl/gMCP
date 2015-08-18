@@ -35,10 +35,7 @@ import com.jgoodies.forms.layout.FormLayout;
 
 public class PowerDialog extends PDialog implements ActionListener {
 
-	/** Actually will only contain Strings and is created by Set<String>.toArray(). */
-	Object[] variables;
-	/** List of JTextFields to enter values for variables. */
-	List<JTextField> jtlVar = new Vector<JTextField>();
+	VariablePanel vp = null;
 	
 	/**
 	 * Constructor
@@ -62,7 +59,8 @@ public class PowerDialog extends PDialog implements ActionListener {
 			variables.remove("ε");
 		}
 		if (variables.size()>0) {
-			tPanel.addTab("Variables", getVariablePanel(variables));
+			vp = new VariablePanel(variables);
+			tPanel.addTab("Variables", vp);
 		}
 		
 		getContentPane().add(tPanel, c);
@@ -172,6 +170,11 @@ public class PowerDialog extends PDialog implements ActionListener {
 		}
 	}
 
+	private String getVariables() {
+		if (vp==null) return "";
+		return vp.getVariables();
+	}
+
 	private void createLongRCommand(double alpha) {
 
 		longRCommand = "createCalcPowerCall(graph="+parent.getGraphView().getNL().getGraphName()+", alpha="+alpha+", ncpL=\""+pNCP.getNCPString()+"\""
@@ -186,55 +189,6 @@ public class PowerDialog extends PDialog implements ActionListener {
 		
 		longRCommand = RControl.getR().eval(longRCommand).asRChar().getData()[0];
 		
-	}
-
-	public JPanel getVariablePanel(Set<String> v) {
-		JPanel vPanel = new JPanel();		
-		variables = v.toArray();
-		
-        String cols = "5dlu, pref, 5dlu, fill:pref:grow, 5dlu";
-        String rows = "5dlu, pref, 5dlu";
-        
-        for (Object s : variables) {
-        	rows += ", pref, 5dlu";
-        }
-        
-        FormLayout layout = new FormLayout(cols, rows);
-        vPanel.setLayout(layout);
-        CellConstraints cc = new CellConstraints();
-
-        int row = 2;
-        
-        jtlVar = new Vector<JTextField>();
-        
-        for (Object s : variables) {        	
-        	JTextField jt = new JTextField("0");
-        	if (s.equals("ε")) {
-        		jt.setText(""+Configuration.getInstance().getGeneralConfig().getEpsilon());
-        	} else {
-        		jt.setText(""+Configuration.getInstance().getGeneralConfig().getVariable(s.toString()));
-        	}
-        	vPanel.add(new JLabel("Value for '"+s+"':"), cc.xy(2, row));
-        	vPanel.add(jt, cc.xy(4, row));
-        	jtlVar.add(jt);        	
-        	
-        	row += 2;
-        }
-        
-        return vPanel;
-	}
-
-	public String getVariables() {
-		if (jtlVar.size()>0) {
-			String s = ", variables=list("; 
-			for (int i=0; i<variables.length; i++) {
-				s = s + LaTeXTool.UTF2LaTeX(variables[i].toString().charAt(0))+" = "+ jtlVar.get(i).getText();
-				if (i!=variables.length-1) s = s + ", ";
-			}		
-			return s+")";
-		} else {
-			return "";
-		}
 	}
 
 }
