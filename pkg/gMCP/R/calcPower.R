@@ -341,23 +341,23 @@ createCalcPowerCall <- function(alpha, ncpL, corr.sim = diag(length(ncpL[[1]])),
                                 n.sim = 10000, type = c("quasirandom", "pseudorandom"),
                                 f="", digits=4, variables="", test, upscale=FALSE, graph) {	
   command <- dputGraph(graph, "graph")
-  command <- paste(command, "ncpL <- ", ncpL,"\n", sep="")
-  command <- paste(command, "f <- ", f,"\n", sep="")
+  command <- paste(command, "\n", "ncpL <- ", ncpL,"\n", sep="")
+  command <- paste(command, "\n", "f <- ", f,"\n", sep="")
   if (!missing(variables)) {
-    command <- paste(command, "variables <- ", variables,"\n", sep="")
+    command <- paste(command, "\n", "variables <- ", variables,"\n", sep="")
   }
   if (!missing(corr.test)) {
-    command <- paste(command, dputMatrix(corr.test, name="corr.test", indent=TRUE),"\n", sep="")
+    command <- paste(command, "\n", dputMatrix(corr.test, name="corr.test", indent=TRUE),"\n", sep="")
   }
   if (!missing(corr.sim)) {
-    command <- paste(command, dputMatrix(corr.sim, name="corr.sim", indent=TRUE),"\n", sep="")
+    command <- paste(command, "\n", dputMatrix(corr.sim, name="corr.sim", indent=TRUE),"\n", sep="")
   }
-  command <- paste(command, "gMCP:::calcMultiPower(graph, ncpL=ncpL, f=f, ", sep="")
+  command <- paste(command, "gMCP:::calcMultiPower(graph, ncpL=ncpL, f=f", sep="")
   if (!missing(test)) {
     command <- paste(command, ", test=\"",test,"\"", sep="")
   }
   if (!missing(type)) {
-    command <- paste(command, ", test=\"",type,"\"", sep="")
+    command <- paste(command, ", type=\"",type,"\"", sep="")
   }
   if (upscale) {
     command <- paste(command, ", upscale=TRUE", sep="")
