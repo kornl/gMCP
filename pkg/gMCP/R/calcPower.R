@@ -257,38 +257,13 @@ calcMultiPower <- function(weights, alpha, G, ncpL, muL, sigmaL, nL,
 		result <- addResult2DF(result, resultL, digits=digits)
 		sResult <- paste(sResult, resultL2Text(resultL, digits), sep="\n")
 	} else {
-		# For testing purposes: variables <- list(a=c(1,2), b=(3), x=c(2,3,4), d=c(1,2))
-		i <- rep(1, length(variables))
-		j <- 1
-		running <- TRUE
-		while (running) {
-			variablesII <- rep(0, length(variables))
-			for(k in 1:length(variables)) {
-				variablesII[k] <- variables[[k]][i[k]]
-			}
-			names(variablesII) <- names(variables)
-			GII <- replaceVariables(G, as.list(variablesII))
-			#print(GII)
-			#print(weights)
-			#print(alpha)
-			#print(ncpL)
-			additionalLabel <- paste(",", paste(paste(names(variables),"=",variablesII,sep=""), collapse=", "))
-			resultL <- calcPower(weights=weights, alpha=alpha, G=GII, mean = ncpL, corr.sim=corr.sim, corr.test=corr.test, n.sim=n.sim, type=type, f=f, upscale=upscale)
+	  graphs <- replaceVariables(graph, variables)
+	  if (!is.list(graphs)) graphs <- list(graphs)
+		for (GII in graphs) {
+			additionalLabel <- paste(",", attr(GII, "label"))
+			resultL <- calcPower(graph=GII, alpha=alpha, mean = ncpL, corr.sim=corr.sim, corr.test=corr.test, n.sim=n.sim, type=type, f=f, upscale=upscale)
 			result <- addResult2DF(result, resultL, additionalLabel=additionalLabel, digits=digits)
 			sResult <- paste(sResult, resultL2Text(resultL, digits, additionalLabel=additionalLabel), sep="\n")
-			# Going through all of the variable settings:
-			i[j] <- i[j] + 1
-			while (i[j]>length(variables[[j]]) && running) {
-				if (j<length(i)) {
-					j <- j + 1
-				} else {
-					running <- FALSE
-				}
-				i[j] <- i[j] + 1
-				for (k in 1:(j-1)) {
-					i[k] <- 1
-				}
-			}
 		}		
 	}	
 	#return(sResult)
@@ -339,7 +314,7 @@ resultL2Text <- function(resultL, digits, additionalLabel="") {
 
 createCalcPowerCall <- function(alpha, ncpL, corr.sim = diag(length(ncpL[[1]])), corr.test = NULL,
                                 n.sim = 10000, type = c("quasirandom", "pseudorandom"),
-                                f="", digits=4, variables="", test, upscale=FALSE, graph) {	
+                                f="", digits=4, variables="", test, upscale=FALSE, graph, loop=TRUE) {	
   command <- dputGraph(graph, "graph")
   command <- paste(command, "\n", "ncpL <- ", ncpL,"\n", sep="")
   command <- paste(command, "\n", "f <- ", f,"\n", sep="")
@@ -352,7 +327,18 @@ createCalcPowerCall <- function(alpha, ncpL, corr.sim = diag(length(ncpL[[1]])),
   if (!missing(corr.sim)) {
     command <- paste(command, "\n", dputMatrix(corr.sim, name="corr.sim", indent=TRUE),"\n", sep="")
   }
-  command <- paste(command, "gMCP:::calcMultiPower(graph, ncpL=ncpL, f=f", sep="")
+  if (loop) {
+    command <- paste(command, "for (ncp in ncpL) {\n", sep="")
+    if (!missing(variables)) {
+      command <- paste(command, "  for (ncp in ncpL) {\n", sep="")
+    }
+    command <- paste(command, "    calcPower(graph=graph, mean=ncp, f=f", sep="")
+  } else {
+    command <- paste(command, "gMCP:::calcMultiPower(graph=graph, ncpL=ncpL, f=f", sep="")
+    if (!missing(variables)) {
+      command <- paste(command, ", variables=variables", sep="")
+    }
+  }
   if (!missing(test)) {
     command <- paste(command, ", test=\"",test,"\"", sep="")
   }
@@ -368,12 +354,16 @@ createCalcPowerCall <- function(alpha, ncpL, corr.sim = diag(length(ncpL[[1]])),
   if (!missing(corr.sim)) {
     command <- paste(command, ", corr.sim=corr.sim", sep="")
   }
-  if (!missing(variables)) {
-    command <- paste(command, ", variables=variables", sep="")
-  }
+  
   command <- paste(command, ", alpha=",dput2(alpha), sep="")
   command <- paste(command, ", n.sim=",dput2(n.sim), sep="")
   command <- paste(command, ")\n", sep="")
+  if (loop) {
+    command <- paste(command, "  }\n", sep="")
+    if (!missing(variables)) {
+      command <- paste(command, "}\n", sep="")
+    }
+  }
   return(command)
 }
 
