@@ -32,7 +32,8 @@ public class PowerResultDialog extends JDialog implements ActionListener {
 	public String NEW_CELL = "\t";
 	public String NEW_LINE = "\n";    
 	
-	JButton jbCopy = new JButton("Copy to Clipboard");
+	JButton jbCopyTable = new JButton("Copy Table to Clipboard");
+	JButton jbCopyText = new JButton("Copy Text to Clipboard");
 	JButton jbOk = new JButton("Ok");
 	Object[][] data;
 	String[] colnames;
@@ -57,7 +58,7 @@ public class PowerResultDialog extends JDialog implements ActionListener {
 		
 		jt.setAutoResizeMode( JTable.AUTO_RESIZE_OFF );
 		
-		String cols = "5dlu, fill:pref:grow, 5dlu, pref, 5dlu, pref, 5dlu";
+		String cols = "5dlu, fill:pref:grow, 5dlu, pref, 5dlu, pref, 5dlu, pref, 5dlu";
         String rows = "5dlu, fill:pref:grow, 5dlu, fill:pref:grow, 5dlu, pref, 5dlu, pref, 5dlu";
         
         FormLayout layout = new FormLayout(cols, rows);
@@ -81,15 +82,17 @@ public class PowerResultDialog extends JDialog implements ActionListener {
 		JSplitPane splitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT,
 				jsp, new JScrollPane(jta));
 		
-		getContentPane().add(splitPane, cc.xywh(2, row, 5, 3));		
+		getContentPane().add(splitPane, cc.xywh(2, row, 7, 3));		
 		
 		row += 2;
 		row += 2;		
 		
-		jbCopy.addActionListener(this);
+		jbCopyTable.addActionListener(this);
+		jbCopyText.addActionListener(this);
 		jbOk.addActionListener(this);
-		getContentPane().add(jbCopy, cc.xy(4, row));
-		getContentPane().add(jbOk, cc.xy(6, row));
+		getContentPane().add(jbCopyTable, cc.xy(4, row));
+		getContentPane().add(jbCopyText, cc.xy(6, row));
+		getContentPane().add(jbOk, cc.xy(8, row));
 		
 		pack();
 		//Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
@@ -122,8 +125,12 @@ public class PowerResultDialog extends JDialog implements ActionListener {
 		if (e.getSource()==jbOk) {
 			dispose();
 		}
-		if (e.getSource()==jbCopy) {
+		if (e.getSource()==jbCopyTable) {
 			copyTableToClipboard();
+		}
+		if (e.getSource()==jbCopyText) {
+			StringSelection stringText  = new StringSelection(jta.getText()); 
+			Toolkit.getDefaultToolkit().getSystemClipboard().setContents(stringText, stringText);
 		}
 	}
 	
