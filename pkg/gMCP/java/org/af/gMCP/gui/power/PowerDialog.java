@@ -123,6 +123,8 @@ public class PowerDialog extends PDialog implements ActionListener {
 			
 			SettingsToXML.saveSettingsToXML(config, this);
 
+			createLongRCommand(alpha);
+			
 			rCommand = "gMCP:::calcMultiPower(graph="+parent.getGraphView().getNL().getGraphName()+", alpha="+alpha+", ncpL="+pNCP.getNCPString()
 					+ ","+"corr.sim = " + cvPanel.getSigma() //diag(length(mean)),corr = NULL,"+
 					+ cvPanel.getMatrixForParametricTest()
@@ -142,7 +144,7 @@ public class PowerDialog extends PDialog implements ActionListener {
 						RControl.setSeed();
 						//RDataFrame result = RControl.getR().eval(rCommand).asRDataFrame();
 						RList result = RControl.getR().eval(rCommand).asRList();
-						new PowerResultDialog(parent, result.get(0).asRDataFrame(), result.get(1).asRChar().getData());
+						new PowerResultDialog(parent, result.get(0).asRDataFrame(), result.get(1).asRChar().getData(), longRCommand+"\n\n"+rCommand);
 					} catch (Exception e) {						
 						ErrorHandler.getInstance().makeErrDialog(e.getMessage(), e, false);
 					} finally {
@@ -168,6 +170,22 @@ public class PowerDialog extends PDialog implements ActionListener {
 		} else {		
 			dispose();
 		}
+	}
+
+	private void createLongRCommand(double alpha) {
+
+		longRCommand = "createCalcPowerCall(graph="+parent.getGraphView().getNL().getGraphName()+", alpha="+alpha+", ncpL=\""+pNCP.getNCPString()+"\""
+				+ ","+"corr.sim = " + cvPanel.getSigma() //diag(length(mean)),corr = NULL,"+
+				+ cvPanel.getMatrixForParametricTest()
+				+ ", f = \""+userDefinedFunctions.getUserDefined()+"\""
+				+ ", n.sim = "+Configuration.getInstance().getGeneralConfig().getNumberOfSimulations()
+				+ ", type = \""+Configuration.getInstance().getGeneralConfig().getTypeOfRandom()+"\""
+				+ getVariables()
+				+ ", digits=4"
+				+ ")";		
+		
+		longRCommand = RControl.getR().eval(longRCommand).asRChar().getData()[0];
+		
 	}
 
 	public JPanel getVariablePanel(Set<String> v) {
