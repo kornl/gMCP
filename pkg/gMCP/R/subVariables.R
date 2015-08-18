@@ -83,6 +83,7 @@ replaceVariables <-function(graph, variables=list(), ask=TRUE, partial=FALSE, ex
     result <- list()
     for (v in variables) {
       result <- c(result, list(replaceVariables(graph, v, ask, partial, expand=FALSE)))
+      attr(result, "label") <- attr(v, "label")
     }
     if (length(result)==1) return(result[[1]])
     return(result)
@@ -176,7 +177,9 @@ varcombs <- function(variables) {
       variablesII[k] <- variables[[k]][m[i,k]]
     }
     names(variablesII) <- names(variables)
-    combs <- c(combs, list(as.list(variablesII)))
+    x <- as.list(variablesII)
+    attr(x, "label") <- paste(paste(names(variables),"=",variablesII,sep=""), collapse=", ")
+    combs <- c(combs, list(x))
   }
   # GII <- replaceVariables(G, as.list(variablesII))
   # additionalLabel <- paste(",", paste(paste(names(variables),"=",variablesII,sep=""), collapse=", "))
