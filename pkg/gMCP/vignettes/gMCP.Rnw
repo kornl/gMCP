@@ -824,6 +824,11 @@ but this could easily be misread as the rejection of H1 and H4 and at least one 
 
 \end{itemize}
 
+\begin{figure}[ht]
+  \centering    
+  \includegraphics[width=0.8\textwidth]{pictures/PowerResults.png}      
+  \caption{\label{fig:powerresults} Power results}
+\end{figure}
 
 \commentout{
 \section{Sample Size Calculations}
