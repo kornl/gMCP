@@ -35,8 +35,6 @@ import com.jgoodies.forms.layout.FormLayout;
 
 public class PowerDialog extends PDialog implements ActionListener {
 
-	VariablePanel vp = null;
-	
 	/**
 	 * Constructor
 	 * @param parent Parent JFrame
@@ -129,7 +127,7 @@ public class PowerDialog extends PDialog implements ActionListener {
 					+ ", f = "+userDefinedFunctions.getUserDefined()
 					+ ", n.sim = "+Configuration.getInstance().getGeneralConfig().getNumberOfSimulations()
 					+ ", type = \""+Configuration.getInstance().getGeneralConfig().getTypeOfRandom()+"\""
-					+ getVariables()
+					+ getVariables(false)
 					+ ", digits=4"
 					+ ")";				
 
@@ -170,9 +168,11 @@ public class PowerDialog extends PDialog implements ActionListener {
 		}
 	}
 
-	private String getVariables() {
+	private String getVariables(boolean quote) {
 		if (vp==null) return "";
-		return vp.getVariables();
+		String q = "";
+		if (quote) q = "\"";		
+		return ", variables="+q+vp.getVariables()+q;
 	}
 
 	private void createLongRCommand(double alpha) {
@@ -183,7 +183,7 @@ public class PowerDialog extends PDialog implements ActionListener {
 				+ ", f = \""+userDefinedFunctions.getUserDefined()+"\""
 				+ ", n.sim = "+Configuration.getInstance().getGeneralConfig().getNumberOfSimulations()
 				+ ", type = \""+Configuration.getInstance().getGeneralConfig().getTypeOfRandom()+"\""
-				+ getVariables()
+				+ getVariables(true)
 				+ ", digits=4"
 				+ ")";		
 		

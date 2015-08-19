@@ -26,6 +26,7 @@ public class PDialog extends JDialog {
     ScenarioPanelInterface pNCP;    
     UserDefinedPanel userDefinedFunctions;
     CVPanel cvPanel;
+	VariablePanel vp = null;
     PowerOptionsPanel oPanel;
     
 	File config;
