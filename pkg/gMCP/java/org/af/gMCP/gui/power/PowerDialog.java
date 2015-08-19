@@ -5,34 +5,20 @@ import java.awt.GridBagConstraints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
-import java.util.List;
 import java.util.Set;
-import java.util.Vector;
 
 import javax.swing.JCheckBox;
-import javax.swing.JDialog;
-import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JTextField;
 
-import org.af.commons.errorhandling.DefaultExceptionHandler;
 import org.af.commons.errorhandling.ErrorHandler;
 import org.af.commons.widgets.buttons.HorizontalButtonPane;
-import org.af.commons.widgets.buttons.OkCancelButtonPane;
 import org.af.gMCP.config.Configuration;
 import org.af.gMCP.gui.CreateGraphGUI;
 import org.af.gMCP.gui.RControl;
 import org.af.gMCP.gui.dialogs.PowerOptionsPanel;
-import org.af.gMCP.gui.dialogs.TextFileViewer;
-import org.af.gMCP.gui.graph.LaTeXTool;
 import org.af.gMCP.gui.options.OptionsDialog;
-import org.af.jhlir.call.RDataFrame;
 import org.af.jhlir.call.RList;
 import org.jdesktop.swingworker.SwingWorker;
-
-import com.jgoodies.forms.layout.CellConstraints;
-import com.jgoodies.forms.layout.FormLayout;
 
 public class PowerDialog extends PDialog implements ActionListener {
 

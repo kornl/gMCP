@@ -1,7 +1,5 @@
 package org.af.gMCP.gui.power;
 
-import java.awt.BorderLayout;
-import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Insets;
 import java.awt.Toolkit;
@@ -15,13 +13,10 @@ import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
-import javax.swing.ScrollPaneConstants;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableColumn;
 
 import org.af.commons.widgets.RightClickTextMenuListener;
 import org.af.gMCP.gui.CreateGraphGUI;
-import org.af.gMCP.gui.datatable.RowModel;
 import org.af.jhlir.call.RDataFrame;
 
 import com.jgoodies.forms.layout.CellConstraints;
