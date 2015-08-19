@@ -76,6 +76,7 @@ public class PowerDialog extends PDialog implements ActionListener {
 		
         pack();
         setLocationRelativeTo(parent);
+        setSize(Math.max(870, getWidth()), getHeight());
         
 		if (tmp && !Configuration.getInstance().getClassProperty(this.getClass(), "tellAboutFiles", "yes").equals("no")) {
 			JCheckBox tellMeAgain = new JCheckBox("Don't show me this info again.");			
