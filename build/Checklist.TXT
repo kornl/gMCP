@@ -23,3 +23,21 @@ R/etc/Rprofile.site:
 library(gMCP)
 graphGUI()
 .isBundle <- TRUE
+
+Add md5sum of bundle to list:
+
+gMCP/archive$ md5sum *
+a72085091fd4450447ec3064fea47a07  gMCP.pdf
+a871c8ba20187d3def90c3a376420ef8  R-2.15.0-64-gMCP-0.7-9.zip
+d7b2bcc53a72c8de949f5ff43ef1a235  R-2.15.1-32-gMCP-0.8-3.zip
+0a1d5767130b51c44cb52e0e1417c3f7  R-2.15.1-64-gMCP-0.7-10.zip
+1527a6a8546dd7a9d6d6fec867b42c38  R-2.15.1_with_gMCP-0.7-11.zip
+1a81d99a4f8a2d25655d6057f583a70c  R-2.15.1_with_gMCP-0.8-0.zip
+9cc19abc04c0149ead85ba01b4a39d39  R-2.15.1_with_gMCP-0.8-5.zip
+82d375c269c8884ea63ff55a983ba6cc  R-2.15.1_with_gMCP-0.8-6RC3.zip
+93769abcb0d2f05f57dd07b7435bfda9  R-3.0.1_with_gMCP-0.8-1.zip
+90c8652d83573ec3012f1f40f24430fd  R-3.0.2_with_gMCP-0.8-6-RC.zip
+2074f81e6bb035a51f304dec12d13d47  R-3.0.3-with-gMCP-0.8-6.zip
+246a20a03d1f32da50cd6211746c7bbc  R-3.0.3-with-gMCP-19.03.2014-patched.zip
+e012ffbd9e9381f6835e070f91850166  R-3.0.3-with-gMCP-19.03.2014.zip
+6b6431918c0f6d8bb6f7ea835dc720c8  R-3.1.1-with-gMCP-0.8-8.zip
