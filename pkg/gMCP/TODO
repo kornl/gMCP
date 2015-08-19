@@ -112,10 +112,8 @@ Does not work any more:
 #' renderGraph(layoutGraph(g))
 #' }
 
-- Check whether everything is okay here (with e.g. Ferber) - most likely yes:
-> eval(expression(edgeAttr(.InitialGraph1394185710245, "T3D1", "T2D1", "variableWeight") <- "1-\\nu"), envir=gMCP:::gMCPenv)
+Lines like the following are spamming the log:
 > eval(expression(try(1-\nu, silent=TRUE)), envir=gMCP:::gMCPenv)
-Error: unexpected input in "eval(expression(try(1-\"
 
 - Streamline / throw out graphTest
 
@@ -140,13 +138,10 @@ From xlsxjars:
 - Simes and power
 - Simes + parametric test for entangled graphs.
 - Optionally display alpha weighting directly in entangled graphs.
-- Save settings for power and remember them in the same session.
-- Names for userdefined functions.
 - Make node bigger for a huge number of entangled layers? (Or arrange them in a different way?)
 - Disable CI and adj.P for entangled graphs.
 - graph2latex for entangled graphs.
 - Black&White version in graph2latex
-- Link to archive is wrong on bundle site.
 - Removing layer from entangled graphs does not remove weights?
 - GUI speed optimization (try Ferber II with 15x5)
 - Also check layout of (result) dialogs for big graphs.
@@ -239,17 +234,14 @@ gMCP:::calcMultiPower(weights = .tmpGraph@weights, alpha = 0.05, G = .tmpGraph@m
 Error in calcPower(weights = .tmpGraph@weights, alpha = 0.05, G = .tmpGraph@m,  : 
   unused argument(s) (test = "Bretz2011")
 
-Critical:
-=========
+High priority:
+==============
 
 - Test (and perhaps fix) the following: graphGUI("graph", envir=new.env())
 - Think about JavaGD devices. (User wants to plot in R Console etc.)
 - Does Deducer interfere JavaGD? (When is .onLoad executed?)
 - Make JavaGD only a suggest (Solaris and generally safer)
 - Create function for renaming of graph nodes in R
-
-High priority:
-==============
 
 - Show optional dialog when refresh button is pressed.
 - Check java.awt.Desktop.open in the newest Ubuntu (or is there something else wrong?)
@@ -423,12 +415,6 @@ The current api for setting a popupMenu in Swing is
 this way it will be shown automagically, both for mouse and keyboard triggers (the latter depends on LAF). Plus, it supports re-using the same popup across a container's children. To enable that feature:
 
   myChild.setInheritsPopupMenu(true)
-
----
-        
-Is this correct from R check?
-  Mismatches in argument default values:
-    Name: 'w' Code: "\\nu" Docs: "\nu"
 
 ---
 
