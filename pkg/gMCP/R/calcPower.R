@@ -327,13 +327,13 @@ createCalcPowerCall <- function(alpha, ncpL, corr.sim = diag(length(ncpL[[1]])),
   if (!missing(corr.sim)) {
     command <- paste(command, "\n", dputMatrix(corr.sim, name="corr.sim", indent=TRUE),"\n", sep="")
   }
-  command <- paste(command, "\nset.seed(", seed ,")\n\n", sep="")
+  command <- paste(command, "set.seed(", seed ,")\n\n", sep="")
   if (loop) {
+    command <- paste(command, "df <- c()\n", sep="")
     if (!missing(variables)) {
-      # TODO This will not work if there is only one value per variable
-      command <- paste(command, "for (g in replaceVariables(graph, variables)) {\n", sep="")
+      command <- paste(command, "for (g in replaceVariables(graph, variables, list=TRUE)) {\n", sep="")
     }
-    command <- paste(command, "  calcPower(graph=g, mean=ncpL, f=f", sep="")
+    command <- paste(command, "  result <- calcPower(graph=g, mean=ncpL, f=f", sep="")
   } else {
     command <- paste(command, "gMCP:::calcMultiPower(graph=graph, ncpL=ncpL, f=f", sep="")
     if (!missing(variables)) {
@@ -360,9 +360,11 @@ createCalcPowerCall <- function(alpha, ncpL, corr.sim = diag(length(ncpL[[1]])),
   command <- paste(command, ", n.sim=",dput2(n.sim), sep="")
   command <- paste(command, ")\n", sep="")
   if (loop) {
+    command <- paste(command, "  df <- rbind(df, matrix(unlist(result), nrow=3, byrow=TRUE))\n", sep="")
     if (!missing(variables)) {
     command <- paste(command, "}\n", sep="")
     }
+    command <- paste(command, "print(round(df,",digits,"))\n", sep="")
   }
   return(command)
 }
