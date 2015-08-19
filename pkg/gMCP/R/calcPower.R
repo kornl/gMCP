@@ -328,12 +328,11 @@ createCalcPowerCall <- function(alpha, ncpL, corr.sim = diag(length(ncpL[[1]])),
     command <- paste(command, "\n", dputMatrix(corr.sim, name="corr.sim", indent=TRUE),"\n", sep="")
   }
   if (loop) {
-    command <- paste(command, "for (ncp in ncpL) {\n", sep="")
     if (!missing(variables)) {
       # TODO This will not work if there is only one value per variable
-      command <- paste(command, "  for (g in replaceVariables(graph, variables)) {\n", sep="")
+      command <- paste(command, "for (g in replaceVariables(graph, variables)) {\n", sep="")
     }
-    command <- paste(command, "    calcPower(graph=g, mean=ncp, f=f", sep="")
+    command <- paste(command, "  calcPower(graph=g, mean=ncp, f=f", sep="")
   } else {
     command <- paste(command, "gMCP:::calcMultiPower(graph=graph, ncpL=ncpL, f=f", sep="")
     if (!missing(variables)) {
@@ -361,9 +360,8 @@ createCalcPowerCall <- function(alpha, ncpL, corr.sim = diag(length(ncpL[[1]])),
   command <- paste(command, ")\n", sep="")
   if (loop) {
     if (!missing(variables)) {
-    command <- paste(command, "  }\n", sep="")
-    }
     command <- paste(command, "}\n", sep="")
+    }
   }
   return(command)
 }
