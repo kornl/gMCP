@@ -314,7 +314,7 @@ resultL2Text <- function(resultL, digits, additionalLabel="") {
 
 createCalcPowerCall <- function(alpha, ncpL, corr.sim = diag(length(ncpL[[1]])), corr.test = NULL,
                                 n.sim = 10000, type = c("quasirandom", "pseudorandom"),
-                                f="", digits=4, variables="", test, upscale=FALSE, graph, loop=TRUE) {	
+                                f="", digits=4, variables="", test, upscale=FALSE, graph, loop=TRUE, seed=1234) {	
   command <- dputGraph(graph, "graph")
   command <- paste(command, "\n", "ncpL <- ", ncpL,"\n", sep="")
   command <- paste(command, "\n", "f <- ", f,"\n", sep="")
@@ -327,6 +327,7 @@ createCalcPowerCall <- function(alpha, ncpL, corr.sim = diag(length(ncpL[[1]])),
   if (!missing(corr.sim)) {
     command <- paste(command, "\n", dputMatrix(corr.sim, name="corr.sim", indent=TRUE),"\n", sep="")
   }
+  command <- paste(command, "\nset.seed(", seed ,")\n\n", sep="")
   if (loop) {
     if (!missing(variables)) {
       # TODO This will not work if there is only one value per variable

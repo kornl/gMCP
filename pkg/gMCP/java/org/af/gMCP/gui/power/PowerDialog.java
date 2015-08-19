@@ -139,6 +139,7 @@ public class PowerDialog extends PDialog implements ActionListener {
 					try {						
 						RControl.setSeed();
 						//RDataFrame result = RControl.getR().eval(rCommand).asRDataFrame();
+						RControl.getR().evalVoid("set.seed("+Configuration.getInstance().getGeneralConfig().getSeed()+")");
 						RList result = RControl.getR().eval(rCommand).asRList();
 						new PowerResultDialog(parent, result.get(0).asRDataFrame(), result.get(1).asRChar().getData(), longRCommand+"\n\n"+rCommand);
 					} catch (Exception e) {						
@@ -185,6 +186,7 @@ public class PowerDialog extends PDialog implements ActionListener {
 				+ ", type = \""+Configuration.getInstance().getGeneralConfig().getTypeOfRandom()+"\""
 				+ getVariables(true)
 				+ ", digits=4"
+				+ ", seed="+Configuration.getInstance().getGeneralConfig().getSeed()
 				+ ")";		
 		
 		longRCommand = RControl.getR().eval(longRCommand).asRChar().getData()[0];
