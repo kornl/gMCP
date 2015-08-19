@@ -159,17 +159,7 @@ public class SampleSizeDialog extends PDialog implements ActionListener {
 						String result = RControl.getR().eval(rCommand).asRChar().getData()[0];
 						new TextFileViewer(parent, "Power results", result, true);
 					} catch (Exception e) {
-						String message = e.getMessage();
-						JOptionPane.showMessageDialog(parent, "R call produced an error:\n\n"+message+"\nWe will open a window with R code to reproduce this error for investigation.", "Error in R Call", JOptionPane.ERROR_MESSAGE);
-						JDialog d = new JDialog(parent, "R Error", true);
-						d.add(
-								new TextFileViewer(parent, "R Objects", "The following R code produced the following error:\n\n" +message+
-										rCommand, true)
-								);
-						d.pack();
-						d.setSize(800, 600);
-						d.setVisible(true);
-						e.printStackTrace();						
+						ErrorHandler.getInstance().makeErrDialog(e.getMessage(), e, false);						
 					} finally {
 						parent.glassPane.stop();
 					}
