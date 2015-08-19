@@ -124,7 +124,7 @@ public class CreateGraphGUI extends JFrame implements WindowListener, AbortListe
 		}
 		
 		if (System.getProperty("eclipse") != null) {
-			((MenuBarMGraph)getJMenuBar()).loadGraph("simpleSuccessiveI()", false);
+			((MenuBarMGraph)getJMenuBar()).loadGraph("HungEtWang2010()", false);
 		}
 		
 		if (pvalues.length>0) getPView().setPValues(ArrayUtils.toObject(pvalues));
