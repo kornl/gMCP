@@ -137,7 +137,7 @@ public class PowerDialog extends PDialog implements ActionListener {
 						//RDataFrame result = RControl.getR().eval(rCommand).asRDataFrame();
 						RControl.getR().evalVoid("set.seed("+Configuration.getInstance().getGeneralConfig().getSeed()+")");
 						RList result = RControl.getR().eval(rCommand).asRList();
-						new PowerResultDialog(parent, result.get(0).asRDataFrame(), result.get(1).asRChar().getData(), longRCommand+"\n\n"+rCommand);
+						new PowerResultDialog(parent, result.get(0).asRDataFrame(), result.get(1).asRChar().getData(), longRCommand);
 					} catch (Exception e) {						
 						ErrorHandler.getInstance().makeErrDialog(e.getMessage(), e, false);
 					} finally {
