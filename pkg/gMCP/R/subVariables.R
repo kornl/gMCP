@@ -61,6 +61,9 @@ substituteEps <- function(graph, eps=10^(-3)) {
 #' replaced.
 #' @param partial IF \code{TRUE} only specified variables are replaced and 
 #' parameter \code{ask} is ignored.
+#' @param expand Used internally. Don't use yourself.
+#' @param list If \code{TRUE} the result will always be a list, even if only one
+#' graph is returned in this list.
 #' @return A graph or a matrix with variables replaced by the specified numeric
 #' values. Or a list of theses graphs and matrices if a variable had more than one value.
 #' @author Kornelius Rohmeyer \email{rohmeyer@@small-projects.de}
@@ -77,7 +80,7 @@ substituteEps <- function(graph, eps=10^(-3)) {
 #' replaceVariables(graph, list("tau"=c(0.1, 0.5, 0.9),"omega"=c(0.2, 0.8), "nu"=0.4))
 #' 
 #' @export replaceVariables
-replaceVariables <-function(graph, variables=list(), ask=TRUE, partial=FALSE, expand=TRUE) {
+replaceVariables <-function(graph, variables=list(), ask=TRUE, partial=FALSE, expand=TRUE, list=FALSE) {
   if (expand) variables <- varcombs(variables)
   if (is.list(variables[[1]])) {
     result <- list()
@@ -86,7 +89,7 @@ replaceVariables <-function(graph, variables=list(), ask=TRUE, partial=FALSE, ex
       attr(r2, "label") <- attr(v, "label")
       result <- c(result, list(r2))
     }
-    if (length(result)==1) return(result[[1]])
+    if (length(result)==1 && !list) return(result[[1]])
     return(result)
   }
 	# Call this function recursivly for entangled graphs.
