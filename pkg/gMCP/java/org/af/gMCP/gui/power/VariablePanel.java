@@ -12,6 +12,8 @@ import org.af.gMCP.config.Configuration;
 import org.af.gMCP.gui.graph.LaTeXTool;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.w3c.dom.NamedNodeMap;
+import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import com.jgoodies.forms.layout.CellConstraints;
@@ -72,21 +74,19 @@ public class VariablePanel extends JPanel {
 	
 	public Element getConfigNode(Document document) {
 		Element e = document.createElement("variablePanel");
-		for (int i=0; i<jtlVar.size(); i++) {
-			Element ef = document.createElement("userdefined");
-			ef.setAttribute(variables[i].toString(), jtlVar.get(i).getText());
-			e.appendChild(ef);
+		for (int i=0; i<jtlVar.size(); i++) {			
+			e.setAttribute(variables[i].toString(), jtlVar.get(i).getText());			
 		}
 		return e;
 	}
 
-	public void loadConfig(Element e) {
-		NodeList nlist = e.getChildNodes();		
-		for (int i=0; i<nlist.getLength(); i++) {
-			
-			//((Element)nlist.item(i)).getAttribute("expression");
-			
-		}			
+	public void loadConfig(Element e) {		
+		for (int i=0; i<jtlVar.size(); i++) {			
+			String value = e.getAttribute(variables[i].toString());
+			if (value=="") value = "0.5";
+			jtlVar.get(i).setText(value);
+		}
+					
 	}
 	
 }
