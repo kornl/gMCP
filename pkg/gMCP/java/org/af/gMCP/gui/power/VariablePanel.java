@@ -10,6 +10,9 @@ import javax.swing.JTextField;
 
 import org.af.gMCP.config.Configuration;
 import org.af.gMCP.gui.graph.LaTeXTool;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
 
 import com.jgoodies.forms.layout.CellConstraints;
 import com.jgoodies.forms.layout.FormLayout;
@@ -56,15 +59,34 @@ public class VariablePanel extends JPanel {
 	
 	public String getVariables() {
 		if (jtlVar.size()>0) {
-			String s = ", variables=list("; 
+			String s = "list("; 
 			for (int i=0; i<variables.length; i++) {
-				s = s + LaTeXTool.UTF2LaTeX(variables[i].toString().charAt(0))+" = "+ jtlVar.get(i).getText();
+				s = s + LaTeXTool.UTF2LaTeX(variables[i].toString().charAt(0))+" = c("+ jtlVar.get(i).getText()+")";
 				if (i!=variables.length-1) s = s + ", ";
 			}		
 			return s+")";
 		} else {
 			return "";
 		}
+	}
+	
+	public Element getConfigNode(Document document) {
+		Element e = document.createElement("variablePanel");
+		for (int i=0; i<jtlVar.size(); i++) {
+			Element ef = document.createElement("userdefined");
+			ef.setAttribute(variables[i].toString(), jtlVar.get(i).getText());
+			e.appendChild(ef);
+		}
+		return e;
+	}
+
+	public void loadConfig(Element e) {
+		NodeList nlist = e.getChildNodes();		
+		for (int i=0; i<nlist.getLength(); i++) {
+			
+			//((Element)nlist.item(i)).getAttribute("expression");
+			
+		}			
 	}
 	
 }
