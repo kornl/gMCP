@@ -72,8 +72,16 @@ public class VariablePanel extends JPanel {
 		}
 	}
 	
+	Element oldElement = null;
+	
 	public Element getConfigNode(Document document) {
 		Element e = document.createElement("variablePanel");
+		if (oldElement!=null) {
+			NamedNodeMap attributes = oldElement.getAttributes();
+			for (int j = 0; j < attributes.getLength(); j++) {
+				e.setAttribute(attributes.item(j).getNodeName(), attributes.item(j).getNodeValue());
+			}
+		}
 		for (int i=0; i<jtlVar.size(); i++) {			
 			e.setAttribute(variables[i].toString(), jtlVar.get(i).getText());			
 		}
@@ -81,6 +89,7 @@ public class VariablePanel extends JPanel {
 	}
 
 	public void loadConfig(Element e) {		
+		oldElement = e;
 		for (int i=0; i<jtlVar.size(); i++) {			
 			String value = e.getAttribute(variables[i].toString());
 			if (value=="") value = "0.5";
