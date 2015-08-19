@@ -26,6 +26,7 @@ import org.af.gMCP.gui.RControl;
 import org.af.gMCP.gui.dialogs.PowerOptionsPanel;
 import org.af.gMCP.gui.dialogs.TextFileViewer;
 import org.af.gMCP.gui.graph.LaTeXTool;
+import org.af.gMCP.gui.options.OptionsDialog;
 import org.af.jhlir.call.RDataFrame;
 import org.af.jhlir.call.RList;
 import org.jdesktop.swingworker.SwingWorker;
@@ -78,17 +79,25 @@ public class PowerDialog extends PDialog implements ActionListener {
         setLocationRelativeTo(parent);
         setSize(Math.max(870, getWidth()), getHeight());
         
+        int answer = JOptionPane.NO_OPTION;
+        
 		if (tmp && !Configuration.getInstance().getClassProperty(this.getClass(), "tellAboutFiles", "yes").equals("no")) {
 			JCheckBox tellMeAgain = new JCheckBox("Don't show me this info again.");			
-			String message = "The settings in this dialog will be saved for further runs.\n" +
-					"If you want these settings to be automatically saved not only\n" +
-					"temporarily, but even between sessions, please specify a\n" +
-					"directory for saving these files in the options and reopen\n" +
-					"this dialog.";
-			JOptionPane.showMessageDialog(parent, new Object[] {message, tellMeAgain}, "Info", JOptionPane.INFORMATION_MESSAGE);
+			String message = "The settings in this dialog will be saved for further runs in this session.\n" +
+							 "If you want these settings to be automatically saved not only temporarily,\n" +
+							 "but even between sessions, please specify a directory for saving these\n" +
+							 "files in the options.\n" +
+							 "Do you want to open the options dialog now?";
+			answer = JOptionPane.showConfirmDialog(parent, new Object[] {message, tellMeAgain}, "Info", JOptionPane.YES_NO_OPTION);
 			if (tellMeAgain.isSelected()) {
 				Configuration.getInstance().setClassProperty(this.getClass(), "tellAboutFiles", "no");
 			}
+		}
+		
+		if (answer==JOptionPane.YES_OPTION) {
+			new OptionsDialog(parent, OptionsDialog.MISC);
+			dispose();
+			return;
 		}
         
         setVisible(true);

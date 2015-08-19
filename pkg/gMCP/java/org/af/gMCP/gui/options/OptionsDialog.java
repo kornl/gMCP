@@ -50,12 +50,29 @@ public class OptionsDialog extends JDialog implements ActionListener {
     
     JButton jbHelp;
     
-    static final String HELP = "HELP";
-
+    public final static String HELP = "HELP";
+    public final static String NUMERIC = "Numeric";
+    public final static String MISC = "Misc";
+    
     /**
      * Standard constructor
      */
     public OptionsDialog(CreateGraphGUI p) {
+    	this(p, true);
+    }
+
+    public OptionsDialog(CreateGraphGUI parent, String string) {
+		this(parent, false);
+		if (string.equals(NUMERIC)) {
+			tabbedPane.setSelectedIndex(1);
+		}
+		if (string.equals(MISC)) {
+			tabbedPane.setSelectedIndex(2);
+		}
+		setVisible(true);
+	}
+
+	public OptionsDialog(CreateGraphGUI p, boolean setVisible) {
     	super(p);
     	this.parent = p;
         this.conf = Configuration.getInstance();
@@ -69,10 +86,10 @@ public class OptionsDialog extends JDialog implements ActionListener {
         
         pack();
         setLocationRelativeTo(p);
-        setVisible(true);
-    }
+        if (setVisible) setVisible(true);
+	}
 
-    /**
+	/**
      * Instantiation of Swing-Components.
      */
     private void makeComponents() {
