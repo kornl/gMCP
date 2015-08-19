@@ -804,7 +804,7 @@ Use the R syntax and "\texttt{x[i]}" to specify the proposition that hypothesis 
 Negation (!) takes precedence over the logical conjunction ('and', \&\&), which takes precedence over the logical disjunction ('or', ||), but in doubt use brackets.
 Note that you can use all R commands, for example \texttt{any(x)} to see whether any hypotheses was rejected or \texttt{all(x[1:3])} to see whether all of the first three hypotheses were rejected.
 
-You even can use weight function, but then the result can no longer be interpreted as a probability.
+You can also create weighted utility functions, where the result is then of course no longer a probability.
 
 
 
