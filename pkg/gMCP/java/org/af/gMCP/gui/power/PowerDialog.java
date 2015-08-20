@@ -123,6 +123,7 @@ public class PowerDialog extends PDialog implements ActionListener {
 					+ ", f = "+userDefinedFunctions.getUserDefined()
 					+ ", n.sim = "+Configuration.getInstance().getGeneralConfig().getNumberOfSimulations()
 					+ ", type = \""+Configuration.getInstance().getGeneralConfig().getTypeOfRandom()+"\""
+					+ ", upscale = "+(Configuration.getInstance().getGeneralConfig().getUpscale()?"TRUE":"FALSE")
 					+ getVariables(false)
 					+ ", digits=4"
 					+ ")";				
@@ -134,8 +135,6 @@ public class PowerDialog extends PDialog implements ActionListener {
 				protected Void doInBackground() throws Exception {					
 					try {						
 						RControl.setSeed();
-						//RDataFrame result = RControl.getR().eval(rCommand).asRDataFrame();
-						RControl.getR().evalVoid("set.seed("+Configuration.getInstance().getGeneralConfig().getSeed()+")");
 						RList result = RControl.getR().eval(rCommand).asRList();
 						new PowerResultDialog(parent, result.get(0).asRDataFrame(), result.get(1).asRChar().getData(), longRCommand);
 					} catch (Exception e) {						
@@ -180,6 +179,7 @@ public class PowerDialog extends PDialog implements ActionListener {
 				+ ", f = \""+userDefinedFunctions.getUserDefined()+"\""
 				+ ", n.sim = "+Configuration.getInstance().getGeneralConfig().getNumberOfSimulations()
 				+ ", type = \""+Configuration.getInstance().getGeneralConfig().getTypeOfRandom()+"\""
+				+ ", upscale = "+(Configuration.getInstance().getGeneralConfig().getUpscale()?"TRUE":"FALSE")
 				+ getVariables(true)
 				+ ", digits=4"
 				+ ", seed="+Configuration.getInstance().getGeneralConfig().getSeed()
