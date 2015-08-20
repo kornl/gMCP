@@ -1,8 +1,6 @@
 Really: "G Matrix determining the graph underlying the test procedure. Note
 that the diagonal need to contain only 0s, while the rows need to sum to 1."?
 
-Is set.seed used everywhere (sampsize, ...)?
-
 Persistent node colors
 
 Simes and parametric tests do not reset back to graph with variables.
@@ -17,12 +15,7 @@ incomprehensible "Result is not up to date" message from docx export
 
 upscale does not work for Bonferroni or Simes! Also pay attention to GUI rejection.
 
-Instead of JavaHelp try PDF bookmarks: #nameddest=destination and \hypertarget{my-named-dest}{}
-http://algorithm-forge.com/gMCP/archive/gMCP.pdf#nameddest=options
-
 Check with jvisualvm for bottlenecks for huge graphs
-
--> Trimmed weighted Simes' test for two one-sided hypotheses with arbitrarily correlated test statistics.
 
 Check user defined power function
 
@@ -32,16 +25,9 @@ Is install_github(..., dependencies = TRUE) checking for the correct package ver
 
 Are changes to "Use experimental features" persistent during sessions?
 
-Attach correlation matrix to graph?
-
-Alpha in power calculations?
-
-Should correlation matrices be attached to graphs (as it is down with pvalues)?
-
 ToDo: Buttons if one edge point is selected. Right mouse click as cancel.
 
 Documention for value in secondStageTest looks strange.
-Does rJava again contain all necessary jar files?
 
 New features use Java 6 settings. Use reflection for Java 5 compatibility.
 
@@ -74,10 +60,6 @@ New features use Java 6 settings. Use reflection for Java 5 compatibility.
 
 - Test error handler with Java 5.
 
-- In the log there are two lines:
-Package version could not be set:
-org.rosuda.REngine.REXPLogical cannot be cast to org.rosuda.REngine.REXPString
-
 java.lang.NoSuchMethodError: gdFlush
   at org.rosuda.JRI.Rengine.rniEval(Native Method)
 	at org.rosuda.REngine.JRI.JRIEngine.eval(JRIEngine.java:281)
@@ -97,13 +79,9 @@ graph2latex(improvedParallelGatekeeping(), scale=0.7, nodeTikZ="minimum size=1.2
 - Allow upscale for Simes test? (Theory!)
 - Is the shortcut really used for the Simes test (it can not be used for adjusted p-values, but if these are not asked for the shortcut should be used).
 
-- generateTest is missing argument 'upscale' (but which is referenced - by copy'n'paste - in its manual page).
-
 - graphAnalysis now can take a really long time (warn or put into another [cancelable] thread?)
 - NEWS.Rd and news()
 - Check whether graphAnalysis slows down GUI.
-
-- Add close button for tabs to NetListPanels.
 
 Does not work any more:
 #' \dontrun{
@@ -126,8 +104,6 @@ From xlsxjars:
  if (jversion < "1.5.0") stop(paste("Your java version is ", jversion, ".  Need 1.5.0 or higher.", sep = ""))
 
 - Horizontal JScrollBar is inside vertical JScrollPane (so you have to scroll down to scroll to the right/left).
-
-- .jpackage(pkgname) in xlsxjars:::.onLoad messes up gMCP's .jinit(parameters=c("-Xrs", "-Xss1m")).
 
 - Explain that the order of the rejected hypotheses doesn't affect the end result.
 - Report was send dialog is sometimes behind ErrorReport.
@@ -153,8 +129,7 @@ From xlsxjars:
 - Umlaute in literatur.bib, e.g. Röhmel
 - .asRLogical().getData()[0] can be true but NA in R
 - look at warnings regarding exhaustAlpha (also optimality of graph)
-- Email subscription on start page (also tell user after 10th start of GUI)
-- Warn user if he uses a version that is older than 1 year.
+- Do we really want this any more: Warn user if he uses a version that is older than 1 year.
 - Warn/inform user about changes.
 - Does contrMat(n=c(10, 20, 30, 40), type ="Dunnett") do what I want?!?
 - Read and check ?validObject
@@ -166,13 +141,11 @@ From xlsxjars:
 - Add line width to edge attributes (as color)
 - As soon as weights for nodes are implemented, change Improved Fallback one to (w_1,w_2,w_3) and edges (now 1/2,1/2) to \gamma, 1-\gamma with \gamma=w2/(w1_w2))
 - Save power scenarios
-- Correlation matrix save & restore
 - positive Definitheit!
 - Sample size is ignored in CorMatDialog
 - Konsonanz erzwingen?
 - Ist der Single-Step-Dunnett als Graph darstellbar?
 - two-sided tests?
-- Unify single NCP and multiple NCPs
 - Export user defined functions and allow names for them
 - CI Dialog testen!
 - Selection is awkward. After first dragging one edge is always fixed to the same point.
@@ -264,12 +237,7 @@ attr(,"last.alphas")
   So any information files you wish an end user to see should be included in inst. 
   Note that if the named exceptions also occur in inst, the versions in inst will be that seen in 
   the installed package."
-- "The preferred location for vignette sources is now the directory
-  vignettes and not inst/doc: R CMD build will now re-build
-  vignettes in directory vignettes and copy the .Rnw (etc) files
-  and the corresponding PDFs to inst/doc.  Further files to be
-  copied to inst/doc can be specified _via_ the file
-  vignettes/.install_extras."
+- "Further files to be copied to inst/doc can be specified _via_ the file vignettes/.install_extras."
 - "The package environment is sealed, so you cannot use it to store
   changing values.  Use a separate environment instead: there are
   examples in package 'grDevices' for example."
@@ -277,9 +245,9 @@ attr(,"last.alphas")
 - Remove warnings: es gibt kein Paket names 'graph'
 - Some edge labels like for parallel gatekeeping are set to small values (0?)
 - On Windows: Autoresize of the adjacency matrix does often not work.
-- "Reject and pass \alpha" does not make sense in the parametric case (actually it does, if we 
+- "Reject and pass \alpha" does not make sense in the parametric case (actually it does, if we ...)
 - Option "Show fractions" has no influence on TextFields for weights etc
-- What happens if we start the GUI a second time?
+
 I have no idea which 1/2*alpha I'm referring here to: 
 - Why does matrix(c(0,1/2,0,0),2) loose half an alpha?
 - Flag 1+epsilon>1 in line sum
@@ -321,7 +289,6 @@ In library(package, lib.loc = lib.loc, character.only = TRUE, logical.return = T
 Additional features / low priority:
 ===================================
 - Giving \d to RJava causes a segmentation fault.
-- \gamma or \delta are pretty small on edges.
 - Save ConfIntPlot as png/bmp or copy to system clip board
 - Do we really need PolynomF as dependencies?
 - Don't create global variable like .tmpGraph etc.
