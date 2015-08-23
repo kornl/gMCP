@@ -7,6 +7,7 @@ w<-c(0.5,0.3)
 rho<-0.1
 rho<-0.9
 cr<-matrix(c(1,rho,rho,1),nrow=2)
+crT<-cr
 p<-c(0.02,0.03)
 g<-diag(2)
 g<-matrix(1,2,2)
@@ -31,12 +32,12 @@ if (FALSE) {
 for (i in 1:1000) {  
   test <- generateTest(g, w, cr, 0.05, upscale=upscale)
   
-  z <- rmvnorm(n = 1000, mean=c(0,0,0,0), sigma=crT)
+  z <- rmvnorm(n = 1000, mean=rep(0, dim(cr)[1]), sigma=crT)
   # plot(sort(pnorm(z[,1])))
   pvals <- pnorm(z, lower.tail = FALSE)  
   
   result1 <- apply(z, 1, test)
-  result2 <- apply(pvals, 1, function(p){adjP<-generatePvals(g,w,cr,p,upscale=upscale); ifelse(adjP<0.05,TRUE,FALSE)})
+  result2 <- apply(pvals, 1, function(p){adjP<-generatePvals(g,w,cr,p,upscale="o3"); ifelse(adjP<0.05,TRUE,FALSE)})
   
   r1 <- c(r1, tail(r1, 1) + sum(result1))
   r2 <- c(r2, tail(r2, 1) + sum(result2))  
