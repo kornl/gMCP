@@ -40,12 +40,19 @@ p.dunnet <- function(p,cr,w,upscale, alternatives="less"){
   e <- sapply(1:length(p),function(i){
     sum(sapply(conn,function(edx){
       if(length(edx)>1){
-        return((1-pmvnorm(
-          lower=ifelse(twosided[edx],qnorm(pmin(1,(w[edx]*p[i]/(w[i])))/2),-Inf),
-          upper=ifelse(twosided[edx],qnorm(1-pmin(1,(w[edx]*p[i]/(w[i])))/2),qnorm(1-pmin(1,(w[edx]*p[i]/(w[i]))))),
-          corr=cr[edx,edx],abseps=10^-5))/ifelse(upscale,1,sum(w)))        
+        if (upscale=="o3") {
+          return((1-pmvnorm(
+            lower=ifelse(twosided[edx],qnorm(pmin(1,(w[edx]*p[i]/(w[i]*sum(w))))/2),-Inf),
+            upper=ifelse(twosided[edx],qnorm(1-pmin(1,(w[edx]*p[i]/(w[i]*sum(w))))/2),qnorm(1-pmin(1,(w[edx]*p[i]/(w[i]*sum(w)))))),
+            corr=cr[edx,edx],abseps=10^-5)))
+        } else {
+          return((1-pmvnorm(
+            lower=ifelse(twosided[edx],qnorm(pmin(1,(w[edx]*p[i]/(w[i])))/2),-Inf),
+            upper=ifelse(twosided[edx],qnorm(1-pmin(1,(w[edx]*p[i]/(w[i])))/2),qnorm(1-pmin(1,(w[edx]*p[i]/(w[i]))))),
+            corr=cr[edx,edx],abseps=10^-5))/ifelse(upscale,1,sum(w)))        
+        }
       } else {
-        if(!upscale){
+        if(upscale=="o3" || !upscale){
           return((w[edx]*p[i]/(w[i]*sum(w))))
         } else {
           return((w[edx]*p[i]/(w[i])))
