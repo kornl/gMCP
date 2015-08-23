@@ -115,9 +115,8 @@
 NULL
 
 #' @rdname exampleGraphs
-BonferroniHolm <- function(n) {
+BonferroniHolm <- function(n, weights=rep(1/n, n)) {
 	if (missing(n)) { stop("Please provide the number of hypotheses as parameter n.") }
-	weights <- rep(1/n, n)
 	hnodes <- paste("H", 1:n, sep="")
 	m <- matrix(1/(n-1), nrow=n, ncol=n)
 	diag(m) <- 0

@@ -8,6 +8,8 @@ Changes in version 0.8-10 (??-08-2015)
 
 - Graphical user interface for sample size calculations
 
+- Graph for Bonferroni-Holm procedure gains argument weights for the
+  weighted Bonferroni-Holm procedure.
 
 Changes in version 0.8-9 (10-08-2015)
 =====================================
