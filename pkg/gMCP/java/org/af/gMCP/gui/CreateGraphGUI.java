@@ -4,9 +4,12 @@ import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
+import java.io.File;
+import java.io.IOException;
 import java.util.Locale;
 
 import javax.swing.ImageIcon;
+import javax.swing.JCheckBox;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -18,10 +21,12 @@ import javax.swing.UnsupportedLookAndFeelException;
 
 import org.af.commons.errorhandling.DefaultExceptionHandler;
 import org.af.commons.errorhandling.ErrorHandler;
+import org.af.commons.tools.OSTools;
 import org.af.commons.widgets.InfiniteProgressPanel;
 import org.af.commons.widgets.InfiniteProgressPanel.AbortListener;
 import org.af.commons.widgets.WidgetFactory;
 import org.af.gMCP.config.Configuration;
+import org.af.gMCP.config.GeneralConfig;
 import org.af.gMCP.config.VersionComparator;
 import org.af.gMCP.gui.datatable.DataFramePanel;
 import org.af.gMCP.gui.datatable.RDataFrameRef;
@@ -29,6 +34,7 @@ import org.af.gMCP.gui.dialogs.TellAboutOnlineUpate;
 import org.af.gMCP.gui.graph.DView;
 import org.af.gMCP.gui.graph.GraphView;
 import org.af.gMCP.gui.graph.PView;
+import org.af.gMCP.gui.options.OptionsDialog;
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -308,7 +314,37 @@ public class CreateGraphGUI extends JFrame implements WindowListener, AbortListe
 	}
 
 	public void openHelp(String topic) {
-		getMBar().showURL(helpURL+"#nameddest="+topic);
+		if (Configuration.getInstance().getGeneralConfig().showOnlineHelp()) {
+			getMBar().showURL(helpURL+"#nameddest="+topic);
+		} else {
+			String manual = "doc/gMCP.pdf";
+			File f = new File(RControl.getR().eval("system.file(\""+manual+"\", package=\"gMCP\")").asRChar().getData()[0]);			
+			if (OSTools.isWindows()) {
+				String pdfViewerPath = Configuration.getInstance().getGeneralConfig().getPDFViewerPath();
+				if (pdfViewerPath.equals(GeneralConfig.UNSET)) {
+					int answer = JOptionPane.showConfirmDialog(this, "PDF viewer not configured.\n"
+							+ "Do you want to open the options\n"
+							+ "to select the PDF viewer?", "PDF viewer not set", JOptionPane.YES_NO_OPTION);
+					if (answer == JOptionPane.YES_OPTION) {
+						new OptionsDialog(this, OptionsDialog.MISC);
+						dispose();
+						return;
+					}
+					return;
+				}				
+				String parameter = "/A nameddest=\""+topic+"\"";
+				String cmdString = "\"" + pdfViewerPath + "\""+ parameter + "\"" + f.getAbsolutePath() + "\"";
+				try {
+					Process p = Runtime.getRuntime().exec(cmdString);
+				} catch (IOException e) {
+					ErrorHandler.getInstance().makeErrDialog(e.getMessage(), e, false);
+					e.printStackTrace();
+				}
+			}
+			
+			
+			
+		}
 		//TODO If this does not work (or options are set? or generally?) open local file.
 	}
 	

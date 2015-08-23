@@ -20,6 +20,7 @@ public class GeneralConfig extends SpecificConfig {
     }
 
     public final static String DISABLE = "disable";
+    public final static String UNSET = "unset";
 
     public void setTempDir(String tempDir) {
         setProperty("tempdir", tempDir);
@@ -55,7 +56,7 @@ public class GeneralConfig extends SpecificConfig {
     }
 
     public String getPDFViewerPath() {
-        return getProperty("acrobat.path", "");
+        return getProperty("acrobat.path", UNSET);
     }
 
     public void setPDFViewerOptions(String pdfViewerOptions) {
@@ -431,6 +432,14 @@ public class GeneralConfig extends SpecificConfig {
 
 	public String getUser() {		
 		return getProperty("gMCPUser", System.getProperty("user.name"));
+	}
+
+	public boolean showOnlineHelp() {
+		return Boolean.parseBoolean(getProperty("showOnlineHelp", "true"));
+	}
+	
+	public void setShowOnlineHelp(boolean b) {
+		setProperty("showOnlineHelp", ""+b);
 	}
 		
 }
