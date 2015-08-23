@@ -1,0 +1,99 @@
+---
+output: pdf_document
+---
+
+Dear Florian,
+
+Dong Xi noted that in gMCP we had inconsistent approaches in `generateTest()` and `generatePvals()` when `upscale=FALSE`, i.e. the results from the tests differ from the results when comparing adjusted $p$-values with $\alpha$.
+
+In `generatePvals()` the following upper bounds for `pmvnorm` were initially used:
+
+```{r eval=FALSE}
+if(!upscale){
+  return((1-pmvnorm(lower=-Inf,
+                    upper=qnorm(1-pmin(1,w[edx]*p[i]/(w[i]*sum(w)))),
+                    corr=cr[edx,edx],abseps=10^-5)))
+} else {
+  return((1-pmvnorm(lower=-Inf,
+                    upper=qnorm(1-pmin(1,w[edx]*p[i]/w[i])),
+                    corr=cr[edx,edx],abseps=10^-5)))
+}
+```
+
+For `upscale=FALSE` this corresponds to a rejection $H_J$ iff $p_i\leq cw_i\alpha$ for at least one $i\in J$ where $c$ is the largest constant satisfying $P[\cup_i(p_i\leq cw_i\alpha/(\sum_iw_i))]=\alpha$ *(we will call this option 3 in the following as Dong Xi did in previous communication)*, while a consistent $c$ to `generateTest()` would satisfy $P[\cup_i(p_i\leq cw_i\alpha)]=\sum_iw_i\alpha$ *(called option 2)*.
+
+The respective code for the consistent variant 2 would be:
+```{r eval=FALSE}
+if(!upscale){
+  return((1-pmvnorm(lower=-Inf,
+                    upper=qnorm(1-pmin(1,w[edx]*p[i]/w[i])),
+                    corr=cr[edx,edx],abseps=10^-5))/sum(w))
+}
+```
+
+Our paper Bretz et al. 2011 does not cover the case `upscale=FALSE`. Both approaches have the Type I error rate obviously bounded by $\alpha$ for $\sum_iw_i\leq1$, since this is the case for `upscale=TRUE`, where $c$ satisfies $P[\cup_i(p_i\leq cw_i\alpha)]=\alpha$ *(option 1)*. The question is, do we use option 2 or 3 for `upscale=FALSE`?
+
+I prefer option 2  and I think you also do since you used mainly `generateTest()`, but I would like to hear your opinion. In option 3 we adjust the pvalues as in the univariate setting, but when we calculate the pvalue with `pmvnorm`, part of the univariate 'non-rejection' region still leads to a rejection in other dimensions. Therefore if I'm not mistaken, the test from option 3 is not a test to $\alpha\sum_iw_i$ but has an Type I error somewhere between this and $\alpha$ (without considering NAs where the Type I error could be below $\alpha\sum_iw_i$), which is why I prefer option 2.
+
+Thank you very much and best wishes, Kornelius
+
+**P.S.: Some examples and calculations by hand:**
+
+Sometimes there are no differences at all and if there are differences, they are usually small. In the newest (unpublished) version of gMCP you can set `upscale` to `TRUE` (option 1), `FALSE` (option 2) or `"o3"` (option 3):
+
+```{r include=FALSE}
+library(gMCP)
+cr <- matrix(1/2, 4, 4) + 1/2*diag(4)
+cr <- bdiagNA(cr[1:2,1:2],cr[1:2,1:2])
+graph <- matrix2graph(matrix(0, 4, 4))
+gMCP(graph, test="parametric", correlation = cr, pvalues = c(0.1, 0.2, 0.05, 0.01))@adjPValues
+gMCP(BonferroniHolm(4), test="parametric", correlation = cr, pvalues = c(0.1, 0.2, 0.05, 0.01))@adjPValues
+gMCP(graph, test="parametric", correlation = cr, pvalues = c(0.1, 0.2, 0.05, 0.01), upscale=TRUE)@adjPValues
+gMCP(graph, test="parametric", correlation = cr, pvalues = c(0.1, 0.2, 0.05, 0.01), upscale=FALSE)@adjPValues
+gMCP(graph, test="parametric", correlation = cr, pvalues = c(0.1, 0.2, 0.05, 0.01), upscale="o3")@adjPValues
+```
+
+```{r}
+graph <- BonferroniHolm(2, weights = c(0.5,0.3))
+rho<-0.9
+cr<-matrix(c(1,rho,rho,1),nrow=2)
+p<-c(0.02,0.03)
+
+gMCP(graph, test="parametric", correlation = cr, pvalues = p, upscale=TRUE)@adjPValues
+gMCP(graph, test="parametric", correlation = cr, pvalues = p, upscale=FALSE)@adjPValues
+gMCP(graph, test="parametric", correlation = cr, pvalues = p, upscale="o3")@adjPValues
+
+```
+
+If you want to play around with these different options use `library(devtools); install_github("kornl/gMCP", subdir="pkg/gMCP")`. @Dong Xi: If you don't have RTools installed, I’ll build a binary package for you.
+
+We calculate the adjusted p-values from the previous example by hand:
+
+```{r}
+library(mvtnorm)
+
+w <- c(0.5,0.3)
+
+# Option 2
+p12 <- min((1-pmvnorm(lower=-Inf, upper=qnorm(1-pmin(1,w*p[1]/w[1])), corr=cr))/sum(w),
+           (1-pmvnorm(lower=-Inf, upper=qnorm(1-pmin(1,w*p[2]/w[2])), corr=cr))/sum(w))
+
+p1 <- pnorm(qnorm(p[1]))/0.8 # = p[1]/0.8
+p2 <- pnorm(qnorm(p[2]))/0.8 # = p[2]/0.8
+
+# The adjusted p-values are: 
+c(max(p12, p1), max(p12, p2))
+
+# Option 3
+p12 <- min((1-pmvnorm(lower=-Inf, upper=qnorm(1-pmin(1,w*p[1]/(w[1]*sum(w)))), corr=cr)),
+           (1-pmvnorm(lower=-Inf, upper=qnorm(1-pmin(1,w*p[2]/(w[2]*sum(w)))), corr=cr)))
+
+p1 <- pnorm(qnorm(p[1]/0.8)) # = p[1]/0.8 as above
+p2 <- pnorm(qnorm(p[2]/0.8)) # = p[2]/0.8 as above
+
+# The adjusted p-values are: 
+c(max(p12, p1), max(p12, p2))
+
+```
+
+
