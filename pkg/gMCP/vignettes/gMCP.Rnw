@@ -1062,8 +1062,8 @@ graph
     displaying the numbers and formulas.
   \item[Show fractions instead of decimal numbers] Floating point numbers are used
     for all calculations and values like $1/3$ would be normally shown as
-    $0.3333333$. When this option is active the method fractions from package
-    MASS is used to display fractions whenever the floating point numbers are
+    $0.3333333$. When this option is active the method \texttt{fractions} from package
+    \texttt{MASS} is used to display fractions whenever the floating point numbers are
     close to a fraction that looks right.  
   \item[Show epsilon edges as dashed lines] You can set whether epsilon
     edges should been shown as dashed or solid lines.
@@ -1097,7 +1097,7 @@ graph
   numbers for power calculations. The quasirandom option uses a randomized
   Lattice rule, and should be more efficient than the pseudorandom option that
   uses ordinary (pseudo) random numbers.
-  \item[Weights of subgraphs are upscaled to 1] If '\emph{No}' is selected then 
+  \item[Weights of subgraphs are upscaled to 1] If \emph{'No'} is selected then 
     for each intersection of hypotheses (i.e. each subgraph)
     a weighted test is performed at the possibly reduced level alpha of $\text{sum}(w)*alpha$,
     where $\text{sum}(w)$ is the sum of all node weights in this subset
@@ -1435,6 +1435,8 @@ This section is work in progress.
 
   A multiple test procedure is called \emph{coherent}\index{coherence} if
   \[\forall J,\,J'\subset I:\; \left(\phi_J=0\text{ and }J'\subset J\;\Rightarrow\;\phi_{J'}=0\right).\]
+  
+  The closure principle is based on enforcing coherence.
 
   For further reading see
   \cite{hochberg2009multiple} and \cite{gabriel1969simultaneous}.
