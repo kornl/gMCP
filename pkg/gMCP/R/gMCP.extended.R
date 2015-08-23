@@ -411,7 +411,11 @@ gMCP.extended <- function(graph, pvalues, test, alpha=0.05, eps=10^(-3), upscale
   n <- length(graph2@weights)
   # Allow for different generateWeights? generateWeights can handle entangled graphs.
   weights <- generateWeights(graph2@m, getWeights(graph2))[,(n+(1:n))]
-  # if (upscale) weights <- weights / rowSums(weights) # TODO What if all weights
+  if (upscale) {
+    weights <- weights / rowSums(weights)
+    # 0/0 should be 0 and not NaN
+    weights[is.na(weights)] <- 0
+  }
   
   if (verbose) explanation <- rep("not rejected", dim(allSubsets)[1])
   for (i in 1:dim(allSubsets)[1]) {
