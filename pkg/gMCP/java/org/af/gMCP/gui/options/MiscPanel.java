@@ -11,6 +11,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import org.af.commons.tools.OSTools;
 import org.af.commons.widgets.validate.ValidationException;
 import org.af.gMCP.config.Configuration;
 
@@ -33,6 +34,10 @@ public class MiscPanel extends OptionsPanel implements ActionListener {
     private JCheckBox saveConfig;
     JButton jbConfigPath = new JButton("Save config files to:");	
 	JTextField configPath;
+	
+	private JCheckBox onlineHelp;
+    JButton jbPDFViewer = new JButton("Use PDF viewer:");	
+	JTextField pdfViewerPath;
     
     private Configuration conf;
 
@@ -92,6 +97,17 @@ public class MiscPanel extends OptionsPanel implements ActionListener {
         jbConfigPath.addActionListener(this);
 		configPath.setEnabled(saveConfig.isSelected());
 		jbConfigPath.setEnabled(saveConfig.isSelected());
+		
+		onlineHelp = new JCheckBox("Use online help");
+		onlineHelp.addActionListener(this);
+		onlineHelp.setSelected(conf.getGeneralConfig().showOnlineHelp());
+		onlineHelp.setToolTipText("<html>" +        		
+        		"</html>");
+        
+		pdfViewerPath = new JTextField(conf.getGeneralConfig().getPDFViewerPath(), 30);
+        jbPDFViewer.addActionListener(this);
+        pdfViewerPath.setEnabled(!onlineHelp.isSelected());
+		jbPDFViewer.setEnabled(!onlineHelp.isSelected());
     }
 
     private void doTheLayout() {
@@ -128,9 +144,8 @@ public class MiscPanel extends OptionsPanel implements ActionListener {
         
         p1.add(showRCode, cc.xyw(1, row, 3));
         
-        row += 2;	
+        row += 2;        
         
-        row += 2;
         
         p1.add(saveConfig, cc.xyw(1, row, 3));
 
@@ -139,7 +154,35 @@ public class MiscPanel extends OptionsPanel implements ActionListener {
         p1.add(jbConfigPath, cc.xy(1, row));
         p1.add(configPath, cc.xy(3, row));
         
+        row += 2;
+        
+        p1.add(onlineHelp, cc.xyw(1, row, 3));
+
+        row += 2;
+        
+        p1.add(jbPDFViewer, cc.xy(1, row));
+        p1.add(pdfViewerPath, cc.xy(3, row));
+        
         add(p1);
+    }
+    
+    public String guessPDFViewerPath() {
+    	int answer = JOptionPane.showConfirmDialog(this, "Should we try to autodetect the PDF viewer?", "Autodetect PDF Viewer?", JOptionPane.YES_NO_OPTION);
+    	if (answer==JOptionPane.YES_OPTION) return OSTools.guessPDFViewerPath();
+    	JFileChooser fc;
+		File p = new File (configPath.getText());
+		if (p.exists() && p.isDirectory() ) {
+			fc = new JFileChooser(p);
+		} else {
+			fc = new JFileChooser();
+		}
+		fc.setFileSelectionMode(JFileChooser.FILES_ONLY);    
+		int returnVal = fc.showOpenDialog(this);
+		if (returnVal == JFileChooser.APPROVE_OPTION) {
+			File f = fc.getSelectedFile();			
+			return f.getAbsolutePath();
+		}	
+		return "";
     }
 
 
@@ -150,6 +193,7 @@ public class MiscPanel extends OptionsPanel implements ActionListener {
        	conf.getGeneralConfig().setFocusEqualsEdit(focusEqualsEdit.isSelected());
        	conf.getGeneralConfig().setExperimental(enableNewFeatures.isSelected());
        	conf.getGeneralConfig().setShowRCode(showRCode.isSelected());
+       	conf.getGeneralConfig().setShowOnlineHelp(onlineHelp.isSelected());
        	        
         if (saveConfig.isSelected()) {
         	File f = new File(configPath.getText());
@@ -159,7 +203,7 @@ public class MiscPanel extends OptionsPanel implements ActionListener {
         }        
        	conf.getGeneralConfig().setUsePersistentConfigFile(saveConfig.isSelected());
        	conf.getGeneralConfig().setConfigDir(configPath.getText());
-        
+       	conf.getGeneralConfig().setPDFViewerPath(pdfViewerPath.getText());        
     }
 
 
@@ -183,6 +227,13 @@ public class MiscPanel extends OptionsPanel implements ActionListener {
 		if (e.getSource() == saveConfig) {
 			configPath.setEnabled(saveConfig.isSelected());
 			jbConfigPath.setEnabled(saveConfig.isSelected());
-		}		
+		}	
+		if (e.getSource() == onlineHelp) {
+			pdfViewerPath.setEnabled(!onlineHelp.isSelected());
+			jbPDFViewer.setEnabled(!onlineHelp.isSelected());
+		}
+		if (e.getSource() == jbPDFViewer) {
+			pdfViewerPath.setText(guessPDFViewerPath());
+		}
 	}
 }
