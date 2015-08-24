@@ -334,16 +334,21 @@ public class CreateGraphGUI extends JFrame implements WindowListener, AbortListe
 			}				
 			String parameter = "";
 			if (pdfViewerPath.toLowerCase().contains("acro")){
-				parameter = "nameddest=\""+topic+"\"";
+				parameter = "nameddest="+topic+"";
 			}
-			String cmdString = "\"" + pdfViewerPath + "\" "+ parameter + " \"" + f.getAbsolutePath() + "\""; 
+			String cmdString = "\"" + pdfViewerPath + "\" \""+ parameter + "\" \"" + f.getAbsolutePath() + "\""; 
 			
 			String[] cmdarray = new String[] {pdfViewerPath, f.getAbsolutePath()};
-			if (parameter!="") {
+			if (!parameter.isEmpty()) {
 				cmdarray = new String[] {pdfViewerPath, "/A", parameter, f.getAbsolutePath()};	
 			}
-			try {				
-				Process p = Runtime.getRuntime().exec(cmdarray);
+			try {			
+				/*if (OSTools.isWindows()) {
+					System.out.println("Starting: "+cmdString);
+					Process p = Runtime.getRuntime().exec(cmdString);
+				} else {*/
+					Process p = Runtime.getRuntime().exec(cmdarray);
+				//}
 			} catch (IOException e) {
 				ErrorHandler.getInstance().makeErrDialog(e.getMessage(), e, false);
 				e.printStackTrace();
