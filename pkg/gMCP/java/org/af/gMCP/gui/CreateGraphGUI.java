@@ -319,31 +319,36 @@ public class CreateGraphGUI extends JFrame implements WindowListener, AbortListe
 		} else {
 			String manual = "doc/gMCP.pdf";
 			File f = new File(RControl.getR().eval("system.file(\""+manual+"\", package=\"gMCP\")").asRChar().getData()[0]);			
-			if (OSTools.isWindows()) {
-				String pdfViewerPath = Configuration.getInstance().getGeneralConfig().getPDFViewerPath();
-				if (pdfViewerPath.equals(GeneralConfig.UNSET)) {
-					int answer = JOptionPane.showConfirmDialog(this, "PDF viewer not configured.\n"
-							+ "Do you want to open the options\n"
-							+ "to select the PDF viewer?", "PDF viewer not set", JOptionPane.YES_NO_OPTION);
-					if (answer == JOptionPane.YES_OPTION) {
-						new OptionsDialog(this, OptionsDialog.MISC);
-						dispose();
-						return;
-					}
+			
+			String pdfViewerPath = Configuration.getInstance().getGeneralConfig().getPDFViewerPath();
+			if (pdfViewerPath.equals(GeneralConfig.UNSET)) {
+				int answer = JOptionPane.showConfirmDialog(this, "PDF viewer not configured.\n"
+						+ "Do you want to open the options\n"
+						+ "to select the PDF viewer?", "PDF viewer not set", JOptionPane.YES_NO_OPTION);
+				if (answer == JOptionPane.YES_OPTION) {
+					new OptionsDialog(this, OptionsDialog.MISC);
+					dispose();
 					return;
-				}				
-				String parameter = "/A nameddest=\""+topic+"\"";
-				String cmdString = "\"" + pdfViewerPath + "\""+ parameter + "\"" + f.getAbsolutePath() + "\"";
-				try {
-					Process p = Runtime.getRuntime().exec(cmdString);
-				} catch (IOException e) {
-					ErrorHandler.getInstance().makeErrDialog(e.getMessage(), e, false);
-					e.printStackTrace();
 				}
+				return;
+			}				
+			String parameter = "";
+			if (pdfViewerPath.toLowerCase().contains("acro")){
+				parameter = "nameddest=\""+topic+"\"";
 			}
+			String cmdString = "\"" + pdfViewerPath + "\" "+ parameter + " \"" + f.getAbsolutePath() + "\""; 
 			
-			
-			
+			String[] cmdarray = new String[] {pdfViewerPath, f.getAbsolutePath()};
+			if (parameter!="") {
+				cmdarray = new String[] {pdfViewerPath, "/A", parameter, f.getAbsolutePath()};	
+			}
+			try {				
+				Process p = Runtime.getRuntime().exec(cmdarray);
+			} catch (IOException e) {
+				ErrorHandler.getInstance().makeErrDialog(e.getMessage(), e, false);
+				e.printStackTrace();
+			}
+
 		}
 		//TODO If this does not work (or options are set? or generally?) open local file.
 	}
