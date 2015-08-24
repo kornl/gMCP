@@ -20,7 +20,7 @@ public class GeneralConfig extends SpecificConfig {
     }
 
     public final static String DISABLE = "disable";
-    public final static String UNSET = "unset";
+    public final static String UNSET = "not configured";
 
     public void setTempDir(String tempDir) {
         setProperty("tempdir", tempDir);
