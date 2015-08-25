@@ -168,7 +168,11 @@ public class MiscPanel extends OptionsPanel implements ActionListener {
     
     public String guessPDFViewerPath() {
     	int answer = JOptionPane.showConfirmDialog(this, "Should we try to autodetect the PDF viewer?", "Autodetect PDF Viewer?", JOptionPane.YES_NO_OPTION);
-    	if (answer==JOptionPane.YES_OPTION) return OSTools.guessPDFViewerPath();
+    	if (answer==JOptionPane.YES_OPTION) {
+    		String path = OSTools.guessPDFViewerPath(); 
+    		if (!path.isEmpty()) return path;
+    		JOptionPane.showMessageDialog(this, "Could not autodected PDF Viewer.\nPlease select it manually.", "Could not autodected PDF Viewer", JOptionPane.INFORMATION_MESSAGE);
+    	}
     	JFileChooser fc;
 		File p = new File (configPath.getText());
 		if (p.exists() && p.isDirectory() ) {
