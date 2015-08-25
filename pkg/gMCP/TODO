@@ -3,6 +3,8 @@ that the diagonal need to contain only 0s, while the rows need to sum to 1."?
 
 Persistent node colors
 
+Finish OSTools.searchDir() functionality.
+
 Simes and parametric tests do not reset back to graph with variables.
 
 Check whether user defined power functions can be evaluated.
