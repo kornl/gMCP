@@ -128,12 +128,12 @@ public class PowerDialog extends PDialog implements ActionListener {
 					+ ", digits=4"
 					+ ")";				
 
-			parent.glassPane.start();
+			parent.glassPane.start(); //TODO Why is the glasspane not shown?			
 			SwingWorker<Void, Void> worker = new SwingWorker<Void, Void>() {
 
 				@Override
 				protected Void doInBackground() throws Exception {					
-					try {						
+					try {
 						RControl.setSeed();
 						RList result = RControl.getR().eval(rCommand).asRList();
 						new PowerResultDialog(parent, result.get(0).asRDataFrame(), result.get(1).asRChar().getData(), longRCommand);
