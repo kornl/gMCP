@@ -1,3 +1,9 @@
+Why doesn't the glasspane show up during power calculations?
+
+Add upscale argument to C functions.
+
+Write multi-pvalue C-function for parametric test.
+
 Really: "G Matrix determining the graph underlying the test procedure. Note
 that the diagonal need to contain only 0s, while the rows need to sum to 1."?
 
