@@ -196,8 +196,8 @@ public class CVPanel extends JPanel implements ActionListener {
 	
 	String getMatrixForParametricTest() {
 		if (parent.getPView().jrbRCorrelation.isSelected()) {			
-			SingleDataFramePanel df = dfpTest;			
-			return ", corr.test="+df.getTable().getModel().getDataFrame().getRMatrix()+", upscale=\""+Configuration.getInstance().getGeneralConfig().getUpscale()+"\"";
+			SingleDataFramePanel df = dfpTest;
+			return ", corr.test="+df.getTable().getModel().getDataFrame().getRMatrix();			
 		}
 		return "";
 	}
