@@ -152,7 +152,7 @@ public class NCPCalculatorDialog extends JDialog implements ActionListener {
 				if (jc.isSelected()) somethingSelected = true;
 			}
 			if (!somethingSelected) {
-				int answer = JOptionPane.showConfirmDialog((Component) ncpR, "No NCP to save selected.\n"
+				int answer = JOptionPane.showConfirmDialog(this, "No NCP to save selected.\n"
 						+ "Do you really want to close this window?", 
 						"No NCP selected", JOptionPane.YES_NO_OPTION);
 				if (answer==JOptionPane.NO_OPTION) return; 
