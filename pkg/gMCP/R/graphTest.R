@@ -104,6 +104,7 @@ graphTest <- function(pvalues, weights = NULL, alpha = 0.05, G = NULL, cr = NULL
 		## get alpha vector and transition matrix/matrices
     if ("graphMCP" %in% class(graph)) {
 		  alphas <- graph@weights * alpha
+		  weights <- graph@weights
 		  G <- graph@m
     } else {
       G <- getMatrices(graph)
