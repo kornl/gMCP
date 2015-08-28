@@ -271,16 +271,16 @@ public class GraphView extends JPanel implements ActionListener {
 							String output = null;
 							if (Configuration.getInstance().getGeneralConfig().verbose() && RControl.getR().eval("!is.null(attr("+result+", \"output\"))").asRLogical().getData()[0]) {
 								output = RControl.getR().eval("attr("+result+", \"output\")").asRChar().getData()[0];
-							}
-							parent.glassPane.stop();
+							}							
 							new RejectedDialog(parent, rejected, parent.getGraphView().getNL().getNodes(), output, rCode);
-						} catch (Exception ex) {
-							parent.glassPane.stop();
+						} catch (Exception ex) {							
 							if (ex instanceof WrongInputException) {								
 								JOptionPane.showMessageDialog(parent, "Invalid values in input fields!", "Invalid values in input fields!", JOptionPane.ERROR_MESSAGE);
 								return null;
 							}
 							ErrorHandler.getInstance().makeErrDialog(ex.getMessage(), ex);
+						} finally {
+							parent.glassPane.stop();
 						}
 						return null;
 					}  
