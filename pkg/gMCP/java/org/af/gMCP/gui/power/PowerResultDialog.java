@@ -44,12 +44,13 @@ public class PowerResultDialog extends JDialog implements ActionListener {
 				data[i][j] = result.get(i, j);
 			}
 		}
-		JTable jt = new JTable(new DefaultTableModel(data, colnames));
+		JTable jt = new JTable(new PowerResultTableModel(data, colnames));
+		jt.setAutoCreateRowSorter(true);
 		
-		for (int i=0; i < jt.getColumnCount(); i++) {
+		/*for (int i=0; i < jt.getColumnCount(); i++) {
 			jt.getColumnModel().getColumn(i).setMinWidth(110);
 
-		}   
+		} */  
 		
 		jt.setAutoResizeMode( JTable.AUTO_RESIZE_OFF );
 		
