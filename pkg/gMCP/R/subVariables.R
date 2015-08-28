@@ -87,6 +87,7 @@ replaceVariables <-function(graph, variables=list(), ask=TRUE, partial=FALSE, ex
     for (v in variables) {
       r2 <- replaceVariables(graph, v, ask, partial, expand=FALSE)
       attr(r2, "label") <- attr(v, "label")
+      attr(r2, "variables") <- unlist(v)
       result <- c(result, list(r2))
     }
     if (length(result)==1 && !list) return(result[[1]])

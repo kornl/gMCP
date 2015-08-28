@@ -245,6 +245,11 @@ calcMultiPower <- function(weights, alpha, G, ncpL, muL, sigmaL, nL,
     names(f) <- n
   }
   result <- data.frame(Scenario=character(0))
+  vnames <- c()
+  if (!is.null(variables)) {
+    vnames <- names(variables)
+    result <- cbind(result, as.data.frame(setNames(replicate(length(vnames), numeric(0), simplify = F), vnames)))
+  }
   probs <- c(paste("LocalPower", names(weights)), "ExpRejections", "PowAtlst1", "RejectAll", names(f))
   result <- cbind(result, as.data.frame(setNames(replicate(length(probs), numeric(0), simplify = F), probs)))
   
@@ -260,27 +265,35 @@ calcMultiPower <- function(weights, alpha, G, ncpL, muL, sigmaL, nL,
 	  graphs <- replaceVariables(graph, variables)
 	  if (!is.list(graphs)) graphs <- list(graphs)
 		for (GII in graphs) {
-			additionalLabel <- paste(",", attr(GII, "label"))
+			additionalLabel <- "" #paste(",", attr(GII, "label"))
+			variables <- attr(GII, "variables")
 			resultL <- calcPower(graph=GII, alpha=alpha, mean = ncpL, corr.sim=corr.sim, corr.test=corr.test, n.sim=n.sim, type=type, f=f, upscale=upscale)
-			result <- addResult2DF(result, resultL, additionalLabel=additionalLabel, digits=digits)
+			result <- addResult2DF(result, resultL, additionalLabel=additionalLabel, digits=digits, variables=variables)
 			sResult <- paste(sResult, resultL2Text(resultL, digits, additionalLabel=additionalLabel), sep="\n")
 		}		
 	}	
 	#return(sResult)
-	return(list(result, c("Scenario", probs)))
+	return(list(result, c("Scenario", vnames, probs)))
 	#return(paste(capture.output(print(result)), collapse="\n"))
 }
 
-addResult2DF <- function(resultM, resultL, additionalLabel="", digits) {
+addResult2DF <- function(resultM, resultL, additionalLabel="", digits, variables=NULL) {
   resultRow <-  cbind( data.frame(Scenario=" "), as.data.frame(setNames(replicate(dim(resultM)[2]-1, 0, simplify = F), colnames(resultM)[-1])) )
   
   for(result in resultL) {
     resultRow[1] <- paste(attr(result, "label"), additionalLabel, sep="")
+    skip <- 1
+    if (!is.null(variables)) {
+      for (i in 1:length(variables)) { 
+        resultRow[1+i] <- variables[i]
+      }
+      skip <- i+1
+    }
     for (i in 1:length(result$LocalPower)) { 
-      resultRow[1+i] <- result$LocalPower[i]
+      resultRow[skip+i] <- result$LocalPower[i]
     }
     for (j in 2:length(result)) {
-      resultRow[i+j] <- result[[j]]
+      resultRow[skip+i+j-1] <- result[[j]]
     }
     resultRow[2:dim(resultRow)[2]] <- round(resultRow[2:dim(resultRow)[2]], digits)
     
