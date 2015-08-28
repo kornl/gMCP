@@ -29,26 +29,29 @@ if (FALSE) {
   
 }
 
-for (i in 1:1000) {  
-  test <- generateTest(g, w, cr, 0.05, upscale=upscale)
-  
-  z <- rmvnorm(n = 1000, mean=rep(0, dim(cr)[1]), sigma=crT)
-  # plot(sort(pnorm(z[,1])))
-  pvals <- pnorm(z, lower.tail = FALSE)  
-  
-  result1 <- apply(z, 1, test)
-  result2 <- apply(pvals, 1, function(p){adjP<-generatePvals(g,w,cr,p,upscale="o3"); ifelse(adjP<0.05,TRUE,FALSE)})
-  
-  r1 <- c(r1, tail(r1, 1) + sum(result1))
-  r2 <- c(r2, tail(r2, 1) + sum(result2))  
-  
-  cat(tail(r1, 1), "vs.", tail(r2, 1), ", rate:",tail(r1, 1)/tail(r2, 1),"\n")  
-  
-  #dat <- data.frame(y=c(r1,r2), type=rep(c("r1","r2"), each=length(r1)), x=rep(1:length(r1), 2))
-  #plot(ggplot(dat, aes(x=x, y=y, color=type)) + geom_point(shape=1))
-  dat <- data.frame(y=c(r1-r2), x=1:length(r1))
-  plot(ggplot(dat, aes(x=x, y=y)) + geom_point(shape=1))
+testConsistency <- function(g, w, cr, crT=cr, upscale=FALSE, pvals, r1=0, r2=0) {
+  for (i in 1:1000) {  
+    test <- generateTest(g, w, cr, 0.05, upscale=upscale)
+    
+    z <- rmvnorm(n = 1000, mean=rep(0, dim(cr)[1]), sigma=crT)
+    # plot(sort(pnorm(z[,1])))
+    pvals <- pnorm(z, lower.tail = FALSE)  
+    
+    result1 <- apply(z, 1, test)
+    result2 <- apply(pvals, 1, function(p){adjP<-generatePvals(g,w,cr,p,upscale="o3"); ifelse(adjP<0.05,TRUE,FALSE)})
+    
+    r1 <- c(r1, tail(r1, 1) + sum(result1))
+    r2 <- c(r2, tail(r2, 1) + sum(result2))  
+    
+    cat(tail(r1, 1), "vs.", tail(r2, 1), ", rate:",tail(r1, 1)/tail(r2, 1),"\n")  
+    
+    #dat <- data.frame(y=c(r1,r2), type=rep(c("r1","r2"), each=length(r1)), x=rep(1:length(r1), 2))
+    #plot(ggplot(dat, aes(x=x, y=y, color=type)) + geom_point(shape=1))
+    dat <- data.frame(y=c(r1-r2), x=1:length(r1))
+    print(plot(ggplot(dat, aes(x=x, y=y)) + geom_point(shape=1)))
+  }
 }
+testConsistency(g, w, cr, crT, upscale, pvals)
 
 ###
 
@@ -74,4 +77,17 @@ gMCP:::p.dunnet(p[2], 1, sum(w), FALSE)
 #1-pmvnorm(lower=-Inf, upper=qnorm(1-pmin(1,(w*p[2]/(w[2]*sum(w))))), corr=cr,abseps=10^-5)
 (p[2]/sum(w))
 
+###
 
+pvals <- c(1,1,0.01)
+graph <-BonferroniHolm(3)
+cr<-matrix(NA,nrow=3, ncol=3)
+diag(cr) <- 1
+cr[1,2] <- 0.9
+cr[2,1] <- 0.9
+crT <- cr
+crT[is.na(crT)] <- 0
+
+testConsistency(g=graph@m, w=graph@weights, cr=cr, crT=crT, upscale=FALSE, pvals=pvals)
+
+gMCP(graph, correlation=crT, pvalues = c(1,1,0.01), upscale="o3")@adjPValues
