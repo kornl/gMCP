@@ -50,11 +50,11 @@
 #' #sampSize(graph, alpha=0.05, powerReqFunc, target=0.8, mean=c(-1,-1,-1), nsim=100)
 #' sampSize(graph, esf=c(1,1,1,1), effSize=c(1,1,1,1), 
 #'          corr.sim=diag(4), powerReqFunc=powerReqFunc, target=0.8, alpha=0.05)
-#' powerReqFunc=list('all(x[c(1,2)]'=function(x) {all(x[c(1,2)])},
-#'                   'any(x[c(0,1)]'=function(x) {any(x[c(0,1)])})
+#' powerReqFunc=list('all(x[c(1,2)])'=function(x) {all(x[c(1,2)])},
+#'                   'any(x[c(0,1)])'=function(x) {any(x[c(0,1)])})
 #' sampSize(graph=graph, 
-#'          effSize=list("Scenario 1"=c(1, 0.1, 0.1, 0.1), 
-#'                       "Scenario 2"=c(0.1, 2, 0.1, 0.1)), 
+#'          effSize=list("Scenario 1"=c(2, 0.2, 0.2, 0.2), 
+#'                       "Scenario 2"=c(0.2, 4, 0.2, 0.2)), 
 #'          esf=c(0.5, 0.7071067811865476, 0.5, 0.7071067811865476),
 #'          powerReqFunc=powerReqFunc, 
 #'          corr.sim=diag(4), target=c(0.8, 0.8), alpha=0.025)
@@ -75,6 +75,7 @@ sampSize <- function(graph, esf, effSize, powerReqFunc, target,
   # First determine 
   
   result <- list()
+  df <- c()
   
   for (i in 1:length(powerReqFunc)) {
     for (scenario.name in names(effSize)) {
@@ -88,12 +89,13 @@ sampSize <- function(graph, esf, effSize, powerReqFunc, target,
         return(result[[5]])
       }
       subResult <- sampSizeCore(100, targFunc=targFunc, alRatio=1, target=target[i], verbose=verbose, n.sim=n.sim)      
+      df <- rbind(df, data.frame(Scenario=scenario.name, PowerFunc=prf.name, target=subResult$target, sampSize=subResult$samp.size))
       # n.sim = ceiling(n.sim/50)
       result[[length(result)+1]] <- subResult
       names(result)[[length(result)]] <- paste(prf.name, "-", scenario.name)
     }
   }
-  return(result)
+  return(df)
 }
 
 

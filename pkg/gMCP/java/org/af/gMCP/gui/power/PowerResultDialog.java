@@ -6,6 +6,7 @@ import java.awt.Toolkit;
 import java.awt.datatransfer.StringSelection;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.lang.reflect.Constructor;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -34,8 +35,10 @@ public class PowerResultDialog extends JDialog implements ActionListener {
 	String[] colnames;
 	JTextArea jta = new JTextArea();
 	
-	public PowerResultDialog(CreateGraphGUI parent, RDataFrame result, String[] colnames, String command) {
-		super(parent, "Power Results");
+	
+	
+	public PowerResultDialog(CreateGraphGUI parent, String title, RDataFrame result, String[] colnames, String command, Class c) {
+		super(parent, title);
 		this.colnames = colnames;		
 
 		data = new Object[result.getRowCount()][result.getColumnCount()];
@@ -44,7 +47,17 @@ public class PowerResultDialog extends JDialog implements ActionListener {
 				data[i][j] = result.get(i, j);
 			}
 		}
-		JTable jt = new JTable(new PowerResultTableModel(data, colnames));
+		Constructor<?> ct;
+		Object object = new DefaultTableModel(data, colnames);
+		try {
+			ct = c.getConstructor(Object[][].class, String[].class);
+			object = ct.newInstance(data, colnames);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		
+		JTable jt = new JTable((DefaultTableModel)object);
 		jt.setAutoCreateRowSorter(true);
 		
 		/*for (int i=0; i < jt.getColumnCount(); i++) {

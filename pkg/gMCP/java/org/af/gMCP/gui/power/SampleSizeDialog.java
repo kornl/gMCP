@@ -25,6 +25,7 @@ import org.af.gMCP.gui.CreateGraphGUI;
 import org.af.gMCP.gui.RControl;
 import org.af.gMCP.gui.dialogs.PowerOptionsPanel;
 import org.af.gMCP.gui.dialogs.TextFileViewer;
+import org.af.jhlir.call.RDataFrame;
 import org.jdesktop.swingworker.SwingWorker;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -148,7 +149,7 @@ public class SampleSizeDialog extends PDialog implements ActionListener {
 			}				
 
 			System.out.println("The following R will be executed:\n\n" + rCommand);	
-			rCommand = "paste(capture.output("+rCommand+"), collapse='\n')";					
+			//rCommand = "paste(capture.output("+rCommand+"), collapse='\n')";					
 			
 			parent.glassPane.start();
 			SwingWorker<Void, Void> worker = new SwingWorker<Void, Void>() {
@@ -157,8 +158,9 @@ public class SampleSizeDialog extends PDialog implements ActionListener {
 				protected Void doInBackground() throws Exception {					
 					try {
 						RControl.setSeed();
-						String result = RControl.getR().eval(rCommand).asRChar().getData()[0];
-						new TextFileViewer(parent, "Power results", result, true);
+						RDataFrame result = RControl.getR().eval(rCommand).asRDataFrame();
+						String[] colnames = new String[] {"Scenario", "PowerFunc", "target", "sampSize"};
+						new PowerResultDialog(parent, "SampleSize Results", result, colnames, rCommand, SampSizeResultTableModel.class);
 					} catch (Exception e) {
 						ErrorHandler.getInstance().makeErrDialog(e.getMessage(), e, false);						
 					} finally {
