@@ -81,7 +81,8 @@ public class NetList extends JTabbedPane implements ChangeListener, AnnotationPa
 		saveGraph(".tmpGraph", false, false);
 		RControl.getR().eval(".tmpGraph <- substituteEps(.tmpGraph, eps="+Configuration.getInstance().getGeneralConfig().getEpsilon()+")");
 		ReproducableLog.logR(RControl.getR().eval("gMCP:::dputGraph(.tmpGraph, \".tmpGraph\")").asRChar().getData()[0]);
-		RControl.evalAndLog(".tmpGraph <- rejectNode(.tmpGraph, \""+node.getName()+"\")");
+		RControl.evalAndLog(".tmpGraph <- rejectNode(.tmpGraph, \""+node.getName()+"\""
+				+", upscale = "+(Configuration.getInstance().getGeneralConfig().getUpscale()?"TRUE":"FALSE")+")");
 		reset();
 		new GraphMCP(".tmpGraph", this);
 		control.getPView().restorePValues();

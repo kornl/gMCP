@@ -129,7 +129,7 @@
 
 gMCP <- function(graph, pvalues, test, correlation, alpha=0.05, 
 		approxEps=TRUE, eps=10^(-3), ..., upscale=ifelse(missing(test)&&!missing(correlation)||!missing(test)&&test=="Bretz2011", TRUE, FALSE),
-    useC=FALSE, verbose=FALSE, keepWeights=TRUE, adjPValues=TRUE) {
+    useC=FALSE, verbose=FALSE, keepWeights=FALSE, adjPValues=TRUE) {
 #		, alternatives="less") {	
   # Temporary translation of old syntax:
   if (!missing(test)) {
@@ -179,7 +179,7 @@ gMCP <- function(graph, pvalues, test, correlation, alpha=0.05,
 	if ((missing(test) && missing(correlation)) || !missing(test) && test == "Bonferroni") {
 		if (!missing(correlation)) stop("Bonferroni test can not take correlation into account. Please specify test procedure.")
 		# Bonferroni-based test procedure		
-		if (useC) {
+		if (useC && !upscale) {
 			w <- getWeights(graph)			
 			result <- fastgMCP(m=graph2matrix(graph), w=w, p=pvalues, a=alpha, keepWeights=keepWeights)
 			row.names(result$m) <- getNodes(graph)
@@ -191,12 +191,13 @@ gMCP <- function(graph, pvalues, test, correlation, alpha=0.05,
 			attr(result, "call") <- call2char(match.call())
 			return(result)
 		} else {
+		  if (useC) warning("Parameter UseC==TRUE is not supported for upscale==TRUE.")
 			while(!is.null(node <- getRejectableNode(graph, alpha, pvalues))) {
 				# if (verbose) cat(paste("Node \"",node,"\" can be rejected.\n",sep=""))
-				graph <- rejectNode(graph, node, verbose, keepWeights=keepWeights)
+				graph <- rejectNode(graph, node, verbose, keepWeights=keepWeights, upscale=upscale)
 				sequence <- c(sequence, graph)
 			}	
-			adjPValues <- adjPValues(sequence[[1]], pvalues, verbose)@adjPValues
+			adjPValues <- adjPValues(sequence[[1]], pvalues, upscale=upscale, verbose=verbose)@adjPValues
 			result <- new("gMCPResult", graphs=sequence, alpha=alpha, pvalues=pvalues, rejected=getRejected(graph), adjPValues=adjPValues)
 			attr(result, "call") <- call2char(match.call())
 			return(result)
@@ -262,7 +263,7 @@ gMCP <- function(graph, pvalues, test, correlation, alpha=0.05,
 			}
 			while(!is.null(node <- getRejectableNode(graph, alpha, pvalues))) {
 				output <- paste(output, paste("Hypothesis \"",node,"\" can be rejected by the weighted Bonferroni based test and therefore by weighted Simes test.\n",sep=""), sep="\n")
-				graph <- rejectNode(graph, node, verbose)
+				graph <- rejectNode(graph, node, upscale=upscale, verbose=verbose)
 				sequence <- c(sequence, graph)
 			}
 		}
@@ -319,7 +320,7 @@ gMCP <- function(graph, pvalues, test, correlation, alpha=0.05,
 			adjPValuesV <- rep(NA, n)
 			for (i in 1:n) {
 				if (all(result[result[,i]==1,n+1]==1)) {
-					graph <- rejectNode(graph, getNodes(graph2)[i])
+					graph <- rejectNode(graph, getNodes(graph2)[i], upscale=upscale)
 				}
 				adjPValuesV[i] <- max(result[result[,i]==1,n+2])
 			}
@@ -431,7 +432,7 @@ getBalancedDesign <- function (correlation, numberOfPValues) {
 	stop(paste("The string \"",correlation,"\" does not specify a supported correlation.", sep=""))
 }
 
-adjPValues <- function(graph, pvalues, verbose=FALSE) {
+adjPValues <- function(graph, pvalues, upscale=FALSE, verbose=FALSE) {
 	if (length(pvalues)!=length(getNodes(graph))) {
 		stop("Length of pvalues must equal number of nodes.")
 	}
@@ -454,7 +455,7 @@ adjPValues <- function(graph, pvalues, verbose=FALSE) {
 		adjPValues[node] <- max(min(ifelse(pvalues[node]==0,0,pvalues[node]/getWeights(graph)[node]), 1), pmax)
 		pmax <- adjPValues[node]
 		# if (verbose) cat(paste("We will update the graph with node \"",node,"\".\n",sep=""))
-		graph <- rejectNode(graph, node, verbose)
+		graph <- rejectNode(graph, node, upscale=upscale, verbose=verbose)
 		J <- J[J!=node]
 		sequence <- c(sequence, graph)
 	}	
@@ -490,11 +491,15 @@ adjPValues <- function(graph, pvalues, verbose=FALSE) {
 #' 
 #' @export rejectNode
 #' 
-rejectNode <- function(graph, node, verbose=FALSE, keepWeights=TRUE) {
+rejectNode <- function(graph, node, upscale=FALSE, verbose=FALSE, keepWeights=FALSE) {
+  if (keepWeights && upscale) {
+    warning("Parameter keepWeights is set to FALSE for upscale=TRUE.")
+    keepWeights <- FALSE
+  }
 	# Entangled graphs
 	if ("entangledMCP" %in% class(graph)) {
 		for(i in 1:length(graph@subgraphs)) {
-			graph@subgraphs[[i]] <- rejectNode(graph@subgraphs[[i]], node, verbose, keepWeights)
+			graph@subgraphs[[i]] <- rejectNode(graph@subgraphs[[i]], node, upscale=upscale, verbose=verbose, keepWeights=keepWeights)
 		}
 		return(graph)
 	}
@@ -513,6 +518,10 @@ rejectNode <- function(graph, node, verbose=FALSE, keepWeights=TRUE) {
 	graph@m[node,] <- 0
 	graph@m[, node] <- 0
 	if (!all(m[node,]==0) || !keepWeights) graph@weights[node] <- 0	
+	if (upscale && !isTRUE(all.equal(graph@weights, rep(0, length(graph@weights)), check.attributes = FALSE))) {
+	  #cat("Scaling weights: ", graph@weights, "->", graph@weights/sum(graph@weights))
+	  graph@weights <- graph@weights/sum(graph@weights)
+	}
 	graph@nodeAttr$rejected[node] <- TRUE	
 	return(graph)
 }

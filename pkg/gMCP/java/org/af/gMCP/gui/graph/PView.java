@@ -212,8 +212,7 @@ public class PView extends JPanel implements KeyListener, ActionListener {
 			param = ", correlation="+jcbCorObject.getSelectedItem()+", test=\"parametric\"";
 		} else if (jrbSimes.isSelected()) {
 			param = ", test=\"Simes\"";
-		}
-		param += ", upscale="+(Configuration.getInstance().getGeneralConfig().getUpscale()?"TRUE":"FALSE");
+		}		
 		return param;
 	}
 	
