@@ -69,6 +69,8 @@ public class RandomizationPanel extends JPanel implements ActionListener {
 		add(jbPopulation, cc.xy(5, row));
 		jbEndpoint.addActionListener(this);
 		jbPopulation.addActionListener(this);
+		jbEndpoint.setEnabled(false);
+		jbPopulation.setEnabled(false);
 		
 	}
 
