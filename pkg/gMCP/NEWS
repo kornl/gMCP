@@ -1,15 +1,25 @@
 Changes in version 0.8-10 (??-08-2015)
 ======================================
 
-- Power calculations in Dialog are displayed in JTable with easy
-  copy to clipboard and into Excel support.
+- Power calculations in the GUI are displayed in JTable with easy
+  copy to clipboard and into Excel support and can also be sorted.
 
-- New function sampSize for sample size calculations
+- Work on upscale parameter. Adjusted p-values from parametric tests are 
+  now consistent to the results from generateTest().
+  You can pass 'upscale="o3"' in 'generatePvals' to still use the old
+  method.
 
-- Graphical user interface for sample size calculations
+- Default for parameter keepWeights in rejectNode and gMCP is now FALSE,
+  which has no impact on test result, but reduces confusion with 
+  parameter upscale.
 
 - Graph for Bonferroni-Holm procedure gains argument weights for the
   weighted Bonferroni-Holm procedure.
+
+- New function sampSize for sample size calculations (work in progress)
+
+- Graphical user interface for sample size calculations (work in progress)
+
 
 Changes in version 0.8-9 (10-08-2015)
 =====================================

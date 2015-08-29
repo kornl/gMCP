@@ -1,5 +1,9 @@
 Why doesn't the glasspane show up during power calculations?
 
+Could be better: graph with variables, press start, close dialog -> test nevertheless
+
+Implement variables for sampSize.
+
 Add upscale argument to C functions.
 
 Write multi-pvalue C-function for parametric test.
