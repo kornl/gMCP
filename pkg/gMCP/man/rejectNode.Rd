@@ -12,6 +12,10 @@ rejectNode(graph, node, upscale = FALSE, verbose = FALSE,
 
 \item{node}{A character string specifying the node to reject.}
 
+\item{upscale}{Logical. If \code{upscale=TRUE} then the weights of all non-rejected
+nodes are scaled so that the sum is equal to 1. This forces \code{keepWeights=FALSE}
+to reduce confusion, since otherwise the sum of weights could become bigger than 1.}
+
 \item{verbose}{Logical scalar.  If \code{TRUE} verbose output is generated
 during sequentially rejection steps.}
 
