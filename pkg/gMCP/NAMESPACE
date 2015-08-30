@@ -2,7 +2,7 @@ useDynLib(gMCP)
 
 import(methods)
 importFrom("graphics", "par", "plot.new", "strwidth", "axis", "box", "abline", "arrows", "persp") 
-importFrom("stats", "pnorm", "cov2cor", "uniroot", "coef", "qnorm", "runif", "rnorm", "qt")
+importFrom("stats", "setNames", "pnorm", "cov2cor", "uniroot", "coef", "qnorm", "runif", "rnorm", "qt")
 # See https://stat.ethz.ch/pipermail/r-devel/2012-February/063396.html :
 importFrom(stats4, plot)
 import(utils)
