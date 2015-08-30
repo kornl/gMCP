@@ -1,16 +1,16 @@
-Changes in version 0.8-10 (??-08-2015)
+Changes in version 0.8-10 (31-08-2015)
 ======================================
 
-- Power calculations in the GUI are displayed in JTable with easy
+- Power calculations in the GUI are displayed in a JTable with easy
   copy to clipboard and into Excel support and can also be sorted.
 
 - Work on upscale parameter. Adjusted p-values from parametric tests are 
   now consistent to the results from generateTest().
-  You can pass 'upscale="o3"' in 'generatePvals' to still use the old
-  method.
+  You can pass 'upscale="o3"' in 'generatePvals' to use the old method.
 
 - Default for parameter keepWeights in rejectNode and gMCP is now FALSE,
-  which has no impact on test result, but reduces confusion with 
+  which has no impact on test results (it's just a matter of taste how
+  to display these graphs with rejected nodes), but reduces confusion with 
   parameter upscale.
 
 - Graph for Bonferroni-Holm procedure gains argument weights for the
