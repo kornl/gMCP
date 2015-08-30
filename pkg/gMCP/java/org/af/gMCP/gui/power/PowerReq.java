@@ -27,7 +27,7 @@ public class PowerReq implements ActionListener {
 	
 	String[] selection = new String[] {"All of the selected", "Any of the selected", "User defined"};
 	
-	JComboBox<String> jcbType = new JComboBox(selection);
+	JComboBox jcbType = new JComboBox(selection);
 	
 	String userDefined;
 	

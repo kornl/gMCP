@@ -34,7 +34,7 @@ public class UserDefinedPanel extends JPanel implements ActionListener {
 	JButton addAnother = new JButton("Add another power function");    
     JButton clearList = new JButton("Clear");
     
-	DefaultListModel<String> listModel;
+	DefaultListModel listModel;
     JList listUserDefined;
 
     JTextArea jta = new JTextArea();
