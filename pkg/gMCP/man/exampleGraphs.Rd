@@ -31,7 +31,7 @@
 \alias{truncatedHolm}
 \title{Functions that create different example graphs}
 \usage{
-BonferroniHolm(n)
+BonferroniHolm(n, weights = rep(1/n, n))
 
 BretzEtAl2011()
 

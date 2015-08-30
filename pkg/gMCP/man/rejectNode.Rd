@@ -4,7 +4,8 @@
 \alias{rejectNode}
 \title{Rejects a node/hypothesis and updates the graph accordingly.}
 \usage{
-rejectNode(graph, node, verbose = FALSE, keepWeights = TRUE)
+rejectNode(graph, node, upscale = FALSE, verbose = FALSE,
+  keepWeights = FALSE)
 }
 \arguments{
 \item{graph}{A graph of class \code{\link{graphMCP}} or \code{\link{entangledMCP}}.}
