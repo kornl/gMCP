@@ -117,7 +117,9 @@ public class PowerReqPanel extends JPanel implements ActionListener {
 
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource()==addPowerReq) {
-			gv.add(new PowerReq(sd, "Power requirement "+(gv.size()+1)));
+			PowerReq pr = new PowerReq(sd, "Power requirement "+(gv.size()+1));
+			gv.add(pr);
+			pr.setActionListener();
 			getMainPanel();
 			revalidate();
 			repaint();
