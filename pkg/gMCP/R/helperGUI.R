@@ -67,7 +67,7 @@ checkCorrelation <- function(m, returnMessage=FALSE, na.allowed=TRUE) {
     if (returnMessage) return("Values must be between -1 and 1.")
     return(FALSE)
   }
-  if (!isTRUE(all.equal(diag(m), rep(1, dim(m)[1])))) {
+  if (!isTRUE(all.equal(diag(m), rep(1, dim(m)[1]),check.attributes=FALSE))) {
     if (returnMessage) return("Diagonal must be equal to 1.")
     return(FALSE)
   }  

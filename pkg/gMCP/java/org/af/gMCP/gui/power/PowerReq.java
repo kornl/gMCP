@@ -36,7 +36,7 @@ public class PowerReq implements ActionListener {
 	public PowerReq(PDialog pd, String name) {
 		this.pd = pd;
 		scname = new JTextField(name);
-		targetPower = new RealTextField("targetPower", 10, 0, 1);			
+		targetPower = new RealTextField("targetPower", 10, 0, Double.MAX_VALUE);			
 		targetPower.setText("0.8");
 		for (Node n : pd.getNodes()) {
 			JCheckBox jc = new JCheckBox();

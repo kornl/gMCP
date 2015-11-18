@@ -83,7 +83,7 @@ public class PowerReqPanel extends JPanel implements ActionListener {
 		col += 2;
 		panel.add(new JLabel("Power requirement"), cc.xy(col, row));
 		col += 2;
-		panel.add(new JLabel("Target power"), cc.xy(col, row));
+		panel.add(new JLabel("Target power / value"), cc.xy(col, row));
 
 		for (Node n : sd.nodes) {
 			col += 2;
@@ -117,7 +117,9 @@ public class PowerReqPanel extends JPanel implements ActionListener {
 
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource()==addPowerReq) {
-			gv.add(new PowerReq(sd, "Power requirement "+(gv.size()+1)));
+			PowerReq pr = new PowerReq(sd, "Power requirement "+(gv.size()+1));
+			gv.add(pr);
+			pr.setActionListener();
 			getMainPanel();
 			revalidate();
 			repaint();
