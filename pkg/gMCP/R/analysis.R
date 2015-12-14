@@ -106,3 +106,20 @@ as.num <- function(x) {
 	options(warn=0)
 	return(result)
 }
+
+upscale <- function(graph) {
+  w <- getWeights(graph)
+  if (isTRUE(all.equal(sum(w), 0, check.attributes=FALSE))) stop("All node weights are zero.")
+  w <- w/sum(w)
+  graph <- setWeights(graph, w)
+  m <- getMatrix(graph)
+  n <- dim(m)[1]
+  rs <- rowSums(m)
+  for (i in 1:n) {
+    for (j in 1:n) {
+      if (i!=j)  m[i,j] <- (m[i,j]+(1-rs[i])*w[j])/(1-(1-rs[i])*w[i])
+    }
+  }
+  graph@m <- m
+  return(graph)
+}
