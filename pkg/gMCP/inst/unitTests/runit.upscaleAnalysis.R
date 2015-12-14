@@ -1,20 +1,34 @@
 test.upscaleF <- function() {
-  m <- rbind(H1=c(0, 0.333333333333333, 0.333333333333333),
-             H2=c(0.333333333333333, 0, 0.333333333333333),
-             H3=c(0.333333333333333, 0.333333333333333, 0))
-  weights <- c(0.25, 0.25, 0.25)
-  graph <- new("graphMCP", m=m, weights=weights)
-  gMCP:::upscale(graph)
-  # Check equal to BonferroniHolm(3)
+  # Bonferroni n+1 -> n
+  for (n in 3:5) {
+    graph <- subgraph(BonferroniHolm(n), paste("H", 1:n,sep=""))
+    # Could also be extracted by function subgraph
+    resultG <- gMCP:::upscale(graph)
+    # TODO Automatically check equality to BonferroniHolm(n-1)
+    print(resultG)
+  }
+  
+  radomM <- function(n) {
+    m <- matrix(runif(n*n), n, n)
+    diag(m) <- 0
+    m <- m / rowSums(m)*runif(n)
+    return(m)
+  }
+  
   set.seed(1234)
   w <- runif(3)
   w <- w/sum(w)*0.8
-  m <- matrix(runif(9), 3, 3)
-  diag(m) <- 0
-  m <- m / rowSums(m)*runif(3)
+  gr <- new("graphMCP", m=radomM(3), weights=w)
+  resultG <- gMCP:::upscale(gr)
+  checkEquals(rowSums(resultG@m), rep(1, 3), checkNames=FALSE)
+  
+  # Check not strongly connected graphs:
+  m <- as.matrix(bdiag(radomM(3), radomM(4)))
+  w <- runif(7)
+  w <- w/sum(w)*runif(7)
   gr <- new("graphMCP", m=m, weights=w)
-  gr <- gMCP:::upscale(gr)
-  checkEquals(rowSums(gr@m), rep(1, 3), checkNames=FALSE)
+  resultG <- gMCP:::upscale(gr)
+  
 }
 
 test.upscale <- function() {
