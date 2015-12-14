@@ -6,6 +6,15 @@ test.upscaleF <- function() {
   graph <- new("graphMCP", m=m, weights=weights)
   gMCP:::upscale(graph)
   # Check equal to BonferroniHolm(3)
+  set.seed(1234)
+  w <- runif(3)
+  w <- w/sum(w)*0.8
+  m <- matrix(runif(9), 3, 3)
+  diag(m) <- 0
+  m <- m / rowSums(m)*runif(3)
+  gr <- new("graphMCP", m=m, weights=w)
+  gr <- gMCP:::upscale(gr)
+  checkEquals(rowSums(gr@m), rep(1, 3), checkNames=FALSE)
 }
 
 test.upscale <- function() {
