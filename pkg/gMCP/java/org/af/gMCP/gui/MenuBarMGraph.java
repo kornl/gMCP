@@ -90,6 +90,7 @@ public class MenuBarMGraph extends JMenuBar implements ActionListener {
 		menu.setMnemonic(KeyEvent.VK_A);
 
 		menu.add(makeMenuItem("Graph analysis", "graphAnalysis"));
+		menu.add(makeMenuItem("Upscale", "upscale"));
 		//if (Configuration.getInstance().getGeneralConfig().experimentalFeatures()) {
 		menu.addSeparator();
 		menu.add(makeMenuItem("Power analysis (testing)", "powerAnalysis"));		
@@ -383,6 +384,8 @@ public class MenuBarMGraph extends JMenuBar implements ActionListener {
         	control.getNL().saveGraph(".tmpGraph", false, false);
         	String text = RControl.getR().eval("graphAnalysis(.tmpGraph, file=tempfile())").asRChar().getData()[0];
         	new TextFileViewer(control.getMainFrame(), "Graph analysis", text);
+        } else if (e.getActionCommand().equals("upscale")) {
+        	control.getNL().upscale();
         } else if (e.getActionCommand().equals("powerAnalysis")) {        	
         	if (control.getNL().getNodes().size()==0) {
         		JOptionPane.showMessageDialog(control.getMainFrame(), "Graph is empty!", "Graph is empty!", JOptionPane.ERROR_MESSAGE);

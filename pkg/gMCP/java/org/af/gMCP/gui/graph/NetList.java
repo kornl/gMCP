@@ -240,6 +240,12 @@ public class NetList extends JTabbedPane implements ChangeListener, AnnotationPa
 		return nlp.get(getSelectedIndex()).getImage(d, color, drawHypNames, drawHypWeights, drawEdgeWeights);
 	}
 
+	public void upscale() {
+		saveGraph(tmpGraph, false, false);
+		RControl.getR().evalVoid(tmpGraph+" <- upscale("+tmpGraph+")");
+		loadGraph(tmpGraph, false);
+	}
+	
 	public String getLaTeX() {
 		saveGraph(tmpGraph, false, false);
 		return RControl.getR().eval("graph2latex("+tmpGraph+")").asRChar().getData()[0];
