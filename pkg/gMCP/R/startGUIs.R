@@ -87,7 +87,6 @@ graphGUI <- function(graph="createdGraph", pvalues=numeric(0), grid=0, debug=FAL
 #' 
 #' Starts a graphical user interface for the correlation matrices.
 #' 
-#' 
 #' @param n Square root of the dimension of the quadratic \eqn{n\times n}{nxn}-Matrix.
 #' @param matrix Variable name of matrix of dimension \eqn{n\times n}{nxn} to start with.
 #' @param names Row and column names. (Default will be H1,H2,\ldots,Hn.)
@@ -99,11 +98,10 @@ graphGUI <- function(graph="createdGraph", pvalues=numeric(0), grid=0, debug=FAL
 #' @author Kornelius Rohmeyer \email{rohmeyer@@small-projects.de}
 #' @keywords misc graphs
 #' @examples
-#' 
 #' \dontrun{
 #' corMatWizard(5) # is equivalent to
 #' corMatWizard(matrix=diag(5))
-#' corMatWizard(names=c("H1", "H2", "H3", E1", "E2"))
+#' corMatWizard(names=c("H1", "H2", "H3", "E1", "E2"))
 #' C <- cor(matrix(rnorm(100),10), matrix(rnorm(100),10))
 #' corMatWizard(matrix="C") # or
 #' corMatWizard(matrix=C) 
