@@ -51,9 +51,9 @@
 #' @export graphGUI
 graphGUI <- function(graph="createdGraph", pvalues=numeric(0), grid=0, debug=FALSE, experimentalFeatures=FALSE, envir=globalenv()) {
   if (!"jri.jar" %in% tolower(sapply(.jclassPath(), function(x) {substring(x, first=nchar(x)-6)}))) {
-    warning(paste(c("JRI.jar seems to be missing from the classpath.",
-                    "The graphical user interface will most likely not be available.",
-                    "Compile R with shared library enabled (--enable-R-shlib option)",
+    warning(paste(c("JRI.jar seems to be missing from the classpath. ",
+                    "The graphical user interface will most likely not be available. ",
+                    "Compile R with shared library enabled (--enable-R-shlib option) ",
                     "and reinstall rJava to use JRI functionality."), sep="\n"))
   }
   
@@ -117,9 +117,9 @@ graphGUI <- function(graph="createdGraph", pvalues=numeric(0), grid=0, debug=FAL
 #' @export corMatWizard
 corMatWizard <- function(n, matrix, names, envir=globalenv()) {  
   if (!"jri.jar" %in% tolower(sapply(.jclassPath(), function(x) {substring(x, first=nchar(x)-6)}))) {
-    warning(paste(c("JRI.jar seems to be missing from the classpath.",
-                    "The graphical user interface will most likely not be available.",
-                    "Compile R with shared library enabled (--enable-R-shlib option)",
+    warning(paste(c("JRI.jar seems to be missing from the classpath. ",
+                    "The graphical user interface will most likely not be available. ",
+                    "Compile R with shared library enabled (--enable-R-shlib option) ",
                     "and reinstall rJava to use JRI functionality."), sep="\n"))
   }
   
