@@ -54,7 +54,7 @@ graphGUI <- function(graph="createdGraph", pvalues=numeric(0), grid=0, debug=FAL
     warning(paste(c("JRI.jar seems to be missing from the classpath. ",
                     "The graphical user interface will most likely not be available. ",
                     "Compile R with shared library enabled (--enable-R-shlib option) ",
-                    "and reinstall rJava to use JRI functionality."), sep="\n"))
+                    "and reinstall rJava to use JRI functionality."), collapse="\n"))
   }
   
   if (!is.character(graph)) {
@@ -72,7 +72,7 @@ graphGUI <- function(graph="createdGraph", pvalues=numeric(0), grid=0, debug=FAL
 			stack <- sys.calls()
 			stack.fun <- Filter(function(.) .[[1]] == as.name("graphGUI"), stack)
 			graph <- make.names(deparse(stack.fun[[1]][[2]]))
-			warning(paste("We guess you wanted to use graphGUI(\"",graph,"\")",sep=""))
+			warning(paste("We guess you wanted to use graphGUI(\"",graph,"\")", collapse=""))
 		}
 	} else {
 		if (exists(graph, envir=envir)) {
@@ -120,7 +120,7 @@ corMatWizard <- function(n, matrix, names, envir=globalenv()) {
     warning(paste(c("JRI.jar seems to be missing from the classpath. ",
                     "The graphical user interface will most likely not be available. ",
                     "Compile R with shared library enabled (--enable-R-shlib option) ",
-                    "and reinstall rJava to use JRI functionality."), sep="\n"))
+                    "and reinstall rJava to use JRI functionality."), collapse="\n"))
   }
   
   if (missing(n) && missing(matrix) && missing(names)) stop("Please specify matrix or dimension.")
