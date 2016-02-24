@@ -9,10 +9,7 @@ Description: Functions and a graphical user interface for graphical described
     multiple test procedures.
 Depends:
     R (>= 3.0.0),
-    rJava (>= 0.6-3),
-    JavaGD,
-    methods,
-    xlsxjars (>= 0.6.1)
+    methods
 Imports:
     MASS,
     PolynomF,
@@ -20,6 +17,9 @@ Imports:
     mvtnorm,
     Matrix,
     CommonJavaJars (>= 1.0.5),
+    rJava (>= 0.6-3),
+    JavaGD,
+    xlsxjars (>= 0.6.1),
     stats4
 Suggests:
     RUnit,
