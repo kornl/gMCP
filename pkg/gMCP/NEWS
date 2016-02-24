@@ -1,7 +1,7 @@
-Changes in version 0.8-11 (??-09-2015)
+Changes in version 0.8-11 (??-02-2016)
 ======================================
 
-- 
+- Fixed warnings in .onLoad.
 
 Changes in version 0.8-10 (31-08-2015)
 ======================================
