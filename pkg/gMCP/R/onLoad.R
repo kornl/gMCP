@@ -68,14 +68,6 @@
 		}
   }
 	
-	# TODO Should we add "&& interactive()" or move it to some other place?
-	if (!"jri.jar" %in% tolower(sapply(.jclassPath(), function(x) {substring(x, first=nchar(x)-6)}))) {
-	  warning(paste(c("JRI.jar seems to be missing from the classpath.",
-	                  "The graphical user interface will most likely not be available.",
-	                  "Compile R with shared library enabled (--enable-R-shlib option)",
-	                  "and reinstall rJava to use JRI functionality."), sep="\n"))
-	}
-  
   java.info <- getJavaInfo(FALSE, FALSE, TRUE)
 	if (length(grep("-Xss1m", java.info))==0) {
 	  warning(paste("JVM was already initialized with unknown memory settings:",strsplit(java.info, split="Input Arguments:")[1][[1]][2]))
