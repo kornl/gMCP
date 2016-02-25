@@ -1451,7 +1451,7 @@ This section is work in progress.
 \begin{Theorem}[Simes-Procedure]\index{Simes-Procedure} 
 Let $T_1, \ldots, T_m$
 be test statistics for $m\in\N$ null hypotheses $H_1, \ldots, H_m$ and
-$p_1, \ldots, p_m$ the associated $p$-values and $\alpha\in]0,1[$.
+$p_1, \ldots, p_m$ the associated $p$-values and $\alpha\in\;]0,1[$.
 %Then the following test will control the familywise error rate at level $\alpha\in]0,1[$ in the strong sense:
 
 Denote the ordered $p$-values by $p^{(1)}<p^{(2)}<\ldots<p^{(m)}$ 
@@ -1482,7 +1482,7 @@ $H_0$: $H_A\cap H_B$ is rejected if
 \end{itemize}
 \end{Theorem}
 \begin{Rem}
-It is not possible to calculate adjusted $p$-values for the timmed weighted Simes test, since for example with $w_A=w_B=0.5$, $p_A=0.01$, and $p_A=0.97$ the test does reject $H_0$ for $\alpha=0.05$ since $p_A \leq w_A\cdot\alpha=0.025$ and $p_B<1-w_B\cdot\alpha=0.975$, but not for $\alpha=0.1$ since $p_B>1-w_B\cdot\alpha$ in this case.
+It is not possible to calculate adjusted $p$-values for the trimmed weighted Simes test, since for example with $w_A=w_B=0.5$, $p_A=0.01$, and $p_A=0.97$ the test does reject $H_0$ for $\alpha=0.05$ since $p_A \leq w_A\cdot\alpha=0.025$ and $p_B<1-w_B\cdot\alpha=0.975$, but not for $\alpha=0.1$ since $p_B>1-w_B\cdot\alpha$ in this case.
 \end{Rem}
 
 \begin{Theorem}[Hommel Procedure]\index{Hommel Procedure} 
