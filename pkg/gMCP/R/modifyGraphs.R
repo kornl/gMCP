@@ -60,10 +60,18 @@ joinGraphs <- function(graph1, graph2, xOffset=0, yOffset=200) {
 		weights <- weights / sum(weights)
 	}
 	graph <- setWeights(graph, weights=weights)
-	nodeX <- c(getXCoordinates(graph1), getXCoordinates(graph2) + xOffset) 
-	nodeY <- c(getYCoordinates(graph1), getYCoordinates(graph2) + yOffset) 
-	names(nodeX) <- nNames
-	names(nodeY) <- nNames
+	if (is.null(getXCoordinates(graph1)) || is.null(getXCoordinates(graph2))) {
+	  nodeX <- NULL
+	} else {
+	  nodeX <- c(getXCoordinates(graph1), getXCoordinates(graph2) + xOffset) 
+	  names(nodeX) <- nNames
+	}
+	if (is.null(getYCoordinates(graph1)) || is.null(getYCoordinates(graph2))) {
+	  nodeY <- NULL
+	} else {
+	  nodeY <- c(getYCoordinates(graph1), getYCoordinates(graph2) + yOffset) 
+	  names(nodeY) <- nNames
+	}
 	graph@nodeAttr$X <- nodeX
 	graph@nodeAttr$Y <- nodeY
 	return(graph)
