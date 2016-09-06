@@ -95,9 +95,66 @@ graphGUI <- function(...) {invisible(NULL)}
 
 @
 
+\section*{Algorithm:}
+
+Need function $p[[i]]:\;\R\rightarrow [0,1]$ (continuous and growing). We first consider the simple case of independent $Z$-tests.
+
 <<>>=
+m <- 3
+theta <- rep(0, m)
+s <- rep(1, m)
+
+p <- list()
+for (i in 1:m) {
+  p[[i]] <- function(mu) {(1-pnorm((theta[i]-mu)/s[i])) }
+}
+@
+
+<<fig.width=5.5, fig.height=5.5, out.width=".5\\linewidth", out.height=".5\\linewidth", fig.align="center", echo=FALSE>>=
+plot(p[[1]], xlim=c(-3,3))
+@
+
+Then we need the function $V[[j]]:\;\R^m\rightarrow [0,1]$ (continuous and component-wise non-decreasing), which we get in the following way:
+
+We start with a graph $G$.
+
+<<>>=
+
 library(gMCP)
+G <- BonferroniHolm(3)
 
 @
+
+
+<<echo=FALSE, results='asis'>>=
+
+cat(graph2latex(G, fig=FALSE, scaleText=TRUE, scale=0.7, fig.caption="Bonferroni-Holm"))
+
+@
+
+For a given $\mu\in\R^m$ we create a graph $G^{(\mu)}_0$ in the following way:
+
+\begin{enumerate}
+  \item For all $j$ with $\mu_j \leq 0$
+    \begin{itemize}
+      \item remove all edges starting in $H_j^0$
+      \item replace $H_j^0$ through $H_j^{\mu_j}$
+    \end{itemize}
+  \item For all $j$ with $\mu_j > 0$
+    \begin{itemize}
+      \item
+      \item
+      \item
+    \end{itemize}
+\end{enumerate}
+
+<<>>=
+
+mu <- c(-1, 1, 2)
+
+
+
+@
+
 
 \end{document}
