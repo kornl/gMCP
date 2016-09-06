@@ -1,0 +1,103 @@
+\documentclass[a4paper, 10pt]{report}
+\usepackage{cmap}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{url}
+\usepackage{caption}
+
+\usepackage{graphicx}
+\usepackage{tikz}
+\usetikzlibrary{decorations,arrows,shapes}
+\usepackage[margin=0.9in]{geometry}
+\usepackage{url}
+\usepackage{hyperref}
+\usepackage{listings}
+\usepackage{xspace}
+\usepackage{tabularx}
+\usepackage{makeidx}\makeindex
+%\usepackage[numbers]{natbib}
+\usepackage{natbib}
+\bibliographystyle{plainnat}
+\usepackage{algorithmic} 
+\usepackage{algorithm}
+%\usepackage[left=3cm,right=3cm,top=2cm,bottom=2cm]{geometry}
+\usepackage{amsmath,amsthm,amsfonts,amssymb}
+\setlength{\parindent}{0mm}
+\setlength{\parskip}{1mm}
+\newcommand{\commentout}[1]{}
+\renewcommand{\theequation}{\thesection.\arabic{\equation}}
+\numberwithin{equation}{section}
+
+\theoremstyle{definition}
+\newtheorem{Def}{Definition}[section]
+\newtheorem{Rem}[Def]{Remark}
+\newtheorem{RemDef}[Def]{Remark und Definition}
+\newtheorem{DefRem}[Def]{Definition und Remark}
+\newtheorem{Example}[Def]{Example}
+\theoremstyle{plain}
+\newtheorem{Theorem}[Def]{Theorem}
+\newtheorem{DefTheorem}[Def]{Definition and Theorem}
+\newtheorem{Corollary}[Def]{Corollary}
+\newtheorem{Lemma}[Def]{Lemma}
+
+\newcommand{\C}{\ensuremath{\mathbb{C}}\xspace}
+\newcommand{\R}{\ensuremath{\mathbb{R}}\xspace}
+\newcommand{\Q}{\ensuremath{\mathbb{Q}}\xspace}
+\newcommand{\Z}{\ensuremath{\mathbb{Z}}\xspace}
+\newcommand{\NN}{\ensuremath{\mathbb{N}_0}\xspace}
+\newcommand{\N}{\ensuremath{\mathbb{N}}\xspace}
+\newcommand{\sF}{\ensuremath{\mathcal{F}}\xspace}
+\newcommand{\sN}{\ensuremath{\mathcal{N}}\xspace}
+\newcommand{\Pot}{\ensuremath{\mathfrak{Pot}}\xspace}
+\newcommand{\kronecker}{\raisebox{1pt}{\ensuremath{\:\otimes\:}}}
+
+\DeclareMathOperator{\range}{range}
+
+\newcommand{\skp}[1]{\left\langle#1\right\rangle}
+
+\renewcommand{\epsilon}{\varepsilon}
+\renewcommand{\phi}{\varphi}
+\newcommand{\id}{\text{id}}
+
+\newenvironment{Proof}{\par\noindent\upshape\textit{Proof. }\nopagebreak}{\qed\par}
+
+\usepackage{setspace}
+\onehalfspacing
+
+\begin{document}
+
+% \VignetteEngine{knitr::knitr}
+% \VignetteIndexEntry{A Graphical Approach to Weighted Multiple Test Procedures}
+% \VignetteDepends{coin}
+
+\title{gMCP - an R package for a graphical approach to weighted multiple test procedures} 
+
+%\author{Kornelius Rohmeyer}
+
+%\maketitle\thispagestyle{empty}\vspace*{1cm}
+
+<<OptionsAndLibraries, include=FALSE, message=FALSE>>=
+# knitr has to be loaded for 'set_parent' and CRAN checks and also for opt_chunk during build process.
+library(knitr)
+if (exists("opts_chunk")) {
+  opts_chunk$set(concordance=TRUE)
+  opts_chunk$set(tidy.opts=list(keep.blank.line=FALSE, width.cutoff=95))
+  opts_chunk$set(size="footnotesize")
+  opts_chunk$set(cache=TRUE)
+  opts_chunk$set(autodep=TRUE)
+}
+library(gMCP, quietly=TRUE)
+options(width=140)
+options(digits=4)
+gMCPReport <- function(...) {invisible(NULL)}
+graphGUI <- function(...) {invisible(NULL)}
+#options(prompt="> ", continue="+ ")
+
+@
+
+<<>>=
+library(gMCP)
+
+@
+
+\end{document}
