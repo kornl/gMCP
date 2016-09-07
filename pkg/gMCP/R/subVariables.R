@@ -85,7 +85,7 @@ replaceVariables <-function(graph, variables=list(), ask=TRUE, partial=FALSE, ex
   if (is.list(variables[[1]])) {
     result <- list()
     for (v in variables) {
-      r2 <- replaceVariables(graph, v, ask, partial, expand=FALSE)
+      r2 <- replaceVariables(graph, variables=v, ask=ask, partial=partial, expand=FALSE)
       attr(r2, "label") <- attr(v, "label")
       attr(r2, "variables") <- unlist(v)
       result <- c(result, list(r2))
@@ -96,7 +96,7 @@ replaceVariables <-function(graph, variables=list(), ask=TRUE, partial=FALSE, ex
 	# Call this function recursivly for entangled graphs.
 	if ("entangledMCP" %in% class(graph)) {
 		for(i in 1:length(graph@subgraphs)) {
-			graph@subgraphs[[i]] <- replaceVariables(graph@subgraphs[[i]], variables, ask)
+			graph@subgraphs[[i]] <- replaceVariables(graph@subgraphs[[i]], variables=variables, ask=ask,   partial=partial)
 		}
 		return(graph)
 	}
