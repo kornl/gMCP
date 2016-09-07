@@ -126,8 +126,8 @@ G <- BonferroniHolm(3)
 @
 
 \begin{center}
-<<echo=FALSE, results='asis'>>=
-cat(graph2latex(G, fig=FALSE, scaleText=TRUE, scale=0.8, fig.caption="Bonferroni-Holm"))
+<<echo=TRUE, results='asis'>>=
+cat(graph2latex(G, scale=0.8))
 @
 \end{center}
 
@@ -142,45 +142,60 @@ For a given $\mu\in\R^m$ we create a graph $G^{(\mu)}_0$ in the following way:
       \item
       \item
     \end{itemize}
+  \item For all $j$ with $\mu_j <= 0$ we don't have to do anything, but we remove all edges to these nodes and from these nodes to make the graph simpler.
 \end{enumerate}
 
 <<>>=
 
-mu <- c(-1, 1, 2)
-q <- 0.5
-
-for (i in 1:m) {
-  if (mu[i]>0) {
-    M <- matrix(0, 1, 1)
-    rownames(M) <- paste("H_",i,"^{\\mu}", sep="")
-    G2 <- new("graphMCP", m=M, weights=0)
-    G2@nodeAttr$X <- getXCoordinates(G)[i]
-    G2@nodeAttr$Y <- getYCoordinates(G)[i]
-    G <- joinGraphs(G, G2, yOffset = 120)
-    M <- G@m
-    for (j in 1:m) {
-      if (M[i, j]!=0) {
-        #M[i, j] <- paste(gMCP:::getLaTeXFraction(as.numeric(M[i,j])), "(1-q^{\\mu})", sep="\cdot")
-        M[i, j] <- paste(M[i,j], "(1-q^{\\mu})", sep="*")
+createGraph <- function(G, mu) {
+  for (i in 1:m) {
+    if (mu[i]>0) {
+      M <- matrix(0, 1, 1)
+      rownames(M) <- paste("H_",i,"^{\\mu}", sep="")
+      G2 <- new("graphMCP", m=M, weights=0)
+      G2@nodeAttr$X <- getXCoordinates(G)[i]
+      G2@nodeAttr$Y <- getYCoordinates(G)[i]
+      G <- joinGraphs(G, G2, yOffset = 120)
+      M <- G@m
+      for (j in 1:m) {
+        if (M[i, j]!=0) {
+          #M[i, j] <- paste(gMCP:::getLaTeXFraction(as.numeric(M[i,j])), "(1-q^{\\mu[i]})", sep="\cdot")
+          M[i, j] <- paste(M[i,j], "*(1-q^{\\mu[",i,"]})", sep="")
+        }
       }
+      M[i, dim(M)[1]] <- paste("q^{\\mu[",i,"]}", sep="")
+      G@m <- M
+    } else { # We don't have to do the following, but the graph looks cleaner this way:
+      M <- G@m
+      M[i,] <- rep(0, dim(M)[1])
+      M[,i] <- rep(0, dim(M)[1])
+      G@m <- M
     }
-    M[i, dim(M)[1]] <- "q^{\\mu}"
-    G@m <- M
-  } else { # We don't have to do the following, but the graph looks cleaner this way:
-    M <- G@m
-    M[i,] <- rep(0, dim(M)[1])
-    M[,i] <- rep(0, dim(M)[1])
-    G@m <- M
   }
+  return(G)
 }
+
+Gmu <- createGraph(G, mu=c(-1, 1, 2))
+Gmu
 
 @
 
 \begin{center}
-<<echo=FALSE, results='asis'>>=
-cat(graph2latex(G, fig=FALSE, scaleText=TRUE, scale=0.8, fig.caption="Bonferroni-Holm"))
+<<echo=TRUE, results='asis'>>=
+cat(graph2latex(Gmu, scale=0.8))
 @
 \end{center}
+
+<<>>=
+
+mu=c(-1, 1, 2)
+
+G2 <- replaceVariables(Gmu, variables = list(q=0.5, mu="mu"), partial=TRUE)
+gMCP:::parse2numeric(G2)
+
+@
+
+
 
 
 \subsection*{Initial value}
