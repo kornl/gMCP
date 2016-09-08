@@ -83,7 +83,7 @@ if (exists("opts_chunk")) {
   opts_chunk$set(concordance=TRUE)
   opts_chunk$set(tidy.opts=list(keep.blank.line=FALSE, width.cutoff=95))
   opts_chunk$set(size="footnotesize")
-  opts_chunk$set(cache=TRUE)
+  opts_chunk$set(cache=FALSE)
   opts_chunk$set(autodep=TRUE)
 }
 library(gMCP, quietly=TRUE)
@@ -149,14 +149,9 @@ For a given $\mu\in\R^m$ we create a graph $G^{(\mu)}_0$ in the following way:
 
 createGraph <- function(G, mu) {
   for (i in 1:m) {
+    G <- gMCP:::addNode(G, paste("H_",i,"^{\\mu}", sep=""), x=getXCoordinates(G)[i], y=getYCoordinates(G)[i]+120)
+    M <- G@m
     if (mu[i]>0) {
-      M <- matrix(0, 1, 1)
-      rownames(M) <- paste("H_",i,"^{\\mu}", sep="")
-      G2 <- new("graphMCP", m=M, weights=0)
-      G2@nodeAttr$X <- getXCoordinates(G)[i]
-      G2@nodeAttr$Y <- getYCoordinates(G)[i]
-      G <- joinGraphs(G, G2, yOffset = 120)
-      M <- G@m
       for (j in 1:m) {
         if (M[i, j]!=0) {
           #M[i, j] <- paste(gMCP:::getLaTeXFraction(as.numeric(M[i,j])), "(1-q^{\\mu[i]})", sep="\cdot")
@@ -164,13 +159,11 @@ createGraph <- function(G, mu) {
         }
       }
       M[i, dim(M)[1]] <- paste("q^{\\mu[",i,"]}", sep="")
-      G@m <- M
     } else { # We don't have to do the following, but the graph looks cleaner this way:
-      M <- G@m
       M[i,] <- rep(0, dim(M)[1])
       M[,i] <- rep(0, dim(M)[1])
-      G@m <- M
     }
+    G@m <- M
   }
   return(G)
 }
@@ -188,17 +181,22 @@ cat(graph2latex(Gmu, scale=0.8))
 
 <<>>=
 
-mu=c(-1, 1, 2)
-
-G2 <- replaceVariables(Gmu, variables = list(q=0.5, mu="mu"), partial=TRUE)
-G2 <- gMCP:::parse2numeric(G2)
-for (i in getNodes(G2)[1:m]) {
-  G2 <- rejectNode(G2, i)
+getV <- function(G, mu) {
+  mu <- mu
+  G2 <- replaceVariables(G, variables = list(q=0.5, mu="mu"), partial=TRUE)
+  G2 <- gMCP:::parse2numeric(G2)
+  for (i in 1:m) {
+    if (mu[i]>0) {
+      node <- getNodes(G2)[i]
+      G2 <- rejectNode(G2, node)
+    }
+  }
+  return(getWeights(G2))
 }
 
+getV(G=Gmu, mu=c(-1, 1, 2))
+
 @
-
-
 
 
 \subsection*{Initial value}
