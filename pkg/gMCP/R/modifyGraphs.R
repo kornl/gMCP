@@ -115,3 +115,15 @@ subgraph <- function(graph, subset) {
 		stop("The parameter subset must be either a logical or character vector.")
 	}
 }
+
+addNode <- function(graph, node, x, y) {
+  M <- matrix(0, 1, 1)
+  rownames(M) <- node
+  G2 <- new("graphMCP", m=M, weights=0)
+  if (!missing(x) && !missing(y)) {
+    G2@nodeAttr$X <- x
+    G2@nodeAttr$Y <- y
+  }
+  graph <- joinGraphs(graph, G2, xOffset=0, yOffset=0)
+  return(graph)
+}
