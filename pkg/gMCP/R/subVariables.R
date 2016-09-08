@@ -144,7 +144,7 @@ replaceVariables <-function(graph, variables=list(), ask=TRUE, partial=FALSE, ex
 # # Note that other methods like printing don't handle NAs well:
 # gMCP:::parse2numeric(HungEtWang2010(), force=TRUE)
 # 
-parse2numeric <- function(graph, force=FALSE) {
+parse2numeric <- function(graph, force=FALSE, envir = parent.frame()) {
 	# Call this function recursivly for entangled graphs.
 	if ("entangledMCP" %in% class(graph)) {
 		for(i in 1:length(graph@subgraphs)) {
@@ -156,7 +156,7 @@ parse2numeric <- function(graph, force=FALSE) {
 	if (is.matrix(graph)) { m <- graph } else {m <- graph@m}
 	names <- rownames(m)
 	m <- matrix(sapply(m, function(x) {
-						result <- try(eval(parse(text=x)), silent=TRUE);
+						result <- try(eval(parse(text=x), envir=envir), silent=TRUE);
 						ifelse(class(result)=="try-error",NA,result)
 					}), nrow=dim(m)[1])
 	if (!force && any(is.na(m))) return(graph)
