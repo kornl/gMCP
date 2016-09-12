@@ -213,7 +213,9 @@ getCI <- function(G, q, p, mu, alpha=0.05) {
     V <- getV(G=Gmu, mu=mu, q=q)
     if (i==1) {
       for (j in 1:m) {
-        if (p[[j]](mu[j])>q^mu[j]*V[j]*alpha) stop(paste("Wrong initial mu value:\n",p[[j]](mu[j]),">",q^mu[j],"*",V[j],"*",alpha,"=",q^mu[j]*V[j]*alpha, sep=""))
+        if (p[[j]](mu[j])>q^mu[j]*V[j]*alpha) stop(paste("Wrong initial mu value:\n",
+                                                         "p(mu[",j,"])>q^mu[",j,"]*V[",j,"]: ",
+                                                         p[[j]](mu[j]),">",q^mu[j],"*",V[j],"*",alpha,"=",q^mu[j]*V[j]*alpha, sep=""))
       }
     }
   }
