@@ -101,12 +101,14 @@ Need function $p[[i]]:\;\R\rightarrow [0,1]$ (continuous and growing). We first 
 
 <<>>=
 m <- 3
+# Mean:
 theta <- rep(2, m)
+# Standard error:
 s <- rep(1, m)
 
 p <- list()
 for (i in 1:m) {
-  p[[i]] <- function(mu) {(pnorm((theta[i]-mu)/s[i])) }
+  p[[i]] <- function(mu) {(1-pnorm((theta[i]-mu)/s[i])) }
 }
 @
 
@@ -214,7 +216,7 @@ getCI <- function(G, q, p, mu, alpha=0.05) {
     if (i==1) {
       for (j in 1:m) {
         if (p[[j]](mu[j])>q^mu[j]*V[j]*alpha) stop(paste("Wrong initial mu value:\n",
-                                                         "p(mu[",j,"])>q^mu[",j,"]*V[",j,"]: ",
+                                                         "p(mu[",j,"])>q^mu[",j,"]*V[",j,"]*alpha: ",
                                                          p[[j]](mu[j]),">",q^mu[j],"*",V[j],"*",alpha,"=",q^mu[j]*V[j]*alpha, sep=""))
       }
     }
@@ -222,7 +224,29 @@ getCI <- function(G, q, p, mu, alpha=0.05) {
   return(NULL)
 }
 
-getCI(G=G, q=0.5, p=p, alpha=0.05, mu=c(-1, -0.1, -2))
+rightside <- Vectorize(function(mu, q=0.5, alpha=0.05) {
+  mu=mu+c(-1,2,3)
+  Gmu <- createGraph(G, mu=mu)
+  V <- getV(G=Gmu, mu=mu, q=q)
+  return(q^mu[i]*V[i]*alpha)
+})
+
+i<-1
+plot(rightside, xlim=c(-10,100))
+plot(p[[i]], xlim=c(-10,100), add=TRUE, col="blue")
+i<-2
+plot(rightside, xlim=c(-10,100))
+plot(p[[i]], xlim=c(-10,100), add=TRUE, col="blue")
+i<-3
+plot(rightside, xlim=c(-10,100))
+plot(p[[i]], xlim=c(-10,100), add=TRUE, col="blue")
+
+x <- -10:100
+plot(x, rightside(x), xlim=c(-10,100))
+
+getCI(G=G, q=0.5, p=p, alpha=0.05, mu=c(1, 0.1, 2))
+
+sessionInfo()
 
 @
 
