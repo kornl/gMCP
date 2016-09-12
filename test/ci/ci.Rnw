@@ -106,12 +106,12 @@ s <- rep(1, m)
 
 p <- list()
 for (i in 1:m) {
-  p[[i]] <- function(mu) {(1-pnorm((theta[i]-mu)/s[i])) }
+  p[[i]] <- function(mu) {(pnorm((theta[i]-mu)/s[i])) }
 }
 @
 
 <<fig.width=5.5, fig.height=5.5, out.width=".5\\linewidth", out.height=".5\\linewidth", fig.align="center", echo=FALSE>>=
-plot(p[[1]], xlim=c(-3,3))
+plot(p[[1]], xlim=c(-1,5))
 @
 
 Then we need the function $V[[j]]:\;\R^m\rightarrow [0,1]$ (continuous and component-wise non-decreasing), which we get in the following way:
