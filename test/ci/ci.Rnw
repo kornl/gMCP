@@ -61,8 +61,8 @@
 
 \newenvironment{Proof}{\par\noindent\upshape\textit{Proof. }\nopagebreak}{\qed\par}
 
-\usepackage{setspace}
-\onehalfspacing
+%\usepackage{setspace}
+%\onehalfspacing
 
 \begin{document}
 
@@ -101,7 +101,7 @@ Need function $p[[i]]:\;\R\rightarrow [0,1]$ (continuous and growing). We first 
 
 <<>>=
 m <- 3
-theta <- rep(0, m)
+theta <- rep(2, m)
 s <- rep(1, m)
 
 p <- list()
@@ -181,9 +181,8 @@ cat(graph2latex(Gmu, scale=0.8))
 
 <<>>=
 
-getV <- function(G, mu) {
-  mu <- mu
-  G2 <- replaceVariables(G, variables = list(q=0.5, mu="mu"), partial=TRUE)
+getV <- function(G, mu, q) {
+  G2 <- replaceVariables(G, variables = list(q=q, mu="mu"), partial=TRUE)
   G2 <- gMCP:::parse2numeric(G2)
   for (i in 1:m) {
     if (mu[i]>0) {
@@ -191,10 +190,11 @@ getV <- function(G, mu) {
       G2 <- rejectNode(G2, node)
     }
   }
-  return(getWeights(G2))
+  m <- length(getNodes(G2))/2
+  return(getWeights(G2)[(m+1):(2*m)]/q^mu)
 }
 
-getV(G=Gmu, mu=c(-1, 1, 2))
+getV(G=Gmu, mu=c(-1, 0.1, 2), q=0.5)
 
 @
 
@@ -204,5 +204,24 @@ getV(G=Gmu, mu=c(-1, 1, 2))
 
 \subsection*{Iterating}
 
+<<>>=
+
+getCI <- function(G, q, p, mu, alpha=0.05) {
+  m <- length(getNodes(G))
+  for (i in 1:10) {
+    Gmu <- createGraph(G, mu=mu)
+    V <- getV(G=Gmu, mu=mu, q=q)
+    if (i==1) {
+      for (j in 1:m) {
+        if (p[[j]](mu[j])>q^mu[j]*V[j]*alpha) stop(paste("Wrong initial mu value:\n",p[[j]](mu[j]),">",q^mu[j],"*",V[j],"*",alpha,"=",q^mu[j]*V[j]*alpha, sep=""))
+      }
+    }
+  }
+  return(NULL)
+}
+
+getCI(G=G, q=0.5, p=p, alpha=0.05, mu=c(-1, -0.1, -2))
+
+@
 
 \end{document}
