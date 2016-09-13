@@ -232,21 +232,17 @@ rightside <- Vectorize(function(mu, q=0.5, alpha=0.05) {
 })
 
 i<-1
-plot(rightside, xlim=c(-10,100))
-plot(p[[i]], xlim=c(-10,100), add=TRUE, col="blue")
+plot(rightside, xlim=c(-4,4))
+plot(p[[i]], xlim=c(-4,4), add=TRUE, col="blue")
 i<-2
-plot(rightside, xlim=c(-10,100))
-plot(p[[i]], xlim=c(-10,100), add=TRUE, col="blue")
+plot(rightside, xlim=c(-4,4))
+plot(p[[i]], xlim=c(-4,4), add=TRUE, col="blue")
 i<-3
-plot(rightside, xlim=c(-10,100))
-plot(p[[i]], xlim=c(-10,100), add=TRUE, col="blue")
+plot(rightside, xlim=c(-4,4))
+plot(p[[i]], xlim=c(-4,4), add=TRUE, col="blue")
 
-x <- -10:100
-plot(x, rightside(x), xlim=c(-10,100))
 
 getCI(G=G, q=0.5, p=p, alpha=0.05, mu=c(1, 0.1, 2))
-
-sessionInfo()
 
 @
 
