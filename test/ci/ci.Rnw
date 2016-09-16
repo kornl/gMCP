@@ -184,7 +184,8 @@ cat(graph2latex(Gmu, scale=0.8))
 <<>>=
 
 getV <- function(G, mu, q) {
-  G2 <- replaceVariables(G, variables = list(q=q, mu="mu"), partial=TRUE)
+  G2 <- replaceVariables(G, variables = list(q=q, mu="mu"), partial=TRUE, envir=list(mu=mu))
+  print(G2)
   G2 <- gMCP:::parse2numeric(G2)
   for (i in 1:m) {
     if (mu[i]>0) {

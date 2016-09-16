@@ -80,7 +80,7 @@ substituteEps <- function(graph, eps=10^(-3)) {
 #' replaceVariables(graph, list("tau"=c(0.1, 0.5, 0.9),"omega"=c(0.2, 0.8), "nu"=0.4))
 #' 
 #' @export replaceVariables
-replaceVariables <-function(graph, variables=list(), ask=TRUE, partial=FALSE, expand=TRUE, list=FALSE) {
+replaceVariables <-function(graph, variables=list(), ask=TRUE, partial=FALSE, expand=TRUE, list=FALSE, envir=environment()) {
   if (expand) variables <- varcombs(variables)
   if (is.list(variables[[1]])) {
     result <- list()
@@ -122,9 +122,9 @@ replaceVariables <-function(graph, variables=list(), ask=TRUE, partial=FALSE, ex
 			}
 		}
 	}
-	if (is.matrix(graph)) return(parse2numeric(m))
+	if (is.matrix(graph)) return(parse2numeric(m, envir=envir))
 	graph@m <- m
-	return(parse2numeric(graph))
+	return(parse2numeric(graph, envir=envir))
 }
 
 # Parses matrices of graphs (simple and entangled)
@@ -144,7 +144,7 @@ replaceVariables <-function(graph, variables=list(), ask=TRUE, partial=FALSE, ex
 # # Note that other methods like printing don't handle NAs well:
 # gMCP:::parse2numeric(HungEtWang2010(), force=TRUE)
 # 
-parse2numeric <- function(graph, force=FALSE, envir = parent.frame()) {
+parse2numeric <- function(graph, force=FALSE, envir = environment()) {
 	# Call this function recursivly for entangled graphs.
 	if ("entangledMCP" %in% class(graph)) {
 		for(i in 1:length(graph@subgraphs)) {
