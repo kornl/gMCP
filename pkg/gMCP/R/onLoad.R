@@ -73,10 +73,6 @@
 	  warning(paste("JVM was already initialized with unknown memory settings:",strsplit(java.info, split="Input Arguments:")[1][[1]][2]))
 	}
   
-  if ("tools:rstudio" %in% search()) {
-    warning("Starting the graphical user interface from within RStudio may crash.\nPlease use R without RStudio for the GUI (all the other command line functions are fine).")
-  }
-	
 	## We supply our own JavaGD class
 	Sys.setenv("JAVAGD_CLASS_NAME"="org/mutoss/gui/JavaGD")  
 	
