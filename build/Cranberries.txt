@@ -2118,3 +2118,60 @@ Diff between gMCP versions 0.8-8 dated 2014-10-02 and 0.8-9 dated 2015-08-10
  gMCP-0.8-9/gMCP/vignettes/pictures/udpf2.png                               |only
  139 files changed, 6997 insertions(+), 1143 deletions(-)
  
+Diff between gMCP versions 0.8-9 dated 2015-08-10 and 0.8-10 dated 2015-08-31
+
+ gMCP-0.8-10/gMCP/DESCRIPTION                                              |    6 
+ gMCP-0.8-10/gMCP/MD5                                                      |   97 
+ gMCP-0.8-10/gMCP/NAMESPACE                                                |    2 
+ gMCP-0.8-10/gMCP/NEWS                                                     |   23 
+ gMCP-0.8-10/gMCP/R/calcPower.R                                            |  141 
+ gMCP-0.8-10/gMCP/R/exampleGraphs.R                                        |    3 
+ gMCP-0.8-10/gMCP/R/gACT-internal.R                                        |   17 
+ gMCP-0.8-10/gMCP/R/gMCP.R                                                 |   40 
+ gMCP-0.8-10/gMCP/R/gMCP.extended.R                                        |    6 
+ gMCP-0.8-10/gMCP/R/graphTest.R                                            |   63 
+ gMCP-0.8-10/gMCP/R/onLoad.R                                               |    3 
+ gMCP-0.8-10/gMCP/R/sampSize.R                                             |   12 
+ gMCP-0.8-10/gMCP/R/subVariables.R                                         |   45 
+ gMCP-0.8-10/gMCP/TODO                                                     |   73 
+ gMCP-0.8-10/gMCP/inst/doc/AQuickStart.pdf                                 |binary
+ gMCP-0.8-10/gMCP/inst/doc/gMCP.R                                          | 4336 ----------
+ gMCP-0.8-10/gMCP/inst/doc/gMCP.Rnw                                        |   30 
+ gMCP-0.8-10/gMCP/inst/doc/gMCP.pdf                                        |binary
+ gMCP-0.8-10/gMCP/inst/doc/parametric.pdf                                  |binary
+ gMCP-0.8-10/gMCP/inst/java/gsrmtp.jar                                     |binary
+ gMCP-0.8-10/gMCP/inst/unitTests/runit.sampSize.R                          |   28 
+ gMCP-0.8-10/gMCP/java/org/af/gMCP/config/GeneralConfig.java               |   11 
+ gMCP-0.8-10/gMCP/java/org/af/gMCP/gui/CreateGraphGUI.java                 |   50 
+ gMCP-0.8-10/gMCP/java/org/af/gMCP/gui/MenuBarMGraph.java                  |    8 
+ gMCP-0.8-10/gMCP/java/org/af/gMCP/gui/graph/GraphView.java                |   13 
+ gMCP-0.8-10/gMCP/java/org/af/gMCP/gui/graph/NetList.java                  |    3 
+ gMCP-0.8-10/gMCP/java/org/af/gMCP/gui/graph/PView.java                    |    3 
+ gMCP-0.8-10/gMCP/java/org/af/gMCP/gui/options/MiscPanel.java              |   63 
+ gMCP-0.8-10/gMCP/java/org/af/gMCP/gui/options/OptionsDialog.java          |   27 
+ gMCP-0.8-10/gMCP/java/org/af/gMCP/gui/power/CVPanel.java                  |    4 
+ gMCP-0.8-10/gMCP/java/org/af/gMCP/gui/power/NCPCalculatorDialog.java      |    2 
+ gMCP-0.8-10/gMCP/java/org/af/gMCP/gui/power/PDialog.java                  |    4 
+ gMCP-0.8-10/gMCP/java/org/af/gMCP/gui/power/PowerDialog.java              |  124 
+ gMCP-0.8-10/gMCP/java/org/af/gMCP/gui/power/PowerReq.java                 |    4 
+ gMCP-0.8-10/gMCP/java/org/af/gMCP/gui/power/PowerResultDialog.java        |  130 
+ gMCP-0.8-10/gMCP/java/org/af/gMCP/gui/power/PowerResultTableModel.java    |only
+ gMCP-0.8-10/gMCP/java/org/af/gMCP/gui/power/RandomizationPanel.java       |    2 
+ gMCP-0.8-10/gMCP/java/org/af/gMCP/gui/power/SampSizeResultTableModel.java |only
+ gMCP-0.8-10/gMCP/java/org/af/gMCP/gui/power/SampleSizeDialog.java         |   21 
+ gMCP-0.8-10/gMCP/java/org/af/gMCP/gui/power/Scenario.java                 |    4 
+ gMCP-0.8-10/gMCP/java/org/af/gMCP/gui/power/ScenarioPanel.java            |    9 
+ gMCP-0.8-10/gMCP/java/org/af/gMCP/gui/power/UserDefinedPanel.java         |    4 
+ gMCP-0.8-10/gMCP/java/org/af/gMCP/gui/power/VariablePanel.java            |only
+ gMCP-0.8-10/gMCP/man/exampleGraphs.Rd                                     |    2 
+ gMCP-0.8-10/gMCP/man/gMCP.Rd                                              |    2 
+ gMCP-0.8-10/gMCP/man/rejectNode.Rd                                        |    7 
+ gMCP-0.8-10/gMCP/man/replaceVariables.Rd                                  |   19 
+ gMCP-0.8-10/gMCP/man/sampSize.Rd                                          |    8 
+ gMCP-0.8-10/gMCP/vignettes/gMCP.Rnw                                       |   30 
+ gMCP-0.8-10/gMCP/vignettes/pictures/ImportTextLibreOffice.png             |only
+ gMCP-0.8-10/gMCP/vignettes/pictures/PowerResults.png                      |only
+ gMCP-0.8-10/gMCP/vignettes/pvals.RData                                    |only
+ gMCP-0.8-9/gMCP/vignettes/childs                                          |only
+ 53 files changed, 780 insertions(+), 4699 deletions(-)
+ 
