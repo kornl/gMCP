@@ -1,4 +1,4 @@
-useDynLib(gMCP)
+useDynLib(gMCP, .registration = TRUE)
 
 import(methods)
 importFrom("graphics", "par", "plot.new", "strwidth", "axis", "box", "abline", "arrows", "persp") 
