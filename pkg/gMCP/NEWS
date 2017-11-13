@@ -1,7 +1,11 @@
-Changes in version 0.8-11 (??-02-2016)
+Changes in version 0.8-11 (13-11-2017)
 ======================================
 
 - Fixed warnings in .onLoad.
+
+- Native routine registration.
+
+- Java 9 compatibility.
 
 Changes in version 0.8-10 (31-08-2015)
 ======================================
