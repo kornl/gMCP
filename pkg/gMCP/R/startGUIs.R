@@ -144,9 +144,9 @@ startGUI <- function() {
                     "Compile R with shared library enabled (--enable-R-shlib option) ",
                     "and reinstall rJava to use JRI functionality."), collapse="\n"))
   }
-  java.info <- getJavaInfo(FALSE, FALSE, TRUE)
+  java.info <- try(getJavaInfo(FALSE, FALSE, TRUE), silent=TRUE)
   if (length(grep("-Xss1m", java.info))==0) {
-    warning(paste("JVM was already initialized when loading gMCP with unknown memory settings:",strsplit(java.info, split="Input Arguments:")[1][[1]][2]))
+    warning(paste("JVM was already initialized with unknown memory settings:",strsplit(java.info, split="Input Arguments:")[1][[1]][2]))
   }
   
   if ("tools:rstudio" %in% search()) {
