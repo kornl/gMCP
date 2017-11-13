@@ -56,8 +56,8 @@ We use the following Java libraries:
  \item JLaTeXMath under GPL >= 2.0, \url{http://forge.scilab.org/index.php/p/jlatexmath/}, Copyright 2004-2007, 2009 Calixte, Coolsaet, Cleemput, Vermeulen and Universiteit Gent
  \item JRI under Lesser General Public License (LGPL) 2.1, \url{http://www.rforge.net/rJava/}, Copyright 2004-2007 Simon Urbanek 
  \item iText 2.1.4 under LGPL, \url{http://itextpdf.com/}, Copyright by Bruno Lowagie 
- \item SwingWorker under LGPL, \url{https://java.net/projects/swingworker/}, Copyright (c) 2005 Sun Microsystems 
- \item JXLayer under BSD License, \url{https://java.net/projects/jxlayer/}, Copyright 2006-2009, Alexander Potochkin 
+ \item SwingWorker under LGPL, from java.net/projects/swingworker/, Copyright (c) 2005 Sun Microsystems 
+ \item JXLayer under BSD License, from java.net/projects/jxlayer/, Copyright 2006-2009, Alexander Potochkin 
  \item JGoodies Forms under BSD License, \url{http://www.jgoodies.com/freeware/libraries/forms/}, Copyright JGoodies Karsten Lentzsch  
  \item AFCommons under BSD License, \url{http://www.algorithm-forge.com/afcommons/}, Copyright (c) 2007-2014 by Kornelius Rohmeyer and Bernd Bischl
  \item JHLIR under BSD License, \url{http://jhlir.r-forge.r-project.org/}, Copyright (c) 2008-2014 by Bernd Bischl and Kornelius Rohmeyer

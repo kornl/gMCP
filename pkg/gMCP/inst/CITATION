@@ -11,7 +11,7 @@ citEntry(entry = "manual",
                              as.person("Florian Klinglmueller")),                              
          year = year,
          note = note,
-         url = "http://CRAN.R-project.org/package=gMCP",
+         url = "https://cran.r-project.org/package=gMCP",
 
          textVersion =
          paste("Kornelius Rohmeyer, Florian Klinglmueller",
