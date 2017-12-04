@@ -26,6 +26,7 @@
 #' @param outputPath During the RUnit tests files maybe produced at this
 #' location.  If missing the current working directory is used if nothing else
 #' is specified in the environment variable GMCP_UNIT_TEST_OPATH.
+#' Also the log of the results of the test suite is saved in this place.
 #' @return None of interest so far - the function prints the results to the
 #' standard output.  (Perhaps in future versions a value will be returned that
 #' can be processed by the GUI.)
@@ -84,16 +85,13 @@ unitTestsGMCP <- function(extended=FALSE, java=FALSE, interactive=FALSE, junitLi
 	## Run
 	testRuns <- runTestSuite(testSuite)
 	
-	## Default report name
-	pathReport <- file.path(path, "report")
-	
 	## Report to stdout and text files
 	cat("------------------- UNIT TEST SUMMARY ---------------------\n\n")
 	printTextProtocol(testRuns, showDetails=FALSE)
 	printTextProtocol(testRuns, showDetails=FALSE,
-			fileName=paste(pathReport, "Summary.txt", sep=""))
+			fileName=paste(outputPath, "Summary.txt", sep=""))
 	printTextProtocol(testRuns, showDetails=TRUE,
-			fileName=paste(pathReport, ".txt", sep=""))
+			fileName=paste(outputPath, ".txt", sep=""))
 	
 	if (java || tests("java")) {
 		# Test whether junit*.jar is in classpath
