@@ -113,9 +113,6 @@ g <- Entangled2Maurer2012()
 generatePvals(g=g, cr=diag(5), p=rep(0.1,5))
 
 }
-\author{
-Florian Klinglmueller
-}
 \references{
 Bretz F, Maurer W, Brannath W, Posch M; (2008) - A graphical
 approach to sequentially rejective multiple testing procedures. - Stat Med -
@@ -123,5 +120,7 @@ approach to sequentially rejective multiple testing procedures. - Stat Med -
 K; (2011) - Graphical approaches for multiple endpoint problems using
 weighted Bonferroni, Simes or parametric tests - to appear
 }
+\author{
+Florian Klinglmueller
+}
 \keyword{htest}
-

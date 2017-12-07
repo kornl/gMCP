@@ -86,4 +86,3 @@ sampSize(graph=graph,
          corr.sim=diag(4), target=c(0.8, 0.8), alpha=0.025)
 }
 }
-

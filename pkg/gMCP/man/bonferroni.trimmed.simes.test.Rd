@@ -35,4 +35,3 @@ Brannath, W., Bretz, F., Maurer, W., & Sarkar, S. (2009).
 Trimmed Weighted Simes Test for Two One-Sided Hypotheses With Arbitrarily Correlated Test Statistics. 
 Biometrical Journal, 51(6), 885-898.
 }
-

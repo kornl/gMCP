@@ -63,9 +63,6 @@ fTest <- secondStageTest(intA,c(1,0,1,0))
 
 
 }
-\author{
-Florian Klinglmueller \email{float@lefant.net}
-}
 \references{
 Frank Bretz, Willi Maurer, Werner Brannath, Martin Posch: A
 graphical approach to sequentially rejective multiple test procedures.
@@ -86,6 +83,8 @@ Pharm Stat 10/2, 96-104
 \seealso{
 \code{\link{graphMCP}}, \code{\link{doInterim}}
 }
+\author{
+Florian Klinglmueller \email{float@lefant.net}
+}
 \keyword{graphs}
 \keyword{htest}
-

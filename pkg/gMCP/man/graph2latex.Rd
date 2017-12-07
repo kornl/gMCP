@@ -89,9 +89,6 @@ graph2latex(g)
 
 
 }
-\author{
-Kornelius Rohmeyer \email{rohmeyer@small-projects.de}
-}
 \references{
 The TikZ and PGF Packages Manual for version 2.00, Till Tantau,
 \url{https://www.ctan.org/pkg/pgf/}
@@ -99,6 +96,8 @@ The TikZ and PGF Packages Manual for version 2.00, Till Tantau,
 \seealso{
 \code{\link{graphMCP}}, \code{\link{gMCPReport}}
 }
+\author{
+Kornelius Rohmeyer \email{rohmeyer@small-projects.de}
+}
 \keyword{graphs}
 \keyword{print}
-

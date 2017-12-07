@@ -30,4 +30,3 @@ Calculates local power values, expected number of rejections, the power to
 reject at least one hypothesis and the power to reject all hypotheses.
 }
 \keyword{htest}
-

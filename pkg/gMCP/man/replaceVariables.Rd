@@ -48,12 +48,11 @@ replaceVariables(graph, list("tau"=0.5,"omega"=0.5, "nu"=0.5))
 replaceVariables(graph, list("tau"=c(0.1, 0.5, 0.9),"omega"=c(0.2, 0.8), "nu"=0.4))
 
 }
-\author{
-Kornelius Rohmeyer \email{rohmeyer@small-projects.de}
-}
 \seealso{
 \code{\link{graphMCP}}, \code{\link{entangledMCP}}
 }
+\author{
+Kornelius Rohmeyer \email{rohmeyer@small-projects.de}
+}
 \keyword{graphs}
 \keyword{print}
-

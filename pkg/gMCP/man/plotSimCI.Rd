@@ -34,4 +34,3 @@ plotSimCI(ci)
 Code adapted from plotCII from Frank Schaarschmidt
 }
 \keyword{hplot}
-

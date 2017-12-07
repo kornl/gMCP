@@ -27,10 +27,9 @@ bdiagNA(diag(3), matrix(1/2,nr=3,nc=3), diag(2))
 
 
 }
-\author{
-Kornelius Rohmeyer \email{rohmeyer@small-projects.de}
-}
 \seealso{
 \code{\link{gMCP}}
 }
-
+\author{
+Kornelius Rohmeyer \email{rohmeyer@small-projects.de}
+}

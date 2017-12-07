@@ -34,4 +34,4 @@ SystemRequirements: Java (>= 5.0)
 License: GPL (>= 2)
 URL: http://gsrmtp.r-forge.r-project.org/
 BugReports: https://github.com/kornl/gMCP/issues
-RoxygenNote: 5.0.1
+RoxygenNote: 6.0.1

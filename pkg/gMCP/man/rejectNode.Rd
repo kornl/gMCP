@@ -39,9 +39,6 @@ g <- BonferroniHolm(5)
 rejectNode(g, "H1")
 
 }
-\author{
-Kornelius Rohmeyer \email{rohmeyer@small-projects.de}
-}
 \references{
 Frank Bretz, Willi Maurer, Werner Brannath, Martin Posch: A
 graphical approach to sequentially rejective multiple test procedures.
@@ -51,6 +48,8 @@ Statistics in Medicine 2009 vol. 28 issue 4 page 586-604.
 \seealso{
 \code{\link{graphMCP}}
 }
+\author{
+Kornelius Rohmeyer \email{rohmeyer@small-projects.de}
+}
 \keyword{graphs}
 \keyword{htest}
-

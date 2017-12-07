@@ -29,7 +29,8 @@ variable GMCP_JUNIT_LIBRARY to specify the path.}
 
 \item{outputPath}{During the RUnit tests files maybe produced at this
 location.  If missing the current working directory is used if nothing else
-is specified in the environment variable GMCP_UNIT_TEST_OPATH.}
+is specified in the environment variable GMCP_UNIT_TEST_OPATH.
+Also the log of the results of the test suite is saved in this place.}
 }
 \value{
 None of interest so far - the function prints the results to the
@@ -60,4 +61,3 @@ unitTestsGMCP(extended=TRUE, java=TRUE, interactive=TRUE, outputPath="~/RUnitTes
 \author{
 Kornelius Rohmeyer \email{rohmeyer@small-projects.de}
 }
-

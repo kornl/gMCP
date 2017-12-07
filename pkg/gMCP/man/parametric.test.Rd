@@ -65,4 +65,3 @@ Bretz F., Posch M., Glimm E., Klinglmueller F., Maurer W., Rohmeyer K.
 Bonferroni, Simes or parametric tests. Biometrical Journal 53 (6), pages 894-913, Wiley.
 \url{http://onlinelibrary.wiley.com/doi/10.1002/bimj.201000239/full}
 }
-

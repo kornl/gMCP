@@ -44,4 +44,3 @@ pvalues <- c(0.01, 0.05, 0.03, 0.02)
 gMCP.extended(graph=graph, pvalues=pvalues, test=simes.on.subsets.test, subsets=list(1:2, 3:4))
 
 }
-

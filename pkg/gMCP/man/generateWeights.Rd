@@ -44,9 +44,6 @@ g <- Entangled2Maurer2012()
 generateWeights(g)
 
 }
-\author{
-Florian Klinglmueller <float@lefant.net>, Kornelius Rohmeyer \email{rohmeyer@small-projects.de}
-}
 \references{
 Bretz F, Maurer W, Brannath W, Posch M; (2008) - A graphical
 approach to sequentially rejective multiple testing procedures. - Stat Med -
@@ -54,5 +51,7 @@ approach to sequentially rejective multiple testing procedures. - Stat Med -
 K; (2011) - Graphical approaches for multiple endpoint problems using
 weighted Bonferroni, Simes or parametric tests - to appear
 }
+\author{
+Florian Klinglmueller <float@lefant.net>, Kornelius Rohmeyer \email{rohmeyer@small-projects.de}
+}
 \keyword{htest}
-

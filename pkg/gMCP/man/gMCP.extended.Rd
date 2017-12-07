@@ -76,9 +76,6 @@ g3 <- Entangled2Maurer2012()
 gMCP(g3, pvalues=c(0.01, 0.02, 0.04, 0.04, 0.7), correlation=diag(5))
 
 }
-\author{
-Kornelius Rohmeyer \email{rohmeyer@small-projects.de}
-}
 \references{
 Frank Bretz, Willi Maurer, Werner Brannath, Martin Posch: A
 graphical approach to sequentially rejective multiple test procedures.
@@ -105,6 +102,8 @@ stepdown procedure and other closed-testing procedures. Biometrical Journal
 \seealso{
 \code{\link{graphMCP}} \code{\link[multcomp:contrMat]{graphNEL}}
 }
+\author{
+Kornelius Rohmeyer \email{rohmeyer@small-projects.de}
+}
 \keyword{graphs}
 \keyword{htest}
-

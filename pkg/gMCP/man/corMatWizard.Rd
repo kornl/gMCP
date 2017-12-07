@@ -40,4 +40,3 @@ Kornelius Rohmeyer \email{rohmeyer@small-projects.de}
 }
 \keyword{graphs}
 \keyword{misc}
-

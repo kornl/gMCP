@@ -107,4 +107,3 @@ for multiple endpoint analyses using sequentially rejective graphical
 procedures, to appear in Statistics in Medicine
 }
 \keyword{htest}
-

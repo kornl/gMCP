@@ -38,9 +38,6 @@ result <- gMCP(g, pvalues=c(0.1, 0.008, 0.005, 0.15, 0.04, 0.006))
 gMCPReport(result)
 
 }
-\author{
-Kornelius Rohmeyer \email{rohmeyer@small-projects.de}
-}
 \references{
 The TikZ and PGF Packages Manual for version 2.00, Till Tantau,
 \url{https://www.ctan.org/pkg/pgf/}
@@ -48,8 +45,10 @@ The TikZ and PGF Packages Manual for version 2.00, Till Tantau,
 \seealso{
 \code{\link{cat}} \code{\link{graph2latex}}
 }
+\author{
+Kornelius Rohmeyer \email{rohmeyer@small-projects.de}
+}
 \keyword{IO}
 \keyword{file}
 \keyword{graphs}
 \keyword{print}
-

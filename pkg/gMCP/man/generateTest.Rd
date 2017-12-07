@@ -94,9 +94,6 @@ al. (2011)).
  myTest(c(3,2,1,2))
 
 }
-\author{
-Florian Klinglmueller
-}
 \references{
 Bretz F, Maurer W, Brannath W, Posch M; (2008) - A graphical
 approach to sequentially rejective multiple testing procedures. - Stat Med -
@@ -104,5 +101,7 @@ approach to sequentially rejective multiple testing procedures. - Stat Med -
 K; (2011) - Graphical approaches for multiple endpoint problems using
 weighted Bonferroni, Simes or parametric tests - to appear
 }
+\author{
+Florian Klinglmueller
+}
 \keyword{htest}
-

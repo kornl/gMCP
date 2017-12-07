@@ -44,4 +44,3 @@ gMCP:::sampSizeCore(upperN=1000, targFunc=f, target=0.008, verbose=TRUE, alRatio
 \author{
 This function is taken from package DoseFinding under GPL from Bjoern Bornkamp, Jose Pinheiro and Frank Bretz
 }
-

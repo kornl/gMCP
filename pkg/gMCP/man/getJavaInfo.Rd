@@ -21,10 +21,11 @@ Get Memory and Runtime Info from JVM
 }
 \examples{
 
+\dontrun{
 cat(getJavaInfo())
+}
 
 }
 \author{
 Kornelius Rohmeyer \email{rohmeyer@small-projects.de}
 }
-

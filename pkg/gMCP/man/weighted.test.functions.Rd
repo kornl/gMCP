@@ -62,4 +62,3 @@ bonferroni.test <- function(pvalues, weights, alpha=0.05, adjPValues=TRUE, verbo
 \author{
 Kornelius Rohmeyer \email{rohmeyer@small-projects.de}
 }
-

@@ -35,11 +35,10 @@ graphAnalysis(g)
 
 
 }
-\author{
-Kornelius Rohmeyer \email{rohmeyer@small-projects.de}
-}
 \seealso{
 \code{\link{graphMCP}}
 }
+\author{
+Kornelius Rohmeyer \email{rohmeyer@small-projects.de}
+}
 \keyword{graphs}
-
