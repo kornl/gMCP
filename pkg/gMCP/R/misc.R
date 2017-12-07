@@ -189,7 +189,9 @@ layers <- function(graph) {
 #' @author Kornelius Rohmeyer \email{rohmeyer@@small-projects.de}
 #' @examples
 #' 
+#' \dontrun{
 #' cat(getJavaInfo())
+#' }
 #' 
 getJavaInfo <- function(memory=TRUE, filesystem=TRUE, runtime=TRUE) {
   return(.jcall("org.af.commons.logging.SystemInfo", "S", "getSystemInfo", memory, filesystem, runtime))  
