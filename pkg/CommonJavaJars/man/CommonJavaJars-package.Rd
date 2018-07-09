@@ -35,8 +35,8 @@ We provide the following Java libraries:
  \item Apache Commons IO under the Apache License, Version 2.2 (last compatible with JDK 1.5), 2004, \url{http://commons.apache.org/io/}, Copyright 2002-2012 The Apache Software Foundation
  \item JLaTeXMath under GPL >= 2.0, \url{http://forge.scilab.org/index.php/p/jlatexmath/}, Copyright 2004-2007, 2009 Calixte, Coolsaet, Cleemput, Vermeulen and Universiteit Gent
  \item iText 2.1.4 under LGPL, \url{http://itextpdf.com/}, Copyright by Bruno Lowagie 
- \item SwingWorker under LGPL, \url{https://java.net/projects/swingworker/}, Copyright (c) 2005 Sun Microsystems 
- \item JXLayer under BSD License, \url{https://java.net/projects/jxlayer/}, Copyright 2006-2009, Alexander Potochkin 
+ \item SwingWorker under LGPL, formerly \verb{https://java.net/projects/swingworker/}, Copyright (c) 2005 Sun Microsystems 
+ \item JXLayer under BSD License, formerly \verb{https://java.net/projects/jxlayer/}, Copyright 2006-2009, Alexander Potochkin 
  \item JGoodies Forms and Commons under BSD License, \url{http://www.jgoodies.com/freeware/libraries/forms/}, Copyright JGoodies Karsten Lentzsch  
  \item JSON Processing dual licensed under CDDL 1.1 and GPL 2 with Classpath Exception, \url{https://jsonp.java.net/}, Copyright (c) 2011-2013 Oracle
  \item AFCommons under the LGPL >= 2.1, \url{https://github.com/kornl/afcommons/}, Copyright (c) 2007-2014 by Kornelius Rohmeyer, Bernd Bischl, Santhosh Kumar T (ComponentTitledBorder class), Jerry Huxtable (filter code), Sebastian Haufe (JListDnD class), Romain Guy (Star class), Oracle (CloseTabPanel)
