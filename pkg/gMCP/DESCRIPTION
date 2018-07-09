@@ -1,7 +1,7 @@
 Package: gMCP
 Type: Package
 Title: Graph Based Multiple Comparison Procedures
-Version: 0.8-13
+Version: 0.8-14
 Authors@R: c(person("Kornelius", "Rohmeyer", role = c("aut", "cre"),  email = "rohmeyer@small-projects.de"),
 	      person("Florian", "Klinglmueller", role = "aut", email = "float@lefant.net"))
 Maintainer: Kornelius Rohmeyer <rohmeyer@small-projects.de>
@@ -35,3 +35,33 @@ License: GPL (>= 2)
 URL: http://gsrmtp.r-forge.r-project.org/
 BugReports: https://github.com/kornl/gMCP/issues
 RoxygenNote: 6.0.1
+Collate: 
+    'analysis.R'
+    'calcPower.R'
+    'graphMCP.R'
+    'ci.R'
+    'closure.R'
+    'convertFromOldClassDefinition.R'
+    'doRUnitTests.R'
+    'exampleGraphs.R'
+    'gACT-internal.R'
+    'gMCP.R'
+    'gMCP.extended.R'
+    'gPAD.R'
+    'generateBounds.R'
+    'generatePvals.R'
+    'generateTest.R'
+    'generateWeights.R'
+    'graph2latex.R'
+    'graphTest.R'
+    'helperGUI.R'
+    'matrix2graph.R'
+    'misc.R'
+    'modifyGraphs.R'
+    'onLoad.R'
+    'plotCI.R'
+    'powerPlot.R'
+    'rqmvnorm.R'
+    'sampSize.R'
+    'startGUIs.R'
+    'subVariables.R'

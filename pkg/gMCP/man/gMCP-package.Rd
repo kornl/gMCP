@@ -12,10 +12,7 @@
   \tabular{ll}{
     Package: \tab gMCP\cr
     Type: \tab Package\cr
-    %Version: \tab 0.1\cr
-    %Date: \tab 2010-08-03\cr
     License: \tab GPL (>= 2)\cr
-    LazyLoad: \tab yes\cr
   }
 
 The package gMCP helps with the following steps of performing a multiple test procedure:
