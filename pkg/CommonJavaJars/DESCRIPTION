@@ -7,6 +7,7 @@ Maintainer: Kornelius Rohmeyer <rohmeyer@small-projects.de>
 Description: Useful libraries for building a Java based GUI under R are provided.
 Depends: R (>= 2.8.0)
 Suggests: rJava, knitr
+VignetteBuilder: knitr
 SystemRequirements: Java (>= 5.0) 
 License: GPL-2
 Copyright: See COPYRIGHTS file
