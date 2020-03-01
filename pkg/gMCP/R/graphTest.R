@@ -1,9 +1,9 @@
 #' Multiple testing using graphs
-#' 
+#'
 #' Implements the graphical test procedure described in Bretz et al. (2009).
 #' Note that the gMCP function in the gMCP package performs the same task.
-#' 
-#' 
+#'
+#'
 #' @param pvalues Either a vector or a matrix containing the local p-values for
 #' the hypotheses in the rows.
 #' @param weights Initial weight levels for the test procedure, in case of
@@ -31,27 +31,27 @@
 #' even if the sum of weights is strictly smaller than one. If
 #' \code{test="simple-parametric"} the tests are performed as defined in
 #' Equation (3) of Bretz et al. (2011).
-#' @param upscale Logical. If \code{upscale=FALSE} then for each intersection 
-#' of hypotheses (i.e. each subgraph) a weighted test is performed at the 
-#' possibly reduced level alpha of sum(w)*alpha, 
+#' @param upscale Logical. If \code{upscale=FALSE} then for each intersection
+#' of hypotheses (i.e. each subgraph) a weighted test is performed at the
+#' possibly reduced level alpha of sum(w)*alpha,
 #' where sum(w) is the sum of all node weights in this subset.
 #' If \code{upscale=TRUE} all weights are upscaled, so that sum(w)=1.
 #' @return A vector or a matrix containing the test results for the hypotheses
 #' under consideration. Significant tests are denoted by a 1, non-significant
 #' results by a 0.
 #' @references
-#' 
+#'
 #' Bretz, F., Maurer, W., Brannath, W. and Posch, M. (2009) A graphical
 #' approach to sequentially rejective multiple test procedures. Statistics in
 #' Medicine, 28, 586--604
-#' 
+#'
 #' Bretz, F., Maurer, W. and Hommel, G. (2010) Test and power considerations
 #' for multiple endpoint analyses using sequentially rejective graphical
 #' procedures, to appear in Statistics in Medicine
 #' @keywords htest
 #' @examples
-#' 
-#' 
+#'
+#'
 #' #### example from Bretz et al. (2010)
 #' weights <- c(1/3, 1/3, 1/3, 0, 0, 0)
 #' graph <- rbind(c(0,       0.5, 0,     0.5, 0,      0),
@@ -62,15 +62,15 @@
 #'                c(0,       1,   0,     0,   0,      0))
 #' pvals <- c(0.1, 0.008, 0.005, 0.15, 0.04, 0.006)
 #' graphTest(pvals, weights, alpha=0.025, graph)
-#' 
+#'
 #' ## observe graphical procedure in detail
 #' graphTest(pvals, weights, alpha=0.025, graph, verbose = TRUE)
-#' 
+#'
 #' ## now use many p-values (useful for power simulations)
 #' pvals <- matrix(rbeta(6e4, 1, 30), ncol = 6)
 #' out <- graphTest(pvals, weights, alpha=0.025, graph)
 #' head(out)
-#' 
+#'
 #' ## example using multiple graphs (instead of 1)
 #' G1 <- rbind(c(0,0.5,0.5,0,0), c(0,0,1,0,0),
 #'             c(0, 0, 0, 1-0.01, 0.01), c(0, 1, 0, 0, 0),
@@ -81,12 +81,12 @@
 #' weights <- rbind(c(1, 0, 0, 0, 0), c(0, 1, 0, 0, 0))
 #' pvals <- c(0.012, 0.025, 0.005, 0.0015, 0.0045)
 #' out <- graphTest(pvals, weights, alpha=c(0.0125, 0.0125), G=list(G1, G2), verbose = TRUE)
-#' 
+#'
 #' ## now again with many p-values
 #' pvals <- matrix(rbeta(5e4, 1, 30), ncol = 5)
 #' out <- graphTest(pvals, weights, alpha=c(0.0125, 0.0125), G=list(G1, G2))
 #' head(out)
-#' 
+#'
 #' @export graphTest
 
 graphTest <- function(pvalues, weights = NULL, alpha = 0.05, G = NULL, cr = NULL, graph = NULL, verbose = FALSE, test, upscale=FALSE) {
@@ -100,7 +100,7 @@ graphTest <- function(pvalues, weights = NULL, alpha = 0.05, G = NULL, cr = NULL
 		stop("Parameter 'graph' needs to be an object of class 'graphMCP' or 'entangledMCP'.")
 	if(usegraph & ((!is.null(weights)||!is.null(G))))
 		stop("If 'graph' is specified, don't set 'weights' or 'G'.")
-	if(usegraph) {    
+	if(usegraph) {
 		## get alpha vector and transition matrix/matrices
     if ("graphMCP" %in% class(graph)) {
 		  alphas <- graph@weights * alpha
@@ -114,11 +114,11 @@ graphTest <- function(pvalues, weights = NULL, alpha = 0.05, G = NULL, cr = NULL
 	} else {
 		alphas <- weights * alpha
 	}
-	
+
 	nH <- ifelse(!is.matrix(pvalues), length(pvalues), ncol(pvalues))
 	nH <- as.integer(nH)
 	checkArgs(pvalues, alphas, G, nH)
-	
+
 	if (!is.null(cr)) { # parametric case
 		if (is.list(G)) {
 			stop("The parametric case does not support multiple graphs yet.")
@@ -131,7 +131,7 @@ graphTest <- function(pvalues, weights = NULL, alpha = 0.05, G = NULL, cr = NULL
 			out <- rbind(out, ifelse(adjP<=alpha,1,0))
 		}
 		return(out)
-	} else { # non-parametric case		
+	} else { # non-parametric case
 		if(is.list(G) || upscale==FALSE){
 		  if(is.list(G)) {
 		    nGraphs <- length(G)
@@ -154,7 +154,7 @@ graphTest <- function(pvalues, weights = NULL, alpha = 0.05, G = NULL, cr = NULL
 			            as.double(alphas), double(nGraphs*nH),
 			            as.double(G), as.double(G), as.double(G),
 			            as.double(pvalues), double(nH), nCount, nH,
-			            as.integer(nGraphs), as.integer(verbose))
+			            as.integer(nGraphs), as.integer(verbose), as.integer(upscale))
 			  out <- matrix(res$h, nrow = nCount)
 			  if(is.null(colnames(G))) {
 			    colnames(out) <- paste("H", 1:nH, sep="")
@@ -202,7 +202,7 @@ checkArgs <- function(pvalues, alphas, G, nH){
 			if(nrow(alphas) != nGraphs)
 				stop("alphas needs to have as many rows as there are graphs")
 		}
-		
+
 	} else {
     if(!is.matrix(G) || !is.numeric(G)) {
       stop("G must be a numeric matrix")
@@ -212,7 +212,7 @@ checkArgs <- function(pvalues, alphas, G, nH){
 		if(any(rowSums(G) > 1))
 			stop("rows of G need to sum to values <= 1")
 		if(nrow(G) != ncol(G))
-			stop("non-quadratic matrix G") 
+			stop("non-quadratic matrix G")
 		if(nH != nrow(G))
 			stop("non-conforming pvalues and G.")
 		if(alplen != nrow(G))
@@ -235,7 +235,7 @@ convert <- function(g){
 		alphas[i] <- g@nodeAttr@data[[i]]$alpha
 	}
 	names(alphas) <- Hnams
-	
+
 	nams <- names(g@edgeAttr)
 	for(nam in nams){
 		nam2 <- strsplit(nam, "\\|")
