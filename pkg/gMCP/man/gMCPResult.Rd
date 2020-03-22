@@ -4,6 +4,7 @@
 \alias{gMCPResult}
 \alias{print,gMCPResult-method}
 \alias{plot,gMCPResult,ANY-method}
+\alias{plot,gMCPResult-method}
 \alias{getWeights,gMCPResult-method}
 \alias{getRejected,gMCPResult-method}
 \title{Class gMCPResult}

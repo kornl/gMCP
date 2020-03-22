@@ -4,6 +4,7 @@
 \alias{graphMCP}
 \alias{print,graphMCP-method}
 \alias{plot,graphMCP,ANY-method}
+\alias{plot,graphMCP-method}
 \alias{getWeights}
 \alias{getWeights,graphMCP-method}
 \alias{getMatrix}
