@@ -138,6 +138,7 @@ corMatWizard <- function(n, matrix, names, envir=globalenv()) {
 }
 
 startGUI <- function() {
+  initJava()
   if (!"jri.jar" %in% tolower(sapply(.jclassPath(), function(x) {substring(x, first=nchar(x)-6)}))) {
     warning(paste(c("JRI.jar seems to be missing from the classpath. ",
                     "The graphical user interface will most likely not be available. ",

@@ -55,6 +55,7 @@ Collate:
     'graph2latex.R'
     'graphTest.R'
     'helperGUI.R'
+    'initJava.R'
     'matrix2graph.R'
     'misc.R'
     'modifyGraphs.R'
