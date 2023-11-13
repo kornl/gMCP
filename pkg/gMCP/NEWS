@@ -1,3 +1,15 @@
+Changes in version 0.8-16 (??-11-2023)
+======================================
+
+- Dropped Java 5 and 6 compatibility
+- No online version check anymore - gMCP is pretty stable now
+- Removed Deducer from suggest list
+- Corrected links (https and doi were appropriate)
+- Using inherit function instead of class comparisons
+- Updated homepage from r-forge to gitlab
+- Using bibentry instead of citEntry for citation
+- Removed old-style PersonList syntax from CITATION file
+
 Changes in version 0.8-15 (01-03-2020)
 ======================================
 
