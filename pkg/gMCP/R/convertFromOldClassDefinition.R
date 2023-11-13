@@ -4,7 +4,7 @@ updateGraphToNewClassDefinition <- function(object, askToInstallGraph=TRUE) {
 	if (!requireLibrary("graph")) {
 		stop(paste("Library graph is required for converting but was not installed.",
 						"Please try to install package 'graph' manually.",
-						"See http://www.bioconductor.org/packages/release/bioc/html/graph.html"
+						"See https://www.bioconductor.org/packages/release/bioc/html/graph.html"
 				, sep="\n"))
 	}	
 	nodes <- object@nodes

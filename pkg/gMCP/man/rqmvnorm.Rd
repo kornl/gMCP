@@ -47,6 +47,6 @@ Scientific Computing, 28, 2162-2188.
 \author{
 We thank Dr. Frances Kuo for the permission to use
 the generating vectors (order 2 lattice rule) obtained from her website
-\url{http://web.maths.unsw.edu.au/~fkuo/lattice/}.
+\url{https://web.maths.unsw.edu.au/~fkuo/lattice/}.
 }
 \keyword{distribution}

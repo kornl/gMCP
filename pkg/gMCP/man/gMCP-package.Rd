@@ -36,28 +36,28 @@ Maintainer: Kornelius Rohmeyer \email{rohmeyer@small-projects.de}
 Frank Bretz, Martin Posch, Ekkehard Glimm, Florian Klinglmueller, Willi Maurer, Kornelius Rohmeyer (2011):
 Graphical approaches for multiple comparison procedures using weighted Bonferroni, Simes or parametric tests.
 Biometrical Journal 53 (6), pages 894-913, Wiley.
-\url{http://onlinelibrary.wiley.com/doi/10.1002/bimj.201000239/full}
+\doi{10.1002/bimj.201000239}
 
 Frank Bretz, Willi Maurer, Werner Brannath, Martin Posch:
 A graphical approach to sequentially rejective multiple test procedures.
 Statistics in Medicine 2009 vol. 28 issue 4 page 586-604. 
-\url{http://www.meduniwien.ac.at/fwf_adaptive/papers/bretz_2009_22.pdf}
+\url{https://www.meduniwien.ac.at/fwf_adaptive/papers/bretz_2009_22.pdf}
 }
 \note{
 We use the following Java libraries:
 \itemize{
- \item Apache Commons Logging under the Apache License, Version 2.0, January 2004, \url{http://commons.apache.org/logging/}, Copyright 2001-2007 The Apache Software Foundation 
- \item Apache jog4j under Apache License 2.0, \url{http://logging.apache.org/log4j/}, Copyright 2007 The Apache Software Foundation
- \item Apache Commons Lang under Apache License 2.0, \url{http://commons.apache.org/lang/}, Copyright 2001-2011 The Apache Software Foundation
- \item Apache POI under Apache License 2.0, \url{http://poi.apache.org/}, Copyright The Apache Software Foundation
- \item JLaTeXMath under GPL >= 2.0, \url{http://forge.scilab.org/index.php/p/jlatexmath/}, Copyright 2004-2007, 2009 Calixte, Coolsaet, Cleemput, Vermeulen and Universiteit Gent
- \item JRI under Lesser General Public License (LGPL) 2.1, \url{http://www.rforge.net/rJava/}, Copyright 2004-2007 Simon Urbanek 
- \item iText 2.1.4 under LGPL, \url{http://itextpdf.com/}, Copyright by Bruno Lowagie 
+ \item Apache Commons Logging under the Apache License, Version 2.0, January 2004, \url{https://commons.apache.org/logging/}, Copyright 2001-2007 The Apache Software Foundation 
+ \item Apache jog4j under Apache License 2.0, \url{https://logging.apache.org/log4j/}, Copyright 2007 The Apache Software Foundation
+ \item Apache Commons Lang under Apache License 2.0, \url{https://commons.apache.org/lang/}, Copyright 2001-2011 The Apache Software Foundation
+ \item Apache POI under Apache License 2.0, \url{https://poi.apache.org/}, Copyright The Apache Software Foundation
+ \item JLaTeXMath under GPL >= 2.0, \url{https://forge.scilab.org/index.php/p/jlatexmath/}, Copyright 2004-2007, 2009 Calixte, Coolsaet, Cleemput, Vermeulen and Universiteit Gent
+ \item JRI under Lesser General Public License (LGPL) 2.1, \url{https://www.rforge.net/rJava/}, Copyright 2004-2007 Simon Urbanek 
+ \item iText 2.1.4 under LGPL, \url{https://itextpdf.com/}, Copyright by Bruno Lowagie 
  \item SwingWorker under LGPL, from java.net/projects/swingworker/, Copyright (c) 2005 Sun Microsystems 
  \item JXLayer under BSD License, from java.net/projects/jxlayer/, Copyright 2006-2009, Alexander Potochkin 
- \item JGoodies Forms under BSD License, \url{http://www.jgoodies.com/freeware/libraries/forms/}, Copyright JGoodies Karsten Lentzsch  
+ \item JGoodies Forms under BSD License, \url{https://www.jgoodies.com/freeware/libraries/forms/}, Copyright JGoodies Karsten Lentzsch  
  \item AFCommons under BSD License, \url{https://web.archive.org/web/20180828002833/http://www.algorithm-forge.com/afcommons/}, Copyright (c) 2007-2014 by Kornelius Rohmeyer and Bernd Bischl
- \item JHLIR under BSD License, \url{http://jhlir.r-forge.r-project.org/}, Copyright (c) 2008-2014 by Bernd Bischl and Kornelius Rohmeyer
+ \item JHLIR under BSD License, \url{https://jhlir.r-forge.r-project.org/}, Copyright (c) 2008-2014 by Bernd Bischl and Kornelius Rohmeyer
  } 
 }
 \keyword{ package }

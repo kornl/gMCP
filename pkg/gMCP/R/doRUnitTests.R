@@ -21,7 +21,7 @@
 #' run.  The user have to look at results and answer questions.
 #' @param junitLibrary A character String specifying the path to a JUnit 4 jar
 #' file to run the JUnit tests.  You can download it from
-#' \url{http://www.junit.org/}.  Alternatively you can use the environment
+#' \url{https://junit.org/}.  Alternatively you can use the environment
 #' variable GMCP_JUNIT_LIBRARY to specify the path.
 #' @param outputPath During the RUnit tests files maybe produced at this
 #' location.  If missing the current working directory is used if nothing else
@@ -43,7 +43,7 @@
 #' 
 #' @export unitTestsGMCP
 unitTestsGMCP <- function(extended=FALSE, java=FALSE, interactive=FALSE, junitLibrary, outputPath) {
-  # Adapted and extended from the code from http://rwiki.sciviews.org/doku.php?id=developers:runit
+  # Adapted and extended from the code from https://rwiki.sciviews.org/doku.php?id=developers:runit
 	if(!requireNamespace("RUnit", quietly=TRUE)) {
 		stop("Please install package RUnit to run the unit tests.")
 	}
@@ -105,7 +105,7 @@ unitTestsGMCP <- function(extended=FALSE, java=FALSE, interactive=FALSE, junitLi
 		testClasses <- .jcall(.jnew("tests/TestSuite"), "[Ljava/lang/Class;", method="getClasses", evalArray=FALSE)
 		result <- try(.jcall("org.junit.runner.JUnitCore", "Lorg/junit/runner/Result;", method="runClasses", testClasses))
 		if (("try-error" %in% class(result))) {
-			cat("JUnit 4 is needed for JUnit tests (See http://www.junit.org/).")
+			cat("JUnit 4 is needed for JUnit tests (See https://www.junit.org/).")
 			stop("Please specify the path to junit 4 jar file via junitLibrary.")
 		}
 		if (.jcall(result, "I", "getFailureCount")>0) {

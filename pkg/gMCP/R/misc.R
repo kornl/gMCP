@@ -104,7 +104,7 @@ requireLibrary <- function(package) {
 		answer <- readline(paste("Package ",package," is required - should we install it (y/n)? ", sep=""))
 		if (substr(answer, 1, 1) %in% c("y","Y")) {
 			if (package %in% c("graph", "Rgraphviz")) {	
-				source("http://www.bioconductor.org/biocLite.R")
+				source("https://www.bioconductor.org/biocLite.R")
 				biocLite <- get("biocLite", envir=globalenv())
 				biocLite(package)
 			} else {
@@ -201,7 +201,7 @@ getNewestRVersion <- function() {
   # What about something like setInternet2(true)?
   warn <- getOption("warn")
   options(warn=-1)
-  line <- try(grep("R-[0-9.]+-win", readLines("http://cran.r-project.org/bin/windows/base/", warn=FALSE), value=TRUE), silent=TRUE)
+  line <- try(grep("R-[0-9.]+-win", readLines("https://cran.r-project.org/bin/windows/base/", warn=FALSE), value=TRUE), silent=TRUE)
   if("try-error"==class(line) || length(line)==0) {
     return("Unknown")
   }

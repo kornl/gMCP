@@ -16,7 +16,7 @@
 #' @return Matrix of simulated values
 #' @author We thank Dr. Frances Kuo for the permission to use
 #' the generating vectors (order 2 lattice rule) obtained from her website
-#' \url{http://web.maths.unsw.edu.au/~fkuo/lattice/}.
+#' \url{https://web.maths.unsw.edu.au/~fkuo/lattice/}.
 #' @references Cools, R., Kuo, F. Y., and Nuyens, D. (2006) Constructing
 #' embedded lattice rules for multivariate integration. SIAM Journal of
 #' Scientific Computing, 28, 2162-2188.

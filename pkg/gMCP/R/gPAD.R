@@ -29,13 +29,13 @@
 #' @references Frank Bretz, Willi Maurer, Werner Brannath, Martin Posch: A
 #' graphical approach to sequentially rejective multiple test procedures.
 #' Statistics in Medicine 2009 vol. 28 issue 4 page 586-604.
-#' \url{http://www.meduniwien.ac.at/fwf_adaptive/papers/bretz_2009_22.pdf}
+#' \url{https://www.meduniwien.ac.at/fwf_adaptive/papers/bretz_2009_22.pdf}
 #' 
 #' Frank Bretz, Martin Posch, Ekkehard Glimm, Florian Klinglmueller, Willi
 #' Maurer, Kornelius Rohmeyer (2011): Graphical approaches for multiple
 #' comparison procedures using weighted Bonferroni, Simes or parametric tests.
 #' Biometrical Journal 53 (6), pages 894-913, Wiley.
-#' \url{http://onlinelibrary.wiley.com/doi/10.1002/bimj.201000239/full}
+#' \doi{10.1002/bimj.201000239}
 #' 
 #' Posch M, Futschik A (2008): A Uniform Improvement of Bonferroni-Type Tests
 #' by Sequential Tests JASA 103/481, 299-308
@@ -110,7 +110,7 @@ doInterim <- function(graph,z1,v,alpha=.025){
 #' @references Frank Bretz, Willi Maurer, Werner Brannath, Martin Posch: A
 #' graphical approach to sequentially rejective multiple test procedures.
 #' Statistics in Medicine 2009 vol. 28 issue 4 page 586-604.
-#' \url{http://www.meduniwien.ac.at/fwf_adaptive/papers/bretz_2009_22.pdf}
+#' \url{https://www.meduniwien.ac.at/fwf_adaptive/papers/bretz_2009_22.pdf}
 #' 
 #' Bretz F., Posch M., Glimm E., Klinglmueller F., Maurer W., Rohmeyer K.
 #' (2011): Graphical approaches for multiple endpoint problems using weighted
