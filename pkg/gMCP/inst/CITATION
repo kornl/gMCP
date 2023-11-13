@@ -5,10 +5,10 @@ if(!exists("meta") || is.null(meta)) meta <- packageDescription("gMCP")
 year <- sub("-.*", "", meta$Date)
 note <- sprintf("R package version %s", meta$Version)
 
-citEntry(entry = "manual",
+bibentry(bibtype = "Manual",
          title = "{gMCP}: Graph Based Multiple Test Procedures",
-         author = personList(as.person("Kornelius Rohmeyer"), 
-                             as.person("Florian Klinglmueller")),                              
+         author = c(person("Rohmeyer", "Kornelius"), 
+                    person("Klinglmueller", "Florian")),                              
          year = year,
          note = note,
          url = "https://cran.r-project.org/package=gMCP",
@@ -21,14 +21,14 @@ citEntry(entry = "manual",
                "URL http://CRAN.R-project.org/package=gMCP")
 )
 
-citEntry(entry="article",
+bibentry(bibtype = "Article",
          title = "Graphical approaches for multiple comparison procedures using weighted Bonferroni, Simes or parametric tests",
-         author = personList(as.person("Frank Bretz"),
-                             as.person("Martin Posch"),
-                             as.person("Ekkehard Glimm"),
-                             as.person("Florian Klinglmueller"),
-                             as.person("Willi Maurer"),                             
-                             as.person("Kornelius Rohmeyer")), 
+         author = c(as.person("Frank Bretz"),
+                    as.person("Martin Posch"),
+                    as.person("Ekkehard Glimm"),
+                    as.person("Florian Klinglmueller"),
+                    as.person("Willi Maurer"),                             
+                    as.person("Kornelius Rohmeyer")), 
          journal = "Biometrical Journal",                             
          year = "2011",
          publisher = "Wiley",
