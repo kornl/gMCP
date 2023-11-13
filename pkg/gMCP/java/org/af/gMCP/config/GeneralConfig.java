@@ -178,22 +178,14 @@ public class GeneralConfig extends SpecificConfig {
 		setProperty("useJLaTeXMath", ""+useJLaTeXMath);
 	}
 	
-	public boolean checkOnline() {
-		return Boolean.parseBoolean(getProperty("checkOnline", "true"));
+	public boolean showLicense() {
+		return Boolean.parseBoolean(getProperty("showLicense", "false"));
 	}
-	
-	public void setCheckOnline(boolean checkOnline) {
-		setProperty("checkOnline", ""+checkOnline);
+
+	public void setShowedLicense(boolean showedLicense) {
+		setProperty("showLicense", ""+showedLicense);
 	}
-	
-	public boolean tellAboutCheckOnline() {
-		return Boolean.parseBoolean(getProperty("tellAboutCheckOnline", "false"));
-	}
-	
-	public void setTellAboutCheckOnline(boolean checkOnline) {
-		setProperty("tellAboutCheckOnline", ""+checkOnline);
-	}
-	
+
 	public boolean reminderNewVersion() {
 		return Boolean.parseBoolean(getProperty("reminderNewVersion", "true"));
 	}

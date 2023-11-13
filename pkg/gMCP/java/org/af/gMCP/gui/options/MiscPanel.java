@@ -23,8 +23,6 @@ import com.jgoodies.forms.layout.FormLayout;
  */
 public class MiscPanel extends OptionsPanel implements ActionListener { 
 
-
-    private JCheckBox checkOnlineForUpdate;
     private JCheckBox exportTransparent;
     private JCheckBox unanchorEdges;
     private JCheckBox focusEqualsEdit;
@@ -50,12 +48,6 @@ public class MiscPanel extends OptionsPanel implements ActionListener {
 
 
     private void makeComponents() {
-        checkOnlineForUpdate = new JCheckBox("Check online for updates");
-        checkOnlineForUpdate.setSelected(conf.getGeneralConfig().checkOnline());
-        checkOnlineForUpdate.setToolTipText("<html>On start-up gMCP can check automatically whether a new version<br>\n" +
-        		"of gMCP is available. Only your version of R (like 3.2.1),<br>\n" +
-        		"the version of gMCP (like 0.8-7) and a random number<br>\n" +
-        		"(to distinguish different requests) are transmitted.</html>");
         exportTransparent = new JCheckBox("Export images with transparent background");
         exportTransparent.setSelected(conf.getGeneralConfig().exportTransparent());
         exportTransparent.setToolTipText("<html>If checked the background of exported PNG graphics will be transparent.<br>\n" +
@@ -122,10 +114,6 @@ public class MiscPanel extends OptionsPanel implements ActionListener {
 
         int row = 1;
         
-        p1.add(checkOnlineForUpdate, cc.xyw(1, row, 3));
-        
-        row += 2;
-
         p1.add(exportTransparent, cc.xyw(1, row, 3));
         
         row += 2;
@@ -191,7 +179,6 @@ public class MiscPanel extends OptionsPanel implements ActionListener {
 
 
     public void setProperties() throws ValidationException {
-       	conf.getGeneralConfig().setCheckOnline(checkOnlineForUpdate.isSelected());
        	conf.getGeneralConfig().setExportTransparent(exportTransparent.isSelected());
        	conf.getGeneralConfig().setUnAnchor(unanchorEdges.isSelected());
        	conf.getGeneralConfig().setFocusEqualsEdit(focusEqualsEdit.isSelected());

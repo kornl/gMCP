@@ -9,7 +9,6 @@ import java.io.IOException;
 import java.util.Locale;
 
 import javax.swing.ImageIcon;
-import javax.swing.JCheckBox;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -27,10 +26,9 @@ import org.af.commons.widgets.InfiniteProgressPanel.AbortListener;
 import org.af.commons.widgets.WidgetFactory;
 import org.af.gMCP.config.Configuration;
 import org.af.gMCP.config.GeneralConfig;
-import org.af.gMCP.config.VersionComparator;
 import org.af.gMCP.gui.datatable.DataFramePanel;
 import org.af.gMCP.gui.datatable.RDataFrameRef;
-import org.af.gMCP.gui.dialogs.TellAboutOnlineUpate;
+import org.af.gMCP.gui.dialogs.ShowLicense;
 import org.af.gMCP.gui.graph.DView;
 import org.af.gMCP.gui.graph.GraphView;
 import org.af.gMCP.gui.graph.PView;
@@ -174,15 +172,10 @@ public class CreateGraphGUI extends JFrame implements WindowListener, AbortListe
 		
 		javax.swing.SwingUtilities.invokeLater(new Runnable() {
 			public void run() {				
-				if (!Configuration.getInstance().getGeneralConfig().tellAboutCheckOnline()) {
-					new TellAboutOnlineUpate(null);
-					Configuration.getInstance().getGeneralConfig().setTellAboutCheckOnline(true);
-				}				
-				new Thread(new Runnable() {
-					public void run() {
-						VersionComparator.getOnlineVersion();
-					}
-				}).start();				
+				if (!Configuration.getInstance().getGeneralConfig().showLicense()) {
+					new ShowLicense(null);
+					Configuration.getInstance().getGeneralConfig().setShowedLicense(true);
+				}
 			}
 		});
 		
