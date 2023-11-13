@@ -23,7 +23,6 @@ Imports:
     stats4
 Suggests:
     RUnit,
-    Deducer,
     knitr,
     graph (>= 1.20),
     mutoss,
@@ -34,6 +33,7 @@ SystemRequirements: Java (>= 5.0)
 License: GPL (>= 2)
 URL: http://gsrmtp.r-forge.r-project.org/
 BugReports: https://github.com/kornl/gMCP/issues
+Encoding: UTF-8
 RoxygenNote: 7.2.3
 Collate: 
     'analysis.R'
