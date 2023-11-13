@@ -4,8 +4,14 @@
 \alias{replaceVariables}
 \title{Replaces variables in a general graph with specified numeric values}
 \usage{
-replaceVariables(graph, variables = list(), ask = TRUE, partial = FALSE,
-  expand = TRUE, list = FALSE)
+replaceVariables(
+  graph,
+  variables = list(),
+  ask = TRUE,
+  partial = FALSE,
+  expand = TRUE,
+  list = FALSE
+)
 }
 \arguments{
 \item{graph}{A graph of class \code{\link{graphMCP}} or class

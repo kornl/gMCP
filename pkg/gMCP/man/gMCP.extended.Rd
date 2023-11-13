@@ -4,8 +4,17 @@
 \alias{gMCP.extended}
 \title{Graph based Multiple Comparison Procedures}
 \usage{
-gMCP.extended(graph, pvalues, test, alpha = 0.05, eps = 10^(-3),
-  upscale = FALSE, verbose = FALSE, adjPValues = TRUE, ...)
+gMCP.extended(
+  graph,
+  pvalues,
+  test,
+  alpha = 0.05,
+  eps = 10^(-3),
+  upscale = FALSE,
+  verbose = FALSE,
+  adjPValues = TRUE,
+  ...
+)
 }
 \arguments{
 \item{graph}{A graph of class \code{\link{graphMCP}}.}

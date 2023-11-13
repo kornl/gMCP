@@ -4,8 +4,14 @@
 \alias{generateBounds}
 \title{generateBounds}
 \usage{
-generateBounds(g, w, cr, al = 0.05, hint = generateWeights(g, w),
-  upscale = FALSE)
+generateBounds(
+  g,
+  w,
+  cr,
+  al = 0.05,
+  hint = generateWeights(g, w),
+  upscale = FALSE
+)
 }
 \arguments{
 \item{g}{graph defined as a matrix, each element defines how much of the

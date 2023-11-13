@@ -4,8 +4,14 @@
 \alias{bonferroni.trimmed.simes.test}
 \title{Trimmed Simes test for intersections of two hypotheses and otherwise weighted Bonferroni-test}
 \usage{
-bonferroni.trimmed.simes.test(pvalues, weights, alpha = 0.05,
-  adjPValues = FALSE, verbose = FALSE, ...)
+bonferroni.trimmed.simes.test(
+  pvalues,
+  weights,
+  alpha = 0.05,
+  adjPValues = FALSE,
+  verbose = FALSE,
+  ...
+)
 }
 \arguments{
 \item{pvalues}{A numeric vector specifying the p-values.}

@@ -4,12 +4,26 @@
 \alias{graph2latex}
 \title{Graph2LaTeX}
 \usage{
-graph2latex(graph, package = "TikZ", scale = 1, showAlpha = FALSE,
-  alpha = 0.05, pvalues, fontsize, nodeTikZ,
-  labelTikZ = "near start,above,fill=blue!20", tikzEnv = TRUE,
-  offset = c(0, 0), fill = list(reject = "red!80", retain = "green!80"),
-  fig = FALSE, fig.label = NULL, fig.caption = NULL,
-  fig.caption.short = NULL, nodeR = 25, scaleText = TRUE)
+graph2latex(
+  graph,
+  package = "TikZ",
+  scale = 1,
+  showAlpha = FALSE,
+  alpha = 0.05,
+  pvalues,
+  fontsize,
+  nodeTikZ,
+  labelTikZ = "near start,above,fill=blue!20",
+  tikzEnv = TRUE,
+  offset = c(0, 0),
+  fill = list(reject = "red!80", retain = "green!80"),
+  fig = FALSE,
+  fig.label = NULL,
+  fig.caption = NULL,
+  fig.caption.short = NULL,
+  nodeR = 25,
+  scaleText = TRUE
+)
 }
 \arguments{
 \item{graph}{A graph of class \code{\link{graphMCP}}.}

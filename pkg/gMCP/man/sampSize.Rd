@@ -4,9 +4,21 @@
 \alias{sampSize}
 \title{Sample size calculations}
 \usage{
-sampSize(graph, esf, effSize, powerReqFunc, target, corr.sim, alpha,
-  corr.test = NULL, type = c("quasirandom", "pseudorandom"),
-  upscale = FALSE, n.sim = 10000, verbose = FALSE, ...)
+sampSize(
+  graph,
+  esf,
+  effSize,
+  powerReqFunc,
+  target,
+  corr.sim,
+  alpha,
+  corr.test = NULL,
+  type = c("quasirandom", "pseudorandom"),
+  upscale = FALSE,
+  n.sim = 10000,
+  verbose = FALSE,
+  ...
+)
 }
 \arguments{
 \item{graph}{A graph of class \code{\link{graphMCP}}.}

@@ -4,8 +4,15 @@
 \alias{generatePvals}
 \title{generatePvals}
 \usage{
-generatePvals(g, w, cr, p, adjusted = TRUE, hint = generateWeights(g, w),
-  upscale = FALSE)
+generatePvals(
+  g,
+  w,
+  cr,
+  p,
+  adjusted = TRUE,
+  hint = generateWeights(g, w),
+  upscale = FALSE
+)
 }
 \arguments{
 \item{g}{graph defined as a matrix, each element defines how much of the

@@ -5,8 +5,14 @@
 \title{Graphical User Interface for graphical described multiple comparison
 procedures}
 \usage{
-graphGUI(graph = "createdGraph", pvalues = numeric(0), grid = 0,
-  debug = FALSE, experimentalFeatures = FALSE, envir = globalenv())
+graphGUI(
+  graph = "createdGraph",
+  pvalues = numeric(0),
+  grid = 0,
+  debug = FALSE,
+  experimentalFeatures = FALSE,
+  envir = globalenv()
+)
 }
 \arguments{
 \item{graph}{Either a variable name for the graph, given as a character

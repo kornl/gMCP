@@ -4,8 +4,16 @@
 \alias{simes.on.subsets.test}
 \title{Simes on subsets, otherwise Bonferroni}
 \usage{
-simes.on.subsets.test(pvalues, weights, alpha = 0.05, adjPValues = TRUE,
-  verbose = FALSE, subsets, subset, ...)
+simes.on.subsets.test(
+  pvalues,
+  weights,
+  alpha = 0.05,
+  adjPValues = TRUE,
+  verbose = FALSE,
+  subsets,
+  subset,
+  ...
+)
 }
 \arguments{
 \item{pvalues}{A numeric vector specifying the p-values.}

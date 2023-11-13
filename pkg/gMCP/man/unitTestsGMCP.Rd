@@ -4,8 +4,13 @@
 \alias{unitTestsGMCP}
 \title{Run the R unit (and optional the JUnit) test suite for gMCP}
 \usage{
-unitTestsGMCP(extended = FALSE, java = FALSE, interactive = FALSE,
-  junitLibrary, outputPath)
+unitTestsGMCP(
+  extended = FALSE,
+  java = FALSE,
+  interactive = FALSE,
+  junitLibrary,
+  outputPath
+)
 }
 \arguments{
 \item{extended}{If \code{TRUE} (or if the environment variable

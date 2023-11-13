@@ -4,10 +4,20 @@
 \alias{calcPower}
 \title{Calculate power values}
 \usage{
-calcPower(weights, alpha, G, mean = rep(0, nrow(corr.sim)),
-  corr.sim = diag(length(mean)), corr.test = NULL, n.sim = 10000,
-  type = c("quasirandom", "pseudorandom"), f = list(), upscale = FALSE,
-  graph, ...)
+calcPower(
+  weights,
+  alpha,
+  G,
+  mean = rep(0, nrow(corr.sim)),
+  corr.sim = diag(length(mean)),
+  corr.test = NULL,
+  n.sim = 10000,
+  type = c("quasirandom", "pseudorandom"),
+  f = list(),
+  upscale = FALSE,
+  graph,
+  ...
+)
 }
 \arguments{
 \item{weights}{Initial weight levels for the test procedure (see graphTest

@@ -5,8 +5,13 @@
 \title{EXPERIMENTAL: Construct a valid level alpha test for the second stage of an
 adaptive design that is based on a pre-planned graphical MCP}
 \usage{
-secondStageTest(interim, select, matchCE = TRUE, zWeights = "reject",
-  G2 = interim@preplanned)
+secondStageTest(
+  interim,
+  select,
+  matchCE = TRUE,
+  zWeights = "reject",
+  G2 = interim@preplanned
+)
 }
 \arguments{
 \item{interim}{An object of class \code{\link{gPADInterim}}.}

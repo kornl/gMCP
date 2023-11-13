@@ -4,8 +4,14 @@
 \alias{simes.test}
 \title{Weighted Simes test}
 \usage{
-simes.test(pvalues, weights, alpha = 0.05, adjPValues = TRUE,
-  verbose = FALSE, ...)
+simes.test(
+  pvalues,
+  weights,
+  alpha = 0.05,
+  adjPValues = TRUE,
+  verbose = FALSE,
+  ...
+)
 }
 \arguments{
 \item{pvalues}{A numeric vector specifying the p-values.}

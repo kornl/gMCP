@@ -4,8 +4,17 @@
 \alias{graphTest}
 \title{Multiple testing using graphs}
 \usage{
-graphTest(pvalues, weights = NULL, alpha = 0.05, G = NULL, cr = NULL,
-  graph = NULL, verbose = FALSE, test, upscale = FALSE)
+graphTest(
+  pvalues,
+  weights = NULL,
+  alpha = 0.05,
+  G = NULL,
+  cr = NULL,
+  graph = NULL,
+  verbose = FALSE,
+  test,
+  upscale = FALSE
+)
 }
 \arguments{
 \item{pvalues}{Either a vector or a matrix containing the local p-values for
@@ -43,9 +52,9 @@ even if the sum of weights is strictly smaller than one. If
 \code{test="simple-parametric"} the tests are performed as defined in
 Equation (3) of Bretz et al. (2011).}
 
-\item{upscale}{Logical. If \code{upscale=FALSE} then for each intersection 
-of hypotheses (i.e. each subgraph) a weighted test is performed at the 
-possibly reduced level alpha of sum(w)*alpha, 
+\item{upscale}{Logical. If \code{upscale=FALSE} then for each intersection
+of hypotheses (i.e. each subgraph) a weighted test is performed at the
+possibly reduced level alpha of sum(w)*alpha,
 where sum(w) is the sum of all node weights in this subset.
 If \code{upscale=TRUE} all weights are upscaled, so that sum(w)=1.}
 }
