@@ -12,12 +12,10 @@
 	<target name="clean" description="cleanup all">
 			<delete dir="${output.dir}"/>					
 	</target>
-	
-	<!-- Compiler options - if we drop 1.5 compatibility add compiler.arg -Xlint:unchecked -->
 
 	<property name="compiler.debug" value="on"/>
 	<property name="compiler.generate.no.warnings" value="off"/>
-	<property name="compiler.args" value="-target 1.5 -source 1.5 -encoding utf8"/> 
+	<property name="compiler.args" value="-target 1.7 -source 1.7 -encoding utf8"/>
 	<property name="compiler.max.memory" value="128m"/>
 	
 	<path id="sourcepath">
