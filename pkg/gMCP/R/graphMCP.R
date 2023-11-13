@@ -289,7 +289,7 @@ getWeightStr <- function(graph, from, to, LaTeX=FALSE) {
 			return(getLaTeXFraction(weight))
 		} else {
       asNr <- try(eval(parse(text=weight), envir=NULL, enclos=NULL), silent=TRUE)
-		  if (!is.na(asNr) && !("try-error"%in%class(asNr))) {
+		  if (!is.na(asNr) && !(inherits(asNr, "try-error"))) {
 		    return(getLaTeXFraction(asNr))
 		  }
 		}
@@ -322,7 +322,7 @@ setMethod("simConfint", c("graphMCP"), function(object, pvalues, confint, altern
 			} else {
 				alpha <- getWeights(result)*alpha				
 			}
-			if (class(confint)=="function") {
+			if (inherits(confint,"function")) {
 				f <- function(node, alpha, rejected) {
 					if (rejected && alternative=="less") return(c(-Inf, mu))
 					if (rejected && alternative=="greater") return(c(mu, Inf))

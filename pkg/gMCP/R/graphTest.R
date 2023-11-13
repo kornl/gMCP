@@ -225,7 +225,7 @@ convert <- function(g){
 	## used in the gMCP library
 	## and returns vector of alphas
 	## and significance levels
-	if(class(g) != "graphMCP")
+	if(!inherits(g,"graphMCP"))
 		stop("g needs to an object of class graphMCP")
 	Hnams <- g@nodes
 	nH <- length(Hnams)

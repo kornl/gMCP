@@ -12,13 +12,13 @@ getEdges <- function(graph){
 			if (is.na(as.numeric(graph@m[from, to])) || as.numeric(graph@m[from, to])!=0) {	
 				options(warn=0)			
 				x <- try(unlist(edgeAttr(graph, from, to, "labelX")), silent = TRUE)
-				if (class(x)!="try-error" && !is.null(x) && !is.na(x)) {
+				if (!inherits(x, "try-error") && !is.null(x) && !is.na(x)) {
 					labelx <- c(labelx, x)
 				} else {
 					labelx <- c(labelx, -100)
 				}
 				y <- try(unlist(edgeAttr(graph, from, to, "labelY")), silent = TRUE)
-				if (class(y)!="try-error" && !is.null(y) && !is.na(y)) {
+				if (!inherits(y, "try-error") && !is.null(y) && !is.na(y)) {
 					labely <- c(labely, y)
 				} else {
 					labely <- c(labely, -100)
@@ -258,7 +258,7 @@ getObjectInfo <- function(object) {
 
 gMCPVersion <- function() {
 	x <- try(as.character(packageVersion("gMCP")), silent=TRUE)
-	if (class(x)!="try-error") {
+	if (!inherits(x, "try-error")) {
 		return(x)
 	} else {
 		return("unknown")

@@ -106,7 +106,7 @@ graph2latex <- function(graph, package="TikZ", scale=1, showAlpha=FALSE, alpha=0
 		tikz <- paste(tikz, nodeLine,sep="\n")			
 	}
 	# A second loop for the edges is necessary:
-	if ("entangledMCP" %in% class(graph)) {
+	if (inherits(graph, "entangledMCP")) {
 		for(k in 1:length(graph@subgraphs)) {
 			subgraph <- graph@subgraphs[[k]]
 			for (i in getNodes(subgraph)) {
@@ -136,12 +136,12 @@ graph2latex <- function(graph, package="TikZ", scale=1, showAlpha=FALSE, alpha=0
           # New arc function:
 					x <- try(unlist(edgeAttr(graph, i, j, "labelX")), silent = TRUE)          
 					y <- try(unlist(edgeAttr(graph, i, j, "labelY")), silent = TRUE)
-					if (!("try-error" %in% class(x)) && !is.null(x) && !is.na(x) && class(y)!="try-error" && !is.null(y) && !is.na(y) && x>-10 && y>-10) {
+					if (!(inherits(x, "try-error")) && !is.null(x) && !is.na(x) && !inherits(y, "try-error") && !is.null(y) && !is.na(y) && x>-10 && y>-10) {
 					  b <- c(x+offset[1],y-offset[2]) + nodeR
 					  x <- getXCoordinates(graph, c(i,j)) + nodeR + offset[1]
 					  y <- getYCoordinates(graph, c(i,j)) + nodeR - offset[2]
 					  to2 <- try(getArc(c(x[1],y[1]),b,c(x[2],y[2]), edgeNode, nodeR=nodeR))
-					  if (!("try-error" %in% class(to2))) to <- to2
+					  if (!(inherits(to2, "try-error"))) to <- to2
 					}          
 					#weight <- ifelse(edgeL[i]==0, "\\epsilon", getLaTeXFraction(edgeL[i])) # format(edgeL[i], digits=3, drop0trailing=TRUE))					
 					edgeLine <- paste("\\draw [->,line width=1pt] (",nodes2[i], to," (",nodes2[j],");",sep="")
@@ -183,7 +183,7 @@ getArc <- function(a, b, c, edgeNode, col="black", nodeR=25) {
   #b <- invertY(b)
   #c <- invertY(c)
   m <- try(getCenter(a,b,c,0.001), silent=TRUE)
-  if ("try-error" %in% class(m)) {
+  if (inherits(m, "try-error")) {
     return(getLine(a, b, c, edgeNode, col="black"))    
   }
   r <- sqrt(sum((m-a)^2))
@@ -352,7 +352,7 @@ getLaTeXFraction <- function(x) {
 #' 
 gMCPReport <- function(object, file="", ...) {
 	report <- LaTeXHeader()
-	if (class(object)=="gMCPResult") {
+	if (inherits(object, "gMCPResult")) {
 		report <- paste(report, "\\subsection*{Initial graph}", sep="\n")
 		report <- paste(report, graph2latex(object@graphs[[1]], ..., pvalues=object@pvalues), sep="\n")
 		report <- paste(report, "\\subsection*{P-Values}", sep="\n")
@@ -371,7 +371,7 @@ gMCPReport <- function(object, file="", ...) {
 				report <- paste(report, graph2latex(object@graphs[[i]], ..., pvalues=object@pvalues), sep="\n")
 			}		
 		}
-	} else if (class(object)=="graphMCP") {		
+	} else if (inherits(object, "graphMCP")) {		
 		report <- paste(report, "\\subsection*{Graph for SRMTP}", sep="\n")
 		report <- paste(report, graph2latex(object, ...), sep="\n")
 	} else {

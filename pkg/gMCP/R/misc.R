@@ -20,7 +20,7 @@ parseEpsPolynom <- function(s) {
 	env <- new.env(parent = baseenv())
 	assign("epsilon", polynom(), envir=env)
 	p <- try(eval(parse(text=s), envir=env), silent = TRUE)
-	if (class(p)=="try-error") {
+	if (inherits(p, "try-error")) {
 		stop("String does not represent a polynom in epsilon.")
 	}
 	if(is.numeric(p)) {
@@ -133,7 +133,7 @@ getAvailableStandardDesigns <- function(n) {
 	for (design in possibleDesigns) {
 		for (i in 2:(2*n)) {
 			m <- try(contrMat(n=rep(10, i), type=design), silent = TRUE)
-			if (!("try-error" %in% class(m)) && dim(m)[1]==n) {
+			if (!(inherits(m, "try-error")) && dim(m)[1]==n) {
 				designs <- c(designs, design)
 				numberOfGroups <- c(numberOfGroups, i)
 			}
