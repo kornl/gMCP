@@ -1,3 +1,7 @@
+Changes in version 0.8-17 (??-??-20??)
+======================================
+
+
 Changes in version 0.8-16 (29-11-2023)
 ======================================
 
@@ -10,6 +14,8 @@ Changes in version 0.8-16 (29-11-2023)
 - Updated homepage from r-forge to gitlab
 - Using bibentry instead of citEntry for citation
 - Removed old-style PersonList syntax from CITATION file
+
+ 57 files changed, 423 insertions(+), 371 deletions(-)
 
 Changes in version 0.8-15 (01-03-2020)
 ======================================
