@@ -1,6 +1,7 @@
 Changes in version 0.8-16 (??-11-2023)
 ======================================
 
+- Corrected some confidence interval calculations. Thanks to Liane Kluge for spotting!
 - Dropped Java 5 and 6 compatibility
 - No online version check anymore - gMCP is pretty stable now
 - Removed Deducer from suggest list
