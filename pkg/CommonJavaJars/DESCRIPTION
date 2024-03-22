@@ -8,7 +8,7 @@ Description: Useful libraries for building a Java based GUI under R are provided
 Depends: R (>= 2.8.0)
 Suggests: rJava, knitr
 VignetteBuilder: knitr
-SystemRequirements: Java (>= 5.0) 
+SystemRequirements: Java (>= 7.0) 
 License: GPL-2
 Copyright: See COPYRIGHTS file
 URL: http://gsrmtp.r-forge.r-project.org/
