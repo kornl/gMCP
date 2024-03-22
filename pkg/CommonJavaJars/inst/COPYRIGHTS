@@ -6,10 +6,10 @@ The following open source Java libraries are included in this package:
   Copyright 2001-2007 The Apache Software Foundation 
   Source code: http://apache.mirror.iphh.net//commons/logging/source/commons-logging-1.2-src.zip
 
-- Apache jog4j under Apache License 2.0, 
-  http://logging.apache.org/log4j/, 
-  Copyright 2007 The Apache Software Foundation
-  Source code: http://archive.apache.org/dist/logging/log4j/1.2.17/log4j-1.2.17-sources.jar
+- Apache jog4j 2 under Apache License 2.0, 
+  https://logging.apache.org/log4j/2.x/, 
+  Copyright 1999-2005 The Apache Software Foundation
+  Source code: https://www.apache.org/dyn/closer.lua/logging/log4j/2.23.1/apache-log4j-2.23.1-src.zip
 
 - Apache Commons Lang under Apache License 2.0, 
   http://commons.apache.org/lang/, 

@@ -28,7 +28,7 @@ Maintainer: Kornelius Rohmeyer \email{rohmeyer@small-projects.de}
 We provide the following Java libraries:
 \itemize{
  \item Apache Commons Logging under the Apache License, Version 2.0, January 2004, \url{http://commons.apache.org/logging/}, Copyright 2001-2007 The Apache Software Foundation 
- \item Apache jog4j under Apache License 2.0, \url{http://logging.apache.org/log4j/}, Copyright 2007 The Apache Software Foundation
+ \item Apache jog4j 2 under Apache License 2.0, \url{http://logging.apache.org/log4j/2.x/}, Copyright 1999-2005 The Apache Software Foundation
  \item Apache Commons Lang under  Apache License 2.0, \url{http://commons.apache.org/lang/}, Copyright 2001-2011 The Apache Software Foundation
  \item Apache Commons Collections under the Apache License, Version 2.0, January 2004, \url{http://commons.apache.org/collections/}, Copyright 2001-2008 The Apache Software Foundation
  \item Apache Commons Validator under the Apache License, Version 2.0, January 2004, \url{http://commons.apache.org/validator/}, Copyright 2001-2010 The Apache Software Foundation
