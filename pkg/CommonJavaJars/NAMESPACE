@@ -1,4 +1,3 @@
 importFrom("utils", "browseURL")
 
-export(showGuideForJavaGUIs)
 export(loadJars)
