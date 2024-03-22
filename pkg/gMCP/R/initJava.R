@@ -7,11 +7,14 @@ initJava <- function() {
   }
   .jpackage("gMCP")	
   .jpackage("JavaGD")
-  
+
+  rJava::.jcall("java/lang/System", "S", "setProperty", "log4j1.compatibility", "true")
+  rJava::.jcall("java/lang/System", "S", "setProperty", "log4j.configuration", "classpath:org/af/gMCP/gui/commons-logging.properties")
+
   jars <- c("afcommons", "commons-collections", "commons-lang", 
             "commons-logging", "commons-validator", "jgoodies-common", "forms", 
             "iText", "javax.json", "jhlir.jar", "jlatexmath", "jxlayer", 
-            "log4j", "swing-worker")
+            "log4j-1.2-api", "log4j-api", "log4j-core", "swing-worker")
   
   loadJars(jars)
   
