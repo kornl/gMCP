@@ -16,4 +16,3 @@ BuildType: Package
 PackagePath: pkg/CommonJavaJars
 PackageInstallArgs: --no-multiarch
 PackageCheckArgs: --as-cran
-PackageRoxygenize: rd
