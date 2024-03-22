@@ -1,7 +1,7 @@
 Package: CommonJavaJars
 Type: Package
 Title: Useful Libraries for Building a Java Based GUI under R
-Version: 1.0-6
+Version: 1.1-0
 Author: Kornelius Rohmeyer (R package), see COPYRIGHTS file for the authors of the java libraries
 Maintainer: Kornelius Rohmeyer <rohmeyer@small-projects.de>
 Description: Useful libraries for building a Java based GUI under R are provided.
