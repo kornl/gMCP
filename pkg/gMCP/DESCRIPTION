@@ -16,7 +16,7 @@ Imports:
     multcomp (>= 1.1),
     mvtnorm,
     Matrix,
-    CommonJavaJars (>= 1.0.5),
+    CommonJavaJars (>= 1.1.0),
     rJava (>= 0.6-3),
     JavaGD,
     xlsxjars (>= 0.6.1),
